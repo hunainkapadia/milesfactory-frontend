@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+/*===================================================================
+[Master Stylesheet]
+===================================================================
+Project:        Winjoy
+Version:        1.0
+Author:         M.Owais
+URL:            https://Winjoy.ae
+Primary use:    Winjoy
+Started date:	02/15/2022 (MM/DD/YYYY)
+*/
+
+// Import global usage libraries - [Start]
+@import "_variables.scss";
+@import "style.scss";
+@import "libs/icofont.scss";
+@import "./responsive";

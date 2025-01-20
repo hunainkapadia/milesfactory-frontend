@@ -1,0 +1,11 @@
+@import '../variables.scss';
+@import '../_css3-mixins.scss'; //This is used for basic css3 usage with minimal line of code, info https://github.com/matthieua/sass-css3-mixins/blob/master/css3-mixins.scss
+
+
+.Header .Box {
+   padding: 24px 18px;
+}
+.Footer .FooterBox {
+   border-top: solid 1px #D3D3D3;
+   padding: 10px 0;
+}

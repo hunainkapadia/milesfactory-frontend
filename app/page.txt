@@ -1,0 +1,23 @@
+import React from 'react';
+import { Avatar, Grid, Container, Menu, MenuItem, Box, Button } from "@mui/material";
+import "../src/styles/sass/style.scss";
+
+import Link from 'next/link';
+import Header from '@/src/component/layout/Header';
+import HeroSection from '@/src/component/HeroSection';
+import Footer from '@/src/component/layout/Footer';
+
+
+
+export default function Home() {
+  return (
+    <>
+    <main className='basecolor1-light-bg'>
+      <Header />
+      <HeroSection />
+      <Footer />
+    </main>
+       
+    </>
+  );
+}
