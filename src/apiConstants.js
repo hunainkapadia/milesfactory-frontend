@@ -1,0 +1,1 @@
+export const FLIGHT_SEARCH = "/dummy-api.json"; 

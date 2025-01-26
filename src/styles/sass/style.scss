@@ -1960,7 +1960,7 @@ textarea {
 .nomargin {
   margin: 0 !important;
 }
-.full-w {
+.w-100 {
   width: 100% !important;
   max-width: 100% !important;
 }
@@ -2260,6 +2260,10 @@ $icon50: 25px;
   }
 }
 
+.MuiCardContent-root:last-child {
+    padding-bottom: 12px;
+    padding-top: 12px;
+}
 .overlay-red {
   position: relative;
   &:before {
