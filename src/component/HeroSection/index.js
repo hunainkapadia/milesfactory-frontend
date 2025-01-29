@@ -29,16 +29,12 @@ const HeroSection = ({ onSearchToggle }) => {
     setSearchQuery(value);
     setIsSearch(true);
     setIsLoading(true);
-
     if (onSearchToggle) {
       onSearchToggle(true);
     }
 
-    api
-      .get(FLIGHT_SEARCH)
-      .then((res) => {
+    api.get(FLIGHT_SEARCH).then((res) => {
         console.log("API Response:", res.data);
-
         const filtered = res.data.flightSearchResults.filter((flight) =>
           flight.airline.toLowerCase().includes(value.toLowerCase())
         );
@@ -98,11 +94,10 @@ const HeroSection = ({ onSearchToggle }) => {
                     </Box>
 
                     {/* Display the filtered flight results */}
-                    <Grid container spacing={2}>
                       {filteredResults.map((flight, index) => (
-                        <Grid item xs={12} md={4} key={index}>
+                      <Box display="flex" justifyContent="flex-start" mb={2}>
                           <Card
-                            className={styles.Box + " white-bg"}
+                            className={styles.AiMessage + " white-bg"}
                             variant="outlined"
                           >
                             <CardContent>
@@ -129,9 +124,8 @@ const HeroSection = ({ onSearchToggle }) => {
                               </Typography>
                             </CardContent>
                           </Card>
-                        </Grid>
+                        </Box>
                       ))}
-                    </Grid>
                   </section>
                 ) : (
                   isSearch && (

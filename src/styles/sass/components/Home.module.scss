@@ -23,7 +23,12 @@
     background-color: #C2DFF9;
     color: #0B1729;
     @include border-radius(12px);
-    
+    max-width: 80%;
+  }
+  .AiMessage {
+    color: #0B1729;
+    @include border-radius(12px);
+    max-width: 80%;
   }
 }
 .SearchBoxSection {
