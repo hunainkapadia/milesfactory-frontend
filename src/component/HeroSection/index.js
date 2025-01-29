@@ -85,11 +85,11 @@ const HeroSection = ({ onSearchToggle }) => {
                           maxWidth: "75%",
                         }}
                       >
-                        <CardContent>
+                        
                           <Typography variant="body2">
                             Showing results for: {searchQuery}
                           </Typography>
-                        </CardContent>
+                        
                       </Card>
                     </Box>
 
@@ -100,7 +100,6 @@ const HeroSection = ({ onSearchToggle }) => {
                             className={styles.AiMessage + " white-bg"}
                             variant="outlined"
                           >
-                            <CardContent>
                               <Typography variant="h6">
                                 {flight.flightNumber}
                               </Typography>
@@ -122,7 +121,6 @@ const HeroSection = ({ onSearchToggle }) => {
                               <Typography variant="h6">
                                 Price: ${flight.price.toFixed(2)}
                               </Typography>
-                            </CardContent>
                           </Card>
                         </Box>
                       ))}
@@ -137,11 +135,9 @@ const HeroSection = ({ onSearchToggle }) => {
                             maxWidth: "75%",
                           }}
                         >
-                          <CardContent>
                             <Typography variant="body2">
                               No flights found for {searchQuery}
                             </Typography>
-                          </CardContent>
                         </Card>
                       </Box>
                     </section>
