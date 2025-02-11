@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 // API Base URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://demo.gomylz.com/api/";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://demo.milesfactory.com/api/";
 
 // Create Axios instance with credentials enabled
 const api = axios.create({
