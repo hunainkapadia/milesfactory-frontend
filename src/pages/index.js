@@ -11,7 +11,7 @@ const Home = () => {
    const count = useSelector((state)=> state.counter.value);
    const dispatch = useDispatch();
    const [isSearchActive, setIsSearchActive] = useState(false);
-   const handleSearchToggle = (isSearching) => {
+   const isChatHandle = (isSearching) => {
       setIsSearchActive(isSearching);
     };
    // const count = useSelector((state)=> state.counter.value);
@@ -23,7 +23,7 @@ const Home = () => {
         {/* counter value {count} */}
         {/* <Button onClick={()=> dispatch(increment())}>Inc</Button>
         <Button onClick={()=> dispatch(decrement())}>Dec</Button> */}
-        <HeroSection onSearchToggle={handleSearchToggle} />
+        <HeroSection isChatActive={isChatHandle} />
         {!isSearchActive &&  <Footer />}
         
       </main>
