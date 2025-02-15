@@ -28,32 +28,14 @@ const HeroSection = ({ isChatActive }) => {
   // Fetch messages when the component mounts
   useEffect(() => {
     setIsLoading(true);
-  
-    api.get(API_ENDPOINTS.CHAT.GET_MESSAGE)
+    api
+      .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
       .then((res) => {
+        
         if (Array.isArray(res.data)) {
-          const messagesWithFlights = [];
-  
-          res.data.forEach((item, index) => {
-            const aiResponse = item.response;
-            const flightResultsUrl = aiResponse?.results?.view_all_flight_result_api_url;
-
-            let messageObject = { user: item.message, ai: aiResponse.message };
-
-            
-            
-  
-            if (flightResultsUrl) {
-              api.get(`${flightResultsUrl}`)
-                .then((flightRes) => {
-                  console.log("flightRes", flightRes);
-                })
-                .catch((error) => console.error("Error fetching flight results:", error));
-            } else {
-              messagesWithFlights[index] = messageObject;
-              setMessages([...messagesWithFlights]); // Update state
-            }
-          });
+          
+          
+          setMessages(res.data.map((item) => ({ user: item.message, ai: item.response })));
         }
       })
       .catch((error) => console.error("Error fetching messages:", error.response?.data || error))
@@ -70,48 +52,20 @@ const HeroSection = ({ isChatActive }) => {
 
   const handleSearch = () => {
     if (!userMessage.trim()) return;
-  
+
     setIsLoading(true);
     isChatActive?.(true); // Activate chat if function is provided
-  
+
     api
       .post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
       .then((res) => {
         console.log("res", res.data);
-  
-        if (res.data.results) {
-          // Fetch detailed flight results
-          fetchFlightResults(res.data.results);
-        } else {
-          // Just add AI response if no results found
-          setMessages((prev) => [...prev, { user: userMessage, ai: res.data.message }]);
-        }
-  
+        
+        setMessages((prev) => [...prev, { user: userMessage, ai: res.data.response }]);
         setUserMessage("");
       })
       .catch((error) => console.error("Error:", error.response?.data || error))
       .finally(() => setIsLoading(false));
-  };
-  
-  // Function to fetch flight results
-  const fetchFlightResults = (resultData) => {
-    const flightResultsUrl = resultData.view_top_flight_result_api_url;
-  
-    api
-      .get(flightResultsUrl)
-      .then((res) => {
-        console.log("Flight Search Results:", res.data);
-  
-        setMessages((prev) => [
-          ...prev,
-          {
-            user: userMessage,
-            ai: "Here are the top flight results:",
-            flightResults: res.data, // Store the flight results
-          },
-        ]);
-      })
-      .catch((error) => console.error("Error fetching flights:", error.response?.data || error));
   };
 
   return (
@@ -174,36 +128,54 @@ const HeroSection = ({ isChatActive }) => {
 
             {/* Chat Messages */}
             <section className={searchResultStyles.messageBody}>
-              {messages.map((msg, index) => (
-                <div key={index}>
-                  <Box display="flex" justifyContent="flex-end" mb={2}>
-                    <Card
-                      className={searchResultStyles.UserMessage}
-                      sx={{ maxWidth: "75%" }}
-                    >
-                      {/* <Typography variant="body2">{msg.user}</Typography> */}
-                    </Card>
-                  </Box>
+              {messages.map((msg, index) => {
+                const flightResults = msg.ai?.results; // Extract the flight result object
+                const aimsg = msg?.response;
+                console.log("aimsg", aimsg)
+                return (
+                  <div key={index}>
+                    {/* User Message */}
+                    <Box display="flex" justifyContent="flex-end" mb={2}>
+                      <Card
+                        className={searchResultStyles.UserMessage}
+                        sx={{ maxWidth: "75%" }}
+                      >
+                        <Typography variant="body2">{msg.user}</Typography>
+                      </Card>
+                    </Box>
 
-                  <Box display="flex" justifyContent="flex-start" mb={2}>
-                    <Card
-                      className={`${searchResultStyles.AiMessage} white-bg`}
-                      variant="outlined"
-                    >
-                      <Typography variant="body2">
-                        
-                      </Typography>
+                    {/* AI Response */}
+                    <Box display="flex" justifyContent="flex-start" mb={2}>
+                      <Card
+                        className={`${searchResultStyles.AiMessage} white-bg`}
+                        variant="outlined"
+                      >
+                      <Typography variant="body2">{aimsg}</Typography>
+                        { flightResults ? (
+                          <>
+                            {console.log(
+                              "Cheapest Offer:",
+                              flightResults
+                            )}
 
-                      {/* Show Flight Results */}
-                      {/* {msg.flightResults
-                        ? msg.flightResults.map((flight, i) => (
-                            <SearchCard key={i} offerData={flight} />
-                          ))
-                        : ""} */}
-                    </Card>
-                  </Box>
-                </div>
-              ))}
+                            {flightResults.cheapest_offer && (
+                              <SearchCard offerData={flightResults.cheapest_offer} />
+                            )}
+                            {flightResults.fastest_offer && (
+                              <SearchCard offerData={flightResults.fastest_offer} />
+                            )}
+                            {flightResults.cheapest_offer && (
+                              <SearchCard offerData={flightResults.cheapest_offer} />
+                            )}
+                          </>
+                        ) : (
+                          "No flight data available"
+                        )}
+                      </Card>
+                    </Box>
+                  </div>
+                );
+              })}
 
               {isLoading && (
                 <Box display="flex" justifyContent="center">

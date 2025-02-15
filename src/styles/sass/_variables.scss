@@ -160,6 +160,7 @@ Fonts - start
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 
+
 $primary-font: "Roboto", serif;
 $secondary-font: "Roboto", serif;
 
@@ -190,7 +191,7 @@ $h6-mb: 15px;
 $thin: 100;
 $light: 300;
 $regular: 400;
-$semibold: 600;
+$semibold: 500;
 $bold: 500;
 
 /*===================================================================
@@ -261,6 +262,12 @@ Mixins - start
   &::-webkit-input-placeholder {
     @content;
   }
+}
+
+// logo size
+@mixin  scale($width: 48px, $height: 48px) {
+  width: $width;
+  height: $height;
 }
 
 @mixin grayscale($value) {

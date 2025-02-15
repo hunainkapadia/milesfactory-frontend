@@ -1280,8 +1280,7 @@ body {
   @include box-shadow(0, 2px, 8px, rgba($black, 0.2));
 }
 .btn {
-  font-size: $bfsize + 2;
-  font-weight: $semibold;
+  font-size: $bfsize - 2;
   @include border-radius($base-border-radius);
   text-align: center;
   outline: none;
@@ -1364,22 +1363,13 @@ body {
     outline: none !important;
   }
   &.btn-primary {
+    padding: 15px 25px;
+    letter-spacing: 1.2px;
     color: $white;
-    &,
-    &.disabled {
-      @extend %gradient-1;
-      @extend %btn-default-height;
-    }
-    .icofont-caret-right {
-      margin-left: 8px;
-    }
-    &[class*="arrow-"]:before {
-      color: $basecolor1;
-    }
-    &:not(.no-hover):not([class*="arrow-"]):hover {
-      @extend %gradient-1-h;
-      color: $white;
-    }
+    background-color: $basecolor1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 100px;
+
     &.active:hover,
     &.active,
     &.active:focus {
@@ -1963,6 +1953,9 @@ textarea {
 .w-100 {
   width: 100% !important;
   max-width: 100% !important;
+}
+.p-0 {
+  padding: 0 !important;
 }
 .ml-0 {
   margin-left: 0 !important;

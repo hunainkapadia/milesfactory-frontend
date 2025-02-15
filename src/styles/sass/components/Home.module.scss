@@ -17,38 +17,7 @@
     padding: 0;
   }
 }
-.messageBody {
-  padding: 48px 0 100px;
-  .UserMessage {
-    background-color: #C2DFF9;
-    color: #0B1729;
-    @include border-radius(12px);
-    max-width: 80%;
-    padding: 12px 20px;
-  }
-  .AiMessage {
-    color: #0B1729;
-    @include border-radius(12px);
-    max-width: 80%;
-    padding: 12px 20px;
-  }
-}
-.SearchBoxSection {
-  &.active { 
-    width: 100%;
-    padding:0 0 40px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    .SearchBox > div {
-      width: 70%;
-    }
-  }
-  .SearchBox > div {
-    width: 100%;
-  }
-}
+
   
 .IdeaCard {
   .Box {

@@ -1458,7 +1458,7 @@ body {
   &.active {
     outline: none !important;
   }
-  &.btn-primary {
+  &._btn-primary {
     color: $white;
     &,
     &.disabled {
@@ -2262,6 +2262,9 @@ textarea {
 }
 .pt-70 {
   padding-top: 70px !important;
+}
+.p-0 {
+  padding: 0 !important;
 }
 .pb-0 {
   padding-bottom: 0 !important;
