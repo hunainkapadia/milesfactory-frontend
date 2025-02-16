@@ -49,49 +49,53 @@ const HeroSection = ({ isChatActive }) => {
   const handleSearch = () => {
     if (!userMessage.trim()) return;
   
-    setIsLoading(true);
-    isChatActive?.(true); // Activate chat
+    // Optimistically add user message first
+    setMessages((prev) => [
+      ...prev,
+      { user: userMessage, ai: null }, // Show user message immediately
+    ]);
   
+    setUserMessage(""); // Clear input immediately
     api.post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
       .then((res) => {
         setisnormalChat(res?.data?.is_function);
   
         if (res?.data?.is_function) {
           const flightSearchApi = res?.data?.response?.results?.view_top_flight_result_api?.url;
-          let flightResultsUrl = null;
   
           if (flightSearchApi) {
-            flightResultsUrl = `https://demo.milesfactory.com${flightSearchApi}`;
+            const flightResultsUrl = `https://demo.milesfactory.com${flightSearchApi}`;
             console.log("Fetching flight results:", flightResultsUrl);
   
             api.get(flightResultsUrl)
               .then((flightRes) => {
-                setMessages((prev) => [
-                  ...prev,
-                  {
-                    user: userMessage,
-                    ai: {
-                      ...flightRes.data,
-                      cheapest_offer: flightRes.data.cheapest_offer || prev[prev.length - 1]?.ai?.cheapest_offer,
-                    },
-                  },
-                ]);
+                setMessages((prev) =>
+                  prev.map((msg, index) =>
+                    index === prev.length - 1 // Update last message AI response
+                      ? {
+                          ...msg,
+                          ai: {
+                            ...flightRes.data,
+                            cheapest_offer: flightRes.data.cheapest_offer || msg?.ai?.cheapest_offer,
+                          },
+                        }
+                      : msg
+                  )
+                );
               })
               .catch((error) => console.error("Error fetching flight data:", error));
           } else {
             console.warn("Flight results URL not available.");
           }
         } else {
-          setMessages((prev) => [
-            ...prev,
-            { user: userMessage, ai: res.data },
-          ]);
+          setMessages((prev) =>
+            prev.map((msg, index) =>
+              index === prev.length - 1 ? { ...msg, ai: res.data } : msg
+            )
+          );
         }
-  
-        setUserMessage("");
       })
-      .catch((error) => console.error("Error:", error.response?.data || error))
-      .finally(() => setIsLoading(false));
+      .catch((error) => console.error("Error:", error.response?.data || error));
   };
   
 
@@ -99,7 +103,9 @@ const HeroSection = ({ isChatActive }) => {
     <section>
       <Container>
         <Box
-          className={`${styles.HeroSection} ${messages.length ? styles.Active : ""}`}
+          className={`${styles.HeroSection} ${
+            messages.length ? styles.Active : ""
+          }`}
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -161,11 +167,17 @@ const HeroSection = ({ isChatActive }) => {
                   <UserMessage userMessage={msg?.user} />
 
                   {/* AI Response */}
-                  <AiMessage
-                    aiMessage={msg?.ai?.response}
-                    OfferMessage={msg}
-                    isnormalChat={isnormalChat}
-                  />
+                  {isLoading ? (
+                    <section className={searchResultStyles.messageBody}>
+                      <LoadingArea />
+                    </section>
+                  ) : (
+                    <AiMessage
+                      aiMessage={msg?.ai?.response}
+                      OfferMessage={msg}
+                      isnormalChat={isnormalChat}
+                    />
+                  )}
                 </div>
               ))}
 
