@@ -48,16 +48,18 @@ const HeroSection = ({ isChatActive }) => {
 
   const handleSearch = () => {
     if (!userMessage.trim()) return;
-  
+    
     // Optimistically add user message first
     setMessages((prev) => [
       ...prev,
       { user: userMessage, ai: null }, // Show user message immediately
     ]);
-  
+    
+    setIsLoading(true)
     setUserMessage(""); // Clear input immediately
     api.post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
       .then((res) => {
+        setIsLoading(false)
         setisnormalChat(res?.data?.is_function);
   
         if (res?.data?.is_function) {
@@ -71,6 +73,7 @@ const HeroSection = ({ isChatActive }) => {
               .then((flightRes) => {
                 setMessages((prev) =>
                   prev.map((msg, index) =>
+                  
                     index === prev.length - 1 // Update last message AI response
                       ? {
                           ...msg,
@@ -159,31 +162,27 @@ const HeroSection = ({ isChatActive }) => {
 
             {/* Chat Messages */}
             <section className={searchResultStyles.messageBody}>
-              {messages.map((msg, index) => (
-                <div key={index}>
-                  {console.log("msg", msg)}
+  {messages.map((msg, index) => (
+    <div key={index}>
+      {/* User Message */}
+      <UserMessage userMessage={msg?.user} />
 
-                  {/* User Message */}
-                  <UserMessage userMessage={msg?.user} />
+      {/* AI Response or Loading Indicator */}
+      {msg?.ai ? (
+        <AiMessage
+          aiMessage={msg?.ai?.response}
+          OfferMessage={msg}
+          isnormalChat={isnormalChat}
+        />
+      ) : index === messages.length - 1 && isLoading ? (
+        <LoadingArea /> // Show loading only for the last message
+      ) : null}
+    </div>
+  ))}
 
-                  {/* AI Response */}
-                  {isLoading ? (
-                    <section className={searchResultStyles.messageBody}>
-                      <LoadingArea />
-                    </section>
-                  ) : (
-                    <AiMessage
-                      aiMessage={msg?.ai?.response}
-                      OfferMessage={msg}
-                      isnormalChat={isnormalChat}
-                    />
-                  )}
-                </div>
-              ))}
-
-              {/* Scroll to the latest message */}
-              <div ref={messagesEndRef} />
-            </section>
+  {/* Scroll to the latest message */}
+  <div ref={messagesEndRef} />
+</section>
           </Box>
         </Box>
       </Container>

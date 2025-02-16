@@ -7,7 +7,7 @@ const AiMessage = ({ isnormalChat, OfferMessage, aiMessage }) => {
   console.log("AiMessage Props:", { isnormalChat, OfferMessage, aiMessage });
 
   return (
-    <Box display="flex" justifyContent="flex-start" mb={2}>
+    <Box className="aibox" display="flex" justifyContent="flex-start" mb={2}>
       <Card className={`${searchResultStyles.AiMessage} white-bg`} variant="outlined">
          
         {/* Show Offer Message if available */}
