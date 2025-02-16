@@ -6,80 +6,107 @@ import {
   InputAdornment,
   TextField,
   Container,
-  CardContent,
-  Avatar,
 } from "@mui/material";
-import styles from "@/src/styles/sass/components/Home.module.scss";
-import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useEffect, useState, useRef } from "react";
 import LoadingArea from "../LoadingArea";
 import IdeaDetailSection from "../home/IdeaDetailSection";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import api from "@/src/store/api";
-import { formatTextWithBreaks } from "@/src/utils/utils";
+
+import styles from "@/src/styles/sass/components/Home.module.scss";
+import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import SearchCard from "../SearchResult/SearchCard";
+import AiMessage from "../SearchResult/chat/AiMessage";
+import UserMessage from "../SearchResult/chat/UserMessage";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
-  const [messages, setMessages] = useState([]); // Stores chat messages
+  const [messages, setMessages] = useState([]);
+  const [topOffersMessage, setTopOffersMessage] = useState(); // Fixed initialization
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null); // For auto-scrolling
+  const messagesEndRef = useRef(null);
+  const [isnormalChat, setisnormalChat] = useState(false); // Ensure default is false
 
-  // Fetch messages when the component mounts
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   api
-  //     .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
-  //     .then((res) => {
-        
-  //       if (Array.isArray(res.data)) {
-  //         setMessages(res.data.map((item) => ({ user: item.message, ai: item.response })));
-  //       }
-  //     })
-  //     .catch((error) => console.error("Error fetching messages:", error.response?.data || error))
-  //     .finally(() => setIsLoading(false));
-  // }, [0]);
+  // Fetch chat messages on mount
+  useEffect(() => {
+    setIsLoading(true);
+    api
+      .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
+      .then((res) => {
+        if (Array.isArray(res?.data)) {
+          setMessages(res?.data.map((item) => ({ user: item?.message, ai: item })));
+        }
+      })
+      .catch((error) => console.error("Error fetching messages:", error.response?.data || error))
+      .finally(() => setIsLoading(false));
+  }, []);
 
-  
   // Auto-scroll to the latest message
-  // useEffect(() => {
-  //   if (messagesEndRef.current) {
-  //     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // }, [messages]);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSearch = () => {
     if (!userMessage.trim()) return;
-
+  
     setIsLoading(true);
-    isChatActive?.(true); // Activate chat if function is provided
-
-    api
-      .post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
+    isChatActive?.(true); // Activate chat
+  
+    api.post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
       .then((res) => {
-        console.log("res", res.data);
-        
-        setMessages((prev) => [...prev, { user: userMessage, ai: res.data.response }]);
+        setisnormalChat(res?.data?.is_function);
+  
+        if (res?.data?.is_function) {
+          const flightSearchApi = res?.data?.response?.results?.view_top_flight_result_api?.url;
+          let flightResultsUrl = null;
+  
+          if (flightSearchApi) {
+            flightResultsUrl = `https://demo.milesfactory.com${flightSearchApi}`;
+            console.log("Fetching flight results:", flightResultsUrl);
+  
+            api.get(flightResultsUrl)
+              .then((flightRes) => {
+                setMessages((prev) => [
+                  ...prev,
+                  {
+                    user: userMessage,
+                    ai: {
+                      ...flightRes.data,
+                      cheapest_offer: flightRes.data.cheapest_offer || prev[prev.length - 1]?.ai?.cheapest_offer,
+                    },
+                  },
+                ]);
+              })
+              .catch((error) => console.error("Error fetching flight data:", error));
+          } else {
+            console.warn("Flight results URL not available.");
+          }
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            { user: userMessage, ai: res.data },
+          ]);
+        }
+  
         setUserMessage("");
       })
       .catch((error) => console.error("Error:", error.response?.data || error))
       .finally(() => setIsLoading(false));
   };
+  
 
   return (
     <section>
       <Container>
         <Box
-          className={`${styles.HeroSection} ${
-            messages.length > 0 ? styles.Active : ""
-          }`}
+          className={`${styles.HeroSection} ${messages.length ? styles.Active : ""}`}
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <Box className={styles.Box}>
             {/* Welcome Message */}
-            {messages.length === 0 && (
+            {!messages.length && (
               <div className="mb-40 align-center">
                 <h1 className="darkgray">Travel made simple</h1>
                 <p className="darkgray">
@@ -92,7 +119,7 @@ const HeroSection = ({ isChatActive }) => {
             <section>
               <div
                 className={`${searchResultStyles.SearchBoxSection} ${
-                  messages.length > 0 ? searchResultStyles.active : ""
+                  messages.length ? searchResultStyles.active : ""
                 } SearchBoxSection basecolor1-light-bg`}
               >
                 <Container>
@@ -126,69 +153,25 @@ const HeroSection = ({ isChatActive }) => {
 
             {/* Chat Messages */}
             <section className={searchResultStyles.messageBody}>
-              {messages.map((msg, index) => {
-                {/* const flightResults = msg.ai?.results; // Extract the flight result object
-                const aimsg = msg?.response;
-                console.log("aimsg", aimsg) */}
-                return (
-                  <div key={index}>
-                    {/* User Message */}
-                    <Box display="flex" justifyContent="flex-end" mb={2}>
-                      <Card
-                        className={searchResultStyles.UserMessage}
-                        sx={{ maxWidth: "75%" }}
-                      >
-                        <Typography variant="body2">{msg.user}</Typography>
-                      </Card>
-                    </Box>
+              {messages.map((msg, index) => (
+                <div key={index}>
+                  {console.log("msg", msg)}
 
-                    {/* AI Response */}
-                    <Box display="flex" justifyContent="flex-start" mb={2}>
-                      <Card
-                        className={`${searchResultStyles.AiMessage} white-bg`}
-                        variant="outlined"
-                      >
-                      <Typography variant="body2"></Typography>
-                        {/* { flightResults ? (
-                          <>
-                            {console.log(
-                              "Cheapest Offer:",
-                              flightResults
-                            )}
+                  {/* User Message */}
+                  <UserMessage userMessage={msg?.user} />
 
-                            {flightResults.cheapest_offer && (
-                              <SearchCard offerData={flightResults.cheapest_offer} />
-                            )}
-                            {flightResults.fastest_offer && (
-                              <SearchCard offerData={flightResults.fastest_offer} />
-                            )}
-                            {flightResults.cheapest_offer && (
-                              <SearchCard offerData={flightResults.cheapest_offer} />
-                            )}
-                          </>
-                        ) : (
-                          "No flight data available"
-                        )} */}
-                      </Card>
-                    </Box>
-                  </div>
-                );
-              })}
-
-              {isLoading && (
-                <Box display="flex" justifyContent="center">
-                  <LoadingArea />
-                </Box>
-              )}
+                  {/* AI Response */}
+                  <AiMessage
+                    aiMessage={msg?.ai?.response}
+                    OfferMessage={msg}
+                    isnormalChat={isnormalChat}
+                  />
+                </div>
+              ))}
 
               {/* Scroll to the latest message */}
               <div ref={messagesEndRef} />
-
-              {/* Loading Indicator */}
             </section>
-
-            {/* Suggestion Section */}
-            {messages.length === 0 && <IdeaDetailSection />}
           </Box>
         </Box>
       </Container>

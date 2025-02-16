@@ -19,8 +19,8 @@ const SearchCard = ({ offerData }) => {
               {/* Airline Logo */}
               <Box mr={4}>
                 <Avatar
-                  src={offerData.owner.logo_symbol_url}
-                  alt={offerData.owner.name}
+                  src={offerData?.owner?.logo_symbol_url}
+                  alt={offerData?.owner?.name}
                   className={searchResultStyles.airlineLogo}
                 />
               </Box>
@@ -36,14 +36,14 @@ const SearchCard = ({ offerData }) => {
                 <Box textAlign="center" flex={1}>
                   <Typography className={searchResultStyles.flightTime}>
                     {new Date(
-                      offerData.slices[0].departing_at
+                      offerData?.slices[0].departing_at
                     ).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </Typography>
                   <Typography className={searchResultStyles.flightRoute}>
-                    {offerData.slices[0].origin.iata_code}
+                    {offerData?.slices[0].origin.iata_code}
                   </Typography>
                 </Box>
 
@@ -62,7 +62,7 @@ const SearchCard = ({ offerData }) => {
                     Direct
                   </Typography>
                   <Typography className={searchResultStyles.flightDuration}>
-                    {offerData.slices[0].duration}
+                    {offerData?.slices[0].duration}
                   </Typography>
                 </Box>
 
@@ -79,14 +79,14 @@ const SearchCard = ({ offerData }) => {
                 <Box textAlign="center" flex={1}>
                   <Typography className={searchResultStyles.flightTime}>
                     {new Date(
-                      offerData.slices[0].arriving_at
+                      offerData?.slices[0].arriving_at
                     ).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </Typography>
                   <Typography className={searchResultStyles.flightRoute}>
-                    {offerData.slices[0].destination.iata_code}
+                    {offerData?.slices[0].destination.iata_code}
                   </Typography>
                 </Box>
               </Box>
@@ -101,7 +101,7 @@ const SearchCard = ({ offerData }) => {
             <Box className={searchResultStyles.flightPriceSection}>
               <Box className={searchResultStyles.flightPriceSection}>
                 <h3 className={`mb-0 basecolor1 semibold`}>
-                  €{offerData.total_amount}
+                  €{offerData?.total_amount}
                 </h3>
               </Box>
             </Box>
@@ -123,7 +123,7 @@ const SearchCard = ({ offerData }) => {
 
           <Box display={"flex"} alignItems={"center"}>
             <Typography className={searchResultStyles.normalOption}>
-              <img src="/images/handcarry-icon.svg" /> <span> {offerData.total_emissions_kg} kg CO₂e</span>
+              <img src="/images/handcarry-icon.svg" /> <span> {offerData?.total_emissions_kg} kg CO₂e</span>
             </Typography>
           </Box>
           <Box>
