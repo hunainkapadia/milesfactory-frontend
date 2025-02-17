@@ -37,12 +37,13 @@ const HeroSection = ({ isChatActive }) => {
           return;
         }
 
-        const initialMessages = res.data.map((item) => ({
+        const initialMessages = res.data.map((item) => (
+          {
           user: item?.message,
           ai: item, // Placeholder for AI response
         }));
-
         setMessages(initialMessages);
+        
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);

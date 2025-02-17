@@ -9,101 +9,92 @@ import {
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 
 const SearchCard = ({ offerData }) => {
-  {console.log("offerData", offerData)}
   return (
     <Card className={searchResultStyles.flightOfferCard}>
       <CardContent className="p-0">
         <Grid container spacing={4}>
           <Grid item xs={9}>
-            <Box display="flex" alignItems="center" gap={2}>
-              {/* Airline Logo */}
-              <Box mr={4}>
-                <Avatar
-                  src={offerData?.owner?.logo_symbol_url}
-                  alt={offerData?.owner?.name}
-                  className={searchResultStyles.airlineLogo}
-                />
-              </Box>
-
-              {/* Flight Details start */}
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                width="100%"
-              >
-                {/* Departure Time & Code */}
-                <Box textAlign="center" flex={1}>
-                  <Typography className={searchResultStyles.flightTime}>
-                    {new Date(
-                      offerData?.slices[0].departing_at
-                    ).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Typography>
-                  <Typography className={searchResultStyles.flightRoute}>
-                    {offerData?.slices[0].origin.iata_code}
-                  </Typography>
-                </Box>
-
-                {/* Wider Separator */}
+            {offerData?.slices.map((slice, index) => (
+              <Box key={index} display="flex" alignItems="center" gap={2} mb={index === 0 ? 2 : 0}>
+                {/* Airline Logo (only for the first slice) */}
+                  <Box mr={4}>
+                    <Avatar
+                      src={offerData?.owner?.logo_symbol_url}
+                      alt={offerData?.owner?.name}
+                      className={searchResultStyles.airlineLogo}
+                    />
+                  </Box>
+                {/* Flight Details */}
                 <Box
-                  className={searchResultStyles.separater}
-                  flex={1}
-                  textAlign="center"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  width="100%"
                 >
-                  <span></span>
-                </Box>
+                  {/* Departure Time & Code */}
+                  <Box textAlign="center" flex={1}>
+                    <Typography className={searchResultStyles.flightTime}>
+                      {new Date(slice.departing_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Typography>
+                    <Typography className={searchResultStyles.flightRoute}>
+                      {slice.origin.iata_code}
+                    </Typography>
+                  </Box>
 
-                {/* Flight Duration */}
-                <Box textAlign="center" flex={1}>
-                  <Typography className={searchResultStyles.flightDuration}>
-                    Direct
-                  </Typography>
-                  <Typography className={searchResultStyles.flightDuration}>
-                    {offerData?.slices[0].duration}
-                  </Typography>
-                </Box>
+                  {/* Separator */}
+                  <Box
+                    className={searchResultStyles.separater}
+                    flex={1}
+                    textAlign="center"
+                  >
+                    <span></span>
+                  </Box>
 
-                {/* Wider Separator */}
-                <Box
-                  className={searchResultStyles.separater}
-                  flex={1}
-                  textAlign="center"
-                >
-                  <span></span>
-                </Box>
+                  {/* Flight Duration */}
+                  <Box textAlign="center" flex={1}>
+                    <Typography className={searchResultStyles.flightDuration}>
+                      {slice.segments?.length > 1 ? "Stopover" : "Direct"}
+                    </Typography>
+                    <Typography className={searchResultStyles.flightDuration}>
+                      {slice.duration}
+                    </Typography>
+                  </Box>
 
-                {/* Arrival Time & Code */}
-                <Box textAlign="center" flex={1}>
-                  <Typography className={searchResultStyles.flightTime}>
-                    {new Date(
-                      offerData?.slices[0].arriving_at
-                    ).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Typography>
-                  <Typography className={searchResultStyles.flightRoute}>
-                    {offerData?.slices[0].destination.iata_code}
-                  </Typography>
+                  {/* Separator */}
+                  <Box
+                    className={searchResultStyles.separater}
+                    flex={1}
+                    textAlign="center"
+                  >
+                    <span></span>
+                  </Box>
+
+                  {/* Arrival Time & Code */}
+                  <Box textAlign="center" flex={1}>
+                    <Typography className={searchResultStyles.flightTime}>
+                      {new Date(slice.arriving_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Typography>
+                    <Typography className={searchResultStyles.flightRoute}>
+                      {slice.destination.iata_code}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
-              {/* flight detail end */}
-              {/*  */}
-            </Box>
-            {/* with logo */}
+            ))}
           </Grid>
-          {/* col8 end */}
 
+          {/* Price Section */}
           <Grid display={"flex"} justifyContent={"end"} item xs={3}>
             <Box className={searchResultStyles.flightPriceSection}>
-              <Box className={searchResultStyles.flightPriceSection}>
-                <h3 className={`mb-0 basecolor1 semibold`}>
-                  €{offerData?.total_amount}
-                </h3>
-              </Box>
+              <h3 className={`mb-0 basecolor1 semibold`}>
+                €{offerData?.total_amount}
+              </h3>
             </Box>
           </Grid>
         </Grid>
@@ -120,7 +111,6 @@ const SearchCard = ({ offerData }) => {
               <img src="/images/handcarry-icon.svg" /> <span> pieces</span>
             </Typography>
           </Box>
-
           <Box display={"flex"} alignItems={"center"}>
             <Typography className={searchResultStyles.normalOption}>
               <img src="/images/handcarry-icon.svg" /> <span> {offerData?.total_emissions_kg} kg CO₂e</span>
@@ -133,7 +123,7 @@ const SearchCard = ({ offerData }) => {
               }
             >
               <Box display={"flex"} gap={1}>
-                <i class="fa fa-arrow-right"></i> <span> Select flight</span>
+                <i className="fa fa-arrow-right"></i> <span> Select flight</span>
               </Box>
             </button>
           </Box>
