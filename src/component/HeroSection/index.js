@@ -18,18 +18,15 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import SearchCard from "../SearchResult/SearchCard";
 import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
-import Link from "next/link";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [topOffersMessage, setTopOffersMessage] = useState(); // Fixed initialization
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  const [isnormalChat, setisnormalChat] = useState(false); // Ensure default is false
-  const [flightExpire, setflightExpire]= useState()
+  const [isnormalChat, setisnormalChat] = useState(false);
+  const [AllSearchUrl, setAllSearchUrl] = useState(); // To store the full search URL
 
-  // Fetch chat messages on mount
   useEffect(() => {
     setIsLoading(true);
     api
@@ -40,20 +37,12 @@ const HeroSection = ({ isChatActive }) => {
           return;
         }
 
-        // Set initial messages before fetching flights
         const initialMessages = res.data.map((item) => ({
           user: item?.message,
           ai: item, // Placeholder for AI response
         }));
 
         setMessages(initialMessages);
-        console.log("initialMessages", initialMessages);
-        initialMessages.map((msg, index) => {
-          const flightSearchApi =
-            msg?.ai?.response?.results?.view_top_flight_result_api?.url;
-            console.log("flightResultsUrl", msg?.ai?.response?.results?.view_top_flight_result_api?.method);
-          
-        });
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
@@ -61,57 +50,74 @@ const HeroSection = ({ isChatActive }) => {
       });
   }, []);
 
-  // Auto-scroll to the latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
-  const seeAllResultHandle = ()=> {
-    alert("asas")
-  }
   const handleSearch = () => {
     if (!userMessage.trim()) return;
-    
-    // Optimistically add user message first
+
     setMessages((prev) => [
       ...prev,
       { user: userMessage, ai: null }, // Show user message immediately
     ]);
     
-    setIsLoading(true)
+    setIsLoading(true);
     setUserMessage(""); // Clear input immediately
+
     api.post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
       .then((res) => {
-        setIsLoading(false)
+        setIsLoading(false);
         setisnormalChat(res?.data?.is_function);
-  
+
         if (res?.data?.is_function) {
           const flightSearchApi = res?.data?.response?.results?.view_top_flight_result_api?.url;
-  
+          const AllSearchApi = res?.data?.response?.results?.view_all_flight_result_api?.url;
+          const AllSearchUrl = `https://demo.milesfactory.com${AllSearchApi}`;
+
+          // Store AllSearchUrl in state
+          setAllSearchUrl(AllSearchUrl);
+
           if (flightSearchApi) {
             const flightResultsUrl = `https://demo.milesfactory.com${flightSearchApi}`;
-            console.log("Fetching flight results:", flightResultsUrl);
-  
+
             api.get(flightResultsUrl)
               .then((flightRes) => {
                 setMessages((prev) =>
                   prev.map((msg, index) =>
-                    index === prev.length - 1 // Update last message AI response
+                    index === prev.length - 1
                       ? {
                           ...msg,
                           ai: {
                             ...flightRes.data,
-                            cheapest_offer:
-                              flightRes.data.cheapest_offer ||
-                              msg?.ai?.cheapest_offer,
+                            cheapest_offer: flightRes.data.cheapest_offer || msg?.ai?.cheapest_offer,
                           },
                           button: {
                             text: `See all flight options (10) with this offer`,
                             seeAllResultHandle: () => {
-                              alert("asas")
-                              // Handle the action for showing all flight options (you can modify this)
-                              console.log("Show all flight options");
+                              alert("Fetching full flight results...");
+                              // Call to fetch full flight results here using AllSearchUrl
+                              if (AllSearchUrl) {
+                                api
+                                  .get(AllSearchUrl)
+                                  .then((allResultsRes) => {
+                                    // Add the full search results to the messages
+                                    setMessages((prev) =>
+                                      prev.map((msg, index) =>
+                                        index === prev.length - 1
+                                          ? {
+                                              ...msg,
+                                              ai: {
+                                                ...msg.ai,
+                                                all_search_results: allResultsRes.data.offers, // Store full search results here
+                                              },
+                                            }
+                                          : msg
+                                      )
+                                    );
+                                  })
+                                  .catch((error) => console.error("Error fetching all results:", error));
+                              }
                             },
                           },
                         }
@@ -133,15 +139,12 @@ const HeroSection = ({ isChatActive }) => {
       })
       .catch((error) => console.error("Error:", error.response?.data || error));
   };
-  
 
   return (
     <section>
       <Container>
         <Box
-          className={`${styles.HeroSection} ${
-            messages.length ? styles.Active : ""
-          }`}
+          className={`${styles.HeroSection} ${messages.length ? styles.Active : ""}`}
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -159,11 +162,7 @@ const HeroSection = ({ isChatActive }) => {
 
             {/* Search Box */}
             <section>
-              <div
-                className={`${searchResultStyles.SearchBoxSection} ${
-                  messages.length ? searchResultStyles.active : ""
-                } SearchBoxSection basecolor1-light-bg`}
-              >
+              <div className={`${searchResultStyles.SearchBoxSection} ${messages.length ? searchResultStyles.active : ""} SearchBoxSection basecolor1-light-bg`}>
                 <Container>
                   <Box
                     className={searchResultStyles.SearchBox}
@@ -197,39 +196,27 @@ const HeroSection = ({ isChatActive }) => {
             <section className={searchResultStyles.messageBody}>
               {messages.map((msg, index) => (
                 <div key={index}>
-                  {console.log("msg11", msg)}
                   {/* User Message */}
                   <UserMessage userMessage={msg?.user} />
 
                   {/* AI Response or Loading Indicator */}
                   {msg?.ai ? (
-                    <AiMessage
-                      aiMessage={msg?.ai?.response}
-                      OfferMessage={msg}
-                      isnormalChat={isnormalChat}
-                    />
+                    <AiMessage aiMessage={msg?.ai?.response} OfferMessage={msg} />
                   ) : index === messages.length - 1 && isLoading ? (
                     <LoadingArea /> // Show loading only for the last message
                   ) : null}
 
-                  {/* {ai?.all_flight_options &&
-                    ai.all_flight_options.length > 0 && (
-                      <Box mt={2}>
-                        <Typography variant="h6">
-                          Other flight options:
-                        </Typography>
-                        {OfferMessage.ai.all_flight_options.map(
-                          (option, index) => (
-                            <SearchCard key={index} offerData={option} />
-                          )
-                        )}
+                  {msg?.ai?.cheapest_offer ? (
+                    <Box onClick={msg?.button?.seeAllResultHandle} mt={2}>
+                      <Box mt={4} mb={4} gap={2} alignItems={"center"} display={"flex"}>
+                        <i className="fa-caret-down fa fas"></i> See all flight options
                       </Box>
-                    )} */}
+                    </Box>
+                  ) : (
+                    <>We have no offers available</>
+                  )}
                 </div>
               ))}
-              
-
-              {/* Scroll to the latest message */}
               <div ref={messagesEndRef} />
             </section>
           </Box>
