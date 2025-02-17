@@ -92,33 +92,30 @@ const HeroSection = ({ isChatActive }) => {
                             ...flightRes.data,
                             cheapest_offer: flightRes.data.cheapest_offer || msg?.ai?.cheapest_offer,
                           },
-                          button: {
-                            text: `See all flight options (10) with this offer`,
-                            seeAllResultHandle: () => {
-                              alert("Fetching full flight results...");
-                              // Call to fetch full flight results here using AllSearchUrl
-                              if (AllSearchUrl) {
-                                api
-                                  .get(AllSearchUrl)
-                                  .then((allResultsRes) => {
-                                    // Add the full search results to the messages
-                                    setMessages((prev) =>
-                                      prev.map((msg, index) =>
-                                        index === prev.length - 1
-                                          ? {
-                                              ...msg,
-                                              ai: {
-                                                ...msg.ai,
-                                                all_search_results: allResultsRes.data.offers, // Store full search results here
-                                              },
-                                            }
-                                          : msg
-                                      )
-                                    );
-                                  })
-                                  .catch((error) => console.error("Error fetching all results:", error));
-                              }
-                            },
+                          seeAllResultHandle: () => {
+                            console.log("Fetching full flight results...");
+                            // Call to fetch full flight results here using AllSearchUrl
+                            if (AllSearchUrl) {
+                              api
+                                .get(AllSearchUrl)
+                                .then((allResultsRes) => {
+                                  // Add the full search results to the messages
+                                  setMessages((prev) =>
+                                    prev.map((msg, index) =>
+                                      index === prev.length - 1
+                                        ? {
+                                            ...msg,
+                                            ai: {
+                                              ...msg.ai,
+                                              all_search_results: allResultsRes.data.offers, // Store full search results here
+                                            },
+                                          }
+                                        : msg
+                                    )
+                                  );
+                                })
+                                .catch((error) => console.error("Error fetching all results:", error));
+                            }
                           },
                         }
                       : msg
@@ -144,7 +141,9 @@ const HeroSection = ({ isChatActive }) => {
     <section>
       <Container>
         <Box
-          className={`${styles.HeroSection} ${messages.length ? styles.Active : ""}`}
+          className={`${styles.HeroSection} ${
+            messages.length ? styles.Active : ""
+          }`}
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -162,7 +161,11 @@ const HeroSection = ({ isChatActive }) => {
 
             {/* Search Box */}
             <section>
-              <div className={`${searchResultStyles.SearchBoxSection} ${messages.length ? searchResultStyles.active : ""} SearchBoxSection basecolor1-light-bg`}>
+              <div
+                className={`${searchResultStyles.SearchBoxSection} ${
+                  messages.length ? searchResultStyles.active : ""
+                } SearchBoxSection basecolor1-light-bg`}
+              >
                 <Container>
                   <Box
                     className={searchResultStyles.SearchBox}
@@ -201,19 +204,28 @@ const HeroSection = ({ isChatActive }) => {
 
                   {/* AI Response or Loading Indicator */}
                   {msg?.ai ? (
-                    <AiMessage aiMessage={msg?.ai?.response} OfferMessage={msg} />
+                    <AiMessage
+                      aiMessage={msg?.ai?.response}
+                      OfferMessage={msg}
+                    />
                   ) : index === messages.length - 1 && isLoading ? (
                     <LoadingArea /> // Show loading only for the last message
                   ) : null}
-
+                  
                   {msg?.ai?.cheapest_offer ? (
-                    <Box onClick={msg?.button?.seeAllResultHandle} mt={2}>
-                      <Box mt={4} mb={4} gap={2} alignItems={"center"} display={"flex"}>
+                    <Box onClick={msg?.seeAllResultHandle} mt={2}>
+                      <Box
+                        mt={4}
+                        mb={4}
+                        gap={2}
+                        alignItems={"center"}
+                        display={"flex"}
+                      >
                         <i className="fa-caret-down fa fas"></i> See all flight options
                       </Box>
                     </Box>
                   ) : (
-                    <>We have no offers available</>
+                    ""
                   )}
                 </div>
               ))}

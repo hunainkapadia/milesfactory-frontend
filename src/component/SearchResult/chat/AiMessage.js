@@ -46,19 +46,6 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
             {OfferMessage.ai.all_search_results.map((offer, index) => (
               <SearchCard key={index} offerData={offer} />
             ))}
-            <Box mt={2}>
-              <Link
-                className="text-decuration-none"
-                href="#"
-                variant="contained"
-                color="primary"
-                onClick={seeAllResultHandle}
-              >
-                <Box mt={4} mb={4} gap={2} alignItems={"center"} display={"flex"}>
-                  <i className="fa-caret-down fa fas"></i> See all flight options
-                </Box>
-              </Link>
-            </Box>
           </Box>
         )}
       </Card>
