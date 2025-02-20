@@ -24,11 +24,11 @@ const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
   const [isnormalChat, setisnormalChat] = useState(false);
   const [AllSearchUrl, setAllSearchUrl] = useState(); // To store the full search URL
   const [getAllSearchUrl, setgetAllSearchUrl] = useState();
-
+  const messagesEndRef = useRef(null);
+  
   useEffect(() => {
     setIsLoading(true);
     
@@ -41,7 +41,7 @@ const HeroSection = ({ isChatActive }) => {
           setIsLoading(false);
           return;
         }
-        
+        isChatActive(true);
 
         // Convert response data into initial messages
         const initialMessages = res.data.map((item) => ({
@@ -319,7 +319,11 @@ const HeroSection = ({ isChatActive }) => {
                   ) : null}
                 </div>
               ))}
-              <div ref={messagesEndRef} />
+              {!messages.length ? (
+                <>
+                  <div ref={messagesEndRef} />
+                </>
+              ) : ""}
             </section>
           </Box>
         </Box>
