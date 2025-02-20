@@ -4,13 +4,13 @@ import styles from '@/src/styles/sass/components/baseLayout.module.scss'
 import Head from "next/head";
 import '@fortawesome/fontawesome-free/css/all.min.css'; 
 
-const Header = () => {
-   return (
-     <>
+const Header = ({isSearchActive}) => {
+  return (
+    <>
      <Head>
      
      </Head>
-       <header className={styles.Header + " pt-50"}>
+       <header className={`${styles.Header} basecolor1-light-bg bacecolor pt-50 ${isSearchActive ? styles.Active : ""}`}>
          <Container className="">
            <Grid className={styles.Box + " br-8 white-bg box-shadow-md"}>
              <Grid item xs={12}>

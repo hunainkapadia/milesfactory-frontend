@@ -18,6 +18,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import SearchCard from "../SearchResult/SearchCard";
 import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
+import Link from "next/link";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
@@ -26,30 +27,113 @@ const HeroSection = ({ isChatActive }) => {
   const messagesEndRef = useRef(null);
   const [isnormalChat, setisnormalChat] = useState(false);
   const [AllSearchUrl, setAllSearchUrl] = useState(); // To store the full search URL
+  const [getAllSearchUrl, setgetAllSearchUrl] = useState();
 
   useEffect(() => {
     setIsLoading(true);
+    
+
     api
       .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
       .then((res) => {
+        
         if (!Array.isArray(res?.data)) {
           setIsLoading(false);
           return;
         }
+        
 
-        const initialMessages = res.data.map((item) => (
-          {
+        // Convert response data into initial messages
+        const initialMessages = res.data.map((item) => ({
           user: item?.message,
-          ai: item, // Placeholder for AI response
+          ai: item?.is_function ? null : item, // Placeholder for AI response
+          expireTime: item.is_function
+            ? new Date(
+                item?.response?.results?.search_result_expire_time
+              ).getTime()
+            : null,
+          
         }));
         setMessages(initialMessages);
-        
+
+        res?.data.forEach((item) => {
+          if (item?.is_function === true) {
+            const flightSearchApi =
+              item?.response?.results?.view_top_flight_result_api?.url;
+
+            // Store AllSearchUrl in state
+            if (flightSearchApi) {
+              const OfferSearchUrl = `https://demo.milesfactory.com${flightSearchApi}`;
+              const AllSearchApi =
+                item?.response?.results?.view_all_flight_result_api?.url;
+              const AllSearchUrl = `https://demo.milesfactory.com${AllSearchApi}`;
+
+              api
+                .get(OfferSearchUrl)
+                .then((response) => {
+                  // Use `map` to update only the last message
+                  
+                  setMessages((prev) =>
+                    prev.map(
+                      (msg, index) =>
+                        index === prev.length - 1
+                          ? {
+                              ...msg,
+                              ai: {
+                                ...msg.ai, // Keep existing AI data
+                                ...response?.data, // Add new flight data
+                              },
+                            }
+                          : msg // Keep other messages unchanged
+                    )
+                  );
+
+                  // Fetch full flight results immediately
+
+                  
+                  if (AllSearchUrl) {
+                    api
+                      .get(AllSearchUrl)
+                      .then((allResultsRes) => {
+                        setMessages((prev) =>
+                          prev.map((msg, index) =>
+                            index === prev.length - 1
+                              ? {
+                                  ...msg,
+                                  ai: {
+                                    ...msg.ai,
+                                    all_search_results:
+                                      allResultsRes.data.offers, // Automatically append all search results
+                                  },
+                                }
+                              : msg
+                          )
+                        );
+                      })
+                      .catch((error) =>
+                        console.error(
+                          "Error fetching all search results:",
+                          error
+                        )
+                      );
+                  }
+                })
+                .catch((error) => {
+                  console.error(
+                    "Error fetching additional flight data:",
+                    error
+                  );
+                });
+            }
+          }
+        });
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
         setIsLoading(false);
       });
   }, []);
+  
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -58,6 +142,7 @@ const HeroSection = ({ isChatActive }) => {
   const handleSearch = () => {
     if (!userMessage.trim()) return;
 
+    isChatActive(true);
     setMessages((prev) => [
       ...prev,
       { user: userMessage, ai: null }, // Show user message immediately
@@ -84,14 +169,15 @@ const HeroSection = ({ isChatActive }) => {
 
             api.get(flightResultsUrl)
               .then((flightRes) => {
+                console.log("flightRes", flightRes);
+                
                 setMessages((prev) =>
                   prev.map((msg, index) =>
-                    index === prev.length - 1
-                      ? {
-                          ...msg,
+                    index === prev.length - 1 // Check if it's the last message
+                      ? {  /* Modify this message */
+                          ...msg, // Keep the existing message properties
                           ai: {
-                            ...flightRes.data,
-                            cheapest_offer: flightRes.data.cheapest_offer || msg?.ai?.cheapest_offer,
+                            ...flightRes.data, // Store flight API response inside `ai`
                           },
                           seeAllResultHandle: () => {
                             console.log("Fetching full flight results...");
@@ -111,7 +197,7 @@ const HeroSection = ({ isChatActive }) => {
                                               all_search_results: allResultsRes.data.offers, // Store full search results here
                                             },
                                           }
-                                        : msg
+                                        : msg // Keep other messages unchanged
                                     )
                                   );
                                 })
@@ -119,7 +205,7 @@ const HeroSection = ({ isChatActive }) => {
                             }
                           },
                         }
-                      : msg
+                      : msg 
                   )
                 );
               })
@@ -200,6 +286,7 @@ const HeroSection = ({ isChatActive }) => {
             <section className={searchResultStyles.messageBody}>
               {messages.map((msg, index) => (
                 <div key={index}>
+                  {console.log("msgrender", msg)}
                   {/* User Message */}
                   <UserMessage userMessage={msg?.user} />
 
@@ -212,9 +299,11 @@ const HeroSection = ({ isChatActive }) => {
                   ) : index === messages.length - 1 && isLoading ? (
                     <LoadingArea /> // Show loading only for the last message
                   ) : null}
-                  
-                  {msg?.ai?.cheapest_offer ? (
+
+                  {msg?.ai?.cheapest_offer &&
+                  !msg?.ai?.all_search_results?.length ? (
                     <Box onClick={msg?.seeAllResultHandle} mt={2}>
+                    <Link href={""} className="text-decuration-none">
                       <Box
                         mt={4}
                         mb={4}
@@ -222,12 +311,12 @@ const HeroSection = ({ isChatActive }) => {
                         alignItems={"center"}
                         display={"flex"}
                       >
-                        <i className="fa-caret-down fa fas"></i> See all flight options
+                        <i className="fa-caret-down fa fas"></i>{" "}
+                        <span>See all flightoptions</span>
                       </Box>
+                    </Link>
                     </Box>
-                  ) : (
-                    ""
-                  )}
+                  ) : null}
                 </div>
               ))}
               <div ref={messagesEndRef} />

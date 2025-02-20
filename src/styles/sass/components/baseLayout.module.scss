@@ -1,9 +1,18 @@
 @import '../variables.scss';
 @import '../_css3-mixins.scss'; //This is used for basic css3 usage with minimal line of code, info https://github.com/matthieua/sass-css3-mixins/blob/master/css3-mixins.scss
 
-
-.Header .Box {
-   padding: 24px 18px;
+.Header {
+   position: fixed;
+   top: 0;
+   width: 100%;
+   left: 0;
+   .Box {
+      padding: 24px 18px;
+   }
+   &.Active {
+      padding-top: 30px;
+   }
+   z-index: 1;
 }
 .Footer .FooterBox {
    border-top: solid 1px #D3D3D3;

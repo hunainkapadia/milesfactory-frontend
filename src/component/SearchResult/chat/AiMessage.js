@@ -9,26 +9,34 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
 
   const seeAllResultHandle = () => {
     // Implement logic for full search results if needed
-    console.log('All results:', OfferMessage?.ai?.all_search_results);
+    console.log("All results:", OfferMessage?.ai?.all_search_results);
   };
 
   return (
-    <Box className="aibox" display="flex" justifyContent="flex-start" mb={2}>
-      <Card className={`${searchResultStyles.AiMessage} white-bg`} variant="outlined">
-         
-        {/* Show Top Offers if available */}
-        {OfferMessage?.ai?.cheapest_offer && (
-          <SearchCard offerData={OfferMessage.ai.cheapest_offer} />
-        )}
-        {OfferMessage?.ai?.fastest_offer && (
-          <SearchCard offerData={OfferMessage.ai.fastest_offer} />
-        )}
-        {OfferMessage?.ai?.ecological_offer && (
-          <SearchCard offerData={OfferMessage.ai.ecological_offer} />
-        )}
+    <Box
+      className={searchResultStyles.Aibox}
+      flexDirection={"column"}
+      display="flex"
+      justifyContent="flex-start"
+      mb={2}
+    >
+      {/* Show Top Offers if available */}
+      {OfferMessage?.ai?.cheapest_offer && (
+        <SearchCard offerData={OfferMessage.ai.cheapest_offer} />
+      )}
+      {OfferMessage?.ai?.fastest_offer && (
+        <SearchCard offerData={OfferMessage.ai.fastest_offer} />
+      )}
+      {OfferMessage?.ai?.ecological_offer && (
+        <SearchCard offerData={OfferMessage.ai.ecological_offer} />
+      )}
 
-        {/* Show AI Response if available */}
-        {aiMessage && (
+      {/* Show AI Response if available */}
+      {aiMessage && (
+        <Card
+          className={`${searchResultStyles.AiMessage} white-bg`}
+          variant="outlined"
+        >
           <Typography
             dangerouslySetInnerHTML={{
               __html:
@@ -37,18 +45,23 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
                   : JSON.stringify(aiMessage, null, 2),
             }}
           />
-        )}
+        </Card>
+      )}
 
-        {/* Render All Search Results */}
-        {OfferMessage?.ai?.all_search_results && OfferMessage.ai.all_search_results.length > 0 && (
+      {/* Render All Search Results */}
+      {OfferMessage?.ai?.all_search_results &&
+        OfferMessage.ai.all_search_results.length > 0 && (
           <Box mt={2}>
-            <Typography variant="h6">More tickets:</Typography>
+            {OfferMessage.ai.all_search_results.length > 1 && (
+              <Box my={3}>
+                <Typography variant="h6">More tickets:</Typography>
+              </Box>
+            )}
             {OfferMessage.ai.all_search_results.map((offer, index) => (
               <SearchCard key={index} offerData={offer} />
             ))}
           </Box>
         )}
-      </Card>
     </Box>
   );
 };

@@ -18,14 +18,17 @@ const Home = () => {
    // const dispaaptch = useDispatch();
   return (
     <>
-      <main className={styles.HomeMain  +" basecolor1-light-bg"}>
-        <Header />
+      <main className={styles.HomeMain + " basecolor1-light-bg"}>
+        <Header isSearchActive={isSearchActive} />
         {/* counter value {count} */}
         {/* <Button onClick={()=> dispatch(increment())}>Inc</Button>
         <Button onClick={()=> dispatch(decrement())}>Dec</Button> */}
         <HeroSection isChatActive={isChatHandle} />
-        {!isSearchActive &&  <Footer />}
-        
+        {isSearchActive == false ? (
+          <Footer isSearchActive={isSearchActive} />
+        ) : (
+          ""
+        )}
       </main>
     </>
   );
