@@ -19,6 +19,7 @@ import SearchCard from "../SearchResult/SearchCard";
 import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
 import Link from "next/link";
+import MessageInputBox from "../SearchResult/chat/MessageInputBox";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
@@ -247,41 +248,12 @@ const HeroSection = ({ isChatActive }) => {
             )}
 
             {/* Search Box */}
-            <section>
-              <div
-                className={`${searchResultStyles.SearchBoxSection} ${
-                  messages.length ? searchResultStyles.active : ""
-                } SearchBoxSection basecolor1-light-bg`}
-              >
-                <Container>
-                  <Box
-                    className={searchResultStyles.SearchBox}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <TextField
-                      fullWidth
-                      placeholder="Describe your trip, and I’ll do the rest"
-                      value={userMessage}
-                      onChange={(e) => setUserMessage(e.target.value)}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={handleSearch}>
-                              <i className="fa fa-arrow-right"></i>
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      variant="outlined"
-                      onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                    />
-                  </Box>
-                </Container>
-              </div>
-            </section>
-
+            <MessageInputBox
+              userMessage={userMessage}
+              setUserMessage={setUserMessage}
+              handleSearch={handleSearch}
+              messages={messages}
+            />
             {/* Chat Messages */}
             <section className={searchResultStyles.messageBody}>
               {messages.map((msg, index) => (
@@ -303,18 +275,18 @@ const HeroSection = ({ isChatActive }) => {
                   {msg?.ai?.cheapest_offer &&
                   !msg?.ai?.all_search_results?.length ? (
                     <Box onClick={msg?.seeAllResultHandle} mt={2}>
-                    <Link href={""} className="text-decuration-none">
-                      <Box
-                        mt={4}
-                        mb={4}
-                        gap={2}
-                        alignItems={"center"}
-                        display={"flex"}
-                      >
-                        <i className="fa-caret-down fa fas"></i>{" "}
-                        <span>See all flightoptions</span>
-                      </Box>
-                    </Link>
+                      <Link href={""} className="text-decuration-none">
+                        <Box
+                          mt={4}
+                          mb={4}
+                          gap={2}
+                          alignItems={"center"}
+                          display={"flex"}
+                        >
+                          <i className="fa-caret-down fa fas"></i>{" "}
+                          <span>See all flightoptions</span>
+                        </Box>
+                      </Link>
                     </Box>
                   ) : null}
                 </div>
@@ -323,7 +295,9 @@ const HeroSection = ({ isChatActive }) => {
                 <>
                   <div ref={messagesEndRef} />
                 </>
-              ) : ""}
+              ) : (
+                ""
+              )}
             </section>
           </Box>
         </Box>

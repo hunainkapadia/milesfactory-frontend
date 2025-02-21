@@ -21,7 +21,7 @@ const Home = () => {
       <main className={styles.HomeMain + " basecolor1-light-bg"}>
         <Header isSearchActive={isSearchActive} />
         <HeroSection isChatActive={isChatHandle} />
-        {isSearchActive == false ? (
+        {isSearchActive ? (
           <Footer isSearchActive={isSearchActive} />
         ) : (
           ""
