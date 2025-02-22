@@ -8,7 +8,6 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
   console.log("AiMessage Props:", { OfferMessage, aiMessage });
 
   const seeAllResultHandle = () => {
-    // Implement logic for full search results if needed
     console.log("All results:", OfferMessage?.ai?.all_search_results);
   };
 
@@ -40,9 +39,11 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
           <Typography
             dangerouslySetInnerHTML={{
               __html:
-                typeof aiMessage === "string"
+                aiMessage && typeof aiMessage === "string"
                   ? aiMessage.replace(/\n/g, "<br>")
-                  : JSON.stringify(aiMessage, null, 2),
+                  : aiMessage
+                  ? `<pre>${JSON.stringify(aiMessage, null, 2)}</pre>` // Ensuring proper JSON formatting
+                  : "No response available",
             }}
           />
         </Card>
@@ -52,11 +53,9 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
       {OfferMessage?.ai?.all_search_results &&
         OfferMessage.ai.all_search_results.length > 0 && (
           <Box mt={2}>
-            {OfferMessage.ai.all_search_results.length > 1 && (
-              <Box my={3}>
-                <Typography variant="h6">More tickets:</Typography>
-              </Box>
-            )}
+            <Box my={3}>
+              <Typography variant="h6">More tickets:</Typography>
+            </Box>
             {OfferMessage.ai.all_search_results.map((offer, index) => (
               <SearchCard key={index} offerData={offer} />
             ))}
