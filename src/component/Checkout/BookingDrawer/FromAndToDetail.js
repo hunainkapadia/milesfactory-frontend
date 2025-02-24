@@ -84,11 +84,12 @@ const FromAndToDetail =  ({ getdata, logo }) => {
                 {/* 2 stops (DOH - SIN) */}
               </Typography>
             </Box>
-            <Box mr={4}>
+            <Box>
               <Avatar
                 src={logo}
                 alt={"image"}
-                className={styles.airlineLogo}
+                className={styles.airlineLogo }
+                mr={0}
               />
             </Box>
           </Box>
