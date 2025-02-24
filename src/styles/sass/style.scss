@@ -1323,10 +1323,10 @@ body {
   }
   &.btn-md {
     font-size: $bfsize;
-    padding: 0.7em 1.6em;
+    padding: 20px 24px 18px;
+    line-height: 0.8;
   }
   &.btn-primary {
-    padding: 15px 25px;
     letter-spacing: 1.2px;
     color: $white;
     background-color: $basecolor1;
