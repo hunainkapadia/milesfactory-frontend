@@ -20,7 +20,7 @@ const BookingDrawer = ({ getFlightDetails }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <span>Roundtrip_ </span>{" "}
+            <span>Roundtrip </span>{" "}
             {getFlightDetails?.slices?.map((getSliceres, key) => {
               return (
                 <>
