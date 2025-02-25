@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import api from "../api";
+import { API_ENDPOINTS } from "../api/apiEndpoints";
 
 const initialState = {
   selectedFlight: null,
@@ -50,8 +51,7 @@ export default bookingFlightSlice.reducer;
 export const fetchFlightDetails = (flightId) => (dispatch) => {
    dispatch(selectFlight(flightId));
  
-   const bookingapiUrl = `https://demo.milesfactory.com/api/v1/search/single/result/${flightId}`;
- 
+   const bookingapiUrl = `${API_ENDPOINTS.BOOKING.BOOKING_DETAIL}${flightId}`;
    console.log("Fetching flight details for:", flightId); // Debugging
    console.log("API URL:", bookingapiUrl); // Debugging
  
@@ -64,4 +64,3 @@ export const fetchFlightDetails = (flightId) => (dispatch) => {
        dispatch(setError(error.response?.data || "Something went wrong"));
      });
  };
- 
