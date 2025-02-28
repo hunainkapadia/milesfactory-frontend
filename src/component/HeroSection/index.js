@@ -19,119 +19,26 @@ import SearchCard from "../SearchResult/SearchCard";
 import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
+import { sendMessage } from "./sendMessageSlice";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  // const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isnormalChat, setisnormalChat] = useState(false);
   const [AllSearchUrl, setAllSearchUrl] = useState(); // To store the full search URL
   const [getAllSearchUrl, setgetAllSearchUrl] = useState();
   const messagesEndRef = useRef(null);
   
+  const dispatch = useDispatch();
+  const messages = useSelector ((state)=> state.GestMessage.messages);
+  console.log("getmessages", messages);
+  
   useEffect(() => {
-    setIsLoading(true);
-    
-
-    api
-      .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
-      .then((res) => {
-        
-        if (!Array.isArray(res?.data)) {
-          setIsLoading(false);
-          return;
-        }
-        isChatActive(true);
-
-        // Convert response data into initial messages
-        const initialMessages = res.data.map((item) => ({
-          user: item?.message,
-          ai: item?.is_function ? null : item, // Placeholder for AI response
-          expireTime: item.is_function
-            ? new Date(
-                item?.response?.results?.search_result_expire_time
-              ).getTime()
-            : null,
-          
-        }));
-        setMessages(initialMessages);
-
-        res?.data.forEach((item) => {
-          if (item?.is_function === true) {
-            const flightSearchApi =
-              item?.response?.results?.view_top_flight_result_api?.url;
-
-            // Store AllSearchUrl in state
-            if (flightSearchApi) {
-              const OfferSearchUrl = `https://demo.milesfactory.com${flightSearchApi}`;
-              const AllSearchApi =
-                item?.response?.results?.view_all_flight_result_api?.url;
-              const AllSearchUrl = `https://demo.milesfactory.com${AllSearchApi}`;
-
-              api
-                .get(OfferSearchUrl)
-                .then((response) => {
-                  // Use `map` to update only the last message
-                  
-                  setMessages((prev) =>
-                    prev.map(
-                      (msg, index) =>
-                        index === prev.length - 1
-                          ? {
-                              ...msg,
-                              ai: {
-                                ...msg.ai, // Keep existing AI data
-                                ...response?.data, // Add new flight data
-                              },
-                            }
-                          : msg // Keep other messages unchanged
-                    )
-                  );
-
-                  // Fetch full flight results immediately
-                  
-                  if (AllSearchUrl) {
-                    api
-                      .get(AllSearchUrl)
-                      .then((allResultsRes) => {
-                        setMessages((prev) =>
-                          prev.map((msg, index) =>
-                            index === prev.length - 1
-                              ? {
-                                  ...msg,
-                                  ai: {
-                                    ...msg.ai,
-                                    all_search_results:
-                                      allResultsRes.data.offers, // Automatically append all search results
-                                  },
-                                }
-                              : msg
-                          )
-                        );
-                      })
-                      .catch((error) =>
-                        console.error(
-                          "Error fetching all search results:",
-                          error
-                        )
-                      );
-                  }
-                })
-                .catch((error) => {
-                  console.error(
-                    "Error fetching additional flight data:",
-                    error
-                  );
-                });
-            }
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching messages:", error);
-        setIsLoading(false);
-      });
-  }, []);
+    dispatch(fetchMessages());
+  }, [dispatch]);
   
 
   useEffect(() => {
@@ -139,88 +46,11 @@ const HeroSection = ({ isChatActive }) => {
   }, [messages]);
 
   const handleSearch = () => {
-    if (!userMessage.trim()) return;
-
-    isChatActive(true);
-    setMessages((prev) => [
-      ...prev,
-      { user: userMessage, ai: null }, // Show user message immediately
-    ]);
-    
-    setIsLoading(true);
-    setUserMessage(""); // Clear input immediately
-
-    api.post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
-      .then((res) => {
-        setIsLoading(false);
-        setisnormalChat(res?.data?.is_function);
-
-        if (res?.data?.is_function) {
-          const flightSearchApi = res?.data?.response?.results?.view_top_flight_result_api?.url;
-          const AllSearchApi = res?.data?.response?.results?.view_all_flight_result_api?.url;
-          const AllSearchUrl = `https://demo.milesfactory.com${AllSearchApi}`;
-
-          // Store AllSearchUrl in state
-          setAllSearchUrl(AllSearchUrl);
-
-          if (flightSearchApi) {
-            const flightResultsUrl = `https://demo.milesfactory.com${flightSearchApi}`;
-
-            api.get(flightResultsUrl)
-              .then((flightRes) => {
-                console.log("flightRes", flightRes);
-                
-                setMessages((prev) =>
-                  prev.map((msg, index) =>
-                    index === prev.length - 1 // Check if it's the last message
-                      ? {  /* Modify this message */
-                          ...msg, // Keep the existing message properties
-                          ai: {
-                            ...flightRes.data, // Store flight API response inside `ai`
-                          },
-                          seeAllResultHandle: () => {
-                            console.log("Fetching full flight results...");
-                            // Call to fetch full flight results here using AllSearchUrl
-                            if (AllSearchUrl) {
-                              api
-                                .get(AllSearchUrl)
-                                .then((allResultsRes) => {
-                                  // Add the full search results to the messages
-                                  setMessages((prev) =>
-                                    prev.map((msg, index) =>
-                                      index === prev.length - 1
-                                        ? {
-                                            ...msg,
-                                            ai: {
-                                              ...msg.ai,
-                                              all_search_results: allResultsRes.data.offers, // Store full search results here
-                                            },
-                                          }
-                                        : msg // Keep other messages unchanged
-                                    )
-                                  );
-                                })
-                                .catch((error) => console.error("Error fetching all results:", error));
-                            }
-                          },
-                        }
-                      : msg 
-                  )
-                );
-              })
-              .catch((error) => console.error("Error fetching flight data:", error));
-          } else {
-            console.warn("Flight results URL not available.");
-          }
-        } else {
-          setMessages((prev) =>
-            prev.map((msg, index) =>
-              index === prev.length - 1 ? { ...msg, ai: res.data } : msg
-            )
-          );
-        }
-      })
-      .catch((error) => console.error("Error:", error.response?.data || error));
+    if (userMessage.trim()) {
+      
+      dispatch(sendMessage(userMessage))
+      setUserMessage("");
+    }
   };
 
   return (
@@ -285,12 +115,12 @@ const HeroSection = ({ isChatActive }) => {
             <section className={searchResultStyles.messageBody}>
               {messages.map((msg, index) => (
                 <div key={index}>
-                  {console.log("msgrender", msg)}
+                  {console.log("msgrender")}
                   {/* User Message */}
                   <UserMessage userMessage={msg?.user} />
 
                   {/* AI Response or Loading Indicator */}
-                  {msg?.ai ? (
+                  {msg?.ai?.response ? (
                     <AiMessage
                       aiMessage={msg?.ai?.response}
                       OfferMessage={msg}

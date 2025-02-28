@@ -1,13 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counter/counterSlice";
-import messagesReducer from "./slices/messagesSlice";
 import bookingflightsReducer from "./slices/BookingflightSlice"; // ✅ Import correctly
+import GetMessagesReducer from "./slices/GestMessageSlice";
+import { sendMessageReducer } from "../component/HeroSection/sendMessageSlice";
 
 const store = configureStore({
   reducer: {
     counter: counterReducer,
-    messages: messagesReducer,
-    booking: bookingflightsReducer, // ✅ Use correct reducer name
+    booking: bookingflightsReducer,
+    GestMessage: GetMessagesReducer,
+    sendMessage: sendMessageReducer
+    
+
   },
 });
 
