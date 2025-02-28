@@ -1,66 +1,46 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
-import { API_ENDPOINTS } from "../api/apiEndpoints";
+
 
 const initialState = {
-  selectedFlight: null,
-  flightDetails: null,
-  loading: false,
-  error: null,
-  isDrawerOpen: false,
-};
+   flightDetail : null,
+   loading: null,
+   error: null,
+   isDrawer: false,
+   selectedFlightId: null,
+}
+// for selectflightDetail button
+const bookingflightsSlice = createSlice ({
+   name : "Booking",
+   initialState,
 
-const bookingFlightSlice = createSlice({
-  name: "booking",
-  initialState,
-  reducers: {
-    selectFlight: (state, action) => {
-      state.selectedFlight = action.payload;
-      state.loading = true;
-      state.error = null;
-      state.isDrawerOpen = true; 
-    },
-    setFlightDetails: (state, action) => {
-      state.flightDetails = action.payload;
-      state.loading = false;
-    },
-    setError: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    resetSelectedFlight: (state) => {
-      state.selectedFlight = null;
-      state.flightDetails = null;
-      state.loading = false;
-      state.error = null;
-      state.isDrawerOpen = false; // Close drawer when resetting
-    },
-    toggleDrawer: (state, action) => {
-      state.isDrawerOpen = action.payload;
-    },
-  },
+   reducers: {
+      selectFlightReducer: (state, action)=> {
+
+      },
+      setflightDetail: (state, action)=> {
+         console.log("action11", action);
+         state.flightDetail = action.payload; //payload comming in action console
+         state.selectedFlightId = action.payload.id;
+         
+      },
+      closeDrawer: (state) => {
+         state.isDrawer = false;
+         state.selectedFlightId = null;
+      }
+      
+   }
 });
 
-export const { selectFlight, setFlightDetails, setError, resetSelectedFlight, toggleDrawer} =
-  bookingFlightSlice.actions;
+export const fetchflightDetail = (flightId) => (dispatch) => {
+   
+   const apiUrl = `${API_ENDPOINTS.BOOKING.BOOKING_DETAIL}${flightId}`;
+   
+   api.get(apiUrl).then((res)=> {
+      dispatch(setflightDetail(res.data))
+   });
+}
 
-export default bookingFlightSlice.reducer;
-
-// API Call Function
-export const fetchFlightDetails = (flightId) => (dispatch) => {
-   dispatch(selectFlight(flightId));
- 
-   const bookingapiUrl = `${API_ENDPOINTS.BOOKING.BOOKING_DETAIL}${flightId}`;
-   console.log("Fetching flight details for:", flightId); // Debugging
-   console.log("API URL:", bookingapiUrl); // Debugging
- 
-   api.get(bookingapiUrl)
-     .then((response) => {
-       dispatch(setFlightDetails(response.data));
-     })
-     .catch((error) => {
-       console.error("API Error:", error); // Debugging
-       dispatch(setError(error.response?.data || "Something went wrong"));
-     });
- };
+export const {selectFlightReducer, setflightDetail, closeDrawer} = bookingflightsSlice.actions; //action exporting here
+export default bookingflightsSlice.reducer;

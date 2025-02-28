@@ -89,7 +89,6 @@ const HeroSection = ({ isChatActive }) => {
                   );
 
                   // Fetch full flight results immediately
-
                   
                   if (AllSearchUrl) {
                     api

@@ -8,39 +8,44 @@ import {
 } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchFlightDetails,
-  resetSelectedFlight,
-} from "@/src/store/slices/BookingflightSlice";
+import {closeDrawer, fetchflightDetail} from "@/src/store/slices/BookingflightSlice"
 import BookingDrawer from "../../Checkout/BookingDrawer";
 import { useEffect, useState } from "react";
 
 const SearchCard = ({ offerData }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   // Get Redux state
-  const selectedFlight = useSelector((state) => state.booking.selectedFlight);
-  const flightDetails = useSelector((state) => state.booking.flightDetails);
-  const isDrawerOpen = useSelector((state) => state.booking.isDrawerOpen);
-  const loading = useSelector((state) => state.booking.loading);
+  // const selectedFlight = useSelector((state) => state.booking.selectedFlight);
+  // const flightDetails = useSelector((state) => state.booking.flightDetails);
+  // const isDrawerOpen = useSelector((state) => state.booking.isDrawerOpen);
+  // const loading = useSelector((state) => state.booking.loading);
 
-  const HandleSelectFlight = () => {
-    dispatch(fetchFlightDetails(offerData?.id)); // Dispatch action to fetch flight details
-    console.log("Selected Flight ID:", offerData?.id);
-  };
 
-  const handleCloseDrawer = () => {
-    dispatch(resetSelectedFlight()); // Close the drawer
-  };
+  // const handleCloseDrawer = () => {
+  //   dispatch(resetSelectedFlight()); // Close the drawer
+  // };
 
+  const flightDetail = useSelector((state)=> state.booking.flightDetail);
+  const SelectedFlightId = useSelector((state)=> state.booking.selectedFlightId)
+  const isDrawer = useSelector((state)=> state.booking.isDrawer);
+  
+  const HandleSelectFlight =()=>{
+    if (SelectedFlightId == offerData.id) {
+      dispatch(closeDrawer())
+    } else {
+      dispatch(fetchflightDetail(offerData.id))
+    }
+  }
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      {isDrawerOpen && selectedFlight === offerData?.id && (
-        <BookingDrawer
-          getFlightDetails={flightDetails}
-          onClose={handleCloseDrawer}
-        />
+      {SelectedFlightId === offerData.id ? (
+        <>
+          <BookingDrawer getFlightDetail={flightDetail} />
+        </>
+      ) : (
+        ""
       )}
 
       <Card className={searchResultStyles.flightOfferCard}>

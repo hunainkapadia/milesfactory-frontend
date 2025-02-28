@@ -4,8 +4,8 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
 
-const BookingDrawer = ({ getFlightDetails }) => {
-  console.log("getFlightDetails111", getFlightDetails);
+const BookingDrawer = ({ getFlightDetail }) => {
+  console.log("getFlightDetail111", getFlightDetail);
 
   return (
     <Box className={styles.checkoutDrower + " white-bg"}>
@@ -21,7 +21,7 @@ const BookingDrawer = ({ getFlightDetails }) => {
             justifyContent="space-between"
           >
             <span>Roundtrip </span>{" "}
-            {getFlightDetails?.slices?.map((getSliceres, key) => {
+            {getFlightDetail?.slices?.map((getSliceres, key) => {
               return (
                 <>
                   <Typography
@@ -49,13 +49,12 @@ const BookingDrawer = ({ getFlightDetails }) => {
           <Divider />
 
           <Box className={styles.detailsSection} px={3}>
-            {getFlightDetails?.slices.map((slice, index) => (
+            {getFlightDetail?.slices.map((slice, index) => (
               <>
-                
                 <FromAndToDetail
                   key={index} // Always add a unique key when mapping
                   getdata={slice}
-                  logo={getFlightDetails?.owner?.logo_symbol_url}
+                  logo={getFlightDetail?.owner?.logo_symbol_url}
                 />
               </>
             ))}
@@ -63,7 +62,7 @@ const BookingDrawer = ({ getFlightDetails }) => {
         </Box>
 
         {/* Footer Section */}
-        <BookingDrawerFooter getFlightDetails={getFlightDetails} />
+        <BookingDrawerFooter getFlightDetail={getFlightDetail} />
       </Box>
       <Box className={styles.checkoutDrowerBackdrop}></Box>
     </Box>
