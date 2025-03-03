@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./features/counter/counterSlice";
 import bookingflightsReducer from "./slices/BookingflightSlice";
 import getMessagesReducer from "./slices/GestMessageSlice";
 import sendMessageReducer from "../component/HeroSection/sendMessageSlice"; // ✅ Corrected import
