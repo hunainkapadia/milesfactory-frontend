@@ -27,25 +27,23 @@ const SearchCard = ({ offerData }) => {
   // };
 
   const flightDetail = useSelector((state)=> state.booking.flightDetail);
-  const SelectedFlightId = useSelector((state)=> state.booking.selectedFlightId)
+  const SelectedFlightId = useSelector((state)=> state.booking?.selectedFlightId)
   const isDrawer = useSelector((state)=> state.booking.isDrawer);
   
-  const HandleSelectFlight =()=>{
-    if (SelectedFlightId == offerData.id) {
-      dispatch(closeDrawer())
-    } else {
-      dispatch(fetchflightDetail(offerData.id))
-    }
+  const HandleSelectFlight = () => {
+  if (SelectedFlightId === offerData.id) {
+    console.log("Closing Drawer for flight ID:", SelectedFlightId);
+  } else {
+    dispatch(fetchflightDetail(offerData.id)); // Fetch details & open drawer
+    console.log("Fetching Flight Details for:", offerData.id);
   }
+};
+
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      {SelectedFlightId === offerData.id ? (
-        <>
-          <BookingDrawer getFlightDetail={flightDetail} />
-        </>
-      ) : (
-        ""
+      {SelectedFlightId === offerData.id && (
+        <BookingDrawer getFlightDetail={flightDetail} />
       )}
 
       <Card className={searchResultStyles.flightOfferCard}>

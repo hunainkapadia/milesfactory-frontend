@@ -5,11 +5,10 @@ import SearchCard from "../SearchCard";
 import Link from "next/link";
 
 const AiMessage = ({ OfferMessage, aiMessage }) => {
-  console.log("AiMessage Props:", { OfferMessage, aiMessage });
-
-  const seeAllResultHandle = () => {
-    console.log("All results:", OfferMessage?.ai?.all_search_results);
-  };
+  // const seeAllResultHandle = () => {
+  //   console.log("All results:", OfferMessage?.ai?.all_search_results);
+  // };
+  console.log("test222", aiMessage?.ai?.response);
 
   return (
     <Box
@@ -20,18 +19,16 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
       mb={2}
     >
       {/* Show Top Offers if available */}
-      {OfferMessage?.ai?.cheapest_offer && (
-        <SearchCard offerData={OfferMessage.ai.cheapest_offer} />
-      )}
-      {OfferMessage?.ai?.fastest_offer && (
-        <SearchCard offerData={OfferMessage.ai.fastest_offer} />
-      )}
-      {OfferMessage?.ai?.ecological_offer && (
-        <SearchCard offerData={OfferMessage.ai.ecological_offer} />
-      )}
 
-      {/* Show AI Response if available */}
-      {aiMessage && (
+      {aiMessage?.ai?.offers ? (
+        <>
+          {aiMessage?.ai?.offers.map((getoffers) => (
+            <React.Fragment key={getoffers.id}>
+              <SearchCard offerData={getoffers} />
+            </React.Fragment>
+          ))}
+        </>
+      ) : (
         <Card
           className={`${searchResultStyles.AiMessage} white-bg`}
           variant="outlined"
@@ -39,18 +36,24 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
           <Typography
             dangerouslySetInnerHTML={{
               __html:
-                aiMessage && typeof aiMessage === "string"
-                  ? aiMessage.replace(/\n/g, "<br>")
-                  : aiMessage
-                  ? `<pre>${JSON.stringify(aiMessage, null, 2)}</pre>` // Ensuring proper JSON formatting
+                typeof aiMessage?.ai?.response === "string"
+                  ? aiMessage.ai.response.replace(/\n/g, "<br>")
+                  : aiMessage?.ai?.response
+                  ? `<pre>${JSON.stringify(
+                      aiMessage.ai.response,
+                      null,
+                      2
+                    )}</pre>`
                   : "No response available",
             }}
           />
         </Card>
       )}
 
+      {/* Show AI Response if available */}
+
       {/* Render All Search Results */}
-      {OfferMessage?.ai?.all_search_results &&
+      {/* {OfferMessage?.ai?.all_search_results &&
         OfferMessage.ai.all_search_results.length > 0 && (
           <Box mt={2}>
             <Box my={3}>
@@ -60,7 +63,7 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
               <SearchCard key={index} offerData={offer} />
             ))}
           </Box>
-        )}
+        )} */}
     </Box>
   );
 };
