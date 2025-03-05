@@ -54,7 +54,7 @@ const BookingDrawerPassenger = () => {
   return (
     <Box className={`${styles.checkoutDrower} white-bg ${styles.PassengerDrower}`}>
       <Box className={styles.checkoutDrowerSection + " white-bg"}>
-        <Box className={styles.checkoutDrowerBody}>
+        <Box>
           {/* Header */}
           <Box className={styles.checkoutDrowerHeder} py={2} px={3} display="flex" justifyContent="space-between">
             <div>Main passenger</div>
