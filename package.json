@@ -9,12 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@date-io/date-fns": "^3.2.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fortawesome/fontawesome-free": "^6.7.2",
-    "@mui/material": "^6.4.0",
+    "@mui/lab": "^6.0.0-beta.29",
+    "@mui/material": "^6.4.6",
+    "@mui/x-date-pickers": "^7.27.1",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
     "next": "15.1.5",
     "react": "^19.0.0",

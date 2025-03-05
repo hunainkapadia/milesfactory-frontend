@@ -1,6 +1,13 @@
 @import "../../variables";
 
+
 .checkoutDrower {
+   &.PassengerDrower {
+      .passengerDrawerFooter {
+         
+      }
+
+   }
    .checkoutDrowerBackdrop {
       top: 0;
       left: 0;

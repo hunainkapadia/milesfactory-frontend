@@ -12,12 +12,13 @@ const MessageInputBox = ({ userMessage, setUserMessage, handleSearch, messages }
       >
         <Container>
           <Box
-            className={searchResultStyles.SearchBox}
+            className={searchResultStyles.SearchBox + " aaa SearchBox"}
             display="flex"
             alignItems="center"
             justifyContent="center"
           >
             <TextField
+              className= {searchResultStyles.SearchForm + " SearchForm"}
               fullWidth
               placeholder="Describe your trip, and I’ll do the rest"
               value={userMessage}

@@ -31,8 +31,8 @@ const SearchCard = ({ offerData }) => {
   const isDrawer = useSelector((state)=> state.booking.isDrawer);
   
   const HandleSelectFlight = () => {
+    console.log("flightDetail");
   if (SelectedFlightId === offerData.id) {
-    console.log("Closing Drawer for flight ID:", SelectedFlightId);
   } else {
     dispatch(fetchflightDetail(offerData.id)); // Fetch details & open drawer
     console.log("Fetching Flight Details for:", offerData.id);

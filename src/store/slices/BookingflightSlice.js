@@ -20,7 +20,7 @@ const bookingflightsSlice = createSlice ({
 
       },
       setflightDetail: (state, action)=> {
-         console.log("action11", action);
+         console.log("action11");
          state.flightDetail = action.payload; //payload comming in action console
          state.selectedFlightId = action.payload.id;
          
@@ -28,7 +28,7 @@ const bookingflightsSlice = createSlice ({
       closeDrawer: (state) => {
          state.isDrawer = false;
          state.selectedFlightId = null;
-      }
+      },
       
    }
 });

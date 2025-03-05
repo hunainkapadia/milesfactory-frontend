@@ -23,8 +23,6 @@ export const sendMessage = (userMessage) => (dispatch) => {
   if (!userMessage.trim()) return;
 
   dispatch(setLoading(true));
-
-  //  Add user message first (without AI response)
   dispatch(setMessage({ user: userMessage }));
 
   api
@@ -42,12 +40,12 @@ export const sendMessage = (userMessage) => (dispatch) => {
             .get(flightResultsUrl)
             .then((flightRes) => {
               console.log("flightRes", flightRes.data);
-              dispatch(setMessage({ ai: flightRes.data })); //  Append AI response
+              dispatch(setMessage({ ai: flightRes.data }));
             })
             .catch((error) => console.error("Error fetching flight data:", error));
         }
       } else {
-        dispatch(setMessage({ ai: response })); //  Append AI response
+        dispatch(setMessage({ ai: response }));
       }
     })
     .catch((error) => console.error("Error:", error.response?.data || error))

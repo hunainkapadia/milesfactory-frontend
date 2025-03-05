@@ -344,7 +344,9 @@ p {
 .color-green-all * {
   color: $green !important;
 }
-
+.dark-green {
+  color: $dark-green;
+}
 .color-dark-green,
 .color-dark-green-all,
 .color-dark-green-all * {
@@ -502,9 +504,8 @@ p {
   height: 56px;
   padding: 0 22px;
 }
-.MuiInputAdornment-root {
+.SearchForm .MuiInputAdornment-root {
   z-index: 1;
-  margin-bottom: 1px;
   .MuiButtonBase-root  {
     width: 40px;
     height: 40px;
@@ -1125,6 +1126,12 @@ body {
     width: 100%;
     border: 0;
   }
+  
+    .formControl {
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 12px;
+    }
   // k) Headings / Paragraphs
   address,
   blockquote,
@@ -1298,6 +1305,7 @@ body {
     outline: none !important;
   }
   &.btn-green {
+    text-transform: none;
     letter-spacing: 1.2px;
     color: $darkgray;
     background-color: $green-light;
