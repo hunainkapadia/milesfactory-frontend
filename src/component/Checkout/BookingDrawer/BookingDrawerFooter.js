@@ -7,6 +7,7 @@ import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
 
 const BookingDrawerFooter = ({ getFlightDetails }) => {
+   console.log("getFlightDetails", getFlightDetails)
   const dispatch = useDispatch();
 
   const HandlecloseDrawer = () => {

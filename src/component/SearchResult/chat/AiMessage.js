@@ -18,8 +18,9 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
     dispatch(openPassengerDrawer());
   };
 
-  const passengerDetails = useSelector((state) => state.passengerDrawer.passengerDetails);
-  
+  const passengerDetails = useSelector(
+    (state) => state.passengerDrawer.passengerDetails
+  );
 
   return (
     <Box
@@ -62,7 +63,8 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
       )}
       {/* Show Passenger Information Form when a flight is booked */}
 
-      {aiMessage?.ai?.response === "You have selected the flight option below." && (
+      {aiMessage?.ai?.response ===
+        "You have selected the flight option below." && (
         <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
       )}
       {/* Show AI Response if available */}

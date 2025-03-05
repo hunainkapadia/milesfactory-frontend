@@ -62,7 +62,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
         </Box>
 
         {/* Footer Section */}
-        <BookingDrawerFooter getFlightDetail={getFlightDetail} />
+        <BookingDrawerFooter getFlightDetails={getFlightDetail} />
       </Box>
       <Box className={styles.checkoutDrowerBackdrop}></Box>
     </Box>
