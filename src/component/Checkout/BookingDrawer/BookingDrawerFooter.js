@@ -20,7 +20,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
     dispatch(setselectedFlighDetail(getFlightDetails));
     
     //  Dispatch setMessage to show AI response and passenger form
-    dispatch(setMessage({ ai: { response: "You have selected the flight option below." } }));
+    dispatch(setMessage({ ai: { response: "passengerFlowActive" } }));
   };
   
 

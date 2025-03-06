@@ -4,9 +4,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import SearchCard from "../SearchCard";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { openPassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
 import CollectPassengerInfo from "../../Checkout/CollectPassengerInfo";
-import PassengerDrawerForm from "../../Checkout/passengerDrawerForm";
 
 const AiMessage = ({ OfferMessage, aiMessage }) => {
   // const seeAllResultHandle = () => {
@@ -22,7 +20,7 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
   // for passecnger drawer state updating open closing 
   const isPassengerDrawerOpen = useSelector((state) => state.passengerDrawer.isOpen);
   const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
-  console.log("selectedFlight111", getselectedFlight);
+  console.log("selectedFlight111", aiMessage?.ai?.response == "bookFlightAi");
   
 
 
@@ -37,17 +35,26 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
       {/* Show Top Offers if available */}
 
       {aiMessage?.ai?.offers ? (
+        aiMessage.ai.offers.map((getoffers, offerindex) => (
+          <SearchCard
+            key={`${offerindex}-${getoffers.id}`}
+            offerData={getoffers}
+          />
+        ))
+      ) : aiMessage?.ai?.response == "passengerFlowActive" ? (
+        //  Separate UI for BookFlight
         <>
-          {aiMessage?.ai?.offers.map((getoffers, offerindex) => (
-            <React.Fragment key={`${offerindex}-${getoffers.id}`}>
-              <SearchCard
-                offerData={getoffers}
-                keyindex={`${offerindex + "-" + getoffers.id}`}
-              />
-            </React.Fragment>
-          ))}
+          <Card
+            className={`${searchResultStyles.AiMessage} white-bg`}
+            variant="outlined"
+          >
+            <Typography>You have selected the flight option below.</Typography>
+            {/* <BookFlightCard bookFlightData={aiMessage?.ai?.response?.bookFlight} /> */}
+          </Card>
+          <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
         </>
       ) : (
+        //  Default AI Response (Text)
         <Card
           className={`${searchResultStyles.AiMessage} white-bg`}
           variant="outlined"
@@ -70,20 +77,7 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
       )}
       {/* Show Passenger Information Form when a flight is booked */}
 
-      
-
-      {aiMessage?.ai?.response ===
-        "You have selected the flight option below." && (
-        <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
-      )}
-
-      {isPassengerDrawerOpen &&
-        aiMessage?.ai?.response ===
-          "You have selected the flight option below." && (
-          <PassengerDrawerForm />
-        )}
-      {/* Show AI Response if available */}
-
+    
       {/* Render All Search Results */}
       {/* {OfferMessage?.ai?.all_search_results &&
         OfferMessage.ai.all_search_results.length > 0 && (

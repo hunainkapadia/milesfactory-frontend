@@ -20,6 +20,7 @@ import Link from "next/link";
 import passengerDrawerForm from "../Checkout/BookingDrawer/BookingDrawerPassenger";
 import SearchCard from "../SearchResult/SearchCard";
 import BookingDrawer from "../Checkout/BookingDrawer/BookingDrawer";
+import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
@@ -60,11 +61,19 @@ const HeroSection = ({ isChatActive }) => {
   const flightDetail = useSelector((state)=> state.booking.flightDetail);
   const SelectedFlightId = useSelector((state)=> state.booking?.selectedFlightId)
 
+  // for passenger form
+  const isPassengerDrawerOpen = useSelector((state) => state.passengerDrawer.isOpen);
+  const BookFlightAiresponse = useSelector((state) => state.sendMessage?.messages || []);
+
+  console.log("selectedflightAi", BookFlightAiresponse);
+    
   return (
     <section>
       <Container>
         <Box
-          className={`${styles.HeroSection} ${messages.length ? styles.Active : ""}`}
+          className={`${styles.HeroSection} ${
+            messages.length ? styles.Active : ""
+          }`}
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -82,7 +91,9 @@ const HeroSection = ({ isChatActive }) => {
             {/* Search Box */}
             <section>
               <div
-                className={`${searchResultStyles.SearchBoxSection} ${messages.length ? searchResultStyles.active : ""} SearchBoxSection basecolor1-light-bg`}
+                className={`${searchResultStyles.SearchBoxSection} ${
+                  messages.length ? searchResultStyles.active : ""
+                } SearchBoxSection basecolor1-light-bg`}
               >
                 <Container>
                   <Box
@@ -92,7 +103,7 @@ const HeroSection = ({ isChatActive }) => {
                     justifyContent="center"
                   >
                     <TextField
-                    className= {searchResultStyles.SearchForm + " SearchForm"}
+                      className={searchResultStyles.SearchForm + " SearchForm"}
                       fullWidth
                       placeholder="Describe your trip, and I’ll do the rest"
                       value={userMessage}
@@ -115,12 +126,12 @@ const HeroSection = ({ isChatActive }) => {
             </section>
 
             {/* Chat Messages */}
-                  
+
             <section className={searchResultStyles.messageBody}>
               {messages.map((msg, index) => (
                 <div key={index}>
-                {console.log("getmessages", msg)}
-                {console.log("msg333", msg)}
+                  {console.log("getmessages", msg)}
+                  {console.log("msg333", msg)}
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} />
@@ -131,7 +142,6 @@ const HeroSection = ({ isChatActive }) => {
               ))}
               <>
                 {/* {getselectedFlight && <SearchCard offerData={getselectedFlight} />} */}
-
               </>
               <div ref={messagesEndRef} />
               {/* booking flow start */}
@@ -139,6 +149,15 @@ const HeroSection = ({ isChatActive }) => {
                 <BookingDrawer getFlightDetail={flightDetail} />
               )}
               <passengerDrawerForm />
+              {/* {isPassengerDrawerOpen &&
+                BookFlightAiresponse?.some(
+                  (msg) => msg?.ai?.response === "book-flight"
+                ) && <PassengerDrawerForm />} */}
+              {/* {isPassengerDrawerOpen &&
+              aiMessage?.ai?.response ===
+                "You have selected the flight option below." && (
+                <PassengerDrawerForm />
+              )} */}
             </section>
           </Box>
         </Box>
