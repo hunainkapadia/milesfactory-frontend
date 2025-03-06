@@ -19,6 +19,7 @@ import LoadingArea from "../LoadingArea";
 import Link from "next/link";
 import passengerDrawerForm from "../Checkout/BookingDrawer/BookingDrawerPassenger";
 import SearchCard from "../SearchResult/SearchCard";
+import BookingDrawer from "../Checkout/BookingDrawer/BookingDrawer";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
@@ -54,6 +55,10 @@ const HeroSection = ({ isChatActive }) => {
     setUserMessage(""); //  Clears input after sending
   };
   const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
+
+  // for bookingdrawer selector
+  const flightDetail = useSelector((state)=> state.booking.flightDetail);
+  const SelectedFlightId = useSelector((state)=> state.booking?.selectedFlightId)
 
   return (
     <section>
@@ -129,9 +134,13 @@ const HeroSection = ({ isChatActive }) => {
 
               </>
               <div ref={messagesEndRef} />
+              {/* booking flow start */}
+              {SelectedFlightId && (
+                <BookingDrawer getFlightDetail={flightDetail} />
+              )}
+              <passengerDrawerForm />
             </section>
           </Box>
-          <passengerDrawerForm />
         </Box>
       </Container>
     </section>

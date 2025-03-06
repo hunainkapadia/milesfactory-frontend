@@ -47,9 +47,7 @@ const SearchCard = ({ offerData, keyindex }) => {
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      {SelectedFlightId && (
-        <BookingDrawer getFlightDetail={flightDetail} />
-      )}
+      
 
       <Card className={searchResultStyles.flightOfferCard}>
         <CardContent className="p-0">
