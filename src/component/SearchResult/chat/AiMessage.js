@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { openPassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
 import CollectPassengerInfo from "../../Checkout/CollectPassengerInfo";
+import PassengerDrawerForm from "../../Checkout/passengerDrawerForm";
 
 const AiMessage = ({ OfferMessage, aiMessage }) => {
   // const seeAllResultHandle = () => {
@@ -14,13 +15,16 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
   console.log("aiMessage", aiMessage);
 
   const dispatch = useDispatch();
-  const handlePassenger = () => {
-    dispatch(openPassengerDrawer());
-  };
-
   const passengerDetails = useSelector(
     (state) => state.passengerDrawer.passengerDetails
   );
+  
+  // for passecnger drawer state updating open closing 
+  const isPassengerDrawerOpen = useSelector((state) => state.passengerDrawer.isOpen);
+  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
+  console.log("selectedFlight111", getselectedFlight);
+  
+
 
   return (
     <Box
@@ -34,9 +38,12 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
 
       {aiMessage?.ai?.offers ? (
         <>
-          {aiMessage?.ai?.offers.map((getoffers) => (
-            <React.Fragment key={getoffers.id}>
-              <SearchCard offerData={getoffers} />
+          {aiMessage?.ai?.offers.map((getoffers, offerindex) => (
+            <React.Fragment key={`${offerindex}-${getoffers.id}`}>
+              <SearchCard
+                offerData={getoffers}
+                keyindex={`${offerindex + "-" + getoffers.id}`}
+              />
             </React.Fragment>
           ))}
         </>
@@ -63,10 +70,18 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
       )}
       {/* Show Passenger Information Form when a flight is booked */}
 
+      
+
       {aiMessage?.ai?.response ===
         "You have selected the flight option below." && (
         <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
       )}
+
+      {isPassengerDrawerOpen &&
+        aiMessage?.ai?.response ===
+          "You have selected the flight option below." && (
+          <PassengerDrawerForm />
+        )}
       {/* Show AI Response if available */}
 
       {/* Render All Search Results */}

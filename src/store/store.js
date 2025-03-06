@@ -12,8 +12,8 @@ const store = configureStore({
     passengerDrawer: passengerDrawerReducer,
 
   },
-  devTools: process.env.NODE_ENV !== "production", // Enable DevTools only in development mode
-  
+  // devTools: process.env.NODE_ENV !== "production", // Enable DevTools only in development mode
+
 });
 
 export default store;

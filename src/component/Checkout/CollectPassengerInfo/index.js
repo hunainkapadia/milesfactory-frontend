@@ -15,6 +15,7 @@ const CollectPassengerInfo = ({ aiResponse }) => {
     (state) => state.passengerDrawer.passengerDetails
   );
 
+  
   return (
     <>
       <Card

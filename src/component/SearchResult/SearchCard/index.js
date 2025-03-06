@@ -8,11 +8,13 @@ import {
 } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {closeDrawer, fetchflightDetail} from "@/src/store/slices/BookingflightSlice"
-import BookingDrawer from "../../Checkout/BookingDrawer";
-import { useEffect, useState } from "react";
+import {closeDrawer, fetchflightDetail, setOpenDrawer} from "@/src/store/slices/BookingflightSlice";
 
-const SearchCard = ({ offerData }) => {
+import { useEffect, useState } from "react";
+import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
+
+const SearchCard = ({ offerData, keyindex }) => {
+  
   const dispatch = useDispatch()
 
   // Get Redux state
@@ -30,19 +32,22 @@ const SearchCard = ({ offerData }) => {
   const SelectedFlightId = useSelector((state)=> state.booking?.selectedFlightId)
   const isDrawer = useSelector((state)=> state.booking.isDrawer);
   
-  const HandleSelectFlight = () => {
-    console.log("flightDetail");
-  if (SelectedFlightId === offerData.id) {
-  } else {
-    dispatch(fetchflightDetail(offerData.id)); // Fetch details & open drawer
-    console.log("Fetching Flight Details for:", offerData.id);
-  }
-};
+  const HandleSelectDrawer = () => {
+    console.log("Opening Drawer for:", offerData.id, keyindex);
+    if (SelectedFlightId === keyindex) {
+      console.log("Drawer is already open for this flight.");
+      return;
+    }
+  
+    // Dispatch flight detail and open drawer
+    dispatch(fetchflightDetail(offerData.id)); // Use offerData.id instead of keyindex
+    dispatch(setOpenDrawer(true)); // Add a new action to open the drawer
+  };
 
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      {SelectedFlightId === offerData.id && (
+      {SelectedFlightId && (
         <BookingDrawer getFlightDetail={flightDetail} />
       )}
 
@@ -167,7 +172,7 @@ const SearchCard = ({ offerData }) => {
                 className={
                   "btn btn-primary btn-md " + searchResultStyles.selectFlightBtn
                 }
-                onClick={HandleSelectFlight}
+                onClick={HandleSelectDrawer}
               >
                 <Box display={"flex"} gap={2}>
                   <i className="fa fa-arrow-right"></i>{" "}

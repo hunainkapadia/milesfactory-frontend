@@ -11,7 +11,6 @@ const passengerDrawerSlice = createSlice({
     },
     closePassengerDrawer: (state) => {
       console.log("state", state);
-      
       state.isOpen = false; // 
     },
     bookFlight: (state, action) => {

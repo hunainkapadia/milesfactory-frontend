@@ -68,23 +68,23 @@ export const fetchMessages = () => (dispatch) => {
               });
           }
 
-          if (allSearchApi) {
-            const allSearchUrl = `https://demo.milesfactory.com${allSearchApi}`;
+          // if (allSearchApi) {
+          //   const allSearchUrl = `https://demo.milesfactory.com${allSearchApi}`;
 
-            api
-              .get(allSearchUrl)
-              .then((allResultsRes) => {
-                dispatch(
-                  setMessage({
-                    user: item.message,
-                    ai: allResultsRes.data,
-                  })
-                );
-              })
-              .catch(() => {
-                dispatch(setError("Error fetching all flight search results"));
-              });
-          }
+          //   api
+          //     .get(allSearchUrl)
+          //     .then((allResultsRes) => {
+          //       dispatch(
+          //         setMessage({
+          //           user: item.message,
+          //           ai: allResultsRes.data,
+          //         })
+          //       );
+          //     })
+          //     .catch(() => {
+          //       dispatch(setError("Error fetching all flight search results"));
+          //     });
+          // }
         } else {
          dispatch(setMessage({ user: item.message, ai: { response: item?.response } }));
         }

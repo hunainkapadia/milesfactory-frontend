@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch } from "react-redux";
-import { closeDrawer } from "@/src/store/slices/BookingflightSlice";
+import { closeDrawer, setselectedFlighDetail } from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
 
@@ -12,14 +12,17 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
   const HandlecloseDrawer = () => {
     dispatch(closeDrawer());
+    dispatch(setselectedFlighDetail(getFlightDetails))
   };
 
   const handleBookFlight = () => {
     dispatch(closeDrawer());
-
+    dispatch(setselectedFlighDetail(getFlightDetails));
+    
     //  Dispatch setMessage to show AI response and passenger form
     dispatch(setMessage({ ai: { response: "You have selected the flight option below." } }));
   };
+  
 
   return (
     <Box className={styles.checkoutDrowerFooter} position="absolute">

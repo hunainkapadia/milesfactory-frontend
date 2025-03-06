@@ -9,6 +9,7 @@ const initialState = {
    error: null,
    isDrawer: false,
    selectedFlightId: null,
+   setselectedFlighDetail: null,
 }
 // for selectflightDetail button
 const bookingflightsSlice = createSlice ({
@@ -16,19 +17,23 @@ const bookingflightsSlice = createSlice ({
    initialState,
 
    reducers: {
-      selectFlightReducer: (state, action)=> {
-
+      setselectedFlighDetail: (state, action)=> {
+         state.setselectedFlighDetail = action.payload
       },
       setflightDetail: (state, action)=> {
-         console.log("action11");
+         console.log("action11", action);
          state.flightDetail = action.payload; //payload comming in action console
          state.selectedFlightId = action.payload.id;
+         state.isDrawer = true; // ✅ Open the drawer
          
       },
       closeDrawer: (state) => {
          state.isDrawer = false;
          state.selectedFlightId = null;
       },
+      setOpenDrawer: (state, action) => {
+         state.isDrawer = action.payload; // ✅ New action to set drawer state
+       },
       
    }
 });
@@ -42,5 +47,5 @@ export const fetchflightDetail = (flightId) => (dispatch) => {
    });
 }
 
-export const {selectFlightReducer, setflightDetail, closeDrawer} = bookingflightsSlice.actions; //action exporting here
+export const {selectFlightReducer, setflightDetail, closeDrawer, setOpenDrawer, setselectedFlighDetail} = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

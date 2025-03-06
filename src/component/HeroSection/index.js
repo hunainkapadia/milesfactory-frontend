@@ -17,7 +17,8 @@ import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
 import LoadingArea from "../LoadingArea";
 import Link from "next/link";
-import BookingDrawerPassenger from "../Checkout/BookingDrawer/BookingDrawerPassenger";
+import passengerDrawerForm from "../Checkout/BookingDrawer/BookingDrawerPassenger";
+import SearchCard from "../SearchResult/SearchCard";
 
 const HeroSection = ({ isChatActive }) => {
   const [userMessage, setUserMessage] = useState("");
@@ -52,6 +53,7 @@ const HeroSection = ({ isChatActive }) => {
     dispatch(sendMessage(userMessage)); //  Sends message to API (POST)
     setUserMessage(""); //  Clears input after sending
   };
+  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
 
   return (
     <section>
@@ -122,10 +124,14 @@ const HeroSection = ({ isChatActive }) => {
                   ) : null}
                 </div>
               ))}
+              <>
+                {/* {getselectedFlight && <SearchCard offerData={getselectedFlight} />} */}
+
+              </>
               <div ref={messagesEndRef} />
             </section>
           </Box>
-          <BookingDrawerPassenger/>
+          <passengerDrawerForm />
         </Box>
       </Container>
     </section>
