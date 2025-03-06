@@ -148,7 +148,7 @@ const HeroSection = ({ isChatActive }) => {
               {SelectedFlightId && (
                 <BookingDrawer getFlightDetail={flightDetail} />
               )}
-              <passengerDrawerForm />
+              {isPassengerDrawerOpen && <PassengerDrawerForm />}
               {/* {isPassengerDrawerOpen &&
                 BookFlightAiresponse?.some(
                   (msg) => msg?.ai?.response === "book-flight"
