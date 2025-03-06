@@ -149,15 +149,7 @@ const HeroSection = ({ isChatActive }) => {
                 <BookingDrawer getFlightDetail={flightDetail} />
               )}
               {isPassengerDrawerOpen && <PassengerDrawerForm />}
-              {/* {isPassengerDrawerOpen &&
-                BookFlightAiresponse?.some(
-                  (msg) => msg?.ai?.response === "book-flight"
-                ) && <PassengerDrawerForm />} */}
-              {/* {isPassengerDrawerOpen &&
-              aiMessage?.ai?.response ===
-                "You have selected the flight option below." && (
-                <PassengerDrawerForm />
-              )} */}
+              
             </section>
           </Box>
         </Box>

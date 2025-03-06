@@ -51,6 +51,9 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
             <Typography>You have selected the flight option below.</Typography>
             {/* <BookFlightCard bookFlightData={aiMessage?.ai?.response?.bookFlight} /> */}
           </Card>
+          <Box mt={2}>
+            <SearchCard offerData={getselectedFlight} />
+          </Box>
           <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
         </>
       ) : (
