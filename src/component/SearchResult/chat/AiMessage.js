@@ -1,28 +1,25 @@
-import React from "react";
-import { Box, Button, Card, Grid, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Card, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import SearchCard from "../SearchCard";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import CollectPassengerInfo from "../../Checkout/CollectPassengerInfo";
 
-const AiMessage = ({ OfferMessage, aiMessage }) => {
-  // const seeAllResultHandle = () => {
-  //   console.log("All results:", OfferMessage?.ai?.all_search_results);
-  // };
-  console.log("aiMessage", aiMessage);
-
-  const dispatch = useDispatch();
-  const passengerDetails = useSelector(
-    (state) => state.passengerDrawer.passengerDetails
+const AiMessage = ({ aiMessage }) => {
+  const allFlightSearchResults = useSelector(
+    (state) => state.sendMessage.allFlightSearchResults
   );
-  
-  // for passecnger drawer state updating open closing 
-  const isPassengerDrawerOpen = useSelector((state) => state.passengerDrawer.isOpen);
-  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
-  console.log("selectedFlight111", aiMessage?.ai?.response == "bookFlightAi");
-  
 
+  // 🔹 State to toggle flight search results
+  const [showAllResults, setShowAllResults] = useState(false);
+
+  // 🔹 Toggle function
+  console.log("showAllResults", allFlightSearchResults.offers);
+  
+  const seeAllResultHandle = () => {
+    setShowAllResults(true); // ✅ Toggles between true and false
+  };
 
   return (
     <Box
@@ -33,15 +30,44 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
       mb={2}
     >
       {/* Show Top Offers if available */}
-
       {aiMessage?.ai?.offers ? (
-        aiMessage.ai.offers.map((getoffers, offerindex) => (
-          <SearchCard
-            key={`${offerindex}-${getoffers.id}`}
-            offerData={getoffers}
-          />
-        ))
-      ) : aiMessage?.ai?.response == "passengerFlowActive" ? (
+        <>
+          {aiMessage.ai.offers.map((getoffers, offerindex) => (
+            <SearchCard
+              key={`${offerindex}-${getoffers.id}`}
+              offerData={getoffers}
+            />
+          ))}
+
+          {/* Button to Show All Flight Results */}
+          <Box
+            onClick={seeAllResultHandle}
+            mt={2}
+            style={{ cursor: "pointer" }}
+          >
+            <Link href={"#"} className="text-decoration-none">
+              <Box mt={4} mb={4} gap={2} alignItems={"center"} display={"flex"}>
+                <i className="fa-caret-down fa fas"></i>{" "}
+                <span>
+                    See all flight options
+                </span>
+              </Box>
+            </Link>
+          </Box>
+
+          {/* Show All Flight Search Results */}
+
+          {showAllResults && allFlightSearchResults?.offers?.length > 0 ? (
+            <Box mt={2}>
+              {allFlightSearchResults.offers.map((flight, index) => (
+                <SearchCard key={index} offerData={flight} />
+              ))}
+            </Box>
+          ) : (
+            ""
+          )}
+        </>
+      ) : aiMessage?.ai?.response === "passengerFlowActive" ? (
         //  Separate UI for BookFlight
         <>
           <Card
@@ -49,11 +75,7 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
             variant="outlined"
           >
             <Typography>You have selected the flight option below.</Typography>
-            {/* <BookFlightCard bookFlightData={aiMessage?.ai?.response?.bookFlight} /> */}
           </Card>
-          <Box mt={2}>
-            <SearchCard offerData={getselectedFlight} />
-          </Box>
           <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
         </>
       ) : (
@@ -78,21 +100,6 @@ const AiMessage = ({ OfferMessage, aiMessage }) => {
           />
         </Card>
       )}
-      {/* Show Passenger Information Form when a flight is booked */}
-
-    
-      {/* Render All Search Results */}
-      {/* {OfferMessage?.ai?.all_search_results &&
-        OfferMessage.ai.all_search_results.length > 0 && (
-          <Box mt={2}>
-            <Box my={3}>
-              <Typography variant="h6">More tickets:</Typography>
-            </Box>
-            {OfferMessage.ai.all_search_results.map((offer, index) => (
-              <SearchCard key={index} offerData={offer} />
-            ))}
-          </Box>
-        )} */}
     </Box>
   );
 };

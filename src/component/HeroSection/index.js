@@ -130,8 +130,6 @@ const HeroSection = ({ isChatActive }) => {
             <section className={searchResultStyles.messageBody}>
               {messages.map((msg, index) => (
                 <div key={index}>
-                  {console.log("getmessages", msg)}
-                  {console.log("msg333", msg)}
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} />

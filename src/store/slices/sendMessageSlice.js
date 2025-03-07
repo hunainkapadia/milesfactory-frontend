@@ -7,6 +7,8 @@ const sendMessageSlice = createSlice({
   initialState: {
     messages: [],
     isLoading: false,
+    allFlightSearchResults: null, // ✅ Store all flight search results here
+
   },
   reducers: {
     setLoading: (state, action) => {
@@ -15,6 +17,10 @@ const sendMessageSlice = createSlice({
     setMessage: (state, action) => {
       console.log("New message added:", action.payload);
       state.messages.push(action.payload);
+    },
+    setAllFlightSearchResults: (state, action) => {
+      console.log("Setting all flight search results:", action.payload);
+      state.allFlightSearchResults = action.payload;
     },
   },
 });
@@ -29,20 +35,32 @@ export const sendMessage = (userMessage) => (dispatch) => {
     .post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
     .then((res) => {
       const response = res.data;
-      console.log("AI Response:", response);
-
+      
       if (response?.is_function) {
-        const flightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
-        if (flightSearchApi) {
-          const flightResultsUrl = `https://demo.milesfactory.com${flightSearchApi}`;
-
+        const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
+        if (topFlightSearchApi) {
+          const topFlightSearchUrl = `https://demo.milesfactory.com${topFlightSearchApi}`;
           api
-            .get(flightResultsUrl)
+            .get(topFlightSearchUrl)
             .then((flightRes) => {
               console.log("flightRes", flightRes.data);
               dispatch(setMessage({ ai: flightRes.data }));
             })
-            .catch((error) => console.error("Error fetching flight data:", error));
+            .catch((error) => console.error("Error fetching  top flight data:", error));
+        }
+        // for get all flight
+        const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
+        if (allFlightSearchApi) {
+          const allFlightSearchUrl = `https://demo.milesfactory.com${allFlightSearchApi}`;
+          console.log("Fetching all flight search results from:", allFlightSearchUrl);
+
+          api
+            .get(allFlightSearchUrl)
+            .then((flightRes) => {
+              dispatch(setAllFlightSearchResults(flightRes.data)); // ✅ Store in Redux state
+              dispatch(setMessage({ ai: flightRes.data })); // ✅ Update AI messages
+            })
+            .catch((error) => console.error("Error fetching all flight data:", error));
         }
       } else {
         dispatch(setMessage({ ai: response }));
@@ -54,5 +72,5 @@ export const sendMessage = (userMessage) => (dispatch) => {
     });
 };
 
-export const { setLoading, setMessage } = sendMessageSlice.actions;
+export const { setLoading, setMessage, setAllFlightSearchResults } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
