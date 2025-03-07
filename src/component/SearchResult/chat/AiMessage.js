@@ -10,7 +10,8 @@ const AiMessage = ({ aiMessage }) => {
   const allFlightSearchResults = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
-  
+  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
+ 
   console.log("All Flight Search Results:", allFlightSearchResults);
 
   // 🔹 State to toggle flight search results
@@ -78,6 +79,9 @@ const AiMessage = ({ aiMessage }) => {
           >
             <Typography>You have selected the flight option below.</Typography>
           </Card>
+          <Box mt={2}>
+            <SearchCard offerData={getselectedFlight} />
+          </Box>
           <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
         </>
       ) : (
