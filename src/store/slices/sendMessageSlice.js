@@ -53,12 +53,11 @@ export const sendMessage = (userMessage) => (dispatch) => {
         if (allFlightSearchApi) {
           const allFlightSearchUrl = `https://demo.milesfactory.com${allFlightSearchApi}`;
           console.log("Fetching all flight search results from:", allFlightSearchUrl);
-
+        
           api
             .get(allFlightSearchUrl)
             .then((flightRes) => {
-              dispatch(setAllFlightSearchResults(flightRes.data)); // ✅ Store in Redux state
-              dispatch(setMessage({ ai: flightRes.data })); // ✅ Update AI messages
+              dispatch(setAllFlightSearchResults(flightRes.data)); // ✅ Store but don't update AI message
             })
             .catch((error) => console.error("Error fetching all flight data:", error));
         }

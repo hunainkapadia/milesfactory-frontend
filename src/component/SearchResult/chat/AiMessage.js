@@ -10,13 +10,16 @@ const AiMessage = ({ aiMessage }) => {
   const allFlightSearchResults = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
+  
+  console.log("All Flight Search Results:", allFlightSearchResults);
 
   // 🔹 State to toggle flight search results
   const [showAllResults, setShowAllResults] = useState(false);
 
   // 🔹 Toggle function
-  console.log("showAllResults", allFlightSearchResults.offers);
   
+  
+  console.log("showAllResults111", allFlightSearchResults)
   const seeAllResultHandle = () => {
     setShowAllResults(true); // ✅ Toggles between true and false
   };
@@ -48,9 +51,7 @@ const AiMessage = ({ aiMessage }) => {
             <Link href={"#"} className="text-decoration-none">
               <Box mt={4} mb={4} gap={2} alignItems={"center"} display={"flex"}>
                 <i className="fa-caret-down fa fas"></i>{" "}
-                <span>
-                    See all flight options
-                </span>
+                <span>See all flight options</span>
               </Box>
             </Link>
           </Box>
@@ -59,6 +60,7 @@ const AiMessage = ({ aiMessage }) => {
 
           {showAllResults && allFlightSearchResults?.offers?.length > 0 ? (
             <Box mt={2}>
+              <Typography variant="h6">All Available Flights:</Typography>
               {allFlightSearchResults.offers.map((flight, index) => (
                 <SearchCard key={index} offerData={flight} />
               ))}
