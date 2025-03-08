@@ -10,6 +10,23 @@ const FromAndToDetail =  ({ getdata, logo }) => {
     setisBaggage(!isBaggage)
   }
 
+  function getStopDetails(getdata) {
+    let stops = 0;
+    let stopAirports = [];
+
+    if (getdata && getdata.segments) {
+        stops = getdata.segments.length - 1;
+        stopAirports = getdata.segments
+            .slice(0, -1)
+            .map((seg) => seg.destination.iata_code);
+    }
+
+    return stops > 0 
+        ? `${stops} stop${stops > 1 ? "s" : ""} (${stopAirports.join(" - ")})` 
+        : "Direct Flight";
+}
+
+
   return (
     <>
       <Box>
@@ -80,8 +97,9 @@ const FromAndToDetail =  ({ getdata, logo }) => {
                 {getdata?.duration}
               </Typography>
               <Typography variant="p" className="mb-0 red">
-                {getdata?.stop_duration}
-                {/* 2 stops (DOH - SIN) */}
+              {getStopDetails(getdata)}
+              {/* stops */}
+                
               </Typography>
             </Box>
             <Box>

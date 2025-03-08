@@ -28,6 +28,7 @@ const SearchCard = ({ offerData, keyindex }) => {
   //   dispatch(resetSelectedFlight()); // Close the drawer
   // };
 
+
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerData.id) {
@@ -92,7 +93,7 @@ const SearchCard = ({ offerData, keyindex }) => {
 
                     {/* Flight Duration */}
                     <Box textAlign="center" flex={1}>
-                      <Typography className={searchResultStyles.flightDuration}>
+                      <Typography className={searchResultStyles.flightDuration + " aaa111"}>
                         {slice.segments?.length > 1 ? "Stopover" : "Direct"}
                       </Typography>
                       <Typography className={searchResultStyles.flightDuration}>
