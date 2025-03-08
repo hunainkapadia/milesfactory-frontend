@@ -20,20 +20,25 @@ const BookingDrawer = ({ getFlightDetail }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <span>Roundtrip </span>{" "}
-            {getFlightDetail?.slices?.map((getSliceres, key) => {
-              return (
-                <>
-                  <Typography
-                    variant="h3"
-                    className={styles.title + " mb-0 h5"}
-                  >
-                    {`${getSliceres?.origin?.iata_code} -
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <span>
+                {getFlightDetail?.slices?.length > 1 ? "Roundtrip " : "One way "}
+                {"  "}
+              </span>
+              {getFlightDetail?.slices?.map((getSliceres, key) => {
+                return (
+                  <>
+                    <Typography
+                      variant="h3"
+                      className={styles.title + " mb-0 h5"}
+                    >
+                      {`${getSliceres?.origin?.iata_code} -
                      ${getSliceres?.destination?.iata_code}`}
-                  </Typography>
-                </>
-              );
-            })}
+                    </Typography>
+                  </>
+                );
+              })}
+            </Box>
             <Box
               display="flex"
               alignItems="center"
