@@ -24,7 +24,7 @@ const bookingflightsSlice = createSlice ({
          console.log("action11", action);
          state.flightDetail = action.payload; //payload comming in action console
          state.selectedFlightId = action.payload.id;
-         state.isDrawer = true; // ✅ Open the drawer
+         state.isDrawer = true; //  Open the drawer
          
       },
       closeDrawer: (state) => {
@@ -32,7 +32,7 @@ const bookingflightsSlice = createSlice ({
          state.selectedFlightId = null;
       },
       setOpenDrawer: (state, action) => {
-         state.isDrawer = action.payload; // ✅ New action to set drawer state
+         state.isDrawer = action.payload; //  New action to set drawer state
        },
       
    }
@@ -43,6 +43,8 @@ export const fetchflightDetail = (flightId) => (dispatch) => {
    const apiUrl = `${API_ENDPOINTS.BOOKING.BOOKING_DETAIL}${flightId}`;
    
    api.get(apiUrl).then((res)=> {
+      console.log("res1212", res);
+      
       dispatch(setflightDetail(res.data))
    });
 }

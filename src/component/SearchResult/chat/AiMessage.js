@@ -3,26 +3,22 @@ import { Box, Card, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import SearchCard from "../SearchCard";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CollectPassengerInfo from "../../Checkout/CollectPassengerInfo";
+import { setAllFlightResults } from "@/src/store/slices/sendMessageSlice";
 
 const AiMessage = ({ aiMessage }) => {
+  const getAllFlightResult = useSelector((state)=> state.sendMessage.allFlightSearchResults)  
+  //  State to toggle flight search results
+  const [showAllResults, setShowAllResults] = useState(false);
+  //  Toggle function
+  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
+  
   const allFlightSearchResults = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
-  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
- 
-  console.log("All Flight Search Results:", allFlightSearchResults);
-
-  // 🔹 State to toggle flight search results
-  const [showAllResults, setShowAllResults] = useState(false);
-
-  // 🔹 Toggle function
-  
-  
-  console.log("showAllResults111", allFlightSearchResults)
   const seeAllResultHandle = () => {
-    setShowAllResults(true); // ✅ Toggles between true and false
+    setShowAllResults(true)
   };
 
   return (
@@ -50,24 +46,20 @@ const AiMessage = ({ aiMessage }) => {
             style={{ cursor: "pointer" }}
           >
             <Link href={"#"} className="text-decoration-none">
-              <Box mt={4} mb={4} gap={2} alignItems={"center"} display={"flex"}>
+              <Box mt={2} mb={2} gap={2} alignItems={"center"} display={"flex"}>
                 <i className="fa-caret-down fa fas"></i>{" "}
-                <span>See all flight options</span>
+                <span>See all flight options {`(${allFlightSearchResults?.count})`}</span>
               </Box>
             </Link>
           </Box>
 
           {/* Show All Flight Search Results */}
-
-          {showAllResults && allFlightSearchResults?.offers?.length > 0 ? (
+          {showAllResults && getAllFlightResult &&  (
             <Box mt={2}>
-              <Typography variant="h6">All Available Flights:</Typography>
-              {allFlightSearchResults.offers.map((flight, index) => (
+              {getAllFlightResult.offers.map((flight, index) => (
                 <SearchCard key={index} offerData={flight} />
               ))}
             </Box>
-          ) : (
-            ""
           )}
         </>
       ) : aiMessage?.ai?.response === "passengerFlowActive" ? (

@@ -5,7 +5,7 @@ import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
 
 const BookingDrawer = ({ getFlightDetail }) => {
-  console.log("getFlightDetail111", getFlightDetail);
+  console.log("getFlightDetail111", getFlightDetail?.flight_type);
 
   return (
     <Box className={styles.checkoutDrower + " white-bg"}>
@@ -41,7 +41,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
             >
               <img src="/images/euro-icon.svg" alt="Euro Icon" />
               <Typography>
-                <span>Fastest option</span>
+                <span>{getFlightDetail?.flight_type}</span>
               </Typography>
             </Box>
           </Box>

@@ -18,8 +18,9 @@ const sendMessageSlice = createSlice({
       console.log("New message added:", action.payload);
       state.messages.push(action.payload);
     },
-    setAllFlightSearchResults: (state, action) => {
-      console.log("Setting all flight search results:", action.payload);
+    setAllFlightResults: (state, action) => {
+      // console.log("setAllFlightResults-action", action.payload);
+
       state.allFlightSearchResults = action.payload;
     },
   },
@@ -57,7 +58,9 @@ export const sendMessage = (userMessage) => (dispatch) => {
           api
             .get(allFlightSearchUrl)
             .then((flightRes) => {
-              dispatch(setAllFlightSearchResults(flightRes.data)); // ✅ Store but don't update AI message
+              
+              
+              dispatch(setAllFlightResults(flightRes?.data)); // ✅ Store but don't update AI message
             })
             .catch((error) => console.error("Error fetching all flight data:", error));
         }
@@ -71,5 +74,5 @@ export const sendMessage = (userMessage) => (dispatch) => {
     });
 };
 
-export const { setLoading, setMessage, setAllFlightSearchResults } = sendMessageSlice.actions;
+export const { setLoading, setMessage, setAllFlightResults } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

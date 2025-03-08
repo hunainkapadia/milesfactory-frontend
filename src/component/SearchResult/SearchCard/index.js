@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {closeDrawer, fetchflightDetail, setOpenDrawer} from "@/src/store/slices/BookingflightSlice";
+import {closeDrawer, fetchflightDetail, setflightDetail, setOpenDrawer} from "@/src/store/slices/BookingflightSlice";
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
@@ -28,20 +28,11 @@ const SearchCard = ({ offerData, keyindex }) => {
   //   dispatch(resetSelectedFlight()); // Close the drawer
   // };
 
-  const flightDetail = useSelector((state)=> state.booking.flightDetail);
-  const SelectedFlightId = useSelector((state)=> state.booking?.selectedFlightId)
-  const isDrawer = useSelector((state)=> state.booking.isDrawer);
-  
   const HandleSelectDrawer = () => {
-    console.log("Opening Drawer for:", offerData.id, keyindex);
-    if (SelectedFlightId === keyindex) {
-      console.log("Drawer is already open for this flight.");
-      return;
-    }
-  
     // Dispatch flight detail and open drawer
-    dispatch(fetchflightDetail(offerData.id)); // Use offerData.id instead of keyindex
-    dispatch(setOpenDrawer(true)); // Add a new action to open the drawer
+    if (offerData.id) {
+      dispatch(setflightDetail(offerData)); // Store flight details & open drawer
+    }
   };
 
   return (
@@ -151,7 +142,7 @@ const SearchCard = ({ offerData, keyindex }) => {
               <Typography
                 className={`${searchResultStyles.normalOption}  ${searchResultStyles.fastestOption}`}
               >
-                <img src="/images/clock-icon.svg" /> <span>Fastest option</span>
+                <img src="/images/clock-icon.svg" /> <span>{`${offerData?.flight_type}`}</span>
               </Typography>
             </Box>
             <Box display={"flex"} alignItems={"center"}>
