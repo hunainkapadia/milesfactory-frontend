@@ -7,7 +7,7 @@ const sendMessageSlice = createSlice({
   initialState: {
     messages: [],
     isLoading: false,
-    allFlightSearchResults: null, // ✅ Store all flight search results here
+    setAllFlightPostApi: null, // ✅ Store all flight search results here
 
   },
   reducers: {
@@ -21,7 +21,7 @@ const sendMessageSlice = createSlice({
     setAllFlightResults: (state, action) => {
       // console.log("setAllFlightResults-action", action.payload);
 
-      state.allFlightSearchResults = action.payload;
+      state.setAllFlightPostApi = action.payload;
     },
   },
 });

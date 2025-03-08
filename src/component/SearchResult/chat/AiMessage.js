@@ -8,18 +8,26 @@ import CollectPassengerInfo from "../../Checkout/CollectPassengerInfo";
 import { setAllFlightResults } from "@/src/store/slices/sendMessageSlice";
 
 const AiMessage = ({ aiMessage }) => {
-  const getAllFlightResult = useSelector((state)=> state.sendMessage.allFlightSearchResults)  
   //  State to toggle flight search results
+  
   const [showAllResults, setShowAllResults] = useState(false);
+  
+  const getAllFlightPostApi = useSelector((state)=> state.sendMessage.setAllFlightPostApi)  
   //  Toggle function
   const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
   
   const allFlightSearchResults = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
+  
   const seeAllResultHandle = () => {
     setShowAllResults(true)
   };
+
+  // for get api 
+  const getAllFlightGetApi = useSelector((state)=> state?.getMessages?.allFlightSearchResults);
+  console.log("getAllFlightGetApi", getAllFlightGetApi?.count);
+  
 
   return (
     <Box
@@ -48,16 +56,25 @@ const AiMessage = ({ aiMessage }) => {
             <Link href={"#"} className="text-decoration-none">
               <Box mt={2} mb={2} gap={2} alignItems={"center"} display={"flex"}>
                 <i className="fa-caret-down fa fas"></i>{" "}
-                <span>See all flight options {`(${allFlightSearchResults?.count})`}</span>
+                <span>
+                  See all flight options {`(${getAllFlightGetApi?.count})`}
+                </span>
               </Box>
             </Link>
           </Box>
 
           {/* Show All Flight Search Results */}
-          {showAllResults && getAllFlightResult &&  (
+          {showAllResults && (
             <Box mt={2}>
-              {getAllFlightResult.offers.map((flight, index) => (
-                <SearchCard key={index} offerData={flight} />
+              {/* Render flights from POST API */}
+              {getAllFlightPostApi?.offers?.map((flight, index) => (
+                <SearchCard key={`post-${index}`} offerData={flight} />
+              ))}
+
+              {/* Render flights from GET API */}
+              {console.log("getAllFlightGetApi", getAllFlightGetApi)}
+              {getAllFlightGetApi?.offers?.map((flight, index) => (
+                <SearchCard key={`get-${index}`} offerData={flight} />
               ))}
             </Box>
           )}

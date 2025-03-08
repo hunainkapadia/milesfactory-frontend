@@ -21,7 +21,6 @@ const bookingflightsSlice = createSlice ({
          state.setselectedFlighDetail = action.payload
       },
       setflightDetail: (state, action)=> {
-         console.log("action11", action);
          state.flightDetail = action.payload; //payload comming in action console
          state.selectedFlightId = action.payload.id;
          state.isDrawer = true; //  Open the drawer
