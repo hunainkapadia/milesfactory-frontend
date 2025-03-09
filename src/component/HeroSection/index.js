@@ -24,8 +24,9 @@ import BookingDrawer from "../Checkout/BookingDrawer/BookingDrawer";
 import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import Footer from "../layout/Footer";
+import Header from "../layout/Header";
 
-const HeroSection = ({isChatActive}) => {
+const HeroSection = () => {
   const [userMessage, setUserMessage] = useState("");
   const messagesEndRef = useRef(null);
 
@@ -52,7 +53,6 @@ const HeroSection = ({isChatActive}) => {
 
   const handleSearch = () => {
     if (!userMessage.trim()) return;
-    isChatActive(true);
     dispatch(sendMessage(userMessage)); //  Sends message to API (POST)
     setUserMessage(""); //  Clears input after sending
   };
@@ -170,10 +170,12 @@ const HeroSection = ({isChatActive}) => {
                   {/*  */}
                   <div ref={messagesEndRef} />
                   {/* booking flow start */}
+                  
                   {SelectedFlightId && (
                     <BookingDrawer getFlightDetail={flightDetail} />
                   )}
                   {isPassengerDrawerOpen && <PassengerDrawerForm />}
+                  <Header/>
                 </section>
               ) : (
                 ""

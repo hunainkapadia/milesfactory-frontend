@@ -15,9 +15,7 @@ import CheapestFlights from "../component/home/CheapestFlights";
 const Home = () => {
   const dispatch = useDispatch();
   const [isSearchActive, setIsSearchActive] = useState(false);
-  const isChatHandle = (isSearching) => {
-    setIsSearchActive(isSearching);
-  };
+  
   const isMessage = useSelector((state)=> state?.sendMessage?.messages.length);
   
   
@@ -30,9 +28,10 @@ const Home = () => {
             !isMessage ? styles.HomeBanner : styles.HomeBannerActive
           }`}
         >
-          <Header isSearchActive={isSearchActive} />
-          <HeroSection isChatActive={isChatHandle} />
+          
+          <HeroSection />
         </section>
+        {/* for home section */}
         {!isMessage ? (
           <>
             <HowMylzWork id={"HowMylzWork"} />
