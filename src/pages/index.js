@@ -45,6 +45,7 @@ const Home = () => {
             <CheapestFlights id={"CheapestFlights"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App />
+          <Header/>
           </>
         ) : (
           ""
