@@ -21,10 +21,10 @@ Colors - start
 
 // Primary color 1
 $basecolor: #69707B;
-$basecolor1-dark: #6C0600;
 $basecolor1-light: #F6FAFF;
 $basecolor1-dark: #c2dff9;
-
+$basecolor1-sky: #B3EDEE ;
+$basecolor1-dark2: #0B1729;
 $basecolor1: #004AAD;
 $bc1-light: #a49bb1;
 $bc1-lighter: #dfe8f4;
@@ -75,6 +75,7 @@ $darkergray: #333;
 $darkestgray: #222;
 $darkestergray: #111;
 $lightgray: #f7f7f7;
+$lightegray2: #D3D3D3;
 $lightergray: #aaa;
 $lightestgray: #eee;
 $lightestergray: #f6f6f6;
@@ -180,6 +181,7 @@ $ar-bfsize-sm: 14px;
 $ar-bfsize-xs: 13px;
 $ar-bfsize-mb: 11px;
 $h1: 40px;
+$h1-lg: 56px;
 $h2: 32px;
 $h3: 24px;
 $h4: 20px;
@@ -251,6 +253,7 @@ Mixins - start
 ===================================================================*/
 
 //Instead of typing width:200px; height:200px; just type @include size(200px); or @include size(20px,35px);
+
 @mixin size($width, $height: $width) {
   width: $width;
   height: $height;

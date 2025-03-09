@@ -502,22 +502,7 @@ p {
   height: 56px;
   padding: 0 22px;
 }
-.MuiInputAdornment-root {
-  z-index: 1;
-  margin-bottom: 1px;
-  .MuiButtonBase-root  {
-    width: 40px;
-    height: 40px;
-    background-color: #82B4E8;
-    @include border-radius(100px);
-    color: $white;
-    &:hover {
-    background-color: $basecolor1;
-    }
-    
-    i {line-height: 2;}
-  }
-}
+
 .image {
   img {
      max-width: 100%;

@@ -16,7 +16,7 @@ const AiMessage = ({ aiMessage }) => {
   //  Toggle function
   const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
   
-  const allFlightSearchResults = useSelector(
+  const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
   
@@ -26,7 +26,6 @@ const AiMessage = ({ aiMessage }) => {
 
   // for get api 
   const getAllFlightGetApi = useSelector((state)=> state?.getMessages?.allFlightSearchResults);
-  console.log("getAllFlightGetApi", getAllFlightGetApi?.count);
   
 
   return (
@@ -57,7 +56,11 @@ const AiMessage = ({ aiMessage }) => {
               <Box mt={2} mb={2} gap={2} alignItems={"center"} display={"flex"}>
                 <i className="fa-caret-down fa fas"></i>{" "}
                 <span>
-                  See all flight options {`(${getAllFlightGetApi?.count})`}
+                  See all flight options{" "}
+                  {getAllFlightGetApi?.count ? getAllFlightGetApi?.count : ""}
+                  {allFlightSearcCount?.count
+                    ? allFlightSearcCount?.count
+                    : ""}
                 </span>
               </Box>
             </Link>

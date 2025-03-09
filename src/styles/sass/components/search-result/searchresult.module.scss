@@ -16,23 +16,8 @@
      max-width: 80%;
    }
  }
- .SearchBoxSection {
-   &.active { 
-     width: 100%;
-     padding:0 0 25px;
-     position: fixed;
-     bottom: 0;
-     left: 0;
-     right: 0;
-     z-index: 3;
-     .SearchBox > div {
-       width: 70%;
-     }
-   }
-   .SearchBox > div {
-     width: 100%;
-   }
- }
+
+//  
 .flightOfferCard {
    background: white;
    border-radius: 10px;

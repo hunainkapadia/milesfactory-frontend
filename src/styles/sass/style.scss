@@ -7,6 +7,7 @@
 
 .ui.text.container,
 body {
+  letter-spacing: 1px;
   white-space: normal;
   font-family: $primary-font;
   font-style: normal;
@@ -103,7 +104,7 @@ h6 {
 }
 .h1,
 h1 {
-  font-size: $h1 !important;
+  font-size: $h1 ;
 }
 .h2,
 h2 {
@@ -436,11 +437,14 @@ p {
 .black {
   color: #000;
 }
-
+.bg-dark-box {background: rgba(11, 23, 41, 0.4);}
 .basecolor1-dark {
   background-color: $basecolor1-dark !important;
 }
-
+.basecolor1-dark2 {color: $basecolor1-dark2 !important;}
+.basecolor1-sky-bg {
+  background-color: $basecolor1-sky !important;
+}
 .basecolor1 {
   color: $basecolor1 !important;
 }
@@ -532,7 +536,9 @@ p {
   background-color: $white;
   height: 60px;
 }
-
+.SearchForm .css-1ll44ll-MuiOutlinedInput-notchedOutline {
+  border: none;
+}
 // a) varaiable classes - /end
 .notify-msg {
   color: $darkgray;
@@ -1669,6 +1675,9 @@ textarea {
 .no-bg {
   background-image: none !important;
   background-color: transparent !important;
+}
+.no-bg-img {
+  background-image: none !important;
 }
 .bg-cover {
   background-size: cover !important;

@@ -1,8 +1,15 @@
 import React from "react";
-import { TextField, InputAdornment, IconButton, Box, Container } from "@mui/material";
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  Box,
+  Container,
+} from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 
-const MessageInputBox = ({ userMessage, setUserMessage, handleSearch, messages }) => {
+const MessageInputBox = () => {
+  
   return (
     <section>
       <div
@@ -12,13 +19,13 @@ const MessageInputBox = ({ userMessage, setUserMessage, handleSearch, messages }
       >
         <Container>
           <Box
-            className={searchResultStyles.SearchBox + " aaa SearchBox"}
+            className={searchResultStyles.SearchBox + " SearchBox"}
             display="flex"
             alignItems="center"
             justifyContent="center"
           >
             <TextField
-              className= {searchResultStyles.SearchForm + " SearchForm"}
+              className={searchResultStyles.SearchForm + " SearchForm"}
               fullWidth
               placeholder="Describe your trip, and I’ll do the rest"
               value={userMessage}
