@@ -536,8 +536,8 @@ p {
   background-color: $white;
   height: 60px;
 }
-.SearchForm .css-1ll44ll-MuiOutlinedInput-notchedOutline {
-  border: none;
+.SearchForm fieldset {
+  border: none !important;
 }
 // a) varaiable classes - /end
 .notify-msg {
