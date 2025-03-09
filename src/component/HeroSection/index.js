@@ -42,6 +42,8 @@ const HeroSection = () => {
   const getmessages = useSelector((state) => state.getMessages.messages);
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
+  console.log("messages222", messages);
+  
 
   useEffect(() => {
     dispatch(fetchMessages()); //  Fetch messages when the page loads

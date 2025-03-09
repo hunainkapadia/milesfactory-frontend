@@ -18,7 +18,10 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isMessage = useSelector((state) => state?.sendMessage?.messages.length);
+  const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
+  const getmessages = useSelector((state) => state.getMessages.messages.length);
+  const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+
   return (
     <>
       <Head></Head>

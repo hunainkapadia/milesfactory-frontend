@@ -16,7 +16,13 @@ const Home = () => {
   const dispatch = useDispatch();
   const [isSearchActive, setIsSearchActive] = useState(false);
   
-  const isMessage = useSelector((state)=> state?.sendMessage?.messages.length);
+  // check message length
+  const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
+  const getmessages = useSelector((state) => state.getMessages.messages.length);
+  const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+  
+  
+  
   
   
   return (
@@ -43,6 +49,7 @@ const Home = () => {
         ) : (
           ""
         )}
+        <Header/>
       </main>
     </>
   );
