@@ -49,7 +49,6 @@ const Home = () => {
         ) : (
           ""
         )}
-        <Header/>
       </main>
     </>
   );
