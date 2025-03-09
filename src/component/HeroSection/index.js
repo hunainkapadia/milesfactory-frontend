@@ -184,7 +184,7 @@ const HeroSection = ({isChatActive}) => {
       </section>
       {!messages.length ? (
         <Footer
-          id={"Section2Stats"}
+          id={"HowMylzWork"}
           forDark
           LearnMore={"Get to know Mylz"}
         />

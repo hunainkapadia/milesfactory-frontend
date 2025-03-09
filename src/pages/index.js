@@ -6,10 +6,11 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import styles from "@/src/styles/sass/components/Home.module.scss"
 import IdeaDetailSection from "../component/home/IdeaDetailSection";
-import Section2Stats from "../component/home/Section2Stats";
-import Section3Stats from "../component/home/Section3Stats";
 import Section4Reviews from "../component/home/Section4Reviews";
 import Section5App from "../component/home/Section5App";
+import HowMylzWork from "../component/home/HowMylzWork";
+import MylzDifferent from "../component/home/MylzDifferent";
+import CheapestFlights from "../component/home/CheapestFlights";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,9 @@ const Home = () => {
         </section>
         {!isMessage ? (
           <>
-            <Section2Stats id={"Section2Stats"} />
-            <Section3Stats id={"Section3Stats"} />
+            <HowMylzWork id={"HowMylzWork"} />
+            <MylzDifferent id={"MylzDifferent"} />
+            <CheapestFlights id={"CheapestFlights"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App />
           </>
