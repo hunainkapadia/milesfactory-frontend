@@ -114,7 +114,7 @@ const Section4Reviews = (props) => {
                                 fontSize: 16,
                                 fontWeight: "bold",
                               }}
-                              className="basecolor1"
+                              className="basecolor1 mb-0"
                             >
                               {!review.image && firstLetter}
                             </Avatar>
