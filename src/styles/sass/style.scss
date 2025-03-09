@@ -437,7 +437,7 @@ p {
 .black {
   color: #000;
 }
-.bg-dark-box {background: rgba(11, 23, 41, 0.4);}
+.bg-dark-box {background: rgba(11, 23, 41, 0.4) !important;}
 .basecolor1-dark {
   background-color: $basecolor1-dark !important;
 }
