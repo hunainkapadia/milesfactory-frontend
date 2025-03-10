@@ -8,21 +8,17 @@ const Navbar = () => {
     <Box position="static" className={styles.navbar}>
       {/* Logo / Title */}
       {/* Navigation Links */}
-      <Box className={styles.navItems} display={"flex"} gap={4}>
+      <Box className={styles.navItems} display={"flex"} gap={3}>
         <Box component={Link} href="#" className={styles.navItem}>
           Our Vision
         </Box>
 
         <Box component={Link} href="#" className={styles.navItem}>
-          Get Inspired
+        Give feedback
         </Box>
 
         <Box component={Link} href="#" className={styles.navItem}>
-          Book a Trip
-        </Box>
-
-        <Box component={Link} href="#" className={styles.navItem}>
-          My Trips
+        My trips
         </Box>
       </Box>
     </Box>
