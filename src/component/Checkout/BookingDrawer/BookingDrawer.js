@@ -5,7 +5,7 @@ import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
 
 const BookingDrawer = ({ getFlightDetail }) => {
-  console.log("getFlightDetail111", getFlightDetail?.flight_type);
+  console.log("getFlightDetail111", getFlightDetail);
 
   return (
     <Box className={styles.checkoutDrower + " white-bg"}>
@@ -22,7 +22,9 @@ const BookingDrawer = ({ getFlightDetail }) => {
           >
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <span>
-                {getFlightDetail?.slices?.length > 1 ? "Roundtrip " : "One way "}
+                {getFlightDetail?.slices?.length > 1
+                  ? "Roundtrip "
+                  : "One way "}
                 {"  "}
               </span>
               {getFlightDetail?.slices?.map((getSliceres, key) => {
@@ -56,6 +58,29 @@ const BookingDrawer = ({ getFlightDetail }) => {
           <Box className={styles.detailsSection} px={3}>
             {getFlightDetail?.slices.map((slice, index) => (
               <>
+              {index === 0 ? (
+                <Box display={"flex"}>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    className={styles.onewayReturn}
+                  >
+                    <Typography>Outbound flight</Typography>
+                  </Box>
+                </Box>
+              ): (
+                <Box display={"flex"}>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    className={styles.onewayReturn}
+                  >
+                    <Typography>Return flight</Typography>
+                  </Box>
+                </Box>
+              )}
+                
+
                 <FromAndToDetail
                   key={index} // Always add a unique key when mapping
                   getdata={slice}

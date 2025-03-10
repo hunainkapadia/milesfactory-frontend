@@ -35,8 +35,6 @@ const GetMessagesSlice = createSlice({
 
 export const fetchMessages = () => (dispatch) => {
   dispatch(setIsLoading(true));
-  console.log("Fetching messages from API...");
-
   api
     .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
     .then((response) => {
@@ -54,15 +52,14 @@ export const fetchMessages = () => (dispatch) => {
             item?.response?.results?.view_top_flight_result_api?.url;
           
           if (topFlightSearchApi) {
-            const topFlightSearchUrl = `https://demo.milesfactory.com${topFlightSearchApi}`;
-
             api
-              .get(topFlightSearchUrl)
+              .get(topFlightSearchApi)
               .then((offerResponse) => {
                 dispatch(
                   setMessage({
                     user: item.message,
                     ai: offerResponse.data ,
+                    OfferId: topFlightSearchApi,
                   })
                 );
               })
@@ -73,11 +70,8 @@ export const fetchMessages = () => (dispatch) => {
 
           const allFlightSearchApi = item?.response?.results?.view_all_flight_result_api?.url;
           if (allFlightSearchApi) {
-            const allFlightSearchUrl = `https://demo.milesfactory.com${allFlightSearchApi}`;
-            console.log("Fetching all flight search results from:", allFlightSearchUrl);
-          
             api
-              .get(allFlightSearchUrl)
+              .get(allFlightSearchApi)
               .then((flightRes) => {
                 
                 dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message

@@ -18,9 +18,6 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
 import LoadingArea from "../LoadingArea";
-import Link from "next/link";
-import passengerDrawerForm from "../Checkout/BookingDrawer/BookingDrawerPassenger";
-import SearchCard from "../SearchResult/SearchCard";
 import BookingDrawer from "../Checkout/BookingDrawer/BookingDrawer";
 import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
@@ -41,9 +38,10 @@ const HeroSection = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
+  
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
-  console.log("messages222", messages);
+  
   
 
   useEffect(() => {
@@ -68,6 +66,10 @@ const HeroSection = () => {
   const SelectedFlightId = useSelector(
     (state) => state.booking?.selectedFlightId
   );
+  const getFlightKey = useSelector((state)=> state.booking.setSelectFlightKey)
+  
+  console.log("flightDetail", flightDetail);
+  
 
   // for passenger form
   const isPassengerDrawerOpen = useSelector(
@@ -171,11 +173,11 @@ const HeroSection = () => {
               {/* Chat Messages */}
               {messages.length ? (
                 <section className={searchResultStyles.messageBody}>
-                  {messages.map((msg, index) => (
+                  {messages.map((msg, index) => ( 
                     <div key={index}>
                       {msg?.user && <UserMessage userMessage={msg.user} />}
                       {msg?.ai ? (
-                        <AiMessage aiMessage={msg} />
+                        <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
                       ) : index === messages.length - 1 && isLoading ? (
                         <LoadingArea />
                       ) : null}
@@ -185,7 +187,7 @@ const HeroSection = () => {
                   <div ref={messagesEndRef} />
                   {/* booking flow start */}
 
-                  {SelectedFlightId && (
+                  {getFlightKey && (
                     <BookingDrawer getFlightDetail={flightDetail} />
                   )}
                   {isPassengerDrawerOpen && <PassengerDrawerForm />}

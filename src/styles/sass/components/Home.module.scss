@@ -146,11 +146,11 @@
 //   }
 // }
 
-// @media only screen and (max-height: 650px) {
-//   .HomeBanner .HeroSection {
-//     padding: 20vh 0 0vh;
-//   }
-//   .HomeBanner .mainHeroSection.HeroSection {
-//     padding: 30vh 0 0vh;
-//   }
-// }
+@media only screen and (max-height: 650px) {
+  .HomeBanner .HeroSection {
+    padding: 25vh 0 2vh;
+  }
+  // .HomeBanner .mainHeroSection.HeroSection {
+  //   padding: 30vh 0 0vh;
+  // }
+}

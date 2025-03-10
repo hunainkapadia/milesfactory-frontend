@@ -10,6 +10,8 @@ export const API_ENDPOINTS = {
    },
    BOOKING: {
     BOOKING_DETAIL: "/api/v1/search/single/result/",
+    BOOKING_SETUP: "/api/v1/setup/flight",
+    PASSENGER_DETAIL: "/api/v1/order/"
    }
    // Add more sections if needed (e.g., TICKETS, USERS, PAYMENTS)
  };

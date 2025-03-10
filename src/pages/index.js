@@ -34,7 +34,6 @@ const Home = () => {
             !isMessage ? styles.HomeBanner : styles.HomeBannerActive
           }`}
         >
-          
           <HeroSection />
         </section>
         {/* for home section */}
@@ -45,11 +44,11 @@ const Home = () => {
             <CheapestFlights id={"CheapestFlights"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App />
+            <Header />
           </>
         ) : (
           ""
         )}
-        <Header/>
       </main>
     </>
   );

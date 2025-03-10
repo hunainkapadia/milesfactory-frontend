@@ -40,9 +40,8 @@ export const sendMessage = (userMessage) => (dispatch) => {
       if (response?.is_function) {
         const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
         if (topFlightSearchApi) {
-          const topFlightSearchUrl = `https://demo.milesfactory.com${topFlightSearchApi}`;
           api
-            .get(topFlightSearchUrl)
+            .get(topFlightSearchApi)
             .then((flightRes) => {
               console.log("flightRes", flightRes.data);
               dispatch(setMessage({ ai: flightRes.data }));
@@ -52,11 +51,8 @@ export const sendMessage = (userMessage) => (dispatch) => {
         // for get all flight
         const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
         if (allFlightSearchApi) {
-          const allFlightSearchUrl = `https://demo.milesfactory.com${allFlightSearchApi}`;
-          console.log("Fetching all flight search results from:", allFlightSearchUrl);
-        
           api
-            .get(allFlightSearchUrl)
+            .get(allFlightSearchApi)
             .then((flightRes) => {
               
               

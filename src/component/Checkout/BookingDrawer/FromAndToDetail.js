@@ -3,44 +3,32 @@ import { Avatar, Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Link from "next/link";
 
-const FromAndToDetail =  ({ getdata, logo }) => {
-  const [isBaggage, setisBaggage] = useState(false)
-  console.log("getdata111", getdata);
-  const bookingDetail = ()=> {
-    setisBaggage(!isBaggage)
-  }
-
+const FromAndToDetail = ({ getdata, logo }) => {
+  const [isBaggage, setisBaggage] = useState(false);
+  
+  const bookingDetail = () => {
+    setisBaggage(!isBaggage);
+  };
   function getStopDetails(getdata) {
     let stops = 0;
     let stopAirports = [];
 
     if (getdata && getdata.segments) {
-        stops = getdata.segments.length - 1;
-        stopAirports = getdata.segments
-            .slice(0, -1)
-            .map((seg) => seg.destination.iata_code);
+      stops = getdata.segments.length - 1;
+      stopAirports = getdata.segments
+        .slice(0, -1)
+        .map((seg) => seg.destination.iata_code);
     }
 
-    return stops > 0 
-        ? `${stops} stop${stops > 1 ? "s" : ""} (${stopAirports.join(" - ")})` 
-        : "Direct Flight";
-}
-
-
+    return stops > 0
+      ? `${stops} stop${stops > 1 ? "s" : ""} (${stopAirports.join(" - ")})`
+      : "Direct Flight";
+  }
+  console.log("getdata111", getdata.segments.length);
   return (
     <>
       <Box>
-        <Box display={"flex"}>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            className="normalOption fastestOption"
-          >
-            <Typography>
-              <span>Fastest option</span>
-            </Typography>
-          </Box>
-        </Box>
+        
         {/* from and to row */}
 
         <Box
@@ -60,9 +48,7 @@ const FromAndToDetail =  ({ getdata, logo }) => {
           >
             <Box display={"flex"} gap={4}>
               <Typography variant="h5" className="h6 mb-0">
-                {new Date(
-                  getdata?.departing_at
-                ).toLocaleTimeString([], {
+                {new Date(getdata?.departing_at).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
@@ -74,9 +60,7 @@ const FromAndToDetail =  ({ getdata, logo }) => {
             </Box>
             <Box display={"flex"} gap={4}>
               <Typography variant="p" className=" gray mb-0">
-                {new Date(
-                  getdata?.departing_at
-                ).toLocaleDateString("en-US", {
+                {new Date(getdata?.departing_at).toLocaleDateString("en-US", {
                   weekday: "short", // Sat
                   month: "short", // Dec
                   day: "2-digit", // 14
@@ -97,16 +81,15 @@ const FromAndToDetail =  ({ getdata, logo }) => {
                 {getdata?.duration}
               </Typography>
               <Typography variant="p" className="mb-0 red">
-              {getStopDetails(getdata)}
-              {/* stops */}
-                
+                {getStopDetails(getdata)}
+                {/* stops */}
               </Typography>
             </Box>
             <Box>
               <Avatar
                 src={logo}
                 alt={"image"}
-                className={styles.airlineLogo }
+                className={styles.airlineLogo}
                 mr={0}
               />
             </Box>
@@ -121,9 +104,7 @@ const FromAndToDetail =  ({ getdata, logo }) => {
           >
             <Box display={"flex"} gap={4}>
               <Typography variant="h5" className="h6 mb-0">
-                {new Date(
-                  getdata?.arriving_at
-                ).toLocaleTimeString([], {
+                {new Date(getdata?.arriving_at).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
@@ -135,9 +116,7 @@ const FromAndToDetail =  ({ getdata, logo }) => {
             </Box>
             <Box display={"flex"} gap={4}>
               <Typography variant="p" className=" gray mb-0">
-                {new Date(
-                  getdata?.arriving_at
-                ).toLocaleDateString("en-US", {
+                {new Date(getdata?.arriving_at).toLocaleDateString("en-US", {
                   weekday: "short",
                   month: "short",
                   day: "2-digit",
@@ -163,7 +142,7 @@ const FromAndToDetail =  ({ getdata, logo }) => {
           {isBaggage ? (
             <>
               <Box>
-                <Divider />
+                
                 <Box mb={2} pt={3}>
                   <Typography variant="h4" className=" mb-0 h4">
                     Included in ticket
@@ -171,40 +150,35 @@ const FromAndToDetail =  ({ getdata, logo }) => {
                 </Box>
                 <Box>
                   {console.log("tttt", getdata.segments)}
-                  {getdata?.segments.map(
-                    (getsegment, segmentIndex) =>
-                      getsegment?.passengers.map(
-                        (getpassenger, passengerIndex) =>
-                          getpassenger?.baggages.map(
-                            (getbaggage, baggageIndex) => (
-                              <Box
-                                // key={`${getdataIndex}-${segmentIndex}-${passengerIndex}-${baggageIndex}`}
-                                display={"flex"}
-                                gap={2}
-                                alignItems={"center"}
-                                px={1}
-                                mb={1}
-                                className={styles.normalOption}
-                              >
-                                <Box className={styles.BaggageIcon}>
-                                  <img
-                                    src={
-                                      getbaggage?.type === "checked"
-                                        ? "/images/checkout/checked-bagg.svg"
-                                        : getbaggage?.type === "carry_on"
-                                        ? "/images/checkout/carryon-bagg.svg"
-                                        : "/images/checkout/carryon-bagg.svg"
-                                    }
-                                  />
-                                </Box>
-                                <Typography>
-                                  {getbaggage.quantity}x{" "}
-                                  {getbaggage.formatted_type}
-                                </Typography>
-                              </Box>
-                            )
-                          )
-                      )
+                  {getdata?.segments.map((getsegment, segmentIndex) =>
+                    getsegment?.passengers.map((getpassenger, passengerIndex) =>
+                      getpassenger?.baggages.map((getbaggage, baggageIndex) => (
+                        <Box
+                          // key={`${getdataIndex}-${segmentIndex}-${passengerIndex}-${baggageIndex}`}
+                          display={"flex"}
+                          gap={2}
+                          alignItems={"center"}
+                          px={1}
+                          mb={1}
+                          className={styles.normalOption}
+                        >
+                          <Box className={styles.BaggageIcon}>
+                            <img
+                              src={
+                                getbaggage?.type === "checked"
+                                  ? "/images/checkout/checked-bagg.svg"
+                                  : getbaggage?.type === "carry_on"
+                                  ? "/images/checkout/carryon-bagg.svg"
+                                  : "/images/checkout/carryon-bagg.svg"
+                              }
+                            />
+                          </Box>
+                          <Typography>
+                            {getbaggage.quantity}x {getbaggage.formatted_type}
+                          </Typography>
+                        </Box>
+                      ))
+                    )
                   )}
                 </Box>
                 {/* map end */}

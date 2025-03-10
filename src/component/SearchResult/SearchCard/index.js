@@ -8,12 +8,12 @@ import {
 } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {closeDrawer, fetchflightDetail, setflightDetail, setOpenDrawer} from "@/src/store/slices/BookingflightSlice";
+import {closeDrawer, fetchflightDetail, setflightDetail, setOpenDrawer, setSelectFlightKey} from "@/src/store/slices/BookingflightSlice";
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 
-const SearchCard = ({ offerData, keyindex }) => {
+const SearchCard = ({ offerData, offerkey }) => {
   
   const dispatch = useDispatch()
 
@@ -29,8 +29,13 @@ const SearchCard = ({ offerData, keyindex }) => {
   // };
 
 
+  
+  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
+    if (offerkey) {
+      dispatch(setSelectFlightKey(offerkey)); //setSelectFlightKey empty then close drawer
+    }
     if (offerData.id) {
       dispatch(setflightDetail(offerData)); // Store flight details & open drawer
     }

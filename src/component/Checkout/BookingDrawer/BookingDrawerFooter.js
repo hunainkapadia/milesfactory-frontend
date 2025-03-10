@@ -1,26 +1,34 @@
 import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
-import { useDispatch } from "react-redux";
-import { closeDrawer, setselectedFlighDetail } from "@/src/store/slices/BookingflightSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { bookFlight, closeDrawer, setselectedFlighDetail, setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
 
 const BookingDrawerFooter = ({ getFlightDetails }) => {
-   console.log("getFlightDetails", getFlightDetails)
   const dispatch = useDispatch();
-
   const HandlecloseDrawer = () => {
-    dispatch(closeDrawer());
-    dispatch(setselectedFlighDetail(getFlightDetails))
+    dispatch(setSelectFlightKey()) //setSelectFlightKey empty then close drawer
   };
+
+  
+  const PassengerData = useSelector((state)=> state.booking);
+  console.log("PassengerData", PassengerData);
 
   const handleBookFlight = () => {
     dispatch(closeDrawer());
     dispatch(setselectedFlighDetail(getFlightDetails));
     
-    //  Dispatch setMessage to show AI response and passenger form
+    dispatch(bookFlight());
+    if (getFlightDetails?.id) {
+      dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
+  } else {
+      console.error("Flight ID is missing");
+  }
     dispatch(setMessage({ ai: { response: "passengerFlowActive" } }));
+
+    
   };
   
 

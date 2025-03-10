@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Card, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import SearchCard from "../SearchCard";
@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import CollectPassengerInfo from "../../Checkout/CollectPassengerInfo";
 import { setAllFlightResults } from "@/src/store/slices/sendMessageSlice";
+import { setOfferId } from "@/src/store/slices/BookingflightSlice";
 
 const AiMessage = ({ aiMessage }) => {
   //  State to toggle flight search results
@@ -14,8 +15,7 @@ const AiMessage = ({ aiMessage }) => {
   
   const getAllFlightPostApi = useSelector((state)=> state.sendMessage.setAllFlightPostApi)  
   //  Toggle function
-  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);
-  
+  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);  
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
@@ -23,7 +23,17 @@ const AiMessage = ({ aiMessage }) => {
   const seeAllResultHandle = () => {
     setShowAllResults(true)
   };
+  const dispatch = useDispatch();
 
+  
+useEffect(() => {
+  if (aiMessage?.OfferId) {
+    dispatch(setOfferId(aiMessage?.OfferId)); // Save the offer ID in Redux
+  } {
+    ""
+  }
+}, [aiMessage?.OfferId, dispatch]);
+  
   // for get api 
   const getAllFlightGetApi = useSelector((state)=> state?.getMessages?.allFlightSearchResults);
   
@@ -41,7 +51,7 @@ const AiMessage = ({ aiMessage }) => {
         <>
           {aiMessage.ai.offers.map((getoffers, offerindex) => (
             <SearchCard
-              key={`${offerindex}-${getoffers.id}`}
+              offerkey={`${offerindex}-${getoffers.id}`}
               offerData={getoffers}
             />
           ))}
@@ -58,9 +68,7 @@ const AiMessage = ({ aiMessage }) => {
                 <span>
                   See all flight options{" "}
                   {getAllFlightGetApi?.count ? getAllFlightGetApi?.count : ""}
-                  {allFlightSearcCount?.count
-                    ? allFlightSearcCount?.count
-                    : ""}
+                  {allFlightSearcCount?.count ? allFlightSearcCount?.count : ""}
                 </span>
               </Box>
             </Link>
@@ -70,14 +78,20 @@ const AiMessage = ({ aiMessage }) => {
           {showAllResults && (
             <Box mt={2}>
               {/* Render flights from POST API */}
-              {getAllFlightPostApi?.offers?.map((flight, index) => (
-                <SearchCard key={`post-${index}`} offerData={flight} />
+              {getAllFlightPostApi?.offers?.map((getoffers, offerindex) => (
+                <SearchCard
+                  offerData={getoffers}
+                  offerkey={`${offerindex}-${getoffers.id}`}
+                />
               ))}
 
               {/* Render flights from GET API */}
-              {console.log("getAllFlightGetApi", getAllFlightGetApi)}
-              {getAllFlightGetApi?.offers?.map((flight, index) => (
-                <SearchCard key={`get-${index}`} offerData={flight} />
+              {getAllFlightGetApi?.offers?.map((getoffers, offerindex) => (
+                <SearchCard
+                  
+                  offerData={getoffers}
+                  offerkey={`${offerindex}-${getoffers.id}`}
+                />
               ))}
             </Box>
           )}
@@ -94,6 +108,7 @@ const AiMessage = ({ aiMessage }) => {
           <Box mt={2}>
             <SearchCard offerData={getselectedFlight} />
           </Box>
+          <h1>asdasd</h1>
           <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
         </>
       ) : (
