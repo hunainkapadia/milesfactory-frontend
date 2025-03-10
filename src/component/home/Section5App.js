@@ -8,7 +8,7 @@ const Section5App = () => {
     <>
       <Box mb={10}
         id="fold2"
-        className={`${styles.HomeBanner} ${styles.HomeBannerReview} basecolor1-sky-bg no-bg-img`}
+        className={`${styles.HomeBannerReview} basecolor1-sky-bg no-bg-img`}
         
       >
           <Container>

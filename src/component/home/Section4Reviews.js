@@ -42,7 +42,7 @@ const Section4Reviews = (props) => {
             <Grid container spacing={3} >
               <Grid item xs >
                 <Box mb={7} display={"flex"}>
-                  <Box sx={{ width: "50%" }}>
+                  <Box width={"70%"}>
                     <Typography variant="h2">
                       What our travelers say:
                     </Typography>
@@ -114,7 +114,7 @@ const Section4Reviews = (props) => {
                                 fontSize: 16,
                                 fontWeight: "bold",
                               }}
-                              className="basecolor1 mb-0"
+                              className="basecolor1-blue mb-0"
                             >
                               {!review.image && firstLetter}
                             </Avatar>

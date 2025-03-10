@@ -95,11 +95,11 @@ h4,
 h5,
 h6 {
   font-family: $heading-font !important;
-  font-weight: $semibold !important;
+  font-weight: $bold !important;
   margin-top: 0 !important;
   margin-bottom: 14px !important;
   position: relative !important;
-  line-height: 1.3em !important;
+  line-height: 120% !important;
   color: $darkgray; 
 }
 .h1,
@@ -160,6 +160,7 @@ h6 {
   }
 p {
   line-height: 1.7em;
+  font-family: $secondary-font !important;
   &:last-child {
     margin-bottom: 0;
   }
@@ -444,6 +445,9 @@ p {
 .basecolor1-dark2 {color: $basecolor1-dark2 !important;}
 .basecolor1-sky-bg {
   background-color: $basecolor1-sky !important;
+}
+.basecolor1-blue {
+  color: $basecolor1-blue !important;
 }
 .basecolor1 {
   color: $basecolor1 !important;
@@ -1341,12 +1345,15 @@ body {
     line-height: 1 !important;
   }
   &.btn-primary {
+    padding: 10px 16px;
+
+    background: linear-gradient(180deg, #00C4CC 0%, #0088A3 100%);
+    /* M3/Elevation Light/2 */
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
     letter-spacing: 1.2px !important;
     color: $white !important;
-    background-color: $basecolor1 !important;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15) !important;
     border-radius: 100px !important;
-
+    font-weight: 500;
     &.active:hover,
     &.active,
     &.active:focus {
@@ -1399,35 +1406,7 @@ body {
       }
     }
   }
-  &.btn-basecolor3 {
-    &,
-    &.disabled {
-      background: $basecolor3;
-      color: $white;
-      @extend %btn-default-height;
-    }
-    &[class*="arrow-"]:before {
-      color: $basecolor3;
-    }
-    &:not(.no-hover):not([class*="arrow-"]):hover {
-      background: darken($basecolor3, 10%);
-    }
-    &.active:hover,
-    &.active,
-    &.active:focus {
-      background: $basecolor3;
-      border-color: $basecolor3;
-    }
-    &.btn-border {
-      background: transparent;
-      color: $basecolor3;
-      border: solid 1px $basecolor3;
-      &:not(.no-hover):hover {
-        background: $basecolor3;
-        color: $white;
-      }
-    }
-  }
+  
   &.btn-secondary {
     &,
     &.disabled {
@@ -1461,111 +1440,7 @@ body {
       border: solid 1px $basecolor2;
     }
   }
-  &.btn-bc1lightest {
-    &,
-    &.disabled {
-      background: $bc1-lightest;
-      color: $basecolor1;
-      border: solid 1px $bc1-lightest;
-      @extend %btn-default-height;
-      @include box-shadow(0, 2px, 8px, darken($bc1-lightest, 8%));
-    }
-    &:not(.no-hover):hover {
-      background: darken($bc1-lightest, 3%);
-    }
-    &.btn-border {
-      background: transparent;
-      color: $basecolor1;
-      border: solid 1px $bc1-lighter;
-    }
-  }
-  &.btn-grd-1 {
-    &,
-    &.disabled {
-      color: $white;
-      font-size: $bfsize + 3;
-      font-weight: $bold;
-      border: solid 1px darken($gradient-color-1, 2%);
-      @extend %btn-default-height;
-      @include box-shadow(0, 2px, 12px, rgba($bc1-lightest, 0.4));
-      @extend %gradient-1;
-    }
-    &:not(.no-hover):hover {
-      @extend %gradient-1-h;
-    }
-  }
-  &.btn-default {
-    &,
-    &.disabled {
-      background: $lightestergray;
-      border: solid 1px darken($lightestgray, 8%);
-      color: $black;
-      @extend %btn-default-height;
-    }
-    &:not(.no-hover):hover {
-      background: $basecolor1;
-      border-color: $basecolor1;
-      color: $white;
-    }
-  }
-  &.btn-border {
-    &,
-    &.disabled {
-      background: none;
-      border: solid 1px $basecolor1;
-      color: $basecolor1;
-      @extend %btn-default-height;
-    }
-    &:not(.no-hover):hover {
-      background: $basecolor1;
-      border-color: $basecolor1;
-      color: $white;
-    }
-  }
-  &.btn-white {
-    &,
-    &.disabled {
-      background: $white;
-      border: none;
-      color: $basecolor1;
-      @extend %btn-default-height;
-      @include box-shadow(0, 1px, 2px, rgba($black, 0.1));
-      .fa {
-        color: $black;
-      }
-    }
-    &[class*="arrow-"]:before {
-      color: $white;
-    }
-    &:not(.no-hover):not([class*="arrow-"]):hover {
-      background: $basecolor1;
-      border-color: $basecolor1;
-      color: $white;
-      .fa {
-        color: $white;
-      }
-    }
-    &.active:hover,
-    &.active,
-    &.active:focus {
-      background: $basecolor3;
-      border-color: lighten($basecolor3, 6%);
-      color: $white;
-      .fa {
-        color: $white;
-      }
-    }
-    &.btn-border {
-      background: transparent;
-      border: solid 1px $white;
-      color: $white;
-      &:hover {
-        background: $white;
-        color: $basecolor1;
-        border-color: $white;
-      }
-    }
-  }
+  
 }
 
 .bfsize {

@@ -12,13 +12,13 @@ const HowMylzWork = (props) => {
     >
       <section>
         <Container>
-          <Box className={styles.HeroSection + " "} position={"relative"}>
+          <Box className={`${styles.HeroSection} ${styles.HowMylzWork}`} position={"relative"}>
             <Box
               className={" mb-40 text-center"}
               display={"flex"}
               justifyContent={"center"}
             >
-              <Box sx={{ width: "50%" }}>
+              <Box sx={{ width: "42%" }}>
                 <Typography variant="h2" className="white align-center">
                   How does Mylz work?
                 </Typography>
@@ -116,7 +116,7 @@ const HowMylzWork = (props) => {
               href={"#"}
               className={styles.footerBtn + " white text-decoration-none"}
             >
-              <Box pt={4} gap={2} alignItems={"center"} display={"flex"}>
+              <Box py={6} gap={2} alignItems={"center"} display={"flex"}>
                 <i className="fa-arrow-right fa fas"></i>{" "}
                 <span>Start planning my trip</span>
               </Box>

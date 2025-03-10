@@ -25,7 +25,8 @@ $basecolor1-light: #F6FAFF;
 $basecolor1-dark: #c2dff9;
 $basecolor1-sky: #B3EDEE ;
 $basecolor1-dark2: #0B1729;
-$basecolor1: #004AAD;
+$basecolor1-blue: #004AAD;
+$basecolor1: #00C4CC;
 $bc1-light: #a49bb1;
 $bc1-lighter: #dfe8f4;
 $bc1-lightest: #ecf1f9;
@@ -162,12 +163,11 @@ $grdpair2color2: #109800;
 /*===================================================================
 Fonts - start
 ===================================================================*/
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&display=swap');
 
 
-
-$primary-font: "Roboto", serif;
-$secondary-font: "Roboto", serif;
+$primary-font: "Montserrat", sans-serif;
+$secondary-font: "Open Sans", sans-serif;
 
 $heading-font: $primary-font;
 // Icon font
@@ -182,7 +182,7 @@ $ar-bfsize-xs: 13px;
 $ar-bfsize-mb: 11px;
 $h1: 40px;
 $h1-lg: 56px;
-$h2: 32px;
+$h2: 40px;
 $h3: 24px;
 $h4: 20px;
 $h5: 17px;
@@ -198,7 +198,7 @@ $thin: 100;
 $light: 300;
 $regular: 400;
 $semibold: 500;
-$bold: 500;
+$bold: 600;
 
 /*===================================================================
 Fonts - /end

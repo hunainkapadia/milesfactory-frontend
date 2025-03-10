@@ -1,18 +1,25 @@
 @import "../_variables.scss";
 
+.HomeBannerReview {
+  h1 {
+    color: $white;
+    font-size: $h1-lg;
+  }
+  &::after {
+    display: none;
+  }
+}
 .HomeBanner {
-  height: 100%;
+  height: 100vh;
   top: 0;
   left: 0;
   width: 100%;
   
   background-image: url("/images/home-fold-bg1.png");
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center 10%;
   position: relative;
-  &.HomeBannerReview::after {
-    display: none;
-  }
+  background-size: cover;
 
   h1 {
     color: $white;
@@ -46,10 +53,11 @@
     display: none;
   }
 }
+
 .HeroSection {
-  padding: 40vh 0 60vh;
   position: relative;
   z-index: 1;
+  padding: 30vh 0 2vh;
   &.ReviewSection {
     padding: 20vh 0 20vh;
   }
@@ -61,7 +69,6 @@
     }
   }
   .Box {
-    width: 70%;
   }
   &.Active {
     padding: 0;
@@ -99,8 +106,51 @@
     }
   }
   .Card {
-    padding: 18px 15px;
+    padding: 16px 15px 0;
     border: 1px solid #A6A6A6;
-    min-height: 140px;
+    height: 100%;
   }
 }
+
+// @media only screen and (max-height: 1200px) {
+//   .HomeBanner .HeroSection {
+//     padding: 50vh 0 4vh;
+//   }
+//   .HomeBanner .mainHeroSection.HeroSection {
+//     padding: 50vh 0 4vh;
+//   }
+// }
+// @media only screen and (max-height: 920px) {
+//   .HomeBanner .HeroSection {
+//     padding: 40vh 0 4vh;
+//   }
+//   .HomeBanner .mainHeroSection.HeroSection {
+//     padding: 50vh 0 4vh;
+//   }
+// }
+// @media only screen and (max-height: 820px) {
+//   .HomeBanner .HeroSection {
+//     padding: 30vh 0 3vh;
+//   }
+//   .HomeBanner .mainHeroSection.HeroSection {
+//     padding: 40vh 0 4vh;
+//   }
+// }
+
+// @media only screen and (max-height: 730px) {
+//   .HomeBanner .HeroSection {
+//     padding: 28vh 0 0vh;
+//   }
+//   .HomeBanner .mainHeroSection.HeroSection {
+//     padding: 33vh 0 5vh;
+//   }
+// }
+
+// @media only screen and (max-height: 650px) {
+//   .HomeBanner .HeroSection {
+//     padding: 20vh 0 0vh;
+//   }
+//   .HomeBanner .mainHeroSection.HeroSection {
+//     padding: 30vh 0 0vh;
+//   }
+// }

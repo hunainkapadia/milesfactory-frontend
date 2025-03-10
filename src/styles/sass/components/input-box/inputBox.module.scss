@@ -67,6 +67,7 @@
 
 .SearchBoxSection>div>div {
    position: relative;
+   width: 100%;
 
    .label {
       position: absolute;
@@ -93,7 +94,7 @@
       bottom: 15px;
       width: 25px;
       height: 25px;
-      background-color: $white;
+      background-color: $basecolor1;
       @include border-radius(100px);
       color: $black;
       font-size: $bfsize;
@@ -121,7 +122,7 @@
       background-color: $basecolor1-light;
       width: 100%;
       >div {
-         width: 70%;
+         width: 60%;
       }
    }
 

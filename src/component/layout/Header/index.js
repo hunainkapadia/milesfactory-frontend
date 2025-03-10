@@ -52,18 +52,32 @@ const Header = () => {
             </div>
             <Navbar />
 
-            <Box
-              className={styles.Login}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              gap={1}
-              component={Link}
-              href="#"
-            >
-              <i className="fa fa-user-circle"></i>
-              <div>Login</div>
-              {/*  */}
+            <Box display={"flex"} gap={4}>
+              <Box
+                className={styles.Login}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                gap={1}
+                component={Link}
+                href="#"
+              >
+                <i className="fa fa-user-circle"></i>
+                <div>Sign in / Signup</div>
+                {/*  */}
+              </Box>
+              <Box
+                className={"btn btn-primary btn-md"}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                gap={1}
+                component={Link}
+                href="#"
+              >
+                <div>Book a trip</div>
+                {/*  */}
+              </Box>
             </Box>
             {/*  */}
           </Box>

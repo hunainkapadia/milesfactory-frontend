@@ -40,7 +40,7 @@
          align-items: center;
          padding: 0 24px;
          background-color: $white;
-         .Login {color: $basecolor1;}
+         .Login {color: $black;}
          .navItems .navItem {
             color: #0B1729;
          }
@@ -68,11 +68,7 @@
    }
 }
 
-.FooterFforDark {
-   position: relative;z-index: 1;
-   padding: 50px 0;
-}
-.FooterFforLight  {position: relative;z-index: 1;
+ .FooterForLight  {position: relative;z-index: 1;
    padding: 50px 0;
    .FooterBox {
       border-top: solid 1px $lightegray2;
@@ -80,4 +76,12 @@
          font-size: 24px;
       }
    }
-}
+ }
+ .FooterForDark {
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+   padding: 50px 0;
+   z-index: 1;
+ }

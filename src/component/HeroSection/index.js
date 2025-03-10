@@ -5,6 +5,7 @@ import {
   IconButton,
   InputAdornment,
   FormLabel,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -83,24 +84,35 @@ const HeroSection = () => {
       <section>
         <Container>
           <Box
-            className={`${styles.HeroSection} ${
+            className={`${styles.HeroSection} ${styles.mainHeroSection} ${
               messages.length ? styles.Active : ""
             }`}
             display="flex"
             alignItems="center"
             justifyContent="center"
           >
-            <Box className={styles.Box}>
+            <Box className={styles.Box} width={"62%"}>
               {!messages.length && (
-                <div className="mb-40 align-center">
-                  <h1 className="white">Travel smarter with AI</h1>
-                  <p className="white">
+                <Box
+                  mb={3}
+                  px={6}
+                  textAlign={"center"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  flexDirection={"column"}
+                >
+                  <Box mb={1}>
+                    <Typography variant="h1">
+                      Travel smarter with AI-powered savings
+                    </Typography>
+                  </Box>
+                  <Typography color="white">
                     Find and book your perfect trip at the best price -
                     effortlessly. Mylz has access to live prices and
-                    availability directly from all airlines, hotels, and travel
-                    partners.
-                  </p>
-                </div>
+                    availability directly from all global airlines, hotels, and
+                    tour guides.
+                  </Typography>
+                </Box>
               )}
 
               {/* Search Box */}
@@ -172,12 +184,12 @@ const HeroSection = () => {
                   {/*  */}
                   <div ref={messagesEndRef} />
                   {/* booking flow start */}
-                  
+
                   {SelectedFlightId && (
                     <BookingDrawer getFlightDetail={flightDetail} />
                   )}
                   {isPassengerDrawerOpen && <PassengerDrawerForm />}
-                  <Header/>
+                  <Header />
                 </section>
               ) : (
                 ""
@@ -187,11 +199,7 @@ const HeroSection = () => {
         </Container>
       </section>
       {!messages.length ? (
-        <Footer
-          id={"HowMylzWork"}
-          forDark
-          LearnMore={"Get to know Mylz"}
-        />
+        <Footer id={"HowMylzWork"} forDark LearnMore={"Get to know Mylz"} />
       ) : (
         ""
       )}

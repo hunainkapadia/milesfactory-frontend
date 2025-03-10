@@ -6,7 +6,7 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
   return (
     <>
       {forDark ? (
-        <footer className={styles.FooterFforDark} sx={{ pb: 4 }}>
+        <footer className={styles.FooterForDark} sx={{ pb: 4 }}>
           <Container>
             <Box
               className={styles.FooterBox}
@@ -26,7 +26,7 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
           </Container>
         </footer>
       ) : (
-        <footer className={styles.FooterFforLight}>
+        <footer className={styles.FooterForLight}>
           <Container>
             <Box
               className={styles.FooterBox + " d-flex justify-content-between"}
