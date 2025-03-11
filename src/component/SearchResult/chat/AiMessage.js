@@ -108,7 +108,7 @@ useEffect(() => {
           <Box mt={2}>
             <SearchCard offerData={getselectedFlight} />
           </Box>
-          <h1>asdasd</h1>
+          <h1>..</h1>
           <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
         </>
       ) : (
