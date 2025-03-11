@@ -330,7 +330,12 @@ Mixins - /end
 /*===================================================================
 Transitions - start
 ===================================================================*/
-
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
 $duration-0: all 0s none;
 $duration-1: all 0.1s ease-in-out;
 $duration-2: all 0.2s ease-in-out;

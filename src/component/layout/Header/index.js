@@ -1,14 +1,17 @@
-import { Box, Button, Container, Grid } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import Head from "next/head";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
+import { logoutUser, openDrawer, setsignUpUser } from "@/src/store/slices/Auth/AuthSlice";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
+  const dispatch = useDispatch()
   useEffect(() => {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 50); // Add sticky class after scrolling 50px
@@ -21,6 +24,29 @@ const Header = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
   const getmessages = useSelector((state) => state.getMessages.messages.length);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+
+  // for login signup
+  const HandleSignup = ()=> {
+    dispatch(openDrawer());
+  } 
+  
+  
+  // ✅ Load user from Cookies when the component mounts
+  const getuser = useSelector((state)=> state?.auth?.user);
+  
+  useEffect(() => {
+    const storedUser = Cookies.get("set-user-signup");
+    if (storedUser) {
+      dispatch(setsignUpUser(JSON.parse(storedUser)));
+    }
+  }, [dispatch]);
+
+  // // ✅ Handle logout
+  const logoutHandle = () => {
+    dispatch(logoutUser());
+  };
+
+
 
   return (
     <>
@@ -54,19 +80,78 @@ const Header = () => {
               <Navbar />
 
               <Box display={"flex"} gap={4}>
-                <Box
-                  className={styles.Login}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  gap={1}
-                  component={Link}
-                  href="#"
-                >
-                  <i className="fa fa-user-circle"></i>
-                  <div>Sign in / Signup</div>
-                  {/*  */}
-                </Box>
+                {getuser ? (
+                  <Box className={styles.Dropdown} position={"relative"}>
+                    <Box
+                      className={styles.Login}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      gap={1}
+                    >
+                      <i className="fa fa-user-circle"></i>
+                      <div>{getuser.first_name}</div>
+                      {/*  */}
+                    </Box>
+                    <Box className={styles.DropdownItems}>
+                      <Box
+                        display={"flex"}
+                        flexDirection={"column"}
+                        px={2}
+                        py={2}
+                        gap={2}
+                        className={
+                          styles.DropdownItemsBox +
+                          " white-bg br-12 box-shadow-md"
+                        }
+                      >
+                        <Link
+                          className={
+                            styles.DropdownItem + " text-decuration-none"
+                          }
+                          href={""}
+                        >
+                          <Box display={"flex"} alignItems={"center"} gap={1}>
+                            <Box width={"20px"}>
+                              <i class="fa fa-cog" aria-hidden="true"></i>
+                            </Box>
+                            <Typography>Setting</Typography>
+                          </Box>
+                        </Link>
+                        <Link
+                          className={
+                            styles.DropdownItem + " text-decuration-none"
+                          }
+                          href={""}
+                          onClick={logoutHandle}
+                        >
+                          <Box display={"flex"} alignItems={"center"} gap={1}>
+                            <Box width={"20px"}>
+                              <i className=" fa fa-sign-out"></i>
+                            </Box>
+                            <Typography>logout</Typography>
+                          </Box>
+                        </Link>
+                        {/*  */}
+                      </Box>
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box
+                    className={styles.Login}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    gap={1}
+                    component={Link}
+                    href="#"
+                    onClick={HandleSignup}
+                  >
+                    <i className="fa fa-user-circle"></i>
+                    <div>Sign in / Signup</div>
+                    {/*  */}
+                  </Box>
+                )}
 
                 <Box
                   sx={{ display: { xs: "none", md: "block" } }}

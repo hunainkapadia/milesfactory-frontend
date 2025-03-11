@@ -79,8 +79,6 @@ const HeroSection = () => {
     (state) => state.sendMessage?.messages || []
   );
 
-  console.log("selectedflightAi", BookFlightAiresponse);
-
   return (
     <>
       <section>

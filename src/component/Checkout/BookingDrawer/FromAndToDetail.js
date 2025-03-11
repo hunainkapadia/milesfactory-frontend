@@ -143,7 +143,7 @@ const FromAndToDetail = ({ getdata, logo }) => {
             <>
               <Box>
                 
-                <Box mb={2} pt={3}>
+                <Box mb={2} >
                   <Typography variant="h4" className=" mb-0 h4">
                     Included in ticket
                   </Typography>
@@ -190,6 +190,7 @@ const FromAndToDetail = ({ getdata, logo }) => {
 
           {/*  */}
         </Box>
+        <h1>asdasda</h1>
       </Box>
     </>
   );
