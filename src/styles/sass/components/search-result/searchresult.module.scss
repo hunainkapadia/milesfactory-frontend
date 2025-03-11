@@ -52,10 +52,12 @@
       height: 1px;
    }
 }
+.flightDurationBox {
  .flightDuration {
    font-size: 12px;
    color: #69707B;
  }
+}
  
  .flightRoute {
   
@@ -80,6 +82,7 @@
    line-height: 1;
    gap: 8px;
    display: flex;
+   font-weight: 500;color: grey;
     &.fastestOption {
       border: 1px solid #D3D3D3;
       border-radius: 8px; 
@@ -96,6 +99,11 @@
  @include for-mobile-large-screen {
  
   .flightOfferCard {
+      .flightDurationBox {border-top: solid 1px #82B4E8;padding: 0px 15px;
+        .flightDuration {
+          display: flex;
+        }
+    }
     .selectFlightBtn {
       background: none;
       color: $basecolor1 !important;

@@ -97,7 +97,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                     </Box>
 
                     {/* Flight Duration */}
-                    <Box textAlign="center" flex={1} sx={{display:{xs:"flex", alignItems:"center"}}}>
+                    <Box textAlign="center" className={searchResultStyles.flightDurationBox}>
                       <Typography
                         className={
                           searchResultStyles.flightDuration + " "
