@@ -12,6 +12,7 @@ import HowMylzWork from "../component/home/HowMylzWork";
 import MylzDifferent from "../component/home/MylzDifferent";
 import CheapestFlights from "../component/home/CheapestFlights";
 import SignUpDrawer from "../component/Auth/SignUpDrawer";
+import LoginDrawer from "../component/Auth/LoginDrawer";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -21,12 +22,9 @@ const Home = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
   const getmessages = useSelector((state) => state.getMessages.messages.length);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
-  const openDrawer = useSelector((state)=>state.auth.openDrawer);
-  console.log("openDrawer", openDrawer);
-  
-  
-  
-  
+  const SignupDrawer = useSelector((state)=>state.auth.openDrawer);
+  const isUserLogin = useSelector((state)=>state.auth);
+  console.log("isUserLogin", isUserLogin);
   
   
   
@@ -54,8 +52,9 @@ const Home = () => {
         ) : (
           ""
         )}
-        {openDrawer ? <SignUpDrawer /> : ""}
-        {openDrawer ? <SignUpDrawer /> : ""}
+        {SignupDrawer ? <SignUpDrawer /> : ""}
+        {isUserLogin ? <LoginDrawer/>  : ""}
+        
       </main>
     </>
   );
