@@ -12,7 +12,7 @@ const Navbar = () => {
       {/* Navigation Links */}
       <Box className={styles.navItems} display={"flex"} gap={3}>
         <Box component={Link} href="#" className={styles.navItem}>
-          Our Vision
+          Our vision
         </Box>
 
         <Box component={Link} href="#" className={styles.navItem}>

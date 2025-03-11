@@ -148,7 +148,7 @@ const Header = () => {
                     onClick={HandleSignup}
                   >
                     <i className="fa fa-user-circle"></i>
-                    <div>Sign in / Signup</div>
+                    <div>Sign in / sign up</div>
                     {/*  */}
                   </Box>
                 )}
