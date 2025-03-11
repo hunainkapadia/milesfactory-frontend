@@ -69,6 +69,7 @@
     }
   }
   .Box {
+    width: $BoxContainerLg;
   }
   &.Active {
     padding: 0;
@@ -112,39 +113,21 @@
   }
 }
 
-// @media only screen and (max-height: 1200px) {
-//   .HomeBanner .HeroSection {
-//     padding: 50vh 0 4vh;
-//   }
-//   .HomeBanner .mainHeroSection.HeroSection {
-//     padding: 50vh 0 4vh;
-//   }
-// }
-// @media only screen and (max-height: 920px) {
-//   .HomeBanner .HeroSection {
-//     padding: 40vh 0 4vh;
-//   }
-//   .HomeBanner .mainHeroSection.HeroSection {
-//     padding: 50vh 0 4vh;
-//   }
-// }
-// @media only screen and (max-height: 820px) {
-//   .HomeBanner .HeroSection {
-//     padding: 30vh 0 3vh;
-//   }
-//   .HomeBanner .mainHeroSection.HeroSection {
-//     padding: 40vh 0 4vh;
-//   }
-// }
-
-// @media only screen and (max-height: 730px) {
-//   .HomeBanner .HeroSection {
-//     padding: 28vh 0 0vh;
-//   }
-//   .HomeBanner .mainHeroSection.HeroSection {
-//     padding: 33vh 0 5vh;
-//   }
-// }
+@media only screen and (max-width: 1200px) {
+  .HeroSection .Box {
+    width: $BoxContainerMd;
+  } 
+}
+@media only screen and (max-width: 1024px) {
+  .HeroSection .Box {
+    width: $BoxContainerSm;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .HeroSection .Box {
+    width: $BoxContainerXs;
+  }
+}
 
 @media only screen and (max-height: 650px) {
   .HomeBanner .HeroSection {

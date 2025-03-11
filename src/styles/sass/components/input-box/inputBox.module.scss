@@ -1,14 +1,7 @@
 @import "../../_variables.scss";
 
-.SearchBoxSectionActive .SearchBox {
-   width: 100%;
 
-   >div {
-      width: 100%;
-   }
-}
-
-.SearchBoxSectionActive>div>div {
+.SearchBoxSectionActive {
    position: relative;
    width: 100%;
    padding: 0 0 25px;
@@ -18,54 +11,55 @@
    right: 0;
    z-index: 3;
    background-color: $basecolor1-light;
-
-
-
-   .label {
-      position: absolute;
-      z-index: 3;
-      color: #D3D3D3 !important;
-      top: 15px;
-      left: 20px;
-   }
-
-   .SearchForm input:focus+.label,
-   .SearchForm:not(:placeholder-shown)+.label {
-      opacity: 0;
-      visibility: hidden;
-   }
-
-   .SearchButton {
-      position: absolute;
-      right: 15px;
-      top: 10px;
-      width: 40px;
-      height: 40px;
-      z-index: 2;
-      background-color: #82B4E8;
-      @include border-radius(100px);
-      color: $white;
-
-      &:hover {
-         background-color: $basecolor1;
+   
+   .SearchBoxContyainer {
+      width: $BoxContainerLg;
+      .label {
+         position: absolute;
+         z-index: 3;
+         color: #D3D3D3 !important;
+         top: 15px;
+         left: 20px;
       }
-   }
-
-   input {
-      @include border-radius(100px);
-      /* M3/Elevation Light/2 */
-      box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
-      background-color: $white;
-      height: 55px;
-      padding: 0 20px !important;
-   }
-
-   i {
-      line-height: 2;
+   
+      .SearchForm input:focus+.label,
+      .SearchForm:not(:placeholder-shown)+.label {
+         opacity: 0;
+         visibility: hidden;
+      }
+   
+      .SearchButton {
+         position: absolute;
+         right: 15px;
+         top: 10px;
+         width: 40px;
+         height: 40px;
+         z-index: 2;
+         background-color: #82B4E8;
+         @include border-radius(100px);
+         color: $white;
+   
+         &:hover {
+            background-color: $basecolor1;
+         }
+      }
+   
+      input {
+         @include border-radius(100px);
+         /* M3/Elevation Light/2 */
+         box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+         background-color: $white;
+         height: 55px;
+         padding: 0 20px !important;
+      }
+   
+      i {
+         line-height: 2;
+      }
    }
 }
 
-.SearchBoxSection>div>div {
+.SearchBoxSection .SearchBoxContyainer {
    position: relative;
    width: 100%;
 
@@ -109,24 +103,6 @@
 
 }
 
-.SearchBoxSectionActive {
-   
-   .SearchBox {
-      width: 100%;
-      padding: 0 0 25px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 3;
-      background-color: $basecolor1-light;
-      width: 100%;
-      >div {
-         width: 60%;
-      }
-   }
-
-}
 @include for-mobile-large-screen {
    .SearchBoxSectionActive .SearchBox {
       .SearchButton {
@@ -134,8 +110,25 @@
       }
       
       >div {
-         width: 100%;
+         
          padding: 0 15px 30px;
       }
    }
 }
+
+
+@media only screen and (max-width: 1200px) {
+   .SearchBoxSectionActive .SearchBoxContyainer  {
+     width: $BoxContainerMd;
+   } 
+ }
+ @media only screen and (max-width: 1024px) {
+   .SearchBoxSectionActive .SearchBoxContyainer  {
+     width: $BoxContainerSm;
+   }
+ }
+ @media only screen and (max-width: 767px) {
+   .SearchBoxSectionActive .SearchBoxContyainer  {
+     width: $BoxContainerXs;
+   }
+ }

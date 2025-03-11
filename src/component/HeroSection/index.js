@@ -93,10 +93,7 @@ const HeroSection = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Box
-              className={styles.Box}
-              sx={{ width: { xs: "100%", md: "62%" } }}
-            >
+            <Box className={styles.Box}>
               {!messages.length && (
                 <Box
                   mb={3}
@@ -129,47 +126,50 @@ const HeroSection = () => {
                       : inputStyles.SearchBoxSection
                   }
                 >
-                  <Box
-                    className={inputStyles.SearchBox + " SearchBox"}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Container>
-                      <Box
-                        className={inputStyles.SearchBoxIn}
-                        position={"relative"}
-                      >
-                        {!messages.length ? (
-                          <FormLabel className={inputStyles.label}>
-                            Where do you want to go today?
-                          </FormLabel>
-                        ) : (
-                          ""
-                        )}
-                        <TextField
-                          placeholder={
-                            messages.length
-                              ? "Ask anything about your trip"
-                              : ""
-                          }
-                          className={inputStyles.SearchForm + " SearchForm"}
-                          fullWidth
-                          value={userMessage}
-                          onChange={(e) => setUserMessage(e.target.value)}
-                          variant="outlined"
-                          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                        />
-
-                        <IconButton
-                          className={inputStyles.SearchButton}
-                          onClick={handleSearch}
+                  <Container>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Box className={inputStyles.SearchBoxContyainer}>
+                        <Box
+                          className={inputStyles.SearchBoxIn}
+                          position={"relative"}
                         >
-                          <i className="fa fa-arrow-right"></i>
-                        </IconButton>
+                          {!messages.length ? (
+                            <FormLabel className={inputStyles.label}>
+                              Where do you want to go today?
+                            </FormLabel>
+                          ) : (
+                            ""
+                          )}
+                          <TextField
+                            placeholder={
+                              messages.length
+                                ? "Ask anything about your trip"
+                                : ""
+                            }
+                            className={inputStyles.SearchForm + " SearchForm"}
+                            fullWidth
+                            value={userMessage}
+                            onChange={(e) => setUserMessage(e.target.value)}
+                            variant="outlined"
+                            onKeyDown={(e) =>
+                              e.key === "Enter" && handleSearch()
+                            }
+                          />
+
+                          <IconButton
+                            className={inputStyles.SearchButton}
+                            onClick={handleSearch}
+                          >
+                            <i className="fa fa-arrow-right"></i>
+                          </IconButton>
+                        </Box>
                       </Box>
-                    </Container>
-                  </Box>
+                    </Box>
+                  </Container>
                 </Box>
               </section>
 

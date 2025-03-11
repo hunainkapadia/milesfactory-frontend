@@ -3,10 +3,15 @@ import { Box, Typography, Divider } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
+import { useDispatch } from "react-redux";
+import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 
 const BookingDrawer = ({ getFlightDetail }) => {
   console.log("getFlightDetail111", getFlightDetail);
-
+  const dispatch = useDispatch();
+  const HandlecloseDrawer = () => {
+    dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
+  };
   return (
     <Box className={styles.checkoutDrower + " white-bg"}>
       <Box className={styles.checkoutDrowerSection + " white-bg"}>
@@ -93,7 +98,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
         {/* Footer Section */}
         <BookingDrawerFooter getFlightDetails={getFlightDetail} />
       </Box>
-      <Box className={styles.checkoutDrowerBackdrop}></Box>
+      <Box onClick={HandlecloseDrawer} className={styles.checkoutDrowerBackdrop}></Box>
     </Box>
   );
 };
