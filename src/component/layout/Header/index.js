@@ -25,63 +25,67 @@ const Header = () => {
   return (
     <>
       <Head></Head>
-      <header
-        className={`${styles.Header} ${
-          isMessage ? " basecolor1-light-bg bacecolor pt-50 " : ""
-        } ${isMessage ? styles.isMessage : ""} ${
-          isSticky ? styles.Sticky : ""
-        }`}
-      >
-        <Container className="">
-          <Box
-            className={styles.Box}
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <div className={styles.Logo}>
-              <Link href={"/"}>
-                <div className="d-flex align-items-center">
-                  {isSticky || isMessage ? (
-                    <img src="/images/logo-color2.svg" />
-                  ) : (
-                    <img src="/images/mylz-logo-white.svg" />
-                  )}
-                </div>
-              </Link>
-            </div>
-            <Navbar />
+      <header>
+        <Box
+          className={`${styles.Header} ${
+            isMessage ? " basecolor1-light-bg bacecolor " : ""
+          } ${isMessage ? styles.isMessage : ""} ${
+            isSticky ? styles.Sticky : ""
+          }`}
+        >
+          <Container className="">
+            <Box
+              className={styles.Box}
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <div className={styles.Logo}>
+                <Link href={"/"}>
+                  <div className="d-flex align-items-center">
+                    {isSticky || isMessage ? (
+                      <img src="/images/logo-color2.svg" />
+                    ) : (
+                      <img src="/images/mylz-logo-white.svg" />
+                    )}
+                  </div>
+                </Link>
+              </div>
+              <Navbar />
 
-            <Box display={"flex"} gap={4}>
-              <Box
-                className={styles.Login}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                gap={1}
-                component={Link}
-                href="#"
-              >
-                <i className="fa fa-user-circle"></i>
-                <div>Sign in / Signup</div>
-                {/*  */}
+              <Box display={"flex"} gap={4}>
+                <Box
+                  className={styles.Login}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={1}
+                  component={Link}
+                  href="#"
+                >
+                  <i className="fa fa-user-circle"></i>
+                  <div>Sign in / Signup</div>
+                  {/*  */}
+                </Box>
+
+                <Box
+                  sx={{ display: { xs: "none", md: "block" } }}
+                  className={"btn btn-primary btn-md"}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={1}
+                  component={Link}
+                  href="#"
+                >
+                  <div>Book a trip</div>
+                  {/*  */}
+                </Box>
               </Box>
-              <Box
-                className={"btn btn-primary btn-md"}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                gap={1}
-                component={Link}
-                href="#"
-              >
-                <div>Book a trip</div>
-                {/*  */}
-              </Box>
+              {/*  */}
             </Box>
-            {/*  */}
-          </Box>
-        </Container>
+          </Container>
+        </Box>
       </header>
     </>
   );

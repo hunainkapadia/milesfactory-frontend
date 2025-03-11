@@ -61,9 +61,6 @@
   
  }
  
- .flightPriceSection {
-   
- }
  
  .flightPrice {
    
@@ -96,3 +93,39 @@
    gap: 5px;
  }
  
+ @include for-mobile-large-screen {
+ 
+  .flightOfferCard {
+    .selectFlightBtn {
+      background: none;
+      color: $basecolor1 !important;
+      box-shadow: none;
+      padding: 0 !important;
+      height: 100%;
+      i {
+        font-size: 20px;
+      }
+    }
+    .flightDuration {
+      font-size: 10px;
+    }
+      .airlineLogo {
+      @include scale(32px, 32px);
+      @include border-radius(0);
+      
+    }
+    .Timings {
+      display: flex;
+      gap: 2;
+      flex-direction: column;
+    }
+    .flightRoute, .flightTime {
+      font-size: 12px;
+    }
+    .flightPriceSection {
+      font-size: 20px !important;
+      white-space: nowrap;
+    }   
+  }
+ 
+ }

@@ -127,3 +127,15 @@
    }
 
 }
+@include for-mobile-large-screen {
+   .SearchBoxSectionActive .SearchBox {
+      .SearchButton {
+         top: 8px;
+      }
+      
+      >div {
+         width: 100%;
+         padding: 0 15px 30px;
+      }
+   }
+}

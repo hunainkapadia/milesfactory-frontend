@@ -108,10 +108,10 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
               gap={2}
               className="basecolor1"
             >
-              <button className="btn btn-green btn-sm" onClick={handleBookFlight}>
+              <button className={styles.selectFlightBtn + " btn btn-green btn-sm"} onClick={handleBookFlight}>
                 <Box display="flex" gap={1}>
-                  <i className="fa fa-arrow-right"></i>{" "}
-                  <span>Book flight</span>
+                <i className="fa fa-arrow-right"></i>{" "}
+                  <Box sx={{display:{md:"block", sm:"block", xs:"none"}}}>Book flight</Box>
                 </Box>
               </button>
             </Box>

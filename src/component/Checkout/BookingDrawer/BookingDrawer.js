@@ -21,12 +21,12 @@ const BookingDrawer = ({ getFlightDetail }) => {
             justifyContent="space-between"
           >
             <Box display={"flex"} alignItems={"center"} gap={1}>
-              <span>
+              <Typography variant="h3" className={styles.title + " mb-0 h5"}>
                 {getFlightDetail?.slices?.length > 1
                   ? "Roundtrip "
                   : "One way "}
                 {"  "}
-              </span>
+              </Typography>
               {getFlightDetail?.slices?.map((getSliceres, key) => {
                 return (
                   <>
@@ -58,28 +58,27 @@ const BookingDrawer = ({ getFlightDetail }) => {
           <Box className={styles.detailsSection} px={3}>
             {getFlightDetail?.slices.map((slice, index) => (
               <>
-              {index === 0 ? (
-                <Box display={"flex"}>
-                  <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    className={styles.onewayReturn}
-                  >
-                    <Typography>Outbound flight</Typography>
+                {index === 0 ? (
+                  <Box display={"flex"}>
+                    <Box
+                      display={"flex"}
+                      alignItems={"center"}
+                      className={styles.onewayReturn}
+                    >
+                      <Typography>Outbound flight</Typography>
+                    </Box>
                   </Box>
-                </Box>
-              ): (
-                <Box display={"flex"}>
-                  <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    className={styles.onewayReturn}
-                  >
-                    <Typography>Return flight</Typography>
+                ) : (
+                  <Box display={"flex"}>
+                    <Box
+                      display={"flex"}
+                      alignItems={"center"}
+                      className={styles.onewayReturn}
+                    >
+                      <Typography>Return flight</Typography>
+                    </Box>
                   </Box>
-                </Box>
-              )}
-                
+                )}
 
                 <FromAndToDetail
                   key={index} // Always add a unique key when mapping

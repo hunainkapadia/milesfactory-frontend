@@ -93,7 +93,10 @@ const HeroSection = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Box className={styles.Box} width={"62%"}>
+            <Box
+              className={styles.Box}
+              sx={{ width: { xs: "100%", md: "62%" } }}
+            >
               {!messages.length && (
                 <Box
                   mb={3}
@@ -173,7 +176,7 @@ const HeroSection = () => {
               {/* Chat Messages */}
               {messages.length ? (
                 <section className={searchResultStyles.messageBody}>
-                  {messages.map((msg, index) => ( 
+                  {messages.map((msg, index) => (
                     <div key={index}>
                       {msg?.user && <UserMessage userMessage={msg.user} />}
                       {msg?.ai ? (

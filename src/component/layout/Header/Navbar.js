@@ -5,7 +5,9 @@ import styles from "@/src/styles/sass/components/baseLayout.module.scss"; // Imp
 
 const Navbar = () => {
   return (
-    <Box position="static" className={styles.navbar}>
+    <Box position="static" className={styles.navbar}
+      sx={{ display: { xs: "none", md: "block" } }} // Hide on mobile, show on desktop
+    >
       {/* Logo / Title */}
       {/* Navigation Links */}
       <Box className={styles.navItems} display={"flex"} gap={3}>

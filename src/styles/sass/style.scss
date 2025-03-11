@@ -639,24 +639,6 @@ p {
   }
 }
 
-.facebook-btn {
-  background: $facebook;
-  display: block;
-  padding: 12px 10px;
-  @include border-radius(5px);
-  color: $white;
-  text-align: center;
-  text-decoration: none;
-  .iconfont {
-    font-size: $bfsize + 6;
-    vertical-align: middle;
-  }
-  &:hover {
-    background: lighten($facebook, 8%);
-    text-decoration: none;
-  }
-}
-
 // c)Flexbox
 
 .d-flex {
@@ -692,67 +674,6 @@ p {
   &.flow-column {
     @include flex-flow(column);
   }
-}
-
-// Product colors
-.prd-color1 {
-  &,
-  &:before,
-  * {
-    color: $prd-color1 !important;
-  }
-}
-
-.prd-color2 {
-  &,
-  &:before,
-  * {
-    color: $prd-color2 !important;
-  }
-}
-
-.prd-color3 {
-  &,
-  &:before,
-  * {
-    color: $prd-color3 !important;
-  }
-}
-
-.prd-color4 {
-  &,
-  &:before,
-  * {
-    color: $prd-color4 !important;
-  }
-}
-
-.prd-color5 {
-  &,
-  &:before,
-  * {
-    color: $prd-color5 !important;
-  }
-}
-
-.prd-color1-bg {
-  background: $prd-color1 !important;
-}
-
-.prd-color2-bg {
-  background: $prd-color2 !important;
-}
-
-.prd-color3-bg {
-  background: $prd-color3 !important;
-}
-
-.prd-color4-bg {
-  background: $prd-color4 !important;
-}
-
-.prd-color5-bg {
-  background: $prd-color5 !important;
 }
 
 .fi,
@@ -1066,23 +987,6 @@ pre {
   @include box-shadow(0, 3px, 7px, rgba($bc1-light, 0.6));
   video {
     display: block;
-  }
-  .play_overlay {
-    background: rgba($bc1-dark, 0.8);
-    @include position(absolute, 0 null null 0);
-    @include size(100%);
-    @include display(flex);
-    @include align-items(center);
-    @include justify-content(center);
-    .play_icon {
-      background: $success-color3;
-      color: $white;
-      font-size: $bfsize + 10;
-      text-align: center;
-      @include size(75px);
-      line-height: 75px;
-      @include border-radius(100%);
-    }
   }
 }
 body {
@@ -1912,13 +1816,6 @@ textarea {
   padding-left: 15px !important;
 }
 
-.overlay-white {
-  position: relative;
-  &:before {
-    @extend %overlay-white;
-  }
-}
-
 .section-h {
   padding: 0 170px;
 }
@@ -2020,57 +1917,6 @@ textarea {
         font-size: 0%;
         display: none;
       }
-    }
-  }
-
-  &.ArrowSllider {
-    &.owl-carousel {
-      .owl-nav button.owl-prev:before,
-      .owl-nav button.owl-next:before {
-        background: #fff;
-      }
-      .owl-dots {
-        margin-top: 20px;
-      }
-      .owl-nav {
-        background: #cf3131;
-        top: 35%;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        height: 0;
-
-        &.disabled {
-          display: none;
-        }
-      }
-      .owl-stage-outer {
-      }
-    }
-  }
-}
-
-.select2-dropdown {
-  border: solid 1px $lightergray !important;
-  box-shadow: 0 2px 10px rgba($black, 0.3);
-}
-
-.select2-container {
-  max-width: 100%;
-  width: 100% !important;
-  &.select2-container--default .select2-dropdown .select2-results__options {
-    li {
-      margin-bottom: 0;
-      padding: 3px 8px;
-      font-size: 15px;
-    }
-    .select2-results__option--highlighted[aria-selected] {
-      background: $lightestergray;
-      color: $basecolor1;
-    }
-    li[aria-selected="true"] {
-      background: $basecolor2 !important;
-      color: $white !important;
     }
   }
 }

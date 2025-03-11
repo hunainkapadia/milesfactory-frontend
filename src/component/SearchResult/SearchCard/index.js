@@ -44,7 +44,6 @@ const SearchCard = ({ offerData, offerkey }) => {
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      
 
       <Card className={searchResultStyles.flightOfferCard}>
         <CardContent className="p-0">
@@ -59,7 +58,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                   mb={index === 0 ? 2 : 0}
                 >
                   {/* Airline Logo */}
-                  <Box mr={4}>
+                  <Box sx={{ mr: { xs: 0, sm: 4, md: 4 } }}>
                     <Avatar
                       src={offerData?.owner?.logo_symbol_url}
                       alt={offerData?.owner?.name}
@@ -75,7 +74,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                     width="100%"
                   >
                     {/* Departure Time & Code */}
-                    <Box textAlign="center" flex={1}>
+                    <Box textAlign="center" flex={1} className={searchResultStyles.Timings}>
                       <Typography className={searchResultStyles.flightTime}>
                         {new Date(slice.departing_at).toLocaleTimeString([], {
                           hour: "2-digit",
@@ -89,6 +88,7 @@ const SearchCard = ({ offerData, offerkey }) => {
 
                     {/* Separator */}
                     <Box
+                      sx={{ display: { xs: "none", md: "block" } }}
                       className={searchResultStyles.separater}
                       flex={1}
                       textAlign="center"
@@ -97,8 +97,12 @@ const SearchCard = ({ offerData, offerkey }) => {
                     </Box>
 
                     {/* Flight Duration */}
-                    <Box textAlign="center" flex={1}>
-                      <Typography className={searchResultStyles.flightDuration + " aaa111"}>
+                    <Box textAlign="center" flex={1} sx={{display:{xs:"flex", alignItems:"center"}}}>
+                      <Typography
+                        className={
+                          searchResultStyles.flightDuration + " "
+                        }
+                      >
                         {slice.segments?.length > 1 ? "Stopover" : "Direct"}
                       </Typography>
                       <Typography className={searchResultStyles.flightDuration}>
@@ -108,6 +112,7 @@ const SearchCard = ({ offerData, offerkey }) => {
 
                     {/* Separator */}
                     <Box
+                      sx={{ display: { xs: "none", md: "block" } }}
                       className={searchResultStyles.separater}
                       flex={1}
                       textAlign="center"
@@ -116,7 +121,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                     </Box>
 
                     {/* Arrival Time & Code */}
-                    <Box textAlign="center" flex={1}>
+                    <Box textAlign="center" flex={1} className={searchResultStyles.Timings}>
                       <Typography className={searchResultStyles.flightTime}>
                         {new Date(slice.arriving_at).toLocaleTimeString([], {
                           hour: "2-digit",
@@ -134,8 +139,13 @@ const SearchCard = ({ offerData, offerkey }) => {
 
             {/* Price Section */}
             <Grid display={"flex"} justifyContent={"end"} item xs={3}>
-              <Box className={searchResultStyles.flightPriceSection}>
-                <h3 className={`mb-0 basecolor1 semibold`}>
+              <Box>
+                <h3
+                  className={
+                    searchResultStyles.flightPriceSection +
+                    ` mb-0 basecolor1 semibold`
+                  }
+                >
                   €{offerData?.total_amount}
                 </h3>
               </Box>
@@ -144,23 +154,22 @@ const SearchCard = ({ offerData, offerkey }) => {
 
           {/* Extra Info bottom */}
           <Box className={searchResultStyles.rowExtraInfo}>
-            <Box display={"flex"} alignItems={"center"}>
-              <Typography
-                className={`${searchResultStyles.normalOption}  ${searchResultStyles.fastestOption}`}
-              >
-                <img src="/images/clock-icon.svg" /> <span>{`${offerData?.flight_type}`}</span>
-              </Typography>
-            </Box>
-            <Box display={"flex"} alignItems={"center"}>
-              <Typography className={searchResultStyles.normalOption}>
-                <img src="/images/handcarry-icon.svg" /> <span> pieces</span>
-              </Typography>
-            </Box>
-            <Box display={"flex"} alignItems={"center"}>
-              <Typography className={searchResultStyles.normalOption}>
-                <img src="/images/handcarry-icon.svg" />{" "}
-                <span> {offerData?.total_emissions_kg} kg CO₂e</span>
-              </Typography>
+            <Box display={"flex"} alignItems={"center"} gap={2}>
+              <Box display={"flex"} alignItems={"center"}>
+                <Typography
+                  className={`${searchResultStyles.normalOption}  ${searchResultStyles.fastestOption}`}
+                >
+                  <img src="/images/clock-icon.svg" />{" "}
+                  <span>{`${offerData?.flight_type}`}</span>
+                </Typography>
+              </Box>
+              <Box display={"flex"} alignItems={"center"}>
+                
+                <img src="/images/leave-icon.svg" />
+                <Typography className={searchResultStyles.normalOption}>
+                  <span> {offerData?.total_emissions_kg} kg CO₂e</span>
+                </Typography>
+              </Box>
             </Box>
             <Box>
               <button
@@ -171,7 +180,7 @@ const SearchCard = ({ offerData, offerkey }) => {
               >
                 <Box display={"flex"} gap={2}>
                   <i className="fa fa-arrow-right"></i>{" "}
-                  <span> Select flight</span>
+                  <Box sx={{display:{md:"block", sm:"block", xs:"none"}}}> Select flight</Box>
                 </Box>
               </button>
             </Box>
