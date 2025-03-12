@@ -107,9 +107,7 @@ const HeroSection = () => {
                   flexDirection={"column"}
                 >
                   <Box mb={1}>
-                    <Typography variant="h1" className="h1-lg">
-                      Travel smarter with AI-powered savings
-                    </Typography>
+                  <Typography variant="h1" className="h1-lg">Travel smarter with AI</Typography>
                   </Box>
                   <Typography color="white">
                     Find and book your perfect trip at the best price -
