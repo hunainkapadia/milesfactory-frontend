@@ -22,12 +22,6 @@
          left: 20px;
       }
    
-      .SearchForm input:focus+.label,
-      .SearchForm:not(:placeholder-shown)+.label {
-         opacity: 0;
-         visibility: hidden;
-      }
-   
       .SearchButton {
          position: absolute;
          right: 15px;
@@ -72,7 +66,9 @@
    }
 
    .SearchForm {
-      input {
+      textarea {
+         height: 96px !important;
+         padding: 12px 15px;
          background: #0B1729;
          border: 1px solid #F7F7F7;
          border-radius: 16px;

@@ -474,6 +474,9 @@ p {
   height: 56px;
   padding: 0 22px;
 }
+.SearchForm .MuiInputBase-formControl {
+  padding: 0 !important;
+}
 .SearchForm .MuiInputAdornment-root {
   z-index: 1;
   .MuiButtonBase-root  {

@@ -214,6 +214,10 @@
 
   .mainHeroSection.HeroSection {
     padding: 25vh 0 16vh;
+    .Box .Content .ContentIn {
+      padding-bottom: 24px;
+      width: $BoxContainerXs;
+    }
     &.Active {
       padding: 0;
       

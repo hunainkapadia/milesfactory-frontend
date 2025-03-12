@@ -27,6 +27,8 @@ import LabelAnimation from "../home/LabelAnimation";
 
 const HeroSection = () => {
   const [userMessage, setUserMessage] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+
   const messagesEndRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -39,11 +41,9 @@ const HeroSection = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
-  
+
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
-  
-  
 
   useEffect(() => {
     dispatch(fetchMessages()); //  Fetch messages when the page loads
@@ -67,10 +67,9 @@ const HeroSection = () => {
   const SelectedFlightId = useSelector(
     (state) => state.booking?.selectedFlightId
   );
-  const getFlightKey = useSelector((state)=> state.booking.setSelectFlightKey)
-  
+  const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
+
   console.log("flightDetail", flightDetail);
-  
 
   // for passenger form
   const isPassengerDrawerOpen = useSelector(
@@ -79,7 +78,6 @@ const HeroSection = () => {
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
-
 
   return (
     <>
@@ -103,17 +101,17 @@ const HeroSection = () => {
                     justifyContent={"center"}
                     flexDirection={"column"}
                   >
-                    <Box mb={1} sx={{ px: { xs: 3 } }}>
+                    <Box  sx={{ px: { xs: 0, md: 3, lg:3, } }}>
                       <Typography variant="h1" className="h1-lg">
                         Travel smarter with AI
                       </Typography>
-                    </Box>
                     <Typography color="white">
                       Find and book your perfect trip at the best price -
                       effortlessly. Mylz has access to live prices and
                       availability directly from all global airlines, hotels,
                       and tour guides.
                     </Typography>
+                    </Box>
                   </Box>
                 </Box>
               </Container>
@@ -147,21 +145,35 @@ const HeroSection = () => {
                             className={inputStyles.SearchBoxIn}
                             position={"relative"}
                           >
-                            {!messages.length ? <LabelAnimation /> : ""}
+                            {!messages.length && !isTyping ? (
+                              <LabelAnimation />
+                            ) : (
+                              ""
+                            )}
                             <TextField
                               placeholder={
                                 messages.length
                                   ? "Ask anything about your trip"
                                   : ""
                               }
-                              className={inputStyles.SearchForm + " SearchForm"}
+                              className={
+                                inputStyles.SearchForm + " SearchForm 222"
+                              }
                               fullWidth
                               value={userMessage}
                               onChange={(e) => setUserMessage(e.target.value)}
                               variant="outlined"
-                              onKeyDown={(e) =>
-                                e.key === "Enter" && handleSearch()
-                              }
+                              onKeyDown={(e) => {
+                                if (!isTyping) setIsTyping(true);
+                                if (e.key === "Enter") handleSearch();
+                              }}
+                              multiline
+                              rows={1}
+                              InputProps={{
+                                style: {
+                                  alignItems: "flex-start",
+                                },
+                              }}
                             />
 
                             <IconButton
