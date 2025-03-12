@@ -11,7 +11,7 @@ import {
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { closePassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
-import { closeDrawer, openDrawer, setsignUpUser, SignUpUser, SignupUser } from "@/src/store/slices/Auth/AuthSlice";
+import { closeDrawer, openDrawer, setsignUpUser, SignUpUser, SignupUser } from "@/src/store/slices/Auth/SignupSlice";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
@@ -36,9 +36,9 @@ const SignUpDrawer = () => {
 
   // get error
   const { firstNameError, lastNameError, emailError, passwordError } = useSelector(
-    (state) => state.auth
+    (state) => state.signup
   );  
-  const isFormSupmit = useSelector((state) => state.auth);
+  const isFormSupmit = useSelector((state) => state.signup);
   console.log("isFormSupmit", isFormSupmit?.user?.status);
   
 

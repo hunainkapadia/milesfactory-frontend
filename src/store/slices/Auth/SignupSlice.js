@@ -14,8 +14,8 @@ const initialState = {
   passwordError: "",
 };
 
-const authSlice = createSlice({
-  name: "auth",
+const signupSlice = createSlice({
+  name: "signup",
   initialState,
   reducers: {
     openDrawer: (state) => {
@@ -93,6 +93,6 @@ export const {
   setEmailError,
   setPasswordError,
   logoutUser,
-} = authSlice.actions;
+} = signupSlice.actions;
 
-export default authSlice.reducer;
+export default signupSlice.reducer;

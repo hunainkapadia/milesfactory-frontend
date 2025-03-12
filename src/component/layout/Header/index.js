@@ -6,7 +6,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
-import { logoutUser, openDrawer, setsignUpUser } from "@/src/store/slices/Auth/AuthSlice";
+import { logoutUser, openDrawer, setsignUpUser } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
 import { setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 
@@ -33,7 +33,7 @@ const Header = () => {
   
   
   // Load user from Cookies when the component mounts
-  const isFormSupmit = useSelector((state) => state.auth?.user?.user);
+  const isFormSupmit = useSelector((state) => state.signup?.user?.user);
   console.log("isFormSupmit22", isFormSupmit);
     
 

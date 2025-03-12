@@ -21,7 +21,7 @@ const LoginDrawer = () => {
   console.log("isFormSupmit", isFormSupmit);
   
 
-  const isUserLoggedIn = useSelector((state) => state.auth.user?.status === 200);
+  const isUserLoggedIn = useSelector((state) => state.signup.user?.status === 200);
 
   const handleCloseDrawer = () => {
     dispatch(LogincloseDrawer());
