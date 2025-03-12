@@ -103,7 +103,7 @@ const HeroSection = () => {
                 >
                   <Box mb={1}>
                     <Typography variant="h1">
-                      Travel smarter with AI-powered savings
+                      Travel smarter with AI
                     </Typography>
                   </Box>
                   <Typography color="white">
