@@ -65,17 +65,17 @@ const Header = () => {
               justifyContent={"space-between"}
               alignItems={"center"}
             >
-              <div className={styles.Logo}>
+              <Box width={"20%"} className={styles.Logo}>
                 <Link href={"/"}>
-                  <div className="d-flex align-items-center">
+                  <Box className="d-flex align-items-center">
                     {isSticky || isMessage ? (
                       <img src="/images/logo-color2.svg" />
                     ) : (
                       <img src="/images/mylz-logo-white.svg" />
                     )}
-                  </div>
+                  </Box>
                 </Link>
-              </div>
+              </Box>
               <Navbar />
 
               <Box display={"flex"} gap={4}>
@@ -89,7 +89,7 @@ const Header = () => {
                       gap={1}
                     >
                       <i className="fa fa-user-circle"></i>
-                      <div>{isFormSupmit?.first_name}</div>
+                      <Box>{isFormSupmit?.first_name}</Box>
                       {/*  */}
                     </Box>
                     <Box className={styles.DropdownItems}>
@@ -147,7 +147,7 @@ const Header = () => {
                     onClick={HandleSignup}
                   >
                     <i className="fa fa-user-circle"></i>
-                    <div>Sign in / sign up</div>
+                    <Box>Sign in / sign up</Box>
                     {/*  */}
                   </Box>
                 )}
@@ -162,7 +162,7 @@ const Header = () => {
                   component={Link}
                   href="#"
                 >
-                  <div>Book a trip</div>
+                  <Box>Book a trip</Box>
                   {/*  */}
                 </Box>
               </Box>

@@ -14,23 +14,7 @@ import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 
 const SearchCard = ({ offerData, offerkey }) => {
-  
   const dispatch = useDispatch()
-
-  // Get Redux state
-  // const selectedFlight = useSelector((state) => state.booking.selectedFlight);
-  // const flightDetails = useSelector((state) => state.booking.flightDetails);
-  // const isDrawerOpen = useSelector((state) => state.booking.isDrawerOpen);
-  // const loading = useSelector((state) => state.booking.loading);
-
-
-  // const handleCloseDrawer = () => {
-  //   dispatch(resetSelectedFlight()); // Close the drawer
-  // };
-
-
-  
-  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {

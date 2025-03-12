@@ -23,6 +23,7 @@ import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
+import LabelAnimation from "../home/LabelAnimation";
 
 const HeroSection = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -80,52 +81,6 @@ const HeroSection = () => {
   );
 
 
-  // letter typing
-  const texts = [
-    "Where do you want to go today?",
-    "Explore the world, one destination at a time.",
-    "Adventure is waiting for you!",
-  ];
-  
-  const [displayedText, setDisplayedText] = useState("");
-  const [textIndex, setTextIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const typingSpeed = 80;
-  const deletingSpeed = 40;
-  const delayBeforeDeleting = 1000;
-
-  // Blinking Cursor Effect
-  const [showCursor, setShowCursor] = useState(true);
-  useEffect(() => {
-    const cursorBlink = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 500); // Blinks every 500ms
-    return () => clearInterval(cursorBlink);
-  }, []);
-
-  useEffect(() => {
-    let timeout;
-
-    if (!isDeleting && displayedText.length < texts[textIndex].length) {
-      timeout = setTimeout(() => {
-        setDisplayedText(texts[textIndex].substring(0, displayedText.length + 1));
-      }, typingSpeed);
-    } else if (isDeleting && displayedText.length > 0) {
-      timeout = setTimeout(() => {
-        setDisplayedText(texts[textIndex].substring(0, displayedText.length - 1));
-      }, deletingSpeed);
-    } else if (displayedText.length === texts[textIndex].length) {
-      timeout = setTimeout(() => {
-        setIsDeleting(true);
-      }, delayBeforeDeleting);
-    } else if (isDeleting && displayedText.length === 0) {
-      setIsDeleting(false);
-      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayedText, isDeleting, textIndex]);
-
   return (
     <>
       <section>
@@ -142,14 +97,17 @@ const HeroSection = () => {
               {!messages.length && (
                 <Box
                   mb={3}
-                  px={6}
+                  sx={{
+                    mb: { xs: 5, md: 3, lg: 3 },
+                    px: { xs: 0, md: 6, lg: 6 },
+                  }}
                   textAlign={"center"}
                   display={"flex"}
                   justifyContent={"center"}
                   flexDirection={"column"}
                 >
                   <Box mb={1}>
-                    <Typography variant="h1">
+                    <Typography variant="h1" className="h1-lg">
                       Travel smarter with AI-powered savings
                     </Typography>
                   </Box>
@@ -171,51 +129,41 @@ const HeroSection = () => {
                       : inputStyles.SearchBoxSection
                   }
                 >
-                  <Container>
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <Box className={inputStyles.SearchBoxContyainer}>
-                        <Box
-                          className={inputStyles.SearchBoxIn}
-                          position={"relative"}
-                        >
-                          {!messages.length ? (
-                            <FormLabel className={inputStyles.label}>
-                              {displayedText}
-                              {showCursor ? " |" : ""}
-                            </FormLabel>
-                          ) : (
-                            ""
-                          )}
-                          <TextField
-                            placeholder={
-                              messages.length
-                                ? "Ask anything about your trip"
-                                : ""
-                            }
-                            className={inputStyles.SearchForm + " SearchForm"}
-                            fullWidth
-                            value={userMessage}
-                            onChange={(e) => setUserMessage(e.target.value)}
-                            variant="outlined"
-                            onKeyDown={(e) =>
-                              e.key === "Enter" && handleSearch()
-                            }
-                          />
+                  <Box
+                    sx={{ px: { xs: 0, md: 5, lg: 5 } }}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Box className={inputStyles.SearchBoxContyainer}>
+                      <Box
+                        className={inputStyles.SearchBoxIn}
+                        position={"relative"}
+                      >
+                        {!messages.length ? <LabelAnimation /> : ""}
+                        <TextField
+                          placeholder={
+                            messages.length
+                              ? "Ask anything about your trip"
+                              : ""
+                          }
+                          className={inputStyles.SearchForm + " SearchForm"}
+                          fullWidth
+                          value={userMessage}
+                          onChange={(e) => setUserMessage(e.target.value)}
+                          variant="outlined"
+                          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                        />
 
-                          <IconButton
-                            className={inputStyles.SearchButton}
-                            onClick={handleSearch}
-                          >
-                            <i className="fa fa-arrow-right"></i>
-                          </IconButton>
-                        </Box>
+                        <IconButton
+                          className={inputStyles.SearchButton}
+                          onClick={handleSearch}
+                        >
+                          <i className="fa fa-arrow-right"></i>
+                        </IconButton>
                       </Box>
                     </Box>
-                  </Container>
+                  </Box>
                 </Box>
               </section>
 

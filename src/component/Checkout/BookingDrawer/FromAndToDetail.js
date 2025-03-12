@@ -190,7 +190,7 @@ const FromAndToDetail = ({ getdata, logo }) => {
 
           {/*  */}
         </Box>
-        <h1>asdasda</h1>
+        
       </Box>
     </>
   );

@@ -12,13 +12,16 @@ const HowMylzWork = (props) => {
     >
       <section>
         <Container>
-          <Box className={`${styles.HeroSection} ${styles.HowMylzWork}`} position={"relative"}>
+          <Box
+            className={`${styles.HeroSection} ${styles.HowMylzWork}`}
+            position={"relative"}
+          >
             <Box
               className={" mb-40 text-center"}
               display={"flex"}
               justifyContent={"center"}
             >
-              <Box sx={{ width: "42%" }}>
+              <Box sx={{ width: { xs: "100%", md: "42%", lg: "42%" } }}>
                 <Typography variant="h2" className="white align-center">
                   Travel smarter
                 </Typography>
@@ -29,84 +32,58 @@ const HowMylzWork = (props) => {
                 </Typography>
               </Box>
             </Box>
-            <Grid container spacing={3}>
-              <Grid item xs className={styles.IdeaCard}>
+            <Grid container spacing={{ xs: 4, md: 4 }}>
+
+              <Grid item xs={12} md className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box`}
                   variant="outlined"
                 >
                   <Box>
-                    <Box
-                      sx={{
-                        display: {
-                          xs: "none",
-                          sm: "block",
-                        },
-                      }}
-                    >
-                      <Typography color="white" variant="h5">
-                        Chat your plans
-                      </Typography>
-                      <Typography className="f14" color="white">
-                        No forms. Just tell us where, when, and who’s going.
-                        Mylz will ask you questions to fully understand your
-                        travel requirements.
-                      </Typography>
-                    </Box>
+                    <Typography color="white" variant="h5">
+                      Chat your plans
+                    </Typography>
+                    <Typography className="f14" color="white">
+                      No forms. Just tell us where, when, and who’s going. Mylz
+                      will ask you questions to fully understand your travel
+                      requirements.
+                    </Typography>
                   </Box>
                 </Card>
               </Grid>
 
-              <Grid item xs className={styles.IdeaCard}>
+              <Grid item xs={12} md className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box`}
                   variant="outlined"
                 >
                   <Box>
-                    <Box
-                      sx={{
-                        display: {
-                          xs: "none",
-                          sm: "block",
-                        },
-                      }}
-                    >
-                      <Typography color="white" variant="h5">
-                        Get instant options
-                      </Typography>
-                      <Typography className="f14" color="white">
-                        Mylz presents the best offers in terms of flights,
-                        stays, and experiences. All tailored and personalised to
-                        your context.
-                      </Typography>
-                    </Box>
+                    <Typography color="white" variant="h5">
+                      Get instant options
+                    </Typography>
+                    <Typography className="f14" color="white">
+                      Mylz presents the best offers in terms of flights, stays,
+                      and experiences. All tailored and personalised to your
+                      context.
+                    </Typography>
                   </Box>
                 </Card>
               </Grid>
 
-              <Grid item xs className={styles.IdeaCard}>
+              <Grid item xs={12} md className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box`}
                   variant="outlined"
                 >
                   <Box>
-                    <Box
-                      sx={{
-                        display: {
-                          xs: "none",
-                          sm: "block",
-                        },
-                      }}
-                    >
-                      <Typography color="white" variant="h5">
-                        Book it all in one click
-                      </Typography>
-                      <Typography className="f14" color="white">
-                        Pay in one click. Get your full itinerary. Done, you are
-                        ready to go! Mylz will be here to assist during your
-                        whole journey.
-                      </Typography>
-                    </Box>
+                    <Typography color="white" variant="h5">
+                      Book it all in one click
+                    </Typography>
+                    <Typography className="f14" color="white">
+                      Pay in one click. Get your full itinerary. Done, you are
+                      ready to go! Mylz will be here to assist during your whole
+                      journey.
+                    </Typography>
                   </Box>
                 </Card>
               </Grid>

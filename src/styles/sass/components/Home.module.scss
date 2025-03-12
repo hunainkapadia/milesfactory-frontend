@@ -3,7 +3,6 @@
 .HomeBannerReview {
   h1 {
     color: $white;
-    font-size: $h1-lg;
   }
   &::after {
     display: none;
@@ -23,7 +22,6 @@
 
   h1 {
     color: $white;
-    font-size: $h1-lg;
   }
 
   /* Rectangle 24 */
@@ -124,8 +122,10 @@
   }
 }
 @media only screen and (max-width: 767px) {
-  .HeroSection .Box {
-    width: $BoxContainerXs;
+  .HeroSection {padding: 35vh 0 2vh;
+    .Box {
+      width: $BoxContainerXs;
+    }
   }
 }
 

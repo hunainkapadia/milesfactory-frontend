@@ -17,7 +17,13 @@ const CheapestFlights = (props) => {
             display={"flex"}
             justifyContent={"center"}
           >
-            <Box width={"62%"}>
+            <Box
+              sx={{
+                xs: { width: "100%" },
+                md: { width: "62%" },
+                lg: { width: "62%" },
+              }}
+            >
               <Box>
                 <Box mb={3}>
                   <Typography variant="h2" className="white">
