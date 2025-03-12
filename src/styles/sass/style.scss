@@ -40,7 +40,7 @@ body {
   @include box-shadow(0px, 0px, 7px, rgba($basecolor1, 0.2));
 }
 
-.h1-lg {font-size: $h1-lg;}
+.h1-lg {font-size: $h1-lg !important;}
 .h1,
 .h2,
 .h3,
