@@ -34,11 +34,24 @@ const LoginDrawer = () => {
   };
 
   return (
-    <Box className={`${styles.checkoutDrower} white-bg ${styles.PassengerDrower}`}>
+    <Box
+      className={`${styles.checkoutDrower} white-bg ${styles.PassengerDrower}`}
+    >
       <Box className={styles.checkoutDrowerSection + " white-bg"}>
         {isUserLoggedIn ? (
-          <Box py={20} px={5} display="flex" justifyContent="center" alignItems="center">
-            <Box textAlign="center" gap={5} display="flex" flexDirection="column">
+          <Box
+            py={20}
+            px={5}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Box
+              textAlign="center"
+              gap={5}
+              display="flex"
+              flexDirection="column"
+            >
               <img src="/images/congratz.svg" alt="Success" />
               <Typography variant="h2">Welcome Back!</Typography>
               <Typography>🎉 You have successfully logged in.</Typography>
@@ -46,7 +59,13 @@ const LoginDrawer = () => {
           </Box>
         ) : (
           <>
-            <Box className={styles.checkoutDrowerHeder} py={2} px={3} display="flex" justifyContent="space-between">
+            <Box
+              className={styles.checkoutDrowerHeder}
+              py={2}
+              px={3}
+              display="flex"
+              justifyContent="space-between"
+            >
               <Typography variant="h6">Login</Typography>
             </Box>
             <Divider />
@@ -62,7 +81,9 @@ const LoginDrawer = () => {
                   margin="normal"
                 />
               </Box>
-              <Typography className="error" color="red">{LoginError.email}</Typography>
+              <Typography className="error" color="red">
+                {LoginError.email}
+              </Typography>
 
               <Box>
                 <FormLabel>Password</FormLabel>
@@ -75,17 +96,40 @@ const LoginDrawer = () => {
                   margin="normal"
                 />
               </Box>
-              <Typography className="error" color="red">{LoginError.password}</Typography>
-            <Typography className="error" color="red">{LoginError.other}</Typography>
+              <Typography className="error" color="red">
+                {LoginError.password}
+              </Typography>
+              <Typography className="error" color="red">
+                {LoginError.other}
+              </Typography>
             </Box>
             <Box className={styles.passengerDrawerFooter}>
               <Divider />
-              <Box py={1} px={3} display="flex" justifyContent="flex-end" alignItems="center" gap={3}>
-                <Box className="basecolor1 f14" style={{ cursor: "pointer" }} onClick={handleCloseDrawer}>
+              <Box
+                py={1}
+                px={3}
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                gap={3}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={2}
+                  className="basecolor1 f14"
+                  style={{ cursor: "pointer" }}
+                  onClick={handleCloseDrawer}
+                >
                   <i className="fa fa-close fas"></i>
                   <span>Close</span>
                 </Box>
-                <Button className="btn btn-green btn-sm" onClick={handleLogin} variant="contained" color="success">
+                <Button
+                  className="btn btn-green btn-sm"
+                  onClick={handleLogin}
+                  variant="contained"
+                  color="success"
+                >
                   <Box display="flex" alignItems="center" gap={1}>
                     <i className="fa fa-arrow-right"></i>
                     <span>Login</span>
