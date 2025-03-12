@@ -11,10 +11,12 @@ import {
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { closePassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
-import { closeDrawer, openDrawer, setsignUpUser, SignUpUser, SignupUser } from "@/src/store/slices/Auth/AuthSlice";
+import { closeDrawer, openDrawer, setsignUpUser, SignUpUser, SignupUser } from "@/src/store/slices/Auth/SignupSlice";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import { loginOpenDrawer } from "@/src/store/slices/Auth/LoginSlice";
 
 const SignUpDrawer = () => {
   const dispatch = useDispatch();
@@ -34,9 +36,9 @@ const SignUpDrawer = () => {
 
   // get error
   const { firstNameError, lastNameError, emailError, passwordError } = useSelector(
-    (state) => state.auth
+    (state) => state.signup
   );  
-  const isFormSupmit = useSelector((state) => state.auth);
+  const isFormSupmit = useSelector((state) => state.signup);
   console.log("isFormSupmit", isFormSupmit?.user?.status);
   
 
@@ -50,6 +52,10 @@ const SignUpDrawer = () => {
     dispatch(SignUpUser(params));
     
   };
+  const handleSignIn = ()=> {
+    dispatch(closeDrawer());
+    dispatch(loginOpenDrawer());
+  }
 
   return (
     <Box
@@ -131,38 +137,43 @@ const SignUpDrawer = () => {
               </Box>
               <Box className={styles.passengerDrawerFooter}>
                 <Divider />
-                <Box
-                  py={1}
-                  px={3}
-                  display="flex"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                  gap={3}
-                >
+                <Box pb={2} pt={2}
+                    px={3}>
                   <Box
+                    
                     display="flex"
+                    justifyContent="flex-end"
                     alignItems="center"
-                    gap={2}
-                    className="basecolor1 f14"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleCloseDrawer}
+                    gap={3}
                   >
-                    <i className="fa fa-close fas"></i>
-                    <span>Close</span>
-                  </Box>
-
-                  {/* Select Flight Button */}
-                  <Button
-                    className="btn btn-green btn-sm"
-                    onClick={handleSignUp}
-                    variant="contained"
-                    color="success"
-                  >
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <i className="fa fa-arrow-right"></i>
-                      <span>Sign Up</span>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      gap={2}
+                      className="basecolor1 f14"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleCloseDrawer}
+                    >
+                      <i className="fa fa-close fas"></i>
+                      <span>Close</span>
                     </Box>
-                  </Button>
+
+                    {/* Select Flight Button */}
+                    <Button
+                      className="btn btn-green btn-sm"
+                      onClick={handleSignUp}
+                      variant="contained"
+                      color="success"
+                    >
+                      <Box display="flex" alignItems="center" gap={1}>
+                        <i className="fa fa-arrow-right"></i>
+                        <span>Sign Up</span>
+                      </Box>
+                    </Button>
+                  </Box>
+                  <Typography textAlign={"center"} pt={2}>
+                    Already ahave an account? <Link onClick={handleSignIn} href={""}>Sign in</Link>
+                  </Typography>
                 </Box>
               </Box>
             </>

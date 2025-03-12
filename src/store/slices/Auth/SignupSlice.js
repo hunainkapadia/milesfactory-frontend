@@ -14,8 +14,8 @@ const initialState = {
   passwordError: "",
 };
 
-const authSlice = createSlice({
-  name: "auth",
+const signupSlice = createSlice({
+  name: "signup",
   initialState,
   reducers: {
     openDrawer: (state) => {
@@ -46,7 +46,8 @@ const authSlice = createSlice({
     },
     logoutUser: (state) => {
       state.user = null; // Remove user from Redux
-      Cookies.remove("set-user-signup"); // Remove user from Cookies
+      Cookies.remove("set-user");  // Remove user cookie
+      window.location.reload();  // Refresh the page to reflect changes
     },
   },
 });
@@ -57,15 +58,13 @@ export const SignUpUser = (params) => (dispatch) => {
     .post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
       if (res.status === 201) {
-         setTimeout(() => {
-            dispatch(closeDrawer());
-         }, 3000);
+         dispatch(closeDrawer());
         dispatch(setsignUpUser({user: res.data, status: res.status}));
 
 
         // Store user info in cookies
         Cookies.set(
-          "set-user-signup",
+          "set-user",
           JSON.stringify({
             email: params.email,
             password: params.password,
@@ -94,6 +93,6 @@ export const {
   setEmailError,
   setPasswordError,
   logoutUser,
-} = authSlice.actions;
+} = signupSlice.actions;
 
-export default authSlice.reducer;
+export default signupSlice.reducer;

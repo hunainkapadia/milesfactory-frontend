@@ -3,7 +3,7 @@ import getMessagesReducer from "./slices/GestMessageSlice";
 import sendMessageReducer from "./slices/sendMessageSlice";
 import bookingflightsReducer from "./slices/BookingflightSlice";
 import passengerDrawerReducer from "./slices/passengerDrawerSlice" ;
-import authReducer from "./slices/Auth/AuthSlice" ;
+import signupReducer from "./slices/Auth/SignupSlice" ;
 import loginReducer from "./slices/Auth/LoginSlice";
 
 const store = configureStore({
@@ -12,7 +12,7 @@ const store = configureStore({
     getMessages: getMessagesReducer,
     sendMessage: sendMessageReducer,
     passengerDrawer: passengerDrawerReducer,
-    auth :  authReducer,
+    signup :  signupReducer,
     login :  loginReducer,
 
   },

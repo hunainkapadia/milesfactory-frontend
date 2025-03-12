@@ -5,7 +5,7 @@ import api from "../../api";
 
 const initialState = {
   loginUser: null,
-  openDrawer: false,
+  loginOpenDrawer: false,
   loading: false,
   error: null,
   LoginError: "",
@@ -15,11 +15,11 @@ const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    openDrawer: (state) => {
-      state.openDrawer = true;
+    loginOpenDrawer: (state) => {
+      state.loginOpenDrawer = true;
     },
-    closeDrawer: (state) => {
-      state.openDrawer = false;
+    LogincloseDrawer: (state) => {
+      state.loginOpenDrawer = false;
     },
     setLoginUser: (state, action) => {
       state.loginUser = action.payload;
@@ -30,8 +30,8 @@ const loginSlice = createSlice({
       state.LoginError = action.payload;
     },
     logoutUser: (state) => {
-      state.user = null;
-      Cookies.remove("set-user-login");
+      state.loginUser = null; // ✅ Corrected
+      Cookies.remove("set-user");
     },
   },
 });
@@ -41,13 +41,12 @@ export const loginUser = (params) => (dispatch) => {
    api
      .post(API_ENDPOINTS.AUTH.LOGIN, params)
      .then((res) => {
+        console.log("resss", res.data)
        if (res.status === 200) {
          dispatch(setLoginUser({ user: res.data, status: res.status }));
-         console.log("success11", res?.data?.access, res?.data?.refresh);
-
          // Store user info in cookies
          Cookies.set(
-           "set-user-login",
+           "set-user",
            JSON.stringify({
              email: params.email,
              password: params.password,
@@ -57,9 +56,9 @@ export const loginUser = (params) => (dispatch) => {
            { expires: 7 }
          );
 
-         setTimeout(() => {
-           dispatch(closeDrawer());
-         }, 3000);
+         dispatch(LogincloseDrawer());
+         // setTimeout(() => {
+         // }, 3000);
        }
      })
      .catch((error) => {
@@ -75,8 +74,8 @@ export const loginUser = (params) => (dispatch) => {
 };
 
 export const {
-  openDrawer,
-  closeDrawer,
+  loginOpenDrawer,
+  LogincloseDrawer,
   setLoginUser,
   logoutUser,
   setLoginError,

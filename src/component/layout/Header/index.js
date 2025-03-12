@@ -6,8 +6,9 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
-import { logoutUser, openDrawer, setsignUpUser } from "@/src/store/slices/Auth/AuthSlice";
+import { logoutUser, openDrawer, setsignUpUser } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
+import { setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -31,17 +32,15 @@ const Header = () => {
   } 
   
   
-  // ✅ Load user from Cookies when the component mounts
-  const getuser = useSelector((state)=> state?.auth?.user);
-  
-  useEffect(() => {
-    const storedUser = Cookies.get("set-user-signup");
-    if (storedUser) {
-      dispatch(setsignUpUser(JSON.parse(storedUser)));
-    }
-  }, [dispatch]);
+  // Load user from Cookies when the component mounts
+  const isFormSupmit = useSelector((state) => state.signup?.user?.user);
+  console.log("isFormSupmit22", isFormSupmit);
+    
 
-  // // ✅ Handle logout
+  // // Handle logout
+  const isUserLogin = useSelector((state)=>state?.login?.loginUser?.user);
+
+  console.log("isUserLogin", isUserLogin);  
   const logoutHandle = () => {
     dispatch(logoutUser());
   };
@@ -80,7 +79,7 @@ const Header = () => {
               <Navbar />
 
               <Box display={"flex"} gap={4}>
-                {getuser ? (
+                {isUserLogin || isFormSupmit ? (
                   <Box className={styles.Dropdown} position={"relative"}>
                     <Box
                       className={styles.Login}
@@ -90,7 +89,7 @@ const Header = () => {
                       gap={1}
                     >
                       <i className="fa fa-user-circle"></i>
-                      <div>{getuser.first_name}</div>
+                      <div>{isFormSupmit?.first_name}</div>
                       {/*  */}
                     </Box>
                     <Box className={styles.DropdownItems}>
