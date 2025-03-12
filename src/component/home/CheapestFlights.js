@@ -13,17 +13,11 @@ const CheapestFlights = (props) => {
       <Container>
         <Box className={styles.HeroSection + " "} position={"relative"}>
           <Box
-            className={" mb-40 text-center"}
+            className={styles.Box}
             display={"flex"}
             justifyContent={"center"}
           >
-            <Box
-              sx={{
-                xs: { width: "100%" },
-                md: { width: "62%" },
-                lg: { width: "62%" },
-              }}
-            >
+            <Box className={styles.Content}>
               <Box>
                 <Box mb={3}>
                   <Typography variant="h2" className="white">

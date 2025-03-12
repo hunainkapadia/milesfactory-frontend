@@ -4,9 +4,20 @@
   h1 {
     color: $white;
   }
-  &::after {
-    display: none;
+  .ReviewSection {
+    .IdeaCard {
+      margin-bottom: 46px;
+      .star {
+        width: 40px;
+      }
+    }
   }
+}
+.AppSection {
+  background: linear-gradient(to bottom, $basecolor1-sky 60%, $white 50%);
+  padding: 50px 0 80px;
+
+  .MobileDevice {}
 }
 .HomeBanner {
   height: 100vh;
@@ -56,21 +67,30 @@
   position: relative;
   z-index: 1;
   padding: 30vh 0 2vh;
-  &.ReviewSection {
-    padding: 20vh 0 20vh;
-  }
-  &.AppSection {
-    padding: 15vh 0 15vh;
-    .MobileDevice {
-      bottom: -160px;
-      right: 0;
+  &.mainHeroSection {
+    .Box {
+      width: $BoxContainerLg;
+      .Content {width: 100%;
+      }
     }
   }
-  .Box {
-    width: $BoxContainerLg;
+  
+  .Box {width: 100%;
+    .Content {
+      width: 42%;
+      padding: 24px 0;
+      &.ContentFullWidth {
+        width: 100%;
+      }
+    }
   }
   &.Active {
     padding: 0;
+  }
+}
+.poweredBysection {
+  .Items {
+    height: 24px;
   }
 }
 
@@ -113,7 +133,7 @@
 
 @media only screen and (max-width: 1200px) {
   .HeroSection .Box {
-    width: $BoxContainerMd;
+    
   } 
 }
 @media only screen and (max-width: 1024px) {
@@ -122,18 +142,26 @@
   }
 }
 @media only screen and (max-width: 767px) {
-  .HeroSection {padding: 35vh 0 2vh;
-    .Box {
-      width: $BoxContainerXs;
+  .poweredBysection {
+      gap: 40px 20px;
+  
+      .Items {
+        height: 17px;
+      }
     }
+  
+  .HomeBanner {height: auto;
+    .HeroSection {padding: 24vh 0 10vh;
+      .Box {width: $BoxContainerXs;
+        .Content {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .HomeBanner .mainHeroSection.HeroSection {
+    padding: 25vh 0 16vh;
   }
 }
 
-@media only screen and (max-height: 650px) {
-  .HomeBanner .HeroSection {
-    padding: 25vh 0 2vh;
-  }
-  // .HomeBanner .mainHeroSection.HeroSection {
-  //   padding: 30vh 0 0vh;
-  // }
-}
+

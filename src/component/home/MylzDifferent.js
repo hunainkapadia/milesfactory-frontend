@@ -13,31 +13,24 @@ const MylzDifferent = (props) => {
       <Container>
         <Box className={styles.HeroSection + " "} position={"relative"}>
           <Box
-            className={" mb-40 text-center"}
+            className={styles.Box}
             display={"flex"}
             justifyContent={"center"}
           >
-            <Box>
+            <Box className={`${styles.Content} ${styles.ContentFullWidth}`}>
               <Typography variant="h2" className="white align-center">
                 What makes Mylz so different?
               </Typography>
             </Box>
           </Box>
           <Grid container spacing={3}>
-            <Grid item xs className={styles.IdeaCard}>
+            <Grid item xs={12} md className={styles.IdeaCard}>
               <Card
                 className={`${styles.Card} br-12 bg-dark-box`}
                 variant="outlined"
               >
                 <Box>
-                  <Box
-                    sx={{
-                      display: {
-                        xs: "none",
-                        sm: "block",
-                      },
-                    }}
-                  >
+                  <Box>
                     <Typography color="white" variant="h5">
                       Cheapest prices, no hidden fees:
                     </Typography>
@@ -52,20 +45,13 @@ const MylzDifferent = (props) => {
               </Card>
             </Grid>
 
-            <Grid item xs className={styles.IdeaCard}>
+            <Grid item xs={12} md className={styles.IdeaCard}>
               <Card
                 className={`${styles.Card} br-12 bg-dark-box`}
                 variant="outlined"
               >
                 <Box>
-                  <Box
-                    sx={{
-                      display: {
-                        xs: "none",
-                        sm: "block",
-                      },
-                    }}
-                  >
+                  <Box>
                     <Typography color="white" variant="h5">
                       Disruption protection:
                     </Typography>
@@ -80,20 +66,13 @@ const MylzDifferent = (props) => {
               </Card>
             </Grid>
 
-            <Grid item xs className={styles.IdeaCard}>
+            <Grid item xs={12} md className={styles.IdeaCard}>
               <Card
                 className={`${styles.Card} br-12 bg-dark-box`}
                 variant="outlined"
               >
                 <Box>
-                  <Box
-                    sx={{
-                      display: {
-                        xs: "none",
-                        sm: "block",
-                      },
-                    }}
-                  >
+                  <Box>
                     <Typography color="white" variant="h5">
                       All-in-one planning:
                     </Typography>

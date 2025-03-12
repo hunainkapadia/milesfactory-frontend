@@ -96,18 +96,16 @@ const HeroSection = () => {
             <Box className={styles.Box}>
               {!messages.length && (
                 <Box
-                  mb={3}
-                  sx={{
-                    mb: { xs: 5, md: 3, lg: 3 },
-                    px: { xs: 0, md: 6, lg: 6 },
-                  }}
+                  className={styles.Content}
                   textAlign={"center"}
                   display={"flex"}
                   justifyContent={"center"}
                   flexDirection={"column"}
                 >
-                  <Box mb={1}>
-                  <Typography variant="h1" className="h1-lg">Travel smarter with AI</Typography>
+                  <Box mb={1} sx={{ px: { xs: 3 } }}>
+                    <Typography variant="h1" className="h1-lg">
+                      Travel smarter with AI
+                    </Typography>
                   </Box>
                   <Typography color="white">
                     Find and book your perfect trip at the best price -
@@ -128,7 +126,7 @@ const HeroSection = () => {
                   }
                 >
                   <Box
-                    sx={{ px: { xs: 0, md: 5, lg: 5 } }}
+                    
                     display="flex"
                     alignItems="center"
                     justifyContent="center"

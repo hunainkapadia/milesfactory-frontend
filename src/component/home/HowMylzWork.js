@@ -17,11 +17,11 @@ const HowMylzWork = (props) => {
             position={"relative"}
           >
             <Box
-              className={" mb-40 text-center"}
+              className={styles.Box + " text-center"}
               display={"flex"}
               justifyContent={"center"}
             >
-              <Box sx={{ width: { xs: "100%", md: "42%", lg: "42%" } }}>
+              <Box className={styles.Content}>
                 <Typography variant="h2" className="white align-center">
                   Travel smarter
                 </Typography>
@@ -33,7 +33,6 @@ const HowMylzWork = (props) => {
               </Box>
             </Box>
             <Grid container spacing={{ xs: 4, md: 4 }}>
-
               <Grid item xs={12} md className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box`}

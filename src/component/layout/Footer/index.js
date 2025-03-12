@@ -14,7 +14,7 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
               justifyContent={"flex-end"}
             >
               <Link
-                  href={`#${id}`} // Use template literals
+                href={`#${id}`} // Use template literals
                 className={styles.footerBtn + " white text-decoration-none"}
               >
                 <Box gap={2} alignItems={"center"} display={"flex"}>
@@ -29,9 +29,14 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
         <footer className={styles.FooterForLight}>
           <Container>
             <Box
-              className={styles.FooterBox + " d-flex justify-content-between"}
+              className={styles.FooterBox + ""}
               py={3}
-              marginTop={15}
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              sx={{
+                flexDirection: { xs: "column-reverse", md: "row" }, // Reverse on mobile
+              }}
             >
               <Box
                 display={"flex"}
@@ -64,6 +69,7 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 display={"flex"}
                 gap={2}
                 alignItems={"center"}
+                sx={{marginBottom: {xs:3, md:0}}}
                 className={styles.FooterBoxRight}
               >
                 <i class="fab fa-facebook-square"></i>

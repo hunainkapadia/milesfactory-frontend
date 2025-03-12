@@ -31,18 +31,15 @@ const Section4Reviews = (props) => {
   return (
     <section
       id={props.id}
-      className={`${styles.HomeBanner} ${styles.HomeBannerReview} white-bg no-bg`}
+      className={`${styles.HomeBannerReview} section-padding-lg white-bg no-bg`}
     >
       <section>
         <Container>
-          <Box
-            className={`${styles.HeroSection} ${styles.ReviewSection} + ""`}
-            position={"relative"}
-          >
-            <Grid container spacing={3} >
-              <Grid item xs >
+          <Box className={`${styles.ReviewSection} + ""`} position={"relative"}>
+            <Grid container spacing={3}>
+              <Grid item xs>
                 <Box mb={7} display={"flex"}>
-                  <Box width={"70%"}>
+                  <Box>
                     <Typography variant="h2">
                       What our travelers say:
                     </Typography>
@@ -61,9 +58,9 @@ const Section4Reviews = (props) => {
                 const firstLetter = review.name.charAt(0).toUpperCase();
 
                 return (
-                  <Grid item xs key={index} className={styles.IdeaCard}>
-                    <Card
-                      className={`${styles.Card} no-border p-0`}
+                  <Grid item md xs={12} key={index} className={styles.IdeaCard}>
+                    <Card 
+                      className={`no-border p-0`}
                       variant="outlined"
                     >
                       <Box>
@@ -75,19 +72,19 @@ const Section4Reviews = (props) => {
                             flexDirection={"row"}
                             mb={2}
                           >
-                            <Box>
+                            <Box className={styles.star}>
                               <img src="/images/star-icon.svg" />
                             </Box>
-                            <Box>
+                            <Box className={styles.star}>
                               <img src="/images/star-icon.svg" />
                             </Box>
-                            <Box>
+                            <Box className={styles.star}>
                               <img src="/images/star-icon.svg" />
                             </Box>
-                            <Box>
+                            <Box className={styles.star}>
                               <img src="/images/star-icon.svg" />
                             </Box>
-                            <Box>
+                            <Box className={styles.star}>
                               <img src="/images/star-icon.svg" />
                             </Box>
                           </Box>

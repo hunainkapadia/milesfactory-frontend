@@ -13,6 +13,7 @@ import MylzDifferent from "../component/home/MylzDifferent";
 import CheapestFlights from "../component/home/CheapestFlights";
 import SignUpDrawer from "../component/Auth/SignUpDrawer";
 import LoginDrawer from "../component/Auth/LoginDrawer";
+import PoweredByglobal from "../component/home/PoweredByglobal";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,8 @@ const Home = () => {
           <>
             <HowMylzWork id={"HowMylzWork"} />
             <MylzDifferent id={"MylzDifferent"} />
-            <CheapestFlights id={"CheapestFlights"} />
+            <PoweredByglobal />
+            {/* <CheapestFlights id={"CheapestFlights"} /> */}
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App />
             <Header />

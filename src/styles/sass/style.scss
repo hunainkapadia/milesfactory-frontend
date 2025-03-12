@@ -205,6 +205,9 @@ p {
 .gray {
   color: $gray;
 }
+.gray-bg {
+  background-color: $gray;
+}
 .gradient-1 {
   @extend %gradient-1;
 }
@@ -1415,6 +1418,10 @@ select,
 textarea {
   font-style: normal;
 }
+.imggroup img {
+  max-width: 100%;
+  max-height: 100%;;
+}
 .no-bg {
   background-image: none !important;
   background-color: transparent !important;
@@ -1952,8 +1959,13 @@ textarea {
   .h2,
     h2 {
       font-size: $h1-sm !important;
+      line-height: 1.4 !important;
     }
-  .h1-lg {font-size: $h1-sm;}
+  
+    .h1-lg {
+      font-size: $h1-sm !important;
+      line-height: 1.4 !important;
+    }
   .owl-theme .owl-dots {
     .owl-dot.active span {
       width: 35px;
