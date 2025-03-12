@@ -1,21 +1,27 @@
 @import "../../_variables.scss";
 
-.messageBody {padding: 0px 0 100px;margin-top: 160px;
-   .UserMessage {
-     background-color: $basecolor1-dark;
-     color: #0B1729;
-     @include border-radius(12px);
-     max-width: 80%;
-     padding: 12px 20px;
+.messageContent {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .messageContentIn {padding: 0px 0 100px;margin-top: 160px;width: $BoxContainerLg;
+     .UserMessage {
+       background-color: $basecolor1-dark;
+       color: #0B1729;
+       @include border-radius(12px);
+       max-width: 80%;
+       padding: 12px 20px;
+     }
+     .AiMessage {
+       color: #0B1729;
+       @include border-radius(12px);
+       width: 100%;
+       padding: 12px 20px;
+       max-width: 80%;
+     }
    }
-   .AiMessage {
-     color: #0B1729;
-     @include border-radius(12px);
-     width: 100%;
-     padding: 12px 20px;
-     max-width: 80%;
-   }
- }
+}
 
 //  
 .flightOfferCard {
@@ -136,4 +142,15 @@
     }   
   }
  
+ }
+ @include for-mobile-large-screen() {
+
+   .messageContent {
+     display: flex;
+     justify-content: center;
+     width: 100%;
+     .messageContentIn {
+       width: 100%;
+     }
+   }
  }

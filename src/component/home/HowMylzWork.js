@@ -21,15 +21,17 @@ const HowMylzWork = (props) => {
               display={"flex"}
               justifyContent={"center"}
             >
-              <Box className={styles.Content}>
-                <Typography variant="h2" className="white align-center">
-                  Travel smarter
-                </Typography>
-                <Typography className="align-center white">
-                  Our AI technology scans billions of data points to find you
-                  the best deals on flights, accommodations, and travel
-                  experiences.
-                </Typography>
+              <Box className={styles.Content2}>
+                <Box className={styles.Content2In}>
+                  <Typography variant="h2" className="white align-center">
+                    Travel smarter
+                  </Typography>
+                  <Typography className="align-center white">
+                    Our AI technology scans billions of data points to find you
+                    the best deals on flights, accommodations, and travel
+                    experiences.
+                  </Typography>
+                </Box>
               </Box>
             </Box>
             <Grid container spacing={{ xs: 4, md: 4 }}>

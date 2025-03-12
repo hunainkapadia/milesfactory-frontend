@@ -17,10 +17,12 @@ const MylzDifferent = (props) => {
             display={"flex"}
             justifyContent={"center"}
           >
-            <Box className={`${styles.Content} ${styles.ContentFullWidth}`}>
-              <Typography variant="h2" className="white align-center">
-                What makes Mylz so different?
-              </Typography>
+            <Box className={`${styles.Content2}`}>
+              <Box className={`${styles.Content2In} ${styles.ContentFullWidth}`}>
+                <Typography variant="h2" className="white align-center">
+                  What makes Mylz so different?
+                </Typography>
+              </Box>
             </Box>
           </Box>
           <Grid container spacing={3}>

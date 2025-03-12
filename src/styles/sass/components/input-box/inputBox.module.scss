@@ -12,8 +12,8 @@
    z-index: 3;
    background-color: $basecolor1-light;
    
-   .SearchBoxContyainer {
-      width: $BoxContainerLg;
+   .SearchBoxContainer {
+      width: 100%;
       .label {
          position: absolute;
          z-index: 3;
@@ -31,7 +31,7 @@
       .SearchButton {
          position: absolute;
          right: 15px;
-         top: 10px;
+         top: 8px;
          width: 40px;
          height: 40px;
          z-index: 2;
@@ -59,7 +59,7 @@
    }
 }
 
-.SearchBoxSection .SearchBoxContyainer {
+.SearchBoxSection .SearchBoxContainer {
    position: relative;
    width: 100%;
 
@@ -117,18 +117,18 @@
 }
 
 
-@media only screen and (max-width: 1200px) {
-   .SearchBoxSectionActive .SearchBoxContyainer  {
-     width: $BoxContainerMd;
-   } 
- }
- @media only screen and (max-width: 1024px) {
-   .SearchBoxSectionActive .SearchBoxContyainer  {
-     width: $BoxContainerSm;
-   }
- }
- @media only screen and (max-width: 767px) {
-   .SearchBoxSectionActive .SearchBoxContyainer  {
-     width: $BoxContainerXs;
-   }
- }
+// @media only screen and (max-width: 1200px) {
+//    .SearchBoxSectionActive .SearchBoxContainer  {
+//      width: $BoxContainerMd;
+//    } 
+//  }
+//  @media only screen and (max-width: 1024px) {
+//    .SearchBoxSectionActive .SearchBoxContainer  {
+//      width: $BoxContainerSm;
+//    }
+//  }
+//  @media only screen and (max-width: 767px) {
+//    .SearchBoxSectionActive .SearchBoxContainer  {
+//      width: $BoxContainerXs;
+//    }
+//  }

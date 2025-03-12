@@ -84,126 +84,148 @@ const HeroSection = () => {
   return (
     <>
       <section>
-        <Container>
-          <Box
-            className={`${styles.HeroSection} ${styles.mainHeroSection} ${
-              messages.length ? styles.Active : ""
-            }`}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Box className={styles.Box}>
-              {!messages.length && (
-                <Box
-                  className={styles.Content}
-                  textAlign={"center"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  flexDirection={"column"}
-                >
-                  <Box mb={1} sx={{ px: { xs: 3 } }}>
-                    <Typography variant="h1" className="h1-lg">
-                      Travel smarter with AI
+        <Box
+          className={`${styles.HeroSection} ${styles.mainHeroSection} ${
+            messages.length ? styles.Active : ""
+          }`}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box className={styles.Box}>
+            {!messages.length && (
+              <Container>
+                <Box className={styles.Content}>
+                  <Box
+                    className={styles.ContentIn}
+                    textAlign={"center"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    flexDirection={"column"}
+                  >
+                    <Box mb={1} sx={{ px: { xs: 3 } }}>
+                      <Typography variant="h1" className="h1-lg">
+                        Travel smarter with AI
+                      </Typography>
+                    </Box>
+                    <Typography color="white">
+                      Find and book your perfect trip at the best price -
+                      effortlessly. Mylz has access to live prices and
+                      availability directly from all global airlines, hotels,
+                      and tour guides.
                     </Typography>
                   </Box>
-                  <Typography color="white">
-                    Find and book your perfect trip at the best price -
-                    effortlessly. Mylz has access to live prices and
-                    availability directly from all global airlines, hotels, and
-                    tour guides.
-                  </Typography>
                 </Box>
-              )}
+              </Container>
+            )}
 
-              {/* Search Box */}
-              <section>
-                <Box
-                  className={
-                    messages.length
-                      ? inputStyles.SearchBoxSectionActive
-                      : inputStyles.SearchBoxSection
-                  }
-                >
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Box className={inputStyles.SearchBoxContyainer}>
+            {/* Search Box */}
+            <section>
+              <Box
+                className={
+                  messages.length
+                    ? inputStyles.SearchBoxSectionActive
+                    : inputStyles.SearchBoxSection
+                }
+              >
+                <Container>
+                  <Box className={styles.Content}>
+                    <Box
+                      className={styles.ContentIn}
+                      textAlign={"center"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      flexDirection={"column"}
+                    >
                       <Box
-                        className={inputStyles.SearchBoxIn}
-                        position={"relative"}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
                       >
-                        {!messages.length ? <LabelAnimation /> : ""}
-                        <TextField
-                          placeholder={
-                            messages.length
-                              ? "Ask anything about your trip"
-                              : ""
-                          }
-                          className={inputStyles.SearchForm + " SearchForm"}
-                          fullWidth
-                          value={userMessage}
-                          onChange={(e) => setUserMessage(e.target.value)}
-                          variant="outlined"
-                          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                        />
+                        <Box className={inputStyles.SearchBoxContainer}>
+                          <Box
+                            className={inputStyles.SearchBoxIn}
+                            position={"relative"}
+                          >
+                            {!messages.length ? <LabelAnimation /> : ""}
+                            <TextField
+                              placeholder={
+                                messages.length
+                                  ? "Ask anything about your trip"
+                                  : ""
+                              }
+                              className={inputStyles.SearchForm + " SearchForm"}
+                              fullWidth
+                              value={userMessage}
+                              onChange={(e) => setUserMessage(e.target.value)}
+                              variant="outlined"
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && handleSearch()
+                              }
+                            />
 
-                        <IconButton
-                          className={inputStyles.SearchButton}
-                          onClick={handleSearch}
-                        >
-                          <i className="fa fa-arrow-right"></i>
-                        </IconButton>
+                            <IconButton
+                              className={inputStyles.SearchButton}
+                              onClick={handleSearch}
+                            >
+                              <i className="fa fa-arrow-right"></i>
+                            </IconButton>
+                          </Box>
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
-                </Box>
+                </Container>
+              </Box>
+            </section>
+
+            {/* Chat Messages */}
+            {messages.length ? (
+              <section>
+                <Container>
+                  <Box className={searchResultStyles.messageContent}>
+                    <Box className={searchResultStyles.messageContentIn}>
+                      {messages.map((msg, index) => (
+                        <div key={index}>
+                          {msg?.user && <UserMessage userMessage={msg.user} />}
+                          {msg?.ai ? (
+                            <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
+                          ) : index === messages.length - 1 && isLoading ? (
+                            <LoadingArea />
+                          ) : null}
+                        </div>
+                      ))}
+                      {/*  */}
+                      <div ref={messagesEndRef} />
+                      {/* booking flow start */}
+
+                      {getFlightKey && (
+                        <BookingDrawer getFlightDetail={flightDetail} />
+                      )}
+                      {isPassengerDrawerOpen && <PassengerDrawerForm />}
+                      <Header />
+                    </Box>
+                  </Box>
+                </Container>
               </section>
-
-              {/* Chat Messages */}
-              {messages.length ? (
-                <section className={searchResultStyles.messageBody}>
-                  {messages.map((msg, index) => (
-                    <div key={index}>
-                      {msg?.user && <UserMessage userMessage={msg.user} />}
-                      {msg?.ai ? (
-                        <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
-                      ) : index === messages.length - 1 && isLoading ? (
-                        <LoadingArea />
-                      ) : null}
-                    </div>
-                  ))}
-                  {/*  */}
-                  <div ref={messagesEndRef} />
-                  {/* booking flow start */}
-
-                  {getFlightKey && (
-                    <BookingDrawer getFlightDetail={flightDetail} />
-                  )}
-                  {isPassengerDrawerOpen && <PassengerDrawerForm />}
-                  <Header />
-                </section>
-              ) : (
-                <Box
-                  sx={{ display: { xs: "flex", md: "none" } }}
-                  display={"flex"}
-                  gap={2}
-                  mt={3}
-                  justifyContent={"center"}
-                >
-                  <Box width={"98px"}>
-                    <img src="/images/app-google-play.svg" />
-                  </Box>
-                  <Box width={"98px"}>
-                    <img src="/images/app-app-store.svg" />
-                  </Box>
+            ) : (
+              <Box
+                sx={{ display: { xs: "flex", md: "none" } }}
+                display={"flex"}
+                gap={2}
+                mt={3}
+                justifyContent={"center"}
+              >
+                <Box width={"98px"}>
+                  <img src="/images/app-google-play.svg" />
                 </Box>
-              )}
-            </Box>
+                <Box width={"98px"}>
+                  <img src="/images/app-app-store.svg" />
+                </Box>
+              </Box>
+            )}
           </Box>
-        </Container>
+        </Box>
       </section>
       {!messages.length ? (
         <Footer id={"HowMylzWork"} forDark LearnMore={"Get to know Mylz"} />
