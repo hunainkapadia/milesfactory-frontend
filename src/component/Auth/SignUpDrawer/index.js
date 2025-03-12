@@ -16,6 +16,7 @@ import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { loginOpenDrawer } from "@/src/store/slices/Auth/LoginSlice";
 
 const SignUpDrawer = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,10 @@ const SignUpDrawer = () => {
     dispatch(SignUpUser(params));
     
   };
+  const handleSignIn = ()=> {
+    dispatch(closeDrawer());
+    dispatch(loginOpenDrawer());
+  }
 
   return (
     <Box
@@ -167,7 +172,7 @@ const SignUpDrawer = () => {
                     </Button>
                   </Box>
                   <Typography textAlign={"center"} pt={2}>
-                    Already ahave an account? <Link href={""}>Sign in</Link>
+                    Already ahave an account? <Link onClick={handleSignIn} href={""}>Sign in</Link>
                   </Typography>
                 </Box>
               </Box>

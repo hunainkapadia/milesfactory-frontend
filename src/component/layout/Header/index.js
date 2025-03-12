@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
 import { logoutUser, openDrawer, setsignUpUser } from "@/src/store/slices/Auth/AuthSlice";
 import Cookies from "js-cookie";
+import { setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -31,17 +32,21 @@ const Header = () => {
   } 
   
   
-  // ✅ Load user from Cookies when the component mounts
-  const getuser = useSelector((state)=> state?.auth?.user);
+  // Load user from Cookies when the component mounts
   
-  useEffect(() => {
-    const storedUser = Cookies.get("set-user-signup");
-    if (storedUser) {
-      dispatch(setsignUpUser(JSON.parse(storedUser)));
-    }
-  }, [dispatch]);
-
-  // // ✅ Handle logout
+  // useEffect(() => {
+    //   if (isUserLogin) {  // Check if access token exists
+    //     const getUser = Cookies.get("set-user-login");
+  //     if (getUser) {
+  //       dispatch(setLoginUser(JSON.parse(getUser)));
+  //     }
+  //   }
+  // }, [isUserLogin, dispatch]);  // Add isUserLogin as a dependency
+  
+  // // Handle logout
+  const loginUser = useSelector((state) => state?.login?.loginUser);
+  const isUserLogin = loginUser?.user?.access; 
+  console.log("isUserLogin", isUserLogin);  
   const logoutHandle = () => {
     dispatch(logoutUser());
   };
@@ -80,7 +85,7 @@ const Header = () => {
               <Navbar />
 
               <Box display={"flex"} gap={4}>
-                {getuser ? (
+                {isUserLogin ? (
                   <Box className={styles.Dropdown} position={"relative"}>
                     <Box
                       className={styles.Login}
@@ -90,7 +95,7 @@ const Header = () => {
                       gap={1}
                     >
                       <i className="fa fa-user-circle"></i>
-                      <div>{getuser.first_name}</div>
+                      <div>{"username missing"}</div>
                       {/*  */}
                     </Box>
                     <Box className={styles.DropdownItems}>

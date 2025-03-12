@@ -22,11 +22,11 @@ const Home = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
   const getmessages = useSelector((state) => state.getMessages.messages.length);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+  
   const SignupDrawer = useSelector((state)=>state.auth.openDrawer);
-  const isUserLogin = useSelector((state)=>state.auth);
-  console.log("isUserLogin", isUserLogin);
-  
-  
+  const openLoginDrawer = useSelector((state)=>state?.login?.loginOpenDrawer);
+  const isUserLogin = useSelector((state)=>state?.login);
+
   
   return (
     <>
@@ -53,7 +53,7 @@ const Home = () => {
           ""
         )}
         {SignupDrawer ? <SignUpDrawer /> : ""}
-        {!isUserLogin ? <LoginDrawer/>  : ""}
+        {openLoginDrawer ? <LoginDrawer/>  : ""}
         
       </main>
     </>

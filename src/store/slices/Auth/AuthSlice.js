@@ -46,7 +46,7 @@ const authSlice = createSlice({
     },
     logoutUser: (state) => {
       state.user = null; // Remove user from Redux
-      Cookies.remove("set-user-signup"); // Remove user from Cookies
+      Cookies.remove("set-user"); // Remove user from Cookies
     },
   },
 });
@@ -65,7 +65,7 @@ export const SignUpUser = (params) => (dispatch) => {
 
         // Store user info in cookies
         Cookies.set(
-          "set-user-signup",
+          "set-user",
           JSON.stringify({
             email: params.email,
             password: params.password,

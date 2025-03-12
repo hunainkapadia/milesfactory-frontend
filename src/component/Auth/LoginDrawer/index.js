@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { closeDrawer, loginUser } from "@/src/store/slices/Auth/LoginSlice";
+import { closeDrawer, LogincloseDrawer, loginUser } from "@/src/store/slices/Auth/LoginSlice";
 
 const LoginDrawer = () => {
   const dispatch = useDispatch();
@@ -24,8 +24,7 @@ const LoginDrawer = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.user?.status === 200);
 
   const handleCloseDrawer = () => {
-    
-    dispatch(closeDrawer());
+    dispatch(LogincloseDrawer());
   };
 
   console.log("LoginError", LoginError);
