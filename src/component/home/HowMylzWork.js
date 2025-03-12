@@ -20,7 +20,7 @@ const HowMylzWork = (props) => {
             >
               <Box sx={{ width: "42%" }}>
                 <Typography variant="h2" className="white align-center">
-                  How does Mylz work?
+                  Travel smarter
                 </Typography>
                 <Typography className="align-center white">
                   Our AI technology scans billions of data points to find you
@@ -75,7 +75,7 @@ const HowMylzWork = (props) => {
                         Get instant options
                       </Typography>
                       <Typography className="f14" color="white">
-                        Mylz will present the best offers in terms of flights,
+                        Mylz presents the best offers in terms of flights,
                         stays, and experiences. All tailored and personalised to
                         your context.
                       </Typography>
