@@ -143,25 +143,33 @@
 }
 @media only screen and (max-width: 767px) {
   .poweredBysection {
-      gap: 40px 20px;
-  
-      .Items {
-        height: 17px;
-      }
+    gap: 40px 20px;
+    .Items {
+      height: 26px;
+      width: 44%;
+      display: flex;
+      justify-content: center;
     }
-  
-  .HomeBanner {height: auto;
-    .HeroSection {padding: 24vh 0 10vh;
-      .Box {width: $BoxContainerXs;
+  }
+
+  .HomeBanner {
+    height: auto;
+
+    .HeroSection {
+      padding: 24vh 0 10vh;
+
+      .Box {
+        width: $BoxContainerXs;
+
         .Content {
           width: 100%;
         }
       }
     }
   }
+
   .HomeBanner .mainHeroSection.HeroSection {
     padding: 25vh 0 16vh;
   }
 }
-
 

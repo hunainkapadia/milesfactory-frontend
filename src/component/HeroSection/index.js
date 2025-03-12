@@ -126,7 +126,6 @@ const HeroSection = () => {
                   }
                 >
                   <Box
-                    
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
@@ -187,7 +186,20 @@ const HeroSection = () => {
                   <Header />
                 </section>
               ) : (
-                ""
+                <Box
+                  sx={{ display: { xs: "flex", md: "none" } }}
+                  display={"flex"}
+                  gap={2}
+                  mt={3}
+                  justifyContent={"center"}
+                >
+                  <Box width={"98px"}>
+                    <img src="/images/app-google-play.svg" />
+                  </Box>
+                  <Box width={"98px"}>
+                    <img src="/images/app-app-store.svg" />
+                  </Box>
+                </Box>
               )}
             </Box>
           </Box>

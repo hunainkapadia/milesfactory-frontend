@@ -34,6 +34,7 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
               display={"flex"}
               justifyContent={"space-between"}
               alignItems={"center"}
+              flexWrap={"wrap"}
               sx={{
                 flexDirection: { xs: "column-reverse", md: "row" }, // Reverse on mobile
               }}
@@ -43,6 +44,10 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 alignItems={"center"}
                 gap={4}
                 className=" no-list"
+                sx={{
+                  justifyContent: { xs: "center", md: "space-between" },
+                  flexWrap: { xs: "wrap", md: "" },
+                }}
               >
                 <Box>
                   <Link className="basecolor" href={"/"}>
@@ -69,7 +74,7 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 display={"flex"}
                 gap={2}
                 alignItems={"center"}
-                sx={{marginBottom: {xs:3, md:0}}}
+                sx={{ marginBottom: { xs: 3, md: 0 } }}
                 className={styles.FooterBoxRight}
               >
                 <i class="fab fa-facebook-square"></i>
