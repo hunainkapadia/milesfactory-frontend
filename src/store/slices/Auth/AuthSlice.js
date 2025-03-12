@@ -46,7 +46,8 @@ const authSlice = createSlice({
     },
     logoutUser: (state) => {
       state.user = null; // Remove user from Redux
-      Cookies.remove("set-user"); // Remove user from Cookies
+      Cookies.remove("set-user");  // Remove user cookie
+      window.location.reload();  // Refresh the page to reflect changes
     },
   },
 });
@@ -57,9 +58,7 @@ export const SignUpUser = (params) => (dispatch) => {
     .post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
       if (res.status === 201) {
-         setTimeout(() => {
-            dispatch(closeDrawer());
-         }, 3000);
+         dispatch(closeDrawer());
         dispatch(setsignUpUser({user: res.data, status: res.status}));
 
 

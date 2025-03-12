@@ -33,19 +33,13 @@ const Header = () => {
   
   
   // Load user from Cookies when the component mounts
-  
-  // useEffect(() => {
-    //   if (isUserLogin) {  // Check if access token exists
-    //     const getUser = Cookies.get("set-user-login");
-  //     if (getUser) {
-  //       dispatch(setLoginUser(JSON.parse(getUser)));
-  //     }
-  //   }
-  // }, [isUserLogin, dispatch]);  // Add isUserLogin as a dependency
-  
+  const isFormSupmit = useSelector((state) => state.auth?.user?.user);
+  console.log("isFormSupmit22", isFormSupmit);
+    
+
   // // Handle logout
-  const loginUser = useSelector((state) => state?.login?.loginUser);
-  const isUserLogin = loginUser?.user?.access; 
+  const isUserLogin = useSelector((state)=>state?.login?.loginUser?.user);
+
   console.log("isUserLogin", isUserLogin);  
   const logoutHandle = () => {
     dispatch(logoutUser());
@@ -85,7 +79,7 @@ const Header = () => {
               <Navbar />
 
               <Box display={"flex"} gap={4}>
-                {isUserLogin ? (
+                {isUserLogin || isFormSupmit ? (
                   <Box className={styles.Dropdown} position={"relative"}>
                     <Box
                       className={styles.Login}
@@ -95,7 +89,7 @@ const Header = () => {
                       gap={1}
                     >
                       <i className="fa fa-user-circle"></i>
-                      <div>{"username missing"}</div>
+                      <div>{isFormSupmit?.first_name}</div>
                       {/*  */}
                     </Box>
                     <Box className={styles.DropdownItems}>
