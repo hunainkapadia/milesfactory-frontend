@@ -104,9 +104,6 @@ const SignUpDrawer = () => {
                     onChange={(e) => setLastName(e.target.value)}
                     margin="normal"
                   />
-                  <Typography className="error" color="red">
-                    {lastNameError}
-                  </Typography>
                 </Box>
                 <Typography className="error" color="red">
                   {lastNameError}
