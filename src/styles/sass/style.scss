@@ -1218,12 +1218,15 @@ body {
     padding: 10px 16px 10px !important;
     line-height: 1.4 !important;
   }
+  
   &.btn-primary {
-    padding: 10px 16px;
-
-    background: linear-gradient(180deg, #00C4CC 0%, #0088A3 100%);
-    /* M3/Elevation Light/2 */
+    &.no-rounder {
+      border-radius: 10px !important;
+    }
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    padding: 10px 16px;
+    background: #00C4CC;
+    border-radius: 100px;
     letter-spacing: 1.2px !important;
     color: $white !important;
     border-radius: 100px !important;
