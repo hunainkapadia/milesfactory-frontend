@@ -12,7 +12,9 @@ const Home = () => {
       <main>
       <section
           id="fold1"
-          className={`${!isMessage ? `${styles.HomeBanner} ${styles.HomeBannerActive} ` : ""}`}
+          className={`${
+            !isMessage ? styles.HomeBanner : styles.HomeBannerActive
+          }`}
         >
         <HeroSection />
          <Header />
