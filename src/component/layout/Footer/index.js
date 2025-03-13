@@ -2,13 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-import { setSectionActive } from "@/src/store/slices/Base/baseSlice";
-import { useDispatch } from "react-redux";
 const Footer = ({ forLight, forDark, id, ...props }) => {
-  const dispatch= useDispatch();
-  const Handlelearnmore= ()=> {
-    dispatch(setSectionActive("MylzDifferent")); // Set active section
-  }
   return (
     <>
       {forDark ? (
@@ -19,11 +13,11 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
               display={"flex"}
               justifyContent={"flex-end"}
             >
-              <Link onClick={Handlelearnmore}
+              <Link
                 href={`#${id}`} // Use template literals
                 className={styles.footerBtn + " white text-decoration-none"}
               >
-                <Box  gap={2} alignItems={"center"} display={"flex"}>
+                <Box gap={2} alignItems={"center"} display={"flex"}>
                   <i className="fa-arrow-down fa fas"></i>{" "}
                   <span>{props.LearnMore}</span>
                 </Box>
