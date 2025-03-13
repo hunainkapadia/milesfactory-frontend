@@ -23,12 +23,14 @@ const Home = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
   const getmessages = useSelector((state) => state.getMessages.messages.length);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+  const [sectionActive, setsectionActive] = useState(false);
   
   const SignupDrawer = useSelector((state)=>state.signup.openDrawer);
   const openLoginDrawer = useSelector((state)=>state?.login?.loginOpenDrawer);
   const isUserLogin = useSelector((state)=>state?.login);
   console.log("SignupDrawer", SignupDrawer);
-  
+  const activeSection = useSelector((state) => state.base.sectionActive);
+
 
   
   return (
@@ -45,20 +47,25 @@ const Home = () => {
         {/* for home section */}
         {!isMessage ? (
           <>
-            <HowMylzWork id={"HowMylzWork"} />
-            <MylzDifferent id={"MylzDifferent"} />
-            <PoweredByglobal />
+            {activeSection ? <HowMylzWork id={"HowMylzWork"} /> : ""}
+            {activeSection ? <MylzDifferent id={"MylzDifferent"} /> : ""}
+            {activeSection ? <PoweredByglobal id={"PoweredByglobal"} /> : ""}
             {/* <CheapestFlights id={"CheapestFlights"} /> */}
-            <Section4Reviews id={"Section4Reviews"} />
-            <Section5App />
-            <Header />
+            {activeSection ? (
+              <>
+                <Section4Reviews id={"Section4Reviews"} />
+                <Section5App />
+              </>
+            ) : (
+              ""
+            )}
           </>
         ) : (
           ""
         )}
+        <Header />
         {SignupDrawer ? <SignUpDrawer /> : ""}
-        {openLoginDrawer ? <LoginDrawer/>  : ""}
-        
+        {openLoginDrawer ? <LoginDrawer /> : ""}
       </main>
     </>
   );

@@ -104,7 +104,7 @@ const MylzDifferent = (props) => {
       <Footer
         forDark
         LearnMore={"Learn more about Mylz"}
-        id={"CheapestFlights"}
+        id={"PoweredByglobal"}
       />
     </section>
   );

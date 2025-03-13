@@ -105,7 +105,7 @@ const PoweredByglobal = (props) => {
       <Footer
         forDark
         LearnMore={"Learn more about Mylz"}
-        id={"CheapestFlights"}
+        id={"Section4Reviews"}
       />
     </section>
   );

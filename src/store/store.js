@@ -5,6 +5,7 @@ import bookingflightsReducer from "./slices/BookingflightSlice";
 import passengerDrawerReducer from "./slices/passengerDrawerSlice" ;
 import signupReducer from "./slices/Auth/SignupSlice" ;
 import loginReducer from "./slices/Auth/LoginSlice";
+import baseReducer from "./slices/Base/baseSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     passengerDrawer: passengerDrawerReducer,
     signup :  signupReducer,
     login :  loginReducer,
+    base: baseReducer,
 
   },
   // devTools: process.env.NODE_ENV !== "production", // Enable DevTools only in development mode
