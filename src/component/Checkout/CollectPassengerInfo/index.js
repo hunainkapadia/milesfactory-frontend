@@ -4,8 +4,11 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import { openPassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
 import Link from "next/link";
+import PassengersCard from "../PassengersCard";
 
-const CollectPassengerInfo = ({ aiResponse }) => {
+const CollectPassengerInfo = ({ getdata }) => {
+  console.log("getdata", getdata);
+
   const dispatch = useDispatch();
   const handlePassenger = () => {
     dispatch(openPassengerDrawer());
@@ -15,7 +18,6 @@ const CollectPassengerInfo = ({ aiResponse }) => {
     (state) => state.passengerDrawer.passengerDetails
   );
 
-  
   return (
     <>
       <Card
@@ -26,22 +28,20 @@ const CollectPassengerInfo = ({ aiResponse }) => {
         <Typography variant="h6" sx={{ mb: 2 }}>
           Passengers
         </Typography>
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6}>
-            <Card
-              sx={{ border: "1px solid #ccc", padding: 2, borderRadius: 2 }}
-            >
-              <Typography className="mb-10" mb={1} variant="h6">
-                Main passenger
-              </Typography>
-              <Typography className="gray">
-                {passengerDetails?.firstName && passengerDetails?.lastName
-                  ? `${passengerDetails?.firstName} ${passengerDetails?.lastName}`
-                  : ""}
-              </Typography>
-              <Typography className="gray">Adult</Typography>
-            </Card>
-          </Grid>
+        <Grid container spacing={2}>
+          {getdata
+            ? getdata.map((getdata, totalPass) => (
+                <>
+                  <Grid item xs={12} sm={6}>
+                    <PassengersCard
+                      totalPass={totalPass + 1}
+                      getdata={getdata}
+                      isMainPassenger={totalPass === 0} // Flag to check if it's the first passenger
+                    />
+                  </Grid>
+                </>
+              ))
+            : ""}
           {/* <Grid item xs={12} sm={6}>
                 <Card
                   sx={{ border: "1px solid #ccc", padding: 2, borderRadius: 2 }}
@@ -53,34 +53,31 @@ const CollectPassengerInfo = ({ aiResponse }) => {
                 </Card>
               </Grid> */}
         </Grid>
-        {passengerDetails?.firstName && passengerDetails?.lastName ? (
-          ""
-        ) : (
-          <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
-            <Button className="btn btn-green btn-sm" onClick={handlePassenger}>
-              <Box display="flex" alignItems="center" gap={1}>
-                <i className="fa fa-arrow-right"></i>
-                <span>Fill in passenger information</span>
-              </Box>
-            </Button>
-          </Box>
-        )}
 
-        {passengerDetails?.firstName && passengerDetails?.lastName ? (
-          <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
-            <Box
-              display="flex"
-              alignItems="center"
-              gap={2}
-              className="dark-green"
-            >
-              <i className="fa fa-check"></i>
-              <span>Passenger information</span>
+        <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
+          <Button className="btn btn-green btn-sm" onClick={handlePassenger}>
+            <Box display="flex" alignItems="center" gap={1}>
+              <i className="fa fa-arrow-right"></i>
+              <span>Fill in passenger information</span>
             </Box>
+          </Button>
+        </Box>
+        {/* ////////////////////////////////////////////// */}
+        {/* ////////////////////////////////////////////// */}
+        {/* ////////////////////////////////////////////// */}
+        {/* ////////////////////////////////////////////// */}
+        {/* ////////////////////////////////////////////// */}
+        <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={2}
+            className="dark-green"
+          >
+            <i className="fa fa-check"></i>
+            <span>Passenger information</span>
           </Box>
-        ) : (
-          ""
-        )}
+        </Box>
       </Card>
       {passengerDetails?.firstName && passengerDetails?.lastName ? (
         <>

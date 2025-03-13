@@ -17,7 +17,7 @@ const Home = () => {
           }`}
         >
         <HeroSection />
-         <Header />
+        {!isMessage ? <Header /> : ""}
       </section>
     </main>
    );

@@ -15,7 +15,8 @@ const AiMessage = ({ aiMessage }) => {
   
   const getAllFlightPostApi = useSelector((state)=> state.sendMessage.setAllFlightPostApi)  
   //  Toggle function
-  const getselectedFlight = useSelector((state) => state.booking.setselectedFlighDetail);  
+
+  
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
@@ -24,19 +25,24 @@ const AiMessage = ({ aiMessage }) => {
     setShowAllResults(true)
   };
   const dispatch = useDispatch();
-
   
-useEffect(() => {
-  if (aiMessage?.OfferId) {
-    dispatch(setOfferId(aiMessage?.OfferId)); // Save the offer ID in Redux
-  } {
-    ""
-  }
-}, [aiMessage?.OfferId, dispatch]);
+  
+  useEffect(() => {
+    if (aiMessage?.OfferId) {
+      dispatch(setOfferId(aiMessage?.OfferId)); // Save the offer ID in Redux
+    } {
+      ""
+    }
+  }, [aiMessage?.OfferId, dispatch]);
   
   // for get api 
   const getAllFlightGetApi = useSelector((state)=> state?.getMessages?.allFlightSearchResults);
   
+  // booking flow start
+  const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);  
+  // get user book selecteet flight detail for show in ai message 
+  // collect passenger data from redux
+  const passengerData = useSelector((state)=> state?.booking?.PassengerData?.data)
 
   return (
     <Box
@@ -88,7 +94,6 @@ useEffect(() => {
               {/* Render flights from GET API */}
               {getAllFlightGetApi?.offers?.map((getoffers, offerindex) => (
                 <SearchCard
-                  
                   offerData={getoffers}
                   offerkey={`${offerindex}-${getoffers.id}`}
                 />
@@ -108,8 +113,13 @@ useEffect(() => {
           <Box mt={2}>
             <SearchCard offerData={getselectedFlight} />
           </Box>
-          <h1>..</h1>
-          <CollectPassengerInfo aiResponse={aiMessage?.ai?.response} />
+          {passengerData ? (
+            <CollectPassengerInfo
+              getdata={passengerData}
+            />
+          ) : (
+            ""
+          )}
         </>
       ) : (
         //  Default AI Response (Text)

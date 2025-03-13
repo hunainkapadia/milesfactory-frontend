@@ -14,14 +14,14 @@ import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 
 const SearchCard = ({ offerData, offerkey }) => {
+  
   const dispatch = useDispatch()
+  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
-      dispatch(setSelectFlightKey(offerkey)); //setSelectFlightKey empty then close drawer
-    }
-    if (offerData.id) {
-      dispatch(setflightDetail(offerData)); // Store flight details & open drawer
+      dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
+      dispatch(setflightDetail(offerData)); // Store flight details 
     }
   };
 

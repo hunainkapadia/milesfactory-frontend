@@ -472,9 +472,10 @@ p {
 .MuiDrawer-root {
   transition: transform 0.5s ease-in-out !important;
 }
-.MuiInputBase-input {
+.MuiInputBase-input,
+.select-dropdown .MuiOutlinedInput-root {
   z-index: 1;
-  height: 56px;
+  height: 56px !important;
   padding: 0 22px;
 }
 .SearchForm .MuiInputBase-formControl {

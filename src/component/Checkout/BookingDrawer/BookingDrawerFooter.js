@@ -2,35 +2,40 @@ import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { bookFlight, closeDrawer, setselectedFlighDetail, setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
+import {
+  bookFlight,
+  closeDrawer,
+  setCloseDrawer,
+  setflightDetail,
+  setPassengerData,
+  setselectedFlighDetail,
+  setSelectFlightKey,
+} from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
-
 
 const BookingDrawerFooter = ({ getFlightDetails }) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
-    dispatch(setSelectFlightKey()) //setSelectFlightKey empty then close drawer
+    
+    dispatch(setCloseDrawer()); // Pass an empty value to close the drawer
+
   };
 
-  
-  const PassengerData = useSelector((state)=> state.booking);
+  const PassengerData = useSelector((state) => state.booking);
   console.log("PassengerData", PassengerData);
 
   const handleBookFlight = () => {
-    dispatch(closeDrawer());
-    dispatch(setselectedFlighDetail(getFlightDetails));
-    
-    dispatch(bookFlight());
+    dispatch(setCloseDrawer()); //dispatch close
+    dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight id
+
+    dispatch(setPassengerData());
     if (getFlightDetails?.id) {
       dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
-  } else {
+    } else {
       console.error("Flight ID is missing");
-  }
-    dispatch(setMessage({ ai: { response: "passengerFlowActive" } }));
-
-    
+    }
+    dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
   };
-  
 
   return (
     <Box className={styles.checkoutDrowerFooter} position="absolute">
@@ -45,7 +50,8 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
         flexDirection="column"
       >
         <Typography variant="p" className="gray f12 p">
-          *The airline policy will apply if you decide to cancel or modify your trip.
+          *The airline policy will apply if you decide to cancel or modify your
+          trip.
         </Typography>
 
         {/* Price Row */}
@@ -108,10 +114,17 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
               gap={2}
               className="basecolor1"
             >
-              <button className={styles.selectFlightBtn + " btn btn-green btn-sm"} onClick={handleBookFlight}>
+              <button
+                className={styles.selectFlightBtn + " btn btn-green btn-sm"}
+                onClick={handleBookFlight}
+              >
                 <Box display="flex" gap={1}>
-                <i className="fa fa-arrow-right"></i>{" "}
-                  <Box sx={{display:{md:"block", sm:"block", xs:"none"}}}>Book flight</Box>
+                  <i className="fa fa-arrow-right"></i>{" "}
+                  <Box
+                    sx={{ display: { md: "block", sm: "block", xs: "none" } }}
+                  >
+                    Book flight
+                  </Box>
                 </Box>
               </button>
             </Box>
