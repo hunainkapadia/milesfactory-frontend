@@ -101,16 +101,16 @@ const HeroSection = () => {
                     justifyContent={"center"}
                     flexDirection={"column"}
                   >
-                    <Box  sx={{ px: { xs: 0, md: 3, lg:3, } }}>
+                    <Box sx={{ px: { xs: 0, md: 3, lg: 3 } }}>
                       <Typography variant="h1" className="h1-lg">
                         Travel smarter with AI
                       </Typography>
-                    <Typography color="white">
-                      Find and book your perfect trip at the best price -
-                      effortlessly. Mylz has access to live prices and
-                      availability directly from all global airlines, hotels,
-                      and tour guides.
-                    </Typography>
+                      <Typography color="white">
+                        Find and book your perfect trip at the best price -
+                        effortlessly. Mylz has access to live prices and
+                        availability directly from all global airlines, hotels,
+                        and tour guides.
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
@@ -150,31 +150,28 @@ const HeroSection = () => {
                             ) : (
                               ""
                             )}
-                            <TextField
-                              placeholder={
-                                messages.length
-                                  ? "Ask anything about your trip"
-                                  : ""
-                              }
+                            <div
+                              contentEditable
+                              role="textbox"
+                              placeholder="Ask anything about your trip"
                               className={
                                 inputStyles.SearchForm + " SearchForm 222"
                               }
-                              fullWidth
-                              value={userMessage}
-                              onChange={(e) => setUserMessage(e.target.value)}
-                              variant="outlined"
+                              onInput={(e) =>
+                                setUserMessage(e.currentTarget.textContent)
+                              }
                               onKeyDown={(e) => {
                                 if (!isTyping) setIsTyping(true);
-                                if (e.key === "Enter") handleSearch();
+                                if (e.key === "Enter") {
+                                  e.preventDefault(); // Prevents new line in the div
+                                  handleSearch();
+                                  e.currentTarget.textContent = ""; // Clear div after sending
+                                }
                               }}
-                              multiline
-                              rows={1}
-                              InputProps={{
-                                style: {
-                                  alignItems: "flex-start",
-                                },
+                              style={{
+                                textAlign: "left", // Ensures text starts from the left
                               }}
-                            />
+                            ></div>
 
                             <IconButton
                               className={inputStyles.SearchButton}
