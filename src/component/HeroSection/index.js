@@ -24,6 +24,7 @@ import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import LabelAnimation from "../home/LabelAnimation";
+import HerosectionContent from "../home/HerosectionContent";
 
 const HeroSection = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -91,33 +92,8 @@ const HeroSection = () => {
           justifyContent="center"
         >
           <Box className={styles.Box}>
-            {!messages.length && (
-              <Container>
-                <Box className={styles.Content}>
-                  <Box
-                    className={styles.ContentIn}
-                    textAlign={"center"}
-                    display={"flex"}
-                    justifyContent={"center"}
-                    flexDirection={"column"}
-                  >
-                    <Box sx={{ px: { xs: 0, md: 3, lg: 3 } }}>
-                      <Typography variant="h1" className="h1-lg">
-                        Travel smarter with AI
-                      </Typography>
-                      <Typography color="white">
-                        Find and book your perfect trip at the best price -
-                        effortlessly. Mylz has access to live prices and
-                        availability directly from all global airlines, hotels,
-                        and tour guides.
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </Container>
-            )}
-
-            {/* Search Box */}
+            {!messages.length && <HerosectionContent />}
+            {/* ////////////////////////// Search Box start ////////////////////////// */}
             <section>
               <Box
                 className={
@@ -180,6 +156,23 @@ const HeroSection = () => {
                               <i className="fa fa-arrow-right"></i>
                             </IconButton>
                           </Box>
+                          {!messages.length ?(
+                            <Box
+                              display={"flex"}
+                              gap={2}
+                              mt={3}
+                              justifyContent={"center"}
+                            >
+                              <Box width={"98px"}>
+                                <img src="/images/app-google-play.svg" />
+                              </Box>
+                              <Box width={"98px"}>
+                                <img src="/images/app-app-store.svg" />
+                              </Box>
+                            </Box>
+
+                          ): ""}
+                          {/*  */}
                         </Box>
                       </Box>
                     </Box>
@@ -187,8 +180,8 @@ const HeroSection = () => {
                 </Container>
               </Box>
             </section>
+            {/* ////////////////////////// Search Box end ////////////////////////// */}
 
-            {/* Chat Messages */}
             {messages.length ? (
               <section>
                 <Container>
@@ -218,21 +211,9 @@ const HeroSection = () => {
                 </Container>
               </section>
             ) : (
-              <Box
-                sx={{ display: { xs: "flex", md: "none" } }}
-                display={"flex"}
-                gap={2}
-                mt={3}
-                justifyContent={"center"}
-              >
-                <Box width={"98px"}>
-                  <img src="/images/app-google-play.svg" />
-                </Box>
-                <Box width={"98px"}>
-                  <img src="/images/app-app-store.svg" />
-                </Box>
-              </Box>
+              ""
             )}
+            {/* //////////////////////// Chat Messages end ////////////////////////*/}
           </Box>
         </Box>
       </section>
