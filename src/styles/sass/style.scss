@@ -469,6 +469,9 @@ p {
 
 /* Chatbox, default start of chat */
 // search 
+.MuiDrawer-root {
+  transition: transform 0.5s ease-in-out !important;
+}
 .MuiInputBase-input {
   z-index: 1;
   height: 56px;

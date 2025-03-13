@@ -6,7 +6,7 @@ import {
   TextField,
   Button,
   FormLabel,
-  Alert,
+  CircularProgress,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,8 @@ import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { loginOpenDrawer } from "@/src/store/slices/Auth/LoginSlice";
+import { LoadingButton } from "@mui/lab";
+import ButtonLoading from "../../LoadingArea/ButtonLoading";
 
 const SignUpDrawer = () => {
   const dispatch = useDispatch();
@@ -47,7 +49,8 @@ const SignUpDrawer = () => {
   };
 
   // error
-
+  const isLoading = useSelector((state) => state.signup.isLoading);
+  
   const handleSignUp = () => {
     dispatch(SignUpUser(params));
     
@@ -72,11 +75,13 @@ const SignUpDrawer = () => {
                 display="flex"
                 justifyContent="space-between"
               >
-                <Typography variant="h6">Signup</Typography>
+                <Typography variant="h6" mb={0} className="mb-0">
+                  Signup
+                </Typography>
               </Box>
               <Divider />
-              <Box py={2} px={3}>
-                <Box>
+              <Box container spacing={2} py={2} px={3}>
+                <Box sx={{ pt: 0 }}>
                   <FormLabel>First Name</FormLabel>
                   <TextField
                     fullWidth
@@ -85,10 +90,10 @@ const SignUpDrawer = () => {
                     onChange={(e) => setFirstName(e.target.value)}
                     margin="normal"
                   />
+                  <Typography className="error" color="red">
+                    {firstNameError}
+                  </Typography>
                 </Box>
-                <Typography className="error" color="red">
-                  {firstNameError}
-                </Typography>
 
                 <Box>
                   <FormLabel>Last Name</FormLabel>
@@ -99,6 +104,9 @@ const SignUpDrawer = () => {
                     onChange={(e) => setLastName(e.target.value)}
                     margin="normal"
                   />
+                  <Typography className="error" color="red">
+                    {lastNameError}
+                  </Typography>
                 </Box>
                 <Typography className="error" color="red">
                   {lastNameError}
@@ -134,46 +142,52 @@ const SignUpDrawer = () => {
                   {passwordError}
                 </Typography>
                 {/* <Alert severity="error" sx={{ mt: 2 }}></Alert> */}
-              </Box>
-              <Box className={styles.passengerDrawerFooter}>
-                <Divider />
-                <Box pb={2} pt={2}
-                    px={3}>
-                  <Box
-                    
-                    display="flex"
-                    justifyContent="flex-end"
-                    alignItems="center"
-                    gap={3}
-                  >
+                <Box className={styles.passengerDrawerFooter}>
+                  <Divider />
+                  <Box pb={2} pt={2} px={3}>
                     <Box
                       display="flex"
+                      justifyContent="flex-end"
                       alignItems="center"
-                      gap={2}
-                      className="basecolor1 f14"
-                      style={{ cursor: "pointer" }}
-                      onClick={handleCloseDrawer}
+                      gap={3}
                     >
-                      <i className="fa fa-close fas"></i>
-                      <span>Close</span>
-                    </Box>
-
-                    {/* Select Flight Button */}
-                    <Button
-                      className="btn btn-green btn-sm"
-                      onClick={handleSignUp}
-                      variant="contained"
-                      color="success"
-                    >
-                      <Box display="flex" alignItems="center" gap={1}>
-                        <i className="fa fa-arrow-right"></i>
-                        <span>Sign Up</span>
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        gap={2}
+                        className="basecolor1 f14"
+                        style={{ cursor: "pointer" }}
+                        onClick={handleCloseDrawer}
+                      >
+                        <i className="fa fa-close fas"></i>
+                        <span>Close</span>
                       </Box>
-                    </Button>
+
+                      {/* Select Flight Button */}
+                      <Button
+                        className="btn btn-green btn-sm"
+                        onClick={handleSignUp}
+                        variant="contained"
+                        color="success"
+                        disabled={isLoading} // Disable when loading
+                      >
+                        {isLoading ? (
+                          <ButtonLoading />
+                        ) : (
+                          <Box display="flex" alignItems="center" gap={1}>
+                            <i className="fa fa-arrow-right"></i>
+                            <span>Sign Up</span>
+                          </Box>
+                        )}
+                      </Button>
+                    </Box>
+                    <Typography textAlign={"center"} pt={2}>
+                      Already ahave an account?{" "}
+                      <Link onClick={handleSignIn} href={""}>
+                        Sign in
+                      </Link>
+                    </Typography>
                   </Box>
-                  <Typography textAlign={"center"} pt={2}>
-                    Already ahave an account? <Link onClick={handleSignIn} href={""}>Sign in</Link>
-                  </Typography>
                 </Box>
               </Box>
             </>
@@ -211,7 +225,10 @@ const SignUpDrawer = () => {
 
         {/* Footer */}
       </Box>
-      <Box className={styles.checkoutDrowerBackdrop}></Box>
+      <Box
+        onClick={handleCloseDrawer}
+        className={styles.checkoutDrowerBackdrop}
+      ></Box>
     </Box>
   );
 };

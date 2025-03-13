@@ -10,6 +10,7 @@ import {
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { closeDrawer, LogincloseDrawer, loginUser } from "@/src/store/slices/Auth/LoginSlice";
+import ButtonLoading from "../../LoadingArea/ButtonLoading";
 
 const LoginDrawer = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ const LoginDrawer = () => {
     const params = { username: email, password: password, };
     dispatch(loginUser(params));  
   };
+  const isloading = useSelector((state)=> state.login.isLoading)
+  
 
   return (
     <Box
@@ -129,11 +132,16 @@ const LoginDrawer = () => {
                   onClick={handleLogin}
                   variant="contained"
                   color="success"
+                  disabled={isloading} // Disable when loading
                 >
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <i className="fa fa-arrow-right"></i>
-                    <span>Login</span>
-                  </Box>
+                  {isloading ? (
+                    <ButtonLoading />
+                  ) : (
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <i className="fa fa-arrow-right"></i>
+                      <span>Login</span>
+                    </Box>
+                  )}
                 </Button>
               </Box>
             </Box>

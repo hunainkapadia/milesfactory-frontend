@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 const initialState = {
   user: null,
   openDrawer: false,
-  loading: false,
+  isLoading: false,
   error: null,
   firstNameError: "",
   lastNameError: "",
@@ -46,14 +46,18 @@ const signupSlice = createSlice({
     },
     logoutUser: (state) => {
       state.user = null; // Remove user from Redux
-      Cookies.remove("set-user");  // Remove user cookie
-      window.location.reload();  // Refresh the page to reflect changes
+      Cookies.remove("set-user"); // Remove user cookie
+      window.location.reload(); // Refresh the page to reflect changes
     },
+    seIstLoading: (state, action)=> {
+      state.isLoading = action.payload;
+    }
   },
 });
 
 // **Thunk for signing up a user**
 export const SignUpUser = (params) => (dispatch) => {
+  dispatch(seIstLoading(true))
    api
     .post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
@@ -81,7 +85,10 @@ export const SignUpUser = (params) => (dispatch) => {
        dispatch(setLastNameError(errors.last_name?.[0] || ""));
        dispatch(setEmailError(errors.email?.[0] || ""));
        dispatch(setPasswordError(errors.password?.[0] || ""));
-      });
+      })
+      .finally(() => {
+      dispatch(seIstLoading(false));
+    });
 };
 
 export const {
@@ -93,6 +100,7 @@ export const {
   setEmailError,
   setPasswordError,
   logoutUser,
+  seIstLoading,
 } = signupSlice.actions;
 
 export default signupSlice.reducer;

@@ -1,4 +1,13 @@
-import { Box, Button, Container, Divider, Drawer, Grid, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Drawer,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import Head from "next/head";
@@ -6,13 +15,17 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
-import { logoutUser, openDrawer, setsignUpUser } from "@/src/store/slices/Auth/SignupSlice";
+import {
+  logoutUser,
+  openDrawer,
+  setsignUpUser,
+} from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
 import { setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
 
   useEffect(() => {
@@ -24,35 +37,34 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
+  const sendMessages = useSelector(
+    (state) => state.sendMessage?.messages.length
+  );
   const getmessages = useSelector((state) => state.getMessages.messages.length);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
 
   // for login signup
-  const HandleSignup = ()=> {
+  const HandleSignup = () => {
     dispatch(openDrawer());
-  } 
-  
-  
-  // Load user from Cookies when the component mounts
-  const isFormSupmit = useSelector((state) => state.signup?.user?.user);
-  console.log("isFormSupmit22", isFormSupmit);
-    
+  };
 
-  // // Handle logout
-  const isUserLogin = useSelector((state)=>state?.login?.loginUser?.user);
+  // signup
+  const isUserSignup = useSelector((state) => state?.signup?.user?.user);
 
-  console.log("isUserLogin", isUserLogin);  
+  // login
+  const isUserLogin = useSelector(
+    (state) => state?.login?.loginUser?.user || null
+  );
+  // logout
   const logoutHandle = () => {
     dispatch(logoutUser());
   };
+  const currentUser = isUserLogin || isUserSignup; // Use single reference
+  console.log("isUserLogin", currentUser);
 
-  const toggleDrawer = ()=> {
+  const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
-
-  }
-
-
+  };
 
   return (
     <>
@@ -79,9 +91,12 @@ const Header = () => {
                 alignItems={"center"}
                 gap={2}
               >
-                <Box fontSize={"24px"} >
-                <i onClick={toggleDrawer} class="fa fa-bars" aria-hidden="true"></i>
-                
+                <Box fontSize={"24px"}>
+                  <i
+                    onClick={toggleDrawer}
+                    class="fa fa-bars"
+                    aria-hidden="true"
+                  ></i>
                 </Box>
 
                 <Box className={styles.Logo}>
@@ -96,24 +111,22 @@ const Header = () => {
                   </Link>
                 </Box>
               </Box>
-              <Drawer anchor="left" open={isDrawerOpen}  onClose={toggleDrawer}>
+              <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer}>
                 <Box
                   className={styles.HeaderDrawer}
                   sx={{
                     px: { xs: 3 }, // Padding X (left & right) of 3 units only on extra-small (xs) screens
-                    py: 3
+                    py: 3,
                   }}
                   width={"280px"}
                 >
-                  <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    gap={3}
-                  >
+                  <Box display={"flex"} alignItems={"center"} gap={3}>
                     {/* Close Button */}
                     <Box fontSize={"24px"}>
-                    <i onClick={toggleDrawer} className="fa fa-arrow-left basecolor1"></i>
-
+                      <i
+                        onClick={toggleDrawer}
+                        className="fa fa-arrow-left basecolor1"
+                      ></i>
                     </Box>
                     <Box className={styles.Logo}>
                       <Link href={"/"}>
@@ -153,7 +166,7 @@ const Header = () => {
               </Box>
 
               <Box display={"flex"} gap={4}>
-                {isUserLogin || isFormSupmit ? (
+                {currentUser ? (
                   <Box className={styles.Dropdown} position={"relative"}>
                     <Box
                       className={styles.Login}
@@ -163,7 +176,7 @@ const Header = () => {
                       gap={1}
                     >
                       <i className="fa fa-user-circle"></i>
-                      <Box>{isFormSupmit?.first_name}</Box>
+                      <Box>{currentUser?.first_name || ""}</Box>
                       {/*  */}
                     </Box>
                     <Box className={styles.DropdownItems}>

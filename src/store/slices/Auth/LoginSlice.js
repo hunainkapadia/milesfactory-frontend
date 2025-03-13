@@ -6,7 +6,7 @@ import api from "../../api";
 const initialState = {
   loginUser: null,
   loginOpenDrawer: false,
-  loading: false,
+  isLoading: false,
   error: null,
   LoginError: "",
 };
@@ -30,14 +30,18 @@ const loginSlice = createSlice({
       state.LoginError = action.payload;
     },
     logoutUser: (state) => {
-      state.loginUser = null; // ✅ Corrected
+      state.loginUser = null; //
       Cookies.remove("set-user");
     },
+    setisLoading: (state, action)=> {
+      state.isLoading = action.payload;
+    }
   },
 });
 
 // **Thunk for Logging In a User**
 export const loginUser = (params) => (dispatch) => {
+    dispatch(setisLoading(true));
    api
      .post(API_ENDPOINTS.AUTH.LOGIN, params)
      .then((res) => {
@@ -49,7 +53,8 @@ export const loginUser = (params) => (dispatch) => {
            "set-user",
            JSON.stringify({
              email: params.email,
-             password: params.password,
+             first_name: res.data.first_name,
+             password: res.data.password,
              refresh: res?.data?.refresh,
              access: res?.data?.access,
            }),
@@ -70,7 +75,9 @@ export const loginUser = (params) => (dispatch) => {
       
       const LoginError = {email: emailError, password: passworderror, other: otherError}
        dispatch(setLoginError(LoginError));
-     });
+     }).finally(()=>{
+      dispatch(setisLoading(false));
+     })
 };
 
 export const {
@@ -79,6 +86,7 @@ export const {
   setLoginUser,
   logoutUser,
   setLoginError,
+  setisLoading,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
