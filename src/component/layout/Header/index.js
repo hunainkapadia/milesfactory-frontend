@@ -47,10 +47,8 @@ const Header = () => {
   const HandleSignup = () => {
     dispatch(openDrawer());
   };
-
   // signup
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
-
   // login
   const isUserLogin = useSelector(
     (state) => state?.login?.loginUser?.user || null
@@ -60,8 +58,6 @@ const Header = () => {
     dispatch(logoutUser());
   };
   const currentUser = isUserLogin || isUserSignup; // Use single reference
-  console.log("isUserLogin", currentUser);
-
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };

@@ -55,8 +55,8 @@ export const loginUser = (params) => (dispatch) => {
              email: params.email,
              first_name: res.data.first_name,
              password: res.data.password,
-             refresh: res?.data?.refresh,
-             access: res?.data?.access,
+             refresh_token: res?.data?.refresh,
+             access_token: res?.data?.access,
            }),
            { expires: 7 }
          );
@@ -79,6 +79,24 @@ export const loginUser = (params) => (dispatch) => {
       dispatch(setisLoading(false));
      })
 };
+
+// refreshtoken setup
+// 🔹 Refresh Token Thunk (Using Axios .then/.catch)
+export const refreshToken = (rejectWithValue) => (dispatch) => {
+  const refresh = Cookies.get("refresh_token");
+
+  if (!refresh) return rejectWithValue("No refresh token available");
+
+  return api
+    .post(API_ENDPOINTS.AUTH.REFRESH_TOKEN, { refresh })
+    .then((response) => {
+      Cookies.set("access_token", response.data.access, { expires: 7 });
+      Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
+      return response.data.access; // Return new access token
+    })
+    .catch((error) => rejectWithValue(error.response?.data || "Failed to refresh token"));
+};
+
 
 export const {
   loginOpenDrawer,

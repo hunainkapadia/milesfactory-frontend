@@ -3,9 +3,13 @@ import React from 'react';
 import { Avatar, Grid, Container, Menu, MenuItem, Box, Button } from "@mui/material";
 import { Provider } from 'react-redux';
 import store from "@/src/store/store"
+import Head from "next/head";
 export default function App({ Component, pageProps }) {
   return (  
     <Provider store={store}>
+    <Head>
+        <link rel="icon" href="/images/favicon_mylz.svg" />
+      </Head>
       <Component {...pageProps} />
     </Provider>  
     

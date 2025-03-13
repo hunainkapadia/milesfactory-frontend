@@ -1,8 +1,9 @@
 export const API_ENDPOINTS = {
    AUTH: {
-     LOGIN: "/api/v1/login/",
      SIGNUP: "/api/v1/register/",
+     LOGIN: "/api/v1/login/",
      LOGOUT: "/api/v1/logout/",
+     REFRESH_TOKEN: "/api/v1/refresh/",
    },
    CHAT: {
      SEND_MESSAGE: "/api/v1/chat/send-message",
