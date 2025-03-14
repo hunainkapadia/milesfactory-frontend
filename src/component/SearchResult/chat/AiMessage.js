@@ -4,12 +4,15 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import SearchCard from "../SearchCard";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import CollectPassengerInfo from "../../Checkout/CollectPassengerInfo";
+import PassengerInfo from "../../Checkout/PassengerInfo";
 import { setAllFlightResults } from "@/src/store/slices/sendMessageSlice";
-import { setOfferId } from "@/src/store/slices/BookingflightSlice";
+import { setOfferId } from "@/src/store/slices/passengerDrawerSlice";
+
 
 const AiMessage = ({ aiMessage }) => {
   //  State to toggle flight search results
+  console.log("aiMessage", aiMessage);
+  
   
   const [showAllResults, setShowAllResults] = useState(false);
   
@@ -43,7 +46,9 @@ const AiMessage = ({ aiMessage }) => {
   // get user book selecteet flight detail for show in ai message 
   // collect passenger data from redux
   
-  const GetPassenger = useSelector((state)=> state.booking.ViewPassengers)
+  const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
+  console.log("GetViewPassengers", GetViewPassengers);
+  
 
   return (
     <Box
@@ -115,9 +120,9 @@ const AiMessage = ({ aiMessage }) => {
             <SearchCard offerData={getselectedFlight} />
           </Box>
           {/* selected flight end */}
-          {GetPassenger ? (
-            <CollectPassengerInfo
-              getdata={GetPassenger}
+          {GetViewPassengers ? (
+            <PassengerInfo
+              getdata={GetViewPassengers}
             />
           ) : (
             ""

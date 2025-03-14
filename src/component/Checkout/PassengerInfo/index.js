@@ -4,16 +4,12 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import PassengersCard from "../PassengersCard";
-import { bookFlight, setPassengerUUID } from "@/src/store/slices/BookingflightSlice";
+import { openPassengerDrawer, PassengerForm, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
 
-const CollectPassengerInfo = ({ getdata }) => {
+const PassengerInfo = ({ getdata }) => {
   console.log("getdata", getdata);
 
   const dispatch = useDispatch();
-  const handlePassenger = () => {
-    dispatch(openPassengerDrawer());
-  };
-
   const passengerDetails = useSelector(
     (state) => state.passengerDrawer.passengerDetails
   );
@@ -24,10 +20,24 @@ const CollectPassengerInfo = ({ getdata }) => {
     console.log("uuiddddd", uuid);
     
     setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
-    dispatch(bookFlight())
-    dispatch(setPassengerUUID(uuid))
-    // dispatch(bookFlight(uuid)); // Pass flight ID to bookFlight
   };
+  
+  const handlePassengerAdd = () => {  
+    if (selectedPassenger) { // Ensure a passenger is selected
+      console.log("selectedPassenger", selectedPassenger);
+      dispatch(PassengerForm()) //must need to knw redux export const PassengerForm
+      dispatch(setPassengerUUID(selectedPassenger));
+      dispatch(openPassengerDrawer());
+    } else {
+      console.log("No passenger selected!");
+    }
+  };
+  
+  // get pasenger form data
+  const getPassFormData = useSelector((state)=> state?.passengerDrawer?.PassFormData);
+  
+  
+
   
 
   return (
@@ -41,17 +51,19 @@ const CollectPassengerInfo = ({ getdata }) => {
           Passengers
         </Typography>
         <Grid container spacing={2}>
-        {getdata?.map((passenger, index) => (
-        <Grid item xs={12} sm={6} key={passenger.uuid}>
-          <PassengersCard
-            totalPass={index + 1}
-            getdata={passenger}
-            isMainPassenger={index === 0} // Check if it's the first passenger
-            isActive={selectedPassenger === passenger.uuid} // Ensure only one is active
-            onToggle={handlePassengerToggle} // Handle selection
-          />
-        </Grid>
-      ))}
+          {getdata?.map((passenger, index) => (
+            <Grid item xs={12} sm={6} key={passenger.uuid}>
+            {console.log("selectedPassenger", selectedPassenger)}
+              <PassengersCard
+                totalPass={index + 1}
+                getdata={passenger}
+                passName={selectedPassenger === passenger.uuid ? getPassFormData?.given_name : ""}
+                isMainPassenger={index === 0} // Check if it's the first passenger
+                isActive={selectedPassenger === passenger.uuid} // Ensure only one is active
+                onToggle={handlePassengerToggle} // Handle selection
+              />
+            </Grid>
+          ))}
           {/* <Grid item xs={12} sm={6}>
                 <Card
                   sx={{ border: "1px solid #ccc", padding: 2, borderRadius: 2 }}
@@ -65,7 +77,7 @@ const CollectPassengerInfo = ({ getdata }) => {
         </Grid>
 
         <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
-          <Button className="btn btn-green btn-sm" onClick={handlePassenger}>
+          <Button className="btn btn-green btn-sm" onClick={handlePassengerAdd}>
             <Box display="flex" alignItems="center" gap={1}>
               <i className="fa fa-arrow-right"></i>
               <span>Fill in passenger information</span>
@@ -215,4 +227,4 @@ const CollectPassengerInfo = ({ getdata }) => {
   );
 };
 
-export default CollectPassengerInfo;
+export default PassengerInfo;

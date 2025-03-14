@@ -19,6 +19,7 @@ import {
   bookFlight,
   NationalitData,
   PassengerForm,
+  PassengerFormSubmit,
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
 
@@ -35,7 +36,8 @@ const PassengerDrawerForm = () => {
   const [passport_number, setpassport_number] = useState();
   const [passport_expire_date, setpassport_expire_date] = useState();
   const [nationality, setnationality] = useState();
-
+  
+  
   const params = {
     gender: gender,
     given_name: given_name,
@@ -43,8 +45,9 @@ const PassengerDrawerForm = () => {
     born_on: born_on,
     passport_number: passport_number,
     passport_expire_date: passport_expire_date,
-    nationality: nationality,
+    nationality:  nationality?.id || "",
   };
+  console.log("gender", gender);
   // Fetch nationality data when the component mounts
   useEffect(() => {
     dispatch(NationalitData());
@@ -56,10 +59,9 @@ const PassengerDrawerForm = () => {
     dispatch(closePassengerDrawer());
   };
 
-  const handleBookFlight = () => {
+  const SubmitPassenger = () => {
     console.log("formDataformData", params);
-    dispatch(PassengerForm(params));
-    dispatch(closePassengerDrawer());
+    dispatch(PassengerFormSubmit(params));
   };
 
   return (
@@ -88,13 +90,9 @@ const PassengerDrawerForm = () => {
                 value={gender}
                 onChange={(e) => setgender(e.target.value)}
               >
+                <FormControlLabel value="m" control={<Radio />} label="Male" />
                 <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="female"
+                  value="f"
                   control={<Radio />}
                   label="Female"
                 />
@@ -209,7 +207,7 @@ const PassengerDrawerForm = () => {
               </Box>
               <Button
                 className="btn btn-green btn-sm"
-                onClick={handleBookFlight}
+                onClick={SubmitPassenger}
                 variant="contained"
                 color="success"
               >

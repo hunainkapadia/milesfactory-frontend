@@ -1,7 +1,9 @@
 import { Card, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 
-const PassengersCard = ({ getdata, totalPass, isMainPassenger, isActive, onToggle }) => {
+const PassengersCard = ({passName, getdata, totalPass, isMainPassenger, isActive, onToggle }) => {
+   console.log("passName", getdata.uuid);
+   
   return (
     <Card
       id={getdata.uuid}
@@ -11,6 +13,9 @@ const PassengersCard = ({ getdata, totalPass, isMainPassenger, isActive, onToggl
     >
       <Typography className="mb-10" mb={1} variant="h6">
         {isMainPassenger ? "Main Passenger" : "Passenger"}
+      </Typography>
+      <Typography className="gray">
+      {passName}
       </Typography>
       <Typography className="gray">
         {getdata.type} {" "} {totalPass}
