@@ -18,27 +18,33 @@ import {
   closePassengerDrawer,
   bookFlight,
   NationalitData,
+  PassengerForm,
 } from "@/src/store/slices/passengerDrawerSlice";
+import dayjs from "dayjs";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.passengerDrawer.isOpen);
   const countries = useSelector((state) => state.passengerDrawer.countries);
   console.log("countries", countries);
-  
 
-  const [formData, setFormData] = useState({
-    gender: "",
-    given_name: "",
-    family_name: "",
-    born_on: null,
-    passport_number: "",
-    passport_expire_date: null,
-    nationality: null,
-    email: "",
-    phone: "",
-  });
+  const [gender, setgender] = useState();
+  const [given_name, setgiven_name] = useState();
+  const [family_name, setfamily_name] = useState();
+  const [born_on, setborn_on] = useState();
+  const [passport_number, setpassport_number] = useState();
+  const [passport_expire_date, setpassport_expire_date] = useState();
+  const [nationality, setnationality] = useState();
 
+  const params = {
+    gender: gender,
+    given_name: given_name,
+    family_name: family_name,
+    born_on: born_on,
+    passport_number: passport_number,
+    passport_expire_date: passport_expire_date,
+    nationality: nationality,
+  };
   // Fetch nationality data when the component mounts
   useEffect(() => {
     dispatch(NationalitData());
@@ -46,28 +52,15 @@ const PassengerDrawerForm = () => {
 
   if (!isOpen) return null;
 
-  const handleChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
-  };
-
   const handleCloseDrawer = () => {
     dispatch(closePassengerDrawer());
   };
 
   const handleBookFlight = () => {
-    console.log("Booking flight with data:", formData);
-    dispatch(bookFlight(formData));
+    console.log("formDataformData", params);
+    dispatch(PassengerForm(params));
     dispatch(closePassengerDrawer());
   };
-
-  const nationalities = [
-    { code: "US", label: "United States" },
-    { code: "GB", label: "United Kingdom" },
-    { code: "IN", label: "India" },
-    { code: "PK", label: "Pakistan" },
-    { code: "CA", label: "Canada" },
-    { code: "AU", label: "Australia" },
-  ];
 
   return (
     <Box
@@ -92,8 +85,8 @@ const PassengerDrawerForm = () => {
               <FormLabel>Gender as per passport</FormLabel>
               <RadioGroup
                 row
-                value={formData.gender}
-                onChange={(e) => handleChange("gender", e.target.value)}
+                value={gender}
+                onChange={(e) => setgender(e.target.value)}
               >
                 <FormControlLabel
                   value="male"
@@ -107,36 +100,37 @@ const PassengerDrawerForm = () => {
                 />
               </RadioGroup>
             </Box>
-
             <Box>
               <FormLabel>First Name</FormLabel>
               <TextField
                 fullWidth
                 placeholder="Enter First Name"
-                value={formData.given_name}
-                onChange={(e) => handleChange("given_name", e.target.value)}
+                value={given_name}
+                onChange={(e) => setgiven_name(e.target.value)}
                 margin="normal"
               />
             </Box>
-
             <Box>
               <FormLabel>Last Name</FormLabel>
               <TextField
                 fullWidth
                 placeholder="Enter Last Name"
-                value={formData.family_name}
-                onChange={(e) => handleChange("family_name", e.target.value)}
+                value={family_name}
+                onChange={(e) => setfamily_name(e.target.value)}
                 margin="normal"
               />
             </Box>
-
             <Box width="100%">
               <FormLabel>Date of Birth</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   className="formControl"
-                  value={formData.born_on}
-                  onChange={(date) => handleChange("born_on", date)}
+                  value={born_on ? dayjs(born_on) : null} // Convert string to dayjs
+                  onChange={(newValue) =>
+                    setborn_on(
+                      newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+                    )
+                  } // Format date as string
                   renderInput={(params) => (
                     <TextField {...params} fullWidth margin="normal" />
                   )}
@@ -145,15 +139,48 @@ const PassengerDrawerForm = () => {
             </Box>
 
             <Box>
+              <FormLabel>Passport Number</FormLabel>
+              <TextField
+                className="formControl"
+                fullWidth
+                placeholder="Enter Passport Number"
+                value={passport_number}
+                onChange={(e) => setpassport_number(e.target.value)}
+                margin="normal"
+              />
+            </Box>
+            <Box width="100%">
+              <FormLabel>Passport Expiry Date</FormLabel>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  className="formControl"
+                  value={
+                    passport_expire_date ? dayjs(passport_expire_date) : null
+                  } // Ensure it's a dayjs object
+                  onChange={(newValue) =>
+                    setpassport_expire_date(
+                      newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+                    )
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      className="formControl"
+                      {...params}
+                      fullWidth
+                      margin="normal"
+                    />
+                  )}
+                />
+              </LocalizationProvider>
+            </Box>
+            <Box>
               <FormLabel>Nationality</FormLabel>
               <Autocomplete
                 className="select-dropdown"
                 options={countries}
                 getOptionLabel={(option) => option.name}
-                value={formData.countries}
-                onChange={(event, newValue) =>
-                  handleChange("nationality", newValue)
-                }
+                value={nationality} // Ensure this is a valid object from `countries`
+                onChange={(event, newValue) => setnationality(newValue)} // Use newValue directly
                 renderInput={(params) => <TextField {...params} fullWidth />}
               />
             </Box>

@@ -1,5 +1,12 @@
 @import "../../variables";
 
+
+.passengersCard {border:1px solid #69707B;
+   &.Active {
+      border: solid $basecolor1 1px !important;
+   }
+   &.Notactive {}
+}
 .checkoutDrower {
    .onewayReturn {
       padding: 6px 10px;

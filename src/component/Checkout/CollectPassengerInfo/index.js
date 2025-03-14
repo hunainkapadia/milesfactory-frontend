@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { openPassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
 import Link from "next/link";
 import PassengersCard from "../PassengersCard";
+import { bookFlight, setPassengerUUID } from "@/src/store/slices/BookingflightSlice";
 
 const CollectPassengerInfo = ({ getdata }) => {
   console.log("getdata", getdata);
@@ -18,6 +18,18 @@ const CollectPassengerInfo = ({ getdata }) => {
     (state) => state.passengerDrawer.passengerDetails
   );
 
+  // passenger toggle
+  const [selectedPassenger, setSelectedPassenger] = useState(null); // Track selected passenger
+  const handlePassengerToggle = (uuid) => {
+    console.log("uuiddddd", uuid);
+    
+    setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
+    dispatch(bookFlight())
+    dispatch(setPassengerUUID(uuid))
+    // dispatch(bookFlight(uuid)); // Pass flight ID to bookFlight
+  };
+  
+
   return (
     <>
       <Card
@@ -29,19 +41,17 @@ const CollectPassengerInfo = ({ getdata }) => {
           Passengers
         </Typography>
         <Grid container spacing={2}>
-          {getdata
-            ? getdata.map((getdata, totalPass) => (
-                <>
-                  <Grid item xs={12} sm={6}>
-                    <PassengersCard
-                      totalPass={totalPass + 1}
-                      getdata={getdata}
-                      isMainPassenger={totalPass === 0} // Flag to check if it's the first passenger
-                    />
-                  </Grid>
-                </>
-              ))
-            : ""}
+        {getdata?.map((passenger, index) => (
+        <Grid item xs={12} sm={6} key={passenger.uuid}>
+          <PassengersCard
+            totalPass={index + 1}
+            getdata={passenger}
+            isMainPassenger={index === 0} // Check if it's the first passenger
+            isActive={selectedPassenger === passenger.uuid} // Ensure only one is active
+            onToggle={handlePassengerToggle} // Handle selection
+          />
+        </Grid>
+      ))}
           {/* <Grid item xs={12} sm={6}>
                 <Card
                   sx={{ border: "1px solid #ccc", padding: 2, borderRadius: 2 }}

@@ -36,6 +36,22 @@ export const NationalitData = () => (dispatch) => {
     });
 };
 
+export const PassengerForm = (params) => (dispatch, getState) => {
+  const state = getState(); // Get the Redux state
+  const OrderUUID = state?.booking?.OrderUuid; // Get OrderUuid from bookingflightsSlice
+  console.log("OrderUUID111", OrderUUID);
+  
+
+  // dispatch(seIstLoading(true));
+  console.log("idds");
+
+  api.post(API_ENDPOINTS.BOOKING.PASSENGERFORM, params).then((res) => {
+    console.log("res", res);
+  });
+};
+
+// Store user info in cookies
+
 // Export actions
 export const {
   openPassengerDrawer,

@@ -21,16 +21,18 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
   };
 
-  const PassengerData = useSelector((state) => state.booking);
+  const PassengerData = useSelector((state) => state.passengerDrawer);
   console.log("PassengerData", PassengerData);
 
   const handleBookFlight = () => {
     dispatch(setCloseDrawer()); //dispatch close
-    dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight id
+    dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
 
-    dispatch(setPassengerData());
+    dispatch(bookFlight());
+    dispatch(setPassengerData()); // pass data store in slice
     if (getFlightDetails?.id) {
       dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
+
     } else {
       console.error("Flight ID is missing");
     }

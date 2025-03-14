@@ -42,7 +42,8 @@ const AiMessage = ({ aiMessage }) => {
   const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);  
   // get user book selecteet flight detail for show in ai message 
   // collect passenger data from redux
-  const passengerData = useSelector((state)=> state?.booking?.PassengerData?.data)
+  
+  const GetPassenger = useSelector((state)=> state.booking.ViewPassengers)
 
   return (
     <Box
@@ -113,9 +114,10 @@ const AiMessage = ({ aiMessage }) => {
           <Box mt={2}>
             <SearchCard offerData={getselectedFlight} />
           </Box>
-          {passengerData ? (
+          {/* selected flight end */}
+          {GetPassenger ? (
             <CollectPassengerInfo
-              getdata={passengerData}
+              getdata={GetPassenger}
             />
           ) : (
             ""
