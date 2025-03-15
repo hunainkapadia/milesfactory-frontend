@@ -27,8 +27,6 @@ const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.passengerDrawer.isOpen);
   const countries = useSelector((state) => state.passengerDrawer.countries);
-  console.log("countries", countries);
-
   const [gender, setgender] = useState();
   const [given_name, setgiven_name] = useState();
   const [family_name, setfamily_name] = useState();
@@ -47,7 +45,6 @@ const PassengerDrawerForm = () => {
     passport_expire_date: passport_expire_date,
     nationality:  nationality?.id || "",
   };
-  console.log("gender", gender);
   // Fetch nationality data when the component mounts
   useEffect(() => {
     dispatch(NationalitData());
@@ -60,7 +57,6 @@ const PassengerDrawerForm = () => {
   };
 
   const SubmitPassenger = () => {
-    console.log("formDataformData", params);
     dispatch(PassengerFormSubmit(params));
   };
 

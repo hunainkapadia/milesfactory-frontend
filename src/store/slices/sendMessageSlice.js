@@ -7,7 +7,7 @@ const sendMessageSlice = createSlice({
   initialState: {
     messages: [],
     isLoading: false,
-    setAllFlightPostApi: null, // ✅ Store all flight search results here
+    setAllFlightPostApi: null, // Store all flight search results here
 
   },
   reducers: {
@@ -15,12 +15,9 @@ const sendMessageSlice = createSlice({
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
-      console.log("New message added:", action.payload);
       state.messages.push(action.payload);
     },
     setAllFlightResults: (state, action) => {
-      // console.log("setAllFlightResults-action", action.payload);
-
       state.setAllFlightPostApi = action.payload;
     },
   },
@@ -39,14 +36,23 @@ export const sendMessage = (userMessage) => (dispatch) => {
       
       if (response?.is_function) {
         const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
+        
         if (topFlightSearchApi) {
           api
-            .get(topFlightSearchApi)
-            .then((flightRes) => {
-              console.log("flightRes", flightRes.data);
-              dispatch(setMessage({ ai: flightRes.data }));
+          .get(topFlightSearchApi)
+          .then((flightRes) => {
+            console.log("flightRes", topFlightSearchApi);
+            
+              dispatch(
+                setMessage({
+                  ai: flightRes.data,
+                  OfferId: topFlightSearchApi,
+                })
+              );
             })
-            .catch((error) => console.error("Error fetching  top flight data:", error));
+            .catch((error) => {
+              ""
+            });
         }
         // for get all flight
         const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
@@ -56,15 +62,19 @@ export const sendMessage = (userMessage) => (dispatch) => {
             .then((flightRes) => {
               
               
-              dispatch(setAllFlightResults(flightRes?.data)); // ✅ Store but don't update AI message
+              dispatch(setAllFlightResults(flightRes?.data)); // Store but don't update AI message
             })
-            .catch((error) => console.error("Error fetching all flight data:", error));
+            .catch((error) => {
+              ""
+            });
         }
       } else {
         dispatch(setMessage({ ai: response }));
       }
     })
-    .catch((error) => console.error("Error:", error.response?.data || error))
+    .catch((error) => {
+      ""
+    })
     .finally(() => {
       dispatch(setLoading(false));
     });

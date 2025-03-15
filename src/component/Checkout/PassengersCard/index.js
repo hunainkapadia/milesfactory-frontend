@@ -2,8 +2,6 @@ import { Card, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 
 const PassengersCard = ({passName, getdata, totalPass, isMainPassenger, isActive, onToggle }) => {
-   console.log("passName", getdata.uuid);
-   
   return (
     <Card
       id={getdata.uuid}

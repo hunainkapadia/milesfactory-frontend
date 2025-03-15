@@ -22,8 +22,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
   };
 
   const PassengerData = useSelector((state) => state.passengerDrawer);
-  console.log("PassengerData", PassengerData);
-
+  
   const handleBookFlight = () => {
     dispatch(setCloseDrawer()); //dispatch close
     dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
@@ -36,7 +35,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
       dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
 
     } else {
-      console.error("Flight ID is missing");
+      ""
     }
     dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
   };

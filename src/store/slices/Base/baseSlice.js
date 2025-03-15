@@ -9,7 +9,6 @@ const baseSlice = createSlice({
   initialState,
   reducers: {
    setSectionActive:(state, action)=> {
-    console.log("action111", action);
     
     state.sectionActive = action.payload; // Update active section
 

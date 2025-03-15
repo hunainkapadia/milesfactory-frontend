@@ -18,7 +18,6 @@ export const GetMyProductAction = (params) => {
         }
       })
       .catch((error) => {
-        console.log("error: ", error);
         dispatch(getMyProductError(error));
       });
   };

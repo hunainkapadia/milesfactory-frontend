@@ -1,16 +1,12 @@
 import HeroSection from "../component/HeroSection";
-import Footer from "../component/layout/Footer";
 import Header from "../component/layout/Header";
 import { useSelector, useDispatch } from "react-redux";
-import { Button } from "@mui/material";
 import { useState } from "react";
 import styles from "@/src/styles/sass/components/Home.module.scss"
-import IdeaDetailSection from "../component/home/IdeaDetailSection";
 import Section4Reviews from "../component/home/Section4Reviews";
 import Section5App from "../component/home/Section5App";
 import HowMylzWork from "../component/home/HowMylzWork";
 import MylzDifferent from "../component/home/MylzDifferent";
-import CheapestFlights from "../component/home/CheapestFlights";
 import SignUpDrawer from "../component/Auth/SignUpDrawer";
 import LoginDrawer from "../component/Auth/LoginDrawer";
 import PoweredByglobal from "../component/home/PoweredByglobal";
@@ -20,14 +16,13 @@ const Home = () => {
   const [isSearchActive, setIsSearchActive] = useState(false);
   
   // check message length
-  const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
-  const getmessages = useSelector((state) => state.getMessages.messages.length);
+  const sendMessages = useSelector((state) => state.sendMessage?.messages.length || 0);
+  const getmessages = useSelector((state) => state.getMessages.messages.length || 0);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
   
   const SignupDrawer = useSelector((state)=>state.signup.openDrawer);
   const openLoginDrawer = useSelector((state)=>state?.login?.loginOpenDrawer);
   const isUserLogin = useSelector((state)=>state?.login);
-  console.log("SignupDrawer", SignupDrawer);
   
 
   
@@ -48,7 +43,6 @@ const Home = () => {
             <HowMylzWork id={"HowMylzWork"} />
             <MylzDifferent id={"MylzDifferent"} />
             <PoweredByglobal id={"PoweredByglobal"} />
-            {/* <CheapestFlights id={"CheapestFlights"} /> */}
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App />
             <Header />

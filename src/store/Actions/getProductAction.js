@@ -19,7 +19,6 @@ export const GetProductAction = (params) => {
         }
       })
       .catch((error) => {
-        console.log("error: ", error);
         dispatch(getProductError(error));
       });
   };

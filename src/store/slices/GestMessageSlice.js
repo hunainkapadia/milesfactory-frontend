@@ -14,20 +14,20 @@ const GetMessagesSlice = createSlice({
   initialState,
   reducers: {
     setMessage: (state, action) => {
-      console.log("setMessage action:", action.payload);
+      
       state.messages.push(action.payload);
     },
     setAllFlightGetApi: (state, action) => {
-      console.log("setAllFlightResults-action", action.payload);
+      
 
       state.allFlightSearchResults = action.payload;
     },
     setIsLoading: (state, action) => {
-      console.log("setIsLoading:", action.payload);
+      
       state.isLoading = action.payload;
     },
     setError: (state, action) => {
-      console.log("setError:", action.payload);
+      
       state.error = action.payload;
     },
   },
@@ -44,22 +44,23 @@ export const fetchMessages = () => (dispatch) => {
       }
 
       response.data.forEach((item) => {
-        console.log("testaaa", item?.response);
+        
         
 
         if (item?.is_function) {
           const topFlightSearchApi =
             item?.response?.results?.view_top_flight_result_api?.url;
-          
           if (topFlightSearchApi) {
             api
               .get(topFlightSearchApi)
               .then((offerResponse) => {
+                console.log("topFlightSearchApi", topFlightSearchApi);
+                
                 dispatch(
                   setMessage({
                     user: item.message,
                     ai: offerResponse.data ,
-                    OfferId: topFlightSearchApi,
+                    OfferId: topFlightSearchApi, // this is for passenger flow  offerID
                   })
                 );
               })
@@ -76,7 +77,9 @@ export const fetchMessages = () => (dispatch) => {
                 
                 dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
               })
-              .catch((error) => console.error("Error fetching all flight data:", error));
+              .catch((error) => {
+                ""
+              });
           }
         } else {
          dispatch(setMessage({ user: item.message, ai: { response: item?.response } }));

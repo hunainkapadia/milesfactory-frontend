@@ -90,7 +90,7 @@ const Header = () => {
                 <Box fontSize={"24px"}>
                   <i
                     onClick={toggleDrawer}
-                    class="fa fa-bars"
+                    className="fa fa-bars"
                     aria-hidden="true"
                   ></i>
                 </Box>
@@ -195,7 +195,7 @@ const Header = () => {
                         >
                           <Box display={"flex"} alignItems={"center"} gap={1}>
                             <Box width={"20px"}>
-                              <i class="fa fa-cog" aria-hidden="true"></i>
+                              <i className="fa fa-cog" aria-hidden="true"></i>
                             </Box>
                             <Typography>Setting</Typography>
                           </Box>

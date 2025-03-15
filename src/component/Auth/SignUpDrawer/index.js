@@ -41,7 +41,6 @@ const SignUpDrawer = () => {
     (state) => state.signup
   );  
   const isFormSupmit = useSelector((state) => state.signup);
-  console.log("isFormSupmit", isFormSupmit?.user?.status);
   
 
   const handleCloseDrawer = () => {

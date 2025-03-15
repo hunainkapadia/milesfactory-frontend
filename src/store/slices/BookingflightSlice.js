@@ -25,8 +25,7 @@ const bookingflightsSlice = createSlice({
       state.setSelectFlightKey = action.payload;
     },
     setflightDetail: (state, action) => {
-      console.log("actionflightdetail", action);
-      state.flightDetail = action.payload; //payload comming in action console
+      state.flightDetail = action.payload; //payload comming in action 
       state.selectedFlightId = action.payload.id;
     },
     
@@ -42,7 +41,7 @@ const bookingflightsSlice = createSlice({
     //  select booking end
     //  start booking get flight and pass detaiul
     setCloseDrawer: (state, action) => {
-      console.log("closestate", state, action);
+      
       state.setSelectFlightKey = action.payload;
     },
     setBookingSetupUrl: (state,action)=> {
@@ -56,7 +55,7 @@ export const fetchflightDetail = (flightId) => (dispatch) => {
   const apiUrl = `${API_ENDPOINTS.BOOKING.BOOKING_DETAIL}${flightId}`;
 
   api.get(apiUrl).then((res) => {
-    console.log("res1212", res);
+    
     dispatch(setflightDetail(res.data));
   });
 };

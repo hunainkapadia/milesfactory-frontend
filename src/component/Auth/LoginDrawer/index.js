@@ -18,9 +18,7 @@ const LoginDrawer = () => {
   const [password, setPassword] = useState("");
 
   const LoginError = useSelector((state)=> state.login.LoginError)
-  const isFormSupmit = useSelector((state)=> state.login.loginUser);
-  console.log("isFormSupmit", isFormSupmit);
-  
+  const isFormSupmit = useSelector((state)=> state.login.loginUser);  
 
   const isUserLoggedIn = useSelector((state) => state.signup.user?.status === 200);
 
@@ -28,7 +26,6 @@ const LoginDrawer = () => {
     dispatch(LogincloseDrawer());
   };
 
-  console.log("LoginError", LoginError);
   const handleLogin = () => {
     const params = { username: email, password: password, };
     dispatch(loginUser(params));  

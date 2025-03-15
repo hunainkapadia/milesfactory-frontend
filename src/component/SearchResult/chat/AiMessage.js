@@ -11,7 +11,7 @@ import { setOfferId } from "@/src/store/slices/passengerDrawerSlice";
 
 const AiMessage = ({ aiMessage }) => {
   //  State to toggle flight search results
-  console.log("aiMessage", aiMessage);
+  
   
   
   const [showAllResults, setShowAllResults] = useState(false);
@@ -29,6 +29,7 @@ const AiMessage = ({ aiMessage }) => {
   };
   const dispatch = useDispatch();
   
+  console.log("OfferId", aiMessage);
   
   useEffect(() => {
     if (aiMessage?.OfferId) {
@@ -47,7 +48,7 @@ const AiMessage = ({ aiMessage }) => {
   // collect passenger data from redux
   
   const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
-  console.log("GetViewPassengers", GetViewPassengers);
+  
   
 
   return (
@@ -63,7 +64,7 @@ const AiMessage = ({ aiMessage }) => {
         <>
           {aiMessage.ai.offers.map((getoffers, offerindex) => (
             <SearchCard
-              offerkey={`${offerindex}-${getoffers.id}`}
+              offerkey={`${offerindex}-${getoffers.id}`} // Corrected key prop
               offerData={getoffers}
             />
           ))}
@@ -93,7 +94,7 @@ const AiMessage = ({ aiMessage }) => {
               {getAllFlightPostApi?.offers?.map((getoffers, offerindex) => (
                 <SearchCard
                   offerData={getoffers}
-                  offerkey={`${offerindex}-${getoffers.id}`}
+                  offerkey={`${offerindex}-${getoffers.id}`} // key prop
                 />
               ))}
 
@@ -101,7 +102,7 @@ const AiMessage = ({ aiMessage }) => {
               {getAllFlightGetApi?.offers?.map((getoffers, offerindex) => (
                 <SearchCard
                   offerData={getoffers}
-                  offerkey={`${offerindex}-${getoffers.id}`}
+                  offerkey={`${offerindex}-${getoffers.id}`} // key prop
                 />
               ))}
             </Box>
@@ -110,6 +111,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : aiMessage?.ai?.response === "passengerFlowActive" ? (
         //  Separate UI for BookFlight
         <>
+        {console.log("pfactive", aiMessage?.ai?.response)}
           <Card
             className={`${searchResultStyles.AiMessage} white-bg`}
             variant="outlined"

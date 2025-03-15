@@ -77,10 +77,10 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 sx={{ marginBottom: { xs: 3, md: 0 } }}
                 className={styles.FooterBoxRight}
               >
-                <i class="fab fa-facebook-square"></i>
-                <i class="fab fa-x-twitter"></i>
-                <i class="fab fa-square-instagram"></i>
-                <i class="fab fa-square-youtube"></i>
+                <i className="fab fa-facebook-square"></i>
+                <i className="fab fa-x-twitter"></i>
+                <i className="fab fa-square-instagram"></i>
+                <i className="fab fa-square-youtube"></i>
               </Box>
             </Box>
             {/*  */}

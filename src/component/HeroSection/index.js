@@ -45,6 +45,8 @@ const HeroSection = () => {
 
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
+  console.log("all_messages", messages);
+  
 
   useEffect(() => {
     dispatch(fetchMessages()); //  Fetch messages when the page loads
@@ -69,8 +71,6 @@ const HeroSection = () => {
     (state) => state.booking?.selectedFlightId
   );
   const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
-
-  console.log("flightDetail", flightDetail);
 
   // for passenger form
   const isPassengerDrawerOpen = useSelector(
@@ -189,6 +189,7 @@ const HeroSection = () => {
                     <Box className={searchResultStyles.messageContentIn}>
                       {messages.map((msg, index) => (
                         <div key={index}>
+                        {console.log("msg111", msg)}
                           {msg?.user && <UserMessage userMessage={msg.user} />}
                           {msg?.ai ? (
                             <AiMessage aiMessage={msg} offerId={msg?.OfferId} />

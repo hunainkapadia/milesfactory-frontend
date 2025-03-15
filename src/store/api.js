@@ -12,7 +12,7 @@ const api = axios.create({
 
 // Response Interceptor: Debugging Session ID
 api.interceptors.response.use((response) => {
-  console.log("Response Headers:", response.headers);
+  
   
   // If backend sends session ID in a custom header (e.g., x-session-id)
   const sessionid = response.headers["x-session-id"];
@@ -25,7 +25,7 @@ api.interceptors.response.use((response) => {
 
 // Request Interceptor: Do NOT set "Cookie" manually
 api.interceptors.request.use((config) => {
-  console.log("Sending request with credentials:", config);
+  
   
   // Do NOT set Cookie header manually
   return config;

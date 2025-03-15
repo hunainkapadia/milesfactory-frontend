@@ -7,7 +7,6 @@ import PassengersCard from "../PassengersCard";
 import { openPassengerDrawer, PassengerForm, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
 
 const PassengerInfo = ({ getdata }) => {
-  console.log("getdata", getdata);
 
   const dispatch = useDispatch();
   const passengerDetails = useSelector(
@@ -17,19 +16,16 @@ const PassengerInfo = ({ getdata }) => {
   // passenger toggle
   const [selectedPassenger, setSelectedPassenger] = useState(null); // Track selected passenger
   const handlePassengerToggle = (uuid) => {
-    console.log("uuiddddd", uuid);
     
     setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
   };
   
   const handlePassengerAdd = () => {  
     if (selectedPassenger) { // Ensure a passenger is selected
-      console.log("selectedPassenger", selectedPassenger);
       dispatch(PassengerForm()) //must need to knw redux export const PassengerForm
       dispatch(setPassengerUUID(selectedPassenger));
       dispatch(openPassengerDrawer());
     } else {
-      console.log("No passenger selected!");
     }
   };
   
@@ -53,7 +49,6 @@ const PassengerInfo = ({ getdata }) => {
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => (
             <Grid item xs={12} sm={6} key={passenger.uuid}>
-            {console.log("selectedPassenger", selectedPassenger)}
               <PassengersCard
                 totalPass={index + 1}
                 getdata={passenger}

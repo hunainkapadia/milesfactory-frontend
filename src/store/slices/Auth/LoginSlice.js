@@ -45,7 +45,6 @@ export const loginUser = (params) => (dispatch) => {
    api
      .post(API_ENDPOINTS.AUTH.LOGIN, params)
      .then((res) => {
-        console.log("resss", res.data)
        if (res.status === 200) {
          dispatch(setLoginUser({ user: res.data, status: res.status }));
          // Store user info in cookies
@@ -67,8 +66,7 @@ export const loginUser = (params) => (dispatch) => {
        }
      })
      .catch((error) => {
-      console.log("error111", );
-
+      
       const emailError = error?.response?.data?.username?.[0] || "";
       const passworderror = error?.response?.data?.password?.[0] || "";
       const otherError = error?.response?.data?.detail;

@@ -5,7 +5,6 @@ const AiSearch = () => {
    const [searchQuery, setSearchQuery] = useState(""); // State for input field
 
   const handleSearch = () => {
-    console.log("Searching...");
     // Add your AI search logic here
   };
    return (

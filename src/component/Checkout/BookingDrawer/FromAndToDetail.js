@@ -24,7 +24,6 @@ const FromAndToDetail = ({ getdata, logo }) => {
       ? `${stops} stop${stops > 1 ? "s" : ""} (${stopAirports.join(" - ")})`
       : "Direct Flight";
   }
-  console.log("getdata111", getdata.segments.length);
   return (
     <>
       <Box>
@@ -149,7 +148,6 @@ const FromAndToDetail = ({ getdata, logo }) => {
                   </Typography>
                 </Box>
                 <Box>
-                  {console.log("tttt", getdata.segments)}
                   {getdata?.segments.map((getsegment, segmentIndex) =>
                     getsegment?.passengers.map((getpassenger, passengerIndex) =>
                       getpassenger?.baggages.map((getbaggage, baggageIndex) => (

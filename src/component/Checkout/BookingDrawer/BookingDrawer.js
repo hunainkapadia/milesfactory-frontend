@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 
 const BookingDrawer = ({ getFlightDetail }) => {
-  console.log("getFlightDetail111", getFlightDetail);
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
@@ -32,19 +31,16 @@ const BookingDrawer = ({ getFlightDetail }) => {
                   : "One way "}
                 {"  "}
               </Typography>
-              {getFlightDetail?.slices?.map((getSliceres, key) => {
-                return (
-                  <>
-                    <Typography
-                      variant="h3"
-                      className={styles.title + " mb-0 h5"}
-                    >
-                      {`${getSliceres?.origin?.iata_code} -
-                     ${getSliceres?.destination?.iata_code}`}
-                    </Typography>
-                  </>
-                );
-              })}
+              {getFlightDetail?.slices?.map((getSliceres, key) => (
+                <React.Fragment key={key}>
+                  <Typography
+                    variant="h3"
+                    className={styles.title + " mb-0 h5"}
+                  >
+                    {`${getSliceres?.origin?.iata_code} - ${getSliceres?.destination?.iata_code}`}
+                  </Typography>
+                </React.Fragment>
+              ))}
             </Box>
             <Box
               display="flex"
@@ -98,7 +94,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
         {/* Footer Section */}
         <BookingDrawerFooter getFlightDetails={getFlightDetail} />
       </Box>
-      <Box onClick={HandlecloseDrawer} className={styles.checkoutDrowerBackdrop}></Box>
+      <Box
+        onClick={HandlecloseDrawer}
+        className={styles.checkoutDrowerBackdrop}
+      ></Box>
     </Box>
   );
 };
