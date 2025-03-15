@@ -46,7 +46,7 @@ export const sendMessage = (userMessage) => (dispatch) => {
               dispatch(
                 setMessage({
                   ai: flightRes.data,
-                  OfferId: topFlightSearchApi,
+                  OfferId: topFlightSearchApi, // this is for passenger flow  offerID get
                 })
               );
             })
@@ -60,8 +60,6 @@ export const sendMessage = (userMessage) => (dispatch) => {
           api
             .get(allFlightSearchApi)
             .then((flightRes) => {
-              
-              
               dispatch(setAllFlightResults(flightRes?.data)); // Store but don't update AI message
             })
             .catch((error) => {

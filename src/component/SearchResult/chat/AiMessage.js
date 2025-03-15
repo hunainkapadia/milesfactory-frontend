@@ -29,8 +29,6 @@ const AiMessage = ({ aiMessage }) => {
   };
   const dispatch = useDispatch();
   
-  console.log("OfferId", aiMessage);
-  
   useEffect(() => {
     if (aiMessage?.OfferId) {
       dispatch(setOfferId(aiMessage?.OfferId)); // Save the offer ID in Redux
@@ -111,7 +109,6 @@ const AiMessage = ({ aiMessage }) => {
       ) : aiMessage?.ai?.response === "passengerFlowActive" ? (
         //  Separate UI for BookFlight
         <>
-        {console.log("pfactive", aiMessage?.ai?.response)}
           <Card
             className={`${searchResultStyles.AiMessage} white-bg`}
             variant="outlined"
