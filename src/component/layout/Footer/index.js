@@ -56,12 +56,12 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 </Box>
                 <Box>
                   <Link className="basecolor" href={"/"}>
-                    Privacy
+                    Terms of Service
                   </Link>
                 </Box>
                 <Box>
                   <Link className="basecolor" href={"/"}>
-                    Cookies
+                    Privacy Policy
                   </Link>
                 </Box>
                 <Box>
@@ -97,12 +97,11 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 and experiences. Bundle together for even more savings.
               </Typography>
               <Typography className="f12" color="#69707B">
-                🍪 We do not like cookie banners (they’re simpy annoying) and we
-                take privacy compliance very seriously. That’s we are not using
-                any cookies that are not essential to functioning of the website
-                and we do not use any tracking scripts or analytics. Therefore
-                we eliminated the need for cookie consent banners and do not
-                track you in any way.
+                🍪 We do not like cookie banners (they’re simpy annoying) and we take 
+                privacy compliance very seriously. That’s why we are not using any cookies 
+                that are not essential to the functioning of the website and we do not use 
+                any tracking scripts or analytics. Therefore we eliminated the need 
+                for cookie consent banners and do not track you in any way.
               </Typography>
             </Box>
           </Container>
