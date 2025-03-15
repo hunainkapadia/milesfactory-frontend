@@ -41,7 +41,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
   };
 
   return (
-    <Box className={styles.checkoutDrowerFooter} position="absolute">
+    <Box className={styles.checkoutDrowerFooter + " test11"} position="absolute">
       <Divider />
 
       {/* Footer Content */}
