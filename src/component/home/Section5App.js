@@ -16,9 +16,9 @@ const Section5App = () => {
               <Grid item xs={12} md>
                 <Box pt={7} display={"flex"}>
                   <Box mb={3}>
-                    <Typography className="basecolor1-dark2 h1-lg mb-0" variant="h1">
+                    <h1 className="basecolor1-dark2 h1-lg mb-0">
                       Travel with Mylz!
-                    </Typography>
+                    </h1>
                   </Box>
                 </Box>
                 <Box display={"flex"} gap={3}>
