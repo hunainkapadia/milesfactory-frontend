@@ -14,6 +14,7 @@ const passengerDrawerSlice = createSlice({
     PassengerData: null,
     PassengerSubmitURL: null,
     PassFormData: null,
+    isLoading: false,
   },
   reducers: {
     openPassengerDrawer: (state) => {
@@ -58,6 +59,9 @@ const passengerDrawerSlice = createSlice({
     setPassFormData: (state, action) => {
       state.PassFormData = action.payload;
     },
+    setisLoading: (state)=> {
+      state.isLoading = true;
+    }
   },
 });
 
@@ -83,7 +87,7 @@ export const PassengerForm = (params) => (dispatch, getState) => {
   const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
   
   
-  console.log("pfactive222", stateOfferId);
+  console.log("pfactive222");
   // {{BASE_URL}}/api/v1/setup/flight/b4be0bba-9f35-489e-bb0a-3f879e6ef17b/order/offer/off_0000AruCPTqbACYIE3AQvk
   const bookingSetupUrl = `/api/v1/setup/flight/${extractedOfferId}/order/offer/${flightId}`;
   api
@@ -148,6 +152,7 @@ export const {
   setPassengerData,
   setPassengerSubmitURL,
   setPassFormData,
+  setisLoading,
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

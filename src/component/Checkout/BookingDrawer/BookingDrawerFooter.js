@@ -11,7 +11,7 @@ import {
   setSelectFlightKey,
 } from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
-import { PassengerForm, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
+import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
 
 const BookingDrawerFooter = ({ getFlightDetails }) => {
   const dispatch = useDispatch();
@@ -24,6 +24,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
   const PassengerData = useSelector((state) => state.passengerDrawer);
   
   const handleBookFlight = () => {
+    dispatch(setisLoading())
     dispatch(setCloseDrawer()); //dispatch close
     dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
     dispatch(PassengerForm())

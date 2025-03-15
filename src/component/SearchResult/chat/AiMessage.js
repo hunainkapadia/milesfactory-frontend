@@ -6,7 +6,8 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import PassengerInfo from "../../Checkout/PassengerInfo";
 import { setAllFlightResults } from "@/src/store/slices/sendMessageSlice";
-import { setOfferId } from "@/src/store/slices/passengerDrawerSlice";
+import { setisLoading, setOfferId } from "@/src/store/slices/passengerDrawerSlice";
+import LoadingArea from "../../LoadingArea";
 
 
 const AiMessage = ({ aiMessage }) => {
@@ -47,7 +48,7 @@ const AiMessage = ({ aiMessage }) => {
   
   const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
   
-  
+  const ispassengerLoading = useSelector((state)=> state.passengerDrawer?.isLoading)
 
   return (
     <Box
@@ -124,7 +125,7 @@ const AiMessage = ({ aiMessage }) => {
               getdata={GetViewPassengers}
             />
           ) : (
-            ""
+            <LoadingArea/>
           )}
         </>
       ) : (
