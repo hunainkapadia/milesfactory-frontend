@@ -33,6 +33,10 @@
    flex-direction: column;
    transition: 0.3s ease-in-out;
    margin-bottom: 20px;
+   .flightPriceSection {
+    font-size: $bfsizeLabel;
+    white-space: nowrap;
+  }   
  
    &:hover {
      transform: scale(1.02);
@@ -137,7 +141,7 @@
       font-size: 12px;
     }
     .flightPriceSection {
-      font-size: 20px !important;
+      font-size: 20px ;
       white-space: nowrap;
     }   
   }

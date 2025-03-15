@@ -127,7 +127,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                 <h3
                   className={
                     searchResultStyles.flightPriceSection +
-                    ` mb-0 basecolor1 semibold`
+                    " mb-0 basecolor1 semibold"
                   }
                 >
                   €{offerData?.total_amount}
