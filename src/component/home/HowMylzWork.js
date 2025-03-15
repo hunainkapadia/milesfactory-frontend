@@ -39,9 +39,9 @@ const HowMylzWork = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <Typography color="white" variant="h5">
+                    <h5 className="white" color="white" variant="h5">
                       Chat your plans
-                    </Typography>
+                    </h5>
                     <Typography className="f14" color="white">
                       No forms. Just tell us where, when, and who’s going. Mylz
                       will ask you questions to fully understand your travel
@@ -57,9 +57,9 @@ const HowMylzWork = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <Typography color="white" variant="h5">
+                    <h5 className="white" color="white" variant="h5">
                       Get instant options
-                    </Typography>
+                    </h5>
                     <Typography className="f14" color="white">
                       Mylz presents the best offers in terms of  flights, stays, and experience. 
                       All tailored. Bundle together for even more savings.
@@ -74,9 +74,9 @@ const HowMylzWork = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <Typography color="white" variant="h5">
+                    <h5 className="white" color="white" variant="h5">
                       Book it all in one click
-                    </Typography>
+                    </h5>
                     <Typography className="f14" color="white">
                       Pay in one click. Get your full itinerary. Done, you are
                       ready to go! Mylz will be here to assist during your whole

@@ -42,9 +42,9 @@ const MylzDifferent = (props) => {
               >
                 <Box>
                   <Box>
-                    <Typography color="white" variant="h5">
+                    <h5 className="white">
                       AI-powered price comparison:
-                    </Typography>
+                    </h5>
                     <Typography className="f14" color="white">
                       Mylz scans multiple travel platforms to guarantee you the
                       lowest price, making sure you're always getting the best
@@ -62,9 +62,9 @@ const MylzDifferent = (props) => {
               >
                 <Box>
                   <Box>
-                    <Typography color="white" variant="h5">
+                    <h5 className="white">
                       Disruption protection:
-                    </Typography>
+                    </h5>
                     <Typography className="f14" color="white">
                       Mylz anticipates disruptions and handles rebookings or
                       compensation claims automatically, saving you time and
@@ -82,9 +82,9 @@ const MylzDifferent = (props) => {
               >
                 <Box>
                   <Box>
-                    <Typography color="white" variant="h5">
+                    <h5 className="white">
                       Smart booking optimisation:
-                    </Typography>
+                    </h5>
                     <Typography className="f14" color="white">
                       Mylz finds the most cost-effective options, optimizing
                       your itinerary to maximise savings on every part of your
