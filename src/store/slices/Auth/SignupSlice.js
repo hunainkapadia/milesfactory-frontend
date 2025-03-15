@@ -12,16 +12,17 @@ const initialState = {
   lastNameError: "",
   emailError: "",
   passwordError: "",
+  closeDrawer: false,
 };
 
 const signupSlice = createSlice({
   name: "signup",
   initialState,
   reducers: {
-    openDrawer: (state) => {
+    setOpenDrawer: (state) => {
       state.openDrawer = true;
     },
-    closeDrawer: (state) => {
+    setCloseDrawer: (state) => {
       state.openDrawer = false; // Corrected the variable name
     },
     setsignUpUser: (state, action) => {
@@ -62,7 +63,8 @@ export const SignUpUser = (params) => (dispatch) => {
     .post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
       if (res.status === 201) {
-         dispatch(closeDrawer());
+        dispatch(setCloseDrawer());
+
         dispatch(setsignUpUser({user: res.data, status: res.status}));
 
 
@@ -92,8 +94,8 @@ export const SignUpUser = (params) => (dispatch) => {
 };
 
 export const {
-  openDrawer,
-  closeDrawer,
+  setOpenDrawer,
+  setCloseDrawer,
   setsignUpUser,
   setFirstNameError,
   setLastNameError,

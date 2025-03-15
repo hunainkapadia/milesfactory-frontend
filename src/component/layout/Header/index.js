@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import {
   logoutUser,
   openDrawer,
+  setOpenDrawer,
   setsignUpUser,
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
@@ -45,7 +46,7 @@ const Header = () => {
 
   // for login signup
   const HandleSignup = () => {
-    dispatch(openDrawer());
+    dispatch(setOpenDrawer());
   };
   // signup
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);

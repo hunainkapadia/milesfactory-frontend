@@ -5,22 +5,17 @@ import api from "../../api";
 
 const initialState = {
   loginUser: null,
-  loginOpenDrawer: false,
   isLoading: false,
   error: null,
   LoginError: "",
+  loginOpenDrawer: false,
+  LoginCloseDrawer: false,
 };
 
 const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    loginOpenDrawer: (state) => {
-      state.loginOpenDrawer = true;
-    },
-    LogincloseDrawer: (state) => {
-      state.loginOpenDrawer = false;
-    },
     setLoginUser: (state, action) => {
       state.loginUser = action.payload;
       state.emailError = "";
@@ -35,7 +30,14 @@ const loginSlice = createSlice({
     },
     setisLoading: (state, action)=> {
       state.isLoading = action.payload;
+    },
+    setLoginOpenDrawer: (state)=> {
+      state.loginOpenDrawer = true;
+    },
+    setLoginCloseDrawer: (state)=> {
+      state.loginOpenDrawer = false;
     }
+    
   },
 });
 
@@ -60,9 +62,8 @@ export const loginUser = (params) => (dispatch) => {
            { expires: 7 }
          );
 
-         dispatch(LogincloseDrawer());
-         // setTimeout(() => {
-         // }, 3000);
+         dispatch(setLoginCloseDrawer());
+         
        }
      })
      .catch((error) => {
@@ -97,7 +98,8 @@ export const refreshToken = (rejectWithValue) => (dispatch) => {
 
 
 export const {
-  loginOpenDrawer,
+  setLoginOpenDrawer,
+  setLoginCloseDrawer,
   LogincloseDrawer,
   setLoginUser,
   logoutUser,

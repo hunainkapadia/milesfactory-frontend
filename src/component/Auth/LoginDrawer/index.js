@@ -6,10 +6,16 @@ import {
   TextField,
   Button,
   FormLabel,
+  Drawer,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { closeDrawer, LogincloseDrawer, loginUser } from "@/src/store/slices/Auth/LoginSlice";
+import {
+  closeDrawer,
+  LogincloseDrawer,
+  loginUser,
+  setLoginCloseDrawer,
+} from "@/src/store/slices/Auth/LoginSlice";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 
 const LoginDrawer = () => {
@@ -17,27 +23,33 @@ const LoginDrawer = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const LoginError = useSelector((state)=> state.login.LoginError)
-  const isFormSupmit = useSelector((state)=> state.login.loginUser);  
+  const LoginError = useSelector((state) => state.login.LoginError);
+  const isFormSupmit = useSelector((state) => state.login.loginUser);
 
-  const isUserLoggedIn = useSelector((state) => state.signup.user?.status === 200);
+  const isUserLoggedIn = useSelector(
+    (state) => state.signup.user?.status === 200
+  );
 
   const handleCloseDrawer = () => {
-    dispatch(LogincloseDrawer());
+    dispatch(setLoginCloseDrawer())
   };
 
+  const openDrawer = useSelector((state) => state.login.loginOpenDrawer);
   const handleLogin = () => {
-    const params = { username: email, password: password, };
-    dispatch(loginUser(params));  
+    const params = { username: email, password: password };
+    dispatch(loginUser(params));
   };
-  const isloading = useSelector((state)=> state.login.isLoading)
-  
+  const isloading = useSelector((state) => state.login.isLoading);
 
   return (
-    <Box
-      className={`${styles.checkoutDrower} white-bg ${styles.PassengerDrower}`}
+    <Drawer
+      anchor="right"
+      open={openDrawer}
+      onClose={handleCloseDrawer} // Calls Redux action
     >
-      <Box className={styles.checkoutDrowerSection + " white-bg"}>
+      <Box
+        className={`${styles.checkoutDrower2} white-bg ${styles.PassengerDrower}`}
+      >
         {isUserLoggedIn ? (
           <Box
             py={20}
@@ -145,8 +157,7 @@ const LoginDrawer = () => {
           </>
         )}
       </Box>
-      <Box className={styles.checkoutDrowerBackdrop}></Box>
-    </Box>
+    </Drawer>
   );
 };
 

@@ -10,6 +10,8 @@ import MylzDifferent from "../component/home/MylzDifferent";
 import SignUpDrawer from "../component/Auth/SignUpDrawer";
 import LoginDrawer from "../component/Auth/LoginDrawer";
 import PoweredByglobal from "../component/home/PoweredByglobal";
+import { Drawer } from "@mui/material";
+import { setCloseDrawer } from "../store/slices/Auth/SignupSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -20,7 +22,8 @@ const Home = () => {
   const getmessages = useSelector((state) => state.getMessages.messages.length || 0);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
   
-  const SignupDrawer = useSelector((state)=>state.signup.openDrawer);
+
+
   const openLoginDrawer = useSelector((state)=>state?.login?.loginOpenDrawer);
   const isUserLogin = useSelector((state)=>state?.login);
   
@@ -50,7 +53,8 @@ const Home = () => {
         ) : (
           ""
         )}
-        {SignupDrawer ? <SignUpDrawer /> : ""}
+        
+        <SignUpDrawer />
         {openLoginDrawer ? <LoginDrawer/>  : ""}
         
       </main>

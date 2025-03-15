@@ -7,29 +7,36 @@ import {
   Button,
   FormLabel,
   CircularProgress,
+  Drawer,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { closePassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
-import { closeDrawer, openDrawer, setsignUpUser, SignUpUser, SignupUser } from "@/src/store/slices/Auth/SignupSlice";
+import {
+  closeDrawer,
+  openDrawer,
+  setCloseDrawer,
+  setsignUpUser,
+  SignUpUser,
+  SignupUser,
+} from "@/src/store/slices/Auth/SignupSlice";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { loginOpenDrawer } from "@/src/store/slices/Auth/LoginSlice";
+import { loginOpenDrawer, setLoginOpenDrawer } from "@/src/store/slices/Auth/LoginSlice";
 import { LoadingButton } from "@mui/lab";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 
 const SignUpDrawer = () => {
   const dispatch = useDispatch();
-  const [firstName, setFirstName]=useState();
-  const [lastName, setLastName]=useState();
-  const [email, setEmail]=useState();
-  const [password, setPassword]=useState();
-  const [ error, setError]= useState();
-  
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [error, setError] = useState();
 
-    const params = {
+  const params = {
     first_name: firstName,
     last_name: lastName,
     email: email,
@@ -37,33 +44,36 @@ const SignUpDrawer = () => {
   };
 
   // get error
-  const { firstNameError, lastNameError, emailError, passwordError } = useSelector(
-    (state) => state.signup
-  );  
+  const { firstNameError, lastNameError, emailError, passwordError } =
+    useSelector((state) => state.signup);
   const isFormSupmit = useSelector((state) => state.signup);
-  
 
   const handleCloseDrawer = () => {
-    dispatch(closeDrawer());
+    dispatch(setCloseDrawer());
   };
 
   // error
   const isLoading = useSelector((state) => state.signup.isLoading);
-  
+
   const handleSignUp = () => {
     dispatch(SignUpUser(params));
-    
   };
-  const handleSignIn = ()=> {
-    dispatch(closeDrawer());
-    dispatch(loginOpenDrawer());
-  }
+  const handleSignIn = () => {
+    dispatch(setCloseDrawer());
+    dispatch(setLoginOpenDrawer());
+  };
+  const openDrawer = useSelector((state) => state.signup.openDrawer);
+  const closeDrawer = useSelector((state) => state.signup.closeDrawer);
 
   return (
-    <Box
-      className={`${styles.checkoutDrower} white-bg ${styles.PassengerDrower}`}
+    <Drawer
+      anchor="right"
+      open={openDrawer}
+      onClose={() => dispatch(setCloseDrawer())}
     >
-      <Box className={styles.checkoutDrowerSection + " white-bg"}>
+      <Box
+        className={`${styles.checkoutDrower2} white-bg ${styles.PassengerDrower}`}
+      >
         <Box>
           {isFormSupmit ? (
             <>
@@ -221,11 +231,7 @@ const SignUpDrawer = () => {
 
         {/* Footer */}
       </Box>
-      <Box
-        onClick={handleCloseDrawer}
-        className={styles.checkoutDrowerBackdrop}
-      ></Box>
-    </Box>
+    </Drawer>
   );
 };
 
