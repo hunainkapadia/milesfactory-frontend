@@ -20,7 +20,7 @@ const MylzDifferent = (props) => {
             <Box className={`${styles.Content2}`}>
               <Box className={`${styles.Content2In} ${styles.ContentFullWidth}`}>
                 <Typography variant="h2" className="white align-center">
-                  What makes Mylz so different?
+                  AI-powered savings
                 </Typography>
               </Box>
             </Box>
@@ -34,13 +34,11 @@ const MylzDifferent = (props) => {
                 <Box>
                   <Box>
                     <Typography color="white" variant="h5">
-                      Cheapest prices, no hidden fees:
+                    AI-powered price comparison:
                     </Typography>
                     <Typography className="f14" color="white">
-                      Mylz AI searches all airlines, hotels and experiences for
-                      the best deals. It also calculates any additional fees
-                      matching your travel requirement to give you the final
-                      price upfront. No surprise ever.
+                      Mylz scans multiple travel platforms to guarantee you the lowest price, 
+                      making sure you're always getting the best deal.
                     </Typography>
                   </Box>
                 </Box>
@@ -58,10 +56,8 @@ const MylzDifferent = (props) => {
                       Disruption protection:
                     </Typography>
                     <Typography className="f14" color="white">
-                      Mylz monitors your bookings and automatically handles
-                      rebooking in case of changes and cancellations. Mylz also
-                      ensures you get optimally compensated based on partners
-                      terms and conditions.
+                       Mylz anticipates disruptions and handles rebookings or compensation claims automatically, 
+                       saving you time and efforts.
                     </Typography>
                   </Box>
                 </Box>
@@ -76,13 +72,11 @@ const MylzDifferent = (props) => {
                 <Box>
                   <Box>
                     <Typography color="white" variant="h5">
-                      All-in-one planning:
+                      Smart booking optimisation:
                     </Typography>
                     <Typography className="f14" color="white">
-                      Flights, stays, experiences - all quickly booked in sync
-                      for optimal convenience. Mylz ensures your travel
-                      itinerary is optimised and interconnected. No need to
-                      jungle between multiple apps and tabs.
+                       Mylz finds the most cost-effective options, 
+                       optimizing your itinerary to maximise savings on every part of your journey.
                     </Typography>
                   </Box>
                 </Box>
@@ -103,7 +97,7 @@ const MylzDifferent = (props) => {
       </Container>
       <Footer
         forDark
-        LearnMore={"Learn more about Mylz"}
+        LearnMore={"Powered by airlines and hotels"}
         id={"PoweredByglobal"}
       />
     </section>

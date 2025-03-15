@@ -27,9 +27,7 @@ const HowMylzWork = (props) => {
                     Travel smarter
                   </Typography>
                   <Typography className="align-center white">
-                    Our AI technology scans billions of data points to find you
-                    the best deals on flights, accommodations, and travel
-                    experiences.
+                      No more endless searches or juggling multiple bookings. With Mylz, just chat your plans and get personalized options instantly.
                   </Typography>
                 </Box>
               </Box>
@@ -63,9 +61,8 @@ const HowMylzWork = (props) => {
                       Get instant options
                     </Typography>
                     <Typography className="f14" color="white">
-                      Mylz presents the best offers in terms of flights, stays,
-                      and experiences. All tailored and personalised to your
-                      context.
+                      Mylz presents the best offers in terms of  flights, stays, and experience. 
+                      All tailored. Bundle together for even more savings.
                     </Typography>
                   </Box>
                 </Card>
@@ -104,7 +101,7 @@ const HowMylzWork = (props) => {
       </section>
       <Footer
         forDark
-        LearnMore={"Learn more about Mylz"}
+        LearnMore={"AI-powered savings"}
         id={"MylzDifferent"}
       />
     </section>

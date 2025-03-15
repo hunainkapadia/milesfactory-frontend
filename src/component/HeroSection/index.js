@@ -219,7 +219,7 @@ const HeroSection = () => {
         </Box>
       </section>
       {!messages.length ? (
-        <Footer id={"HowMylzWork"} forDark LearnMore={"Get to know Mylz"} />
+        <Footer id={"HowMylzWork"} forDark LearnMore={"Travel smarter"} />
       ) : (
         ""
       )}
