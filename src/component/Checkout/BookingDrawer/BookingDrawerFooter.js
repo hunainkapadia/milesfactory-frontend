@@ -86,7 +86,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
             </Box>
             <Box className={styles.totalPersonPrice}>
               <Typography variant="p" className="darkgray f14">
-                Total per person: € {getFlightDetails?.per_passenger_amount}
+              Total per person: € {Math.round(getFlightDetails?.per_passenger_amount)}
               </Typography>
             </Box>
           </Box>
