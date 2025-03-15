@@ -42,7 +42,7 @@ const MylzDifferent = (props) => {
               >
                 <Box>
                   <Box>
-                    <h5 className="white">
+                    <h5 className="white mb-5">
                       AI-powered price comparison:
                     </h5>
                     <Typography className="f14" color="white">
@@ -62,7 +62,7 @@ const MylzDifferent = (props) => {
               >
                 <Box>
                   <Box>
-                    <h5 className="white">
+                    <h5 className="white mb-5">
                       Disruption protection:
                     </h5>
                     <Typography className="f14" color="white">
@@ -82,7 +82,7 @@ const MylzDifferent = (props) => {
               >
                 <Box>
                   <Box>
-                    <h5 className="white">
+                    <h5 className="white mb-5">
                       Smart booking optimisation:
                     </h5>
                     <Typography className="f14" color="white">

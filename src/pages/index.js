@@ -1,7 +1,7 @@
 import HeroSection from "../component/HeroSection";
 import Header from "../component/layout/Header";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/src/styles/sass/components/Home.module.scss"
 import Section4Reviews from "../component/home/Section4Reviews";
 import Section5App from "../component/home/Section5App";
@@ -12,6 +12,7 @@ import LoginDrawer from "../component/Auth/LoginDrawer";
 import PoweredByglobal from "../component/home/PoweredByglobal";
 import { Drawer } from "@mui/material";
 import { setCloseDrawer } from "../store/slices/Auth/SignupSlice";
+import { useRouter } from "next/router";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,13 @@ const Home = () => {
   const isUserLogin = useSelector((state)=>state?.login);
   
 
-  
+  const router = useRouter();
+  useEffect(() => {
+    if (isMessage) {
+      router.push("/chat");
+    }
+  }, [isMessage, router]);
+
   return (
     <>
       <main>

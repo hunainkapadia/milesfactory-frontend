@@ -39,7 +39,7 @@ const HowMylzWork = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white" color="white" variant="h5">
+                    <h5 className="white mb-5" color="white" variant="h5">
                       Chat your plans
                     </h5>
                     <Typography className="f14" color="white">
@@ -57,7 +57,7 @@ const HowMylzWork = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white" color="white" variant="h5">
+                    <h5 className="white mb-5" color="white" variant="h5">
                       Get instant options
                     </h5>
                     <Typography className="f14" color="white">
@@ -74,7 +74,7 @@ const HowMylzWork = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white" color="white" variant="h5">
+                    <h5 className="white mb-5" color="white" variant="h5">
                       Book it all in one click
                     </h5>
                     <Typography className="f14" color="white">
