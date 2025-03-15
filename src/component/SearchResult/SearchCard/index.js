@@ -8,22 +8,30 @@ import {
 } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {closeDrawer, fetchflightDetail, setflightDetail, setOpenDrawer, setSelectFlightKey} from "@/src/store/slices/BookingflightSlice";
+import {
+  closeDrawer,
+  fetchflightDetail,
+  setflightDetail,
+  setOpenDrawer,
+  setSelectFlightKey,
+} from "@/src/store/slices/BookingflightSlice";
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 
 const SearchCard = ({ offerData, offerkey }) => {
-  
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
-      dispatch(setflightDetail(offerData)); // Store flight details 
+      dispatch(setflightDetail(offerData)); // Store flight details
     }
   };
+  const isPassenger = useSelector(
+    (state) => state?.passengerDrawer?.ViewPassengers
+  );
 
   return (
     <>
@@ -58,7 +66,11 @@ const SearchCard = ({ offerData, offerkey }) => {
                     width="100%"
                   >
                     {/* Departure Time & Code */}
-                    <Box textAlign="center" flex={1} className={searchResultStyles.Timings}>
+                    <Box
+                      textAlign="center"
+                      flex={1}
+                      className={searchResultStyles.Timings}
+                    >
                       <Typography className={searchResultStyles.flightTime}>
                         {new Date(slice.departing_at).toLocaleTimeString([], {
                           hour: "2-digit",
@@ -81,11 +93,12 @@ const SearchCard = ({ offerData, offerkey }) => {
                     </Box>
 
                     {/* Flight Duration */}
-                    <Box textAlign="center" className={searchResultStyles.flightDurationBox}>
+                    <Box
+                      textAlign="center"
+                      className={searchResultStyles.flightDurationBox}
+                    >
                       <Typography
-                        className={
-                          searchResultStyles.flightDuration + " "
-                        }
+                        className={searchResultStyles.flightDuration + " "}
                       >
                         {slice.segments?.length > 1 ? "Stopover" : "Direct"}
                       </Typography>
@@ -105,7 +118,11 @@ const SearchCard = ({ offerData, offerkey }) => {
                     </Box>
 
                     {/* Arrival Time & Code */}
-                    <Box textAlign="center" flex={1} className={searchResultStyles.Timings}>
+                    <Box
+                      textAlign="center"
+                      flex={1}
+                      className={searchResultStyles.Timings}
+                    >
                       <Typography className={searchResultStyles.flightTime}>
                         {new Date(slice.arriving_at).toLocaleTimeString([], {
                           hour: "2-digit",
@@ -148,26 +165,45 @@ const SearchCard = ({ offerData, offerkey }) => {
                 </Typography>
               </Box>
               <Box display={"flex"} alignItems={"center"}>
-                
                 <img src="/images/leave-icon.svg" />
                 <Typography className={searchResultStyles.normalOption}>
                   <span> {offerData?.total_emissions_kg} kg CO₂e</span>
                 </Typography>
               </Box>
             </Box>
-            <Box>
-              <button
-                className={
-                  "btn btn-primary btn-md " + searchResultStyles.selectFlightBtn
-                }
-                onClick={HandleSelectDrawer}
-              >
-                <Box display={"flex"} gap={2}>
-                  <i className="fa fa-arrow-right"></i>{" "}
-                  <Box sx={{display:{md:"block", sm:"block", xs:"none"}}}> Select flight</Box>
+            {isPassenger ? (
+              <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={2}
+                  className={searchResultStyles.LableActive + " LableActive dark-green"}
+                >
+                  <i className="fa fa-check"></i>
+                  <span>Selected flight</span>
                 </Box>
-              </button>
-            </Box>
+              </Box>
+            ) : (
+              <Box>
+                <button
+                  className={
+                    "btn btn-primary btn-md " +
+                    searchResultStyles.selectFlightBtn
+                  }
+                  onClick={HandleSelectDrawer}
+                >
+                  <Box display={"flex"} gap={2}>
+                    <i className="fa fa-arrow-right"></i>{" "}
+                    <Box
+                      sx={{ display: { md: "block", sm: "block", xs: "none" } }}
+                    >
+                      {" "}
+                      Select flight
+                    </Box>
+                  </Box>
+                </button>
+              </Box>
+            )}
           </Box>
         </CardContent>
       </Card>

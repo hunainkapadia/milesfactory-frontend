@@ -84,6 +84,7 @@ const PassengerInfo = ({ getdata }) => {
         {/* ////////////////////////////////////////////// */}
         {/* ////////////////////////////////////////////// */}
         {/* ////////////////////////////////////////////// */}
+        {getPassFormData ? (
         <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
           <Box
             display="flex"
@@ -95,6 +96,10 @@ const PassengerInfo = ({ getdata }) => {
             <span>Passenger information</span>
           </Box>
         </Box>
+
+        ): (
+          ""
+        )}
       </Card>
       {passengerDetails?.firstName && passengerDetails?.lastName ? (
         <>

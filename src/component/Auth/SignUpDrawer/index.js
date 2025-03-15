@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { closePassengerDrawer } from "@/src/store/slices/passengerDrawerSlice";
 import {
   closeDrawer,
   openDrawer,

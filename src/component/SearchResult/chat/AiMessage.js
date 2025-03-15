@@ -47,8 +47,7 @@ const AiMessage = ({ aiMessage }) => {
   // collect passenger data from redux
   
   const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
-  
-  const ispassengerLoading = useSelector((state)=> state.passengerDrawer?.isLoading)
+
 
   return (
     <Box

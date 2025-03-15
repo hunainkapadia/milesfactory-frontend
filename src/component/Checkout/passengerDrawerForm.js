@@ -57,6 +57,7 @@ const PassengerDrawerForm = () => {
   };
 
   const SubmitPassenger = () => {
+    dispatch(closePassengerDrawer())
     dispatch(PassengerFormSubmit(params));
   };
 

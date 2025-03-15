@@ -132,6 +132,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   api.post(PassengerSubmitUrl, params).then((response) => {
     const passdata = response.data;
     dispatch(setPassFormData(passdata));
+    closePassengerDrawer()
   });
 };
 
