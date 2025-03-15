@@ -32,7 +32,7 @@ const Home = () => {
   const router = useRouter();
   useEffect(() => {
     if (isMessage) {
-      router.push("/chat");
+      router.replace("/chat")
     }
   }, [isMessage, router]);
 
