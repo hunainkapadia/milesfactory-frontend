@@ -12,9 +12,9 @@ const HerosectionContent = () => {
            flexDirection={"column"}
          >
            <Box sx={{ px: { xs: 0, md: 3, lg: 3 } }}>
-             <Typography variant="h1" className="h1-lg">
+             <h1 className="h1-lg">
                Travel smarter with AI-powered savings
-             </Typography>
+             </h1>
              <Typography color="white">
                Find and book your perfect trip at the best price - effortlessly.
                Mylz has access to live prices and availability directly from all

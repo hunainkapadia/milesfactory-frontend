@@ -14,9 +14,9 @@ const PoweredByglobal = (props) => {
             justifyContent={"center"}
           >
             <Box className={``} mb={6}>
-              <Typography variant="h3"  className=" semibold white align-center">
+              <h3 className=" semibold white align-center">
                 Powered by global airlines and hotels
-              </Typography>
+              </h3>
             </Box>
           </Box>
 

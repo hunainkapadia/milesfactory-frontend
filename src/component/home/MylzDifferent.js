@@ -19,9 +19,9 @@ const MylzDifferent = (props) => {
           >
             <Box className={`${styles.Content2}`}>
               <Box className={`${styles.Content2In} ${styles.ContentFullWidth}`}>
-                <Typography variant="h2" className="white align-center">
+                <h2 className="white align-center">
                   AI-powered savings
-                </Typography>
+                </h2>
               </Box>
             </Box>
           </Box>

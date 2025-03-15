@@ -23,9 +23,9 @@ const HowMylzWork = (props) => {
             >
               <Box className={styles.Content2}>
                 <Box className={styles.Content2In}>
-                  <Typography variant="h2" className="white align-center">
+                  <h2 className="white align-center">
                     Travel smarter
-                  </Typography>
+                  </h2>
                   <Typography className="align-center white">
                       No more endless searches or juggling multiple bookings. With Mylz, just chat your plans and get personalized options instantly.
                   </Typography>
