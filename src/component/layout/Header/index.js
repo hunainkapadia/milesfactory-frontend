@@ -87,7 +87,10 @@ const Header = () => {
                 alignItems={"center"}
                 gap={2}
               >
-                <Box fontSize={"24px"}>
+                <Box
+                  sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                  fontSize={"24px"}
+                >
                   <i
                     onClick={toggleDrawer}
                     className="fa fa-bars"
