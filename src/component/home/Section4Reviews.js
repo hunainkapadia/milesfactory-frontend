@@ -6,22 +6,21 @@ const reviews = [
   {
     name: "Sarah J.",
     location: "San Francisco, CA",
-    image: "", // No image, so it will show 'S'
+    image: "/images/Sarah-review-pic1.png", // No image, so it will show 'S'
     review:
       "Mylz found me flights that were 40% cheaper than what I could find elsewhere. Plus the hotel they recommended was perfect for my needs.",
   },
   {
     name: "Micheal T.",
     location: "London, UK",
-   //  image: "/images/michael.jpg", // Image will be shown
-   image: "", // No image, so it will show 'S'
+   image: "/images/Micheal-review.png", // No image, so it will show 'S'
     review:
       "I was skeptical about AI travel planning at first, but Mylz changed my mind. Their bundle deals are unbeatable and saved me hours of research.",
   },
   {
     name: "Emma R.",
     location: "Sydney, Australia",
-    image: "", // No image, so it will show 'E'
+    image: "/images/Emma-review.png", // No image, so it will show 'E'
     review:
       "The local experiences Mylz suggested were the highlight of our trip. We discovered places we never would have found on our own."
   },
@@ -40,9 +39,9 @@ const Section4Reviews = (props) => {
               <Grid item xs>
                 <Box mb={7} display={"flex"}>
                   <Box>
-                    <Typography variant="h2">
+                    <h2>
                       What our travelers say:
-                    </Typography>
+                    </h2>
                     <Typography>
                       Real experiences from travelers who have discovered the
                       power of Mylz AI.
@@ -101,8 +100,8 @@ const Section4Reviews = (props) => {
                               src={review.image}
                               alt={review.name}
                               sx={{
-                                width: 50,
-                                height: 50,
+                                width: 48,
+                                height: 48,
                                 margin: "0 auto",
                                 mb: 2,
                                 bgcolor: review.image
@@ -113,17 +112,16 @@ const Section4Reviews = (props) => {
                               }}
                               className="basecolor1-blue mb-0"
                             >
-                              {!review.image && firstLetter}
+                              {review.image ? review.image : firstLetter}
                             </Avatar>
                           </Box>
                           <Box>
-                            <Typography
-                              variant="h6"
+                            <h6
                               className="mb-0"
                               fontWeight="bold"
                             >
                               {review.name}
-                            </Typography>
+                            </h6>
                             <Typography variant="body2" color="text.secondary">
                               {review.location}
                             </Typography>

@@ -17,11 +17,20 @@ const MylzDifferent = (props) => {
             display={"flex"}
             justifyContent={"center"}
           >
-            <Box className={`${styles.Content2}`}>
-              <Box className={`${styles.Content2In} ${styles.ContentFullWidth}`}>
-                <h2 className="white align-center">
-                  AI-powered savings
-                </h2>
+            <Box
+              className={styles.Box + " text-center"}
+              display={"flex"}
+              justifyContent={"center"}
+            >
+              <Box className={styles.Content2}>
+                <Box className={styles.Content2In}>
+                  <h2 className="white align-center">AI-powered savings</h2>
+                  <Typography className="align-center white">
+                    Mylz AI technology scans billions of data points to find you
+                    the best deals on flights, accommodations, and travel
+                    experiences.
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -34,11 +43,12 @@ const MylzDifferent = (props) => {
                 <Box>
                   <Box>
                     <Typography color="white" variant="h5">
-                    AI-powered price comparison:
+                      AI-powered price comparison:
                     </Typography>
                     <Typography className="f14" color="white">
-                      Mylz scans multiple travel platforms to guarantee you the lowest price, 
-                      making sure you're always getting the best deal.
+                      Mylz scans multiple travel platforms to guarantee you the
+                      lowest price, making sure you're always getting the best
+                      deal.
                     </Typography>
                   </Box>
                 </Box>
@@ -56,8 +66,9 @@ const MylzDifferent = (props) => {
                       Disruption protection:
                     </Typography>
                     <Typography className="f14" color="white">
-                       Mylz anticipates disruptions and handles rebookings or compensation claims automatically, 
-                       saving you time and efforts.
+                      Mylz anticipates disruptions and handles rebookings or
+                      compensation claims automatically, saving you time and
+                      efforts.
                     </Typography>
                   </Box>
                 </Box>
@@ -75,8 +86,9 @@ const MylzDifferent = (props) => {
                       Smart booking optimisation:
                     </Typography>
                     <Typography className="f14" color="white">
-                       Mylz finds the most cost-effective options, 
-                       optimizing your itinerary to maximise savings on every part of your journey.
+                      Mylz finds the most cost-effective options, optimizing
+                      your itinerary to maximise savings on every part of your
+                      journey.
                     </Typography>
                   </Box>
                 </Box>
