@@ -1,21 +1,36 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { StyledEngineProvider } from "@mui/material/styles"; // Ensures MUI styles don't override SCSS
+import { Provider, useSelector } from "react-redux";
+import { StyledEngineProvider } from "@mui/material/styles";
 import store from "@/src/store/store";
 import Head from "next/head";
 
-// Always load global SCSS first
 import "@/src/styles/sass/style.scss";
+import SignUpDrawer from "../component/Auth/SignUpDrawer";
+import LoginDrawer from "../component/Auth/LoginDrawer";
+
+// 👇 Create a wrapper to use Redux hooks safely
+function AppWrapper({ Component, pageProps }) {
+  const openLoginDrawer = useSelector((state) => state?.login?.loginOpenDrawer);
+  const isUserLogin = useSelector((state) => state?.login);
+
+  return (
+    <>
+      <Component {...pageProps} />
+      <SignUpDrawer />
+      {openLoginDrawer ? <LoginDrawer /> : null}
+    </>
+  );
+}
 
 export default function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      {/* Ensure SCSS has higher priority over MUI styles */}
       <StyledEngineProvider injectFirst={false}>
         <Head>
           <link rel="icon" href="/images/favicon_mylz.svg" />
         </Head>
-        <Component {...pageProps} />
+        {/* Now it's safe to use Redux hooks inside */}
+        <AppWrapper Component={Component} pageProps={pageProps} />
       </StyledEngineProvider>
     </Provider>
   );

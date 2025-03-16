@@ -1,34 +1,37 @@
-import HeroSection from "@/src/component/HeroSection";
 import Header from "@/src/component/layout/Header";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import styles from "@/src/styles/sass/components/Home.module.scss";
+import HerosectionChat from "@/src/component/HerosectionChat";
+import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
-const Home = () => {
-   const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
-   const getmessages = useSelector((state) => state.getMessages.messages.length); 
-   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+const Chat = () => {
+  // check message length
+  //  Fetch messages from Redux store
+  const sendMessages = useSelector((state) => state.sendMessage?.messages);
+  const getmessages = useSelector((state) => state.getMessages?.messages);
 
-     const router = useRouter();
-     useEffect(() => {
-       if (!isMessage) {
-         router.replace("/")
-       }
-     }, [isMessage, router]);
-   return (
+  const isMessage = [...getmessages, ...sendMessages];
+  console.log("isMessage", isMessage.length);
+  
+
+
+  return (
+    <>
       <main>
-      <section
+        <section
           id="fold1"
           className={`${
             !isMessage ? styles.HomeBanner : styles.HomeBannerActive
           }`}
         >
-        <HeroSection />
-        {!isMessage ? <Header /> : ""}
-      </section>
-    </main>
-   );
-}
+          <HerosectionChat />
+        </section>
+        {/* for home section */}
+      </main>
+    </>
+  );
+};
 
-export default Home;
+export default Chat;
