@@ -65,8 +65,12 @@ const Header = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
   // for login dialog
-  const HandlePopup = () => {
+  const HandleBookTrip = () => {
     setIsDrawerOpen(!isDrawerOpen);
+    setispopup(true);
+
+  }
+  const HandlePopup = () => {
     setispopup(true);
   };
   const handlePopupClose = () => {
@@ -81,6 +85,7 @@ const Header = () => {
     setispopup(false);
     dispatch(setOpenDrawer());
   };
+  
 
   return (
     <>
@@ -111,9 +116,9 @@ const Header = () => {
                   sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                   fontSize={"24px"}
                 >
-                  <i
+                  <i 
                     onClick={toggleDrawer}
-                    className="fa fa-bars"
+                    className={`fa fa-bars ${isMessage ? " basecolor1-dark2 " : " white"}`}
                     aria-hidden="true"
                   ></i>
                 </Box>
@@ -130,49 +135,7 @@ const Header = () => {
                   </Link>
                 </Box>
               </Box>
-              <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer}>
-                <Box
-                  className={styles.HeaderDrawer}
-                  sx={{
-                    px: { xs: 3 }, // Padding X (left & right) of 3 units only on extra-small (xs) screens
-                    py: 3,
-                  }}
-                  width={"280px"}
-                >
-                  <Box display={"flex"} alignItems={"center"} gap={3}>
-                    {/* Close Button */}
-                    <Box fontSize={"24px"}>
-                      <i
-                        onClick={toggleDrawer}
-                        className="fa fa-arrow-left basecolor1"
-                      ></i>
-                    </Box>
-                    <Box className={styles.Logo}>
-                      <Link href={"/"}>
-                        <Box className="d-flex align-items-center">
-                          <img src="/images/logo-color2.svg" />
-                        </Box>
-                      </Link>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <Navbar />
-                    <Divider />
-                    
-                    <Box pb={3} pt={5} display={"flex"}>
-                      <Link
-                        href={""}
-                        onClick={HandlePopup}
-                        className="w-100 btn btn-primary no-rounded btn-md"
-                      >
-                        Book a trip
-                      </Link>
-                    </Box>
-                  </Box>
-                </Box>
-
-                {/*  */}
-              </Drawer>
+              
               <Box sx={{ display: { xs: "none", md: "block" } }}>
                 <Navbar />
               </Box>
@@ -282,6 +245,49 @@ const Header = () => {
           </Container>
         </Box>
       </header>
+      <Drawer className={styles.MobileDrawer} anchor="left" open={isDrawerOpen} onClose={toggleDrawer}>
+                <Box
+                  className={styles.HeaderDrawer}
+                  sx={{
+                    px: { xs: 3 }, // Padding X (left & right) of 3 units only on extra-small (xs) screens
+                    py: 3,
+                  }}
+                  width={"280px"}
+                >
+                  <Box display={"flex"} alignItems={"center"} gap={3}>
+                    {/* Close Button */}
+                    <Box fontSize={"24px"}>
+                      <i
+                        onClick={toggleDrawer}
+                        className="fa fa-arrow-left basecolor1"
+                      ></i>
+                    </Box>
+                    <Box className={styles.Logo}>
+                      <Link href={"/"}>
+                        <Box className="d-flex align-items-center">
+                          <img src="/images/logo-color2.svg" />
+                        </Box>
+                      </Link>
+                    </Box>
+                  </Box>
+                  <Box>
+                    <Navbar />
+                    <Divider />
+                    
+                    <Box pb={3} pt={5} display={"flex"}>
+                      <Link
+                        href={""}
+                        onClick={HandleBookTrip}
+                        className="w-100 btn btn-primary no-rounded btn-md"
+                      >
+                        Book a trip
+                      </Link>
+                    </Box>
+                  </Box>
+                </Box>
+
+                {/*  */}
+              </Drawer>
       <Dialog
         open={ispopup}
         onClose={handlePopupClose}
