@@ -70,7 +70,7 @@
 .HeroSection {
   position: relative;
   z-index: 1;
-  padding: 30vh 0 2vh;
+  padding: 25vh 0 2vh;
 
   &.mainHeroSection {
     .Box {
@@ -200,6 +200,8 @@
 
     .HeroSection {
       padding: 24vh 0 10vh;
+      position: relative;
+      z-index: 2;
 
       .Box {
         .Content2 {
