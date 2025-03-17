@@ -66,6 +66,7 @@ const Header = () => {
   };
   // for login dialog
   const HandlePopup = () => {
+    setIsDrawerOpen(!isDrawerOpen);
     setispopup(true);
   };
   const handlePopupClose = () => {
@@ -157,14 +158,11 @@ const Header = () => {
                   <Box>
                     <Navbar />
                     <Divider />
-                    <Box pb={3} pt={5}>
-                      <h5 textAlign={"center"} fontWeight={"medium"}>
-                        Fabrice El Gohary
-                      </h5>
-                    </Box>
-                    <Box display={"flex"}>
+                    
+                    <Box pb={3} pt={5} display={"flex"}>
                       <Link
                         href={""}
+                        onClick={HandlePopup}
                         className="w-100 btn btn-primary no-rounded btn-md"
                       >
                         Book a trip
