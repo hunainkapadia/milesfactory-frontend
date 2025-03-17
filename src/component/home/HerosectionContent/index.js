@@ -11,7 +11,7 @@ const HerosectionContent = () => {
            justifyContent={"center"}
            flexDirection={"column"}
          >
-           <Box sx={{ px: { xs: 0, md: 3, lg: 3 } }}>
+           <Box sx={{ px: { xs: 0, md: 5, lg: 5 } }}>
              <h1 className="h1-lg">
                Travel smarter with AI-powered savings
              </h1>
