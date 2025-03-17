@@ -118,7 +118,7 @@ const Header = () => {
                 >
                   <i 
                     onClick={toggleDrawer}
-                    className={`fa fa-bars ${isMessage ? " basecolor1-dark2 " : " white"}`}
+                    className={`fa fa-bars ${isSticky || isMessage ? " basecolor1-dark2 " : " white"}`}
                     aria-hidden="true"
                   ></i>
                 </Box>
