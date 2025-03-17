@@ -1145,6 +1145,7 @@ body {
   @include box-shadow(0, 2px, 8px, rgba($black, 0.2));
 }
 .btn {
+  text-transform: none;
   font-family: $primary-font;
   font-size: $bfsize - 2;
   @include border-radius($base-border-radius);
@@ -1154,7 +1155,7 @@ body {
   position: relative;
   overflow: hidden;
   @include padding(null 30px);
-  font-weight: $bold;
+  font-weight: 500;
   >div {
     display: flex;
     align-items: center;
@@ -1291,12 +1292,12 @@ body {
   &.btn-secondary {
     &,
     &.disabled {
-      @extend %gradient-2;
+      background-color: #A6A6A6;
       color: $white;
       @extend %btn-default-height;
     }
-    &:not(.no-hover):hover {
-      background: darken($basecolor2, 10%);
+    &:hover {
+      background: $basecolor1; 
     }
     &.btn-border {
       background: transparent;

@@ -2,6 +2,10 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   Drawer,
   Grid,
@@ -22,10 +26,11 @@ import {
   setsignUpUser,
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
-import { setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
+import { setLoginCloseDrawer, setLoginOpenDrawer, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
+  const [ispopup, setispopup] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
 
@@ -44,10 +49,7 @@ const Header = () => {
   const getmessages = useSelector((state) => state.getMessages.messages.length);
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
 
-  // for login signup
-  const HandleSignup = () => {
-    dispatch(setOpenDrawer());
-  };
+  
   // signup
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
   // login
@@ -61,6 +63,22 @@ const Header = () => {
   const currentUser = isUserLogin || isUserSignup; // Use single reference
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+  // for login dialog
+  const HandlePopup = () => {
+    setispopup(true);
+  };
+  const handlePopupClose = () => {
+    setispopup(false);
+  };
+  // for login signup
+  const HandleSignIn = () => {
+    setispopup(false);
+    dispatch(setLoginOpenDrawer());
+  };
+  const HandleSignup = () => {
+    setispopup(false);
+    dispatch(setOpenDrawer());
   };
 
   return (
@@ -227,7 +245,7 @@ const Header = () => {
                     gap={1}
                     component={Link}
                     href="#"
-                    onClick={HandleSignup}
+                    onClick={HandlePopup}
                   >
                     <i className="fa fa-user-circle"></i>
                     <Box>Sign in / sign up</Box>
@@ -242,8 +260,9 @@ const Header = () => {
                   alignItems="center"
                   justifyContent="center"
                   gap={1}
-                  component={Link}
                   href="#"
+                  onClick={HandlePopup}
+                  component="button"
                 >
                   <Box>Book a trip</Box>
                   {/*  */}
@@ -254,6 +273,65 @@ const Header = () => {
           </Container>
         </Box>
       </header>
+      <Dialog
+        open={ispopup}
+        onClose={handlePopupClose}
+        maxWidth="sm" // Set max width to 1280px
+        fullWidth // Forces Dialog to expand to maxWidth
+      >
+        <IconButton
+          aria-label="close"
+          onClick={handlePopupClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: "#000", // Change color if needed
+          }}
+        >
+          <i className="fa fa-times" aria-hidden="true"></i>
+        </IconButton>
+
+        <DialogContent
+          sx={{
+            textAlign: { xs: "center", md: "left", lg: "left" },
+          }}
+        >
+          <Box mb={1}>
+            <h4 className="mb-0">Sign in to continue</h4>
+          </Box>
+          <Box mb={2}>
+            <Typography>
+              Create an account or sign in before booking a trip
+            </Typography>
+          </Box>
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            gap={2}
+            sx={{
+              paddingBottom: { xs: 4, md: 0, lg: 0 },
+            }}
+          >
+            <Button
+              className={"btn btn-secondary btn-md no-rounder"}
+              href="#"
+              onClick={HandleSignIn}
+              component="button"
+            >
+              <Box>Sign in</Box>
+            </Button>
+            <Button
+              className={"btn btn-primary btn-md no-rounder"}
+              href="#"
+              onClick={HandleSignup}
+              component="button"
+            >
+              <Box>Sign up for free</Box>
+            </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

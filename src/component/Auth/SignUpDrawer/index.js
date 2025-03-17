@@ -23,7 +23,7 @@ import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { loginOpenDrawer, setLoginOpenDrawer } from "@/src/store/slices/Auth/LoginSlice";
+import { loginOpenDrawer, setLoginCloseDrawer, setLoginOpenDrawer } from "@/src/store/slices/Auth/LoginSlice";
 import { LoadingButton } from "@mui/lab";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 
@@ -68,7 +68,7 @@ const SignUpDrawer = () => {
     <Drawer
       anchor="right"
       open={openDrawer}
-      onClose={() => dispatch(setCloseDrawer())}
+      onClose={() => dispatch(setLoginCloseDrawer())}
     >
       <Box
         className={`${styles.checkoutDrower2} white-bg ${styles.PassengerDrower}`}

@@ -12,12 +12,16 @@ import LoginDrawer from "../component/Auth/LoginDrawer";
 function AppWrapper({ Component, pageProps }) {
   const openLoginDrawer = useSelector((state) => state?.login?.loginOpenDrawer);
   const isUserLogin = useSelector((state) => state?.login);
+  const setLoginCloseDrawer = useSelector((state)=> state?.login?.loginOpenDrawer);
+  console.log("setLoginCloseDrawer", setLoginCloseDrawer);
+  
+  
 
   return (
     <>
-      <Component {...pageProps} />
+       <Component {...pageProps} />
       <SignUpDrawer />
-      {openLoginDrawer ? <LoginDrawer /> : null}
+      <LoginDrawer />
     </>
   );
 }
