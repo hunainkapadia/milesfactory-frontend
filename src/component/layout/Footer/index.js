@@ -2,7 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-const Footer = ({ forLight, forDark, id, ...props }) => {
+const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
   return (
     <>
       {forDark ? (
@@ -25,7 +25,7 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
             </Box>
           </Container>
         </footer>
-      ) : (
+      ) : forLight ? (
         <footer className={styles.FooterForLight}>
           <Container>
             <Box
@@ -77,12 +77,32 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 sx={{ marginBottom: { xs: 3, md: 0 } }}
                 className={styles.FooterBoxRight}
               >
-                <i className="fab fa-square-tiktok"></i>
-                <i className="fab fa-facebook-square"></i>
-                <i className="fab fa-x-twitter"></i>
-                <i className="fab fa-square-instagram"></i>
-                <i className="fab fa-square-youtube"></i>
-                <i className="fab fa-linkedin"></i>
+                <Link target="_blank" href={""} className="basecolor1-dark2">
+                  <i className="fab fa-tiktok"></i>
+                </Link>
+                <Link
+                  target="_blank"
+                  href={"https://www.facebook.com/gomylz"}
+                  className="basecolor1-dark2"
+                >
+                  <i className=" fab fa-facebook-square"></i>
+                </Link>
+                <Link
+                  target="_blank"
+                  href={"https://x.com/gomylz"}
+                  className="basecolor1-dark2"
+                >
+                  <i className="fab fa-x-twitter"></i>
+                </Link>
+                <Link target="_blank" href={""} className="basecolor1-dark2">
+                  <i className="fab fa-square-instagram"></i>
+                </Link>
+                <Link target="_blank" href={""} className="basecolor1-dark2">
+                  <i className="fab fa-square-youtube"></i>
+                </Link>
+                <Link target="_blank" href={""} className="basecolor1-dark2">
+                  <i className="fab fa-linkedin"></i>
+                </Link>
               </Box>
             </Box>
             {/*  */}
@@ -99,15 +119,40 @@ const Footer = ({ forLight, forDark, id, ...props }) => {
                 and experiences. Bundle together for even more savings.
               </Typography>
               <Typography className="f12" color="#69707B">
-                🍪 We do not like cookie banners (they’re simpy annoying) and we take 
-                privacy compliance very seriously. That’s why we are not using any cookies 
-                that are not essential to the functioning of the website and we do not use 
-                any tracking scripts or analytics. Therefore we eliminated the need 
-                for cookie consent banners and do not track you in any way.
+                🍪 We do not like cookie banners (they’re simpy annoying) and we
+                take privacy compliance very seriously. That’s why we are not
+                using any cookies that are not essential to the functioning of
+                the website and we do not use any tracking scripts or analytics.
+                Therefore we eliminated the need for cookie consent banners and
+                do not track you in any way.
               </Typography>
             </Box>
           </Container>
         </footer>
+      ) : forReview ? (
+        <footer className={styles.FooterForReview} sx={{ pb: 4 }}>
+          <Container>
+            <Box
+              className={styles.FooterBox}
+              display={"flex"}
+              justifyContent={"flex-end"}
+            >
+              <Link
+                href={`#${id}`} // Use template literals
+                className={
+                  styles.footerBtn + " basecolor1 text-decoration-none"
+                }
+              >
+                <Box gap={2} alignItems={"center"} display={"flex"}>
+                  <i className="fa-arrow-down fa fas"></i>{" "}
+                  <span>{props.LearnMore}</span>
+                </Box>
+              </Link>
+            </Box>
+          </Container>
+        </footer>
+      ) : (
+        ""
       )}
     </>
   );

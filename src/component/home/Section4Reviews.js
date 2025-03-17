@@ -39,9 +39,7 @@ const Section4Reviews = (props) => {
               <Grid item xs>
                 <Box mb={7} display={"flex"}>
                   <Box>
-                    <h2>
-                      What our travelers say:
-                    </h2>
+                    <h2>What travelers say:</h2>
                     <Typography>
                       Real experiences from travelers who have discovered the
                       power of Mylz AI.
@@ -58,10 +56,7 @@ const Section4Reviews = (props) => {
 
                 return (
                   <Grid item md xs={12} key={index} className={styles.IdeaCard}>
-                    <Card 
-                      className={`no-border p-0`}
-                      variant="outlined"
-                    >
+                    <Card className={`no-border p-0`} variant="outlined">
                       <Box>
                         <Box mb={4}>
                           {/* Star Ratings */}
@@ -116,10 +111,7 @@ const Section4Reviews = (props) => {
                             </Avatar>
                           </Box>
                           <Box>
-                            <h6
-                              className="mb-0"
-                              fontWeight="bold"
-                            >
+                            <h6 className="mb-0" fontWeight="bold">
                               {review.name}
                             </h6>
                             <Typography variant="body2" color="text.secondary">
@@ -135,6 +127,11 @@ const Section4Reviews = (props) => {
             </Grid>
           </Box>
         </Container>
+        <Footer
+          forReview
+          LearnMore={"Travel with Mylz"}
+          id={"Section5App"}
+        />
       </section>
     </section>
   );

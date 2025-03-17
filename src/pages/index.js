@@ -58,7 +58,7 @@ const Home = () => {
             <MylzDifferent id={"MylzDifferent"} />
             <PoweredByglobal id={"PoweredByglobal"} />
             <Section4Reviews id={"Section4Reviews"} />
-            <Section5App />
+            <Section5App id={"Section5App"}/>
             <Header />
           </>
         ) : (

@@ -3,10 +3,12 @@ import styles from "@/src/styles/sass/components/Home.module.scss";
 import Footer from "../layout/Footer";
 
 
-const Section5App = () => {
+const Section5App = (props) => {
+  console.log("props", props);
+  
   return (
     <>
-      <Box id="fold2" className={`${styles.AppSection} `}>
+      <Box id={props?.id} className={`${styles.AppSection} `}>
         <Container>
           <Box
             className={`${styles.AppSectionContainer} + ""`}
@@ -40,7 +42,10 @@ const Section5App = () => {
                   justifyContent: { xs: "center", md: "flex-end" }, // Responsive syntax
                 }}
               >
-                <Box className={styles.MobileDevice} sx={{ mt: { xs: 6, md: 0, lg:0 } }}>
+                <Box
+                  className={styles.MobileDevice}
+                  sx={{ mt: { xs: 6, md: 0, lg: 0 } }}
+                >
                   <img src="/images/phone-app-logo.svg" />
                 </Box>
               </Grid>

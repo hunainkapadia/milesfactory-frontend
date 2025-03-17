@@ -139,15 +139,11 @@ const Header = () => {
                   <Box>
                     <Navbar />
                     <Divider />
-                    <Typography
-                      variant="h5"
-                      pb={3}
-                      pt={5}
-                      textAlign={"center"}
-                      fontWeight={"medium"}
-                    >
-                      Fabrice El Gohary
-                    </Typography>
+                    <Box pb={3} pt={5}>
+                      <h5 textAlign={"center"} fontWeight={"medium"}>
+                        Fabrice El Gohary
+                      </h5>
+                    </Box>
                     <Box display={"flex"}>
                       <Link
                         href={""}

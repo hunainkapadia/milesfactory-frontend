@@ -33,59 +33,7 @@ const PoweredByglobal = (props) => {
               href="#"
               sx={{ display: "flex", alignItems: "center" }}
             >
-              <img
-                src="/images/poweredby-Expedia_Logo_20.svg"
-                alt="Expedia"
-                style={{ height: 40, objectFit: "contain" }}
-              />
-            </Box>
-            <Box
-              className={styles.Items + " imggroup"}
-              component={Link}
-              href="#"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <img
-                src="/images/poweredby-Expedia_Logo_20Booking.svg"
-                alt="Booking"
-                style={{ height: 40, objectFit: "contain" }}
-              />
-            </Box>
-            <Box
-              className={styles.Items + " imggroup"}
-              component={Link}
-              href="#"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <img
-                src="/images/poweredby-transavia.svg"
-                alt="Transavia"
-                style={{ height: 40, objectFit: "contain" }}
-              />
-            </Box>
-            <Box
-              className={styles.Items + " imggroup"}
-              component={Link}
-              href="#"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <img
-                src="/images/poweredby-Agoda_logo.svg"
-                alt="Agoda"
-                style={{ height: 40, objectFit: "contain" }}
-              />
-            </Box>
-            <Box
-              className={styles.Items + " imggroup"}
-              component={Link}
-              href="#"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <img
-                src="/images/poweredby-airfrance.svg"
-                alt="Air France"
-                style={{ height: 40, objectFit: "contain" }}
-              />
+              <img src="/images/poweredby-airfrance.svg" alt="Air France" />
             </Box>
             <Box
               className={styles.Items + " imggroup"}
@@ -96,8 +44,43 @@ const PoweredByglobal = (props) => {
               <img
                 src="/images/poweredby-airfranceKLM_logo.svg"
                 alt="Air France KLM"
-                style={{ height: 40, objectFit: "contain" }}
               />
+            </Box>
+            <Box
+              className={styles.Items + " imggroup"}
+              component={Link}
+              href="#"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <img src="/images/poweredby-transavia.svg" alt="Transavia" />
+            </Box>
+            <Box
+              className={styles.Items + " imggroup"}
+              component={Link}
+              href="#"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <img src="/images/poweredby-Expedia_Logo_20.svg" alt="Expedia" />
+            </Box>
+            <Box
+              className={styles.Items + " imggroup"}
+              component={Link}
+              href="#"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <img
+                src="/images/poweredby-Expedia_Logo_20Booking.svg"
+                alt="Booking"
+              />
+            </Box>
+
+            <Box
+              className={styles.Items + " imggroup"}
+              component={Link}
+              href="#"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <img src="/images/poweredby-Agoda_logo.svg" alt="Agoda" />
             </Box>
           </Box>
         </Box>
