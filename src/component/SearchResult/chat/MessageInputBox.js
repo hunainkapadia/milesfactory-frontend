@@ -94,11 +94,11 @@ const MessageInputBox = () => {
                       mt={3}
                       justifyContent={"center"}
                     >
-                      <Box width={"98px"}>
-                        <img src="/images/app-google-play.svg" />
+                      <Box >
+                        <img height={28} src="/images/app-google-play.svg" />
                       </Box>
-                      <Box width={"98px"}>
-                        <img src="/images/app-app-store.svg" />
+                      <Box >
+                        <img height={28} src="/images/app-app-store.svg" />
                       </Box>
                     </Box>
                   ) : (
