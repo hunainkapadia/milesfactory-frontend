@@ -13,7 +13,7 @@
    align-items: center;
    .Dropdown {
       @include transition(all 0.2s ease-in-out);
-      display: flex;
+      display: flex; padding: 28px 20px;
       &:hover .DropdownItems {
          opacity: 1;
          visibility: visible;
@@ -28,11 +28,16 @@
          position: absolute;
          width: 145px;
          height: auto;
-         top: 40px;
+         top: 70px;
          left: 0px;
          z-index: 4;
          .DropdownItemsBox {
-            a {color: $basecolor;}
+            background-color: #0B1729E5;
+            border: solid 1px $white;
+            padding: 28px 55px 28px 50px;
+            width: 100px;
+            gap: 38px;
+            a {color: $white;}
 
             i { display: flex;}
          }
@@ -91,13 +96,10 @@
          color: $white;
          text-decoration: none;
          
-         padding: 6px 20px;
+         padding: 20px 20px;
          
          
          &:hover {
-            border-radius: 20px;
-            color: #fff !important;
-            background: rgb(0 0 0 / 58%);
             color: #fff !important;
          }
       }
@@ -136,6 +138,7 @@
    z-index: 1;
  }
 
+ 
  @media only screen and (max-width: 767px) {
     .HeaderDrawer {
       .navItems {
@@ -147,6 +150,12 @@
       }
     }
    .Header {height: 56px;
+      .Dropdown {padding: 20px 20px;
+         .DropdownItems {
+            left: -90px;
+         }
+      }
+      
       &.isMessage {
          padding-top: 15px !important;
       }

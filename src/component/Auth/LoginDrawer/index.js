@@ -31,7 +31,7 @@ const LoginDrawer = () => {
   );
 
   const handleCloseDrawer = () => {
-    dispatch(setLoginCloseDrawer())
+    dispatch(setLoginCloseDrawer());
   };
 
   const openDrawer = useSelector((state) => state.login.loginOpenDrawer);
@@ -46,117 +46,126 @@ const LoginDrawer = () => {
       anchor="right"
       open={openDrawer}
       onClose={handleCloseDrawer} // Calls Redux action
+      className={styles.Drawer + " aaaa"}
     >
-      <Box
-        className={`${styles.checkoutDrower2} white-bg ${styles.PassengerDrower}`}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault(); // Prevent page reload
+          handleLogin(); // Call login
+        }}
       >
-        {isUserLoggedIn ? (
-          <Box
-            py={20}
-            px={5}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
+        <Box
+          className={`${styles.DrawerIn} white-bg`}
+        >
+          {isUserLoggedIn ? (
             <Box
-              textAlign="center"
-              gap={5}
+              py={20}
+              px={5}
               display="flex"
-              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
             >
-              <img src="/images/congratz.svg" alt="Success" />
-              <Typography variant="h2">Welcome Back!</Typography>
-              <Typography>🎉 You have successfully logged in.</Typography>
-            </Box>
-          </Box>
-        ) : (
-          <>
-            <Box
-              className={styles.checkoutDrowerHeder}
-              py={2}
-              px={3}
-              display="flex"
-              justifyContent="space-between"
-            >
-              <Typography variant="h6">Login</Typography>
-            </Box>
-            <Divider />
-            <Box py={2} px={3}>
-              <Box>
-                <FormLabel>Email</FormLabel>
-                <TextField
-                  fullWidth
-                  placeholder="Enter Email Address"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  margin="normal"
-                />
-              </Box>
-              <Typography className="error" color="red">
-                {LoginError.email}
-              </Typography>
-
-              <Box>
-                <FormLabel>Password</FormLabel>
-                <TextField
-                  fullWidth
-                  placeholder="Enter Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  margin="normal"
-                />
-              </Box>
-              <Typography className="error" color="red">
-                {LoginError.password}
-              </Typography>
-              <Typography className="error" color="red">
-                {LoginError.other}
-              </Typography>
-            </Box>
-            <Box className={styles.passengerDrawerFooter}>
-              <Divider />
               <Box
-                py={1}
+                textAlign="center"
+                gap={5}
+                display="flex"
+                flexDirection="column"
+              >
+                <img src="/images/congratz.svg" alt="Success" />
+                <Typography variant="h2">Welcome Back!</Typography>
+                <Typography>🎉 You have successfully logged in.</Typography>
+              </Box>
+            </Box>
+          ) : (
+            <>
+              <Box
+                className={styles.checkoutDrowerHeder}
+                py={2}
                 px={3}
                 display="flex"
-                justifyContent="flex-end"
-                alignItems="center"
-                gap={3}
+                justifyContent="space-between"
               >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  gap={2}
-                  className="basecolor1 f14"
-                  style={{ cursor: "pointer" }}
-                  onClick={handleCloseDrawer}
-                >
-                  <i className="fa fa-close fas"></i>
-                  <span>Close</span>
-                </Box>
-                <Button
-                  className="btn btn-green btn-sm"
-                  onClick={handleLogin}
-                  variant="contained"
-                  color="success"
-                  disabled={isloading} // Disable when loading
-                >
-                  {isloading ? (
-                    <ButtonLoading />
-                  ) : (
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <i className="fa fa-arrow-right"></i>
-                      <span>Login</span>
-                    </Box>
-                  )}
-                </Button>
+                <Typography variant="h6">Login</Typography>
               </Box>
-            </Box>
-          </>
-        )}
-      </Box>
+              <Divider />
+              <Box py={2} px={3}>
+                <Box>
+                  <FormLabel>Email</FormLabel>
+                  <TextField
+                    fullWidth
+                    placeholder="Enter Email Address"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    margin="normal"
+                  />
+                </Box>
+                <Typography className="error" color="red">
+                  {LoginError.email}
+                </Typography>
+
+                <Box>
+                  <FormLabel>Password</FormLabel>
+                  <TextField
+                    fullWidth
+                    placeholder="Enter Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    margin="normal"
+                  />
+                </Box>
+                <Typography className="error" color="red">
+                  {LoginError.password}
+                </Typography>
+                <Typography className="error" color="red">
+                  {LoginError.other}
+                </Typography>
+              </Box>
+              <Box className={styles.passengerDrawerFooter}>
+                <Divider />
+                <Box
+                  py={1}
+                  px={3}
+                  display="flex"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  gap={3}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap={2}
+                    className="basecolor1 f14"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleCloseDrawer}
+                  >
+                    <i className="fa fa-close fas"></i>
+                    <span>Close</span>
+                  </Box>
+                  <Button
+                    type="submit" // Important!
+                    className="btn btn-green btn-sm"
+                    onClick={handleLogin}
+                    variant="contained"
+                    color="success"
+                    disabled={isloading} // Disable when loading
+                  >
+                    {isloading ? (
+                      <ButtonLoading />
+                    ) : (
+                      <Box display="flex" alignItems="center" gap={1}>
+                        <i className="fa fa-arrow-right"></i>
+                        <span>Login</span>
+                      </Box>
+                    )}
+                  </Button>
+                </Box>
+              </Box>
+            </>
+          )}
+        </Box>
+      </form>
     </Drawer>
   );
 };

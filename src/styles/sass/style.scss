@@ -1225,8 +1225,9 @@ body {
   }
   
   &.btn-primary {
-    &.no-rounder {
-      border-radius: 10px !important;
+    border-radius: 8px !important;
+    &.no-rounded {
+      border-radius: 8px !important;
     }
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
     padding: 10px 16px;
@@ -1289,7 +1290,10 @@ body {
     }
   }
   
-  &.btn-secondary {
+  &.btn-secondary {border-radius: 8px !important;
+    &.no-rounder {
+      border-radius: 8px !important;
+    }
     &,
     &.disabled {
       background-color: #A6A6A6;
@@ -1967,6 +1971,13 @@ textarea {
   }
 }
 @include for-mobile-large-screen {
+  .btn {
+    &.btn-primary {
+      &.no-rounded {
+        border-radius: 4px !important;
+      }
+    }
+  }
   .h2,
     h2 {
       font-size: $h1-sm ;

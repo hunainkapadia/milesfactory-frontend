@@ -24,10 +24,10 @@ const Navbar = () => {
         }}
       >
         <Box component={Link} href="#" className={styles.navItem}>
-          Our Vision
+          Contact support
         </Box>
         <Box component={Link} href="#" className={styles.navItem}>
-          Give feedback
+            Give feedback
         </Box>
 
         <Box component={Link} href="#" className={styles.navItem}>

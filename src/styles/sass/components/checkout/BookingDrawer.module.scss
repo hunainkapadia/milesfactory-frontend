@@ -7,6 +7,9 @@
    }
    &.Notactive {}
 }
+.Drawer .DrawerIn {
+   width: 480px;
+}
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower2 {
       width: 480px;
@@ -150,8 +153,16 @@
    // checkoutDrower section end
 
 }
-
 @include for-mobile-large-screen {
+   .Drawer {
+         >div {
+            width: 100%;
+         }
+   
+         .DrawerIn {
+            width: 100%;
+         }
+      }
    .checkoutDrower .checkoutDrowerSection {
          
         height: 90%;

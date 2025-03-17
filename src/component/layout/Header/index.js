@@ -165,7 +165,7 @@ const Header = () => {
                     <Box display={"flex"}>
                       <Link
                         href={""}
-                        className="w-100 btn btn-primary no-rounder btn-md"
+                        className="w-100 btn btn-primary no-rounded btn-md"
                       >
                         Book a trip
                       </Link>
@@ -179,7 +179,7 @@ const Header = () => {
                 <Navbar />
               </Box>
 
-              <Box display={"flex"} gap={4}>
+              <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
                 {currentUser ? (
                   <Box className={styles.Dropdown} position={"relative"}>
                     <Box
@@ -197,12 +197,9 @@ const Header = () => {
                       <Box
                         display={"flex"}
                         flexDirection={"column"}
-                        px={2}
-                        py={2}
                         gap={2}
                         className={
-                          styles.DropdownItemsBox +
-                          " white-bg br-12 box-shadow-md"
+                          styles.DropdownItemsBox + "  br-12 box-shadow-md"
                         }
                       >
                         <Link
@@ -215,7 +212,20 @@ const Header = () => {
                             <Box width={"20px"}>
                               <i className="fa fa-cog" aria-hidden="true"></i>
                             </Box>
-                            <Typography>Setting</Typography>
+                            <Typography>Profile</Typography>
+                          </Box>
+                        </Link>
+                        <Link
+                          className={
+                            styles.DropdownItem + " text-decuration-none"
+                          }
+                          href={""}
+                        >
+                          <Box display={"flex"} alignItems={"center"} gap={1}>
+                            <Box width={"20px"}>
+                              <i className="fa fa-cog" aria-hidden="true"></i>
+                            </Box>
+                            <Typography>Settings</Typography>
                           </Box>
                         </Link>
                         <Link
@@ -229,7 +239,7 @@ const Header = () => {
                             <Box width={"20px"}>
                               <i className=" fa fa-sign-out"></i>
                             </Box>
-                            <Typography>logout</Typography>
+                            <Typography>Sign out</Typography>
                           </Box>
                         </Link>
                         {/*  */}
@@ -252,20 +262,21 @@ const Header = () => {
                     {/*  */}
                   </Box>
                 )}
-
-                <Box
-                  sx={{ display: { xs: "none", md: "block" } }}
-                  className={"btn btn-primary btn-md"}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  gap={1}
-                  href="#"
-                  onClick={HandlePopup}
-                  component="button"
-                >
-                  <Box>Book a trip</Box>
-                  {/*  */}
+                <Box display={"flex"} alignItems={"center"}>
+                  <Box
+                    sx={{ display: { xs: "none", md: "block" } }}
+                    className={"btn btn-primary btn-md"}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    gap={1}
+                    href="#"
+                    onClick={HandlePopup}
+                    component="button"
+                  >
+                    <Box>Book a trip</Box>
+                    {/*  */}
+                  </Box>
                 </Box>
               </Box>
               {/*  */}
@@ -284,7 +295,8 @@ const Header = () => {
           onClick={handlePopupClose}
           sx={{
             position: "absolute",
-            right: 8,
+            right: 16,
+            zIndex: 1,
             top: 8,
             color: "#000", // Change color if needed
           }}
@@ -314,7 +326,7 @@ const Header = () => {
             }}
           >
             <Button
-              className={"btn btn-secondary btn-md no-rounder"}
+              className={"btn btn-secondary btn-md no-rounded"}
               href="#"
               onClick={HandleSignIn}
               component="button"
@@ -322,7 +334,7 @@ const Header = () => {
               <Box>Sign in</Box>
             </Button>
             <Button
-              className={"btn btn-primary btn-md no-rounder"}
+              className={"btn btn-primary btn-md no-rounded"}
               href="#"
               onClick={HandleSignup}
               component="button"
