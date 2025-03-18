@@ -219,7 +219,7 @@ const Header = () => {
                     onClick={HandlePopup}
                   >
                     <i className="fa fa-user-circle"></i>
-                    <Box>Sign in / sign up</Box>
+                    <Box>Sign in</Box>
                     {/*  */}
                   </Box>
                 )}

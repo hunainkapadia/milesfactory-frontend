@@ -13,7 +13,7 @@ const HerosectionContent = () => {
          >
            <Box sx={{ px: { xs: 0, md: 5, lg: 5 } }}>
              <h1 className="h1-lg">
-               Travel smarter with AI-powered savings
+               Travel smarter with<br/>AI-powered savings
              </h1>
              <Typography color="white">
                Find and book your perfect trip at the best price - effortlessly.
