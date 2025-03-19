@@ -177,6 +177,10 @@
 
 @media only screen and (max-width: 1200px) {
   .HeroSection .Box {}
+  .HeroSection.mainHeroSection .Box .Content .ContentIn{
+    width: 70%;
+  }
+    
 }
 
 @media only screen and (max-width: 1024px) {
