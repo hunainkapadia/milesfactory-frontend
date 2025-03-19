@@ -59,20 +59,11 @@ const PassengerInfo = ({ getdata }) => {
               />
             </Grid>
           ))}
-          {/* <Grid item xs={12} sm={6}>
-                <Card
-                  sx={{ border: "1px solid #ccc", padding: 2, borderRadius: 2 }}
-                >
-                  <Typography className="mb-10" variant="h6">
-                    Passenger 2
-                  </Typography>
-                  <Typography className="gray">Adult</Typography>
-                </Card>
-              </Grid> */}
+
         </Grid>
 
         <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
-          <Button className="btn btn-green btn-sm" onClick={handlePassengerAdd}>
+          <Button className="btn btn-primary btn-sm" onClick={handlePassengerAdd}>
             <Box display="flex" alignItems="center" gap={1}>
               <i className="fa fa-arrow-right"></i>
               <span>Fill in passenger information</span>

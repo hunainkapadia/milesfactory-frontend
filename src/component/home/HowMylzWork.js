@@ -88,7 +88,7 @@ const HowMylzWork = (props) => {
               {/*  */}
             </Grid>
             <Link
-              href={"#"}
+              href={"#MylzDifferent"}
               className={styles.footerBtn + " white text-decoration-none"}
             >
               <Box py={6} gap={2} alignItems={"center"} display={"flex"}>

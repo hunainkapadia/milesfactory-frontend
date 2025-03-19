@@ -97,7 +97,7 @@ const MylzDifferent = (props) => {
             {/*  */}
           </Grid>
           <Link
-            href={"#"}
+            href={"#PoweredByglobal"}
             className={styles.footerBtn + " white text-decoration-none"}
           >
             <Box py={6} gap={2} alignItems={"center"} display={"flex"}>

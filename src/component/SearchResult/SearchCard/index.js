@@ -177,7 +177,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                   display="flex"
                   alignItems="center"
                   gap={2}
-                  className={searchResultStyles.LableActive + " LableActive dark-green"}
+                  className={searchResultStyles.LableActive + " LableActive basecolor1"}
                 >
                   <i className="fa fa-check"></i>
                   <span>Selected flight</span>

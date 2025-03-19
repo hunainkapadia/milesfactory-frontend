@@ -18,19 +18,21 @@ const HomeHeroSection = () => {
     (state) => state.getMessages.messages.length
   );
   const isMessage = sendMessages || getmessages; //check message length
+  console.log("isMessage22", isMessage);
+  
   return (
     <>
       <section>
         <Box
           className={`${styles.HeroSection} ${styles.mainHeroSection} ${
-            isMessage.length ? styles.Active : ""
+            isMessage ? styles.Active : ""
           }`}
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <Box className={styles.Box}>
-            {!isMessage.length && <HerosectionContent />}
+            {!isMessage && <HerosectionContent />}
             {/* ////////////////////////// Search Box start ////////////////////////// */}
             <MessageInputBox />
             {/* ////////////////////////// Search Box end ////////////////////////// */}
@@ -39,7 +41,7 @@ const HomeHeroSection = () => {
           </Box>
         </Box>
       </section>
-      {!isMessage.length ? (
+      {!isMessage ? (
         <Footer id={"HowMylzWork"} forDark LearnMore={"Travel smarter"} />
       ) : (
         ""

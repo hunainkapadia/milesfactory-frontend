@@ -35,7 +35,6 @@ const MessageInputBox = () => {
 
   return (
     <section>
-
       <Box
         className={
           isMessage
@@ -64,19 +63,27 @@ const MessageInputBox = () => {
                       role="textbox"
                       placeholder="Ask anything about your trip"
                       className={inputStyles.SearchForm + " SearchForm 222"}
-                      onInput={(e) =>
-                        setUserMessage(e.currentTarget.textContent)
-                      }
+                      onInput={(e) => {
+                        const value = e.currentTarget.textContent.trim();
+                        setUserMessage(value);
+
+                        // Update isTyping based on value length
+                        if (value.length > 0) {
+                          if (!isTyping) setIsTyping(true);
+                        } else {
+                          if (isTyping) setIsTyping(false);
+                        }
+                      }}
                       onKeyDown={(e) => {
-                        if (!isTyping) setIsTyping(true);
                         if (e.key === "Enter") {
-                          e.preventDefault(); // Prevents new line in the div
+                          e.preventDefault(); // Prevents new line
                           handleSearch();
-                          e.currentTarget.textContent = ""; // Clear div after sending
+                          e.currentTarget.textContent = ""; // Clear input
+                          setIsTyping(false); // Reset isTyping after sending
                         }
                       }}
                       style={{
-                        textAlign: "left", // Ensures text starts from the left
+                        textAlign: "left",
                       }}
                     ></div>
 
@@ -91,13 +98,13 @@ const MessageInputBox = () => {
                     <Box
                       display={"flex"}
                       gap={2}
-                      mt={3}
+                      mt={2}
                       justifyContent={"center"}
                     >
-                      <Box >
+                      <Box>
                         <img height={28} src="/images/app-google-play.svg" />
                       </Box>
-                      <Box >
+                      <Box>
                         <img height={28} src="/images/app-app-store.svg" />
                       </Box>
                     </Box>

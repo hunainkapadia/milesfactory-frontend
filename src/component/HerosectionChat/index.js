@@ -52,7 +52,7 @@ const HerosectionChat = () => {
           justifyContent="center"
         >
           <Box className={styles.Box}>
-            {!isMessage && <HerosectionContent />}
+         {!isMessage && <HerosectionContent />}
             {/* ////////////////////////// Search Box start ////////////////////////// */}
             <MessageInputBox />
             {/* ////////////////////////// Search Box end ////////////////////////// */}
@@ -61,11 +61,6 @@ const HerosectionChat = () => {
           </Box>
         </Box>
       </section>
-      {!isMessage ? (
-        <Footer id={"HowMylzWork"} forDark LearnMore={"Travel smarter"} />
-      ) : (
-        ""
-      )}
     </>
   );
 };

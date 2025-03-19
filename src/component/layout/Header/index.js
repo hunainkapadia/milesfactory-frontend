@@ -129,7 +129,7 @@ const Header = () => {
                       {isSticky || isMessage ? (
                         <img src="/images/logo-color2.svg" />
                       ) : (
-                        <img src="/images/mylz-logo-white.svg" />
+                        <img src="/images/logo-white2.svg" />
                       )}
                     </Box>
                   </Link>

@@ -1144,6 +1144,10 @@ body {
 .btn-shadow {
   @include box-shadow(0, 2px, 8px, rgba($black, 0.2));
 }
+.LableActive {
+  font-weight: $semibold;
+  font-size: 14px;
+}
 .btn {
   text-transform: none;
   font-family: $primary-font;
