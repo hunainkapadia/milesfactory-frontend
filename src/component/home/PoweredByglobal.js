@@ -23,7 +23,7 @@ const PoweredByglobal = (props) => {
           <Box
             display="flex"
             flexWrap="wrap"
-            justifyContent="center"
+            justifyContent="space-between"
             gap={5}
             className={styles.poweredBysection}
           >
