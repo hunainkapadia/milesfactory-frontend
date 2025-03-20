@@ -58,7 +58,7 @@
          .navItem {
             color: #0B1729;
             &:hover {
-               color: #1976d2 !important;
+               color: #1976d2;
             }
          }
       }
@@ -81,6 +81,9 @@
          .Login {color: $black;}
          .navItems .navItem {
             color: #0B1729;
+            &:hover {
+               color: #0B1729;
+            }
          }
       }
 
@@ -103,7 +106,7 @@
          
          
          &:hover {
-            color: #fff !important;
+            color: #fff;
          }
       }
    }

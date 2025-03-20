@@ -1160,6 +1160,7 @@ body {
   overflow: hidden;
   @include padding(null 30px);
   font-weight: 500;
+  cursor: pointer;
   >div {
     display: flex;
     align-items: center;
@@ -1181,8 +1182,8 @@ body {
       content: "\f077";
     }
   }
-  &:not(.no-hover):hover {
-    @include transform(translate(0, 1px));
+  &:hover {
+    @include transform(translate(0, 0px));
   }
   .fa {
     font-size: $bfsize-xs;
