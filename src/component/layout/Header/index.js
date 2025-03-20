@@ -133,7 +133,7 @@ const Header = ({isMessage}) => {
                   ></i>
                 </Box>
 
-                <Box className={styles.Logo}>
+                <Box className={styles.Logo + " cursor-pointer"}>
                   <Box onClick={logoHandle}>
                     <Box className="d-flex align-items-center">
                       {isSticky || isMessage ? (
