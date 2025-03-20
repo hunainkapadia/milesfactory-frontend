@@ -24,7 +24,7 @@ const sendMessageSlice = createSlice({
 });
 
 export const sendMessage = (userMessage) => (dispatch) => {
-  if (!userMessage.trim()) return;
+  // if (!userMessage.trim()) return;
 
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));

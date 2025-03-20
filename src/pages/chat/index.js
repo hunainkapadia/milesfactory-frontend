@@ -27,6 +27,8 @@ const Chat = () => {
           }`}
         >
           <HerosectionChat />
+          <Header isMessage={isMessage} /> 
+          {/* sending send and get message for chat prop */}
         </section>
         {/* for home section */}
       </main>

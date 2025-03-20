@@ -27,8 +27,9 @@ import {
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
 import { setLoginCloseDrawer, setLoginOpenDrawer, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
+import { useRouter } from "next/router";
 
-const Header = () => {
+const Header = ({isMessage}) => {  
   const [isSticky, setIsSticky] = useState(false);
   const [ispopup, setispopup] = useState(false);
   const dispatch = useDispatch();
@@ -43,11 +44,7 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const sendMessages = useSelector(
-    (state) => state.sendMessage?.messages.length
-  );
-  const getmessages = useSelector((state) => state.getMessages.messages.length);
-  const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+  // const isMessage = sendMessages > 0 || getmessages > 0; //check message length
 
   
   // signup
@@ -85,7 +82,20 @@ const Header = () => {
     setispopup(false);
     dispatch(setOpenDrawer());
   };
-  
+
+  const router = useRouter();
+  const logoHandle = () => {
+    if (router.pathname !== "/") {
+      // Navigate to Home
+      router.push("/").then(() => {
+        // Force page refresh after routing to Home
+        window.location.reload();
+      });
+    } else {
+      // Already on Home — just refresh
+      window.location.reload();
+    }
+  };
 
   return (
     <>
@@ -124,7 +134,7 @@ const Header = () => {
                 </Box>
 
                 <Box className={styles.Logo}>
-                  <Link href={"/"}>
+                  <Box onClick={logoHandle}>
                     <Box className="d-flex align-items-center">
                       {isSticky || isMessage ? (
                         <img src="/images/logo-color2.svg" />
@@ -132,7 +142,7 @@ const Header = () => {
                         <img src="/images/logo-white2.svg" />
                       )}
                     </Box>
-                  </Link>
+                  </Box>
                 </Box>
               </Box>
               

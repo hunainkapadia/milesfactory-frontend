@@ -54,7 +54,7 @@ const HerosectionChat = () => {
           <Box className={styles.Box}>
          {!isMessage && <HerosectionContent />}
             {/* ////////////////////////// Search Box start ////////////////////////// */}
-            <MessageInputBox />
+            <MessageInputBox isMessageHome={isMessage} />
             {/* ////////////////////////// Search Box end ////////////////////////// */}
             <Messages />
             {/* //////////////////////// Chat Messages end ////////////////////////*/}

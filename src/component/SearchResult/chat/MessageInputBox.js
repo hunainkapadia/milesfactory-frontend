@@ -12,7 +12,9 @@ import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.
 import LabelAnimation from "../../home/LabelAnimation";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 
-const MessageInputBox = () => {
+const MessageInputBox = ({isMessageHome}) => {
+  console.log("isMessageHome", isMessageHome);
+  
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
   const dispatch = useDispatch();
@@ -37,7 +39,7 @@ const MessageInputBox = () => {
     <section>
       <Box
         className={
-          isMessage
+          isMessageHome
             ? inputStyles.SearchBoxSectionActive
             : inputStyles.SearchBoxSection
         }
@@ -57,7 +59,7 @@ const MessageInputBox = () => {
                     className={inputStyles.SearchBoxIn}
                     position={"relative"}
                   >
-                    {!isMessage && !isTyping ? <LabelAnimation /> : ""}
+                    {!isMessageHome && !isTyping ? <LabelAnimation /> : ""}
                     <div
                       contentEditable
                       role="textbox"
@@ -94,7 +96,7 @@ const MessageInputBox = () => {
                       <i className="fa fa-arrow-right"></i>
                     </IconButton>
                   </Box>
-                  {!isMessage ? (
+                  {!isMessageHome ? (
                     <Box
                       display={"flex"}
                       gap={2}

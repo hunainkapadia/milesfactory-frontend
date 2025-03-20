@@ -18,30 +18,28 @@ const HomeHeroSection = () => {
     (state) => state.getMessages.messages.length
   );
   const isMessage = sendMessages || getmessages; //check message length
-  console.log("isMessage22", isMessage);
-  
   return (
     <>
       <section>
         <Box
           className={`${styles.HeroSection} ${styles.mainHeroSection} ${
-            isMessage ? styles.Active : ""
+            isMessage.length ? styles.Active : ""
           }`}
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <Box className={styles.Box}>
-            {!isMessage && <HerosectionContent />}
+            {!isMessage.length && <HerosectionContent />}
             {/* ////////////////////////// Search Box start ////////////////////////// */}
-            <MessageInputBox />
+            <MessageInputBox isMessageHome={sendMessages} />
             {/* ////////////////////////// Search Box end ////////////////////////// */}
             
             {/* //////////////////////// Chat Message end ////////////////////////*/}
           </Box>
         </Box>
       </section>
-      {!isMessage ? (
+      {!isMessage.length ? (
         <Footer id={"HowMylzWork"} forDark LearnMore={"Travel smarter"} />
       ) : (
         ""

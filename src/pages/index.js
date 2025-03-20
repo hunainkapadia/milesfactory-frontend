@@ -14,9 +14,8 @@ import HomeHeroSection from "../component/HomeHeroSection";
 import { fetchMessages } from "../store/slices/GestMessageSlice";
 
 const Home = () => {
-  //  Fetch messages from Redux store
-  
   const dispatch = useDispatch();
+  //  Fetch messages from Redux store
 
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
@@ -26,19 +25,21 @@ const Home = () => {
 
   //  Combine stored messages (live chat) with fetched messages (history)
   const isMessage = [...getmessages, ...sendMessages];
-  console.log("isMessage", isMessage);
+  
 
-  useEffect(() => {
-    dispatch(fetchMessages()); //  Fetch messages when the page loads
-  }, [dispatch]);
 
   const router = useRouter();
   useEffect(() => {
-    // Redirect only when there is at least 1 message
-    if (isMessage.length) {
+    console.log("sendMessage", sendMessages.length);
+    
+    if (sendMessages.length && router.pathname !== "/chat") {
       router.push("/chat");
     }
-  }, [isMessage.length, router]);
+  }, [sendMessages.length, router.pathname]);
+  console.log("sendMessages", sendMessages.length);
+
+
+  
 
   return (
     <>
@@ -46,20 +47,21 @@ const Home = () => {
         <section
           id="fold1"
           className={`${
-            !isMessage.length ? styles.HomeBanner : styles.HomeBannerActive
+            !sendMessages.length ? styles.HomeBanner : styles.HomeBannerActive
           }`}
         >
           <HomeHeroSection />
         </section>
         {/* for home section */}
-        {!isMessage.length ? (
+        {sendMessages ? (
           <>
             <HowMylzWork id={"HowMylzWork"} />
             <MylzDifferent id={"MylzDifferent"} />
             <PoweredByglobal id={"PoweredByglobal"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App id={"Section5App"}/>
-            <Header />
+            <Header isMessage={sendMessages.length} />
+            {/* sending send message for chat prop only */}
           </>
         ) : (
           ""
