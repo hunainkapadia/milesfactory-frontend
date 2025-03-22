@@ -18,7 +18,7 @@ const Section5App = (props) => {
               <Grid item xs={12} md>
                 <Box pt={7} display={"flex"}>
                   <Box mb={3}>
-                    <h1 className="basecolor1-dark2 h1-lg mb-0">
+                    <h1 className="basecolor-dark h1-lg mb-0">
                       Travel with Mylz!
                     </h1>
                   </Box>

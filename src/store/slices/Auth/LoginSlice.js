@@ -10,12 +10,18 @@ const initialState = {
   LoginError: "",
   loginOpenDrawer: false,
   LoginCloseDrawer: false,
+  IsUser: null,
 };
 
 const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
+    setIsUser: (state, action)=> {
+      state.IsUser = action.payload;
+      
+
+    },
     setLoginUser: (state, action) => {
       state.loginUser = action.payload;
       state.emailError = "";
@@ -60,10 +66,7 @@ export const loginUser = (params) => (dispatch) => {
              access_token: res?.data?.access,
            }),
            { expires: 7 }
-         );
-
-         dispatch(setLoginCloseDrawer());
-         
+         );         
        }
      })
      .catch((error) => {
@@ -105,6 +108,7 @@ export const {
   logoutUser,
   setLoginError,
   setisLoading,
+  setIsUser,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;

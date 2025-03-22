@@ -4,30 +4,26 @@ import { API_ENDPOINTS } from "../../api/apiEndpoints";
 import Cookies from "js-cookie";
 
 const initialState = {
-  user: null,
-  openDrawer: false,
+  SignupUser: null,
   isLoading: false,
   error: null,
   firstNameError: "",
   lastNameError: "",
   emailError: "",
   passwordError: "",
-  closeDrawer: false,
+  IsSignupUser: null,
 };
 
 const signupSlice = createSlice({
   name: "signup",
   initialState,
   reducers: {
-    setOpenDrawer: (state) => {
-      state.openDrawer = true;
+    setIsSignupUser: (state, action)=> {
+      console.log("action1212", action);
+      state.IsSignupUser = action.payload
     },
-    setCloseDrawer: (state) => {
-      state.openDrawer = false; // Corrected the variable name
-    },
-    setsignUpUser: (state, action) => {
-      
-      state.user = action.payload;
+    setsignUpUser: (state, action) => {    
+      state.SignupUser = action.payload;
       state.firstNameError = "";
       state.lastNameError = "";
       state.emailError = "";
@@ -62,12 +58,10 @@ export const SignUpUser = (params) => (dispatch) => {
    api
     .post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
+      
       if (res.status === 201) {
-        dispatch(setCloseDrawer());
-
-        dispatch(setsignUpUser({user: res.data, status: res.status}));
-
-
+        console.log("res11", res?.data);
+        dispatch(setsignUpUser({user: res?.data, status: res.status}));
         // Store user info in cookies
         Cookies.set(
           "set-user",
@@ -94,8 +88,6 @@ export const SignUpUser = (params) => (dispatch) => {
 };
 
 export const {
-  setOpenDrawer,
-  setCloseDrawer,
   setsignUpUser,
   setFirstNameError,
   setLastNameError,
@@ -103,6 +95,7 @@ export const {
   setPasswordError,
   logoutUser,
   seIstLoading,
+  setIsSignupUser,
 } = signupSlice.actions;
 
 export default signupSlice.reducer;

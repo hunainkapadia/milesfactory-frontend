@@ -20,16 +20,18 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
 import {
+  IsSignupUser,
   logoutUser,
   openDrawer,
+  setIsSignupUser,
   setOpenDrawer,
   setsignUpUser,
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
-import { setLoginCloseDrawer, setLoginOpenDrawer, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
+import { setIsUser, setLoginCloseDrawer, setLoginOpenDrawer, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 import { useRouter } from "next/router";
 
-const Header = ({isMessage}) => {  
+const Header = ({isMessage, IsActive}) => {  
   const [isSticky, setIsSticky] = useState(false);
   const [ispopup, setispopup] = useState(false);
   const dispatch = useDispatch();
@@ -46,18 +48,50 @@ const Header = ({isMessage}) => {
 
   // const isMessage = sendMessages > 0 || getmessages > 0; //check message length
 
-  
   // signup
+  const isuserLogin = useSelector((state)=> state?.login?.IsUser); // get user from cookie with redux
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
-  // login
-  const isUserLogin = useSelector(
-    (state) => state?.login?.loginUser?.user || null
-  );
+  console.log("isuserLogin", isuserLogin);
+  
+  
+  // login set user in redux from cookies
+  useEffect(() => {
+    const cookieUserString = Cookies.get("set-user");
+  
+    if (cookieUserString) {
+      const cookieUser = JSON.parse(cookieUserString);  
+      dispatch(
+        setIsSignupUser({
+          user: {
+            first_name: cookieUser.first_name,
+            access_token: cookieUser.access_token,
+            refresh_token: cookieUser.refresh_token,
+            email: cookieUser.email,
+          },
+          status: 200,
+        })
+      );
+      
+      dispatch(
+        setIsUser({
+          user: {
+            first_name: cookieUser.first_name,
+            access_token: cookieUser.access_token,
+            refresh_token: cookieUser.refresh_token,
+            email: cookieUser.email,
+          },
+          status: 200,
+        })
+      );
+    }
+  }, []); // Empty array = only runs once on component mount
+/////
   // logout
   const logoutHandle = () => {
     dispatch(logoutUser());
   };
-  const currentUser = isUserLogin || isUserSignup; // Use single reference
+  
+  const currentUser = isuserLogin || isUserSignup; // Use single reference
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -97,16 +131,19 @@ const Header = ({isMessage}) => {
     }
   };
 
+    
+
   return (
     <>
       <Head></Head>
       <header>
         <Box
-          className={`${styles.Header} ${
-            isMessage ? " basecolor1-light-bg bacecolor " : ""
-          } ${isMessage ? styles.isMessage : ""} ${
-            isSticky ? styles.Sticky : ""
-          }`}
+          className={`
+          ${styles.Header} //normal header
+          ${isMessage ? " basecolor1-light-bg bacecolor " : "" } // if message header change
+          ${isMessage ? styles.isMessage : ""} // if message header change
+          ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
+          `}
         >
           <Container className="">
             <Box
@@ -126,9 +163,11 @@ const Header = ({isMessage}) => {
                   sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                   fontSize={"24px"}
                 >
-                  <i 
+                  <i
                     onClick={toggleDrawer}
-                    className={`fa fa-bars ${isSticky || isMessage ? " basecolor1-dark2 " : " white"}`}
+                    className={`fa fa-bars ${
+                      isSticky | IsActive || isMessage ? " basecolor-dark " : " white"
+                    }`}
                     aria-hidden="true"
                   ></i>
                 </Box>
@@ -136,7 +175,7 @@ const Header = ({isMessage}) => {
                 <Box className={styles.Logo + " cursor-pointer"}>
                   <Box onClick={logoHandle}>
                     <Box className="d-flex align-items-center">
-                      {isSticky || isMessage ? (
+                      {isSticky || isMessage || IsActive ? (
                         <img src="/images/logo-color2.svg" />
                       ) : (
                         <img src="/images/logo-white2.svg" />
@@ -145,13 +184,13 @@ const Header = ({isMessage}) => {
                   </Box>
                 </Box>
               </Box>
-              
+
               <Box sx={{ display: { xs: "none", md: "block" } }}>
                 <Navbar />
               </Box>
 
               <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
-                {currentUser ? (
+                {isuserLogin ? (
                   <Box className={styles.Dropdown} position={"relative"}>
                     <Box
                       className={styles.Login}
@@ -161,7 +200,7 @@ const Header = ({isMessage}) => {
                       gap={1}
                     >
                       <i className="fa fa-user-circle"></i>
-                      <Box>{currentUser?.first_name || ""}</Box>
+                      <Box>{isuserLogin?.user?.first_name || ""}</Box>
                       {/*  */}
                     </Box>
                     <Box className={styles.DropdownItems}>
@@ -225,7 +264,7 @@ const Header = ({isMessage}) => {
                     justifyContent="center"
                     gap={1}
                     component={Link}
-                    href="#"
+                    href=""
                     onClick={HandlePopup}
                   >
                     <i className="fa fa-user-circle"></i>
@@ -255,49 +294,54 @@ const Header = ({isMessage}) => {
           </Container>
         </Box>
       </header>
-      <Drawer className={styles.MobileDrawer} anchor="left" open={isDrawerOpen} onClose={toggleDrawer}>
-                <Box
-                  className={styles.HeaderDrawer}
-                  sx={{
-                    px: { xs: 3 }, // Padding X (left & right) of 3 units only on extra-small (xs) screens
-                    py: 3,
-                  }}
-                  width={"280px"}
-                >
-                  <Box display={"flex"} alignItems={"center"} gap={3}>
-                    {/* Close Button */}
-                    <Box fontSize={"24px"}>
-                      <i
-                        onClick={toggleDrawer}
-                        className="fa fa-arrow-left basecolor1"
-                      ></i>
-                    </Box>
-                    <Box className={styles.Logo}>
-                      <Link href={"/"}>
-                        <Box className="d-flex align-items-center">
-                          <img src="/images/logo-color2.svg" />
-                        </Box>
-                      </Link>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <Navbar />
-                    <Divider />
-                    
-                    <Box pb={3} pt={5} display={"flex"}>
-                      <Link
-                        href={""}
-                        onClick={HandleBookTrip}
-                        className="w-100 btn btn-primary no-rounded btn-md"
-                      >
-                        Book a trip
-                      </Link>
-                    </Box>
-                  </Box>
+      <Drawer
+        className={styles.MobileDrawer}
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={toggleDrawer}
+      >
+        <Box
+          className={styles.HeaderDrawer}
+          sx={{
+            px: { xs: 3 }, // Padding X (left & right) of 3 units only on extra-small (xs) screens
+            py: 3,
+          }}
+          width={"280px"}
+        >
+          <Box display={"flex"} alignItems={"center"} gap={3}>
+            {/* Close Button */}
+            <Box fontSize={"24px"}>
+              <i
+                onClick={toggleDrawer}
+                className="fa fa-arrow-left basecolor1"
+              ></i>
+            </Box>
+            <Box className={styles.Logo}>
+              <Link href={"/"}>
+                <Box className="d-flex align-items-center">
+                  <img src="/images/logo-color2.svg" />
                 </Box>
+              </Link>
+            </Box>
+          </Box>
+          <Box>
+            <Navbar />
+            <Divider />
 
-                {/*  */}
-              </Drawer>
+            <Box pb={3} pt={5} display={"flex"}>
+              <Link
+                href={""}
+                onClick={HandleBookTrip}
+                className="w-100 btn btn-primary no-rounded btn-md"
+              >
+                Book a trip
+              </Link>
+            </Box>
+          </Box>
+        </Box>
+
+        {/*  */}
+      </Drawer>
       <Dialog
         open={ispopup}
         onClose={handlePopupClose}
@@ -341,16 +385,15 @@ const Header = ({isMessage}) => {
           >
             <Button
               className={"btn btn-secondary btn-md no-rounded"}
-              href="#"
-              onClick={HandleSignIn}
+              href="/signin"
+              
               component="button"
             >
               <Box>Sign in</Box>
             </Button>
             <Button
               className={"btn btn-primary btn-md no-rounded"}
-              href="#"
-              onClick={HandleSignup}
+              href="/signup"
               component="button"
             >
               <Box>Sign up for free</Box>

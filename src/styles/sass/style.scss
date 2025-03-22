@@ -404,7 +404,7 @@ p {
 .basecolor1-dark {
   background-color: $basecolor1-dark !important;
 }
-.basecolor1-dark2 {color: $basecolor1-dark2 !important;}
+.basecolor-dark {color: $basecolor-dark !important;}
 .basecolor1-sky-bg {
   background-color: $basecolor1-sky !important;
 }
@@ -469,14 +469,19 @@ p {
 
 /* Chatbox, default start of chat */
 // search 
+
+.formControl
 .MuiDrawer-root {
   transition: transform 0.5s ease-in-out !important;
 }
 .MuiInputBase-input,
 .select-dropdown .MuiOutlinedInput-root {
   z-index: 1;
+  background-color: $white;
+  border: solid 1px $lightegray2;
   height: 45px !important;
   padding: 6px 22px !important;
+  border-radius: 4px;
 }
 .SearchForm .MuiInputBase-formControl {
   padding: 0 !important;
@@ -1009,10 +1014,15 @@ body {
     width: 100%;
     border: 0;
   }
+  .formGroup {margin-bottom: 22px;
+    .formLabel {
+      
+    }
+  }
   
     .formControl {
       width: 100%;
-      margin-top: 5px;
+      margin-top: 4px;
       margin-bottom: 12px;
     }
   // k) Headings / Paragraphs
