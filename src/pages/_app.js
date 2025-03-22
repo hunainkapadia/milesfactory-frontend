@@ -5,23 +5,11 @@ import store from "@/src/store/store";
 import Head from "next/head";
 
 import "@/src/styles/sass/style.scss";
-import SignUpDrawer from "../component/Auth/SignUpDrawer";
-import LoginDrawer from "../component/Auth/LoginDrawer";
-
 // 👇 Create a wrapper to use Redux hooks safely
 function AppWrapper({ Component, pageProps }) {
-  const openLoginDrawer = useSelector((state) => state?.login?.loginOpenDrawer);
-  const isUserLogin = useSelector((state) => state?.login);
-  const setLoginCloseDrawer = useSelector((state)=> state?.login?.loginOpenDrawer);
-  console.log("setLoginCloseDrawer", setLoginCloseDrawer);
-  
-  
-
   return (
     <>
        <Component {...pageProps} />
-      <SignUpDrawer />
-      <LoginDrawer />
     </>
   );
 }

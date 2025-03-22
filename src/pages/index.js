@@ -6,8 +6,6 @@ import Section4Reviews from "../component/home/Section4Reviews";
 import Section5App from "../component/home/Section5App";
 import HowMylzWork from "../component/home/HowMylzWork";
 import MylzDifferent from "../component/home/MylzDifferent";
-import SignUpDrawer from "../component/Auth/SignUpDrawer";
-import LoginDrawer from "../component/Auth/LoginDrawer";
 import PoweredByglobal from "../component/home/PoweredByglobal";
 import { useRouter } from "next/router";
 import HomeHeroSection from "../component/HomeHeroSection";
