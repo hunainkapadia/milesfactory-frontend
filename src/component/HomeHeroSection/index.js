@@ -1,5 +1,6 @@
 import {
-  Box
+  Box,
+  Container
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +33,9 @@ const HomeHeroSection = () => {
           <Box className={styles.Box}>
             {!isMessage.length && <HerosectionContent />}
             {/* ////////////////////////// Search Box start ////////////////////////// */}
-            <MessageInputBox isMessageHome={sendMessages} />
+            <Container>
+              <MessageInputBox isMessageHome={sendMessages} />
+            </Container>
             {/* ////////////////////////// Search Box end ////////////////////////// */}
             
             {/* //////////////////////// Chat Message end ////////////////////////*/}

@@ -53,7 +53,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
         display="flex"
         flexDirection="column"
       >
-        <Typography variant="p" className="gray f12 p">
+        <Typography variant="p" className="gray f12" pb={2}>
           *The airline policy will apply if you decide to cancel or modify your
           trip.
         </Typography>
@@ -74,19 +74,19 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
             >
               <Typography
                 variant="subtitle2"
-                className={styles.priceLabel + " mb-0"}
+                className={styles.priceLabel + " mb-0 basecolor-dark"}
               >
                 Price:
               </Typography>
               <Typography
                 variant="h3"
-                className={styles.price + " h3 mb-0 basecolor1"}
+                className={styles.price + " h3 mb-0 basecolor-dark"}
               >
                 <span>€ {Math.round(getFlightDetails?.total_amount)}</span>
               </Typography>
             </Box>
             <Box className={styles.totalPersonPrice}>
-              <Typography variant="p" className="darkgray f14">
+              <Typography variant="p" className="basecolor-dark f14">
               Total per person: € {Math.round(getFlightDetails?.per_passenger_amount)}
               </Typography>
             </Box>
@@ -104,11 +104,11 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
               display="flex"
               alignItems="center"
               gap={2}
-              className="basecolor1 f14"
+              className="gray f14"
               style={{ cursor: "pointer" }}
               onClick={HandlecloseDrawer}
             >
-              <i className="fa fa-close fas"></i> <span>Close</span>
+              <span>Close</span>
             </Box>
 
             {/* Select Flight Button */}
@@ -119,11 +119,10 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
               className="basecolor1"
             >
               <button
-                className={styles.selectFlightBtn + " btn btn-green btn-sm"}
+                className={styles.selectFlightBtn + " btn btn-primary btn-md btn-round"}
                 onClick={handleBookFlight}
               >
                 <Box display="flex" gap={1}>
-                  <i className="fa fa-arrow-right"></i>{" "}
                   <Box
                     sx={{ display: { md: "block", sm: "block", xs: "none" } }}
                   >

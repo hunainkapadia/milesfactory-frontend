@@ -82,31 +82,29 @@ const Messages = () => {
     <>
       {messages.length ? (
         <section>
-          <Container>
-            <Box className={searchResultStyles.messageContent}>
-              <Box className={searchResultStyles.messageContentIn}>
-                {messages.map((msg, index) => (
-                  <div key={index}>
-                    {msg?.user && <UserMessage userMessage={msg.user} />}
-                    {msg?.ai ? (
-                      <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
-                    ) : index === messages.length - 1 && isLoading ? (
-                      <LoadingArea />
-                    ) : null}
-                  </div>
-                ))}
-                {/*  */}
-                <div ref={messagesEndRef} />
-                {/* booking flow start */}
+          <Box className={searchResultStyles.messageContent}>
+            <Box className={searchResultStyles.messageContentIn}>
+              {messages.map((msg, index) => (
+                <Box key={index}>
+                  {msg?.user && <UserMessage userMessage={msg.user} />}
+                  {msg?.ai ? (
+                    <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
+                  ) : index === messages.length - 1 && isLoading ? (
+                    <LoadingArea />
+                  ) : null}
+                </Box>
+              ))}
+              {/*  */}
+              <Box ref={messagesEndRef} />
+              {/* booking flow start */}
 
-                {getFlightKey && (
-                  <BookingDrawer getFlightDetail={flightDetail} />
-                )}
-                {isPassengerDrawerOpen && <PassengerDrawerForm />}
-                
-              </Box>
+              {getFlightKey && (
+                <BookingDrawer getFlightDetail={flightDetail} />
+              )}
+              {isPassengerDrawerOpen && <PassengerDrawerForm />}
+              
             </Box>
-          </Container>
+          </Box>
         </section>
       ) : (
         ""

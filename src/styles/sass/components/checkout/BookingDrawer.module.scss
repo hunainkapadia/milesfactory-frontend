@@ -15,14 +15,14 @@
       width: 480px;
    }
    .onewayReturn {
+      font-weight: $bold;
       padding: 6px 10px;
-      line-height: 1;
+      line-height: 1.6;
       gap: 8px;
       display: flex;
-      border: 1px solid #B3D9F7;
-      border-radius: 8px;
-      background: #B3D9F7;
-      border-radius: 8px;
+      @include border-radius(8px);
+      background: $lightgray;
+      
    }
    .checkoutDrowerBackdrop {
       top: 0;
@@ -36,8 +36,10 @@
    }
 
    .airlineLogo {
-      @include scale(48px, 48px);
+      @include scale(60px, 60px);
       @include border-radius(0);
+      display: flex;
+      align-items: center;
 
    }
 
@@ -73,13 +75,13 @@
 
                &::before {
                   top: 8px;
-                  background-color: #82B4E8;
+                  background-color: $basecolor1;
                   content: "";
                   position: absolute;
                   --tw-border-opacity: 1;
                   width: 1px;
                   z-index: 1;
-                  left: 7px;
+                  left: 5px;
                   bottom: 11px;
                }
 
@@ -97,12 +99,12 @@
                      content: "";
                      position: absolute;
                      --tw-border-opacity: 1;
-                     border-color: #82B4E8;
+                     border-color: $basecolor1;
                      background-color: #fff;
                      border-width: 2px;
                      border-radius: 9999px;
-                     width: 12px;
-                     height: 12px;
+                     width: 9px;
+                     height: 9px;
                      z-index: 2;
                      left: 0;
                   }
@@ -122,12 +124,12 @@
                      content: "";
                      position: absolute;
                      --tw-border-opacity: 1;
-                     border-color: #82B4E8;
+                     border-color: $basecolor1;
                      background-color: #fff;
                      border-width: 2px;
                      border-radius: 9999px;
-                     width: 12px;
-                     height: 12px;
+                     width: 9px;
+                     height: 9px;
                      z-index: 2;
                      left: 0;
                   }
@@ -149,7 +151,9 @@
          }
       }
    }
-
+.LayoverSection {
+   margin: 0 -25px;
+}
    // checkoutDrower section end
 
 }

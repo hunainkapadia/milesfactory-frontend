@@ -136,163 +136,162 @@ const Header = ({isMessage, IsActive}) => {
   return (
     <>
       <Head></Head>
-      <header>
-        <Box
-          className={`
+      <header
+        className={`
           ${styles.Header} //normal header
-          ${isMessage ? " basecolor1-light-bg bacecolor " : "" } // if message header change
           ${isMessage ? styles.isMessage : ""} // if message header change
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
-        >
-          <Container className="">
+      >
+        <Container className="">
+          <Box
+            className={styles.Box}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
             <Box
-              className={styles.Box}
+              color="white"
+              className={styles.leftCol}
               display={"flex"}
-              justifyContent={"space-between"}
               alignItems={"center"}
+              gap={2}
             >
               <Box
-                color="white"
-                className={styles.leftCol}
-                display={"flex"}
-                alignItems={"center"}
-                gap={2}
+                sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                fontSize={"24px"}
               >
-                <Box
-                  sx={{ display: { xs: "block", md: "none", lg: "none" } }}
-                  fontSize={"24px"}
-                >
-                  <i
-                    onClick={toggleDrawer}
-                    className={`fa fa-bars ${
-                      isSticky | IsActive || isMessage ? " basecolor-dark " : " white"
-                    }`}
-                    aria-hidden="true"
-                  ></i>
-                </Box>
+                <i
+                  onClick={toggleDrawer}
+                  className={`fa fa-bars ${
+                    isSticky | IsActive || isMessage
+                      ? " basecolor-dark "
+                      : " white"
+                  }`}
+                  aria-hidden="true"
+                ></i>
+              </Box>
 
-                <Box className={styles.Logo + " cursor-pointer"}>
-                  <Box onClick={logoHandle}>
-                    <Box className="d-flex align-items-center">
-                      {isSticky || isMessage || IsActive ? (
-                        <img src="/images/logo-color2.svg" />
-                      ) : (
-                        <img src="/images/logo-white2.svg" />
-                      )}
-                    </Box>
+              <Box className={styles.Logo + " cursor-pointer"}>
+                <Box onClick={logoHandle}>
+                  <Box className="d-flex align-items-center">
+                    {isSticky || isMessage || IsActive ? (
+                      <img src="/images/logo-color2.svg" />
+                    ) : (
+                      <img src="/images/logo-white2.svg" />
+                    )}
                   </Box>
                 </Box>
               </Box>
+            </Box>
 
-              <Box sx={{ display: { xs: "none", md: "block" } }}>
-                <Navbar />
-              </Box>
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
+              <Navbar />
+            </Box>
 
-              <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
-                {isuserLogin ? (
-                  <Box className={styles.Dropdown} position={"relative"}>
-                    <Box
-                      className={styles.Login}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      gap={1}
-                    >
-                      <i className="fa fa-user-circle"></i>
-                      <Box>{isuserLogin?.user?.first_name || ""}</Box>
-                      {/*  */}
-                    </Box>
-                    <Box className={styles.DropdownItems}>
-                      <Box
-                        display={"flex"}
-                        flexDirection={"column"}
-                        gap={2}
-                        className={
-                          styles.DropdownItemsBox + "  br-12 box-shadow-md"
-                        }
-                      >
-                        <Link
-                          className={
-                            styles.DropdownItem + " text-decuration-none"
-                          }
-                          href={""}
-                        >
-                          <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <Box width={"20px"}>
-                              <i className="fa fa-cog" aria-hidden="true"></i>
-                            </Box>
-                            <Typography>Profile</Typography>
-                          </Box>
-                        </Link>
-                        <Link
-                          className={
-                            styles.DropdownItem + " text-decuration-none"
-                          }
-                          href={""}
-                        >
-                          <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <Box width={"20px"}>
-                              <i className="fa fa-cog" aria-hidden="true"></i>
-                            </Box>
-                            <Typography>Settings</Typography>
-                          </Box>
-                        </Link>
-                        <Link
-                          className={
-                            styles.DropdownItem + " text-decuration-none"
-                          }
-                          href={""}
-                          onClick={logoutHandle}
-                        >
-                          <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <Box width={"20px"}>
-                              <i className=" fa fa-sign-out"></i>
-                            </Box>
-                            <Typography>Sign out</Typography>
-                          </Box>
-                        </Link>
-                        {/*  */}
-                      </Box>
-                    </Box>
-                  </Box>
-                ) : (
+            <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
+              {isuserLogin ? (
+                <Box className={styles.Dropdown} position={"relative"}>
                   <Box
                     className={styles.Login}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
                     gap={1}
-                    component={Link}
-                    href=""
-                    onClick={HandlePopup}
                   >
                     <i className="fa fa-user-circle"></i>
-                    <Box>Sign in</Box>
+                    <Box>{isuserLogin?.user?.first_name || ""}</Box>
                     {/*  */}
                   </Box>
-                )}
-                <Box display={"flex"} alignItems={"center"}>
-                  <Box
-                    sx={{ display: { xs: "none", md: "block" } }}
-                    className={"btn btn-primary btn-md"}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    gap={1}
-                    href="#"
-                    onClick={HandlePopup}
-                    component="button"
-                  >
-                    <Box>Book a trip</Box>
-                    {/*  */}
+                  <Box className={styles.DropdownItems}>
+                    <Box
+                      display={"flex"}
+                      flexDirection={"column"}
+                      gap={2}
+                      className={
+                        styles.DropdownItemsBox + "  br-12 box-shadow-md"
+                      }
+                    >
+                      <Link
+                        className={
+                          styles.DropdownItem + " text-decuration-none"
+                        }
+                        href={""}
+                      >
+                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                          <Box width={"20px"}>
+                            <i className="fa fa-cog" aria-hidden="true"></i>
+                          </Box>
+                          <Typography>Profile</Typography>
+                        </Box>
+                      </Link>
+                      <Link
+                        className={
+                          styles.DropdownItem + " text-decuration-none"
+                        }
+                        href={""}
+                      >
+                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                          <Box width={"20px"}>
+                            <i className="fa fa-cog" aria-hidden="true"></i>
+                          </Box>
+                          <Typography>Settings</Typography>
+                        </Box>
+                      </Link>
+                      <Link
+                        className={
+                          styles.DropdownItem + " text-decuration-none"
+                        }
+                        href={""}
+                        onClick={logoutHandle}
+                      >
+                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                          <Box width={"20px"}>
+                            <i className=" fa fa-sign-out"></i>
+                          </Box>
+                          <Typography>Sign out</Typography>
+                        </Box>
+                      </Link>
+                      {/*  */}
+                    </Box>
                   </Box>
                 </Box>
+              ) : (
+                <Box
+                  className={styles.Login}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={1}
+                  component={Link}
+                  href=""
+                  onClick={HandlePopup}
+                >
+                  <i className="fa fa-user-circle"></i>
+                  <Box>Sign in</Box>
+                  {/*  */}
+                </Box>
+              )}
+              <Box display={"flex"} alignItems={"center"}>
+                <Box
+                  sx={{ display: { xs: "none", md: "block" } }}
+                  className={"btn btn-primary btn-md"}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={1}
+                  href="#"
+                  onClick={HandlePopup}
+                  component="button"
+                >
+                  <Box>Book a trip</Box>
+                  {/*  */}
+                </Box>
               </Box>
-              {/*  */}
             </Box>
-          </Container>
-        </Box>
+            {/*  */}
+          </Box>
+        </Container>
       </header>
       <Drawer
         className={styles.MobileDrawer}
@@ -386,7 +385,6 @@ const Header = ({isMessage, IsActive}) => {
             <Button
               className={"btn btn-secondary btn-md no-rounded"}
               href="/signin"
-              
               component="button"
             >
               <Box>Sign in</Box>

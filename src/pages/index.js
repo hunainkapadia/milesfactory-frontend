@@ -17,7 +17,6 @@ const Home = () => {
 
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
-  
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
 

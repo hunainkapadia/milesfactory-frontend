@@ -11,14 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import LabelAnimation from "../../home/LabelAnimation";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
+import { useRouter } from "next/router";
 
-const MessageInputBox = ({isMessageHome}) => {
+const MessageInputBox = ({ isMessageHome }) => {
   console.log("isMessageHome", isMessageHome);
-  
+
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
   const dispatch = useDispatch();
-
 
   const sendMessages = useSelector(
     (state) => state.sendMessage?.messages.length || 0
@@ -34,7 +34,6 @@ const MessageInputBox = ({isMessageHome}) => {
     setUserMessage(""); //  Clears input after sending
   };
 
-
   return (
     <section>
       <Box
@@ -44,81 +43,76 @@ const MessageInputBox = ({isMessageHome}) => {
             : inputStyles.SearchBoxSection
         }
       >
-        <Container>
-          <Box className={styles.Content}>
-            <Box
-              className={styles.ContentIn}
-              textAlign={"center"}
-              display={"flex"}
-              justifyContent={"center"}
-              flexDirection={"column"}
-            >
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <Box className={inputStyles.SearchBoxContainer}>
-                  <Box
-                    className={inputStyles.SearchBoxIn}
-                    position={"relative"}
+        <Box className={styles.Content}>
+          <Box
+            className={styles.ContentIn}
+            textAlign={"center"}
+            display={"flex"}
+            justifyContent={"center"}
+            flexDirection={"column"}
+          >
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Box className={inputStyles.SearchBoxContainer}>
+                <Box className={inputStyles.SearchBoxIn} position={"relative"}>
+                  {!isMessageHome && !isTyping ? <LabelAnimation /> : ""}
+                  <div
+                    contentEditable
+                    role="textbox"
+                    placeholder="Ask anything about your trip"
+                    className={inputStyles.SearchForm + " SearchForm 222"}
+                    onInput={(e) => {
+                      const value = e.currentTarget.textContent.trim();
+                      setUserMessage(value);
+
+                      // Update isTyping based on value length
+                      if (value.length > 0) {
+                        if (!isTyping) setIsTyping(true);
+                      } else {
+                        if (isTyping) setIsTyping(false);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault(); // Prevents new line
+                        handleSearch();
+                        e.currentTarget.textContent = ""; // Clear input
+                        setIsTyping(false); // Reset isTyping after sending
+                      }
+                    }}
+                    style={{
+                      textAlign: "left",
+                    }}
+                  ></div>
+
+                  <IconButton
+                    className={inputStyles.SearchButton}
+                    onClick={handleSearch}
                   >
-                    {!isMessageHome && !isTyping ? <LabelAnimation /> : ""}
-                    <div
-                      contentEditable
-                      role="textbox"
-                      placeholder="Ask anything about your trip"
-                      className={inputStyles.SearchForm + " SearchForm 222"}
-                      onInput={(e) => {
-                        const value = e.currentTarget.textContent.trim();
-                        setUserMessage(value);
-
-                        // Update isTyping based on value length
-                        if (value.length > 0) {
-                          if (!isTyping) setIsTyping(true);
-                        } else {
-                          if (isTyping) setIsTyping(false);
-                        }
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault(); // Prevents new line
-                          handleSearch();
-                          e.currentTarget.textContent = ""; // Clear input
-                          setIsTyping(false); // Reset isTyping after sending
-                        }
-                      }}
-                      style={{
-                        textAlign: "left",
-                      }}
-                    ></div>
-
-                    <IconButton
-                      className={inputStyles.SearchButton}
-                      onClick={handleSearch}
-                    >
-                      <i className="fa fa-arrow-right"></i>
-                    </IconButton>
-                  </Box>
-                  {!isMessageHome ? (
-                    <Box
-                      display={"flex"}
-                      gap={2}
-                      mt={2}
-                      justifyContent={"center"}
-                    >
-                      <Box>
-                        <img height={28} src="/images/app-google-play.svg" />
-                      </Box>
-                      <Box>
-                        <img height={28} src="/images/app-app-store.svg" />
-                      </Box>
-                    </Box>
-                  ) : (
-                    ""
-                  )}
-                  {/*  */}
+                    <i className="fa fa-arrow-right"></i>
+                  </IconButton>
                 </Box>
+                {!isMessageHome ? (
+                  <Box
+                    display={"flex"}
+                    gap={2}
+                    mt={2}
+                    justifyContent={"center"}
+                  >
+                    <Box>
+                      <img height={28} src="/images/app-google-play.svg" />
+                    </Box>
+                    <Box>
+                      <img height={28} src="/images/app-app-store.svg" />
+                    </Box>
+                  </Box>
+                ) : (
+                  ""
+                )}
+                {/*  */}
               </Box>
             </Box>
           </Box>
-        </Container>
+        </Box>
       </Box>
     </section>
   );

@@ -1,34 +1,72 @@
 @import "../../_variables.scss";
 
-.messageContent {
-  display: flex;
-  justify-content: center;
+.SearchBodyActive {
+  background-color: $basecolor1-light;
+  background-image: url("/images/search-bg.png");
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  overflow: auto;
 
-  .messageContentIn {padding: 0px 0 100px;margin-top: 160px;width: $BoxContainerLg;
+  &::before {
+    display: none;
+  }
+  .messageContent {
+    
+  }
+}
+
+.messageContent {
+  
+  .messageContentIn {padding: 0px 0 100px;margin-top: 105px;
      .UserMessage {
        background-color: $basecolor1-dark;
        color: #0B1729;
-       @include border-radius(12px);
+       @include border-radius(22px);
        max-width: 80%;
-       padding: 12px 20px;
+       padding: 10px 24px;
+       p {
+          color: $basecolor-dark;
+        }
      }
      .AiMessage {
        color: #0B1729;
-       @include border-radius(12px);
        width: 100%;
-       padding: 12px 20px;
+       padding: 10px 0;
        max-width: 80%;
+       p {
+        color: $basecolor-dark;
+      }
      }
    }
 }
 
+.YourTripSidebar {
+  position: fixed;
+  height: 90vh;
+  top: 0;
+  padding-left: $messageRight;
+  .YourTripCard {
+    overflow: hidden;
+    width: 328px;
+    border-radius: 16px;
+    background:$white;
+    box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
+    border-radius: 24px;
+    .CardHeader {
+      background-color: #F7FCFA;
+      border-bottom: solid 1px $lightegray3;
+    }
+  }
+}
 //  
 .flightOfferCard {
-   background: white;
-   border-radius: 10px;
-   padding: 15px;
-   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: 128px;
+    background: #FFFFFF;
+    border: 1px solid #E6EEEE;
+    border-radius: 16px;
    display: flex;
    flex-direction: column;
    transition: 0.3s ease-in-out;
@@ -41,17 +79,73 @@
    &:hover {
      transform: scale(1.02);
    }
+   .CardLeft {
+    padding: 17px 17px 14px 16px;
+   }
+   .CardRight {
+    padding: 12px 14px 16px 17px;
+    border-left: solid 1px $lightegray3;
+    .selectFlightBtn {
+      margin-top: 15px;
+    }
+   }
+   .airlineLogo {
+     @include scale(54px, 54px);
+     @include border-radius(100px);
+    background: $white;
+    border: 1px solid $lightegray3;
+    img {
+      width: 50%;
+      height: 50%;
+    }
+
+     
+   }
+   .rowExtraInfo {
+    margin-bottom: 20px;
+     display: flex;
+     justify-content: space-between;
+     font-size: 0.85rem;
+     color: gray;
+   }
+   .flightDurationBox {
+    width: 80%;
+    .flightDuration {
+      font-size: 12px;
+      color: $black;
+    }
+   }   
+   .SearchDivider {
+      border: 1px dashed #D9D9D9;
+      transform: matrix(-1, 0, 0, 1, 0, 0);
+      position: relative;
+      
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: #D9D9D9;
+        border-radius: 50%;
+        transform: translateY(-50%);
+      }
+      &::before {
+        left: -5px;
+      }
+      &::after {
+        right: -5px;
+      }
+   }
+   .flightTime {
+    font-weight: $semibold;
+    font-size: 20px;
+  }
  }
  
- .airlineLogo {
-   @include scale(48px, 48px);
-   @include border-radius(0);
-   
- }
  
- .flightTime {
-   font-weight: $semibold;
- }
+ 
  .separater {
    padding: 0 10px;
    span {
@@ -61,12 +155,6 @@
       display: flex;
       height: 1px;
    }
-}
-.flightDurationBox {
- .flightDuration {
-   font-size: 12px;
-   color: #69707B;
- }
 }
  
  .flightRoute {
@@ -79,13 +167,6 @@
  }
  
  
- .rowExtraInfo {
-  margin-top: 30px;
-   display: flex;
-   justify-content: space-between;
-   font-size: 0.85rem;
-   color: gray;
- }
  
  .normalOption {
    padding: 7px 10px;

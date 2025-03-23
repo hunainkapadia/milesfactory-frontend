@@ -18,8 +18,6 @@ const Navbar = () => {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row", lg: "row" }, // Row on mobile, Column on desktop
-          py: { xs: 3 },
-          gap: 3,
           alignItems: { xs: "flex-start", lg: "center", md: "center" },
         }}
       >

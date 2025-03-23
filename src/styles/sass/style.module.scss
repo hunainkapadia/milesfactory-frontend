@@ -365,9 +365,6 @@ p {
 .lightergray {
   color: $lightergray !important;
 }
-.lightestgray {
-  color: $lightestgray !important;
-}
 .lightestergray {
   color: $lightestergray !important;
 }
@@ -377,12 +374,7 @@ p {
 .lightergray-bg {
   background: $lightergray !important;
 }
-.lightestgray-bg {
-  background: $lightestgray !important;
-}
-.lightestergray-bg {
-  background: $lightestergray !important;
-}
+
 .bluedark2 {
   color: $bluedark2 !important;
 }
@@ -889,7 +881,7 @@ li:not(:last-child) {
     position: relative;
     @extend %no-list;
     padding: 12px 10px 12px 35px;
-    border-bottom: solid 1px $lightestgray;
+    border-bottom: solid 1px $lightegray2;
     margin-bottom: 0;
     &:before {
       content: "\f123";

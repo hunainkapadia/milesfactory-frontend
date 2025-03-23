@@ -32,35 +32,22 @@ const HerosectionChat = () => {
   const dispatch = useDispatch();
   //  Fetch messages from Redux store
   const sendMessages = useSelector(
-   (state) => state.sendMessage?.messages.length
- );
- const getmessages = useSelector(
-   (state) => state.getMessages.messages.length
- );
- const isMessage = sendMessages || getmessages; //check message length
+    (state) => state.sendMessage?.messages.length
+  );
+  const getmessages = useSelector((state) => state.getMessages.messages.length);
+  const isMessage = sendMessages || getmessages; //check message length
   // for bookingdrawer selector
-  
+
   return (
     <>
-      <section>
-        <Box
-          className={`${styles.HeroSection} ${styles.mainHeroSection} ${
-            isMessage ? styles.Active : ""
-          }`}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Box className={styles.Box}>
-         {!isMessage && <HerosectionContent />}
-            {/* ////////////////////////// Search Box start ////////////////////////// */}
-            <MessageInputBox isMessageHome={isMessage} />
-            {/* ////////////////////////// Search Box end ////////////////////////// */}
-            <Messages />
-            {/* //////////////////////// Chat Messages end ////////////////////////*/}
-          </Box>
-        </Box>
-      </section>
+      <Box className={styles.Box}>
+        {!isMessage && <HerosectionContent />}
+        {/* ////////////////////////// Search Box start ////////////////////////// */}
+        <MessageInputBox isMessageHome={isMessage} />
+        {/* ////////////////////////// Search Box end ////////////////////////// */}
+        <Messages />
+        {/* //////////////////////// Chat Messages end ////////////////////////*/}
+      </Box>
     </>
   );
 };

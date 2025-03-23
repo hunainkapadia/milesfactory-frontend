@@ -6,12 +6,12 @@ const UserMessage = (props) => {
   return (
     <>
       <Box display="flex" justifyContent="flex-end" mb={2}>
-        <Card
+        <Box
           className={searchResultStyles.UserMessage}
           sx={{ maxWidth: "75%" }}
         >
-          <Typography variant="body2">{props.userMessage}</Typography>
-        </Card>
+          <Typography>{props.userMessage}</Typography>
+        </Box>
       </Box>
     </>
   );

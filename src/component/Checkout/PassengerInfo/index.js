@@ -38,32 +38,40 @@ const PassengerInfo = ({ getdata }) => {
 
   return (
     <>
-      <Card
-        variant="outlined"
-        className={searchResultStyles.flightOfferCard}
-        sx={{ mt: 2, p: 2 }}
-      >
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Passengers
+      <Box py={1}>
+        <Typography fontWeight={"bold"}>
+          Now, let’s add the traveller details
         </Typography>
+      </Box>
+      <Box
+        variant="outlined"
+        className={searchResultStyles.PassengersSection}
+        sx={{ mt: 3, }}
+      >
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => (
             <Grid item xs={12} sm={6} key={passenger.uuid}>
               <PassengersCard
                 totalPass={index + 1}
                 getdata={passenger}
-                passName={selectedPassenger === passenger.uuid ? getPassFormData?.given_name : ""}
+                passName={
+                  selectedPassenger === passenger.uuid
+                    ? getPassFormData?.given_name
+                    : ""
+                }
                 isMainPassenger={index === 0} // Check if it's the first passenger
                 isActive={selectedPassenger === passenger.uuid} // Ensure only one is active
                 onToggle={handlePassengerToggle} // Handle selection
               />
             </Grid>
           ))}
-
         </Grid>
 
         <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
-          <Button className="btn btn-primary btn-sm" onClick={handlePassengerAdd}>
+          <Button
+            className="btn btn-primary btn-sm"
+            onClick={handlePassengerAdd}
+          >
             <Box display="flex" alignItems="center" gap={1}>
               <i className="fa fa-arrow-right"></i>
               <span>Fill in passenger information</span>
@@ -76,22 +84,21 @@ const PassengerInfo = ({ getdata }) => {
         {/* ////////////////////////////////////////////// */}
         {/* ////////////////////////////////////////////// */}
         {getPassFormData ? (
-        <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
-          <Box
-            display="flex"
-            alignItems="center"
-            gap={2}
-            className="dark-green"
-          >
-            <i className="fa fa-check"></i>
-            <span>Passenger information</span>
+          <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={2}
+              className="dark-green"
+            >
+              <i className="fa fa-check"></i>
+              <span>Passenger information</span>
+            </Box>
           </Box>
-        </Box>
-
-        ): (
+        ) : (
           ""
         )}
-      </Card>
+      </Box>
       {passengerDetails?.firstName && passengerDetails?.lastName ? (
         <>
           <Card

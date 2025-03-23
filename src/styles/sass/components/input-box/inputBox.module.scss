@@ -1,17 +1,19 @@
 @import "../../_variables.scss";
 
-
-.SearchBoxSectionActive {
-   position: relative;
-   width: 100%;
-   padding: 0 0 25px;
+.SearchBoxGrid {
    position: fixed;
+   width: 100%;
    bottom: 0;
    left: 0;
    right: 0;
+   padding: 0 0 25px;
    z-index: 3;
-   background-color: $basecolor1-light;
-   
+   background-image: url("/images/search-bg.png");
+   background-size: cover;
+   background-position: bottom center;
+   background-repeat: no-repeat;
+}
+.SearchBoxSectionActive {
    .SearchBoxContainer {
       width: 100%;
       .label {
@@ -29,9 +31,10 @@
          width: 40px;
          height: 40px;
          z-index: 2;
-         background-color: #82B4E8;
+         background-color: $basecolor1;
          @include border-radius(100px);
          color: $white;
+         i {font-size: 20px;}
    
          &:hover {
             background-color: $basecolor1;

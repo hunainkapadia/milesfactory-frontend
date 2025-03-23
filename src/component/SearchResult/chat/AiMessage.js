@@ -109,12 +109,11 @@ const AiMessage = ({ aiMessage }) => {
       ) : aiMessage?.ai?.response === "passengerFlowActive" ? (
         //  Separate UI for BookFlight
         <>
-          <Card
-            className={`${searchResultStyles.AiMessage} white-bg`}
-            variant="outlined"
+          <Box
+            className={`${searchResultStyles.AiMessage}`}
           >
-            <Typography>You have selected the flight option below.</Typography>
-          </Card>
+            <Typography fontWeight={"bold"}>You have selected the flight option below.</Typography>
+          </Box>
           <Box mt={2}>
             <SearchCard offerData={getselectedFlight} />
           </Box>
@@ -129,9 +128,8 @@ const AiMessage = ({ aiMessage }) => {
         </>
       ) : (
         //  Default AI Response (Text)
-        <Card
-          className={`${searchResultStyles.AiMessage} white-bg`}
-          variant="outlined"
+        <Box
+          className={`${searchResultStyles.AiMessage}`}
         >
           <Typography
             dangerouslySetInnerHTML={{
@@ -147,7 +145,7 @@ const AiMessage = ({ aiMessage }) => {
                   : "No response available",
             }}
           />
-        </Card>
+        </Box>
       )}
     </Box>
   );
