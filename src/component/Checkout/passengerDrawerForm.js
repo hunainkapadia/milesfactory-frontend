@@ -72,7 +72,7 @@ const PassengerDrawerForm = () => {
         <Box>
           <Box
             className={styles.checkoutDrowerHeder}
-            py={2}
+            my={2}
             px={3}
             display="flex"
             justifyContent="space-between"

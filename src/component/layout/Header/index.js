@@ -28,10 +28,15 @@ import {
   setsignUpUser,
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
-import { setIsUser, setLoginCloseDrawer, setLoginOpenDrawer, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
+import {
+  setIsUser,
+  setLoginCloseDrawer,
+  setLoginOpenDrawer,
+  setLoginUser,
+} from "@/src/store/slices/Auth/LoginSlice";
 import { useRouter } from "next/router";
 
-const Header = ({isMessage, IsActive}) => {  
+const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [ispopup, setispopup] = useState(false);
   const dispatch = useDispatch();
@@ -49,17 +54,16 @@ const Header = ({isMessage, IsActive}) => {
   // const isMessage = sendMessages > 0 || getmessages > 0; //check message length
 
   // signup
-  const isuserLogin = useSelector((state)=> state?.login?.IsUser); // get user from cookie with redux
+  const isuserLogin = useSelector((state) => state?.login?.IsUser); // get user from cookie with redux
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
   console.log("isuserLogin", isuserLogin);
-  
-  
+
   // login set user in redux from cookies
   useEffect(() => {
     const cookieUserString = Cookies.get("set-user");
-  
+
     if (cookieUserString) {
-      const cookieUser = JSON.parse(cookieUserString);  
+      const cookieUser = JSON.parse(cookieUserString);
       dispatch(
         setIsSignupUser({
           user: {
@@ -71,7 +75,7 @@ const Header = ({isMessage, IsActive}) => {
           status: 200,
         })
       );
-      
+
       dispatch(
         setIsUser({
           user: {
@@ -85,12 +89,12 @@ const Header = ({isMessage, IsActive}) => {
       );
     }
   }, []); // Empty array = only runs once on component mount
-/////
+  /////
   // logout
   const logoutHandle = () => {
     dispatch(logoutUser());
   };
-  
+
   const currentUser = isuserLogin || isUserSignup; // Use single reference
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -99,8 +103,7 @@ const Header = ({isMessage, IsActive}) => {
   const HandleBookTrip = () => {
     setIsDrawerOpen(!isDrawerOpen);
     setispopup(true);
-
-  }
+  };
   const HandlePopup = () => {
     setispopup(true);
   };
@@ -130,9 +133,13 @@ const Header = ({isMessage, IsActive}) => {
       window.location.reload();
     }
   };
-
-    
-
+  const ChatClearHandle = () => {
+    Cookies.remove('sessionid'); // Clear the cookie
+    // Reload the page after 1 second
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
+  };
   return (
     <>
       <Head></Head>
@@ -272,22 +279,52 @@ const Header = ({isMessage, IsActive}) => {
                   {/*  */}
                 </Box>
               )}
-              <Box display={"flex"} alignItems={"center"}>
+              {isMessage ? (
+                <Box display="flex" alignItems="center" gap={3}>
+                  <Link href={""} onClick={ChatClearHandle}>
+                    <Box
+                      
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={48}
+                      width={48} // Optional: make it square for better centering
+                      className="imggroup"
+                    >
+                      <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                    </Box>
+                  </Link>
+
+                  <Link href={""} >
+                    <Box
+                      
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={48}
+                      width={48} // Optional
+                      className="imggroup"
+                    >
+                      <img
+                        src="/images/chat-history-icon.svg"
+                        alt="Chat History Icon"
+                      />
+                    </Box>
+                  </Link>
+                </Box>
+              ) : (
                 <Box
-                  sx={{ display: { xs: "none", md: "block" } }}
-                  className={"btn btn-primary btn-md"}
-                  display="flex"
+                  sx={{ display: { xs: "none", md: "flex" } }}
+                  className="btn btn-primary btn-md"
                   alignItems="center"
                   justifyContent="center"
                   gap={1}
-                  href="#"
-                  onClick={HandlePopup}
                   component="button"
+                  onClick={HandlePopup}
                 >
                   <Box>Book a trip</Box>
-                  {/*  */}
                 </Box>
-              </Box>
+              )}
             </Box>
             {/*  */}
           </Box>
