@@ -77,6 +77,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                 gap={2}
                 mb={index === 0 ? 2 : 0}
               >
+              
                 {/* Airline Logo */}
                 <Box sx={{ mr: { xs: 0, sm: 4, md: 4 } }}>
                   <Avatar
