@@ -163,13 +163,13 @@ const FromAndToDetail = ({ getdata, logo }) => {
         </Box>
       </Box>
       {/* Layover Details */}
-      <Box
-        px={3}
-        mt={3}
-        py={2}
-        className={styles.LayoverSection + " lightgray-bg "}
-      >
-        {getLayoverDetails(getdata).map((layover, index) => (
+      {getLayoverDetails(getdata).map((layover, index) => (
+        <Box
+          px={3}
+          mt={3}
+          py={2}
+          className={styles.LayoverSection + " lightgray-bg "}
+        >
           <Typography
             key={index}
             variant="p"
@@ -177,8 +177,8 @@ const FromAndToDetail = ({ getdata, logo }) => {
           >
             {layover}
           </Typography>
-        ))}
-      </Box>
+        </Box>
+      ))}
 
       {/* Toggle Flight Details */}
       <Box mt={2}>

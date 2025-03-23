@@ -41,7 +41,7 @@ const Chat = () => {
                 <Messages />
               </Grid>
               <Grid item md={4} lg={4}>
-                <YourTrip />
+                <YourTrip isMessage={isMessage} />
               </Grid>
             </Grid>
             {/* //////////////////////// Chat Messages end ////////////////////////*/}

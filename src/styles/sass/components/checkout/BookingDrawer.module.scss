@@ -1,7 +1,14 @@
 @import "../../variables";
 
 
-.passengersCard {border:1px solid #69707B;
+.passengersCard {
+   background: #FFFFFF;
+   border: 1px solid #E6EEEE;
+   border-radius: 16px;
+   box-shadow: none;
+   padding: 24px;
+   cursor: pointer;
+
    &.Active {
       border: solid $basecolor1 1px !important;
    }

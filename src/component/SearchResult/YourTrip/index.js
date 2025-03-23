@@ -1,7 +1,10 @@
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 
-const YourTrip = () => {
+const YourTrip = ({isMessage}) => {
+
+   console.log("isMessageisMessage", isMessage);
+   
   return (
     <>
       <Box

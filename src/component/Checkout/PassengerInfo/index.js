@@ -39,7 +39,7 @@ const PassengerInfo = ({ getdata }) => {
   return (
     <>
       <Box py={1}>
-        <Typography fontWeight={"bold"}>
+        <Typography fontWeight={"semibold"}>
           Now, let’s add the traveller details
         </Typography>
       </Box>
@@ -51,6 +51,7 @@ const PassengerInfo = ({ getdata }) => {
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => (
             <Grid item xs={12} sm={6} key={passenger.uuid}>
+            {console.log("index111", passenger)}
               <PassengersCard
                 totalPass={index + 1}
                 getdata={passenger}
@@ -69,12 +70,11 @@ const PassengerInfo = ({ getdata }) => {
 
         <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
           <Button
-            className="btn btn-primary btn-sm"
+            className="btn btn-primary btn-md btn-round"
             onClick={handlePassengerAdd}
           >
             <Box display="flex" alignItems="center" gap={1}>
-              <i className="fa fa-arrow-right"></i>
-              <span>Fill in passenger information</span>
+              <span>Fill in travellers details</span>
             </Box>
           </Button>
         </Box>

@@ -32,6 +32,8 @@ const SearchCard = ({ offerData, offerkey }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
+  console.log("isPassenger", offerData);
+  
 
   return (
     <>
@@ -96,7 +98,9 @@ const SearchCard = ({ offerData, offerkey }) => {
                   >
                     {/* Departure Time & Code */}
                     <Box className={searchResultStyles.Timings}>
-                      <Typography className={searchResultStyles.flightDay + "f12 gray"}>
+                      <Typography
+                        className={searchResultStyles.flightDay + "f12 gray"}
+                      >
                         {new Date(slice.departing_at).toLocaleDateString(
                           "en-GB",
                           {
@@ -111,7 +115,9 @@ const SearchCard = ({ offerData, offerkey }) => {
                           minute: "2-digit",
                         })}
                       </Typography>
-                      <Typography className={searchResultStyles.flightRoute + " f12"}>
+                      <Typography
+                        className={searchResultStyles.flightRoute + " f12"}
+                      >
                         {slice.origin.iata_code}
                       </Typography>
                     </Box>
@@ -133,7 +139,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                       <Box
                         className={searchResultStyles.SearchDivider}
                         width="100%"
-                        my={1}
+                        my={2}
                       ></Box>
 
                       <Typography
@@ -141,13 +147,26 @@ const SearchCard = ({ offerData, offerkey }) => {
                           searchResultStyles.flightDuration + " semibold"
                         }
                       >
-                        {slice.segments?.length > 1 ? "Stopover" : "Direct"}
+                        {console.log("slice1111", slice.segments)}
+
+                        {slice.segments?.length === 1 ? (
+                          "Direct"
+                        ) : (
+                          <>
+                            <span className="red">{slice.segments.length - 1} stop</span>
+                            {slice.segments.length - 1 > 1 ? "s" : ""} -{" "}
+                            {slice.segments
+                              .slice(0, -1) // get all segments *except* the last one
+                              .map((segment) => `${segment.destination.city_name}, (${segment.destination.iata_code})`)
+                              .join(", ")}
+                          </>
+                        )}
                       </Typography>
                     </Box>
 
                     {/* Arrival Time & Code */}
                     <Box
-                      textAlign="center"
+                      textAlign={"right"}
                       className={searchResultStyles.Timings}
                     >
                       <Typography className={searchResultStyles.flightTime}>
@@ -187,7 +206,7 @@ const SearchCard = ({ offerData, offerkey }) => {
               </h3>
               <Typography className="f12 gray">£ 340 per person</Typography>
             </Box>
-            {isPassenger ? (
+            {/* {isPassenger ? (
               <Box display={"flex"} pt={2}>
                 <Box
                   display="flex"
@@ -202,6 +221,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                 </Box>
               </Box>
             ) : (
+            )} */}
               <Box width={"100%"}>
                 <button
                   className={
@@ -213,7 +233,6 @@ const SearchCard = ({ offerData, offerkey }) => {
                   Select
                 </button>
               </Box>
-            )}
           </Grid>
         </Grid>
         {/* Extra Info bottom */}

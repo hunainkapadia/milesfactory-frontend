@@ -46,6 +46,8 @@ const AiMessage = ({ aiMessage }) => {
   // get user book selecteet flight detail for show in ai message 
   // collect passenger data from redux
   
+  console.log("aiMessage", aiMessage);
+  
   const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
 
 
@@ -112,7 +114,7 @@ const AiMessage = ({ aiMessage }) => {
           <Box
             className={`${searchResultStyles.AiMessage}`}
           >
-            <Typography fontWeight={"bold"}>You have selected the flight option below.</Typography>
+            <Typography fontWeight={"semibold"}>You have selected the flight option below.</Typography>
           </Box>
           <Box mt={2}>
             <SearchCard offerData={getselectedFlight} />
