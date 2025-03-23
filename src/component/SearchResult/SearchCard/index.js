@@ -153,11 +153,16 @@ const SearchCard = ({ offerData, offerkey }) => {
                           "Direct"
                         ) : (
                           <>
-                            <span className="red">{slice.segments.length - 1} stop</span>
+                            <span className="red">
+                              {slice.segments.length - 1} stop
+                            </span>
                             {slice.segments.length - 1 > 1 ? "s" : ""} -{" "}
                             {slice.segments
                               .slice(0, -1) // get all segments *except* the last one
-                              .map((segment) => `${segment.destination.city_name}, (${segment.destination.iata_code})`)
+                              .map(
+                                (segment) =>
+                                  `${segment.destination.city_name}, (${segment.destination.iata_code})`
+                              )
                               .join(", ")}
                           </>
                         )}
@@ -169,13 +174,27 @@ const SearchCard = ({ offerData, offerkey }) => {
                       textAlign={"right"}
                       className={searchResultStyles.Timings}
                     >
+                      <Typography
+                        className={searchResultStyles.flightDay + "f12 gray"}
+                      >
+                        {new Date(slice.arriving_at).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "short",
+                          }
+                        )}
+                      </Typography>
+
                       <Typography className={searchResultStyles.flightTime}>
                         {new Date(slice.arriving_at).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
                         })}
                       </Typography>
-                      <Typography className={searchResultStyles.flightRoute}>
+                      <Typography
+                        className={searchResultStyles.flightRoute + " f12"}
+                      >
                         {slice.destination.iata_code}
                       </Typography>
                     </Box>
@@ -222,17 +241,17 @@ const SearchCard = ({ offerData, offerkey }) => {
               </Box>
             ) : (
             )} */}
-              <Box width={"100%"}>
-                <button
-                  className={
-                    "w-100 btn btn-primary btn-round btn-md " +
-                    searchResultStyles.selectFlightBtn
-                  }
-                  onClick={HandleSelectDrawer}
-                >
-                  Select
-                </button>
-              </Box>
+            <Box width={"100%"}>
+              <button
+                className={
+                  "w-100 btn btn-primary btn-round btn-md " +
+                  searchResultStyles.selectFlightBtn
+                }
+                onClick={HandleSelectDrawer}
+              >
+                Select
+              </button>
+            </Box>
           </Grid>
         </Grid>
         {/* Extra Info bottom */}
