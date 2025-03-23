@@ -63,6 +63,7 @@
 }
 //  
 .flightOfferCard {
+    width: 86%;
     min-height: 128px;
     background: #FFFFFF;
     border: 1px solid #E6EEEE;
@@ -90,7 +91,7 @@
     }
    }
    .airlineLogo {
-     @include scale(64px, 64px);
+     @include scale(60px, 60px);
      @include border-radius(100px);
     background: $white;
     border: 1px solid $lightegray3;
@@ -174,6 +175,7 @@
    gap: 8px;
    display: flex;
    font-weight: 500;color: grey;
+   font-size: 11px;
     &.fastestOption {
       border: 1px solid #D3D3D3;
       border-radius: 8px; 
