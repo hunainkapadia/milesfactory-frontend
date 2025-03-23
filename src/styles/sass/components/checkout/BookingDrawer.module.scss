@@ -68,7 +68,11 @@
 
          .detailsSection {
             padding: 20px 24px 124px;
-
+            >div:last-child {
+               .fromAndToRowdivider {
+                  display: none;
+               }
+            }
             .rowExtraInfo {
                margin-top: 30px;
                display: flex;
@@ -76,6 +80,7 @@
                font-size: 0.85rem;
                color: gray;
             }
+            
 
             .fromAndToRow {
                position: relative;

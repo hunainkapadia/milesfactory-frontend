@@ -193,6 +193,7 @@ const FromAndToDetail = ({ getdata, logo }) => {
           </Box>
         </Link>
       </Box>
+      
 
       {/* Flight Details Expanded */}
       {isBaggage && (
@@ -252,7 +253,7 @@ const FromAndToDetail = ({ getdata, logo }) => {
           })()}
 
           {/* Carbon Emission Placeholder */}
-          <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
+          <Box display={"flex"} py={3} gap={2} alignItems={"center"}>
             <img src="/images/leave-icon.svg" />
             <Typography className={styles.normalOption}>
               <span>{"nodata"} kg CO₂e</span>
@@ -260,6 +261,9 @@ const FromAndToDetail = ({ getdata, logo }) => {
           </Box>
         </Box>
       )}
+      <Box className={styles.fromAndToRowdivider} pb={2}>
+          <Divider />
+      </Box>
     </Box>
   );
 };
