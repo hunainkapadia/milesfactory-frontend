@@ -621,113 +621,6 @@ p {
     @include flex-flow(column);
   }
 }
-
-.fi,
-.prd-icon {
-  text-align: center;
-  &[class*="prd-"] {
-    display: block;
-    width: 70px;
-    height: 70px;
-    line-height: 70px;
-    margin: 0 auto 8px;
-    &:before {
-      font-size: 36px;
-      line-height: 70px;
-    }
-    @include border-radius(100%);
-    img {
-      max-height: 34px;
-      vertical-align: middle;
-    }
-  }
-  &.prd-car:before,
-  &.prd-carloan:before {
-    font-size: 44px;
-  }
-}
-
-.prd-car,
-.prd-car .prd-title {
-  color: $prd-car !important;
-}
-
-.prd-health,
-.prd-health .prd-title {
-  color: $prd-health !important;
-}
-
-.prd-life,
-.prd-life .prd-title {
-  color: $prd-life !important;
-}
-
-.prd-termlife,
-.prd-termlife .prd-title {
-  color: $prd-termlife !important;
-}
-
-.prd-creditcard,
-.prd-creditcard .prd-title {
-  color: $prd-creditcard !important;
-}
-
-.prd-carloan,
-.prd-carloan .prd-title {
-  color: $prd-carloan !important;
-}
-
-.prd-personalloan,
-.prd-personalloan .prd-title {
-  color: $prd-personalloan !important;
-}
-
-.prd-mortgageloan,
-.prd-mortgageloan .prd-title {
-  color: $prd-mortgageloan !important;
-}
-
-.prd-bankaccount,
-.prd-bankaccount .prd-title {
-  color: $prd-bankaccount !important;
-}
-
-.fi.prd-car-bg {
-  background-color: rgba($prd-car, 0.1) !important;
-}
-
-.fi.prd-health-bg {
-  background-color: rgba($prd-health, 0.1) !important;
-}
-
-.fi.prd-life-bg {
-  background-color: rgba($prd-life, 0.1) !important;
-}
-
-.fi.prd-termlife-bg {
-  background-color: rgba($prd-termlife, 0.1) !important;
-}
-
-.fi.prd-creditcard-bg {
-  background-color: rgba($prd-creditcard, 0.1) !important;
-}
-
-.fi.prd-carloan-bg {
-  background-color: rgba($prd-carloan, 0.1) !important;
-}
-
-.fi.prd-personalloan-bg {
-  background-color: rgba($prd-personalloan, 0.1) !important;
-}
-
-.prd-icon.prd-mortgageloan-bg {
-  background-color: rgba($prd-mortgageloan, 0.1) !important;
-}
-
-.prd-icon.prd-bankaccount-bg {
-  background-color: rgba($prd-bankaccount, 0.1) !important;
-}
-
 // d) Text Alignment
 .align-left {
   &,
@@ -1416,6 +1309,19 @@ hr {
   }
 }
 
+.passengersCard {
+  background: #FFFFFF;
+  border: 1px solid #E6EEEE;
+  border-radius: 16px;
+  box-shadow: none;
+  padding: 24px;
+  cursor: pointer;
+
+  &.Active {
+     border: solid $basecolor1 1px !important;
+  }
+  &.Notactive {}
+}
 
 .header-nav li a,
 input,

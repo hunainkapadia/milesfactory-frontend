@@ -2,7 +2,6 @@ import Header from "@/src/component/layout/Header";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
-import HerosectionChat from "@/src/component/HerosectionChat";
 import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
 import { useRouter } from "next/router";
 import { Box, Grid } from "@mui/material";

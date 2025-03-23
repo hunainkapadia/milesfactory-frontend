@@ -19,13 +19,13 @@ import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
 import LoadingArea from "../LoadingArea";
 import BookingDrawer from "../Checkout/BookingDrawer/BookingDrawer";
-import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import LabelAnimation from "../home/LabelAnimation";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
+import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");

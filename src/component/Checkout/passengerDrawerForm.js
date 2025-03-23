@@ -22,6 +22,7 @@ import {
   PassengerFormSubmit,
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
+import AddPassengersStep from "./AddPassengersStep";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,10 @@ const PassengerDrawerForm = () => {
   const [passport_number, setpassport_number] = useState();
   const [passport_expire_date, setpassport_expire_date] = useState();
   const [nationality, setnationality] = useState();
-  
-  
+  const GetViewPassengers = useSelector(
+    (state) => state?.passengerDrawer?.ViewPassengers
+  );
+
   const params = {
     gender: gender,
     given_name: given_name,
@@ -43,7 +46,7 @@ const PassengerDrawerForm = () => {
     born_on: born_on,
     passport_number: passport_number,
     passport_expire_date: passport_expire_date,
-    nationality:  nationality?.id || "",
+    nationality: nationality?.id || "",
   };
   // Fetch nationality data when the component mounts
   useEffect(() => {
@@ -57,7 +60,7 @@ const PassengerDrawerForm = () => {
   };
 
   const SubmitPassenger = () => {
-    dispatch(closePassengerDrawer())
+    dispatch(closePassengerDrawer());
     dispatch(PassengerFormSubmit(params));
   };
 
@@ -80,6 +83,24 @@ const PassengerDrawerForm = () => {
           <Divider />
 
           <Box py={2} px={3}>
+            <h5>Select traveller data:</h5>
+            {GetViewPassengers ? (
+              <>
+                <AddPassengersStep getdata={GetViewPassengers} />
+              </>
+            ) : (
+              <LoadingArea />
+            )}
+            <Box
+              gap={2}
+              display={"flex"}
+              alignItems={"center"}
+              cursor={"pointer"}
+              className="cursor-pointer f14 bold basecolor1"
+              py={4}
+            >
+              <i className=" fa fa-plus"></i> Add new traveller data
+            </Box>
             <Box>
               <FormLabel>Gender as per passport</FormLabel>
               <RadioGroup
