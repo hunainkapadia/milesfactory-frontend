@@ -24,10 +24,9 @@ const PassengersCard = ({
       display={"flex"}
       justifyContent={"space-between"}
     >
-      <Grid
+      <Grid item
         xs={2}
-        p={0}
-        m={0}
+        
         display={"flex"}
         alignItems={"center"}
         className="imggroup"
@@ -50,11 +49,12 @@ const PassengersCard = ({
         display={"flex"}
         alignItems={"center"}
         justifyContent={"flex-end"}
-        
       >
         <h5 className="mb-0 basecolor1">
           {isFilled ? (
-            <Box gap={1} display={"flex"} alignItems={"center"}><i className="fas fa-check-circle basecolor1"></i> </Box>
+            <Box gap={1} display={"flex"} alignItems={"center"}>
+              <i className="fas fa-check-circle basecolor1"></i>{" "}
+            </Box>
           ) : (
             "Add"
           )}

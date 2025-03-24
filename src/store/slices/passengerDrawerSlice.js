@@ -146,8 +146,6 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       dispatch(setPassFormData(passdata));
     
       const passengerUUID = statesPassengerSubmitUrl?.passengerDrawer?.PassengerUUID;
-      console.log("passengerUUID", passengerUUID);
-    
       dispatch(markPassengerAsFilled(passengerUUID));
     
       // Automatically move to the next passenger
