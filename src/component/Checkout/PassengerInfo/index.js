@@ -32,7 +32,10 @@ const PassengerInfo = ({ getdata }) => {
   // get pasenger form data
   const getPassFormData = useSelector((state)=> state?.passengerDrawer?.PassFormData);
   
+  const filledPassengerUUIDs = useSelector((state) => state.passengerDrawer.filledPassengerUUIDs);
   
+
+
 
   
 
@@ -46,26 +49,26 @@ const PassengerInfo = ({ getdata }) => {
       <Box
         variant="outlined"
         className={searchResultStyles.PassengersSection}
-        sx={{ mt: 3, }}
+        sx={{ mt: 3 }}
       >
         <Grid container spacing={2}>
-          {getdata?.map((passenger, index) => (
-            <Grid item xs={12} sm={6} key={passenger.uuid}>
-            {console.log("index111", passenger)}
-              <PassengersCard
-                totalPass={index + 1}
-                getdata={passenger}
-                passName={
-                  selectedPassenger === passenger.uuid
-                    ? getPassFormData?.given_name
-                    : ""
-                }
-                isMainPassenger={index === 0} // Check if it's the first passenger
-                isActive={selectedPassenger === passenger.uuid} // Ensure only one is active
-                onToggle={handlePassengerToggle} // Handle selection
-              />
-            </Grid>
-          ))}
+          {getdata?.map((passenger, index) => {
+            const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+
+            return (
+              <Grid item xs={12} sm={6} key={passenger.uuid}>
+                <PassengersCard
+                  totalPass={index + 1}
+                  getdata={passenger}
+                  passName={isFilled ? passenger.given_name : ""}
+                  isMainPassenger={index === 0}
+                  isActive={selectedPassenger === passenger.uuid}
+                  onToggle={isFilled ? null : handlePassengerToggle}
+                  isFilled={isFilled} // Now a boolean
+                />
+              </Grid>
+            );
+          })}
         </Grid>
 
         <Box display={"flex"} justifyContent={"flex-end"} pt={2}>

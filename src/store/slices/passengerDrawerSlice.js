@@ -15,8 +15,14 @@ const passengerDrawerSlice = createSlice({
     PassengerSubmitURL: null,
     PassFormData: null,
     isLoading: false,
+    filledPassengerUUIDs: [],
   },
   reducers: {
+    markPassengerAsFilled: (state, action) => {
+      if (!state.filledPassengerUUIDs.includes(action.payload)) {
+        state.filledPassengerUUIDs.push(action.payload);
+      }
+    },
     openPassengerDrawer: (state) => {
       state.isOpen = true;
     },
@@ -97,7 +103,6 @@ export const PassengerForm = (params) => (dispatch, getState) => {
 
       if (OrderUUId) {
         const ViewPassengerUrl = `/api/v1/order/${OrderUUId}/passengers`;
-
         api.get(ViewPassengerUrl).then((response) => {
           dispatch(setViewPassengers(response?.data)); // passenger data in array get and set in redux
           // form submit url make
@@ -111,6 +116,13 @@ export const PassengerForm = (params) => (dispatch, getState) => {
             const AddPassengerUrl = `/api/v1/order/${OrderUUId}/passenger/${passengerUUID}`;
             dispatch(setPassengerSubmitURL(AddPassengerUrl));
           }
+        }).catch((error) => {
+          console.log("error111", error);
+          
+          
+        })
+        .finally(() => {
+          
         });
       } else {
         ("");
@@ -129,11 +141,27 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const PassengerSubmitUrl =
     statesPassengerSubmitUrl?.passengerDrawer?.PassengerSubmitURL;
 
-  api.post(PassengerSubmitUrl, params).then((response) => {
-    const passdata = response.data;
-    dispatch(setPassFormData(passdata));
-    closePassengerDrawer()
-  });
+    api.post(PassengerSubmitUrl, params).then((response) => {
+      const passdata = response.data;
+      dispatch(setPassFormData(passdata));
+    
+      const passengerUUID = statesPassengerSubmitUrl?.passengerDrawer?.PassengerUUID;
+      console.log("passengerUUID", passengerUUID);
+    
+      dispatch(markPassengerAsFilled(passengerUUID));
+    
+      // Automatically move to the next passenger
+      const allPassengers = statesPassengerSubmitUrl?.passengerDrawer?.ViewPassengers || [];
+      const filledUUIDs = statesPassengerSubmitUrl?.passengerDrawer?.filledPassengerUUIDs || [];
+      const nextPassenger = allPassengers.find(p => !filledUUIDs.includes(p.uuid));
+    
+      if (nextPassenger) {
+        dispatch(setPassengerUUID(nextPassenger.uuid));
+        dispatch(PassengerForm()); // Call API again for the next passenger
+      }
+    
+      closePassengerDrawer();
+    });
 };
 
 // Store user info in cookies
@@ -154,6 +182,7 @@ export const {
   setPassengerSubmitURL,
   setPassFormData,
   setisLoading,
+  markPassengerAsFilled,
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

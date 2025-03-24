@@ -445,14 +445,14 @@ p {
 .MuiDrawer-root {
   transition: transform 0.5s ease-in-out !important;
 }
-.MuiInputBase-input,
+
 .select-dropdown .MuiOutlinedInput-root {
   z-index: 1;
   background-color: $white;
   border: solid 1px $lightegray2;
-  height: 45px !important;
-  padding: 6px 22px !important;
-  border-radius: 4px;
+  height: 45px;
+  padding: 6px 16px;
+  @include border-radius(8px);
 }
 .SearchForm .MuiInputBase-formControl {
   padding: 0 !important;
@@ -477,6 +477,13 @@ p {
      max-width: 100%;
      max-height: 100%;
   }
+}
+.checkoutDrower .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: $lightegray2;
+}
+.checkoutDrower fieldset {
+  border-color: $lightegray2;
+  @include border-radius(8px);
 }
 .SearchBoxSection fieldset {
   @include border-radius(100px);

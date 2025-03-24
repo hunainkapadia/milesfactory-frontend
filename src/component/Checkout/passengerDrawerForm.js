@@ -66,7 +66,7 @@ const PassengerDrawerForm = () => {
 
   return (
     <Box
-      className={`${styles.checkoutDrower} white-bg ${styles.PassengerDrower}`}
+      className={`${styles.checkoutDrower + " checkoutDrower"} white-bg ${styles.PassengerDrower}`}
     >
       <Box className={styles.checkoutDrowerSection + " white-bg"}>
         <Box>
@@ -83,24 +83,6 @@ const PassengerDrawerForm = () => {
           <Divider />
 
           <Box py={2} px={3}>
-            <h5>Select traveller data:</h5>
-            {GetViewPassengers ? (
-              <>
-                <AddPassengersStep getdata={GetViewPassengers} />
-              </>
-            ) : (
-              <LoadingArea />
-            )}
-            <Box
-              gap={2}
-              display={"flex"}
-              alignItems={"center"}
-              cursor={"pointer"}
-              className="cursor-pointer f14 bold basecolor1"
-              py={4}
-            >
-              <i className=" fa fa-plus"></i> Add new traveller data
-            </Box>
             <Box>
               <FormLabel>Gender as per passport</FormLabel>
               <RadioGroup
@@ -119,6 +101,7 @@ const PassengerDrawerForm = () => {
             <Box>
               <FormLabel>First Name</FormLabel>
               <TextField
+              className="formControl"
                 fullWidth
                 placeholder="Enter First Name"
                 value={given_name}
@@ -129,6 +112,7 @@ const PassengerDrawerForm = () => {
             <Box>
               <FormLabel>Last Name</FormLabel>
               <TextField
+                className="formControl"
                 fullWidth
                 placeholder="Enter Last Name"
                 value={family_name}
@@ -139,7 +123,7 @@ const PassengerDrawerForm = () => {
             <Box width="100%">
               <FormLabel>Date of Birth</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
+                <DatePicker 
                   className="formControl"
                   value={born_on ? dayjs(born_on) : null} // Convert string to dayjs
                   onChange={(newValue) =>
@@ -219,20 +203,17 @@ const PassengerDrawerForm = () => {
                 className="basecolor1 f14"
                 style={{ cursor: "pointer" }}
                 onClick={handleCloseDrawer}
+                className={"gray"}
               >
-                <i className="fa fa-close fas"></i>
                 <span>Close</span>
               </Box>
               <Button
-                className="btn btn-green btn-sm"
+                className="btn btn-primary btn-md btn-round"
                 onClick={SubmitPassenger}
                 variant="contained"
                 color="success"
               >
-                <Box display="flex" alignItems="center" gap={1}>
-                  <i className="fa fa-arrow-right"></i>
-                  <span>Book flight</span>
-                </Box>
+                  Book flight
               </Button>
             </Box>
           </Box>
