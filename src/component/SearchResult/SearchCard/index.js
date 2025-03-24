@@ -50,7 +50,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                   {console.log("offerData111", offerData.slices)}
                   {offerData?.owner?.name}
                 </Typography>
-                <Typography className="f12 mb-0 bold gray ">
+                <Typography textTransform={"capitalize"} className="f12 mb-0 bold gray ">
                   {offerData?.flight_type}
                 </Typography>
               </Box>
@@ -100,7 +100,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                     {/* Departure Time & Code */}
                     <Box className={searchResultStyles.Timings}>
                       <Typography
-                        className={searchResultStyles.flightDay + "f12 gray"}
+                        className={searchResultStyles.flightDay + "  gray"}
                       >
                         {new Date(slice.departing_at).toLocaleDateString(
                           "en-GB",
@@ -176,7 +176,7 @@ const SearchCard = ({ offerData, offerkey }) => {
                       className={searchResultStyles.Timings}
                     >
                       <Typography
-                        className={searchResultStyles.flightDay + "f12 gray"}
+                        className={searchResultStyles.flightDay + "  gray"}
                       >
                         {new Date(slice.arriving_at).toLocaleDateString(
                           "en-GB",
@@ -224,7 +224,7 @@ const SearchCard = ({ offerData, offerkey }) => {
               >
                 € {Math.round(offerData?.total_amount)}
               </h3>
-              <Typography className="f12 gray">£ 340 per person</Typography>
+              <Typography className=" f12 gray">£ 340 per person</Typography>
             </Box>
             {/* {isPassenger ? (
               <Box display={"flex"} pt={2}>

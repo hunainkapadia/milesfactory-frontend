@@ -75,7 +75,12 @@
    .flightPriceSection {
     font-size: $bfsizeLabel;
     white-space: nowrap;
-  }   
+  }
+  .Timings {
+    .flightDay {
+      font-size: 12px;
+    }
+  }
  
    &:hover {
      transform: scale(1.02);
@@ -220,6 +225,7 @@
       gap: 2;
       flex-direction: column;
     }
+    
     .flightRoute, .flightTime {
       font-size: 12px;
     }

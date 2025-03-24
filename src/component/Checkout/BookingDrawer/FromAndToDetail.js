@@ -188,15 +188,27 @@ const FromAndToDetail = ({ getdata, logo }) => {
           onClick={bookingDetail}
         >
           <Box mt={4} mb={4} gap={2} alignItems={"center"} display={"flex"}>
-            <span>Flight details</span>
-            <i className="fa-caret-down fa fas"></i>
+            {!isBaggage ? (
+              <>
+                <span>Flight details</span>
+                <i className="basecolor1 fa-caret-down fa fas"></i>
+              </>
+            ) : (
+              <>
+                <span>Close flight details</span>
+                <i className="basecolor1 fa-caret-up fa fas"></i>
+              </>
+            )}
+            
           </Box>
         </Link>
       </Box>
-      
 
       {/* Flight Details Expanded */}
-      {isBaggage && (
+      <Box className={styles.fromAndToRowdivider} pb={2}>
+        <Divider />
+      </Box>
+      {isBaggage ? (
         <Box>
           <Box mb={2}>
             <Typography variant="h4" className="mb-0 h4">
@@ -260,10 +272,9 @@ const FromAndToDetail = ({ getdata, logo }) => {
             </Typography>
           </Box>
         </Box>
+      ) : (
+        ""
       )}
-      <Box className={styles.fromAndToRowdivider} pb={2}>
-          <Divider />
-      </Box>
     </Box>
   );
 };
