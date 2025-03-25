@@ -19,7 +19,9 @@ import {
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 
-const SearchCard = ({ offerData, offerkey }) => {
+const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
+  console.log("FlightExpire111", FlightExpire);
+  
   const dispatch = useDispatch();
 
   const HandleSelectDrawer = () => {
@@ -50,7 +52,10 @@ const SearchCard = ({ offerData, offerkey }) => {
                   {console.log("offerData111", offerData.slices)}
                   {offerData?.owner?.name}
                 </Typography>
-                <Typography textTransform={"capitalize"} className="f12 mb-0 bold gray ">
+                <Typography
+                  textTransform={"capitalize"}
+                  className="f12 mb-0 bold gray "
+                >
                   {offerData?.flight_type}
                 </Typography>
               </Box>
@@ -77,7 +82,6 @@ const SearchCard = ({ offerData, offerkey }) => {
                 gap={2}
                 mb={index === 0 ? 2 : 0}
               >
-              
                 {/* Airline Logo */}
                 <Box sx={{ mr: { xs: 0, sm: 4, md: 4 } }}>
                   <Avatar
@@ -216,16 +220,72 @@ const SearchCard = ({ offerData, offerkey }) => {
             flexDirection={"column"}
             justifyContent={"center"}
           >
-            <Box width={"100%"}>
-              <h3
-                className={
-                  searchResultStyles.flightPriceSection + " mb-0 black exbold"
-                }
-              >
-                € {Math.round(offerData?.total_amount)}
-              </h3>
-              <Typography className=" f12 gray">£ 340 per person</Typography>
-            </Box>
+            {FlightExpire ? (
+              <>
+                <Box
+                  className="aa"
+                  display={"flex"}
+                  height={"100%"}
+                  flexDirection={"column"}
+                  justifyContent={"space-between"}
+                  pt={3}
+                  pb={1}
+                >
+                  <Box width={"100%"}>
+                    <h3
+                      className={
+                        searchResultStyles.flightPriceSection +
+                        " mb-0 gray regular"
+                      }
+                    >
+                      Expired
+                    </h3>
+                    <Typography className=" f12 gray">
+                      rates and availabilities
+                    </Typography>
+                  </Box>
+                  <Box width={"100%"}>
+                    <button
+                      className={
+                        "w-100 btn btn-border btn-round btn-md " +
+                        searchResultStyles.selectFlightBtn
+                      }
+                      // onClick={HandleSelectDrawer}
+                    >
+                      <img src="/images/refresh-icon.svg" />
+                      <span>Refresh results</span>
+                    </button>
+                  </Box>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Box width={"100%"}>
+                  <h3
+                    className={
+                      searchResultStyles.flightPriceSection +
+                      " mb-0 black exbold"
+                    }
+                  >
+                    € {Math.round(offerData?.total_amount)}
+                  </h3>
+                  <Typography className=" f12 gray">
+                    £ 340 per person
+                  </Typography>
+                </Box>
+                <Box width={"100%"}>
+                  <button
+                    className={
+                      "w-100 btn btn-primary btn-round btn-md " +
+                      searchResultStyles.selectFlightBtn
+                    }
+                    onClick={HandleSelectDrawer}
+                  >
+                    Select
+                  </button>
+                </Box>
+              </>
+            )}
             {/* {isPassenger ? (
               <Box display={"flex"} pt={2}>
                 <Box
@@ -242,17 +302,6 @@ const SearchCard = ({ offerData, offerkey }) => {
               </Box>
             ) : (
             )} */}
-            <Box width={"100%"}>
-              <button
-                className={
-                  "w-100 btn btn-primary btn-round btn-md " +
-                  searchResultStyles.selectFlightBtn
-                }
-                onClick={HandleSelectDrawer}
-              >
-                Select
-              </button>
-            </Box>
           </Grid>
         </Grid>
         {/* Extra Info bottom */}

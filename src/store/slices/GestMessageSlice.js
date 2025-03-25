@@ -7,6 +7,7 @@ const initialState = {
   messages: [],
   isLoading: false,
   error: null,
+  flightExpire: "",
 };
 
 const GetMessagesSlice = createSlice({
@@ -30,6 +31,10 @@ const GetMessagesSlice = createSlice({
       
       state.error = action.payload;
     },
+    setFlightExpire: (state, action)=> {
+      state.flightExpire = action.payload;
+      
+    }
   },
 });
 
@@ -42,11 +47,8 @@ export const fetchMessages = () => (dispatch) => {
         dispatch(setError("Invalid response from server"));
         return;
       }
-
       response.data.forEach((item) => {
         
-        
-
         if (item?.is_function) {
           const topFlightSearchApi =
             item?.response?.results?.view_top_flight_result_api?.url;
@@ -54,39 +56,41 @@ export const fetchMessages = () => (dispatch) => {
             api
               .get(topFlightSearchApi)
               .then((offerResponse) => {
-                console.log("topFlightSearchApi", topFlightSearchApi);
-                
                 dispatch(
                   setMessage({
                     user: item.message,
-                    ai: offerResponse.data ,
+                    ai: offerResponse.data,
                     OfferId: topFlightSearchApi, // this is for passenger flow  offerID
                   })
                 );
               })
-              .catch(() => {
+              .catch((searcherror) => {
+                
                 dispatch(setError("Error fetching flight offer data"));
               });
-          }
-
-          const allFlightSearchApi = item?.response?.results?.view_all_flight_result_api?.url;
+            }
+            
+            const allFlightSearchApi =
+            item?.response?.results?.view_all_flight_result_api?.url;
+            
           if (allFlightSearchApi) {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                
                 dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
               })
-              .catch((error) => {
-                ""
+              .catch((flighterror) => {
+                dispatch(setFlightExpire(flighterror.response.data.error));
               });
           }
         } else {
-         dispatch(setMessage({ user: item.message, ai: { response: item?.response } }));
+          dispatch(
+            setMessage({ user: item.message, ai: { response: item?.response } })
+          );
         }
       });
     })
-    .catch(() => {
+    .catch((error) => {
       dispatch(setError("Error fetching messages"));
     })
     .finally(() => {
@@ -94,5 +98,5 @@ export const fetchMessages = () => (dispatch) => {
     });
 };
 
-export const { setMessage, setIsLoading, setError, setAllFlightGetApi } = GetMessagesSlice.actions;
+export const { setMessage, setIsLoading, setError, setAllFlightGetApi, setFlightExpire } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

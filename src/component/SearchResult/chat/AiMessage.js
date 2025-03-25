@@ -46,9 +46,11 @@ const AiMessage = ({ aiMessage }) => {
   // get user book selecteet flight detail for show in ai message 
   // collect passenger data from redux
   
-  console.log("aiMessage", aiMessage);
-  
   const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
+
+  // flight expire
+  const FlightExpire = useSelector((state)=> state.getMessages.flightExpire);
+  
 
 
   return (
@@ -66,6 +68,7 @@ const AiMessage = ({ aiMessage }) => {
             <SearchCard
               offerkey={`${offerindex}-${getoffers.id}`} // Corrected key prop
               offerData={getoffers}
+              FlightExpire={FlightExpire}
             />
           ))}
 
@@ -95,6 +98,7 @@ const AiMessage = ({ aiMessage }) => {
                 <SearchCard
                   offerData={getoffers}
                   offerkey={`${offerindex}-${getoffers.id}`} // key prop
+                  FlightExpire={FlightExpire}
                 />
               ))}
 

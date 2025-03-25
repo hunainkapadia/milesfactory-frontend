@@ -26,6 +26,7 @@ import LabelAnimation from "../home/LabelAnimation";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
 import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
+import Link from "next/link";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -81,6 +82,10 @@ const Messages = () => {
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
+  const FlightExpire = useSelector((state)=> state.getMessages.flightExpire);
+  
+
+  
 
   return (
     <>
@@ -102,19 +107,31 @@ const Messages = () => {
               <Box ref={messagesEndRef} />
               {/* booking flow start */}
 
-              {getFlightKey && (
-                <BookingDrawer getFlightDetail={flightDetail} />
+              {getFlightKey && <BookingDrawer getFlightDetail={flightDetail} />}
+              {isPassengerDrawerOpen ? <PassengerDrawerForm /> : ""}
+
+              {FlightExpire ? (
+                <>
+                  <Box py={2}>
+                    <Link href={""} className="text-decuration-none bold">
+                      Refresh this search
+                    </Link>
+                  </Box>
+                  <Typography>
+                    Your search has expired. Please enter a new search or
+                    refresh the old one.{" "}
+                  </Typography>
+                </>
+              ) : (
+                ""
               )}
-              {isPassengerDrawerOpen ? (
-                <PassengerDrawerForm />
-              ) : ""}
-              
             </Box>
           </Box>
         </section>
       ) : (
         ""
       )}
+
       {/* //////////////////////// Chat Messages end ////////////////////////*/}
     </>
   );

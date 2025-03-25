@@ -1146,14 +1146,23 @@ body {
       border-color: $basecolor2;
       color: $white;
     }
-    &.btn-border {
-      background: transparent;
-      color: $basecolor1;
-      border: solid 1px $basecolor1;
-      &:not(.no-hover):hover {
-        background: $basecolor1;
-        color: $white;
-      }
+  }
+  &.btn-border {
+    background: #FFFFFF;
+    border: 1px solid #E0EBEB;
+    color: $basecolor1-dark2;
+    font-weight: $bold;
+    padding: 10px 12px;
+    gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.btn-round {
+      border-radius: 100px;
+      box-shadow: none;
+    }
+    &.no-rounded {
+      border-radius: 8px !important;
     }
   }
   &.btn-basecolor1 {
