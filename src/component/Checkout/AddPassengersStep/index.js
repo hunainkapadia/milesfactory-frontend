@@ -4,7 +4,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import PassengersCard from "../PassengersCard";
-import { openPassengerDrawer, PassengerForm, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
+import {PassengerForm, setOpenPassengerDrawer, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
 
 const AddPassengersStep = ({ getdata }) => {
   console.log("getdata", getdata);
@@ -26,7 +26,7 @@ const AddPassengersStep = ({ getdata }) => {
     if (selectedPassenger) { // Ensure a passenger is selected
       dispatch(PassengerForm()) //must need to knw redux export const PassengerForm
       dispatch(setPassengerUUID(selectedPassenger));
-      dispatch(openPassengerDrawer());
+      dispatch(setOpenPassengerDrawer());
     } else {
     }
   };

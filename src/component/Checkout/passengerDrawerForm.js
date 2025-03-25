@@ -9,25 +9,24 @@ import {
   FormControlLabel,
   Radio,
   Autocomplete,
+  Typography,
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  closePassengerDrawer,
   bookFlight,
   NationalitData,
   PassengerForm,
   PassengerFormSubmit,
+  setClosePassengerDrawer,
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
 import AddPassengersStep from "./AddPassengersStep";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
-  const isOpen = useSelector((state) => state.passengerDrawer.isOpen);
-  const countries = useSelector((state) => state.passengerDrawer.countries);
   const [gender, setgender] = useState();
   const [given_name, setgiven_name] = useState();
   const [family_name, setfamily_name] = useState();
@@ -35,6 +34,10 @@ const PassengerDrawerForm = () => {
   const [passport_number, setpassport_number] = useState();
   const [passport_expire_date, setpassport_expire_date] = useState();
   const [nationality, setnationality] = useState();
+  
+  // getting error
+  
+  const countries = useSelector((state) => state.passengerDrawer.countries);
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -53,20 +56,23 @@ const PassengerDrawerForm = () => {
     dispatch(NationalitData());
   }, [dispatch]);
 
-  if (!isOpen) return null;
-
   const handleCloseDrawer = () => {
-    dispatch(closePassengerDrawer());
+    dispatch(setClosePassengerDrawer());
   };
 
   const SubmitPassenger = () => {
-    dispatch(closePassengerDrawer());
     dispatch(PassengerFormSubmit(params));
   };
+  const formError = useSelector(
+    (state) => state.passengerDrawer.PassengerFormError
+  );
+  console.log("formError222", formError);
 
   return (
     <Box
-      className={`${styles.checkoutDrower + " checkoutDrower"} white-bg ${styles.PassengerDrower}`}
+      className={`${styles.checkoutDrower + " checkoutDrower"} white-bg ${
+        styles.PassengerDrower
+      }`}
     >
       <Box className={styles.checkoutDrowerSection + " white-bg"}>
         <Box>
@@ -83,33 +89,48 @@ const PassengerDrawerForm = () => {
           <Divider />
 
           <Box py={2} px={3}>
-            <Box>
+            <Box className="formGroup">
               <FormLabel>Gender as per passport</FormLabel>
               <RadioGroup
                 row
                 value={gender}
                 onChange={(e) => setgender(e.target.value)}
               >
-                <FormControlLabel value="m" control={<Radio />} label="Male" />
+                <FormControlLabel
+                  value="m"
+                  control={<Radio className="customRadio" />}
+                  label="Male"
+                />
                 <FormControlLabel
                   value="f"
-                  control={<Radio />}
+                  control={<Radio className="customRadio" />}
                   label="Female"
                 />
               </RadioGroup>
+              {formError?.gender && (
+                <Typography className="error" color="red">
+                  {formError.gender}
+                </Typography>
+              )}
             </Box>
-            <Box>
+
+            <Box className="formGroup">
               <FormLabel>First Name</FormLabel>
               <TextField
-              className="formControl"
+                className="formControl"
                 fullWidth
                 placeholder="Enter First Name"
                 value={given_name}
                 onChange={(e) => setgiven_name(e.target.value)}
                 margin="normal"
               />
+              {formError?.given_name && (
+                <Typography className="error" color="red">
+                  {formError.given_name}
+                </Typography>
+              )}
             </Box>
-            <Box>
+            <Box className="formGroup">
               <FormLabel>Last Name</FormLabel>
               <TextField
                 className="formControl"
@@ -119,11 +140,16 @@ const PassengerDrawerForm = () => {
                 onChange={(e) => setfamily_name(e.target.value)}
                 margin="normal"
               />
+              {formError?.family_name && (
+                <Typography className="error" color="red">
+                  {formError.family_name}
+                </Typography>
+              )}
             </Box>
-            <Box width="100%">
+            <Box width="100%" className="formGroup">
               <FormLabel>Date of Birth</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker 
+                <DatePicker
                   className="formControl"
                   value={born_on ? dayjs(born_on) : null} // Convert string to dayjs
                   onChange={(newValue) =>
@@ -136,9 +162,13 @@ const PassengerDrawerForm = () => {
                   )}
                 />
               </LocalizationProvider>
+              {formError?.born_on && (
+                <Typography className="error" color="red">
+                  {formError.born_on}
+                </Typography>
+              )}
             </Box>
-
-            <Box>
+            <Box className="formGroup">
               <FormLabel>Passport Number</FormLabel>
               <TextField
                 className="formControl"
@@ -148,8 +178,13 @@ const PassengerDrawerForm = () => {
                 onChange={(e) => setpassport_number(e.target.value)}
                 margin="normal"
               />
+              {formError?.passport_number && (
+                <Typography className="error" color="red">
+                  {formError.passport_number}
+                </Typography>
+              )}
             </Box>
-            <Box width="100%">
+            <Box width="100%" className="formGroup">
               <FormLabel>Passport Expiry Date</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -172,8 +207,13 @@ const PassengerDrawerForm = () => {
                   )}
                 />
               </LocalizationProvider>
+              {formError?.passport_expire_date && (
+                <Typography className="error" color="red">
+                  {formError.passport_expire_date}
+                </Typography>
+              )}
             </Box>
-            <Box>
+            <Box className="formGroup">
               <FormLabel>Nationality</FormLabel>
               <Autocomplete
                 className="select-dropdown"
@@ -181,9 +221,14 @@ const PassengerDrawerForm = () => {
                 getOptionLabel={(option) => option.name}
                 value={nationality} // Ensure this is a valid object from `countries`
                 onChange={(event, newValue) => setnationality(newValue)} // Use newValue directly
-                renderInput={(params) => <TextField {...params} fullWidth />}
+                renderInput={(params) => <TextField {...params} fullWidth placeholder="Nationality" />}
               />
             </Box>
+            {formError?.nationality && (
+              <Typography className="error" color="red">
+                {formError.nationality}
+              </Typography>
+            )}
           </Box>
         </Box>
 
@@ -213,7 +258,7 @@ const PassengerDrawerForm = () => {
                 variant="contained"
                 color="success"
               >
-                  Book flight
+                Book flight
               </Button>
             </Box>
           </Box>

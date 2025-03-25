@@ -4,7 +4,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import PassengersCard from "../PassengersCard";
-import { openPassengerDrawer, PassengerForm, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
+import { PassengerForm, setOpenPassengerDrawer, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
 
 const PassengerInfo = ({ getdata }) => {
@@ -24,7 +24,7 @@ const PassengerInfo = ({ getdata }) => {
     if (selectedPassenger) { // Ensure a passenger is selected
       dispatch(PassengerForm()) //must need to knw redux export const PassengerForm
       dispatch(setPassengerUUID(selectedPassenger));
-      dispatch(openPassengerDrawer());
+      dispatch(setOpenPassengerDrawer());
     } else {
     }
   };
@@ -34,10 +34,10 @@ const PassengerInfo = ({ getdata }) => {
   
   const filledPassengerUUIDs = useSelector((state) => state.passengerDrawer.filledPassengerUUIDs);
   
-console.log("getPassFormData", getPassFormData);
-
-
-
+  
+  const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);  
+  
+  console.log("getselectedFlight", getselectedFlight);
   
 
   return (
@@ -85,21 +85,23 @@ console.log("getPassFormData", getPassFormData);
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
       {console.log("filledPassengerUUIDs", filledPassengerUUIDs.length)}
-{filledPassengerUUIDs.length > 0 && (
-  <Grid container spacing={2}>
-    <Grid item xs={12}>
-      <Box py={4}>
-        <Typography>You can now choose to add extra services</Typography>
-      </Box>
-    </Grid>
+      {filledPassengerUUIDs.length > 0 && (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box py={4}>
+              <Typography>You can now choose to add extra services</Typography>
+            </Box>
+          </Grid>
 
-    {getdata
-      ?.filter((passenger) => filledPassengerUUIDs.includes(passenger.uuid)) // 🔥 Filter only filled
-      .map((passenger, index) => (
-        <ExtraServices key={passenger.uuid} getServicesdata={passenger} />
-      ))}
-  </Grid>
-)}
+          {getdata
+            ?.filter((passenger) =>
+              filledPassengerUUIDs.includes(passenger.uuid)
+            ) // Filter only filled
+            .map((passenger, index) => (
+              <ExtraServices key={passenger.uuid} getServicesdata={passenger} selectedFlight={getselectedFlight} />
+            ))}
+        </Grid>
+      )}
 
       {/* {getPassFormData ? (
           <>

@@ -478,8 +478,21 @@ p {
      max-height: 100%;
   }
 }
+.checkoutDrower .select-dropdown .MuiOutlinedInput-root {
+  border: none;
+}
 .checkoutDrower .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
   border-color: $lightegray2;
+}
+.formControl .MuiInputBase-root {
+  height: 50px;
+}
+.customRadio.MuiRadio-root {
+  color: $gray; /* Default color (optional) */
+}
+
+.customRadio.Mui-checked {
+  color: $gray !important; /* Checked color */
 }
 .checkoutDrower fieldset {
   border-color: $lightegray2;
@@ -890,11 +903,13 @@ body {
       
     }
   }
-  
+  .formGroup {
+    margin-bottom: 12px;
+  }
     .formControl {
+      margin-bottom: 5px;
       width: 100%;
       margin-top: 4px;
-      margin-bottom: 12px;
     }
   // k) Headings / Paragraphs
   address,

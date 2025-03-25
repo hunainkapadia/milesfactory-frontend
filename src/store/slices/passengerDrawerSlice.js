@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
 import api from "../api";
+import { setCloseDrawer } from "./BookingflightSlice";
 
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
@@ -16,6 +17,9 @@ const passengerDrawerSlice = createSlice({
     PassFormData: null,
     isLoading: false,
     filledPassengerUUIDs: [],
+    ClosePassengerDrawer: false,
+    OpenPassengerDrawer: false,
+    PassengerFormError: null,
   },
   reducers: {
     markPassengerAsFilled: (state, action) => {
@@ -23,11 +27,11 @@ const passengerDrawerSlice = createSlice({
         state.filledPassengerUUIDs.push(action.payload);
       }
     },
-    openPassengerDrawer: (state) => {
-      state.isOpen = true;
+    setOpenPassengerDrawer: (state) => {
+      state.OpenPassengerDrawer = true;
     },
-    closePassengerDrawer: (state) => {
-      state.isOpen = false;
+    setClosePassengerDrawer: (state) => {
+      state.OpenPassengerDrawer = false
     },
     bookFlight: (state, action) => {
       state.passengerDetails = action.payload;
@@ -67,6 +71,9 @@ const passengerDrawerSlice = createSlice({
     },
     setisLoading: (state)=> {
       state.isLoading = true;
+    },
+    setPassengerFormError: (state, action) => {
+      state.PassengerFormError = action.payload;
     }
   },
 });
@@ -136,7 +143,31 @@ export const PassengerForm = (params) => (dispatch, getState) => {
       //   // dispatch(setLoading(false));
     });
 };
+export const validatePassengerForm = (params) => (dispatch) => {
+  let errors = {};
+
+  if (!params.gender) errors.gender = "Gender is required.";
+  if (!params.given_name) errors.given_name = "First Name is required.";
+  if (!params.family_name) errors.family_name = "Last Name is required.";
+  if (!params.born_on) errors.born_on = "Date of Birth is required.";
+  if (!params.passport_number) errors.passport_number = "Passport Number is required.";
+  if (!params.passport_expire_date) errors.passport_expire_date = "Passport Expiry Date is required.";
+  if (!params.nationality) errors.nationality = "Nationality is required.";
+
+  if (Object.keys(errors).length > 0) {
+    dispatch(setPassengerFormError(errors));
+    return false;
+  }
+
+  dispatch(setPassengerFormError(null)); // Clear previous errors
+  return true;
+};
+
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
+  const isValid = dispatch(validatePassengerForm(params));
+  if (!isValid) return; // Stop submission if validation fails
+  
+  dispatch(setisLoading(true))
   const statesPassengerSubmitUrl = getState();
   const PassengerSubmitUrl =
     statesPassengerSubmitUrl?.passengerDrawer?.PassengerSubmitURL;
@@ -156,10 +187,15 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       if (nextPassenger) {
         dispatch(setPassengerUUID(nextPassenger.uuid));
         dispatch(PassengerForm()); // Call API again for the next passenger
+        dispatch(setClosePassengerDrawer());
       }
     
-      closePassengerDrawer();
-    });
+    }).catch((passengerFormerror)=> {
+      const errors = passengerFormerror.response.data;
+      dispatch(setPassengerFormError(errors))
+    }).finally(()=>{
+      dispatch(setisLoading(false))
+    })
 };
 
 // Store user info in cookies
@@ -168,8 +204,8 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
 export const {
   setLoading,
   setError,
-  openPassengerDrawer,
-  closePassengerDrawer,
+  setOpenPassengerDrawer,
+  setClosePassengerDrawer,
   bookFlight,
   setCountries,
   setOfferId,
@@ -181,6 +217,7 @@ export const {
   setPassFormData,
   setisLoading,
   markPassengerAsFilled,
+  setPassengerFormError,
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

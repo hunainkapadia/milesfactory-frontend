@@ -71,9 +71,13 @@ const Messages = () => {
   const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
 
   // for passenger form
+  
   const isPassengerDrawerOpen = useSelector(
-    (state) => state.passengerDrawer.isOpen
+    (state) => state.passengerDrawer?.OpenPassengerDrawer
   );
+  console.log("isPassengerDrawerOpen", isPassengerDrawerOpen);
+  
+  
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
@@ -101,7 +105,9 @@ const Messages = () => {
               {getFlightKey && (
                 <BookingDrawer getFlightDetail={flightDetail} />
               )}
-              {isPassengerDrawerOpen && <PassengerDrawerForm />}
+              {isPassengerDrawerOpen ? (
+                <PassengerDrawerForm />
+              ) : ""}
               
             </Box>
           </Box>

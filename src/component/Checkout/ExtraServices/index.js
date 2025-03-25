@@ -2,8 +2,8 @@ import { Box, Card, Grid, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Link from "next/link";
 
-const ExtraServices = ({ getServicesdata, isFilled }) => {
-  console.log("getServicesdata", getServicesdata);
+const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
+  console.log("selectedFlight", selectedFlight.total_amount);
 
   return (
     <Grid item xs={6}>
@@ -13,7 +13,7 @@ const ExtraServices = ({ getServicesdata, isFilled }) => {
             {getServicesdata.given_name} {getServicesdata.family_name}
           </Typography>
           <Typography className="mb-10" mb={1} variant="h6">
-            + €141
+            + € {Math.round(selectedFlight.total_amount)}
           </Typography>
         </Box>
         <Box>
