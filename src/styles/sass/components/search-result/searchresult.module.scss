@@ -63,7 +63,7 @@
 }
 //  
 .flightOfferCard {
-    width: 86%;
+    width: 90%;
     min-height: 128px;
     background: #FFFFFF;
     border: 1px solid #E6EEEE;
@@ -108,7 +108,7 @@
      
    }
    .rowExtraInfo {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
      display: flex;
      justify-content: space-between;
      font-size: 0.85rem;
@@ -148,6 +148,8 @@
     font-weight: $semibold;
     font-size: 20px;
   }
+  .logoCol {display: block;}
+  .FlightTimingsCol {display: block;}
  }
  
  

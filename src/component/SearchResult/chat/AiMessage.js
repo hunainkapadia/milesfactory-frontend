@@ -40,6 +40,8 @@ const AiMessage = ({ aiMessage }) => {
   
   // for get api 
   const getAllFlightGetApi = useSelector((state)=> state?.getMessages?.allFlightSearchResults);
+  console.log("getAllFlightGetApi", getAllFlightPostApi);
+  
   
   // booking flow start
   const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);  
@@ -79,12 +81,12 @@ const AiMessage = ({ aiMessage }) => {
             style={{ cursor: "pointer" }}
           >
             <Link href={"#"} className="text-decoration-none">
-              <Box mt={2} mb={2} gap={2} alignItems={"center"} display={"flex"}>
+              <Box mt={2} mb={2} gap={2} alignItems={"center"} display={"flex"} className=" bold">
                 <i className="fa-caret-down fa fas"></i>{" "}
                 <span>
-                  See all flight options{" "}
-                  {getAllFlightGetApi?.count ? getAllFlightGetApi?.count : ""}
-                  {allFlightSearcCount?.count ? allFlightSearcCount?.count : ""}
+                Show all flight options 
+                  {`${getAllFlightGetApi?.count ? " (" + getAllFlightGetApi?.count + ")" : ""}`}
+                  {`${allFlightSearcCount?.count ? " (" + allFlightSearcCount?.count + ")" : ""}`}
                 </span>
               </Box>
             </Link>

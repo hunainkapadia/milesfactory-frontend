@@ -46,44 +46,45 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
           <Grid className={searchResultStyles.CardLeft} lg={9} md={9}>
             {/* footer */}
             {/*  */}
-            <Box className={searchResultStyles.rowExtraInfo}>
-              <Box>
-                <Typography className="f12 mb-0 bold black ">
-                  {console.log("offerData111", offerData.slices)}
-                  {offerData?.owner?.name}
-                </Typography>
-                <Typography
-                  textTransform={"capitalize"}
-                  className="f12 mb-0 bold gray "
-                >
-                  {offerData?.flight_type}
-                </Typography>
-              </Box>
-              <Box display={"flex"} gap={2}>
-                <Box display={"flex"} alignItems={"center"}>
-                  <img src={"/images/checkout/carryon-bagg.svg"} />
-                  <Typography className={searchResultStyles.normalOption}>
-                    <span> 2 pieces</span>
-                  </Typography>
-                </Box>
-                <Box display={"flex"} alignItems={"center"}>
-                  <img src="/images/leave-icon.svg" />
-                  <Typography className={searchResultStyles.normalOption}>
-                    <span> {offerData?.total_emissions_kg} kg CO₂e</span>
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
             {offerData?.slices.map((slice, index) => (
-              <Box
+              <>
+              <Box className={searchResultStyles.rowExtraInfo}>
+                <Box>
+                  <Typography className="f12 mb-0 bold black ">
+                    {console.log("offerData111", offerData.slices)}
+                    {offerData?.owner?.name}
+                  </Typography>
+                  <Typography
+                    textTransform={"capitalize"}
+                    className="f12 mb-0 bold gray "
+                  >
+                    {offerData?.flight_type}
+                  </Typography>
+                </Box>
+                <Box display={"flex"} gap={2}>
+                  <Box display={"flex"} alignItems={"center"}>
+                    <img src={"/images/checkout/carryon-bagg.svg"} />
+                    <Typography className={searchResultStyles.normalOption}>
+                      <span> 2 pieces</span>
+                    </Typography>
+                  </Box>
+                  <Box display={"flex"} alignItems={"center"}>
+                    <img src="/images/leave-icon.svg" />
+                    <Typography className={searchResultStyles.normalOption}>
+                      <span> {offerData?.total_emissions_kg} kg CO₂e</span>
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+              <Box className={searchResultStyles.fromAndToRow}
                 key={index}
                 display="flex"
                 alignItems="center"
                 gap={2}
-                mb={index === 0 ? 2 : 0}
+                mb={index === 0 ? 3 : 0}
               >
                 {/* Airline Logo */}
-                <Box sx={{ mr: { xs: 0, sm: 4, md: 4 } }}>
+                <Box className={searchResultStyles.logoCol} sx={{ mr: { xs: 0, sm: 1, md: 1 } }}>
                   <Avatar
                     src={offerData?.owner?.logo_symbol_url}
                     alt={offerData?.owner?.name}
@@ -92,7 +93,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                 </Box>
 
                 {/* Flight Details */}
-                <section
+                <Box
                   className={`${searchResultStyles.FlightTimingsCol} w-100`}
                 >
                   <Box
@@ -204,8 +205,9 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       </Typography>
                     </Box>
                   </Box>
-                </section>
+                </Box>
               </Box>
+              </>
             ))}
             {/*  */}
           </Grid>
@@ -228,7 +230,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                   height={"100%"}
                   flexDirection={"column"}
                   justifyContent={"space-between"}
-                  pt={3}
+                  pt={0}
                   pb={1}
                 >
                   <Box width={"100%"}>
@@ -247,7 +249,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                   <Box width={"100%"}>
                     <button
                       className={
-                        "w-100 btn btn-border btn-round btn-md " +
+                        "w-100 btn btn-border btn-round btn-md f12 " +
                         searchResultStyles.selectFlightBtn
                       }
                       // onClick={HandleSelectDrawer}
