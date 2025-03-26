@@ -382,9 +382,10 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
             </Box>
 
             <Box display={"flex"} alignItems={"center"} mb={2}>
+            {console.log("offerData000", offerData?.total_amount)}
               <Box>
-                <h3 className="bold mb-0">£1,450</h3>
-                <Typography className="gray">£725 per person</Typography>
+                <h3 className="bold mb-0">£ {Math.round(offerData?.total_amount)}</h3>
+                <Typography className="gray">£ {Math.round(offerData?.per_passenger_amount)} per person</Typography>
               </Box>
             </Box>
           </Box>
