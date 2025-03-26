@@ -33,11 +33,25 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  console.log("isPassenger", offerData);
+  console.log("offerDatatest", offerData);
 
   return (
     <>
       {/* Open drawer only for the selected flight */}
+
+      <Box mb={1}>
+        <h4 className="mb-0">
+          {" "}
+          {offerData.slices[0].origin.city_name} to{" "}
+          {offerData.slices[0].destination.city_name}
+        </h4>
+      </Box>
+      <Box className=" gray" mb={5}>
+        <Typography className="mb-0 f12">
+          {offerData.slices.length > 1 ? "Return" : "One-way"},{" "}
+          {offerData.passengers.length} Travellers
+        </Typography>
+      </Box>
 
       <Box className={`${YourtripStyles.flightOfferCard}`}>
         <Grid container>
@@ -74,20 +88,39 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                     </Box>
                   </Box>
                 </Box> */}
+                {index === 0 ? (
+                  <Box display={"flex"}>
+                    <Typography
+                      className={
+                        YourtripStyles.onewayReturn + " btn btn-xs btn-black "
+                      }
+                    >
+                      Outbound
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Box display={"flex"}>
+                    <Typography
+                      className={
+                        YourtripStyles.onewayReturn + " btn btn-xs btn-black"
+                      }
+                    >
+                      Return
+                    </Typography>
+                  </Box>
+                )}
                 <Box
                   className={YourtripStyles.fromAndToRow}
                   key={index}
                   display="flex"
                   alignItems="center"
                   gap={2}
-                  mb={index === 0 ? 3 : 0}
+                  my={3}
                 >
                   {/* Airline Logo */}
-                  
+
                   {/* Flight Details */}
-                  <Box
-                    className={`${YourtripStyles.FlightTimingsCol} w-100`}
-                  >
+                  <Box className={`${YourtripStyles.FlightTimingsCol} w-100`}>
                     <Box
                       display="flex"
                       alignItems="center"
@@ -112,6 +145,11 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                             hour: "2-digit",
                             minute: "2-digit",
                           })}
+                        </Typography>
+                        <Typography
+                          className={YourtripStyles.flightRoute + " f12"}
+                        >
+                          {slice.origin.iata_code}
                         </Typography>
                         <Typography
                           className={YourtripStyles.flightRoute + " f12"}

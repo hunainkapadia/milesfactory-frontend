@@ -25,15 +25,7 @@ const YourTripSidebar = ({isMessage}) => {
           </Box>
           <Box px={3} pt={2} pb={5}>
             <YourTripSedebarCard offerData={getselectedFlight} />
-            {/* <Box mb={1}>
-              <h4 className="mb-0">London to Bangkok</h4>
-            </Box>
-            <Box className=" gray" mb={5}>
-              <Typography className="mb-0 f12">
-                  Return, 2 Travellers
-              </Typography> 
-            </Box> */}
-
+            
             <Box className=" Loading"
               sx={{
                 display: "flex",
