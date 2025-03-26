@@ -15,26 +15,20 @@ const GetMessagesSlice = createSlice({
   initialState,
   reducers: {
     setMessage: (state, action) => {
-      
       state.messages.push(action.payload);
     },
     setAllFlightGetApi: (state, action) => {
-      
-
       state.allFlightSearchResults = action.payload;
     },
     setIsLoading: (state, action) => {
-      
       state.isLoading = action.payload;
     },
     setError: (state, action) => {
-      
       state.error = action.payload;
     },
-    setFlightExpire: (state, action)=> {
+    setFlightExpire: (state, action) => {
       state.flightExpire = action.payload;
-      
-    }
+    },
   },
 });
 
@@ -47,11 +41,10 @@ export const fetchMessages = () => (dispatch) => {
         dispatch(setError("Invalid response from server"));
         return;
       }
-      response.data.forEach((item) => {
-        
+      response?.data.forEach((item) => {
         if (item?.is_function) {
           const topFlightSearchApi =
-            item?.response?.results?.view_top_flight_result_api?.url;
+          item?.response?.results?.view_top_flight_result_api?.url;
           if (topFlightSearchApi) {
             api
               .get(topFlightSearchApi)
@@ -65,14 +58,13 @@ export const fetchMessages = () => (dispatch) => {
                 );
               })
               .catch((searcherror) => {
-                
                 dispatch(setError("Error fetching flight offer data"));
               });
-            }
-            
-            const allFlightSearchApi =
+          }
+
+          const allFlightSearchApi =
             item?.response?.results?.view_all_flight_result_api?.url;
-            
+
           if (allFlightSearchApi) {
             api
               .get(allFlightSearchApi)
@@ -83,6 +75,7 @@ export const fetchMessages = () => (dispatch) => {
                 dispatch(setFlightExpire(flighterror.response.data.error));
               });
           }
+          console.log("item222");
         } else {
           dispatch(
             setMessage({ user: item.message, ai: { response: item?.response } })
@@ -98,5 +91,11 @@ export const fetchMessages = () => (dispatch) => {
     });
 };
 
-export const { setMessage, setIsLoading, setError, setAllFlightGetApi, setFlightExpire } = GetMessagesSlice.actions;
+export const {
+  setMessage,
+  setIsLoading,
+  setError,
+  setAllFlightGetApi,
+  setFlightExpire,
+} = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

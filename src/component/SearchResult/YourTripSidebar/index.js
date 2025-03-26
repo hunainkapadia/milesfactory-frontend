@@ -1,34 +1,38 @@
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
-import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
+import { useSelector } from "react-redux";
+import YourTripSedebarCard from "../YourTripSedebarCard";
+import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 
-const YourTrip = ({isMessage}) => {
+const YourTripSidebar = ({isMessage}) => {
 
-   console.log("isMessageisMessage", isMessage);
-   
+   const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);  
+   console.log("getselectedFlight", getselectedFlight);
+  
   return (
     <>
       <Box
-        className={styles.YourTripSidebar}
+        className={YourtripStyles.YourTripSidebar}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}
       >
         <Box
-          className={styles.YourTripCard}
+          className={YourtripStyles.YourTripCard}
           p={0}
         >
-          <Box className={styles.CardHeader} px={3} py={3}>
+          <Box className={YourtripStyles.CardHeader} px={3} py={3}>
             <h5 className="mb-0 regular">Your trip</h5>
           </Box>
           <Box px={3} pt={2} pb={5}>
-            <Box mb={1}>
+            <YourTripSedebarCard offerData={getselectedFlight} />
+            {/* <Box mb={1}>
               <h4 className="mb-0">London to Bangkok</h4>
             </Box>
             <Box className=" gray" mb={5}>
               <Typography className="mb-0 f12">
                   Return, 2 Travellers
               </Typography> 
-            </Box>
+            </Box> */}
 
             <Box className=" Loading"
               sx={{
@@ -49,4 +53,4 @@ const YourTrip = ({isMessage}) => {
   );
 };
 
-export default YourTrip;
+export default YourTripSidebar;

@@ -8,7 +8,7 @@ import { Box, Grid } from "@mui/material";
 import Messages from "@/src/component/Messages";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
-import YourTrip from "@/src/component/SearchResult/YourTrip";
+import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
 
 
 const Chat = () => {
@@ -40,7 +40,7 @@ const Chat = () => {
                 <Messages />
               </Grid>
               <Grid item md={4} lg={4}>
-                <YourTrip isMessage={isMessage} />
+                <YourTripSidebar isMessage={isMessage} />
               </Grid>
             </Grid>
             {/* //////////////////////// Chat Messages end ////////////////////////*/}

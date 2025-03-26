@@ -9,6 +9,8 @@ import ExtraServices from "../ExtraServices";
 
 const PassengerInfo = ({ getdata }) => {
 
+  console.log("getdata", getdata);
+  
   const dispatch = useDispatch();
   const passengerDetails = useSelector(
     (state) => state.passengerDrawer.passengerDetails

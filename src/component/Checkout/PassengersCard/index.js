@@ -10,7 +10,6 @@ const PassengersCard = ({
   onToggle,
   isFilled,
 }) => {
-  console.log("isFilled111", isFilled);
 
   return (
     <Grid

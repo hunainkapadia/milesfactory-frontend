@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Card, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import SearchCard from "../SearchCard";
@@ -50,6 +50,17 @@ const AiMessage = ({ aiMessage }) => {
   
   const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
 
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    if (GetViewPassengers) {
+      // Scroll to bottom with a slight delay to ensure rendering is complete
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [GetViewPassengers]); // Runs when GetViewPassengers changes
+  
   // flight expire
   const FlightExpire = useSelector((state)=> state.getMessages.flightExpire);
   
@@ -126,6 +137,7 @@ const AiMessage = ({ aiMessage }) => {
             <SearchCard offerData={getselectedFlight} />
           </Box>
           {/* selected flight end */}
+          {console.log("GetViewPassengers", GetViewPassengers)}
           {GetViewPassengers ? (
             <PassengerInfo
               getdata={GetViewPassengers}
@@ -155,6 +167,9 @@ const AiMessage = ({ aiMessage }) => {
           />
         </Box>
       )}
+      <div ref={messagesEndRef} />
+      {/* for scroll */}
+
     </Box>
   );
 };
