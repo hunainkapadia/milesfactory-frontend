@@ -12,6 +12,7 @@ import {
 } from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
+import { currencySymbols } from "@/src/utils/utils";
 
 const BookingDrawerFooter = ({ getFlightDetails }) => {
   const dispatch = useDispatch();
@@ -82,12 +83,12 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
                 variant="h3"
                 className={styles.price + " h3 mb-0 basecolor-dark"}
               >
-                <span>€ {Math.round(getFlightDetails?.total_amount)}</span>
+                <span>{currencySymbols[getFlightDetails?.tax_currency] || getFlightDetails?.tax_currency} {Math.round(getFlightDetails?.total_amount)}</span>
               </Typography>
             </Box>
             <Box className={styles.totalPersonPrice}>
               <Typography variant="p" className="basecolor-dark f14">
-              Total per person: € {Math.round(getFlightDetails?.per_passenger_amount)}
+              Total per person: {currencySymbols[getFlightDetails?.tax_currency] || getFlightDetails?.tax_currency} {Math.round(getFlightDetails?.per_passenger_amount)}
               </Typography>
             </Box>
           </Box>

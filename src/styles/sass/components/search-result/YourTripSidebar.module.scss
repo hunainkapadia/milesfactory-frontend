@@ -16,9 +16,6 @@
    }
  }
 
-  &:hover {
-    transform: scale(1.02);
-  }
   .CardLeft {
    
   }
@@ -30,7 +27,6 @@
    }
   }
   .airlineLogo {
-    @include scale(60px, 60px);
     @include border-radius(100px);
    background: $white;
    border: 1px solid $lightegray3;

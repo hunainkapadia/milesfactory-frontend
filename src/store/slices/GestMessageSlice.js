@@ -37,12 +37,17 @@ export const fetchMessages = () => (dispatch) => {
   api
     .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
     .then((response) => {
+      
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
       }
       response?.data.forEach((item) => {
         if (item?.is_function) {
+          console.log("get message", item?.response);
+          dispatch(
+            setMessage({ user: item.message, ai: { response: item?.response } })
+          );
           const topFlightSearchApi =
           item?.response?.results?.view_top_flight_result_api?.url;
           if (topFlightSearchApi) {
@@ -77,6 +82,7 @@ export const fetchMessages = () => (dispatch) => {
           }
           console.log("item222");
         } else {
+          
           dispatch(
             setMessage({ user: item.message, ai: { response: item?.response } })
           );

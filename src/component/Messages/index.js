@@ -36,11 +36,11 @@ const Messages = () => {
 
   const dispatch = useDispatch();
 
-  //  Fetch messages from Redux store
-  const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const isLoading = useSelector(
     (state) => state.sendMessage?.isLoading || false
   );
+  //  Fetch messages from Redux store
+  const sendMessages = useSelector((state) => state.sendMessage?.messages);
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
@@ -76,7 +76,7 @@ const Messages = () => {
   const isPassengerDrawerOpen = useSelector(
     (state) => state.passengerDrawer?.OpenPassengerDrawer
   );
-  console.log("isPassengerDrawerOpen", isPassengerDrawerOpen);
+  
   
   
   const BookFlightAiresponse = useSelector(
@@ -95,6 +95,7 @@ const Messages = () => {
             <Box className={searchResultStyles.messageContentIn}>
               {messages.map((msg, index) => (
                 <Box key={index}>
+                  
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />

@@ -11,18 +11,22 @@ import {
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  closeDrawer,
-  fetchflightDetail,
-  setflightDetail,
-  setOpenDrawer,
-  setSelectFlightKey,
+   closeDrawer,
+   fetchflightDetail,
+   setflightDetail,
+   setOpenDrawer,
+   setSelectFlightKey,
 } from "@/src/store/slices/BookingflightSlice";
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
+import { currencySymbols } from "@/src/utils/utils";
 
 const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
-  const dispatch = useDispatch();
+   useEffect(() => {
+      console.log("currencySymbols inside useEffect:", currencySymbols);
+    }, []);
+   const dispatch = useDispatch();
 
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
@@ -34,14 +38,14 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  console.log("offerDatatest", offerData);
-
+  
   return (
-    <>
+     <>
       {/* Open drawer only for the selected flight */}
       {offerData ? (
         <>
           <Box>
+          
             <h4 className="mb-0">
               {" "}
               {offerData?.slices[0]?.origin.city_name} to{" "}
@@ -94,8 +98,7 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                       <Box display={"flex"}>
                         <Typography
                           className={
-                            TripStyles.onewayReturn +
-                            " btn btn-xs btn-black "
+                            TripStyles.onewayReturn + " btn btn-xs btn-black "
                           }
                         >
                           Outbound
@@ -105,8 +108,7 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                       <Box display={"flex"}>
                         <Typography
                           className={
-                            TripStyles.onewayReturn +
-                            " btn btn-xs btn-black"
+                            TripStyles.onewayReturn + " btn btn-xs btn-black"
                           }
                         >
                           Return
@@ -124,9 +126,7 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                       {/* Airline Logo */}
 
                       {/* Flight Details */}
-                      <Box
-                        className={`${TripStyles.FlightTimingsCol} w-100`}
-                      >
+                      <Box className={`${TripStyles.FlightTimingsCol} w-100`}>
                         <Box
                           display="flex"
                           alignItems="center"
@@ -232,7 +232,7 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                             >
                               {slice.destination.iata_code}
                             </Typography>
-                              <Typography
+                            <Typography
                               className={TripStyles.flightRoute + " f12"}
                             >
                               {slice.destination.city_name}
@@ -329,7 +329,7 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
           <Box py={2}>
             <Divider />
           </Box>
-          <Box display={"flex"} flexDirection={"column"} gap={2}>
+          <Box display={"none"} flexDirection={"column"} gap={2}>
             <Box
               display={"flex"}
               justifyContent={"space-between"}
@@ -377,15 +377,18 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                 <i className="fa f20 fa-angle-right basecolor1"></i>
               </Box>
             </Box>
-            <Box>
-              <Divider />
-            </Box>
-
+          </Box>
+          <Box>
+            
             <Box display={"flex"} alignItems={"center"} mb={2}>
-            {console.log("offerData000", offerData?.total_amount)}
               <Box>
-                <h3 className="bold mb-0">£ {Math.round(offerData?.total_amount)}</h3>
-                <Typography className="gray">£ {Math.round(offerData?.per_passenger_amount)} per person</Typography>
+                <h3 className="bold mb-0">
+                
+                {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} {Math.round(offerData?.total_amount)}
+                </h3>
+                <Typography className="gray">
+                {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} {Math.round(offerData?.per_passenger_amount)} per person
+                </Typography>
               </Box>
             </Box>
           </Box>

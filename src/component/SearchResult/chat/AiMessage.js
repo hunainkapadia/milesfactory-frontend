@@ -92,12 +92,27 @@ const AiMessage = ({ aiMessage }) => {
             style={{ cursor: "pointer" }}
           >
             <Link href={"#"} className="text-decoration-none">
-              <Box mt={2} mb={2} gap={2} alignItems={"center"} display={"flex"} className=" bold">
+              <Box
+                mt={2}
+                mb={2}
+                gap={2}
+                alignItems={"center"}
+                display={"flex"}
+                className=" bold"
+              >
                 <i className="fa-caret-down fa fas"></i>{" "}
                 <span>
-                Show all flight options 
-                  {`${getAllFlightGetApi?.count ? " (" + getAllFlightGetApi?.count + ")" : ""}`}
-                  {`${allFlightSearcCount?.count ? " (" + allFlightSearcCount?.count + ")" : ""}`}
+                  Show all flight options
+                  {`${
+                    getAllFlightGetApi?.count
+                      ? " (" + getAllFlightGetApi?.count + ")"
+                      : ""
+                  }`}
+                  {`${
+                    allFlightSearcCount?.count
+                      ? " (" + allFlightSearcCount?.count + ")"
+                      : ""
+                  }`}
                 </span>
               </Box>
             </Link>
@@ -128,29 +143,26 @@ const AiMessage = ({ aiMessage }) => {
       ) : aiMessage?.ai?.response === "passengerFlowActive" ? (
         //  Separate UI for BookFlight
         <>
-          <Box
-            className={`${searchResultStyles.AiMessage}`}
-          >
-            <Typography fontWeight={"semibold"}>You have selected the flight option below.</Typography>
+          <Box className={`${searchResultStyles.AiMessage}`}>
+            <Typography fontWeight={"semibold"}>
+              You have selected the flight option below.
+            </Typography>
           </Box>
           <Box mt={2}>
             <SearchCard offerData={getselectedFlight} />
           </Box>
           {/* selected flight end */}
-          {console.log("GetViewPassengers", GetViewPassengers)}
           {GetViewPassengers ? (
-            <PassengerInfo
-              getdata={GetViewPassengers}
-            />
+            <PassengerInfo getdata={GetViewPassengers} />
           ) : (
-            <LoadingArea/>
+            <LoadingArea />
           )}
         </>
       ) : (
         //  Default AI Response (Text)
-        <Box
-          className={`${searchResultStyles.AiMessage}`}
-        >
+        <Box className={`${searchResultStyles.AiMessage}`}>
+                
+        {console.log("messages111", aiMessage?.ai?.response?.message)}
           <Typography
             dangerouslySetInnerHTML={{
               __html:
@@ -158,7 +170,7 @@ const AiMessage = ({ aiMessage }) => {
                   ? aiMessage.ai.response.replace(/\n/g, "<br>")
                   : aiMessage?.ai?.response
                   ? `<pre>${JSON.stringify(
-                      aiMessage.ai.response,
+                      aiMessage?.ai?.response?.message,
                       null,
                       2
                     )}</pre>`
@@ -169,7 +181,6 @@ const AiMessage = ({ aiMessage }) => {
       )}
       <div ref={messagesEndRef} />
       {/* for scroll */}
-
     </Box>
   );
 };

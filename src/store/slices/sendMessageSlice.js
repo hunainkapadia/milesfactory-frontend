@@ -33,6 +33,8 @@ export const sendMessage = (userMessage) => (dispatch) => {
     .post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
     .then((res) => {
       const response = res.data;
+      console.log("chat error", res)
+
       
       if (response?.is_function) {
         const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
@@ -51,7 +53,7 @@ export const sendMessage = (userMessage) => (dispatch) => {
               );
             })
             .catch((error) => {
-              ""
+              console.log("chat error", error)
             });
         }
         // for get all flight

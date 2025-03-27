@@ -18,6 +18,7 @@ import {
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
+import { currencySymbols } from "@/src/utils/utils";
 
 const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
 
@@ -271,10 +272,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       " mb-0 black exbold"
                     }
                   >
-                    € {Math.round(offerData?.total_amount)}
+                    {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} {Math.round(offerData?.total_amount)}
                   </h3>
                   <Typography className=" f12 gray">
-                    £ 340 per person
+                  {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} 340 per person
                   </Typography>
                 </Box>
                 <Box width={"100%"}>
