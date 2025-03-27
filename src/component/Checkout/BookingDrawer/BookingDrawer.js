@@ -25,59 +25,35 @@ const BookingDrawer = ({ getFlightDetail }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Grid xs={4}>
-              <Box display={"flex"} alignItems={"center"} gap={1}>
-                <Typography variant="h3" className={styles.title + " mb-0 h5"}>
-                  {getFlightDetail?.slices?.length > 1
-                    ? "Roundtrip "
-                    : "One way "}
-                  {"  "}
+            <Grid xs={12}>
+              <Box>
+                <h4 className={styles.title + " mb-0 regular"}>
+                  {getFlightDetail?.slices[0]?.origin.city_name} to{" "}
+                  {getFlightDetail?.slices[0]?.destination.city_name}
+                </h4>
+                <Typography className="semibold">
+                  {getFlightDetail?.slices
+                    .slice(0, 2)
+                    .map((slice) =>
+                      new Date(slice.departing_at).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })
+                    )
+                    .join(" - ")}
                 </Typography>
-              </Box>
-            </Grid>
-            <Grid xs={8}>
-              <Box
-                className={styles.flightDay + ""}
-              >
-                  {console.log("getFlightDetail11", getFlightDetail)}
-                  {getFlightDetail?.slices.map((slice, index) => (
-                    <Typography textAlign={"right"} key={index}>
-                      {new Date(slice.departing_at).toLocaleDateString(
-                        "en-GB",
-                        {
-                          weekday: "long",
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      )}
-                    </Typography>
-                  ))}
               </Box>
             </Grid>
           </Grid>
 
-          <Divider />
-
           <Box className={styles.detailsSection} px={3}>
             {getFlightDetail?.slices.map((slice, index) => (
               <>
-                {index === 0 ? (
-                  <Box display={"flex"}>
-                    <Typography className={styles.onewayReturn}>
-                      Outbound flight
-                    </Typography>
-                  </Box>
-                ) : (
-                  <Box display={"flex"}>
-                    <Typography className={styles.onewayReturn}>Return flight</Typography>
-                  </Box>
-                )}
-
                 <FromAndToDetail
                   key={index} // Always add a unique key when mapping
                   getdata={slice}
                   logo={getFlightDetail?.owner?.logo_symbol_url}
+                  flightType={index === 0 ? "Outbound" : "Return"}
                 />
               </>
             ))}

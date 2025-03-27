@@ -73,7 +73,7 @@
    }
    .CardRight {
     padding: 12px 14px 16px 17px;
-    border-left: solid 1px $lightegray3;
+    border-left: solid 1px $lightgray3;
     .selectFlightBtn {
       margin-top: 15px;
     }
@@ -82,13 +82,12 @@
      @include scale(60px, 60px);
      @include border-radius(100px);
     background: $white;
-    border: 1px solid $lightegray3;
+    border: 1px solid $lightgray3;
+    
     img {
       width: 70%;
       height: auto;
     }
-
-     
    }
    .rowExtraInfo {
     margin-bottom: 8px;
@@ -200,10 +199,10 @@
     .flightDuration {
       font-size: 10px;
     }
-      .airlineLogo {
+    .airlineLogo {
       @include scale(32px, 32px);
       @include border-radius(0);
-      
+    
     }
     .Timings {
       display: flex;

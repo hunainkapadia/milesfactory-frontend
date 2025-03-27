@@ -21,7 +21,7 @@
   }
   .CardRight {
    padding: 12px 14px 16px 17px;
-   border-left: solid 1px $lightegray3;
+   border-left: solid 1px $lightgray3;
    .selectFlightBtn {
      margin-top: 15px;
    }
@@ -29,7 +29,7 @@
   .airlineLogo {
     @include border-radius(100px);
    background: $white;
-   border: 1px solid $lightegray3;
+   border: 1px solid $lightgray3;
    img {
      width: 70%;
      height: auto;
@@ -109,7 +109,7 @@
      border-radius: 24px;
      .CardHeader {
        background-color: #F7FCFA;
-       border-bottom: solid 1px $lightegray3;
+       border-bottom: solid 1px $lightgray3;
      }
    }
  }
