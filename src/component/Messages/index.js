@@ -95,7 +95,7 @@ const Messages = () => {
             <Box className={searchResultStyles.messageContentIn}>
               {messages.map((msg, index) => (
                 <Box key={index}>
-                  
+                {console.log("messages111", msg)}
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />

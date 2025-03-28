@@ -24,6 +24,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
 
   const dispatch = useDispatch();
 
+  console.log("offerkey", offerkey);
+  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
@@ -34,7 +36,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  console.log("isPassenger", offerData);
+  console.log("isPassenger", offerkey);
+  const selectedFlightId = useSelector((state) => state?.booking?.flightDetail?.id);
+  console.log("selectedFlightId", offerData?.id);
+  
 
   return (
     <>
@@ -272,13 +277,28 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       " mb-0 black exbold"
                     }
                   >
-                    {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} {Math.round(offerData?.total_amount)}
+                    {currencySymbols[offerData?.tax_currency] ||
+                      offerData?.tax_currency}{" "}
+                    {Math.round(offerData?.total_amount)}
                   </h3>
                   <Typography className=" f12 gray">
-                  {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} 340 per person
+                    {currencySymbols[offerData?.tax_currency] ||
+                      offerData?.tax_currency}{" "}
+                    340 per person
                   </Typography>
                 </Box>
-                {!isPassenger ? (
+                {selectedFlightId === offerData?.id ? (
+                  <Box width={"100%"}>
+                    <button
+                      className={
+                        "w-100 btn btn-disabled btn-round btn-md " +
+                        searchResultStyles.selectFlightBtn
+                      }
+                    >
+                      <span>Selected</span>
+                    </button>
+                  </Box>
+                ) : !isPassenger ? (
                   <Box width={"100%"}>
                     <button
                       className={
@@ -295,23 +315,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                 )}
               </>
             )}
-            {/* {isPassenger ? (
-              <Box display={"flex"} pt={2}>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  gap={2}
-                  className={
-                    searchResultStyles.LableActive + " LableActive basecolor1"
-                  }
-                >
-                  <i className="fa fa-check"></i>
-                  <span>Selected flight</span>
-                </Box>
-              </Box>
-            ) : (
-              ""
-            )} */}
           </Grid>
         </Grid>
         {/* Extra Info bottom */}

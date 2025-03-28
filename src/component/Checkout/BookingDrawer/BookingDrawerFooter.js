@@ -12,7 +12,6 @@ import {
 } from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
-import { currencySymbols } from "@/src/utils/utils";
 
 const BookingDrawerFooter = ({ getFlightDetails }) => {
   const dispatch = useDispatch();
@@ -63,35 +62,11 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
         <Box
           className={styles.priceRow}
           display="flex"
-          justifyContent="space-between"
+          justifyContent="flex-end"
         >
+        
           {/* Price Section */}
-          <Box display="flex" flexDirection="column">
-            <Box
-              className={styles.priceSection}
-              display="flex"
-              alignItems="center"
-              gap={1}
-            >
-              <Typography
-                variant="subtitle2"
-                className={styles.priceLabel + " mb-0 basecolor-dark"}
-              >
-                Price:
-              </Typography>
-              <Typography
-                variant="h3"
-                className={styles.price + " h3 mb-0 basecolor-dark"}
-              >
-                <span>{currencySymbols[getFlightDetails?.tax_currency] || getFlightDetails?.tax_currency} {Math.round(getFlightDetails?.total_amount)}</span>
-              </Typography>
-            </Box>
-            <Box className={styles.totalPersonPrice}>
-              <Typography variant="p" className="basecolor-dark f14">
-              Total per person: {currencySymbols[getFlightDetails?.tax_currency] || getFlightDetails?.tax_currency} {Math.round(getFlightDetails?.per_passenger_amount)}
-              </Typography>
-            </Box>
-          </Box>
+          
 
           {/* Actions Section */}
           <Box

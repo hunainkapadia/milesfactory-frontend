@@ -135,6 +135,7 @@ const AiMessage = ({ aiMessage }) => {
                 <SearchCard
                   offerData={getoffers}
                   offerkey={`${offerindex}-${getoffers.id}`} // key prop
+                  FlightExpire={FlightExpire}
                 />
               ))}
             </Box>
@@ -149,7 +150,7 @@ const AiMessage = ({ aiMessage }) => {
             </Typography>
           </Box>
           <Box mt={2}>
-            <SearchCard offerData={getselectedFlight} />
+            <SearchCard offerData={getselectedFlight} FlightExpire={FlightExpire} />
           </Box>
           {/* selected flight end */}
           {GetViewPassengers ? (
@@ -161,20 +162,15 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         //  Default AI Response (Text)
         <Box className={`${searchResultStyles.AiMessage}`}>
-                
-        {console.log("messages111", aiMessage?.ai?.response?.message)}
+          {console.log("messages111", aiMessage?.ai?.response?.message)}
           <Typography
             dangerouslySetInnerHTML={{
               __html:
                 typeof aiMessage?.ai?.response === "string"
-                  ? aiMessage.ai.response.replace(/\n/g, "<br>")
-                  : aiMessage?.ai?.response
-                  ? `<pre>${JSON.stringify(
-                      aiMessage?.ai?.response?.message,
-                      null,
-                      2
-                    )}</pre>`
-                  : "No response available",
+                  ? aiMessage.ai.response
+                      .split("Executing the code:")[0] // Remove everything after "Executing the code:"
+                      .replace(/\n/g, "<br>") // Preserve line breaks
+                  : "",
             }}
           />
         </Box>
