@@ -96,15 +96,17 @@
 }
 .YourTripSidebar {
    position: fixed;
-   height: 90vh;
+   height:100%;
    top: 0;
    padding-left: $messageRight;
    overflow: auto;
    .YourTripCard {
-     overflow: hidden;
+    min-height: 30vh;
+    max-height: 70vh;
+    overflow: auto;
      width: 328px;
      border-radius: 16px;
-     background:$white;
+     background:#FBFDFD;
      box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
      border-radius: 24px;
      .CardHeader {

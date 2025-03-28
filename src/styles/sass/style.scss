@@ -448,6 +448,9 @@ p {
 .isBaggage, .Outbound {
   border-bottom: solid 1px $lightgray2;
 }
+.css-1tlcqt-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
+  padding: 0;
+}
 .formControl
 .MuiDrawer-root {
   transition: transform 0.5s ease-in-out !important;

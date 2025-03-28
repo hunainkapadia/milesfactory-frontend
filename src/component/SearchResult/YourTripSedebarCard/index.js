@@ -161,7 +161,7 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                               {slice.origin.iata_code}
                             </Typography>
                             <Typography
-                              className={TripStyles.flightRoute + " f12"}
+                              className={TripStyles.flightRoute + " gray f12"}
                             >
                               {slice.origin.city_name}
                             </Typography>
@@ -233,7 +233,7 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
                               {slice.destination.iata_code}
                             </Typography>
                             <Typography
-                              className={TripStyles.flightRoute + " f12"}
+                              className={TripStyles.flightRoute + " gray  f12"}
                             >
                               {slice.destination.city_name}
                             </Typography>

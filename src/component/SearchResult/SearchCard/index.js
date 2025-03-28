@@ -278,17 +278,21 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                   {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} 340 per person
                   </Typography>
                 </Box>
-                <Box width={"100%"}>
-                  <button
-                    className={
-                      "w-100 btn btn-primary btn-round btn-md " +
-                      searchResultStyles.selectFlightBtn
-                    }
-                    onClick={HandleSelectDrawer}
-                  >
-                    Select
-                  </button>
-                </Box>
+                {!isPassenger ? (
+                  <Box width={"100%"}>
+                    <button
+                      className={
+                        "w-100 btn btn-primary btn-round btn-md " +
+                        searchResultStyles.selectFlightBtn
+                      }
+                      onClick={HandleSelectDrawer}
+                    >
+                      Select
+                    </button>
+                  </Box>
+                ) : (
+                  ""
+                )}
               </>
             )}
             {/* {isPassenger ? (
@@ -306,6 +310,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                 </Box>
               </Box>
             ) : (
+              ""
             )} */}
           </Grid>
         </Grid>
