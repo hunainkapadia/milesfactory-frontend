@@ -265,17 +265,27 @@ const Header = ({ isMessage, IsActive }) => {
                 </Box>
               ) : (
                 <Box
-                  className={styles.Login}
+                  className={styles.Login + " "}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
-                  gap={1}
+                  gap={2}
                   component={Link}
                   href=""
                   onClick={HandlePopup}
                 >
-                  <i className="fa fa-user-circle"></i>
-                  <Box>Sign in</Box>
+                  <Typography>Sign in</Typography>
+                  <Box
+                    className="imggroup"
+                    alignItems={"center"}
+                    display={"flex"}
+                  >
+                    {isSticky || isMessage ? (
+                      <img src="/images/user-icon-gray.svg" />
+                    ) : (
+                      <img src="/images/user-icon-white.svg" />
+                    )}
+                  </Box>
                   {/*  */}
                 </Box>
               )}
@@ -283,7 +293,6 @@ const Header = ({ isMessage, IsActive }) => {
                 <Box display="flex" alignItems="center" gap={3}>
                   <Link href={""} onClick={ChatClearHandle}>
                     <Box
-                      
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
@@ -295,9 +304,8 @@ const Header = ({ isMessage, IsActive }) => {
                     </Box>
                   </Link>
 
-                  <Link href={""} >
+                  <Link href={""}>
                     <Box
-                      
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
@@ -315,7 +323,7 @@ const Header = ({ isMessage, IsActive }) => {
               ) : (
                 <Box
                   sx={{ display: { xs: "none", md: "flex" } }}
-                  className="btn btn-primary btn-md"
+                  className="btn btn-primary btn-md btn-round"
                   alignItems="center"
                   justifyContent="center"
                   gap={1}

@@ -48,7 +48,10 @@
       background-color: $white;
       transition: all 0.3s ease-in-out;
       .Login {
-         color: #0B1729;
+         p {
+            color: $basecolor;
+            font-weight: $bold;
+         }
       }
       .Logo img {
          display: block;
@@ -73,7 +76,12 @@
       display: flex;
       align-items: center;
       .Box {
-         .Login {color: $black;}
+         .Login {
+            p {
+                  color: $basecolor;
+                  font-weight: $bold;
+               }
+         }
          .navItems .navItem {
             color: #0B1729;
             &:hover {
