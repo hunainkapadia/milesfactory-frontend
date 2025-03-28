@@ -80,6 +80,7 @@ const AiMessage = ({ aiMessage }) => {
           {aiMessage.ai.offers.map((getoffers, offerindex) => (
             <SearchCard
               offerkey={`${offerindex}-${getoffers.id}`} // Corrected key prop
+              selectedOfferkey={`${offerindex}-${getselectedFlight?.id}`} // selected flight id and offer key for show selected button
               offerData={getoffers}
               FlightExpire={FlightExpire}
             />

@@ -20,12 +20,13 @@ import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols } from "@/src/utils/utils";
 
-const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
-
+const SearchCard = ({
+  offerData,
+  offerkey, //all flight key and id 
+  FlightExpire, 
+  selectedOfferkey, //key and selected flight id get for selected button show 
+}) => {
   const dispatch = useDispatch();
-
-  console.log("offerkey", offerkey);
-  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
@@ -36,10 +37,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  console.log("isPassenger", offerkey);
-  const selectedFlightId = useSelector((state) => state?.booking?.flightDetail?.id);
-  console.log("selectedFlightId", offerData?.id);
-  
 
   return (
     <>
@@ -287,7 +284,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     340 per person
                   </Typography>
                 </Box>
-                {selectedFlightId === offerData?.id ? (
+                {selectedOfferkey === offerkey ? (
                   <Box width={"100%"}>
                     <button
                       className={
