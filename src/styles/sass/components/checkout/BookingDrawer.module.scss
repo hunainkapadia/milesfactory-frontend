@@ -193,22 +193,11 @@
          }
       }
    .checkoutDrower .checkoutDrowerSection {
-         
-        height: 90%;
+        height: 100%;
         width: 100%;
         border: 0;
         top: inherit;
-        @include border-radius(40px 40px 0 0);
+        @include border-radius(0);
       }
-      .title {font-size: 12px !important;}
-      .selectFlightBtn {
-         background: none !important;
-         color: $basecolor1 !important;
-         box-shadow: none !important;
-         padding: 0 !important;
-         height: 100% !important;
-         i {
-           font-size: 20px !important;
-         }
-       }
+      .title {font-size: 12px;}
 }
