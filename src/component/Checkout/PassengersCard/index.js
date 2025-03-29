@@ -23,14 +23,14 @@ const PassengersCard = ({
       display={"flex"}
       justifyContent={"space-between"}
     >
-      <Grid item
+      <Grid
         xs={2}
-        
         display={"flex"}
         alignItems={"center"}
-        className="imggroup"
       >
-        <img src="/images/user-circle.svg" />
+        <Box className="imggroup">
+          <img src="/images/user-circle.svg" />
+        </Box>
       </Grid>
       <Grid xs={7} p={0} m={0} display={"flex"} alignItems={"center"}>
         <Box>

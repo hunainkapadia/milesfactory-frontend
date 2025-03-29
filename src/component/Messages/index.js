@@ -76,6 +76,8 @@ const Messages = () => {
   const isPassengerDrawerOpen = useSelector(
     (state) => state.passengerDrawer?.OpenPassengerDrawer
   );
+  console.log("isPassengerDrawerOpen", isPassengerDrawerOpen);
+  
   
   
   
@@ -110,7 +112,6 @@ const Messages = () => {
 
               {getFlightKey && <BookingDrawer getFlightDetail={flightDetail} />}
               {isPassengerDrawerOpen ? <PassengerDrawerForm /> : ""}
-
               {FlightExpire ? (
                 <>
                   <Box py={2}>

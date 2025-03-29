@@ -12,6 +12,7 @@ import {
 } from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
+import { currencySymbols } from "@/src/utils/utils";
 
 const BookingDrawerFooter = ({ getFlightDetails }) => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
     console.log("getFlightDetails book", getFlightDetails);
     dispatch(setisLoading())
     dispatch(setCloseDrawer()); //dispatch close
-    // dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
+    dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
     dispatch(PassengerForm())
     
     // dispatch(bookFlight());
@@ -43,7 +44,10 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
   };
 
   return (
-    <Box className={styles.checkoutDrowerFooter + " test11"} position="absolute">
+    <Box
+      className={styles.checkoutDrowerFooter + " test11"}
+      position="absolute"
+    >
       <Divider />
 
       {/* Footer Content */}
@@ -61,13 +65,48 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
         {/* Price Row */}
         <Box
-          className={styles.priceRow}
+          className={styles.priceRow + " aaa"}
           display="flex"
-          justifyContent="flex-end"
+          sx={{ justifyContent: { xs: "space-between", md: "flex-end" } }}
+          width={"100%"}
         >
-        
           {/* Price Section */}
-          
+          <Box
+            sx={{ display: { xs: "flex", md: "none" } }}
+            flexDirection="column"
+          >
+            <Box
+              className={styles.priceSection}
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Typography
+                variant="subtitle2"
+                className={styles.priceLabel + " mb-0 basecolor-dark"}
+              >
+                Price:
+              </Typography>
+              <Typography
+                variant="h3"
+                className={styles.price + " h3 mb-0 basecolor-dark"}
+              >
+                <span>
+                  {currencySymbols[getFlightDetails?.tax_currency] ||
+                    getFlightDetails?.tax_currency}{" "}
+                  {Math.round(getFlightDetails?.total_amount)}
+                </span>
+              </Typography>
+            </Box>
+            <Box className={styles.totalPersonPrice}>
+              <Typography variant="p" className="basecolor-dark f14">
+                Total per person:{" "}
+                {currencySymbols[getFlightDetails?.tax_currency] ||
+                  getFlightDetails?.tax_currency}{" "}
+                {Math.round(getFlightDetails?.per_passenger_amount)}
+              </Typography>
+            </Box>
+          </Box>
 
           {/* Actions Section */}
           <Box
@@ -96,12 +135,14 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
               className="basecolor1"
             >
               <button
-                className={styles.selectFlightBtn + " btn btn-primary btn-md btn-round"}
+                className={
+                  styles.selectFlightBtn + " btn btn-primary btn-md btn-round"
+                }
                 onClick={handleBookFlight}
               >
                 <Box display="flex" gap={1}>
                   <Box
-                    sx={{ display: { md: "block", sm: "block", xs: "none" } }}
+                    
                   >
                     Book flight
                   </Box>

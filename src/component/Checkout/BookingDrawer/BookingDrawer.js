@@ -58,7 +58,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 />
               </>
             ))}
-            <Box display="flex" flexDirection="column" gap={1} className=" bold">
+            <Box flexDirection="column" gap={1} className=" bold"
+            sx={{ display: { xs: "none", md: "flex" } }}
+
+            >
               <Box
                 className={styles.priceSection}
                 display="flex"

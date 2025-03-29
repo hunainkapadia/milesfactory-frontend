@@ -42,6 +42,7 @@ const PassengerDrawerForm = () => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
+  
   const params = {
     gender: gender,
     given_name: given_name,
@@ -82,13 +83,18 @@ const PassengerDrawerForm = () => {
             px={3}
             display="flex"
             justifyContent="space-between"
+            alignItems={"center"}
           >
-            <div>Main passenger</div>
-            <div>Adult</div>
+            <Box>
+              <h4 className="regular mb-0">Adult</h4>
+              <Typography className="semibold">Add new traveller</Typography>
+            </Box>
+            <i className="fa fa-close fas"></i>
           </Box>
           <Divider />
 
-          <Box py={2} px={3}>
+          <Box py={2} sx={{ px: { xs: 2, lg: 3, md: 3 } }}>
+
             <Box className="formGroup">
               <FormLabel>Gender as per passport</FormLabel>
               <RadioGroup
@@ -221,7 +227,9 @@ const PassengerDrawerForm = () => {
                 getOptionLabel={(option) => option.name}
                 value={nationality} // Ensure this is a valid object from `countries`
                 onChange={(event, newValue) => setnationality(newValue)} // Use newValue directly
-                renderInput={(params) => <TextField {...params} fullWidth placeholder="Nationality" />}
+                renderInput={(params) => (
+                  <TextField {...params} fullWidth placeholder="Nationality" />
+                )}
               />
             </Box>
             {formError?.nationality && (
