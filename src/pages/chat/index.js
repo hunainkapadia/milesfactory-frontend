@@ -39,21 +39,28 @@ const Chat = () => {
                 {/* ////////////////////////// Search Box start ////////////////////////// */}
                 <Messages />
               </Grid>
-              <Grid item md={4} lg={4}>
+              <Grid
+                item
+                md={4}
+                lg={4}
+                sx={{ display: { xs: "none", md: "block", lg: "block" } }}
+              >
                 <YourTripSidebar isMessage={isMessage} />
               </Grid>
             </Grid>
             {/* //////////////////////// Chat Messages end ////////////////////////*/}
-            <Grid className={inputStyles.SearchBoxGrid} container sx={{ width: "100%", margin: 0 }}>
+            <Grid
+              className={inputStyles.SearchBoxGrid}
+              container
+              sx={{ width: "100%", margin: 0 }}
+            >
               <Grid item md={1} lg={1}></Grid>
-              <Grid item md={7} lg={7}>
+              <Grid item md={7} lg={7} xs={12}>
                 {/* ////////////////////////// Search Box start ////////////////////////// */}
                 <MessageInputBox isMessageHome={isMessage} />
                 {/* ////////////////////////// Search Box end ////////////////////////// */}
               </Grid>
-              <Grid item md={4} lg={4}>
-                
-              </Grid>
+              <Grid item md={4} lg={4}></Grid>
             </Grid>
           </Box>
           {/* sending send and get message for chat prop */}

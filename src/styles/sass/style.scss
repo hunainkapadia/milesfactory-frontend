@@ -1142,6 +1142,14 @@ body {
     font-weight: $bold;
     font-size: 12px;
   }
+  &.btn-gray {
+    @include border-radius(4px);
+    padding: 4px 10px;
+    background: $lightgray3;
+    color: $basecolor;
+    font-weight: $bold;
+    font-size: 12px;
+  }
   
   &.btn-disabled {
     &.btn-round {

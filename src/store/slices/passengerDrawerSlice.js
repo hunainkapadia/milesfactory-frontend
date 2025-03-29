@@ -20,6 +20,7 @@ const passengerDrawerSlice = createSlice({
     ClosePassengerDrawer: false,
     OpenPassengerDrawer: false,
     PassengerFormError: null,
+    // selectedFlightDetail: null,
   },
   reducers: {
     markPassengerAsFilled: (state, action) => {

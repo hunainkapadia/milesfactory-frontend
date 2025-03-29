@@ -111,14 +111,21 @@
 }
 
 @include for-mobile-large-screen {
-   .SearchBoxSectionActive .SearchBox {
-      .SearchButton {
-         top: 8px;
-      }
-      
-      >div {
+   .SearchBoxGrid {
+      padding: 0 0 15px;
+   }
+   .SearchBoxSectionActive {
+      padding: 0 15px;
+      .SearchBox {
          
-         padding: 0 15px 30px;
+         .SearchButton {
+            top: 8px;
+         }
+         
+         >div {
+            
+            padding: 0 15px 30px;
+         }
       }
    }
 }

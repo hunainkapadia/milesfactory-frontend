@@ -180,29 +180,19 @@
  
  @include for-mobile-large-screen {
  
-  .flightOfferCard {
-      .flightDurationBox {border-top: solid 1px #82B4E8;padding: 0px 15px;
-        .flightDuration {
-          display: flex;
-        }
+  .flightOfferCard {width: 100%;
+    .rowExtraInfo {
+      margin-bottom: 16px;  
     }
+      
     .selectFlightBtn {
-      background: none;
-      color: $basecolor1 !important;
-      box-shadow: none;
-      padding: 0 !important;
-      height: 100%;
-      i {
-        font-size: 20px;
-      }
+      
     }
     .flightDuration {
       font-size: 10px;
     }
     .airlineLogo {
-      @include scale(32px, 32px);
-      @include border-radius(0);
-    
+      @include scale(40px, 40px);
     }
     .Timings {
       display: flex;
@@ -228,6 +218,7 @@
      width: 100%;
      .messageContentIn {
        width: 100%;
+       padding: 0px 24px 100px;
      }
    }
  }
