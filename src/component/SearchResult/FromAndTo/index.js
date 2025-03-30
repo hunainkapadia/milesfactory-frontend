@@ -16,38 +16,54 @@ const FromAndTo = ({ offerData }) => {
                 textTransform={"capitalize"}
                 className="f12 mb-0 bold gray "
               >
+                {console.log("offerData?.flight_type", offerData?.flight_type)}
                 {offerData?.flight_type}
               </Typography>
             </Box>
-            <Box display={"flex"} gap={2}>
-            {index === 0 ? (
+            <Box className={StyleSheet.RightCol} display={"flex"} alignItems={"center"}>
+              {/* <Box display={"flex"} gap={2}>
+                <Box display={"flex"} alignItems={"center"}>
+                  <img src={"/images/checkout/carryon-bagg.svg"} />
+                  <Typography className={searchResultStyles.normalOption}>
+                    <span> 2 pieces</span>
+                  </Typography>
+                </Box>
+                <Box display={"flex"} alignItems={"center"}>
+                  <img src="/images/leave-icon.svg" />
+                  <Typography className={searchResultStyles.normalOption}>
+                    <span> {offerData?.total_emissions_kg} kg CO₂e</span>
+                  </Typography>
+                </Box>
+              </Box> */}
+              <Box display={"flex"} gap={2}>
+                {index === 0 ? (
                   <Box>
-                  <Box display={"flex"}>
-                     <Typography
+                    <Box display={"flex"}>
+                      <Typography
                         className={
-                        searchResultStyles.onewayReturn +
-                        " btn btn-xs btn-gray "
+                          searchResultStyles.onewayReturn +
+                          " btn btn-xs btn-gray "
                         }
-                     >
+                      >
                         Outbound
-                     </Typography>
+                      </Typography>
+                    </Box>
                   </Box>
-                  </Box>
-               ) : (
+                ) : (
                   <Box>
-                  <Box display={"flex"}>
-                     <Typography
+                    <Box display={"flex"}>
+                      <Typography
                         className={
-                        searchResultStyles.onewayReturn +
-                        " btn btn-xs btn-gray"
+                          searchResultStyles.onewayReturn +
+                          " btn btn-xs btn-gray"
                         }
-                     >
+                      >
                         Return
-                     </Typography>
+                      </Typography>
+                    </Box>
                   </Box>
-                  </Box>
-               )}
-               
+                )}
+              </Box>
             </Box>
           </Box>
           <Box
@@ -56,9 +72,9 @@ const FromAndTo = ({ offerData }) => {
             display="flex"
             alignItems="center"
             gap={2}
-            sx={{
-              mb: { xs: index === 0 ? 2 : 0, md: index === 0 ? 3 : 0 },
-            }}
+            // sx={{
+            //   mt: { xs: index === 0 ? 2 : 0, md: index === 0 ? 3 : 0 },
+            // }}
           >
             {/* Airline Logo */}
             <Box

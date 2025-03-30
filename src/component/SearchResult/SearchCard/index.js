@@ -14,6 +14,7 @@ import {
   fetchflightDetail,
   setflightDetail,
   setOpenDrawer,
+  setSelectedFlightKey,
   setSelectFlightKey,
 } from "@/src/store/slices/BookingflightSlice";
 
@@ -32,7 +33,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
-      console.log("offerkey000", offerkey);
       
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
@@ -41,25 +41,29 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  console.log("isPassenger", offerData);
   
+  console.log("isPassenger", offerData);
+  console.log("offerkey111", offerData);
   // selected flight detail get for send data in select button click
   const flightDetail = useSelector((state) => state.booking.flightDetail);
   const handleBookFlight = () => {
     if (offerkey) {
       dispatch(setflightDetail(offerData)); // Store flight details
+      dispatch(setSelectedFlightKey(offerkey)); // ✅ Store selected flight key
     }
-    dispatch(setisLoading())
-      dispatch(setflightDetail(offerData)); //dispatch selected flight detail
-      dispatch(PassengerForm())
-      if (flightDetail?.id) {
-        dispatch(bookFlight(flightDetail.id)); // Pass flight ID to bookFlight
-      } else {
-        ""
-      }
-      dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
+    dispatch(setisLoading());
+    dispatch(setflightDetail(offerData)); //dispatch selected flight detail
+    dispatch(PassengerForm());
+    if (flightDetail?.id) {
+      dispatch(bookFlight(flightDetail.id)); // Pass flight ID to bookFlight
+    } else {
+      ("");
+    }
+    dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
   };
 
+  const selectedFlightKey = useSelector((state) => state.booking.selectedFlightKey);
+  console.log("selectedFlightKey", selectedFlightKey);
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -69,7 +73,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
           <Grid className={searchResultStyles.CardLeft} lg={9} md={9} xs={12}>
             {/* footer */}
             {/* FromAndTo with logo */}
-              <FromAndTo offerData={offerData} />
+            <FromAndTo offerData={offerData} />
           </Grid>
 
           {/* Price Section */}
@@ -136,7 +140,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
               ) : (
                 <>
                   <Box sx={{ display: { xs: "none", md: "block" } }}>
-                    <SearchBaggages SelectDrawer={HandleSelectDrawer} offerData={offerData} />
+                    <SearchBaggages
+                      SelectDrawer={HandleSelectDrawer}
+                      offerData={offerData}
+                    />
                   </Box>
                   {/*  */}
                   <Box
@@ -146,7 +153,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     gap={3}
                   >
                     <Box>
-                      <h3
+                      <h4
                         className={
                           searchResultStyles.flightPriceSection +
                           " mb-0 black exbold"
@@ -155,29 +162,34 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
                         {Math.round(offerData?.total_amount)}
-                      </h3>
+                      </h4>
+                      {console.log("offerData?.total_amount", offerData?.per_passenger_amount)}
                       <Typography className=" f12 gray">
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                        340 per person
+                          {Math.round(offerData?.per_passenger_amount)} per person
                       </Typography>
                     </Box>
                     {!isPassenger ? (
-                      <Box width={"100%"}>
-                        <button
-                          className={
-                            "w-100 btn btn-primary btn-round btn-md " +
-                            searchResultStyles.selectFlightBtn
-                          }
-                          onClick={handleBookFlight}
-                        >
-                          Select
-                        </button>
-                      </Box>
+                        <Box width={"100%"}>
+                          <button
+                            className={
+                              "w-100 btn btn-primary btn-round btn-md " +
+                              searchResultStyles.selectFlightBtn
+                            }
+                            onClick={handleBookFlight}
+                          >
+                            Select
+                          </button>
+                        </Box>
                     ) : (
                       ""
                     )}
-                  </Box>
+                    {" "}
+                    {/* {selectedFlightKey === offerkey && (
+                      <h1 className="f12 green">Selected Flight</h1>
+                    )} */}
+                      </Box>
                 </>
               )}
             </Box>

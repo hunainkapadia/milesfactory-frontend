@@ -13,6 +13,7 @@ const initialState = {
   OpenDrawer: false,
   CloseDrawer: false,
   BookingSetupUrl: null,
+  selectedFlightKey: null, //Store selected flight key
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -21,6 +22,11 @@ const bookingflightsSlice = createSlice({
 
   reducers: {
     
+    setSelectedFlightKey: (state, action) => { // New reducer
+      console.log("setSelectedFlightKey", action);
+      
+      state.selectedFlightKey = action.payload;
+    },
     setSelectFlightKey: (state, action) => {
       state.setSelectFlightKey = action.payload;
     },
@@ -78,7 +84,7 @@ export const {
   setSelectFlightKey,
   setCloseDrawer,
   setOpenDrawer,
-  
-  setBookingSetupUrl
+  setBookingSetupUrl,
+  setSelectedFlightKey,  
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;
