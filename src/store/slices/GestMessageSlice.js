@@ -43,18 +43,16 @@ export const fetchMessages = () => (dispatch) => {
         return;
       }
       response?.data.forEach((item) => {
+        // is function true start search result flow
         if (item?.is_function) {
-          console.log("get message", item?.response);
-          dispatch(
-            setMessage({ user: item.message, ai: { response: item?.response } })
-          );
           const topFlightSearchApi =
           item?.response?.results?.view_top_flight_result_api?.url;
           if (topFlightSearchApi) {
             api
-              .get(topFlightSearchApi)
-              .then((offerResponse) => {
-                dispatch(
+            .get(topFlightSearchApi)
+            .then((offerResponse) => {
+              console.log("get message", offerResponse);
+              dispatch(
                   setMessage({
                     user: item.message,
                     ai: offerResponse.data,

@@ -34,8 +34,7 @@ export const sendMessage = (userMessage) => (dispatch) => {
     .then((res) => {
       const response = res.data;
       console.log("chat error", res)
-
-      
+      // is function true start search result flow
       if (response?.is_function) {
         const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
         

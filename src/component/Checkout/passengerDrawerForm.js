@@ -24,6 +24,7 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
 import AddPassengersStep from "./AddPassengersStep";
+import Link from "next/link";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -89,7 +90,9 @@ const PassengerDrawerForm = () => {
               <h4 className="regular mb-0">Adult</h4>
               <Typography className="semibold">Add new traveller</Typography>
             </Box>
-            <i className="fa fa-close fas"></i>
+            <Link href={""} onClick={handleCloseDrawer}>
+              <i className="fa fa-close fas"></i>
+            </Link>
           </Box>
           <Divider />
 

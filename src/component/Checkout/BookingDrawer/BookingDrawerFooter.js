@@ -142,7 +142,6 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
               >
                 <Box display="flex" gap={1}>
                   <Box
-                    
                   >
                     Book flight
                   </Box>

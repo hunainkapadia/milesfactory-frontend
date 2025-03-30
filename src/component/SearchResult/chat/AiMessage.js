@@ -6,49 +6,58 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import PassengerInfo from "../../Checkout/PassengerInfo";
 import { setAllFlightResults } from "@/src/store/slices/sendMessageSlice";
-import { setisLoading, setOfferId } from "@/src/store/slices/passengerDrawerSlice";
+import {
+  setisLoading,
+  setOfferId,
+} from "@/src/store/slices/passengerDrawerSlice";
 import LoadingArea from "../../LoadingArea";
-
+import { sanitizeResponse } from "@/src/utils/utils";
 
 const AiMessage = ({ aiMessage }) => {
   //  State to toggle flight search results
-  
-  
-  
-  const [showAllResults, setShowAllResults] = useState(false);
-  
-  const getAllFlightPostApi = useSelector((state)=> state.sendMessage.setAllFlightPostApi)  
+  const [showAllFlight, setShowAllFlight] = useState(false);
+
+  // const [showAllResults, setShowAllResults] = useState(false);
+  // all flight state remove
+
+  const getAllFlightPostApi = useSelector(
+    (state) => state.sendMessage.setAllFlightPostApi
+  );
   //  Toggle function
 
-  
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
-  
-  const seeAllResultHandle = () => {
-    setShowAllResults(true)
-  };
+
+  // show all flight button still remove
+
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (aiMessage?.OfferId) {
       dispatch(setOfferId(aiMessage?.OfferId)); // Save the offer ID in Redux
-    } {
-      ""
+    }
+    {
+      ("");
     }
   }, [aiMessage?.OfferId, dispatch]);
-  
-  // for get api 
-  const getAllFlightGetApi = useSelector((state)=> state?.getMessages?.allFlightSearchResults);
+
+  // for get api
+  const getAllFlightGetApi = useSelector(
+    (state) => state?.getMessages?.allFlightSearchResults
+  );
   console.log("getAllFlightGetApi", getAllFlightPostApi);
-  
-  
+
   // booking flow start
-  const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);  
-  // get user book selecteet flight detail for show in ai message 
+  const getselectedFlight = useSelector(
+    (state) => state?.booking?.flightDetail
+  );
+  // get user book selecteet flight detail for show in ai message
   // collect passenger data from redux
-  
-  const GetViewPassengers = useSelector((state)=> state?.passengerDrawer?.ViewPassengers)
+
+  const GetViewPassengers = useSelector(
+    (state) => state?.passengerDrawer?.ViewPassengers
+  );
 
   const messagesEndRef = useRef(null);
 
@@ -60,11 +69,26 @@ const AiMessage = ({ aiMessage }) => {
       }, 100);
     }
   }, [GetViewPassengers]); // Runs when GetViewPassengers changes
-  
-  // flight expire
-  const FlightExpire = useSelector((state)=> state.getMessages.flightExpire);
-  
 
+  // flight expire
+  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+
+  // show all flight or click
+  const seeAllResultHandle = () => {
+    setShowAllFlight((prev) => !prev);
+  };
+
+  // Get the flight data
+
+  const displayedPostFlights = showAllFlight
+    ? getAllFlightPostApi?.offers
+    : getAllFlightPostApi?.offers?.slice(0, 3);
+
+  const displayedGetFlights = showAllFlight
+    ? getAllFlightGetApi?.offers
+    : getAllFlightGetApi?.offers?.slice(0, 3);
+
+  console.log("displayedGetFlights", displayedGetFlights);
 
   return (
     <Box
@@ -77,17 +101,18 @@ const AiMessage = ({ aiMessage }) => {
       {/* Show Top Offers if available */}
       {aiMessage?.ai?.offers ? (
         <>
-          {aiMessage.ai.offers.map((getoffers, offerindex) => (
+          {/* top offer hide */}
+          {/* {aiMessage.ai.offers.map((getoffers, offerindex) => (
             <SearchCard
               offerkey={`${offerindex}-${getoffers.id}`} // Corrected key prop
               selectedOfferkey={`${offerindex}-${getselectedFlight?.id}`} // selected flight id and offer key for show selected button
               offerData={getoffers}
               FlightExpire={FlightExpire}
             />
-          ))}
+          ))} */}
 
           {/* Button to Show All Flight Results */}
-          <Box
+          {/* <Box
             onClick={seeAllResultHandle}
             mt={2}
             style={{ cursor: "pointer" }}
@@ -117,28 +142,91 @@ const AiMessage = ({ aiMessage }) => {
                 </span>
               </Box>
             </Link>
+          </Box> */}
+          {/* Show top 3 Flight get and post seperately Search Results */}
+          <Box mt={2}>
+            {/* Render flights from POST API */}
+            {displayedPostFlights?.map((getoffers, offerindex) => (
+              <SearchCard
+                offerData={getoffers}
+                offerkey={`${offerindex}-${getoffers.id}`} // key prop
+                FlightExpire={FlightExpire}
+              />
+            ))}
+
+            {/* Render flights from GET API */}
+            {displayedGetFlights?.map((getoffers, offerindex) => (
+              <SearchCard
+                offerData={getoffers}
+                offerkey={`${offerindex}-${getoffers.id}`} // key prop
+                FlightExpire={FlightExpire}
+              />
+            ))}
           </Box>
-
-          {/* Show All Flight Search Results */}
-          {showAllResults && (
-            <Box mt={2}>
-              {/* Render flights from POST API */}
-              {getAllFlightPostApi?.offers?.map((getoffers, offerindex) => (
-                <SearchCard
-                  offerData={getoffers}
-                  offerkey={`${offerindex}-${getoffers.id}`} // key prop
-                  FlightExpire={FlightExpire}
-                />
-              ))}
-
-              {/* Render flights from GET API */}
-              {getAllFlightGetApi?.offers?.map((getoffers, offerindex) => (
-                <SearchCard
-                  offerData={getoffers}
-                  offerkey={`${offerindex}-${getoffers.id}`} // key prop
-                  FlightExpire={FlightExpire}
-                />
-              ))}
+          {/* show all flight button  hide */}
+          {!showAllFlight ? (
+            <Box
+              onClick={seeAllResultHandle}
+              mt={2}
+              style={{ cursor: "pointer" }}
+            >
+              <Link href={"#"} className="text-decoration-none">
+                <Box
+                  mt={2}
+                  mb={2}
+                  gap={2}
+                  alignItems={"center"}
+                  display={"flex"}
+                  className=" bold"
+                >
+                  <i className="fa-caret-down fa fas"></i>{" "}
+                  <span>
+                    Show all flight options
+                    {`${
+                      getAllFlightGetApi?.count
+                        ? " (" + getAllFlightGetApi?.count + ")"
+                        : ""
+                    }`}
+                    {`${
+                      allFlightSearcCount?.count
+                        ? " (" + allFlightSearcCount?.count + ")"
+                        : ""
+                    }`}
+                  </span>
+                </Box>
+              </Link>
+            </Box>
+          ) : (
+            <Box
+              onClick={seeAllResultHandle}
+              mt={2}
+              style={{ cursor: "pointer" }}
+            >
+              <Link href={"#"} className="text-decoration-none">
+                <Box
+                  mt={2}
+                  mb={2}
+                  gap={2}
+                  alignItems={"center"}
+                  display={"flex"}
+                  className=" bold"
+                >
+                  <i className="fa-caret-up fa fas"></i>{" "}
+                  <span>
+                    Hide all flight options
+                    {`${
+                      getAllFlightGetApi?.count
+                        ? " (" + getAllFlightGetApi?.count + ")"
+                        : ""
+                    }`}
+                    {`${
+                      allFlightSearcCount?.count
+                        ? " (" + allFlightSearcCount?.count + ")"
+                        : ""
+                    }`}
+                  </span>
+                </Box>
+              </Link>
             </Box>
           )}
         </>
@@ -151,7 +239,10 @@ const AiMessage = ({ aiMessage }) => {
             </Typography>
           </Box>
           <Box mt={2}>
-            <SearchCard offerData={getselectedFlight} FlightExpire={FlightExpire} />
+            <SearchCard
+              offerData={getselectedFlight}
+              FlightExpire={FlightExpire}
+            />
           </Box>
           {/* selected flight end */}
           {GetViewPassengers ? (
@@ -163,15 +254,10 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         //  Default AI Response (Text)
         <Box className={`${searchResultStyles.AiMessage}`}>
-          {console.log("messages111", aiMessage?.ai?.response?.message)}
+          {console.log("messages222", aiMessage?.ai?.response)}
           <Typography
             dangerouslySetInnerHTML={{
-              __html:
-                typeof aiMessage?.ai?.response === "string"
-                  ? aiMessage.ai.response
-                      .split("Executing the code:")[0] // Remove everything after "Executing the code:"
-                      .replace(/\n/g, "<br>") // Preserve line breaks
-                  : "",
+              __html: sanitizeResponse(aiMessage.ai.response),
             }}
           />
         </Box>

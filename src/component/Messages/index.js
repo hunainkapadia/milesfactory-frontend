@@ -51,6 +51,8 @@ const Messages = () => {
     dispatch(fetchMessages()); //  Fetch messages when the page loads
   }, [dispatch]);
 
+  console.log("messagestest", messages);
+  
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
