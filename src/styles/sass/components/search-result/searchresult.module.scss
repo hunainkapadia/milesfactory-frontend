@@ -108,13 +108,29 @@
       transform: matrix(-1, 0, 0, 1, 0, 0);
       position: relative;
       
+      .dots {position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          left: 0;
+          width: 100%;
+          bottom: -4px;
+          gap: 14px;
+        .dot {
+          width: 6px;
+          height: 6px;
+          background: #000000;
+          border: solid 2px $white;
+          @include border-radius(20px);
+        }
+      }
       &::before,
       &::after {
         content: "";
         position: absolute;
         top: 50%;
-        width: 10px;
-        height: 10px;
+        width: 6px;
+        height: 6px;
         background-color: #D9D9D9;
         border-radius: 50%;
         transform: translateY(-50%);

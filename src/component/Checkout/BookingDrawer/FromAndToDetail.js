@@ -190,7 +190,7 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
               </Typography>
             </Box>
             <Box display={"flex"} gap={4}>
-              <Typography variant="p" className="gray mb-0">
+              <Typography variant="p" className="semibold gray mb-0">
                 {new Date(getdata?.arriving_at).toLocaleDateString("en-US", {
                   weekday: "short",
                   month: "short",

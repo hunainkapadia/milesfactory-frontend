@@ -1,6 +1,7 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Link from "next/link";
+import { currencySymbols } from "@/src/utils/utils";
 
 const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
   console.log("selectedFlight", selectedFlight.total_amount);
@@ -8,16 +9,25 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
   return (
     <Grid item xs={6}>
       <Box className={styles.passengersCard}>
-        <Box display={"flex"} justifyContent={"space-between"}>
-          <Typography className="mb-10" mb={1} variant="h6">
-            {getServicesdata.given_name} {getServicesdata.family_name}
-          </Typography>
-          <Typography className="mb-10" mb={1} variant="h6">
-            + € {Math.round(selectedFlight.total_amount)}
-          </Typography>
-        </Box>
-        <Box>
-          <Typography className="basecolor-dark">Adult</Typography>
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          gap={2}
+        >
+          <Box className="imggroup" width={70}>
+            <img height={"100%"} src="/images/user-circle.svg" />
+          </Box>
+          <Box>
+            <Typography textTransform={"capitalize"} mb={0} variant="h6">
+               {getServicesdata.given_name} {getServicesdata.family_name}
+            </Typography>
+            <Typography textTransform={"capitalize"} className="basecolor-dark">{getServicesdata.type}</Typography>
+          </Box>
+          {/* <Typography className="mb-10" mb={1} variant="h6">
+            + {currencySymbols[getServicesdata?.tax_currency] ||
+                                getServicesdata?.tax_currency}{" "}
+                                {Math.round(selectedFlight.total_amount)}
+          </Typography> */}
         </Box>
         <Box gap={4} pt={3}>
           <Box display={"flex"} alignItems={"center"} gap={4} py={3}>

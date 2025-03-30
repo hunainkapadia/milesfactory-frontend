@@ -6,6 +6,7 @@ import BookingDrawerFooter from "./BookingDrawerFooter";
 import { useDispatch } from "react-redux";
 import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols } from "@/src/utils/utils";
+import Link from "next/link";
 
 const BookingDrawer = ({ getFlightDetail }) => {
   const dispatch = useDispatch();
@@ -27,22 +28,34 @@ const BookingDrawer = ({ getFlightDetail }) => {
             justifyContent="space-between"
           >
             <Grid xs={12}>
-              <Box>
-                <h4 className={styles.title + " mb-0 regular"}>
-                  {getFlightDetail?.slices[0]?.origin.city_name} to{" "}
-                  {getFlightDetail?.slices[0]?.destination.city_name}
-                </h4>
-                <Typography className="semibold">
-                  {getFlightDetail?.slices
-                    .slice(0, 2)
-                    .map((slice) =>
-                      new Date(slice.departing_at).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                      })
-                    )
-                    .join(" - ")}
-                </Typography>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <Box>
+                  <h4 className={styles.title + " mb-0 regular"}>
+                    {getFlightDetail?.slices[0]?.origin.city_name} to{" "}
+                    {getFlightDetail?.slices[0]?.destination.city_name}
+                  </h4>
+                  <Typography className="semibold">
+                    {getFlightDetail?.slices
+                      .slice(0, 2)
+                      .map((slice) =>
+                        new Date(slice.departing_at).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "short",
+                          }
+                        )
+                      )
+                      .join(" - ")}
+                  </Typography>
+                </Box>
+                <Link href={""} onClick={HandlecloseDrawer} className=" basecolor">
+                  <i className="fa fa-close fas"></i>
+                </Link>
               </Box>
             </Grid>
           </Grid>
@@ -58,9 +71,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 />
               </>
             ))}
-            <Box flexDirection="column" gap={1} className=" bold"
-            sx={{ display: { xs: "none", md: "flex" } }}
-
+            <Box
+              flexDirection="column"
+              gap={1}
+              className=" bold"
+              sx={{ display: { xs: "none", md: "flex" } }}
             >
               <Box
                 className={styles.priceSection}
@@ -74,9 +89,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 >
                   Total price:
                 </Typography>
-                <Typography
-                  className={styles.price + " mb-0 basecolor-dark"}
-                >
+                <Typography className={styles.price + " mb-0 basecolor-dark"}>
                   {currencySymbols[getFlightDetail.tax_currency] ||
                     getFlightDetail?.tax_currency}
                   {Math.round(getFlightDetail?.total_amount)}
@@ -92,12 +105,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 <Typography className="basecolor-dark f14">
                   {console.log("getFlightDetails", getFlightDetail)}
                   Ticket(s) price:{" "}
-                  </Typography>
-                  <Typography
-                  
+                </Typography>
+                <Typography
                   className={styles.price + " mb-0 basecolor-dark bold"}
                 >
-                
                   {currencySymbols[getFlightDetail.total_currency] ||
                     getFlightDetail?.total_currency}
                   {Math.round(getFlightDetail?.total_amount_plus_markup)}

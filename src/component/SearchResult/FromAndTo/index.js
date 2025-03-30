@@ -1,0 +1,200 @@
+import { Box, Typography, Avatar } from "@mui/material";
+import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
+
+const FromAndTo = ({ offerData }) => {
+  return (
+    <>
+      {offerData?.slices.map((slice, index) => (
+        <>
+          <Box className={searchResultStyles.rowExtraInfo}>
+            <Box>
+              <Typography className="f12 mb-0 bold black ">
+                {console.log("offerData111", offerData.slices)}
+                {offerData?.owner?.name}
+              </Typography>
+              <Typography
+                textTransform={"capitalize"}
+                className="f12 mb-0 bold gray "
+              >
+                {offerData?.flight_type}
+              </Typography>
+            </Box>
+            <Box display={"flex"} gap={2}>
+            {index === 0 ? (
+                  <Box>
+                  <Box display={"flex"}>
+                     <Typography
+                        className={
+                        searchResultStyles.onewayReturn +
+                        " btn btn-xs btn-gray "
+                        }
+                     >
+                        Outbound
+                     </Typography>
+                  </Box>
+                  </Box>
+               ) : (
+                  <Box>
+                  <Box display={"flex"}>
+                     <Typography
+                        className={
+                        searchResultStyles.onewayReturn +
+                        " btn btn-xs btn-gray"
+                        }
+                     >
+                        Return
+                     </Typography>
+                  </Box>
+                  </Box>
+               )}
+               
+            </Box>
+          </Box>
+          <Box
+            className={searchResultStyles.fromAndToRow}
+            key={index}
+            display="flex"
+            alignItems="center"
+            gap={2}
+            sx={{
+              mb: { xs: index === 0 ? 2 : 0, md: index === 0 ? 3 : 0 },
+            }}
+          >
+            {/* Airline Logo */}
+            <Box
+              className={searchResultStyles.logoCol}
+              sx={{ mr: { xs: 0, sm: 1, md: 1 } }}
+            >
+              <Avatar
+                src={offerData?.owner?.logo_symbol_url}
+                alt={offerData?.owner?.name}
+                className={searchResultStyles.airlineLogo}
+              />
+            </Box>
+
+            {/* Flight Details */}
+            <Box className={`${searchResultStyles.FlightTimingsCol} w-100`}>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                gap={2} // Optional spacing
+              >
+                {/* Departure Time & Code */}
+                <Box className={searchResultStyles.Timings}>
+                  <Typography
+                    className={searchResultStyles.flightDay + "  gray"}
+                  >
+                    {new Date(slice.departing_at).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                    })}
+                  </Typography>
+                  <Typography className={searchResultStyles.flightTime}>
+                    {new Date(slice.departing_at).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </Typography>
+                  <Typography
+                    className={searchResultStyles.flightRoute + " f12"}
+                  >
+                    {slice.origin.iata_code}
+                  </Typography>
+                </Box>
+
+                {/* Flight Duration with Dotted Line */}
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  flex={1}
+                  className={searchResultStyles.flightDurationBox}
+                >
+                  <Typography className={" gray f12"}>
+                    {slice.duration}
+                  </Typography>
+
+                  {/* Dotted Line */}
+                  <Box
+                    className={searchResultStyles.SearchDivider}
+                    width="100%"
+                    my={2}
+                  >
+                    <Box className={searchResultStyles.dots}>
+                      {slice.segments?.length === 1 ? (
+                        <Box className={searchResultStyles.dot}></Box> // Show one dot if only one segment
+                      ) : (
+                        <>
+                          {Array.from({ length: slice.segments.length }).map(
+                            (_, index) => (
+                              <Box
+                                key={index}
+                                className={searchResultStyles.dot}
+                              ></Box>
+                            )
+                          )}
+                        </>
+                      )}
+                    </Box>
+                  </Box>
+
+                  <Typography
+                    className={searchResultStyles.flightDuration + " semibold"}
+                  >
+                    {console.log("slice1111", slice.segments)}
+
+                    {slice.segments?.length === 1 ? (
+                      "Direct"
+                    ) : (
+                      <>
+                        <span className="red">
+                          {slice.segments.length - 1} stop
+                        </span>
+                        {slice.segments.length - 1 > 1 ? "s" : ""} -{" "}
+                        {slice.segments
+                          .slice(0, -1) // get all segments *except* the last one
+                          .map(
+                            (segment) =>
+                              `${segment.destination.city_name}, (${segment.destination.iata_code})`
+                          )
+                          .join(", ")}
+                      </>
+                    )}
+                  </Typography>
+                </Box>
+
+                {/* Arrival Time & Code */}
+                <Box textAlign={"right"} className={searchResultStyles.Timings}>
+                  <Typography
+                    className={searchResultStyles.flightDay + "  gray"}
+                  >
+                    {new Date(slice.arriving_at).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                    })}
+                  </Typography>
+
+                  <Typography className={searchResultStyles.flightTime}>
+                    {new Date(slice.arriving_at).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </Typography>
+                  <Typography
+                    className={searchResultStyles.flightRoute + " f12"}
+                  >
+                    {slice.destination.iata_code}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </>
+      ))}
+    </>
+  );
+};
+
+export default FromAndTo;

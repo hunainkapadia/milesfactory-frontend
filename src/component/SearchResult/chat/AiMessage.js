@@ -233,7 +233,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : aiMessage?.ai?.response === "passengerFlowActive" ? (
         //  Separate UI for BookFlight
         <>
-          <Box className={`${searchResultStyles.AiMessage}`}>
+          {/* <Box className={`${searchResultStyles.AiMessage}`}>
             <Typography fontWeight={"semibold"}>
               You have selected the flight option below.
             </Typography>
@@ -243,7 +243,7 @@ const AiMessage = ({ aiMessage }) => {
               offerData={getselectedFlight}
               FlightExpire={FlightExpire}
             />
-          </Box>
+          </Box> */}
           {/* selected flight end */}
           {GetViewPassengers ? (
             <PassengerInfo getdata={GetViewPassengers} />

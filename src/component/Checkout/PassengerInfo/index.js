@@ -37,10 +37,7 @@ const PassengerInfo = ({ getdata }) => {
   const filledPassengerUUIDs = useSelector((state) => state.passengerDrawer.filledPassengerUUIDs);
   
   
-  const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);  
-  
-  console.log("getselectedFlight", getselectedFlight);
-  
+  const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
 
   return (
     <>
@@ -86,12 +83,11 @@ const PassengerInfo = ({ getdata }) => {
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
-      {console.log("filledPassengerUUIDs", filledPassengerUUIDs.length)}
       {filledPassengerUUIDs.length > 0 && (
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box py={4}>
-              <Typography>You can now choose to add extra services</Typography>
+              <Typography>Select your seats now or add extra baggage</Typography>
             </Box>
           </Grid>
 

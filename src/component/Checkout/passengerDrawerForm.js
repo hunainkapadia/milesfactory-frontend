@@ -35,15 +35,14 @@ const PassengerDrawerForm = () => {
   const [passport_number, setpassport_number] = useState();
   const [passport_expire_date, setpassport_expire_date] = useState();
   const [nationality, setnationality] = useState();
-  
+
   // getting error
-  
+
   const countries = useSelector((state) => state.passengerDrawer.countries);
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  
   const params = {
     gender: gender,
     given_name: given_name,
@@ -68,7 +67,7 @@ const PassengerDrawerForm = () => {
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
-  console.log("formError222", formError);
+  // console.log("formError222", formError.non_field_errors[0]?.born_on)
 
   return (
     <Box
@@ -95,11 +94,24 @@ const PassengerDrawerForm = () => {
             </Link>
           </Box>
           <Divider />
+          <Box pt={2} pb={4}
+            display={"flex"}
+            flexDirection={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={2}
+          >
+            <Box className="imggroup" width={70}>
+              <img height={"100%"}  src="/images/user-circle.svg" />
+            </Box>
+            <Box>
+              <h4>New traveller</h4>
+            </Box>
+          </Box>
 
           <Box py={2} sx={{ px: { xs: 2, lg: 3, md: 3 } }}>
-
             <Box className="formGroup">
-              <FormLabel>Gender as per passport</FormLabel>
+              <FormLabel className="bold">Gender as per passport</FormLabel>
               <RadioGroup
                 row
                 value={gender}
@@ -124,7 +136,7 @@ const PassengerDrawerForm = () => {
             </Box>
 
             <Box className="formGroup">
-              <FormLabel>First Name</FormLabel>
+              <FormLabel className="bold">First Name</FormLabel>
               <TextField
                 className="formControl"
                 fullWidth
@@ -140,7 +152,7 @@ const PassengerDrawerForm = () => {
               )}
             </Box>
             <Box className="formGroup">
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel className="bold">Last Name</FormLabel>
               <TextField
                 className="formControl"
                 fullWidth
@@ -156,7 +168,7 @@ const PassengerDrawerForm = () => {
               )}
             </Box>
             <Box width="100%" className="formGroup">
-              <FormLabel>Date of Birth</FormLabel>
+              <FormLabel className="bold">Date of Birth</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   className="formControl"
@@ -171,14 +183,12 @@ const PassengerDrawerForm = () => {
                   )}
                 />
               </LocalizationProvider>
-              {formError?.born_on && (
                 <Typography className="error" color="red">
-                  {formError.born_on}
+                {(formError?.non_field_errors || [])[0]?.born_on}
                 </Typography>
-              )}
             </Box>
             <Box className="formGroup">
-              <FormLabel>Passport Number</FormLabel>
+              <FormLabel className="bold">Passport Number</FormLabel>
               <TextField
                 className="formControl"
                 fullWidth
@@ -194,7 +204,7 @@ const PassengerDrawerForm = () => {
               )}
             </Box>
             <Box width="100%" className="formGroup">
-              <FormLabel>Passport Expiry Date</FormLabel>
+              <FormLabel className="bold">Passport Expiry Date</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   className="formControl"
@@ -223,7 +233,7 @@ const PassengerDrawerForm = () => {
               )}
             </Box>
             <Box className="formGroup">
-              <FormLabel>Nationality</FormLabel>
+              <FormLabel className="bold">Nationality</FormLabel>
               <Autocomplete
                 className="select-dropdown"
                 options={countries}

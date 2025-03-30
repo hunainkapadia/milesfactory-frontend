@@ -11,23 +11,24 @@ import {
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-   closeDrawer,
-   fetchflightDetail,
-   setflightDetail,
-   setOpenDrawer,
-   setSelectFlightKey,
+  closeDrawer,
+  fetchflightDetail,
+  setflightDetail,
+  setOpenDrawer,
+  setSelectFlightKey,
 } from "@/src/store/slices/BookingflightSlice";
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols } from "@/src/utils/utils";
+import Link from "next/link";
 
-const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
-   useEffect(() => {
-      console.log("currencySymbols inside useEffect:", currencySymbols);
-    }, []);
-   const dispatch = useDispatch();
-
+const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
+  useEffect(() => {
+    console.log("offerDataofferData", );
+  }, []);
+  const dispatch = useDispatch();
+   const offerkey = offerData?.id;
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
@@ -38,22 +39,32 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  
+
   return (
-     <>
+    <>
       {/* Open drawer only for the selected flight */}
       {offerData ? (
         <>
           <Box>
-          
-            <h4 className="mb-0">
+            <h4 className="regular mb-0">
               {" "}
               {offerData?.slices[0]?.origin.city_name} to{" "}
               {offerData?.slices[0]?.destination.city_name}
             </h4>
           </Box>
-          <Box className=" gray" mb={2}>
-            <Typography className="mb-0 f12">
+          <Box className=" " mb={2}>
+            <Typography className=" f12 black semibold">
+              {offerData?.slices
+                .slice(0, 2)
+                .map((slice) =>
+                  new Date(slice.departing_at).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                  })
+                )
+                .join(" - ")}
+            </Typography>
+            <Typography className=" gray mb-0 f12">
               {offerData?.slices.length > 1 ? "Return" : "One-way"},{" "}
               {offerData?.passengers.length} Travellers
             </Typography>
@@ -64,185 +75,185 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
               <Grid className={TripStyles.CardLeft} lg={12} md={12}>
                 {/* footer */}
                 {/*  */}
-                {offerData?.slices.map((slice, index) => (
-                  <>
-                    {/* <Box className={TripStyles.rowExtraInfo}>
-                  <Box>
-                    <Typography className="f12 mb-0 bold black ">
-                      {console.log("offerData111", offerData.slices)}
-                      {offerData?.owner?.name}
-                    </Typography>
-                    <Typography
-                      textTransform={"capitalize"}
-                      className="f12 mb-0 bold gray "
-                    >
-                      {offerData?.flight_type}
-                    </Typography>
-                  </Box>
-                  <Box display={"flex"} gap={2}>
-                    <Box display={"flex"} alignItems={"center"}>
-                      <img src={"/images/checkout/carryon-bagg.svg"} />
-                      <Typography className={TripStyles.normalOption}>
-                        <span> 2 pieces</span>
-                      </Typography>
-                    </Box>
-                    <Box display={"flex"} alignItems={"center"}>
-                      <img src="/images/leave-icon.svg" />
-                      <Typography className={TripStyles.normalOption}>
-                        <span> {offerData?.total_emissions_kg} kg CO₂e</span>
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box> */}
-                    {index === 0 ? (
-                      <Box display={"flex"}>
-                        <Typography
-                          className={
-                            TripStyles.onewayReturn + " btn btn-xs btn-black "
-                          }
-                        >
-                          Outbound
-                        </Typography>
-                      </Box>
-                    ) : (
-                      <Box display={"flex"}>
-                        <Typography
-                          className={
-                            TripStyles.onewayReturn + " btn btn-xs btn-black"
-                          }
-                        >
-                          Return
-                        </Typography>
-                      </Box>
-                    )}
-                    <Box
-                      className={TripStyles.fromAndToRow}
-                      key={index}
-                      display="flex"
-                      alignItems="center"
-                      gap={2}
-                      my={1}
-                    >
-                      {/* Airline Logo */}
-
-                      {/* Flight Details */}
-                      <Box className={`${TripStyles.FlightTimingsCol} w-100`}>
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          gap={2} // Optional spacing
-                        >
-                          {/* Departure Time & Code */}
-                          <Box className={TripStyles.Timings}>
-                            <Typography
-                              className={TripStyles.flightDay + "  gray"}
-                            >
-                              {new Date(slice.departing_at).toLocaleDateString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                }
-                              )}
-                            </Typography>
-                            <Typography className={TripStyles.flightTime}>
-                              {new Date(slice.departing_at).toLocaleTimeString(
-                                [],
-                                {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                }
-                              )}
-                            </Typography>
-                            <Typography
-                              className={TripStyles.flightRoute + " f12"}
-                            >
-                              {slice.origin.iata_code}
-                            </Typography>
-                            <Typography
-                              className={TripStyles.flightRoute + " gray f12"}
-                            >
-                              {slice.origin.city_name}
-                            </Typography>
-                          </Box>
-
-                          {/* Flight Duration with Dotted Line */}
-                          <Box
-                            display="flex"
-                            flexDirection="column"
-                            alignItems="center"
-                            justifyContent="center"
-                            flex={1}
-                            className={TripStyles.flightDurationBox}
-                          >
+                <Box>
+                  {offerData?.slices.map((slice, index) => (
+                    <>
+                      <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
+                        {index === 0 ? (
+                          <Box display={"flex"}>
                             <Typography
                               className={
-                                TripStyles.flightDuration + " semibold"
+                                TripStyles.onewayReturn +
+                                " btn btn-xs btn-black "
                               }
                             >
-                              {slice.segments?.length === 1 ? (
-                                "Direct"
-                              ) : (
-                                <>
-                                  <span className="red">
-                                    {slice.segments.length - 1} stop
-                                  </span>
-                                  {slice.segments.length - 1 > 1 ? "s" : ""}
-                                </>
-                              )}
-                            </Typography>
-                            {/* Dotted Line */}
-                            <Box className={TripStyles.divider} py={0.5}>
-                              <img src="/images/plan-icon-sm.svg" />
-                            </Box>
-                            <Typography className={" gray f12"}>
-                              {slice.duration}
+                              Outbound
                             </Typography>
                           </Box>
-
-                          {/* Arrival Time & Code */}
-                          <Box
-                            textAlign={"right"}
-                            className={TripStyles.Timings}
-                          >
+                        ) : (
+                          <Box display={"flex"}>
                             <Typography
-                              className={TripStyles.flightDay + "  gray"}
+                              className={
+                                TripStyles.onewayReturn +
+                                " btn btn-xs btn-black"
+                              }
                             >
-                              {new Date(slice.arriving_at).toLocaleDateString(
-                                "en-GB",
-                                {
+                              Return
+                            </Typography>
+                          </Box>
+                        )}
+                        <Box style={{ cursor: "pointer" }}>
+                          <Link
+                            href={""}
+                            onClick={HandleSelectDrawer}
+                            className="text-decoration-none"
+                          >
+                            <Box
+                              gap={1}
+                              alignItems={"center"}
+                              display={"flex"}
+                              className=" semibold f12"
+                            >
+                              <span>Flight details</span>
+                              <i className="fa-angle-right fa fas"></i>{" "}
+                            </Box>
+                          </Link>
+                        </Box>
+                      </Box>
+                      {/*  */}
+                      <Box
+                        className={TripStyles.fromAndToRow}
+                        key={index}
+                        display="flex"
+                        alignItems="center"
+                        gap={2}
+                        mt={2}
+                      >
+                        {/* Airline Logo */}
+
+                        {/* Flight Details */}
+                        <Box className={`${TripStyles.FlightTimingsCol} w-100`}>
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            gap={2} // Optional spacing
+                          >
+                            {/* Departure Time & Code */}
+                            <Box className={TripStyles.Timings}>
+                              <Typography
+                                className={TripStyles.flightDay + "  gray"}
+                              >
+                                {new Date(
+                                  slice.departing_at
+                                ).toLocaleDateString("en-GB", {
                                   day: "2-digit",
                                   month: "short",
-                                }
-                              )}
-                            </Typography>
-
-                            <Typography className={TripStyles.flightTime}>
-                              {new Date(slice.arriving_at).toLocaleTimeString(
-                                [],
-                                {
+                                })}
+                              </Typography>
+                              <Typography className={TripStyles.flightTime}>
+                                {new Date(
+                                  slice.departing_at
+                                ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                })}
+                              </Typography>
+                              <Typography
+                                className={TripStyles.flightRoute + " f12"}
+                              >
+                                {slice.origin.iata_code}
+                              </Typography>
+                              <Typography
+                                className={TripStyles.flightRoute + " gray f12"}
+                              >
+                                {slice.origin.city_name}
+                              </Typography>
+                            </Box>
+
+                            {/* Flight Duration with Dotted Line */}
+                            <Box
+                              display="flex"
+                              flexDirection="column"
+                              alignItems="center"
+                              justifyContent="center"
+                              flex={1}
+                              className={TripStyles.flightDurationBox}
+                            >
+                              <Typography
+                                className={
+                                  TripStyles.flightDuration + " semibold"
                                 }
-                              )}
-                            </Typography>
-                            <Typography
-                              className={TripStyles.flightRoute + " f12"}
+                              >
+                                {slice.segments?.length === 1 ? (
+                                  "Direct"
+                                ) : (
+                                  <>
+                                    <span className="red">
+                                      {slice.segments.length - 1} stop
+                                    </span>
+                                    {slice.segments.length - 1 > 1 ? "s" : ""}
+                                  </>
+                                )}
+                              </Typography>
+                              {/* Dotted Line */}
+                              <Box className={TripStyles.divider} py={0.5}>
+                                <img src="/images/plan-icon-sm.svg" />
+                              </Box>
+                              <Typography className={" gray f12"}>
+                                {slice.duration}
+                              </Typography>
+                            </Box>
+
+                            {/* Arrival Time & Code */}
+                            <Box
+                              textAlign={"right"}
+                              className={TripStyles.Timings}
                             >
-                              {slice.destination.iata_code}
-                            </Typography>
-                            <Typography
-                              className={TripStyles.flightRoute + " gray  f12"}
-                            >
-                              {slice.destination.city_name}
-                            </Typography>
+                              <Typography
+                                className={TripStyles.flightDay + "  gray"}
+                              >
+                                {new Date(slice.arriving_at).toLocaleDateString(
+                                  "en-GB",
+                                  {
+                                    day: "2-digit",
+                                    month: "short",
+                                  }
+                                )}
+                              </Typography>
+
+                              <Typography className={TripStyles.flightTime}>
+                                {new Date(slice.arriving_at).toLocaleTimeString(
+                                  [],
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )}
+                              </Typography>
+                              <Typography
+                                className={TripStyles.flightRoute + " f12"}
+                              >
+                                {slice.destination.iata_code}
+                              </Typography>
+                              <Typography
+                                className={
+                                  TripStyles.flightRoute + " gray  f12"
+                                }
+                              >
+                                {slice.destination.city_name}
+                              </Typography>
+                            </Box>
                           </Box>
                         </Box>
                       </Box>
-                    </Box>
-                  </>
-                ))}
+
+                      <Box py={2}>
+                        <Divider />
+                      </Box>
+                    </>
+                  ))}
+                </Box>
                 {/*  */}
               </Grid>
 
@@ -326,9 +337,6 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
             </Grid>
             {/* Extra Info bottom */}
           </Box>
-          <Box py={2}>
-            <Divider />
-          </Box>
           <Box display={"none"} flexDirection={"column"} gap={2}>
             <Box
               display={"flex"}
@@ -379,15 +387,17 @@ const YourTripSedebarCard = ({ offerData, offerkey, FlightExpire }) => {
             </Box>
           </Box>
           <Box>
-            
             <Box display={"flex"} alignItems={"center"} mb={2}>
               <Box>
-                <h3 className="bold mb-0">
-                
-                {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} {Math.round(offerData?.total_amount)}
-                </h3>
-                <Typography className="gray">
-                {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency} {Math.round(offerData?.per_passenger_amount)} per person
+                <h4 className="bold mb-0">
+                  {currencySymbols[offerData?.tax_currency] ||
+                    offerData?.tax_currency}{" "}
+                  {Math.round(offerData?.total_amount)}
+                </h4>
+                <Typography className="gray f12">
+                  {currencySymbols[offerData?.tax_currency] ||
+                    offerData?.tax_currency}{" "}
+                  {Math.round(offerData?.per_passenger_amount)} per person
                 </Typography>
               </Box>
             </Box>
