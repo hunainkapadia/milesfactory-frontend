@@ -22,7 +22,7 @@ const bookingflightsSlice = createSlice({
 
   reducers: {
     
-    setSelectedFlightKey: (state, action) => { // New reducer
+    setSelectedFlightKey: (state, action) => { // New reducer for selected flight key
       console.log("setSelectedFlightKey", action);
       
       state.selectedFlightKey = action.payload;

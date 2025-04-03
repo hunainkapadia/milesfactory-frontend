@@ -30,16 +30,17 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
           </Typography> */}
         </Box>
         <Box gap={4} pt={3}>
-          <Box display={"flex"} alignItems={"center"} gap={4} py={3}>
+          <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={4} py={3}>
             <Box>
+              <Typography className="basecolor-dark" fontWeight={"bold"}>
+                  Outbound seat
+              </Typography>
               <Typography className="basecolor-dark">
-                <span className=" bold ">Seat:</span> 40E
+                40E
               </Typography>
             </Box>
-            <Link className="btn btn-link" href={""}>
-              <Box
-                display="flex"
-                alignItems="center"
+            <Link className="btn btn-link right" href={""}>
+              <Box textAlign={"right"}
                 className="basecolor1"
                 gap={2}
               >

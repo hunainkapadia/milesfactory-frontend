@@ -16,16 +16,29 @@ const FromAndTo = ({ offerData }) => {
                 textTransform={"capitalize"}
                 className="f12 mb-0 bold gray "
               >
-                {console.log("offerData?.flight_type", offerData?.flight_type)}
-                {offerData?.flight_type}
+                {[
+                  ...new Set(
+                    slice?.segments
+                      ?.flatMap((segment) =>
+                        segment?.passengers?.map((p) => p?.cabin_class)
+                      )
+                      ?.filter(Boolean)
+                  ),
+                ]
+                  .join(", ")
+                  .replace(/\b\w/g, (c) => c.toUpperCase()) || "No Cabin Info"}
               </Typography>
             </Box>
-            <Box className={StyleSheet.RightCol} display={"flex"} alignItems={"center"}>
+            <Box
+              className={StyleSheet.RightCol}
+              display={"flex"}
+              alignItems={"center"}
+            >
               {/* <Box display={"flex"} gap={2}>
                 <Box display={"flex"} alignItems={"center"}>
                   <img src={"/images/checkout/carryon-bagg.svg"} />
                   <Typography className={searchResultStyles.normalOption}>
-                    <span> 2 pieces</span>
+                    <span> 2outb pieces</span>
                   </Typography>
                 </Box>
                 <Box display={"flex"} alignItems={"center"}>
@@ -35,34 +48,53 @@ const FromAndTo = ({ offerData }) => {
                   </Typography>
                 </Box>
               </Box> */}
+
               <Box display={"flex"} gap={2}>
-                {index === 0 ? (
-                  <Box>
-                    <Box display={"flex"}>
-                      <Typography
-                        className={
-                          searchResultStyles.onewayReturn +
-                          " btn btn-xs btn-gray "
-                        }
-                      >
-                        Outbound
+                {offerData?.slices.length > 1 ? ( // Only show for round trips
+                  index === 0 ? (
+                    <Box>
+                      <Box display={"flex"}>
+                        <Typography
+                          className={
+                            searchResultStyles.onewayReturn +
+                            " btn btn-xs btn-gray "
+                          }
+                        >
+                          Outbound
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ) : (
+                    <Box>
+                      <Box display={"flex"}>
+                        <Typography
+                          className={
+                            searchResultStyles.onewayReturn +
+                            " btn btn-xs btn-gray"
+                          }
+                        >
+                          Return
+                        </Typography>
+                      </Box>
+                    </Box>
+                  )
+                ) : (
+                  <Box display={"flex"} gap={2}>
+                    <Box display={"flex"} alignItems={"center"}>
+                      <img src={"/images/checkout/carryon-bagg.svg"} />
+                      <Typography className={searchResultStyles.normalOption}>
+                        <span>2 pieces</span>
                       </Typography>
                     </Box>
-                  </Box>
-                ) : (
-                  <Box>
-                    <Box display={"flex"}>
-                      <Typography
-                        className={
-                          searchResultStyles.onewayReturn +
-                          " btn btn-xs btn-gray"
-                        }
-                      >
-                        Return
+                    <Box display={"flex"} alignItems={"center"}>
+                      <img src="/images/leave-icon.svg" />
+                      <Typography className={searchResultStyles.normalOption}>
+                        <span> {offerData?.total_emissions_kg} kg CO₂e</span>
                       </Typography>
                     </Box>
                   </Box>
                 )}
+                {/*  */}
               </Box>
             </Box>
           </Box>

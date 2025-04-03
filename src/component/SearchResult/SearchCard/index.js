@@ -21,19 +21,20 @@ import {
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols } from "@/src/utils/utils";
-import SearchBaggages from "../SearchBaggages";
-import { PassengerForm, setisLoading } from "@/src/store/slices/passengerDrawerSlice";
+import {
+  PassengerForm,
+  setisLoading,
+} from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import FromAndTo from "../FromAndTo";
+import RightTopSection from "../RightTopSection";
 
 const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
 
-  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
-      
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
     }
@@ -41,7 +42,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  
+
   console.log("isPassenger", offerData);
   console.log("offerkey111", offerData);
   // selected flight detail get for send data in select button click
@@ -62,7 +63,9 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
   };
 
-  const selectedFlightKey = useSelector((state) => state.booking.selectedFlightKey);
+  const selectedFlightKey = useSelector(
+    (state) => state.booking.selectedFlightKey
+  );
   console.log("selectedFlightKey", selectedFlightKey);
   return (
     <>
@@ -87,7 +90,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
             flexDirection={"column"}
           >
             <Box sx={{ display: { xs: "block", md: "none" } }}>
-              <SearchBaggages offerData={offerData} />
+            
+              <RightTopSection offerData={offerData} />
             </Box>
             <Box
               display={"flex"}
@@ -140,7 +144,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
               ) : (
                 <>
                   <Box sx={{ display: { xs: "none", md: "block" } }}>
-                    <SearchBaggages
+                    <RightTopSection
                       SelectDrawer={HandleSelectDrawer}
                       offerData={offerData}
                     />
@@ -150,7 +154,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     width={"100%"}
                     display={"flex"}
                     flexDirection={"column"}
-                    gap={3}
+                    gap={1}
+                    className={searchResultStyles.PriceBottom}
                   >
                     <Box>
                       <h4
@@ -163,33 +168,45 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           offerData?.tax_currency}{" "}
                         {Math.round(offerData?.total_amount)}
                       </h4>
-                      {console.log("offerData?.total_amount", offerData?.per_passenger_amount)}
+                      {console.log(
+                        "offerData?.total_amount",
+                        offerData?.per_passenger_amount
+                      )}
                       <Typography className=" f12 gray">
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                          {Math.round(offerData?.per_passenger_amount)} per person
+                        {Math.round(offerData?.per_passenger_amount)} per person
                       </Typography>
                     </Box>
+                    {/* main select handle */}
                     {!isPassenger ? (
-                        <Box width={"100%"}>
-                          <button
-                            className={
-                              "w-100 btn btn-primary btn-round btn-md " +
-                              searchResultStyles.selectFlightBtn
-                            }
-                            onClick={handleBookFlight}
-                          >
-                            Select
-                          </button>
-                        </Box>
+                      <Box width={"100%"}>
+                        <button
+                          className={
+                            "w-100 btn btn-primary btn-round btn-md " +
+                            searchResultStyles.selectFlightBtn
+                          }
+                          onClick={handleBookFlight}
+                        >
+                          Select
+                        </button>
+                      </Box>
                     ) : (
                       ""
-                    )}
-                    {" "}
-                    {/* {selectedFlightKey === offerkey && (
-                      <h1 className="f12 green">Selected Flight</h1>
-                    )} */}
+                    )}{" "}
+                    {selectedFlightKey === offerkey && (
+                      <Box width={"100%"}>
+                        <button
+                          className={
+                            " w-100 btn btn-disabled btn-round btn-md f12 " +
+                            searchResultStyles.selectFlightBtn
+                          }
+                        >
+                          <span>Selected</span>
+                        </button>
                       </Box>
+                    )}
+                  </Box>
                 </>
               )}
             </Box>

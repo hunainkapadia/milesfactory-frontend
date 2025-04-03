@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }) {
     <Provider store={store}>
       <StyledEngineProvider injectFirst={false}>
         <Head>
-          <link rel="icon" href="/images/favicon_mylz_big_full.svg" />
+          <link rel="icon" href="/images/favicon_mylz_v2.svg" />
         </Head>
         {/* Now it's safe to use Redux hooks inside */}
         <AppWrapper Component={Component} pageProps={pageProps} />

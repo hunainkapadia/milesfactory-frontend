@@ -23,8 +23,10 @@ import {
   IsSignupUser,
   logoutUser,
   openDrawer,
+  setIsSignupPopup,
   setIsSignupUser,
   setOpenDrawer,
+  setSignupPopup,
   setsignUpUser,
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
@@ -32,13 +34,16 @@ import {
   setIsUser,
   setLoginCloseDrawer,
   setLoginOpenDrawer,
+  setLoginPopup,
   setLoginUser,
 } from "@/src/store/slices/Auth/LoginSlice";
 import { useRouter } from "next/router";
+import LoginForm from "../../Auth/LoginForm";
+import SignUpForm from "../../Auth/SignupForm";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
-  const [ispopup, setispopup] = useState(false);
+  const [isUserPopup, setisUserPopup] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
 
@@ -54,9 +59,9 @@ const Header = ({ isMessage, IsActive }) => {
   // const isMessage = sendMessages > 0 || getmessages > 0; //check message length
 
   // signup
-  const isuserLogin = useSelector((state) => state?.login?.IsUser); // get user from cookie with redux
+  const isuserLogin = useSelector((state) => state?.login?.loginUser?.user); // get user from cookie with redux
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
-  console.log("isuserLogin", isuserLogin);
+  
 
   // login set user in redux from cookies
   useEffect(() => {
@@ -102,24 +107,36 @@ const Header = ({ isMessage, IsActive }) => {
   // for login dialog
   const HandleBookTrip = () => {
     setIsDrawerOpen(!isDrawerOpen);
-    setispopup(true);
+    setisUserPopup(true);
   };
   const HandlePopup = () => {
-    setispopup(true);
+    setisUserPopup(true);
   };
   const handlePopupClose = () => {
-    setispopup(false);
+    setisUserPopup(false);
   };
-  // for login signup
-  const HandleSignIn = () => {
-    setispopup(false);
-    dispatch(setLoginOpenDrawer());
+  // for login dialog
+  const HandleLogin = () => {
+    setisUserPopup(false); // for close user popup
+    dispatch(setLoginPopup(true)); // for close login popup
   };
+  const handleLoginPopupClose = ()=> {
+    dispatch(setLoginPopup(false));
+  }
   const HandleSignup = () => {
-    setispopup(false);
-    dispatch(setOpenDrawer());
+    setisUserPopup(false);
+    dispatch(setSignupPopup(true));
   };
+  const handleSignupPopupClose = ()=> {
+    dispatch(setSignupPopup(false));
+  }
+  const isLoginPopup = useSelector((state) => state.login.LoginPopup);
+  const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
+  console.log("isSignupPopup", isSignupPopup);
+  
 
+  
+  
   const router = useRouter();
   const logoHandle = () => {
     if (router.pathname !== "/") {
@@ -197,8 +214,9 @@ const Header = ({ isMessage, IsActive }) => {
             </Box>
 
             <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
-              {isuserLogin ? (
+              {currentUser ? (
                 <Box className={styles.Dropdown} position={"relative"}>
+                {console.log("currentUser", currentUser?.first_name)}
                   <Box
                     className={styles.Login}
                     display="flex"
@@ -207,7 +225,7 @@ const Header = ({ isMessage, IsActive }) => {
                     gap={1}
                   >
                     <i className="fa fa-user-circle"></i>
-                    <Box>{isuserLogin?.user?.first_name || ""}</Box>
+                    <Box>{currentUser?.first_name || ""}</Box>
                     {/*  */}
                   </Box>
                   <Box className={styles.DropdownItems}>
@@ -321,16 +339,18 @@ const Header = ({ isMessage, IsActive }) => {
                   </Link>
                 </Box>
               ) : (
-                <Box
-                  sx={{ display: { xs: "none", md: "flex" } }}
-                  className="btn btn-primary btn-md btn-round"
-                  alignItems="center"
-                  justifyContent="center"
-                  gap={1}
-                  component="button"
-                  onClick={HandlePopup}
-                >
-                  <Box>Book a trip</Box>
+                <Box display={"flex"} alignItems={"center"}>
+                  <Box
+                    sx={{ display: { xs: "none", md: "flex" } }}
+                    className="btn btn-primary btn-md btn-round"
+                    alignItems="center"
+                    justifyContent="center"
+                    gap={1}
+                    component="button"
+                    onClick={HandlePopup}
+                  >
+                    <Box>Book a trip</Box>
+                  </Box>
                 </Box>
               )}
             </Box>
@@ -387,7 +407,7 @@ const Header = ({ isMessage, IsActive }) => {
         {/*  */}
       </Drawer>
       <Dialog
-        open={ispopup}
+        open={isUserPopup}
         onClose={handlePopupClose}
         maxWidth="sm" // Set max width to 1280px
         fullWidth // Forces Dialog to expand to maxWidth
@@ -429,19 +449,79 @@ const Header = ({ isMessage, IsActive }) => {
           >
             <Button
               className={"btn btn-secondary btn-md no-rounded"}
-              href="/signin"
+              href="#"
+              onClick={HandleLogin}
               component="button"
             >
               <Box>Sign in</Box>
             </Button>
             <Button
               className={"btn btn-primary btn-md no-rounded"}
-              href="/signup"
+              href="#"
+              onClick={HandleSignup}
               component="button"
             >
               <Box>Sign up for free</Box>
             </Button>
           </Box>
+        </DialogContent>
+      </Dialog>
+
+{/* logoin popup */}
+      <Dialog
+        open={isLoginPopup}
+        onClose={HandleLogin}
+        maxWidth="sm" // Set max width to 1280px
+        fullWidth // Forces Dialog to expand to maxWidth
+      >
+        <IconButton
+          aria-label="close"
+          onClick={handleLoginPopupClose}
+          sx={{
+            position: "absolute",
+            right: 16,
+            zIndex: 1,
+            top: 8,
+            color: "#000", // Change color if needed
+          }}
+        >
+          <i className="fa fa-times" aria-hidden="true"></i>
+        </IconButton>
+
+        <DialogContent
+          sx={{
+            textAlign: { xs: "center", md: "left", lg: "left" },
+          }}
+        >
+          <LoginForm />
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={isSignupPopup}
+        onClose={HandleSignup}
+        maxWidth="sm" // Set max width to 1280px
+        fullWidth // Forces Dialog to expand to maxWidth
+      >
+        <IconButton
+          aria-label="close"
+          onClick={handleSignupPopupClose}
+          sx={{
+            position: "absolute",
+            right: 16,
+            zIndex: 1,
+            top: 8,
+            color: "#000", // Change color if needed
+          }}
+        >
+          <i className="fa fa-times" aria-hidden="true"></i>
+        </IconButton>
+
+        <DialogContent
+          sx={{
+            textAlign: { xs: "center", md: "left", lg: "left" },
+          }}
+        >
+          <SignUpForm />
         </DialogContent>
       </Dialog>
     </>

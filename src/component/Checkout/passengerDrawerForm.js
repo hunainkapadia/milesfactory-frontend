@@ -21,10 +21,12 @@ import {
   PassengerForm,
   PassengerFormSubmit,
   setClosePassengerDrawer,
+  setIsFormLoading,
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
 import AddPassengersStep from "./AddPassengersStep";
 import Link from "next/link";
+import ButtonLoading from "../LoadingArea/ButtonLoading";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -62,12 +64,14 @@ const PassengerDrawerForm = () => {
   };
 
   const SubmitPassenger = () => {
+    dispatch(setIsFormLoading(true))
     dispatch(PassengerFormSubmit(params));
   };
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
-  // console.log("formError222", formError.non_field_errors[0]?.born_on)
+  const isFormLoading = useSelector((state) => state.passengerDrawer.isFormLoading);
+  console.log("isFormLoading", isFormLoading)
 
   return (
     <Box
@@ -94,15 +98,17 @@ const PassengerDrawerForm = () => {
             </Link>
           </Box>
           <Divider />
-          <Box pt={2} pb={4}
+          <Box
+            pt={2}
+            pb={4}
             display={"flex"}
             flexDirection={"column"}
             alignItems={"center"}
             justifyContent={"center"}
             gap={2}
           >
-            <Box className="imggroup" width={70}>
-              <img height={"100%"}  src="/images/user-circle.svg" />
+            <Box className="imggroup">
+              <img height={"100%"} src="/images/user-circle.svg" />
             </Box>
             <Box>
               <h4>New traveller</h4>
@@ -183,9 +189,9 @@ const PassengerDrawerForm = () => {
                   )}
                 />
               </LocalizationProvider>
-                <Typography className="error" color="red">
+              <Typography className="error" color="red">
                 {(formError?.non_field_errors || [])[0]?.born_on}
-                </Typography>
+              </Typography>
             </Box>
             <Box className="formGroup">
               <FormLabel className="bold">Passport Number</FormLabel>
@@ -270,16 +276,19 @@ const PassengerDrawerForm = () => {
                 style={{ cursor: "pointer" }}
                 onClick={handleCloseDrawer}
                 className={"gray"}
+                disabled={isFormLoading} // Disable when loading
               >
                 <span>Close</span>
               </Box>
+            
               <Button
                 className="btn btn-primary btn-md btn-round"
                 onClick={SubmitPassenger}
+                disabled={isFormLoading} // Disable when loading
                 variant="contained"
                 color="success"
               >
-                Book flight
+                  {isFormLoading ? <ButtonLoading /> : <span>Book flight</span> }
               </Button>
             </Box>
           </Box>

@@ -8,12 +8,16 @@ const initialState = {
   isLoading: false,
   error: null,
   flightExpire: "",
+  refreshSearch: ""
 };
 
 const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    setRefreshSearch: (state, action)=> {
+      state.refreshSearch = action.payload;
+    },
     setMessage: (state, action) => {
       state.messages.push(action.payload);
     },
@@ -94,6 +98,13 @@ export const fetchMessages = () => (dispatch) => {
       dispatch(setIsLoading(false));
     });
 };
+export const RefreshHandle =()=> {
+  dispatch(setRefreshSearch())
+  console.log("REFRESH_SEARCH11")
+  api.post(API_ENDPOINTS.CHAT.REFRESH_SEARCH).then((res)=> {
+    console.log("REFRESH_SEARCH", res)
+  })
+}
 
 export const {
   setMessage,
@@ -101,5 +112,6 @@ export const {
   setError,
   setAllFlightGetApi,
   setFlightExpire,
+  setRefreshSearch,
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

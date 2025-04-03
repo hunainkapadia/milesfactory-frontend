@@ -20,6 +20,7 @@ const passengerDrawerSlice = createSlice({
     ClosePassengerDrawer: false,
     OpenPassengerDrawer: false,
     PassengerFormError: null,
+    isFormLoading: false,
     // selectedFlightDetail: null,
   },
   reducers: {
@@ -72,6 +73,10 @@ const passengerDrawerSlice = createSlice({
     },
     setisLoading: (state)=> {
       state.isLoading = true;
+    },
+    setIsFormLoading: (state)=> {
+      console.log("state111", state)
+      state.isFormLoading = false
     },
     setPassengerFormError: (state, action) => {
       state.PassengerFormError = action.payload;
@@ -168,7 +173,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return; // Stop submission if validation fails
   
-  dispatch(setisLoading(true))
+  dispatch(setIsFormLoading(true))
   const statesPassengerSubmitUrl = getState();
   const PassengerSubmitUrl =
     statesPassengerSubmitUrl?.passengerDrawer?.PassengerSubmitURL;
@@ -195,7 +200,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       const errors = passengerFormerror.response.data;
       dispatch(setPassengerFormError(errors))
     }).finally(()=>{
-      dispatch(setisLoading(false))
+      dispatch(setIsFormLoading(false))
     })
 };
 
@@ -219,6 +224,7 @@ export const {
   setisLoading,
   markPassengerAsFilled,
   setPassengerFormError,
+  setIsFormLoading,
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

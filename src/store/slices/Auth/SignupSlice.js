@@ -11,16 +11,16 @@ const initialState = {
   lastNameError: "",
   emailError: "",
   passwordError: "",
-  IsSignupUser: null,
+  SignupPopup: false,
 };
 
 const signupSlice = createSlice({
   name: "signup",
   initialState,
   reducers: {
-    setIsSignupUser: (state, action)=> {
+    setSignupPopup: (state, action)=> {
       console.log("action1212", action);
-      state.IsSignupUser = action.payload
+      state.SignupPopup = action.payload
     },
     setsignUpUser: (state, action) => {    
       state.SignupUser = action.payload;
@@ -95,7 +95,7 @@ export const {
   setPasswordError,
   logoutUser,
   seIstLoading,
-  setIsSignupUser,
+  setSignupPopup,
 } = signupSlice.actions;
 
 export default signupSlice.reducer;

@@ -18,11 +18,11 @@ const LoginWithOptions = () => {
             alignItems={"center"}
             justifyContent={"center"}
             gap={1}
-            p={2}
-            mb={2}
+            p={1}
+            mb={1}
             fontWeight={"bold"}
           >
-            <i className="fa-brands fa-google"></i>
+            <i className="f24 fa-brands fa-google"></i>
             <Typography fontWeight={"bold"}>Sign up with Google</Typography>
           </Box>
         </Link>
@@ -37,11 +37,11 @@ const LoginWithOptions = () => {
             alignItems={"center"}
             justifyContent={"center"}
             gap={1}
-            p={2}
-            mb={2}
+            p={1}
+            mb={1}
             fontWeight={"bold"}
           >
-            <i className="fa-brands fa-apple"></i>
+            <i className="f24 fa-brands fa-apple"></i>
             <Typography fontWeight={"bold"}>Sign up with Apple ID</Typography>
           </Box>
         </Link>
@@ -56,11 +56,11 @@ const LoginWithOptions = () => {
             alignItems={"center"}
             justifyContent={"center"}
             gap={1}
-            p={2}
-            mb={2}
+            p={1}
+            mb={1}
             fontWeight={"bold"}
           >
-            <i className="fa-brands fa-facebook"></i>
+            <i className="f24 fa-brands fa-facebook"></i>
             <Typography fontWeight={"bold"}>Sign up with Facebook</Typography>
           </Box>
         </Link>
@@ -71,7 +71,7 @@ const LoginWithOptions = () => {
         alignItems={"center"}
         justifyContent={"center"}
         gap={2}
-        sx={{ my: { xs: 4, md: 6, lg: 6 } }}
+        sx={{ my: { xs: 2, md: 2, lg: 2 } }}
         px={2}
       >
         <hr />

@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   error: null,
   LoginError: "",
-  loginOpenDrawer: false,
+  LoginPopup: false,
   LoginCloseDrawer: false,
   IsUser: null,
 };
@@ -37,11 +37,11 @@ const loginSlice = createSlice({
     setisLoading: (state, action)=> {
       state.isLoading = action.payload;
     },
-    setLoginOpenDrawer: (state)=> {
-      state.loginOpenDrawer = true;
+    setLoginPopup: (state, action) => {
+      state.LoginPopup = action.payload; // Accepts `true` or `false`
     },
     setLoginCloseDrawer: (state)=> {
-      state.loginOpenDrawer = false;
+      state.LoginPopup = false;
     }
     
   },
@@ -55,6 +55,7 @@ export const loginUser = (params) => (dispatch) => {
      .then((res) => {
        if (res.status === 200) {
          dispatch(setLoginUser({ user: res.data, status: res.status }));
+         dispatch(setLoginPopup(false))
          // Store user info in cookies
          Cookies.set(
            "set-user",
@@ -101,7 +102,7 @@ export const refreshToken = (rejectWithValue) => (dispatch) => {
 
 
 export const {
-  setLoginOpenDrawer,
+  setLoginPopup,
   setLoginCloseDrawer,
   LogincloseDrawer,
   setLoginUser,

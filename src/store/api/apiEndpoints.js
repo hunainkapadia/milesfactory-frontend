@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
    CHAT: {
      SEND_MESSAGE: "/api/v1/chat/send-message",
      GET_MESSAGE: "/api/v1/chat/get-messages",
+     REFRESH_SEARCH: "/api/v1/refresh/",
    },
    BOOKING: {
     BOOKING_DETAIL: "/api/v1/search/single/result/",
@@ -16,8 +17,6 @@ export const API_ENDPOINTS = {
     COUNTRIES: "/api/v1/nationalities",
     PASSENGERFORM: "/api/v1/order/",
     VIEWPASSENGERS: "/api/v1/order/",
-    
-    
    }
    // Add more sections if needed (e.g., TICKETS, USERS, PAYMENTS)
  };

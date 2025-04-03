@@ -33,6 +33,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
+import LoginWithOptions from "../LoginWithOptions";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -67,163 +68,187 @@ const SignUpForm = () => {
       router.push("/");
     }
   }, [isFormSupmit, router]);
-  // 
+  //
   const isuserLogin = useSelector(
-      (state) => state?.login?.IsUser?.status === 200
-    );
-    // get user from cookie with redux for redirect to home
-  
-    useEffect(() => {
-      if (isuserLogin) {
-        router.push("/");
-      }
-    }, [isuserLogin, router]);
+    (state) => state?.login?.IsUser?.status === 200
+  );
+  // get user from cookie with redux for redirect to home
+
+  useEffect(() => {
+    if (isuserLogin) {
+      router.push("/");
+    }
+  }, [isuserLogin, router]);
 
   return (
-    <Box>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault(); // Prevent page reload
-          handleLogin(); // Call login
-        }}
-      >
-        <Box container spacing={2} py={2}>
-          <Box className=" formGroup">
-            <FormLabel className=" formLabel">First Name</FormLabel>
-            <TextField className="formControl"
-              fullWidth
-              placeholder="Enter First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              margin="normal"
-            />
-            <Typography className="error" color="red">
-              {firstNameError}
+    <main className={styles.signupSection + " bg-cover bg-norepeat bg-center"}>
+      <Box py={2} px={12} position={"relative"}>
+        <Box>
+          <Box mb={5}>
+            <h1 className="">Create an account</h1>
+            <Typography textAlign={"center"} pt={2}>
+              Already have an account?{" "}
+              <Link className="basecolor-dark" href={"/signin"}>
+                Sign in
+              </Link>
             </Typography>
           </Box>
-
-          <Box className=" formGroup">
-            <FormLabel className=" formLabel">Last Name</FormLabel>
-            <TextField className="formControl"
-              fullWidth
-              placeholder="Enter Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              margin="normal"
-            />
-          </Box>
-          <Typography className="error" color="red">
-            {lastNameError}
+          <LoginWithOptions />
+          <Typography align="center" mb={2}>
+            Enter your email below to create an account.
           </Typography>
-
-          <Box className=" formGroup">
-            <FormLabel className=" formLabel">Email</FormLabel>
-            <TextField className="formControl"
-              fullWidth
-              placeholder="Enter Email Address"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              margin="normal"
-            />
-          </Box>
-          <Typography className="error" color="red">
-            {emailError}
-          </Typography>
-
-          <Box className=" formGroup mb-0">
-            <FormLabel className=" formLabel">Password</FormLabel>
-            <TextField className="formControl"
-              fullWidth
-              placeholder="Enter Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              margin="normal"
-            />
-          </Box>
-          <Typography className="error" color="red">
-            {passwordError}
-          </Typography>
-          {/* <Alert severity="error" sx={{ mt: 2 }}></Alert> */}
 
           <Box>
-            <Box pt={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={""}
-                    // onChange={(e) => setAgreeTerms("e.target.checked")}
-                    color="primary"
+            <form
+              onSubmit={(e) => {
+                e.preventDefault(); // Prevent page reload
+                handleLogin(); // Call login
+              }}
+            >
+              <Box container spacing={2} py={2}>
+                <Box className=" formGroup">
+                  <FormLabel className=" formLabel">First Name</FormLabel>
+                  <TextField
+                    className="formControl"
+                    fullWidth
+                    placeholder="Enter First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    margin="normal"
                   />
-                }
-                label={
-                  <Typography variant="body2" color="textSecondary">
-                    Agree to our{" "}
-                    <Link href="/terms" passHref legacyBehavior>
-                      <a
-                        className="basecolor"
-                        target="_blank"
-                        style={{
-                          textDecoration: "underline",
-                        }}
-                      >
-                        Terms of Service
-                      </a>
-                    </Link>{" "}
-                    and{" "}
-                    <Link href="/privacy" passHref legacyBehavior>
-                      <a
-                        className="basecolor"
-                        target="_blank"
-                        style={{
-                          textDecoration: "underline",
-                        }}
-                      >
-                        Privacy Policy
-                      </a>
-                    </Link>
+                  <Typography className="error" color="red">
+                    {firstNameError}
                   </Typography>
-                }
-              />
-            </Box>
+                </Box>
 
-            <Box sx={{ py: { xs: 5, lg: 2, md: 2 } }}>
-              <Box
-                display="flex"
-                justifyContent="flex-end"
-                alignItems="center"
-                gap={3}
-              >
-                {/* Select Flight Button */}
-                <Button
-                  className="btn btn-primary btn-sm"
-                  onClick={handleSignUp}
-                  variant="contained"
-                  color="success"
-                  disabled={isLoading} // Disable when loading
-                  type="submit" // Important!
-                  fullWidth
-                  sx={{
-                    width: { xs: "100%", lg: "auto", md: "auto" },
-                  }}
-                >
-                  {isLoading ? (
-                    <ButtonLoading />
-                  ) : (
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <span>Sign Up</span>
+                <Box className=" formGroup">
+                  <FormLabel className=" formLabel">Last Name</FormLabel>
+                  <TextField
+                    className="formControl"
+                    fullWidth
+                    placeholder="Enter Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    margin="normal"
+                  />
+                </Box>
+                <Typography className="error" color="red">
+                  {lastNameError}
+                </Typography>
+
+                <Box className=" formGroup">
+                  <FormLabel className=" formLabel">Email</FormLabel>
+                  <TextField
+                    className="formControl"
+                    fullWidth
+                    placeholder="Enter Email Address"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    margin="normal"
+                  />
+                </Box>
+                <Typography className="error" color="red">
+                  {emailError}
+                </Typography>
+
+                <Box className=" formGroup mb-0">
+                  <FormLabel className=" formLabel">Password</FormLabel>
+                  <TextField
+                    className="formControl"
+                    fullWidth
+                    placeholder="Enter Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    margin="normal"
+                  />
+                </Box>
+                <Typography className="error" color="red">
+                  {passwordError}
+                </Typography>
+                {/* <Alert severity="error" sx={{ mt: 2 }}></Alert> */}
+
+                <Box>
+                  <Box pt={2}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={""}
+                          // onChange={(e) => setAgreeTerms("e.target.checked")}
+                          color="primary"
+                        />
+                      }
+                      label={
+                        <Typography variant="body2" color="textSecondary">
+                          Agree to our{" "}
+                          <Link href="/terms" passHref legacyBehavior>
+                            <a
+                              className="basecolor"
+                              target="_blank"
+                              style={{
+                                textDecoration: "underline",
+                              }}
+                            >
+                              Terms of Service
+                            </a>
+                          </Link>{" "}
+                          and{" "}
+                          <Link href="/privacy" passHref legacyBehavior>
+                            <a
+                              className="basecolor"
+                              target="_blank"
+                              style={{
+                                textDecoration: "underline",
+                              }}
+                            >
+                              Privacy Policy
+                            </a>
+                          </Link>
+                        </Typography>
+                      }
+                    />
+                  </Box>
+
+                  <Box sx={{ py: { xs: 5, lg: 2, md: 2 } }}>
+                    <Box
+                      display="flex"
+                      justifyContent="flex-end"
+                      alignItems="center"
+                      gap={3}
+                    >
+                      {/* Select Flight Button */}
+                      <Button
+                        className="btn btn-primary btn-sm"
+                        onClick={handleSignUp}
+                        variant="contained"
+                        color="success"
+                        disabled={isLoading} // Disable when loading
+                        type="submit" // Important!
+                        fullWidth
+                        sx={{
+                          width: { xs: "100%", lg: "auto", md: "auto" },
+                        }}
+                      >
+                        {isLoading ? (
+                          <ButtonLoading />
+                        ) : (
+                          <Box display="flex" alignItems="center" gap={1}>
+                            <span>Sign Up</span>
+                          </Box>
+                        )}
+                      </Button>
                     </Box>
-                  )}
-                </Button>
+                  </Box>
+                </Box>
               </Box>
-            </Box>
+              {/*  */}
+              {/* Footer */}
+            </form>
           </Box>
         </Box>
-        {/*  */}
-        {/* Footer */}
-      </form>
-    </Box>
+      </Box>
+    </main>
   );
 };
 

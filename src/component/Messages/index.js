@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
+import { fetchMessages, RefreshHandle, setRefreshSearch } from "@/src/store/slices/GestMessageSlice";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 
 import styles from "@/src/styles/sass/components/Home.module.scss";
@@ -88,7 +88,10 @@ const Messages = () => {
   );
   const FlightExpire = useSelector((state)=> state.getMessages.flightExpire);
   
-
+  const refreshHandle =()=> {
+    dispatch(RefreshHandle())
+    dispatch(setRefreshSearch())
+  }
   
 
   return (
@@ -117,7 +120,7 @@ const Messages = () => {
               {FlightExpire ? (
                 <>
                   <Box py={2}>
-                    <Link href={""} className="text-decuration-none bold">
+                    <Link href={""} onClick={refreshHandle} className="text-decuration-none bold">
                       Refresh this search
                     </Link>
                   </Box>
