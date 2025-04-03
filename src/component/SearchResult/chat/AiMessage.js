@@ -91,7 +91,10 @@ const AiMessage = ({ aiMessage }) => {
     ? getAllFlightGetApi?.offers
     : getAllFlightGetApi?.offers?.slice(0, 3);
 
-  console.log("displayedGetFlights", displayedGetFlights);
+  const filledPassenger = useSelector(
+    (state) => state.passengerDrawer.filledPassengerUUIDs
+  );
+  console.log("filledPassenger", filledPassenger);
 
   return (
     <Box
@@ -251,14 +254,19 @@ const AiMessage = ({ aiMessage }) => {
           {GetViewPassengers ? (
             <>
               <PassengerInfo getdata={GetViewPassengers} />
-              <PaymentInfo />
-              
-              <PaymentDrawer />
-              <PaymentAddCard />
             </>
           ) : (
             <LoadingArea />
           )}
+          {/* for all passenger fill  */}
+          {GetViewPassengers &&
+          filledPassenger.length === GetViewPassengers.length ? (
+            <>
+              <PaymentInfo />
+              <PaymentDrawer />
+              <PaymentAddCard />
+            </>
+          ) : null}
         </>
       ) : (
         //  Default AI Response (Text)

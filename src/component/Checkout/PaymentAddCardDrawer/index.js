@@ -15,11 +15,11 @@ import paymentStyles from "@/src/styles/sass/components/checkout/Payment.module.
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import Link from "next/link";
-import { closeDrawer, setAddCardDrawer } from "@/src/store/slices/PaymentSlice";
+import { closeDrawer, setAddCardDrawer, setCloseCardDrawer } from "@/src/store/slices/PaymentSlice";
 import PaymentCard from "../PaymentCard";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import PaymentFooter from "./PaymentFooter";
+import PaymentAddCardFooter from "./PaymentAddCardFooter";
 
 const PaymentAddCardDrawer = ({ getFlightDetail }) => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -30,7 +30,7 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
   };
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
-    dispatch(closeDrawer()); //setSelectFlightKey empty then close drawer
+    dispatch(setCloseCardDrawer()); //setSelectFlightKey empty then close drawer
   };
 
   const isDrawer = useSelector((state) => state.payment.AddCardDrawer);
@@ -108,49 +108,109 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
               </Box>
               {/*  */}
               <Box spacing={2} py={2}>
-                <Box className=" formGroup">
-                  <FormLabel className=" formLabel">Cardholder name</FormLabel>
-                  <TextField
-                    className="formControl"
-                    fullWidth
-                    placeholder="Cardholder name"
-                    value={""}
-                    // onChange={(e) => setFirstName(e.target.value)}
-                    margin="normal"
-                  />
-                </Box>
                 {/*  */}
-                <Box className=" formGroup">
-                  <FormLabel className=" formLabel">Card number</FormLabel>
-                  <TextField
-                    className="formControl"
-                    fullWidth
-                    placeholder="Card number"
-                    value={""}
-                    // onChange={(e) => setFirstName(e.target.value)}
-                    margin="normal"
-                  />
-                </Box>
                 {/*  */}
-                <Box width="100%" className="formGroup">
-                  <FormLabel className="bold">Date of Birth</FormLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      className="formControl"
-                      value={bornOn} // ✅ Use valid state (null or dayjs object)
-                      onChange={(newValue) => setBornOn(newValue)} // ✅ Updates state correctly
-                      renderInput={(params) => (
-                        <TextField {...params} fullWidth margin="normal" />
-                      )}
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={12}>
+                    <Box className=" formGroup">
+                      <FormLabel className=" formLabel">
+                        Cardholder name
+                      </FormLabel>
+                      <TextField
+                        className="formControl"
+                        fullWidth
+                        placeholder="Cardholder name"
+                        value={""}
+                        // onChange={(e) => setFirstName(e.target.value)}
+                        margin="normal"
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <Box className=" formGroup">
+                      <FormLabel className=" formLabel">Card number</FormLabel>
+                      <TextField
+                        className="formControl"
+                        fullWidth
+                        placeholder="Card number"
+                        value={""}
+                        // onChange={(e) => setFirstName(e.target.value)}
+                        margin="normal"
+                      />
+                    </Box>
+                  </Grid>
+                  {/* First Date Picker */}
+                  <Grid item xs={12} md={6}>
+                    <Box className="formGroup">
+                      <FormLabel className="bold">Expiry date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          className="formControl"
+                          value={bornOn} // ✅ Use valid state (null or dayjs object)
+                          onChange={(newValue) => setBornOn(newValue)} // ✅ Updates state correctly
+                          renderInput={(params) => (
+                            <TextField {...params} fullWidth margin="normal" />
+                          )}
+                        />
+                      </LocalizationProvider>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Box className=" formGroup">
+                      <FormLabel className=" formLabel">
+                        Security code
+                      </FormLabel>
+                      <TextField
+                        className="formControl"
+                        fullWidth
+                        placeholder="CVV"
+                        value={""}
+                        // onChange={(e) => setFirstName(e.target.value)}
+                        margin="normal"
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <Box className=" formGroup">
+                      <FormLabel className=" formLabel">
+                        ZIP / Postcode
+                      </FormLabel>
+                      <TextField
+                        className="formControl"
+                        fullWidth
+                        placeholder="ZIP / Postcode"
+                        value={""}
+                        // onChange={(e) => setFirstName(e.target.value)}
+                        margin="normal"
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <FormControlLabel
+                      sx={{ display: "flex", alignItems: "start" }} // Aligns items to the top-left
+                      control={
+                        <Checkbox
+                          // onChange={(e) => setAgreeTerms("e.target.checked")}
+                          color="primary"
+                        />
+                      }
+                      label={
+                        <Typography variant="body2" color="textSecondary">
+                          I have read and accepted General Conditions of Sale
+                          and Fare conditions. I have read the Legal notices and
+                          accepted that the airline policy will apply if I
+                          decide to cancel or modify my trip.
+                        </Typography>
+                      }
                     />
-                  </LocalizationProvider>
-                </Box>
+                  </Grid>
+                </Grid>
                 {/*  */}
               </Box>
               {/*  */}
             </Box>
           </Box>
-          {/* <PaymentFooter HandlecloseDrawer={HandlecloseDrawer} /> */}
+          <PaymentAddCardFooter HandlecloseDrawer={HandlecloseDrawer} />
         </Box>
       </Box>
     </Drawer>
