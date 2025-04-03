@@ -12,6 +12,9 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import LoadingArea from "../../LoadingArea";
 import { sanitizeResponse } from "@/src/utils/utils";
+import PaymentInfo from "../../Checkout/PaymentInfo";
+import PaymentDrawer from "../../Checkout/PaymentDrawer";
+import PaymentAddCard from "../../Checkout/PaymentAddCardDrawer";
 
 const AiMessage = ({ aiMessage }) => {
   //  State to toggle flight search results
@@ -246,7 +249,13 @@ const AiMessage = ({ aiMessage }) => {
           </Box> */}
           {/* selected flight end */}
           {GetViewPassengers ? (
-            <PassengerInfo getdata={GetViewPassengers} />
+            <>
+              <PassengerInfo getdata={GetViewPassengers} />
+              <PaymentInfo />
+              
+              <PaymentDrawer />
+              <PaymentAddCard />
+            </>
           ) : (
             <LoadingArea />
           )}

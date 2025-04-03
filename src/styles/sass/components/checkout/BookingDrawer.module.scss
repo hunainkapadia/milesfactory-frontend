@@ -204,3 +204,10 @@
    }
       .title {font-size: 12px;}
 }
+
+// payment
+.PriceSection .PriceRow:not(:last-child)  {
+   border-bottom: solid 1px $lightgray3;
+   padding: 10px 0px;
+   margin: 10px 0;
+}

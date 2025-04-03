@@ -1057,6 +1057,24 @@ body {
   font-weight: $semibold;
   font-size: 14px;
 }
+.btn-link {
+  text-transform: none;
+  font-family: $primary-font;
+  font-size: $bfsize - 2;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: 500;
+  cursor: pointer;
+  >div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
 .btn {
   text-transform: none;
   font-family: $primary-font;

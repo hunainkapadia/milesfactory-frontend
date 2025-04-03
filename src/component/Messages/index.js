@@ -117,7 +117,7 @@ const Messages = () => {
 
               {getFlightKey && <BookingDrawer getFlightDetail={flightDetail} />}
               {isPassengerDrawerOpen ? <PassengerDrawerForm /> : ""}
-              {FlightExpire ? (
+              {/* {FlightExpire ? (
                 <>
                   <Box py={2}>
                     <Link href={""} onClick={refreshHandle} className="text-decuration-none bold">
@@ -131,7 +131,7 @@ const Messages = () => {
                 </>
               ) : (
                 ""
-              )}
+              )} */}
             </Box>
           </Box>
         </section>

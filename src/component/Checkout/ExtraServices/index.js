@@ -9,19 +9,17 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
   return (
     <Grid item xs={6}>
       <Box className={styles.passengersCard}>
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          gap={2}
-        >
+        <Box display={"flex"} alignItems={"center"} gap={2}>
           <Box className="imggroup" width={70}>
             <img height={"100%"} src="/images/user-circle.svg" />
           </Box>
           <Box>
             <Typography textTransform={"capitalize"} mb={0} variant="h6">
-               {getServicesdata.given_name} {getServicesdata.family_name}
+              {getServicesdata.given_name} {getServicesdata.family_name}
             </Typography>
-            <Typography textTransform={"capitalize"} className="basecolor-dark">{getServicesdata.type}</Typography>
+            <Typography textTransform={"capitalize"} className="basecolor-dark">
+              {getServicesdata.type}
+            </Typography>
           </Box>
           {/* <Typography className="mb-10" mb={1} variant="h6">
             + {currencySymbols[getServicesdata?.tax_currency] ||
@@ -30,61 +28,152 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
           </Typography> */}
         </Box>
         <Box gap={4} pt={3}>
-          <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={4} py={3}>
+          <Box display={"flex"} justifyContent={"space-between"} gap={4} py={3}>
             <Box>
               <Typography className="basecolor-dark" fontWeight={"bold"}>
-                  Outbound seat
+                Outbound seat
               </Typography>
-              <Typography className="basecolor-dark">
-                40E
-              </Typography>
+              <Typography className="gray">40E</Typography>
             </Box>
-            <Link className="btn btn-link right" href={""}>
-              <Box textAlign={"right"}
-                className="basecolor1"
-                gap={2}
-              >
-                <i className="fa fa-pencil"></i>
-                <div>Change seat</div>
+            <Link className="btn-link" href={""}>
+              <Box textAlign={"right"} className="basecolor1" gap={2}>
+                <div>Change</div>
               </Box>
             </Link>
           </Box>
-          {/*  */}
-          <Typography mb={1} variant="h6">
-            Included in ticket (BCN - CDG)
-          </Typography>
-          <Box display={"flex"} alignItems={"center"} gap={3}>
-            <Box display={"flex"} gap={1} alignItems={"center"}>
-              <Box>
-                <img src={"/images/checkout/checked-bagg.svg"} />
-              </Box>
-              <Typography>10 x</Typography>
+          <Box display={"flex"} justifyContent={"space-between"} gap={4} py={3}>
+            <Box>
+              <Typography className="basecolor-dark" fontWeight={"bold"}>
+                Return seat
+              </Typography>
+              <Typography className="gray">Not selected</Typography>
             </Box>
-            <Box display={"flex"} gap={1} alignItems={"center"}>
-              <Box>
-                <img src={"/images/checkout/carryon-bagg.svg"} />
+            <Link className="btn-link" href={""}>
+              <Box textAlign={"right"} className="basecolor1" gap={2}>
+                <div>Change</div>
               </Box>
-              <Typography>10 x</Typography>
-            </Box>
-            <Box display={"flex"} gap={1} alignItems={"center"}>
-              <Box>
-                <img src={"/images/checkout/personal-items.svg"} />
-              </Box>
-              <Typography>10 x</Typography>
-            </Box>
+            </Link>
           </Box>
-          {/* baggage end */}
-          <Link className="btn btn-link" href={""}>
+          {/* seats row end */}
+          {/*  */}
+          <Box
+            className={styles.BaggageRows}
+            display={"flex"}
+            flexDirection={"column"}
+            gap={2}
+          >
             <Box
-              display="flex"
-              alignItems="center"
-              className="basecolor1 bold"
+              className={styles.BaggageRow}
+              display={"flex"}
+              flexDirection={"column"}
               gap={2}
             >
-              <i className="fa fa-plus"></i>
-              <div>Add luggage</div>
+              <Box display={"flex"} justifyContent={"space-between"} gap={4}>
+                <Box>
+                  <Typography className="basecolor-dark" fontWeight={"bold"}>
+                    Outbound baggage
+                  </Typography>
+                </Box>
+                <Link className="btn-link" href={""}>
+                  <Box textAlign={"right"} className="basecolor1" gap={2}>
+                    <div>Change</div>
+                  </Box>
+                </Link>
+              </Box>
+              {/*  */}
+              <Box display={"flex"} gap={5}>
+                <Box
+                  width={"100%"}
+                  display={"flex"}
+                  gap={1}
+                  flexDirection={"column"}
+                >
+                  <Box display={"flex"} gap={1} alignItems={"center"}>
+                    <Box>
+                      <img src={"/images/checkout/personal-items.svg"} />
+                    </Box>
+                    <Typography>10 x</Typography>
+                  </Box>
+                  <Typography className="gray">Handbag/laptop bag</Typography>
+                </Box>
+                <Box width={"100%"}>
+                  <Box display={"flex"} gap={1} alignItems={"center"}>
+                    <Box>
+                      <img src={"/images/checkout/carryon-bagg.svg"} />
+                    </Box>
+                    <Typography>10 x</Typography>
+                  </Box>
+                  <Typography className="gray">Carry-on bags</Typography>
+                </Box>
+                <Box width={"100%"}>
+                  <Box display={"flex"} gap={1} alignItems={"center"}>
+                    <Box>
+                      <img src={"/images/checkout/checked-bagg.svg"} />
+                    </Box>
+                    <Typography>10 x</Typography>
+                  </Box>
+                  <Typography className="gray">Checked bags</Typography>
+                </Box>
+              </Box>
             </Box>
-          </Link>
+            {/* row end */}
+            <Box
+              className={styles.BaggageRow}
+              display={"flex"}
+              flexDirection={"column"}
+              gap={2}
+            >
+              <Box display={"flex"} justifyContent={"space-between"} gap={4}>
+                <Box>
+                  <Typography className="basecolor-dark" fontWeight={"bold"}>
+                    Return baggage
+                  </Typography>
+                </Box>
+                <Link className="btn-link" href={""}>
+                  <Box textAlign={"right"} className="basecolor1" gap={2}>
+                    <div>Change</div>
+                  </Box>
+                </Link>
+              </Box>
+              {/*  */}
+              <Box display={"flex"} gap={5}>
+                <Box
+                  width={"100%"}
+                  display={"flex"}
+                  gap={1}
+                  flexDirection={"column"}
+                >
+                  <Box display={"flex"} gap={1} alignItems={"center"}>
+                    <Box>
+                      <img src={"/images/checkout/personal-items.svg"} />
+                    </Box>
+                    <Typography>10 x</Typography>
+                  </Box>
+                  <Typography className="gray">Handbag/laptop bag</Typography>
+                </Box>
+                <Box width={"100%"}>
+                  <Box display={"flex"} gap={1} alignItems={"center"}>
+                    <Box>
+                      <img src={"/images/checkout/carryon-bagg.svg"} />
+                    </Box>
+                    <Typography>10 x</Typography>
+                  </Box>
+                  <Typography className="gray">Carry-on bags</Typography>
+                </Box>
+                <Box width={"100%"}>
+                  <Box display={"flex"} gap={1} alignItems={"center"}>
+                    <Box>
+                      <img src={"/images/checkout/checked-bagg.svg"} />
+                    </Box>
+                    <Typography>10 x</Typography>
+                  </Box>
+                  <Typography className="gray">Checked bags</Typography>
+                </Box>
+              </Box>
+            </Box>
+            {/* row end */}
+          </Box>
+          {/* baggage rows end */}
         </Box>
       </Box>
       {/*  */}

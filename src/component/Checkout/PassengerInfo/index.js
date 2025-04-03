@@ -4,13 +4,16 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import PassengersCard from "../PassengersCard";
-import { PassengerForm, setOpenPassengerDrawer, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
+import {
+  PassengerForm,
+  setOpenPassengerDrawer,
+  setPassengerUUID,
+} from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
 
 const PassengerInfo = ({ getdata }) => {
-
   console.log("getdata", getdata);
-  
+
   const dispatch = useDispatch();
   const passengerDetails = useSelector(
     (state) => state.passengerDrawer.passengerDetails
@@ -21,23 +24,29 @@ const PassengerInfo = ({ getdata }) => {
   const handlePassengerToggle = (uuid) => {
     setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
   };
-  
-  const handlePassengerAdd = () => {  
-    if (selectedPassenger) { // Ensure a passenger is selected
-      dispatch(PassengerForm()) //must need to knw redux export const PassengerForm
+
+  const handlePassengerAdd = () => {
+    if (selectedPassenger) {
+      // Ensure a passenger is selected
+      dispatch(PassengerForm()); //must need to knw redux export const PassengerForm
       dispatch(setPassengerUUID(selectedPassenger));
       dispatch(setOpenPassengerDrawer());
     } else {
     }
   };
-  
+
   // get pasenger form data
-  const getPassFormData = useSelector((state)=> state?.passengerDrawer?.PassFormData);
-  
-  const filledPassengerUUIDs = useSelector((state) => state.passengerDrawer.filledPassengerUUIDs);
-  
-  
-  const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
+  const getPassFormData = useSelector(
+    (state) => state?.passengerDrawer?.PassFormData
+  );
+
+  const filledPassengerUUIDs = useSelector(
+    (state) => state.passengerDrawer.filledPassengerUUIDs
+  );
+
+  const getselectedFlight = useSelector(
+    (state) => state?.booking?.flightDetail
+  );
 
   return (
     <>
@@ -87,7 +96,9 @@ const PassengerInfo = ({ getdata }) => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box py={4}>
-              <Typography>Select your seats now or add extra baggage</Typography>
+              <Typography>
+                Select your seats now or add extra baggage
+              </Typography>
             </Box>
           </Grid>
 
@@ -96,7 +107,11 @@ const PassengerInfo = ({ getdata }) => {
               filledPassengerUUIDs.includes(passenger.uuid)
             ) // Filter only filled
             .map((passenger, index) => (
-              <ExtraServices key={passenger.uuid} getServicesdata={passenger} selectedFlight={getselectedFlight} />
+              <ExtraServices
+                key={passenger.uuid}
+                getServicesdata={passenger}
+                selectedFlight={getselectedFlight}
+              />
             ))}
         </Grid>
       )}

@@ -1,0 +1,48 @@
+@import "../../variables";
+
+
+.paymentCard {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   padding: 16px;
+   border-radius: 10px;
+   border: solid 1px $lightgray3;
+   background-color: $white;
+
+   cursor: pointer;
+   transition: border 0.3s;
+ 
+   &:hover {
+     border-color: #007bff;
+   }
+ }
+ .AddCard {
+   background: $white;
+   border: 1px dashed $lightgray3;
+   @include border-radius(8px);
+ }
+ 
+ .selected {
+   border-color: #007bff;
+ }
+ 
+ .cardTitle {
+   font-weight: 600;
+   font-size: 16px;
+ }
+ 
+ .cardDescription {
+   font-size: 14px;
+   color: #ccc;
+ }
+ 
+ .termsContainer {
+   margin-top: 16px;
+   font-size: 14px;
+   color: #333;
+ 
+   label {
+     line-height: 1.5;
+   }
+ }

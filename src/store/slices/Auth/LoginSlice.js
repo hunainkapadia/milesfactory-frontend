@@ -19,8 +19,6 @@ const loginSlice = createSlice({
   reducers: {
     setIsUser: (state, action)=> {
       state.IsUser = action.payload;
-      
-
     },
     setLoginUser: (state, action) => {
       state.loginUser = action.payload;

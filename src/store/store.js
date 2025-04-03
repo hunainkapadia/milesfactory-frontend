@@ -6,6 +6,7 @@ import passengerDrawerReducer from "./slices/passengerDrawerSlice" ;
 import signupReducer from "./slices/Auth/SignupSlice" ;
 import loginReducer from "./slices/Auth/LoginSlice";
 import baseReducer from "./slices/Base/baseSlice";
+import paymentReducer from "./slices/PaymentSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     passengerDrawer: passengerDrawerReducer,
     signup :  signupReducer,
     login :  loginReducer,
+    payment :  paymentReducer,
     base: baseReducer,
 
   },
