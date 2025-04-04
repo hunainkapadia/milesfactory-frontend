@@ -4,9 +4,7 @@ import { Box, Typography, Chip, Rating, Stack } from "@mui/material";
 const PaymentSuccess = () => {
   return (
     <Box
-      sx={{
-        p: 3,
-      }}
+      py={3}
     >
       {/* Success Message */}
       <Box mb={3}>
@@ -36,7 +34,7 @@ const PaymentSuccess = () => {
          name="static-rating"
          value={4}
          readOnly
-         sx={{ mt: 1, color: "#00C4CC" }}
+         sx={{ mt: 2, color: "#00C4CC", fontSize:"30px" }}
          />
       </Box>
 
