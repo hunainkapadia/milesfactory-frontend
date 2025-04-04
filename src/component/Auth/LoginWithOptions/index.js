@@ -22,7 +22,7 @@ const LoginWithOptions = () => {
             mb={1}
             fontWeight={"bold"}
           >
-            <i className="f24 fa-brands fa-google"></i>
+            <i className="f20 fa-brands fa-google"></i>
             <Typography fontWeight={"bold"}>Sign up with Google</Typography>
           </Box>
         </Link>
@@ -41,7 +41,7 @@ const LoginWithOptions = () => {
             mb={1}
             fontWeight={"bold"}
           >
-            <i className="f24 fa-brands fa-apple"></i>
+            <i className="f20 fa-brands fa-apple"></i>
             <Typography fontWeight={"bold"}>Sign up with Apple ID</Typography>
           </Box>
         </Link>
@@ -60,7 +60,7 @@ const LoginWithOptions = () => {
             mb={1}
             fontWeight={"bold"}
           >
-            <i className="f24 fa-brands fa-facebook"></i>
+            <i className="f20 fa-brands fa-facebook"></i>
             <Typography fontWeight={"bold"}>Sign up with Facebook</Typography>
           </Box>
         </Link>

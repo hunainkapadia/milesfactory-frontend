@@ -9,13 +9,14 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import { loginUser } from "@/src/store/slices/Auth/LoginSlice";
+import { loginUser, setLoginPopup } from "@/src/store/slices/Auth/LoginSlice";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
 import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import LoginWithOptions from "../LoginWithOptions";
+import { setSignupPopup } from "@/src/store/slices/Auth/SignupSlice";
 
-const LoginForm = () => {
+const LoginForm = ({  }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,26 +45,27 @@ const LoginForm = () => {
       router.push("/");
     }
   }, [isuserLogin, router]);
+  
+  const HandleSignup =()=> {
+    dispatch(setLoginPopup(false));
+    dispatch(setSignupPopup(true));
+  }
 
   return (
     <main className={styles.signupSection + " bg-cover bg-norepeat bg-center"}>
-      <Box
-      py={2}
-      px={12}
-        position={"relative"}
-      >
+      <Box py={2} px={12} position={"relative"}>
         <Box>
           <Box textAlign={"center"} mb={2}>
             <h1 className="">Sign in</h1>
             <Typography textAlign={"center"} pt={2}>
               Don’t have an account?{" "}
-              <Link className="basecolor-dark" href={"/signup"}>
+              <Link onClick={()=>HandleSignup()} className="basecolor-dark" href={""}>
                 Create one
               </Link>
             </Typography>
           </Box>
           <LoginWithOptions />
-          
+
           <Typography align="center" mb={2}>
             Enter your email and password below
           </Typography>
@@ -126,12 +128,22 @@ const LoginForm = () => {
                   alignItems="center"
                   gap={3}
                 >
-                  <Box sx={{ width: { xs: "100%", lg: "auto", md: "auto" } }} textAlign="center">
-                    <Link className="text-decuration-none basecolor-dark" href={"/forgot-password"} >
+                  <Box
+                    sx={{ width: { xs: "100%", lg: "auto", md: "auto" } }}
+                    textAlign="center"
+                  >
+                    <Link
+                      className="text-decuration-none basecolor-dark"
+                      href={"/forgot-password"}
+                    >
                       Forgot your password? Get a link to reset your password
                     </Link>
                   </Box>
-                  <Box display={"flex"} justifyContent={"flex-end"} width={"100%"}>
+                  <Box
+                    display={"flex"}
+                    justifyContent={"flex-end"}
+                    width={"100%"}
+                  >
                     <Button
                       type="submit" // Important!
                       className="btn btn-primary btn-sm btn-round"

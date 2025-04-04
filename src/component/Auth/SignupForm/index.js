@@ -17,6 +17,7 @@ import {
   closeDrawer,
   openDrawer,
   setCloseDrawer,
+  setSignupPopup,
   setsignUpUser,
   SignUpUser,
   SignupUser,
@@ -29,6 +30,7 @@ import {
   loginOpenDrawer,
   setLoginCloseDrawer,
   setLoginOpenDrawer,
+  setLoginPopup,
 } from "@/src/store/slices/Auth/LoginSlice";
 import { LoadingButton } from "@mui/lab";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
@@ -80,15 +82,22 @@ const SignUpForm = () => {
     }
   }, [isuserLogin, router]);
 
+  // for login popup
+  const HandleLogin = () => {
+    dispatch(setSignupPopup(false));
+    dispatch(setLoginPopup(true)); // for close login popup
+      // dispatch(setLoginPopup(true)); // for close login popup
+    };
+
   return (
     <main className={styles.signupSection + " bg-cover bg-norepeat bg-center"}>
-      <Box py={2} px={12} position={"relative"}>
+      <Box py={2} px={10} position={"relative"}>
         <Box>
           <Box mb={5}>
-            <h1 className="">Create an account</h1>
+            <h1 className="center">Create an account</h1>
             <Typography textAlign={"center"} pt={2}>
               Already have an account?{" "}
-              <Link className="basecolor-dark" href={"/signin"}>
+              <Link onClick={HandleLogin} className="basecolor-dark" href={""}>
                 Sign in
               </Link>
             </Typography>

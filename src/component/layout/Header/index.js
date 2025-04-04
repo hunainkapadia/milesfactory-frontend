@@ -116,14 +116,14 @@ const Header = ({ isMessage, IsActive }) => {
     setisUserPopup(false);
   };
   // for login dialog
-  const HandleLogin = () => {
+  const HandleSigninPopup = () => {
     setisUserPopup(false); // for close user popup
     dispatch(setLoginPopup(true)); // for close login popup
   };
   const handleLoginPopupClose = ()=> {
     dispatch(setLoginPopup(false));
   }
-  const HandleSignup = () => {
+  const HandleSignupPopup = () => {
     setisUserPopup(false);
     dispatch(setSignupPopup(true));
   };
@@ -450,7 +450,7 @@ const Header = ({ isMessage, IsActive }) => {
             <Button
               className={"btn btn-secondary btn-md no-rounded"}
               href="#"
-              onClick={HandleLogin}
+              onClick={HandleSigninPopup}
               component="button"
             >
               <Box>Sign in</Box>
@@ -458,7 +458,7 @@ const Header = ({ isMessage, IsActive }) => {
             <Button
               className={"btn btn-primary btn-md no-rounded"}
               href="#"
-              onClick={HandleSignup}
+              onClick={HandleSignupPopup}
               component="button"
             >
               <Box>Sign up for free</Box>
@@ -470,7 +470,7 @@ const Header = ({ isMessage, IsActive }) => {
 {/* logoin popup */}
       <Dialog
         open={isLoginPopup}
-        onClose={HandleLogin}
+        onClose={HandleSigninPopup}
         maxWidth="sm" // Set max width to 1280px
         fullWidth // Forces Dialog to expand to maxWidth
       >
@@ -498,7 +498,7 @@ const Header = ({ isMessage, IsActive }) => {
       </Dialog>
       <Dialog
         open={isSignupPopup}
-        onClose={HandleSignup}
+        onClose={HandleSignupPopup}
         maxWidth="sm" // Set max width to 1280px
         fullWidth // Forces Dialog to expand to maxWidth
       >
