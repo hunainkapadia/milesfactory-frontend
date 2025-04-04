@@ -28,7 +28,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
           </Typography> */}
         </Box>
         <Box gap={4} pt={3}>
-          <Box display={"flex"} justifyContent={"space-between"} gap={4} py={3}>
+          <Box display={"flex"} justifyContent={"space-between"} gap={4} mb={3}>
             <Box>
               <Typography className="basecolor-dark" fontWeight={"bold"}>
                 Outbound seat
@@ -41,7 +41,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
               </Box>
             </Link>
           </Box>
-          <Box display={"flex"} justifyContent={"space-between"} gap={4} py={3}>
+          <Box display={"flex"} justifyContent={"space-between"} gap={4} mb={3}>
             <Box>
               <Typography className="basecolor-dark" fontWeight={"bold"}>
                 Return seat
