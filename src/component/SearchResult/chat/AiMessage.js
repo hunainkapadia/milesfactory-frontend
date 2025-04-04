@@ -15,6 +15,7 @@ import { sanitizeResponse } from "@/src/utils/utils";
 import PaymentInfo from "../../Checkout/PaymentInfo";
 import PaymentDrawer from "../../Checkout/PaymentDrawer";
 import PaymentAddCard from "../../Checkout/PaymentAddCardDrawer";
+import PaymentSuccess from "../../Checkout/PaymentSuccess";
 
 const AiMessage = ({ aiMessage }) => {
   //  State to toggle flight search results
@@ -263,6 +264,7 @@ const AiMessage = ({ aiMessage }) => {
               <PaymentInfo />
               <PaymentDrawer />
               <PaymentAddCard />
+              <PaymentSuccess />
             </>
           ) : null}
         </>

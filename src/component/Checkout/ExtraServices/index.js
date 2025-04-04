@@ -14,10 +14,10 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
             <img height={"100%"} src="/images/user-circle.svg" />
           </Box>
           <Box>
-            <Typography textTransform={"capitalize"} mb={0} variant="h6">
+            <Typography className="f14 bold" textTransform={"capitalize"} mb={0}>
               {getServicesdata.given_name} {getServicesdata.family_name}
             </Typography>
-            <Typography textTransform={"capitalize"} className=" gray">
+            <Typography textTransform={"capitalize"} className=" f12 gray">
               {getServicesdata.type}
             </Typography>
           </Box>
@@ -30,10 +30,10 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
         <Box gap={4} pt={3}>
           <Box display={"flex"} justifyContent={"space-between"} gap={4} mb={3}>
             <Box>
-              <Typography className="basecolor-dark" fontWeight={"bold"}>
+              <Typography className="f12 basecolor-dark" fontWeight={"bold"}>
                 Outbound seat
               </Typography>
-              <Typography className="gray">40E</Typography>
+              <Typography className="f12 gray">40E</Typography>
             </Box>
             <Link className="btn-link" href={""}>
               <Box textAlign={"right"} className="basecolor1" gap={2}>
@@ -43,14 +43,14 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
           </Box>
           <Box display={"flex"} justifyContent={"space-between"} gap={4} mb={3}>
             <Box>
-              <Typography className="basecolor-dark" fontWeight={"bold"}>
+              <Typography className="f12 basecolor-dark" fontWeight={"bold"}>
                 Return seat
               </Typography>
-              <Typography className="gray">Not selected</Typography>
+              <Typography className="f12 gray">Not selected</Typography>
             </Box>
             <Link className="btn-link" href={""}>
               <Box textAlign={"right"} className="basecolor1" gap={2}>
-                <div>Change</div>
+                Change
               </Box>
             </Link>
           </Box>
@@ -70,7 +70,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
             >
               <Box display={"flex"} justifyContent={"space-between"} gap={4}>
                 <Box>
-                  <Typography className="basecolor-dark" fontWeight={"bold"}>
+                  <Typography className="f12 basecolor-dark" fontWeight={"bold"}>
                     Outbound baggage
                   </Typography>
                 </Box>
@@ -93,9 +93,9 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     <Box>
                       <img src={"/images/checkout/personal-items.svg"} />
                     </Box>
-                    <Typography>10 x</Typography>
+                    <Typography className={styles.baggageTotal + " f14"}>10 x</Typography>
                   </Box>
-                  <Typography className="gray">Handbag/laptop bag</Typography>
+                  <Typography className={styles.baggageLabel + " f11 gray"}>Handbag/laptop bag</Typography>
                 </Box>
                 <Box
                   className={styles.BaggageCol}
@@ -108,9 +108,9 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     <Box>
                       <img src={"/images/checkout/carryon-bagg.svg"} />
                     </Box>
-                    <Typography>10 x</Typography>
+                    <Typography className={styles.baggageTotal + " f14"}>10 x</Typography>
                   </Box>
-                  <Typography className="gray">Carry-on bags</Typography>
+                  <Typography className={styles.baggageLabel + " f11 gray"}>Carry-on bags</Typography>
                 </Box>
                 <Box
                   className={styles.BaggageCol}
@@ -123,9 +123,9 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     <Box>
                       <img src={"/images/checkout/checked-bagg.svg"} />
                     </Box>
-                    <Typography>10 x</Typography>
+                    <Typography className={styles.baggageTotal + " f14"}>10 x</Typography>
                   </Box>
-                  <Typography className="gray">Checked bags</Typography>
+                  <Typography className={styles.baggageLabel + " f11 gray"}>Checked bags</Typography>
                 </Box>
               </Box>
             </Box>
@@ -138,7 +138,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
             >
               <Box display={"flex"} justifyContent={"space-between"} gap={4}>
                 <Box>
-                  <Typography className="basecolor-dark" fontWeight={"bold"}>
+                  <Typography className="f12 basecolor-dark" fontWeight={"bold"}>
                     Return baggage
                   </Typography>
                 </Box>
@@ -161,9 +161,9 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     <Box>
                       <img src={"/images/checkout/personal-items.svg"} />
                     </Box>
-                    <Typography>10 x</Typography>
+                    <Typography className={styles.baggageTotal + " f14"}>10 x</Typography>
                   </Box>
-                  <Typography className="gray">Handbag/laptop bag</Typography>
+                  <Typography className={styles.baggageLabel + " f11 gray"}>Handbag/laptop bag</Typography>
                 </Box>
                 <Box
                   className={styles.BaggageCol}
@@ -176,9 +176,9 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     <Box>
                       <img src={"/images/checkout/carryon-bagg.svg"} />
                     </Box>
-                    <Typography>10 x</Typography>
+                    <Typography className={styles.baggageTotal + " f14"}>10 x</Typography>
                   </Box>
-                  <Typography className="gray">Carry-on bags</Typography>
+                  <Typography className={styles.baggageLabel + " f11 gray"}>Carry-on bags</Typography>
                 </Box>
                 <Box
                   className={styles.BaggageCol}
@@ -191,9 +191,9 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     <Box>
                       <img src={"/images/checkout/checked-bagg.svg"} />
                     </Box>
-                    <Typography>10 x</Typography>
+                    <Typography className={styles.baggageTotal + " f14"}>10 x</Typography>
                   </Box>
-                  <Typography className="gray">Checked bags</Typography>
+                  <Typography className={styles.baggageLabel + " f11 gray"}>Checked bags</Typography>
                 </Box>
               </Box>
             </Box>

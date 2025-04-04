@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 
 const PassengersCard = ({
@@ -10,10 +10,8 @@ const PassengersCard = ({
   onToggle,
   isFilled,
 }) => {
-
   return (
-    <Grid
-      container
+    <Box
       id={getdata.uuid}
       onClick={() => onToggle(getdata.uuid)} // Pass the UUID to toggle selection
       className={`${styles.passengersCard} ${
@@ -23,40 +21,42 @@ const PassengersCard = ({
       display={"flex"}
       justifyContent={"space-between"}
     >
-      <Grid
-        
-      >
+      <Box className="" display={"flex"} gap={2}>
         <Box className="imggroup">
           <img src="/images/user-circle.svg" />
         </Box>
-      </Grid>
-      <Grid xs={7} p={0} m={0} display={"flex"} alignItems={"center"}>
-        <Box>
+        <Box p={0} m={0}>
+          {!isFilled ? (
+            <Typography className="f14 bold mb-0" mb={1}>
+              Traveller {totalPass}
+            </Typography>
+          ) : (
+            ""
+          )}
           <Typography className="f14 bold mb-0" mb={1}>
             {passName}
           </Typography>
           <Typography className="gray f12">{getdata.type}</Typography>
         </Box>
-      </Grid>
-      <Grid
+      </Box>
+      <Box
         xs={3}
         p={0}
         m={0}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"flex-end"}
+        
       >
-        <h5 className="mb-0 basecolor1">
+        <Typography className=" f14 bold mb-0 basecolor1 cursor-pointer">
           {isFilled ? (
-            <Box gap={1} display={"flex"} alignItems={"center"}>
-              <i className="fas fa-check-circle basecolor1"></i>{" "}
-            </Box>
+            "Change"
           ) : (
             "Add"
           )}
-        </h5>
-      </Grid>
-    </Grid>
+        </Typography>
+      </Box>
+    </Box>
   );
 };
 

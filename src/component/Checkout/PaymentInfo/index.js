@@ -7,12 +7,15 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import { openDrawer, setisDrawer, toggleDrawer } from "@/src/store/slices/PaymentSlice";
 
 const PaymentInfo = ({ getdata }) => {
-
+   const [isPrice, setIsPrice] = useState(false)
    const dispatch = useDispatch();
    const handlePaymentDrawer = () => {
       dispatch(openDrawer()); // Open drawer
     };
     
+    const priceSummaryHandle =()=> {
+      setIsPrice(true)
+    }
    
   return (
     <>
@@ -21,14 +24,15 @@ const PaymentInfo = ({ getdata }) => {
           When ready, go to the flight{" "}
           <Link
             href={""}
-            // onClick={refreshHandle}
+            onClick={()=>priceSummaryHandle()}
             className="text-decuration-none bold"
           >
             price summary.
           </Link>
         </Typography>
       </Box>
-      <Box className={styles.passengersCard}>
+      {isPrice ? 
+      <Box className={styles.Card + " Card white-bg"}>
         <Box pb={2}>
           <h4 fontWeight={"regular"} className="regular mb-0">
             Price summary
@@ -101,6 +105,7 @@ const PaymentInfo = ({ getdata }) => {
           </Button>
         </Box>
       </Box>
+      : ""}
     </>
   );
 };
