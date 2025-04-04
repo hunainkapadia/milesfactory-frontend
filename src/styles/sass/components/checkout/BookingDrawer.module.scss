@@ -1,14 +1,28 @@
 @import "../../variables";
 
 
+.BaggageRow {
+   .BaggageCol {
+      margin-right: 15px;
+      padding-right: 24px;
+   }
+}
+.BaggageCol:not(:last-child) {
+   border-right: solid 1px $lightgray3;
+}
 .passengersCard {
    background: #FFFFFF;
    border: 1px solid #E6EEEE;
    border-radius: 16px;
    box-shadow: none;
    padding: 24px 24px;
-   min-height: 90px;
+   height: 90px;
    cursor: pointer;
+   &.ExtraServices {
+      min-height: 90px;
+      height: auto;
+      margin-bottom: 24px;
+   }
 
    &.isFilled, &.Active {
       &.isFilled {

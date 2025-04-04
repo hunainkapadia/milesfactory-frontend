@@ -98,11 +98,10 @@ const AiMessage = ({ aiMessage }) => {
 
   return (
     <Box
-      className={searchResultStyles.Aibox}
+      className={searchResultStyles.Aibox + " ccc"}
       flexDirection={"column"}
       display="flex"
       justifyContent="flex-start"
-      mb={2}
     >
       {/* Show Top Offers if available */}
       {aiMessage?.ai?.offers ? (
@@ -150,7 +149,7 @@ const AiMessage = ({ aiMessage }) => {
             </Link>
           </Box> */}
           {/* Show top 3 Flight get and post seperately Search Results */}
-          <Box mt={2}>
+          <Box mt={2} className="aaa">
             {/* Render flights from POST API */}
             {displayedPostFlights?.map((getoffers, offerindex) => (
               <SearchCard
@@ -178,7 +177,6 @@ const AiMessage = ({ aiMessage }) => {
             >
               <Link href={"#"} className="text-decoration-none">
                 <Box
-                  mt={2}
                   mb={2}
                   gap={2}
                   alignItems={"center"}

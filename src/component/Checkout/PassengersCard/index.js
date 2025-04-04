@@ -24,9 +24,7 @@ const PassengersCard = ({
       justifyContent={"space-between"}
     >
       <Grid
-        xs={2}
-        display={"flex"}
-        alignItems={"center"}
+        
       >
         <Box className="imggroup">
           <img src="/images/user-circle.svg" />
@@ -35,9 +33,8 @@ const PassengersCard = ({
       <Grid xs={7} p={0} m={0} display={"flex"} alignItems={"center"}>
         <Box>
           <Typography className="f14 bold mb-0" mb={1}>
-            Traveller {totalPass}
+            {passName}
           </Typography>
-          <Typography className="gray f12">{passName}</Typography>
           <Typography className="gray f12">{getdata.type}</Typography>
         </Box>
       </Grid>

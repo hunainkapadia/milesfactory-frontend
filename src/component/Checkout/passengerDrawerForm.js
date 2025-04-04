@@ -80,24 +80,26 @@ const PassengerDrawerForm = () => {
       }`}
     >
       <Box className={styles.checkoutDrowerSection + " white-bg"}>
-        <Box>
+        <Box px={3}>
           <Box
             className={styles.checkoutDrowerHeder}
-            my={2}
-            px={3}
+            py={3}
+            
             display="flex"
             justifyContent="space-between"
             alignItems={"center"}
           >
             <Box>
-              <h4 className="regular mb-0">Adult</h4>
-              <Typography className="semibold">Add new traveller</Typography>
+              <h4 className="regular mb-0">Add new traveller</h4>
+              <Typography className="semibold">Adult</Typography>
             </Box>
             <Link href={""} onClick={handleCloseDrawer}>
               <i className="fa fa-close fas"></i>
             </Link>
           </Box>
-          <Divider />
+          <Box>
+            <Divider />
+          </Box>
           <Box
             pt={2}
             pb={4}
@@ -107,15 +109,15 @@ const PassengerDrawerForm = () => {
             justifyContent={"center"}
             gap={2}
           >
-            <Box className="imggroup">
-              <img height={"100%"} src="/images/user-circle.svg" />
+            <Box className="imggroup" >
+              <img height={"70px"} src="/images/user-circle.svg" />
             </Box>
             <Box>
               <h4>New traveller</h4>
             </Box>
           </Box>
 
-          <Box py={2} sx={{ px: { xs: 2, lg: 3, md: 3 } }}>
+          <Box py={2} >
             <Box className="formGroup">
               <FormLabel className="bold">Gender as per passport</FormLabel>
               <RadioGroup
@@ -246,6 +248,7 @@ const PassengerDrawerForm = () => {
                 getOptionLabel={(option) => option.name}
                 value={nationality} // Ensure this is a valid object from `countries`
                 onChange={(event, newValue) => setnationality(newValue)} // Use newValue directly
+                popupIcon={<i class='fa f16 fa-angle-down'></i>} // Custom FA icon
                 renderInput={(params) => (
                   <TextField {...params} fullWidth placeholder="Nationality" />
                 )}

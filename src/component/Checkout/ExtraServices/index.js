@@ -8,16 +8,16 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
 
   return (
     <Grid item xs={6}>
-      <Box className={styles.passengersCard}>
+      <Box className={`${styles.passengersCard} ${styles.ExtraServices} `}>
         <Box display={"flex"} alignItems={"center"} gap={2}>
-          <Box className="imggroup" width={70}>
+          <Box className="imggroup" width={40}>
             <img height={"100%"} src="/images/user-circle.svg" />
           </Box>
           <Box>
             <Typography textTransform={"capitalize"} mb={0} variant="h6">
               {getServicesdata.given_name} {getServicesdata.family_name}
             </Typography>
-            <Typography textTransform={"capitalize"} className="basecolor-dark">
+            <Typography textTransform={"capitalize"} className=" gray">
               {getServicesdata.type}
             </Typography>
           </Box>
@@ -60,10 +60,10 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
             className={styles.BaggageRows}
             display={"flex"}
             flexDirection={"column"}
-            gap={2}
+            gap={4}
           >
             <Box
-              className={styles.BaggageRow}
+              className={styles.BaggageBox}
               display={"flex"}
               flexDirection={"column"}
               gap={2}
@@ -76,13 +76,14 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                 </Box>
                 <Link className="btn-link" href={""}>
                   <Box textAlign={"right"} className="basecolor1" gap={2}>
-                    <div>Change</div>
+                    <div>Add</div>
                   </Box>
                 </Link>
               </Box>
               {/*  */}
-              <Box display={"flex"} gap={5}>
+              <Box display={"flex"} className={styles.BaggageRow}>
                 <Box
+                  className={styles.BaggageCol}
                   width={"100%"}
                   display={"flex"}
                   gap={1}
@@ -96,7 +97,13 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                   </Box>
                   <Typography className="gray">Handbag/laptop bag</Typography>
                 </Box>
-                <Box width={"100%"}>
+                <Box
+                  className={styles.BaggageCol}
+                  width={"100%"}
+                  display={"flex"}
+                  gap={1}
+                  flexDirection={"column"}
+                >
                   <Box display={"flex"} gap={1} alignItems={"center"}>
                     <Box>
                       <img src={"/images/checkout/carryon-bagg.svg"} />
@@ -105,7 +112,13 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                   </Box>
                   <Typography className="gray">Carry-on bags</Typography>
                 </Box>
-                <Box width={"100%"}>
+                <Box
+                  className={styles.BaggageCol}
+                  width={"100%"}
+                  display={"flex"}
+                  gap={1}
+                  flexDirection={"column"}
+                >
                   <Box display={"flex"} gap={1} alignItems={"center"}>
                     <Box>
                       <img src={"/images/checkout/checked-bagg.svg"} />
@@ -118,7 +131,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
             </Box>
             {/* row end */}
             <Box
-              className={styles.BaggageRow}
+              className={styles.BaggageBox}
               display={"flex"}
               flexDirection={"column"}
               gap={2}
@@ -131,13 +144,14 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                 </Box>
                 <Link className="btn-link" href={""}>
                   <Box textAlign={"right"} className="basecolor1" gap={2}>
-                    <div>Change</div>
+                    <div>Add</div>
                   </Box>
                 </Link>
               </Box>
               {/*  */}
-              <Box display={"flex"} gap={5}>
+              <Box display={"flex"} className={styles.BaggageRow}>
                 <Box
+                  className={styles.BaggageCol}
                   width={"100%"}
                   display={"flex"}
                   gap={1}
@@ -151,7 +165,13 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                   </Box>
                   <Typography className="gray">Handbag/laptop bag</Typography>
                 </Box>
-                <Box width={"100%"}>
+                <Box
+                  className={styles.BaggageCol}
+                  width={"100%"}
+                  display={"flex"}
+                  gap={1}
+                  flexDirection={"column"}
+                >
                   <Box display={"flex"} gap={1} alignItems={"center"}>
                     <Box>
                       <img src={"/images/checkout/carryon-bagg.svg"} />
@@ -160,7 +180,13 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                   </Box>
                   <Typography className="gray">Carry-on bags</Typography>
                 </Box>
-                <Box width={"100%"}>
+                <Box
+                  className={styles.BaggageCol}
+                  width={"100%"}
+                  display={"flex"}
+                  gap={1}
+                  flexDirection={"column"}
+                >
                   <Box display={"flex"} gap={1} alignItems={"center"}>
                     <Box>
                       <img src={"/images/checkout/checked-bagg.svg"} />

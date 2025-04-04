@@ -5,6 +5,7 @@
 // @import 'variables';
 @import "../sass/_variables.scss";
 
+
 .ui.text.container,
 body {
   white-space: normal;
@@ -164,10 +165,14 @@ p {
 }
 
 // a) Variable base classes - start
+
+button.MuiIconButton-root {padding: 13px;}
+label {margin-bottom: 8px;display: flex;color: $basecolor-dark !important;}
+label,
 .primary-font {
   &,
   * {
-    font-family: $primary-font;
+    font-family: $primary-font !important;
   }
 }
 
@@ -919,11 +924,12 @@ body {
   .formGroup {
     margin-bottom: 12px;
   }
-    .formControl {
-      margin-bottom: 5px;
-      width: 100%;
-      margin-top: 4px;
-    }
+  .formControl {
+    margin-bottom: 5px;
+
+    width: 100%;
+    margin-top: 0;
+  }
   // k) Headings / Paragraphs
   address,
   blockquote,
