@@ -9,7 +9,7 @@ export const API_ENDPOINTS = {
      SEND_MESSAGE: "/api/v1/chat/send-message",
      CREATE_THREAD_SEND: "/api/v1/chat/thread/create",
      CREATE_THREAD_GET: "/api/v1/chat/thread/all",
-     GET_MESSAGE: "/api/v1/chat/get-messages",
+     GET_MESSAGE: "/api/v1/chat/get-messages/",
      REFRESH_SEARCH: "/api/v1/refresh/",
    },
    BOOKING: {

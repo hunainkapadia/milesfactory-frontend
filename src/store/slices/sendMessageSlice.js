@@ -10,7 +10,6 @@ const sendMessageSlice = createSlice({
     setAllFlightPostApi: null, // Store all flight search results here
     SearchHistorySend: null,
     ThreadUUIDsend: null,
-
   },
   reducers: {
     setLoading: (state, action) => {
@@ -22,95 +21,132 @@ const sendMessageSlice = createSlice({
     setAllFlightResults: (state, action) => {
       state.setAllFlightPostApi = action.payload;
     },
-    setSearchHistorySend: (state, action)=> {
+    setSearchHistorySend: (state, action) => {
       console.log("SearchHistorySend", action);
       state.SearchHistory = action.payload;
-    }, 
-    setThreadUUIDsend: (state, action)=> {
+    },
+    setThreadUUIDsend: (state, action) => {
       state.ThreadUUIDsend = action.payload;
-    }
+      if (action.payload) {
+        sessionStorage.setItem("chat_thread_uuid", action.payload);
+      } else {
+        // sessionStorage.removeItem("chat_thread_uuid");
+      }
+    },
+  },
+  setClearChat: (state) => {
+    state.messages = [];
+    state.ThreadUUIDsend = null;
+    sessionStorage.removeItem("chat_thread_uuid");
   },
 });
 
-export const sendMessage = (userMessage) => (dispatch) => {
-  // if (!userMessage.trim()) return;
+export const sendMessage = (userMessage) => (dispatch, getState) => {
+  const ThreadUUIDsendState  = getState().sendMessage.ThreadUUIDsend;
 
+  console.log("ThreadUUIDsendState", ThreadUUIDsendState);
+  
+  
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
-
-  api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res)=> {
-    const uuid = `${thread_res.data.uuid}`;
-    
-    
-    
-    dispatch(setThreadUUIDsend(uuid));
-    
-    const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${thread_res.data.uuid}`
-    // get thread uuid url
+  
+  const sendToThread = (uuid) => {
+    const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
     api
-    .post(threadUUIdUrl, { user_message: userMessage })
-    .then((res) => {
-      const response = res.data;
-      
-      // is function true start search result flow
-      if (response?.is_function) {
-          const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
-          
+      .post(threadUUIdUrl, { user_message: userMessage })
+      .then((res) => {
+        const response = res.data;
+
+        if (response?.is_function) {
+          const topFlightSearchApi =
+            response?.response?.results?.view_top_flight_result_api?.url;
+
           if (topFlightSearchApi) {
             api
-            .get(topFlightSearchApi)
-            .then((flightRes) => {
-              console.log("flightRes", topFlightSearchApi);
-              
+              .get(topFlightSearchApi)
+              .then((flightRes) => {
                 dispatch(
                   setMessage({
                     ai: flightRes.data,
-                    OfferId: topFlightSearchApi, // this is for passenger flow  offerID get
+                    OfferId: topFlightSearchApi,
                   })
                 );
               })
               .catch((error) => {
-                console.log("chat error", error)
+                console.log("chat error", error);
               });
           }
-          // for get all flight
-          const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
+
+          const allFlightSearchApi =
+            response?.response?.results?.view_all_flight_result_api?.url;
           if (allFlightSearchApi) {
-            // flight history [start]
             const getallFlightId = allFlightSearchApi.split("/").pop();
             const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-            console.log("post_historyUrl", historyUrl);
+
             api
               .get(historyUrl)
               .then((history_res) => {
-                dispatch(setSearchHistorySend(history_res.data.search)) //search history set
+                dispatch(setSearchHistorySend(history_res.data.search));
               })
-              .catch((error) => {});
-            // flight history [end]
+              .catch(() => {});
+
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                dispatch(setAllFlightResults(flightRes?.data)); // Store but don't update AI message
+                dispatch(setAllFlightResults(flightRes?.data));
               })
-              .catch((error) => {
-                "";
-              });
+              .catch(() => {});
           }
         } else {
+          console.log("response111", response)
           dispatch(setMessage({ ai: response }));
         }
       })
-      .catch((error) => {
-        ""
-      })
+      .catch(() => {})
       .finally(() => {
         dispatch(setLoading(false));
       });
-    
-  })
+  };
 
+  // 💡 Check if thread UUID already exists
+  if (ThreadUUIDsendState) {
+    sendToThread(ThreadUUIDsendState);
+  } else {
+    // Only create a new thread if one doesn't exist
+    api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res) => {
+      const uuid = thread_res.data.uuid;
+      dispatch(setThreadUUIDsend(uuid));
+      sendToThread(uuid);
+    });
+  }
 };
 
-export const { setLoading, setMessage, setAllFlightResults, setSearchHistorySend, setThreadUUIDsend } =
-  sendMessageSlice.actions;
+export const deleteChatThread = (uuid) => (dispatch) => {
+  if (!uuid) return;
+  
+  const url = `/api/v1/chat/thread/${uuid}/delete`;
+  console.log("delres", url);
+
+  api.delete(url)
+    .then((res) => {
+      if (res) {
+        sessionStorage.removeItem("chat_thread_uuid");
+      }
+      // dispatch(setClearChat());
+    })
+    .catch((err) => {
+      console.error("Error deleting thread", err.response.data.error);
+    });
+};
+
+// for delete thread
+
+export const {
+  setLoading,
+  setMessage,
+  setAllFlightResults,
+  setSearchHistorySend,
+  setThreadUUIDsend,
+  setClearChat,
+} = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
