@@ -8,6 +8,7 @@ const sendMessageSlice = createSlice({
     messages: [],
     isLoading: false,
     setAllFlightPostApi: null, // Store all flight search results here
+    SearchHistory: null,
 
   },
   reducers: {
@@ -20,6 +21,9 @@ const sendMessageSlice = createSlice({
     setAllFlightResults: (state, action) => {
       state.setAllFlightPostApi = action.payload;
     },
+    setSearchHistory: (state, action)=> {
+      state.SearchHistory = action.payload;
+    }
   },
 });
 
@@ -35,11 +39,10 @@ export const sendMessage = (userMessage) => (dispatch) => {
     api
     .post(threadUUIdUrl, { user_message: userMessage })
     .then((res) => {
-        console.log("thread_res", res);
-        const response = res.data;
-        console.log("chat error", res)
-        // is function true start search result flow
-        if (response?.is_function) {
+      const response = res.data;
+      
+      // is function true start search result flow
+      if (response?.is_function) {
           const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
           
           if (topFlightSearchApi) {
@@ -62,13 +65,24 @@ export const sendMessage = (userMessage) => (dispatch) => {
           // for get all flight
           const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
           if (allFlightSearchApi) {
+            // flight history [start]
+            const getallFlightId = allFlightSearchApi.split("/").pop();
+            const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+            console.log("post_historyUrl", historyUrl);
+            api
+              .get(historyUrl)
+              .then((history_res) => {
+                dispatch(setSearchHistory(history_res.data.search)) //search history set
+              })
+              .catch((error) => {});
+            // flight history [end]
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
                 dispatch(setAllFlightResults(flightRes?.data)); // Store but don't update AI message
               })
               .catch((error) => {
-                ""
+                "";
               });
           }
         } else {
@@ -86,5 +100,6 @@ export const sendMessage = (userMessage) => (dispatch) => {
 
 };
 
-export const { setLoading, setMessage, setAllFlightResults } = sendMessageSlice.actions;
+export const { setLoading, setMessage, setAllFlightResults, setSearchHistory } =
+  sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

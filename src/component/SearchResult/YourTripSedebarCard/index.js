@@ -40,14 +40,18 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
+  const SearchHistory = useSelector((state)=> state.getMessages?.SearchHistory);
+  
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      {offerData ? (
+      
+      {offerData || SearchHistory ? (
         <>
+          {console.log("SearchHistory11", SearchHistory)}
           <Box>
             <h4 className="regular mb-0">
-              {" "}
+              {SearchHistory.from_title} to {SearchHistory.to_title}{" "}
               {offerData?.slices[0]?.origin.city_name} to{" "}
               {offerData?.slices[0]?.destination.city_name}
             </h4>
@@ -78,7 +82,11 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 <Box>
                   {offerData?.slices.map((slice, index) => (
                     <>
-                      <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
                         {index === 0 ? (
                           <Box display={"flex"}>
                             <Typography

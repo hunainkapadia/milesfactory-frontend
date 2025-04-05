@@ -11,7 +11,7 @@ import {
   setOfferId,
 } from "@/src/store/slices/passengerDrawerSlice";
 import LoadingArea from "../../LoadingArea";
-import { sanitizeResponse } from "@/src/utils/utils";
+import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 import PaymentInfo from "../../Checkout/PaymentInfo";
 import PaymentDrawer from "../../Checkout/PaymentDrawer";
 import PaymentAddCard from "../../Checkout/PaymentAddCardDrawer";
@@ -91,12 +91,11 @@ const AiMessage = ({ aiMessage }) => {
   const displayedGetFlights = showAllFlight
     ? getAllFlightGetApi?.offers
     : getAllFlightGetApi?.offers?.slice(0, 3);
-
+    
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
-  console.log("filledPassenger", filledPassenger);
-
+  
   return (
     <Box
       className={searchResultStyles.Aibox + " ccc"}
@@ -105,8 +104,9 @@ const AiMessage = ({ aiMessage }) => {
       justifyContent="flex-start"
     >
       {/* Show Top Offers if available */}
-      {aiMessage?.ai?.offers ? (
+      {aiMessage?.ai?.offers || displayedGetFlights?.length > 0 ? (
         <>
+        {console.log("displayedGetFlights", displayedGetFlights)}
           {/* top offer hide */}
           {/* {aiMessage.ai.offers.map((getoffers, offerindex) => (
             <SearchCard
@@ -161,12 +161,15 @@ const AiMessage = ({ aiMessage }) => {
             ))}
 
             {/* Render flights from GET API */}
+              
             {displayedGetFlights?.map((getoffers, offerindex) => (
-              <SearchCard
-                offerData={getoffers}
-                offerkey={`${offerindex}-${getoffers.id}`} // key prop
-                FlightExpire={FlightExpire}
-              />
+              <>
+                <SearchCard
+                  offerData={getoffers}
+                  offerkey={`${offerindex}-${getoffers.id}`} // key prop
+                  FlightExpire={FlightExpire}
+                />
+              </>
             ))}
           </Box>
           {/* show all flight button  hide */}
@@ -271,10 +274,13 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         //  Default AI Response (Text)
         <Box className={`${searchResultStyles.AiMessage}`}>
-          {console.log("messages222", aiMessage?.ai?.response)}
+          {console.log("messages222", aiMessage?.ai)}
+          {/* {aiMessage?.ai} */}
           <Typography
             dangerouslySetInnerHTML={{
-              __html: sanitizeResponse(aiMessage.ai.response),
+              __html: formatTextToHtmlList(
+                sanitizeResponse(aiMessage?.ai?.response)
+              ),
             }}
           />
         </Box>

@@ -119,7 +119,7 @@ const Messages = () => {
               {isPassengerDrawerOpen ? <PassengerDrawerForm /> : ""}
               {FlightExpire ? (
                 <>
-                  <Box py={2}>
+                  {/* <Box py={2}>
                     <Link href={""} onClick={refreshHandle} className="text-decuration-none bold">
                       Refresh this search
                     </Link>
@@ -127,7 +127,7 @@ const Messages = () => {
                   <Typography>
                     Your search has expired. Please enter a new search or
                     refresh the old one.{" "}
-                  </Typography>
+                  </Typography> */}
                 </>
               ) : (
                 ""
