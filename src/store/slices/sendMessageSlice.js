@@ -8,7 +8,8 @@ const sendMessageSlice = createSlice({
     messages: [],
     isLoading: false,
     setAllFlightPostApi: null, // Store all flight search results here
-    SearchHistory: null,
+    SearchHistorySend: null,
+    ThreadUUIDsend: null,
 
   },
   reducers: {
@@ -21,8 +22,12 @@ const sendMessageSlice = createSlice({
     setAllFlightResults: (state, action) => {
       state.setAllFlightPostApi = action.payload;
     },
-    setSearchHistory: (state, action)=> {
+    setSearchHistorySend: (state, action)=> {
+      console.log("SearchHistorySend", action);
       state.SearchHistory = action.payload;
+    }, 
+    setThreadUUIDsend: (state, action)=> {
+      state.ThreadUUIDsend = action.payload;
     }
   },
 });
@@ -34,6 +39,12 @@ export const sendMessage = (userMessage) => (dispatch) => {
   dispatch(setMessage({ user: userMessage }));
 
   api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res)=> {
+    const uuid = `${thread_res.data.uuid}`;
+    
+    
+    
+    dispatch(setThreadUUIDsend(uuid));
+    
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${thread_res.data.uuid}`
     // get thread uuid url
     api
@@ -72,7 +83,7 @@ export const sendMessage = (userMessage) => (dispatch) => {
             api
               .get(historyUrl)
               .then((history_res) => {
-                dispatch(setSearchHistory(history_res.data.search)) //search history set
+                dispatch(setSearchHistorySend(history_res.data.search)) //search history set
               })
               .catch((error) => {});
             // flight history [end]
@@ -100,6 +111,6 @@ export const sendMessage = (userMessage) => (dispatch) => {
 
 };
 
-export const { setLoading, setMessage, setAllFlightResults, setSearchHistory } =
+export const { setLoading, setMessage, setAllFlightResults, setSearchHistorySend, setThreadUUIDsend } =
   sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

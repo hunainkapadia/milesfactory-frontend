@@ -10,6 +10,7 @@ const initialState = {
   flightExpire: "",
   refreshSearch: "",
   SearchHistoryGet: null,
+  ThreadUUIDget: null,
 };
 
 const GetMessagesSlice = createSlice({
@@ -36,6 +37,9 @@ const GetMessagesSlice = createSlice({
     },
     setSearchHistoryGet: (state, action)=> {
       state.SearchHistory = action.payload;
+    },
+    setThreadUUIDget: (state, action)=> {
+      state.ThreadUUID = action.payload;
     }
   },
 });
@@ -145,5 +149,6 @@ export const {
   setFlightExpire,
   setRefreshSearch,
   setSearchHistoryGet,
+  setThreadUUIDget,
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;
