@@ -51,9 +51,9 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
           {console.log("SearchHistory11", SearchHistory)}
           <Box>
             <h4 className="regular mb-0">
-              {SearchHistory.from_title} to {SearchHistory.to_title}{" "}
-              {offerData?.slices[0]?.origin.city_name} to{" "}
-              {offerData?.slices[0]?.destination.city_name}
+              {/* {SearchHistory.from_title} to {SearchHistory.to_title}{" "} */}
+              {/* {offerData?.slices[0]?.origin.city_name} to{" "}
+              {offerData?.slices[0]?.destination.city_name} */}
             </h4>
           </Box>
           <Box className=" " mb={2}>
