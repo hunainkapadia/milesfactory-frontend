@@ -38,65 +38,81 @@ const GetMessagesSlice = createSlice({
 
 export const fetchMessages = () => (dispatch) => {
   dispatch(setIsLoading(true));
-  api
-    .get(API_ENDPOINTS.CHAT.GET_MESSAGE)
-    .then((response) => {
-      
-      if (!Array.isArray(response?.data)) {
-        dispatch(setError("Invalid response from server"));
-        return;
-      }
-      response?.data.forEach((item) => {
-        // is function true start search result flow
-        if (item?.is_function) {
-          const topFlightSearchApi =
-          item?.response?.results?.view_top_flight_result_api?.url;
-          if (topFlightSearchApi) {
-            api
-            .get(topFlightSearchApi)
-            .then((offerResponse) => {
-              console.log("get message", offerResponse);
-              dispatch(
-                  setMessage({
-                    user: item.message,
-                    ai: offerResponse.data,
-                    OfferId: topFlightSearchApi, // this is for passenger flow  offerID
-                  })
-                );
-              })
-              .catch((searcherror) => {
-                dispatch(setError("Error fetching flight offer data"));
-              });
-          }
-
-          const allFlightSearchApi =
-            item?.response?.results?.view_all_flight_result_api?.url;
-
-          if (allFlightSearchApi) {
-            api
-              .get(allFlightSearchApi)
-              .then((flightRes) => {
-                dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
-              })
-              .catch((flighterror) => {
-                dispatch(setFlightExpire(flighterror.response.data.error));
-              });
-          }
-          console.log("item222");
-        } else {
-          
-          dispatch(
-            setMessage({ user: item.message, ai: { response: item?.response } })
-          );
-        }
-      });
-    })
-    .catch((error) => {
-      dispatch(setError("Error fetching messages"));
-    })
-    .finally(() => {
+  api.get(API_ENDPOINTS.CHAT.CREATE_THREAD_GET).then((thread_res)=> {
+    
+    const threadArray = thread_res?.data;
+    
+    if (!Array.isArray(threadArray) || threadArray.length === 0) {
+      dispatch(setError("No threads found"));
       dispatch(setIsLoading(false));
-    });
+      return;
+    }
+    const messageFetches = threadArray.map((thread) => {
+      const uuid = thread.uuid;
+      const messageUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}/${uuid}`;
+      console.log("threadArray", messageUrl);
+      api
+        .get(messageUrl)
+        .then((response) => {
+          
+          if (!Array.isArray(response?.data)) {
+            dispatch(setError("Invalid response from server"));
+            return;
+          }
+          response?.data.forEach((item) => {
+            // is function true start search result flow
+            if (item?.is_function) {
+              const topFlightSearchApi =
+              item?.response?.results?.view_top_flight_result_api?.url;
+              if (topFlightSearchApi) {
+                api
+                .get(topFlightSearchApi)
+                .then((offerResponse) => {
+                  console.log("get message", offerResponse);
+                  dispatch(
+                      setMessage({
+                        user: item.message,
+                        ai: offerResponse.data,
+                        OfferId: topFlightSearchApi, // this is for passenger flow  offerID
+                      })
+                    );
+                  })
+                  .catch((searcherror) => {
+                    dispatch(setError("Error fetching flight offer data"));
+                  });
+              }
+    
+              const allFlightSearchApi =
+                item?.response?.results?.view_all_flight_result_api?.url;
+    
+              if (allFlightSearchApi) {
+                api
+                  .get(allFlightSearchApi)
+                  .then((flightRes) => {
+                    dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
+                  })
+                  .catch((flighterror) => {
+                    dispatch(setFlightExpire(flighterror.response.data.error));
+                  });
+              }
+              console.log("item222");
+            } else {
+              
+              dispatch(
+                setMessage({ user: item.message, ai: { response: item?.response } })
+              );
+            }
+          });
+        })
+        .catch((error) => {
+          dispatch(setError("Error fetching messages"));
+        })
+        .finally(() => {
+          dispatch(setIsLoading(false));
+        });
+    })
+
+  })
 };
 export const RefreshHandle =()=> {
   dispatch(setRefreshSearch())

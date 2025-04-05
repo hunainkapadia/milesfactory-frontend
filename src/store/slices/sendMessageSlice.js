@@ -29,54 +29,61 @@ export const sendMessage = (userMessage) => (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
 
-  api
-    .post(API_ENDPOINTS.CHAT.SEND_MESSAGE, { user_message: userMessage })
+  api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res)=> {
+    const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${thread_res.data.uuid}`
+    // get thread uuid url
+    api
+    .post(threadUUIdUrl, { user_message: userMessage })
     .then((res) => {
-      const response = res.data;
-      console.log("chat error", res)
-      // is function true start search result flow
-      if (response?.is_function) {
-        const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
-        
-        if (topFlightSearchApi) {
-          api
-          .get(topFlightSearchApi)
-          .then((flightRes) => {
-            console.log("flightRes", topFlightSearchApi);
-            
-              dispatch(
-                setMessage({
-                  ai: flightRes.data,
-                  OfferId: topFlightSearchApi, // this is for passenger flow  offerID get
-                })
-              );
-            })
-            .catch((error) => {
-              console.log("chat error", error)
-            });
-        }
-        // for get all flight
-        const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
-        if (allFlightSearchApi) {
-          api
-            .get(allFlightSearchApi)
+        console.log("thread_res", res);
+        const response = res.data;
+        console.log("chat error", res)
+        // is function true start search result flow
+        if (response?.is_function) {
+          const topFlightSearchApi = response?.response?.results?.view_top_flight_result_api?.url;
+          
+          if (topFlightSearchApi) {
+            api
+            .get(topFlightSearchApi)
             .then((flightRes) => {
-              dispatch(setAllFlightResults(flightRes?.data)); // Store but don't update AI message
-            })
-            .catch((error) => {
-              ""
-            });
+              console.log("flightRes", topFlightSearchApi);
+              
+                dispatch(
+                  setMessage({
+                    ai: flightRes.data,
+                    OfferId: topFlightSearchApi, // this is for passenger flow  offerID get
+                  })
+                );
+              })
+              .catch((error) => {
+                console.log("chat error", error)
+              });
+          }
+          // for get all flight
+          const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
+          if (allFlightSearchApi) {
+            api
+              .get(allFlightSearchApi)
+              .then((flightRes) => {
+                dispatch(setAllFlightResults(flightRes?.data)); // Store but don't update AI message
+              })
+              .catch((error) => {
+                ""
+              });
+          }
+        } else {
+          dispatch(setMessage({ ai: response }));
         }
-      } else {
-        dispatch(setMessage({ ai: response }));
-      }
-    })
-    .catch((error) => {
-      ""
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
+      })
+      .catch((error) => {
+        ""
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+    
+  })
+
 };
 
 export const { setLoading, setMessage, setAllFlightResults } = sendMessageSlice.actions;
