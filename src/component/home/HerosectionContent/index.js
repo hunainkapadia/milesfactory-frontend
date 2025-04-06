@@ -12,7 +12,7 @@ const HerosectionContent = () => {
            flexDirection={"column"}
          >
            <Box sx={{ px: { xs: 0, md: 5, lg: 5 } }}>
-             <h1 className="h1-lg test22">
+             <h1 className="h1-lg test333">
                Travel smarter with<br/>AI-powered savings
              </h1>
              <Typography color="white">
