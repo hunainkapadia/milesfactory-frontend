@@ -16,6 +16,8 @@ const sendMessageSlice = createSlice({
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
+      console.log("passaction", action);
+      
       state.messages.push(action.payload);
     },
     setAllFlightResults: (state, action) => {

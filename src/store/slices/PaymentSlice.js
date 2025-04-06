@@ -6,6 +6,7 @@ const PaymentSlice = createSlice({
     isDrawer: false,
     AddCardDrawer: false,
     PaymentFormSuccess: false,
+
   },
   reducers: {
    setAddCardDrawer: (state)=> {
@@ -22,7 +23,7 @@ const PaymentSlice = createSlice({
       state.isDrawer = false; // Close drawer
     },
     setPaymentFormSuccess: (state, action) => {
-      state.formSuccess = action.payload;
+      state.PaymentFormSuccess = action.payload;
     },
   },
 });
@@ -33,7 +34,7 @@ export const PaymentForm = (params) => (dispatch) => {
 
   // Just simulate success after 1 second
   setTimeout(() => {
-    dispatch(setFormSuccess(true));
+    dispatch(setPaymentFormSuccess(true));
     dispatch(setCloseCardDrawer()); // close the drawer
   }, 1000);
 };

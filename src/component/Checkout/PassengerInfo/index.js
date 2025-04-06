@@ -8,6 +8,7 @@ import {
   PassengerForm,
   setOpenPassengerDrawer,
   setPassengerUUID,
+  setPassengerUUIDfill ,
 } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
 
@@ -25,7 +26,17 @@ const PassengerInfo = ({ getdata }) => {
     setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
   };
 
+  const handlePassengerClick = (uuid, isFilled) => {
+    if (!isFilled) {
+      dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
+      dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
+      dispatch(setOpenPassengerDrawer()); // open drawer
+    }
+  };
+
   const handlePassengerAdd = () => {
+    console.log("selectedPassenger", selectedPassenger);
+    
     if (selectedPassenger) {
       // Ensure a passenger is selected
       dispatch(PassengerForm()); //must need to knw redux export const PassengerForm
@@ -58,7 +69,7 @@ const PassengerInfo = ({ getdata }) => {
       <Box
         variant="outlined"
         className={searchResultStyles.PassengersSection}
-        sx={{ mt: 3 }}
+        sx={{ mt: 3, }}
       >
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
@@ -71,24 +82,16 @@ const PassengerInfo = ({ getdata }) => {
                   getdata={passenger}
                   passName={isFilled ? passenger.given_name : ""}
                   isMainPassenger={index === 0}
-                  isActive={selectedPassenger === passenger.uuid}
-                  onToggle={isFilled ? null : handlePassengerToggle}
-                  isFilled={isFilled} // Now a boolean
+                  isFilled={isFilled}
+                  onClickCard={() =>
+                    handlePassengerClick(passenger.uuid, isFilled)
+                  }
                 />
               </Grid>
             );
           })}
         </Grid>
-        <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
-          <Button
-            className="btn btn-primary btn-md btn-round"
-            onClick={handlePassengerAdd}
-          >
-            <Box display="flex" alignItems="center" gap={1}>
-              <span>Fill in travellers details</span>
-            </Box>
-          </Button>
-        </Box>
+
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}

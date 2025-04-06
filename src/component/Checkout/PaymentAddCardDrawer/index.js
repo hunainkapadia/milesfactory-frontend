@@ -38,6 +38,8 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
     CardSecurityCode,
     CardZipCode,
   };
+  console.log("params", params);
+  
   const handleSelect = (cardId) => {
     setSelectedCard(cardId);
   };

@@ -9,15 +9,15 @@ const PassengersCard = ({
   isActive,
   onToggle,
   isFilled,
+  onClickCard
 }) => {
   return (
     <Box
       id={getdata.uuid}
-      onClick={() => onToggle(getdata.uuid)} // Pass the UUID to toggle selection
-      className={`${styles.passengersCard} ${
-        isActive ? styles.Active : styles.Notactive
-      }  ${isFilled ? styles.isFilled + " isFilled" : ""}
-      ${!onToggle ? styles.disabledCard : ""}`}
+      onClick={onClickCard} // 👉 triggers drawer + setup logic
+      className={`${styles.passengersCard} 
+        ${isFilled ? styles.isFilled + " isFilled" : styles.Notactive}
+        ${!onClickCard ? styles.disabledCard : ""}`}
       display={"flex"}
       justifyContent={"space-between"}
     >

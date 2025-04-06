@@ -48,9 +48,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   // selected flight detail get for send data in select button click
   const flightDetail = useSelector((state) => state.booking.flightDetail);
   const handleBookFlight = () => {
+    
     if (offerkey) {
       dispatch(setflightDetail(offerData)); // Store flight details
-      dispatch(setSelectedFlightKey(offerkey)); // ✅ Store selected flight key
+      dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
     }
     dispatch(setisLoading());
     dispatch(setflightDetail(offerData)); //dispatch selected flight detail
@@ -186,7 +187,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                             "w-100 btn btn-primary btn-round btn-md " +
                             searchResultStyles.selectFlightBtn
                           }
-                          onClick={handleBookFlight}
+                          onClick={()=>handleBookFlight()}
                         >
                           Select
                         </button>

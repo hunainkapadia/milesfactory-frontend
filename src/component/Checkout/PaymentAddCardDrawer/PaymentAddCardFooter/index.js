@@ -1,5 +1,7 @@
 import { Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import { useDispatch } from "react-redux";
+import { PaymentForm } from "@/src/store/slices/PaymentSlice";
 
 const PaymentAddCardFooter = ({HandlecloseDrawer, params}) => {
   console.log("paymentparams", params);
@@ -7,7 +9,18 @@ const PaymentAddCardFooter = ({HandlecloseDrawer, params}) => {
   const dispatch = useDispatch();
 
   const handleAddCard = () => {
-    dispatch(PaymentForm(params)); // just dispatch
+    if (
+      !params.CardholderName ||
+      !params.valueCardNumber ||
+      !params.CardExpiryDate ||
+      !params.CardSecurityCode ||
+      !params.CardZipCode
+    ) {
+      alert("Please fill all required fields.");
+      return;
+    }
+  
+    dispatch(PaymentForm(params));
   };
   
   return (
