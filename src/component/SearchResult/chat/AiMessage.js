@@ -25,7 +25,12 @@ const AiMessage = ({ aiMessage }) => {
   // all flight state remove
 
   const getAllFlightPostApi = useSelector(
-    (state) => state.sendMessage.setAllFlightPostApi
+    (state) => state.sendMessage.AllFlightPostApi
+  );
+  // all flight post api
+
+  const getAllFlightGetApi = useSelector(
+    (state) => state?.getMessages?.allFlightSearchResults
   );
   //  Toggle function
 
@@ -47,9 +52,7 @@ const AiMessage = ({ aiMessage }) => {
   }, [aiMessage?.OfferId, dispatch]);
 
   // for get api
-  const getAllFlightGetApi = useSelector(
-    (state) => state?.getMessages?.allFlightSearchResults
-  );
+  
   console.log("getAllFlightPostApi", getAllFlightPostApi);
   
   // booking flow start

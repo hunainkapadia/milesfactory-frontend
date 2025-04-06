@@ -24,19 +24,26 @@ const Home = () => {
   const isMessage = [...getmessages, ...sendMessages];
   
 
+  const uuid = useSelector((state) => state.sendMessage.ThreadUUIDsend); // <-- Adjust based on your store
 
   const router = useRouter();
   useEffect(() => {
-    console.log("sendMessage", sendMessages.length);
-    
-    if (sendMessages.length && router.pathname !== "/chat") {
-      router.push("/chat");
+    if (sendMessages.length > 0 && uuid) {
+      router.push(`/chat/${uuid}`);
     }
-  }, [sendMessages.length, router.pathname]);
-  console.log("sendMessages", sendMessages.length);
+  }, [sendMessages.length, uuid]);
 
 
+  console.log("tttuuid", uuid);
   
+  
+  
+
+  useEffect(() => {
+    if (uuid) {
+      router.push(`/chat/${uuid}`);
+    }
+  }, [uuid]);
 
   return (
     <>

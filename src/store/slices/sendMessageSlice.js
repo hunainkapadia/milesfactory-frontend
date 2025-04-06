@@ -7,7 +7,7 @@ const sendMessageSlice = createSlice({
   initialState: {
     messages: [],
     isLoading: false,
-    setAllFlightPostApi: null, // Store all flight search results here
+    AllFlightPostApi: null, // Store all flight search results here
     SearchHistorySend: null,
     ThreadUUIDsend: null,
   },
@@ -19,7 +19,7 @@ const sendMessageSlice = createSlice({
       state.messages.push(action.payload);
     },
     setAllFlightResults: (state, action) => {
-      state.setAllFlightPostApi = action.payload;
+      state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
       console.log("SearchHistorySend", action);
@@ -93,6 +93,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
+                console.log("allflightRes", flightRes)
                 dispatch(setAllFlightResults(flightRes?.data));
               })
               .catch(() => {});

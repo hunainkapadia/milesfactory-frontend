@@ -44,7 +44,9 @@ const GetMessagesSlice = createSlice({
 export const fetchMessages = () => (dispatch) => {
   dispatch(setIsLoading(true));
   const localUUID = sessionStorage.getItem("chat_thread_uuid");
+  
   const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${localUUID}`
+  console.log("threadUrl", threadUrl);
   api
   .get(threadUrl)
   .then((response) => {
@@ -54,9 +56,9 @@ export const fetchMessages = () => (dispatch) => {
         return;
       }
       response?.data.forEach((item) => {
-        console.log("localUUIDget", item);
         // is function true start search result flow
         if (item?.is_function) {
+          
           // const topFlightSearchApi =
           // item?.response?.results?.view_top_flight_result_api?.url;
           // if (topFlightSearchApi) {
@@ -77,10 +79,12 @@ export const fetchMessages = () => (dispatch) => {
           //     });
           // }
 
+          console.log("localUUIDget", item);
           const allFlightSearchApi =
-            item?.response?.results?.view_all_flight_result_api?.url;
-
+          item?.response?.results?.view_all_flight_result_api?.url;
+          
           if (allFlightSearchApi) {
+            
              // flight history [start]
              const getallFlightId = allFlightSearchApi.split('/').pop();
              const historyUrl = `/api/v1/search/${getallFlightId}/history`;
@@ -93,11 +97,15 @@ export const fetchMessages = () => (dispatch) => {
 
              })
              // flight history [end]
+             dispatch(
+               setMessage({ user: item.message, ai: { response: item?.response } })
+             );
+             console.log("itemmessage", item);
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
                 dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
-                console.log("allFlightSearchApi", flightRes);
+                console.log("allFlightSearchApi11", flightRes);
               })
               .catch((flighterror) => {
                 dispatch(setFlightExpire(flighterror.response.data.error));

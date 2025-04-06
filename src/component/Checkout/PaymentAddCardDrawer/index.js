@@ -20,11 +20,24 @@ import PaymentCard from "../PaymentCard";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import PaymentAddCardFooter from "./PaymentAddCardFooter";
+import dayjs from "dayjs";
 
 const PaymentAddCardDrawer = ({ getFlightDetail }) => {
   const [selectedCard, setSelectedCard] = useState(null);
+    const [CardholderName, setCardholderName] = useState("");
+    const [valueCardNumber, setvalueCardNumber] = useState("");
+    const [CardExpiryDate, setCardExpiryDate] = useState(dayjs()); // or `null`
+    const [CardSecurityCode, setCardSecurityCode] = useState("");
+    const [CardZipCode, setCardZipCode] = useState("");
   const [bornOn, setBornOn] = useState(null); // State for date selection
 
+  const params = {
+    CardholderName,
+    valueCardNumber,
+    CardExpiryDate: CardExpiryDate ? CardExpiryDate.format("MM/YYYY") : "",
+    CardSecurityCode,
+    CardZipCode,
+  };
   const handleSelect = (cardId) => {
     setSelectedCard(cardId);
   };
@@ -120,8 +133,8 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
                         className="formControl"
                         fullWidth
                         placeholder="Cardholder name"
-                        value={""}
-                        // onChange={(e) => setFirstName(e.target.value)}
+                        value={CardholderName}
+                        onChange={(e) => setCardholderName(e.target.value)}
                         margin="normal"
                       />
                     </Box>
@@ -133,8 +146,8 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
                         className="formControl"
                         fullWidth
                         placeholder="Card number"
-                        value={""}
-                        // onChange={(e) => setFirstName(e.target.value)}
+                        value={valueCardNumber}
+                        onChange={(e) => setvalueCardNumber(e.target.value)}
                         margin="normal"
                       />
                     </Box>
@@ -146,8 +159,8 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                           className="formControl"
-                          value={bornOn} // ✅ Use valid state (null or dayjs object)
-                          onChange={(newValue) => setBornOn(newValue)} // ✅ Updates state correctly
+                          value={CardExpiryDate}
+                          onChange={(newValue) => setCardExpiryDate(newValue)}
                           renderInput={(params) => (
                             <TextField {...params} fullWidth margin="normal" />
                           )}
@@ -164,8 +177,8 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
                         className="formControl"
                         fullWidth
                         placeholder="CVV"
-                        value={""}
-                        // onChange={(e) => setFirstName(e.target.value)}
+                        value={CardSecurityCode}
+                        onChange={(e) => setCardSecurityCode(e.target.value)}
                         margin="normal"
                       />
                     </Box>
@@ -179,8 +192,8 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
                         className="formControl"
                         fullWidth
                         placeholder="ZIP / Postcode"
-                        value={""}
-                        // onChange={(e) => setFirstName(e.target.value)}
+                        value={CardZipCode}
+                        onChange={(e) => setCardZipCode(e.target.value)}
                         margin="normal"
                       />
                     </Box>
@@ -210,7 +223,10 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
               {/*  */}
             </Box>
           </Box>
-          <PaymentAddCardFooter HandlecloseDrawer={HandlecloseDrawer} />
+          <PaymentAddCardFooter
+            HandlecloseDrawer={HandlecloseDrawer}
+            params={params}
+          />
         </Box>
       </Box>
     </Drawer>

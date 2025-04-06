@@ -1,7 +1,15 @@
 import { Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 
-const PaymentAddCardFooter = ({HandlecloseDrawer}) => {
+const PaymentAddCardFooter = ({HandlecloseDrawer, params}) => {
+  console.log("paymentparams", params);
+  
+  const dispatch = useDispatch();
+
+  const handleAddCard = () => {
+    dispatch(PaymentForm(params)); // just dispatch
+  };
+  
   return (
     <>
       <Box
@@ -59,7 +67,7 @@ const PaymentAddCardFooter = ({HandlecloseDrawer}) => {
                   className={
                     styles.selectFlightBtn + " btn btn-primary btn-md btn-round"
                   }
-                  onClick={"handleBookFlight"}
+                  onClick={handleAddCard}
                 >
                   <Box display="flex" gap={1}>
                     <Box>Save card</Box>
