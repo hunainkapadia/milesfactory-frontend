@@ -50,9 +50,6 @@ const AiMessage = ({ aiMessage }) => {
   const getAllFlightGetApi = useSelector(
     (state) => state?.getMessages?.allFlightSearchResults
   );
-
-  console.log("getAllFlightGetApi", getAllFlightGetApi);
-
   // booking flow start
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
@@ -63,7 +60,6 @@ const AiMessage = ({ aiMessage }) => {
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -277,8 +273,9 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         //  Default AI Response (Text)
         <Box className={`${searchResultStyles.AiMessage}`}>
-          {console.log("messages222", aiMessage?.ai)}
+          {console.log("messages222", aiMessage?.ai?.response)}
           {/* {aiMessage?.ai} */}
+          {/* {aiMessage?.ai?.response} */}
           <Typography
             dangerouslySetInnerHTML={{
               __html: formatTextToHtmlList(
