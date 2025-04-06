@@ -98,7 +98,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .catch(() => {});
           }
         } else {
-          console.log("response111", response)
+          // console.log("response111", response)
           dispatch(setMessage({ ai: response }));
         }
       })
@@ -108,7 +108,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       });
   };
 
-  // 💡 Check if thread UUID already exists
+  //  Check if thread UUID already exists
   if (ThreadUUIDsendState) {
     sendToThread(ThreadUUIDsendState);
   } else {

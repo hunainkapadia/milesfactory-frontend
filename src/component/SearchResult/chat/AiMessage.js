@@ -273,8 +273,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         //  Default AI Response (Text)
         <Box className={`${searchResultStyles.AiMessage}`}>
-          {console.log("messages222", aiMessage?.ai?.response)}
-          {/* {aiMessage?.ai} */}
+          {/* {console.log("messages222", aiMessage?.ai?.response)} */}
           {/* {aiMessage?.ai?.response} */}
           <Typography
             dangerouslySetInnerHTML={{
