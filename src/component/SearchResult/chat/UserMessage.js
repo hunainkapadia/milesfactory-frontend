@@ -5,7 +5,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 const UserMessage = (props) => {
   return (
     <>
-      <Box display="flex" justifyContent="flex-end" mb={2}>
+      <Box display="flex" justifyContent="flex-end">
         <Box
           className={searchResultStyles.UserMessage}
           sx={{ maxWidth: "75%" }}

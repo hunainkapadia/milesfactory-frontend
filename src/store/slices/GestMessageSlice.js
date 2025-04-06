@@ -43,34 +43,34 @@ export const fetchMessages = () => (dispatch) => {
   api
   .get(threadUrl)
   .then((response) => {
-      console.log("localUUIDget", response);
-      
+    
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
       }
       response?.data.forEach((item) => {
+        console.log("localUUIDget", item);
         // is function true start search result flow
         if (item?.is_function) {
-          const topFlightSearchApi =
-          item?.response?.results?.view_top_flight_result_api?.url;
-          if (topFlightSearchApi) {
-            api
-            .get(topFlightSearchApi)
-            .then((offerResponse) => {
-              console.log("get message", offerResponse);
-              dispatch(
-                  setMessage({
-                    user: item.message,
-                    ai: offerResponse.data,
-                    OfferId: topFlightSearchApi, // this is for passenger flow  offerID
-                  })
-                );
-              })
-              .catch((searcherror) => {
-                dispatch(setError("Error fetching flight offer data"));
-              });
-          }
+          // const topFlightSearchApi =
+          // item?.response?.results?.view_top_flight_result_api?.url;
+          // if (topFlightSearchApi) {
+          //   api
+          //   .get(topFlightSearchApi)
+          //   .then((offerResponse) => {
+          //     console.log("get message", offerResponse);
+          //     dispatch(
+          //         setMessage({
+          //           user: item.message,
+          //           ai: offerResponse.data,
+          //           OfferId: topFlightSearchApi, // this is for passenger flow  offerID
+          //         })
+          //       );
+          //     })
+          //     .catch((searcherror) => {
+          //       dispatch(setError("Error fetching flight offer data"));
+          //     });
+          // }
 
           const allFlightSearchApi =
             item?.response?.results?.view_all_flight_result_api?.url;
@@ -80,12 +80,19 @@ export const fetchMessages = () => (dispatch) => {
               .get(allFlightSearchApi)
               .then((flightRes) => {
                 dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
+                // dispatch(
+                //   setMessage({
+                //     user: item.message,
+                //     ai: offerResponse.data,
+                //     OfferId: topFlightSearchApi, // this is for passenger flow  offerID
+                //   })
+                // );
+                console.log("allFlightSearchApi", flightRes);
               })
               .catch((flighterror) => {
                 dispatch(setFlightExpire(flighterror.response.data.error));
               });
           }
-          console.log("item222");
         } else {
           
           dispatch(

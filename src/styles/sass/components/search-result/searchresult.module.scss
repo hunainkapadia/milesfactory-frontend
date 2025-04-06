@@ -30,17 +30,21 @@
        @include border-radius(22px);
        max-width: 80%;
        padding: 10px 24px;
+       margin: 12px 0;
        p {
           color: $basecolor-dark;
+          margin: 0;
         }
      }
      .AiMessage {
        color: #0B1729;
        width: 100%;
        padding: 10px 0;
+       margin: 12px 0;
        max-width: 80%;
        p {
         color: $basecolor-dark;
+        margin: 0;
       }
      }
    }

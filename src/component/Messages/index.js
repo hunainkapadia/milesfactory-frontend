@@ -44,14 +44,11 @@ const Messages = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
-
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
-  useEffect(() => {
-    dispatch(fetchMessages()); //  Fetch messages when the page loads
-  }, [dispatch]);
-
-  console.log("messagestest", messages);
+  // useEffect(() => {
+  //   dispatch(fetchMessages()); //  Fetch messages when the page loads
+  // }, [dispatch]);
   
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
