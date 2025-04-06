@@ -50,6 +50,8 @@ const AiMessage = ({ aiMessage }) => {
   const getAllFlightGetApi = useSelector(
     (state) => state?.getMessages?.allFlightSearchResults
   );
+  console.log("getAllFlightGetApi", getAllFlightGetApi);
+  
   // booking flow start
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail

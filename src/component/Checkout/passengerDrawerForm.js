@@ -93,9 +93,9 @@ const PassengerDrawerForm = () => {
               <h4 className="regular mb-0">Add new traveller</h4>
               <Typography className="semibold">Adult</Typography>
             </Box>
-            <Link href={""} onClick={handleCloseDrawer}>
+            <Box className=" cursor-pointer" onClick={handleCloseDrawer}>
               <i className="fa fa-close fas"></i>
-            </Link>
+            </Box>
           </Box>
           <Box>
             <Divider />

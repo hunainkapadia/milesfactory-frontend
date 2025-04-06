@@ -115,7 +115,7 @@ const Messages = () => {
               {FlightExpire ? (
                 <>
                   {/* <Box py={2}>
-                    <Link href={""} onClick={refreshHandle} className="text-decuration-none bold">
+                    <Box  onClick={refreshHandle} className="text-decuration-none bold cursor-pointer">
                       Refresh this search
                     </Link>
                   </Box>

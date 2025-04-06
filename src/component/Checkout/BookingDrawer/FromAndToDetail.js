@@ -66,9 +66,8 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
           <Typography className={styles.onewayReturn}>{flightType}</Typography>
         </Box>
         <Box>
-          <Link
-            href={""}
-            className="text-decoration-none basecolor1"
+          <Box 
+            className=" cursor-pointer text-decoration-none basecolor1"
             onClick={bookingDetail}
           >
             <Box gap={2} alignItems={"center"} display={"flex"}>
@@ -84,7 +83,7 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
                 </>
               )}
             </Box>
-          </Link>
+          </Box>
         </Box>
       </Box>
 

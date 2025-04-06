@@ -8,13 +8,18 @@ const initialState = {
   isLoading: false,
   error: null,
   flightExpire: "",
-  refreshSearch: ""
+  refreshSearch: "",
+  SearchHistoryGet: null,
 };
 
 const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    setSearchHistoryGet: (state, action)=> { 
+      console.log("historyUrl", action);
+      state.SearchHistory = action.payload;
+    },
     setRefreshSearch: (state, action)=> {
       state.refreshSearch = action.payload;
     },
@@ -76,17 +81,22 @@ export const fetchMessages = () => (dispatch) => {
             item?.response?.results?.view_all_flight_result_api?.url;
 
           if (allFlightSearchApi) {
+             // flight history [start]
+             const getallFlightId = allFlightSearchApi.split('/').pop();
+             const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+             api.get(historyUrl).then((history_res)=> {
+              //  console.log("historyUrl", history_res.data.search);
+               dispatch(setSearchHistoryGet(history_res.data.search))
+             }).catch((error)=> {
+              console.log("error", error);
+              
+
+             })
+             // flight history [end]
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
                 dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
-                // dispatch(
-                //   setMessage({
-                //     user: item.message,
-                //     ai: offerResponse.data,
-                //     OfferId: topFlightSearchApi, // this is for passenger flow  offerID
-                //   })
-                // );
                 console.log("allFlightSearchApi", flightRes);
               })
               .catch((flighterror) => {
@@ -123,5 +133,6 @@ export const {
   setAllFlightGetApi,
   setFlightExpire,
   setRefreshSearch,
+  setSearchHistoryGet,
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

@@ -309,7 +309,7 @@ const Header = ({ isMessage, IsActive }) => {
               )}
               {isMessage ? (
                 <Box display="flex" alignItems="center" gap={3}>
-                  <Link href={""} onClick={ChatClearHandle}>
+                  <Box className=" cursor-pointer" onClick={ChatClearHandle}>
                     <Box
                       display="flex"
                       alignItems="center"
@@ -320,9 +320,9 @@ const Header = ({ isMessage, IsActive }) => {
                     >
                       <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
                     </Box>
-                  </Link>
+                  </Box>
 
-                  <Link href={""}>
+                  <Box className=" cursor-pointer">
                     <Box
                       display="flex"
                       alignItems="center"
@@ -336,7 +336,7 @@ const Header = ({ isMessage, IsActive }) => {
                         alt="Chat History Icon"
                       />
                     </Box>
-                  </Link>
+                  </Box>
                 </Box>
               ) : (
                 <Box display={"flex"} alignItems={"center"}>

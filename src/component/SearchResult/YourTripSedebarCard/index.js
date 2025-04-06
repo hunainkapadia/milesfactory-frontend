@@ -25,10 +25,10 @@ import Link from "next/link";
 
 const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   useEffect(() => {
-    console.log("offerDataofferData", );
+    console.log("offerDataofferData");
   }, []);
   const dispatch = useDispatch();
-   const offerkey = offerData?.id;
+  const offerkey = offerData?.id;
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
@@ -40,42 +40,49 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const SearchHistory = useSelector((state)=> state.getMessages?.SearchHistory);
-  
+  const SearchHistory = useSelector((state) => state.getMessages.SearchHistory);
+  console.log("SearchHistory", SearchHistory);
+
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      
-      {offerData || SearchHistory ? (
-        <>
-          {console.log("SearchHistory11", SearchHistory)}
+      {SearchHistory ? (
+        <Box className={TripStyles.Header2 + " "}>
           <Box>
             <h4 className="regular mb-0">
-              {/* {SearchHistory.from_title} to {SearchHistory.to_title}{" "} */}
-              {/* {offerData?.slices[0]?.origin.city_name} to{" "}
-              {offerData?.slices[0]?.destination.city_name} */}
+              {SearchHistory?.from_title} to {SearchHistory?.to_title}
             </h4>
           </Box>
           <Box className=" " mb={2}>
             <Typography className=" f12 black semibold">
-              {offerData?.slices
-                .slice(0, 2)
-                .map((slice) =>
-                  new Date(slice.departing_at).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                  })
-                )
-                .join(" - ")}
+              {new Date(SearchHistory?.departure_date).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "short",
+                }
+              )}
+              {" - "}
+              {new Date(SearchHistory?.arrival_date).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "short",
+                }
+              )}
             </Typography>
             <Typography className=" gray mb-0 f12">
-              {offerData?.slices.length > 1 ? "Return" : "One-way"},{" "}
-              {offerData?.passengers.length} Travellers
+              Return, {SearchHistory.adults} Travellers
             </Typography>
           </Box>
-
+        </Box>
+      ) : (
+        ""
+      )}
+      {offerData ? (
+        <>
           <Box className={`${TripStyles.flightOfferCard}`}>
-            <Grid container>
+            <Grid>
               <Grid className={TripStyles.CardLeft} lg={12} md={12}>
                 {/* footer */}
                 {/*  */}
@@ -172,11 +179,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               >
                                 {slice.origin.iata_code}
                               </Typography>
-                              <Typography
-                                className={TripStyles.flightRoute + " gray f12"}
-                              >
-                                {slice.origin.city_name}
-                              </Typography>
+                              
                             </Box>
 
                             {/* Flight Duration with Dotted Line */}
@@ -243,13 +246,6 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                                 className={TripStyles.flightRoute + " f12"}
                               >
                                 {slice.destination.iata_code}
-                              </Typography>
-                              <Typography
-                                className={
-                                  TripStyles.flightRoute + " gray  f12"
-                                }
-                              >
-                                {slice.destination.city_name}
                               </Typography>
                             </Box>
                           </Box>
