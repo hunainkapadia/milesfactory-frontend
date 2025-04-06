@@ -75,7 +75,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
               )}
             </Typography>
             <Typography className=" gray mb-0 f12">
-              Return, {SearchHistory.adults} Travellers
+            {SearchHistory.flight_type == "round-trip" ? "Return" : "One-way" }, {SearchHistory.adults} Travellers
             </Typography>
           </Box>
         </Box>
