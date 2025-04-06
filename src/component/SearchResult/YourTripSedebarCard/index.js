@@ -40,8 +40,11 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const SearchHistory = useSelector((state) => state.getMessages.SearchHistory);
-  console.log("SearchHistory", SearchHistory);
+  const SearchHistoryGet = useSelector((state) => state.getMessages.SearchHistory);
+  const SearchHistorySend = useSelector((state) => state.sendMessage.SearchHistory);
+  const SearchHistory = SearchHistorySend || SearchHistoryGet;
+
+  console.log("SearchHistorySend", SearchHistory);
 
   return (
     <>
