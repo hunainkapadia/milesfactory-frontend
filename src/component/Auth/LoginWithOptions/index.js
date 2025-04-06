@@ -7,10 +7,9 @@ const LoginWithOptions = () => {
   return (
     <>
       <Box className={styles.SignupOptions}>
-        <Link
-          href={""}
+        <Box
           className={
-            styles.SignupOption + " basecolor-dark text-decoration-none bold"
+            styles.SignupOption + " basecolor-dark text-decoration-none bold cursor-pointer"
           }
         >
           <Box
@@ -25,11 +24,10 @@ const LoginWithOptions = () => {
             <i className="f20 fa-brands fa-google"></i>
             <Typography fontWeight={"bold"}>Sign up with Google</Typography>
           </Box>
-        </Link>
-        <Link
-          href={""}
+        </Box>
+        <Box
           className={
-            styles.SignupOption + " basecolor-dark text-decoration-none bold"
+            styles.SignupOption + " basecolor-dark text-decoration-none bold cursor-pointer"
           }
         >
           <Box
@@ -44,9 +42,8 @@ const LoginWithOptions = () => {
             <i className="f20 fa-brands fa-apple"></i>
             <Typography fontWeight={"bold"}>Sign up with Apple ID</Typography>
           </Box>
-        </Link>
-        <Link
-          href={""}
+        </Box>
+        <Box
           className={
             styles.SignupOption + " basecolor-dark text-decoration-none bold"
           }
@@ -63,7 +60,7 @@ const LoginWithOptions = () => {
             <i className="f20 fa-brands fa-facebook"></i>
             <Typography fontWeight={"bold"}>Sign up with Facebook</Typography>
           </Box>
-        </Link>
+        </Box>
       </Box>
       <Box
         className={styles.orDivider}

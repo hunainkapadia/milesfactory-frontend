@@ -22,13 +22,12 @@ const PaymentInfo = ({ getdata }) => {
       <Box py={2}>
         <Typography>
           When ready, go to the flight{" "}
-          <Link
-            href={""}
+          <Box
             onClick={()=>priceSummaryHandle()}
-            className="text-decuration-none bold"
+            className="text-decuration-none bold cursor-pointer"
           >
             price summary.
-          </Link>
+          </Box>
         </Typography>
       </Box>
       {isPrice ? 

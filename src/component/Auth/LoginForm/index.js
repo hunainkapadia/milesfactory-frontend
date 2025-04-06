@@ -59,9 +59,9 @@ const LoginForm = ({  }) => {
             <h1 className="">Sign in</h1>
             <Typography textAlign={"center"} pt={2}>
               Don’t have an account?{" "}
-              <Link onClick={()=>HandleSignup()} className="basecolor-dark" href={""}>
+              <Box onClick={()=>HandleSignup()} className="basecolor-dark cursor-pointer">
                 Create one
-              </Link>
+              </Box>
             </Typography>
           </Box>
           <LoginWithOptions />

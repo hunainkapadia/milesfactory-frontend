@@ -172,15 +172,20 @@ const FromAndTo = ({ offerData }) => {
                   >
                     <Box className={searchResultStyles.dots}>
                       {slice.segments?.length === 1 ? (
-                        <Box className={searchResultStyles.dot}></Box> // Show one dot if only one segment
+                        <Box>
+                          <Box className={searchResultStyles.dot + " aa"}></Box>
+                        </Box>
+                          // Show one dot if only one segment
                       ) : (
                         <>
                           {Array.from({ length: slice.segments.length }).map(
                             (_, index) => (
-                              <Box
-                                key={index}
-                                className={searchResultStyles.dot}
-                              ></Box>
+                              <Box>
+                                <Box
+                                  key={index}
+                                  className={searchResultStyles.dot}
+                                ></Box>
+                              </Box>
                             )
                           )}
                         </>

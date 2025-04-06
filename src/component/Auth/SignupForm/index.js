@@ -97,9 +97,9 @@ const SignUpForm = () => {
             <h1 className="center">Create an account</h1>
             <Typography textAlign={"center"} pt={2}>
               Already have an account?{" "}
-              <Link onClick={HandleLogin} className="basecolor-dark" href={""}>
+              <Box onClick={HandleLogin} className="basecolor-dark">
                 Sign in
-              </Link>
+              </Box>
             </Typography>
           </Box>
           <LoginWithOptions />

@@ -35,7 +35,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
               </Typography>
               <Typography className="f12 gray">40E</Typography>
             </Box>
-            <Link className="btn-link" href={""}>
+            <Link className="btn-link" href={"/"}>
               <Box textAlign={"right"} className="basecolor1" gap={2}>
                 <div>Change</div>
               </Box>
@@ -48,7 +48,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
               </Typography>
               <Typography className="f12 gray">Not selected</Typography>
             </Box>
-            <Link className="btn-link" href={""}>
+            <Link className="btn-link" href={"/"}>
               <Box textAlign={"right"} className="basecolor1" gap={2}>
                 Change
               </Box>
@@ -74,7 +74,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     Outbound baggage
                   </Typography>
                 </Box>
-                <Link className="btn-link" href={""}>
+                <Link className="btn-link" href={"/"}>
                   <Box textAlign={"right"} className="basecolor1" gap={2}>
                     <div>Add</div>
                   </Box>
@@ -142,7 +142,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                     Return baggage
                   </Typography>
                 </Box>
-                <Link className="btn-link" href={""}>
+                <Link className="btn-link" href={"/"}>
                   <Box textAlign={"right"} className="basecolor1" gap={2}>
                     <div>Add</div>
                   </Box>

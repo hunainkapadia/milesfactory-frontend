@@ -237,11 +237,11 @@ const Header = ({ isMessage, IsActive }) => {
                         styles.DropdownItemsBox + "  br-12 box-shadow-md"
                       }
                     >
-                      <Link
+                      <Box
                         className={
-                          styles.DropdownItem + " text-decuration-none"
+                          styles.DropdownItem + " text-decuration-none cursor-pointer"
                         }
-                        href={""}
+                        
                       >
                         <Box display={"flex"} alignItems={"center"} gap={1}>
                           <Box width={"20px"}>
@@ -249,12 +249,11 @@ const Header = ({ isMessage, IsActive }) => {
                           </Box>
                           <Typography>Profile</Typography>
                         </Box>
-                      </Link>
-                      <Link
+                      </Box>
+                      <Box
                         className={
-                          styles.DropdownItem + " text-decuration-none"
+                          styles.DropdownItem + " text-decuration-none cursor-pointer"
                         }
-                        href={""}
                       >
                         <Box display={"flex"} alignItems={"center"} gap={1}>
                           <Box width={"20px"}>
@@ -262,12 +261,12 @@ const Header = ({ isMessage, IsActive }) => {
                           </Box>
                           <Typography>Settings</Typography>
                         </Box>
-                      </Link>
-                      <Link
+                      </Box>
+                      <Box
                         className={
-                          styles.DropdownItem + " text-decuration-none"
+                          styles.DropdownItem + " text-decuration-none cursor-pointer"
                         }
-                        href={""}
+                        
                         onClick={logoutHandle}
                       >
                         <Box display={"flex"} alignItems={"center"} gap={1}>
@@ -276,7 +275,7 @@ const Header = ({ isMessage, IsActive }) => {
                           </Box>
                           <Typography>Sign out</Typography>
                         </Box>
-                      </Link>
+                      </Box>
                       {/*  */}
                     </Box>
                   </Box>
@@ -393,13 +392,12 @@ const Header = ({ isMessage, IsActive }) => {
             <Divider />
 
             <Box pb={3} pt={5} display={"flex"}>
-              <Link
-                href={""}
+              <Box
                 onClick={HandleBookTrip}
-                className="w-100 btn btn-primary no-rounded btn-md"
+                className="w-100 btn btn-primary no-rounded btn-md cursor-pointer"
               >
                 Book a trip
-              </Link>
+              </Box>
             </Box>
           </Box>
         </Box>

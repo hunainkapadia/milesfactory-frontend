@@ -118,10 +118,9 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                           </Box>
                         )}
                         <Box style={{ cursor: "pointer" }}>
-                          <Link
-                            href={""}
+                          <Box
                             onClick={HandleSelectDrawer}
-                            className="text-decoration-none"
+                            className="text-decoration-none cursor-pointer"
                           >
                             <Box
                               gap={1}
@@ -132,7 +131,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               <span>Flight details</span>
                               <i className="fa-angle-right fa fas"></i>{" "}
                             </Box>
-                          </Link>
+                          </Box>
                         </Box>
                       </Box>
                       {/*  */}

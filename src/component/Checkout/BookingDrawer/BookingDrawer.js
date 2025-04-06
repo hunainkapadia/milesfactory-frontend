@@ -53,9 +53,9 @@ const BookingDrawer = ({ getFlightDetail }) => {
                       .join(" - ")}
                   </Typography>
                 </Box>
-                <Link href={""} onClick={HandlecloseDrawer} className=" basecolor">
+                <Box onClick={HandlecloseDrawer} className=" currsor-pointer basecolor">
                   <i className="fa fa-close fas"></i>
-                </Link>
+                </Box>
               </Box>
             </Grid>
           </Grid>
