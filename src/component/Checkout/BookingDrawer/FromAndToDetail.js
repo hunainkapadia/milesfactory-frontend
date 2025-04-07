@@ -44,7 +44,9 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
         const airport = getdata.segments[i].destination.iata_code;
         const layoversCityName = getdata.segments[i].destination.city_name;
 
-        layovers.push(`${layoverDuration} layover in ${layoversCityName} (${airport})`);
+        layovers.push(
+          `${layoverDuration} layover in ${layoversCityName} (${airport})`
+        );
       }
 
       return layovers;
@@ -52,21 +54,22 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
 
     return [];
   }
-  
+
   return (
-    <Box>
+    <Box className={styles.fromAndToBody}>
       {/* Flight Type Label */}
 
       <Box
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        className={styles.FromandToHeader}
       >
         <Box display={"flex"}>
           <Typography className={styles.onewayReturn}>{flightType}</Typography>
         </Box>
         <Box>
-          <Box 
+          <Box
             className=" cursor-pointer text-decoration-none basecolor1"
             onClick={bookingDetail}
           >
@@ -88,205 +91,222 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
       </Box>
 
       {/* from and to row */}
-      <Box
-        className={`${styles.fromAndToRow} ${flightType} ${
-          isBaggage ? "isBaggage" : ""
-        }`}
-      >
-        <Box
-          className={`${styles.fromAndToRowIn}`}
-          position={"relative"}
-          display={"flex"}
-          flexDirection={"column"}
-          gap={3}
-        >
-          {/* From Row */}
-          <Box
-            className={styles.FromRow}
-            position={"relative"}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Box display={"flex"} gap={4}>
-              <Typography variant="h5" className="h6 mb-0">
-                {new Date(getdata?.departing_at).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </Typography>
-              <Typography variant="h5" className="h6 mb-0">
-                {getdata?.origin?.iata_code}
-                {` (${getdata?.origin?.city_name})`}
-              </Typography>
-            </Box>
-            <Box display={"flex"} gap={4}>
-              <Typography className=" semibold gray mb-0">
-                {new Date(getdata?.departing_at).toLocaleDateString("en-US", {
-                  weekday: "short",
-                  month: "short",
-                  day: "2-digit",
-                })}
-                <br />
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* Duration + Stops */}
-          <Box
-            className={styles.flightDurationRow + " gray"}
-            position={"relative"}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Box>
-              <Box display={"flex"} gap={1}>
-                <Typography variant="p" className="mb-0">
-                  {getdata?.duration}
-                </Typography>
-                <Typography variant="p" className="mb-0 red">
-                  {getStopDetails(getdata)}
-                </Typography>
+      {isBaggage ? (
+        <>
+          <Box className={`${styles.fromAndToRow}`}>
+            <Box
+              className={`${styles.fromAndToRowIn}`}
+              position={"relative"}
+              display={"flex"}
+              flexDirection={"column"}
+              gap={3}
+            >
+              {/* From Row */}
+              <Box
+                className={styles.FromRow}
+                position={"relative"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Box className={styles.leftCol}>
+                  <h5 className="h6 mb-0">
+                    {new Date(getdata?.departing_at).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </h5>
+                </Box>
+                <Box>
+                  <h5 className="h6 mb-0">
+                    {getdata?.origin?.iata_code}
+                    {` (${getdata?.origin?.city_name})`}
+                  </h5>
+                </Box>
+                <Box display={"flex"} gap={4}>
+                  <Typography className=" semibold gray mb-0">
+                    {new Date(getdata?.departing_at).toLocaleDateString(
+                      "en-US",
+                      {
+                        weekday: "short",
+                        month: "short",
+                        day: "2-digit",
+                      }
+                    )}
+                    <br />
+                  </Typography>
+                </Box>
               </Box>
-              <Typography variant="p" className="mb-0 gray">
-                {[
-                  ...new Set(
-                    getdata?.segments
-                      ?.flatMap((segment) =>
-                        segment?.passengers?.map((p) => p?.cabin_class)
-                      )
-                      ?.filter(Boolean)
-                  ),
-                ]
-                  .join(", ")
-                  .replace(/\b\w/g, (c) => c.toUpperCase()) || "No Cabin Info"}
-              </Typography>
-            </Box>
-            <Box className={styles.airlineLogo + " imggroup"}>
-              <img src={logo} alt={"image"} />
-            </Box>
-          </Box>
 
-          {/* To Row */}
-          <Box
-            position={"relative"}
-            className={styles.ToRow}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Box display={"flex"} gap={4}>
-              <Typography variant="h5" className="h6 mb-0">
-                {new Date(getdata?.arriving_at).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </Typography>
-              <Typography variant="h5" className="h6 mb-0">
-                {getdata?.destination?.iata_code}
-                {` (${getdata?.destination?.city_name})`}
-              </Typography>
+              {/* Duration + Stops */}
+              <Box
+                className={styles.flightDurationRow + " gray"}
+                position={"relative"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                gap={1}
+              >
+                  <Box className={styles.leftCol}>
+                    <Typography className="mb-0">
+                      {getdata?.duration}
+                    </Typography>
+                    <Typography className="mb-0 gray">
+                      {[
+                        ...new Set(
+                          getdata?.segments
+                            ?.flatMap((segment) =>
+                              segment?.passengers?.map((p) => p?.cabin_class)
+                            )
+                            ?.filter(Boolean)
+                        ),
+                      ]
+                        .join(", ")
+                        .replace(/\b\w/g, (c) => c.toUpperCase()) ||
+                        "No Cabin Info"}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      className={`mb-0 ${
+                        getStopDetails(getdata).toLowerCase().includes("direct")
+                          ? " gray "
+                          : " red "
+                      }`}
+                    >
+                      {console.log("getStopDetails", getdata)}
+                      {getStopDetails(getdata)}
+                    </Typography>
+                  </Box>
+                  <Box className={styles.airlineLogo + " imggroup"}>
+                    <img src={logo} alt={"image"} />
+                  </Box>
+              </Box>
+
+              {/* To Row */}
+              <Box
+                position={"relative"}
+                className={styles.ToRow}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Box className={styles.leftCol}>
+                  <h5 className="h6 mb-0">
+                    {new Date(getdata?.arriving_at).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </h5>
+                </Box>
+                <Box>
+                  <h5 className="h6 mb-0">
+                    {getdata?.destination?.iata_code}
+                    {` (${getdata?.destination?.city_name})`}
+                  </h5>
+                </Box>
+                <Box display={"flex"} gap={4}>
+                  <Typography className="semibold gray mb-0">
+                    {new Date(getdata?.arriving_at).toLocaleDateString(
+                      "en-US",
+                      {
+                        weekday: "short",
+                        month: "short",
+                        day: "2-digit",
+                      }
+                    )}
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
-            <Box display={"flex"} gap={4}>
-              <Typography variant="p" className="semibold gray mb-0">
-                {new Date(getdata?.arriving_at).toLocaleDateString("en-US", {
-                  weekday: "short",
-                  month: "short",
-                  day: "2-digit",
-                })}
-              </Typography>
-            </Box>
+            {/* layour */}
           </Box>
-        </Box>
-      {/* layour */}
-      </Box>
-      {getLayoverDetails(getdata).map((layover, index) => (
-  <Box
-    px={3}
-    mt={3}
-    py={2}
-    className={styles.LayoverSection + "  "}
-    textAlign={"center"}
-  >
-    <Typography key={index} variant="p" className="mb-0">
-      <i className="lightgray2 fa-clock fa"></i>{" "}
-      <span className="basecolor ">{layover}</span>
-    </Typography>
-  </Box>
-))}
+          {getLayoverDetails(getdata).map((layover, index) => (
+            <Box
+              px={3}
+              mt={3}
+              py={2}
+              className={styles.LayoverSection + "  "}
+              textAlign={"center"}
+            >
+              <Typography key={index} variant="p" className="mb-0">
+                <i className="lightgray2 fa-clock fa"></i>{" "}
+                <span className="basecolor ">{layover}</span>
+              </Typography>
+            </Box>
+          ))}
+        </>
+      ) : (
+        ""
+      )}
 
       {/* Toggle Flight Details */}
 
       {/* Flight Details Expanded */}
 
-      {isBaggage ? (
-        <Box>
-          <Box mb={2}>
-            <Typography variant="h4" className="mb-0 h4">
-              Included in ticket
-            </Typography>
-          </Box>
+      <Box>
+        <Box mb={2}>
+          <Typography variant="h4" className="mb-0 h4">
+            Included in ticket
+          </Typography>
+        </Box>
 
-          {/* Unique Baggage Items */}
-          {(() => {
-            const baggageMap = new Map();
+        {/* Unique Baggage Items */}
+        {(() => {
+          const baggageMap = new Map();
 
-            getdata?.segments.forEach((segment) => {
-              segment?.passengers.forEach((passenger) => {
-                passenger?.baggages.forEach((baggage) => {
-                  const key = `${baggage.type}-${baggage.formatted_type}`;
-                  if (!baggageMap.has(key)) {
-                    baggageMap.set(key, {
-                      ...baggage,
-                    });
-                  }
-                });
+          getdata?.segments.forEach((segment) => {
+            segment?.passengers.forEach((passenger) => {
+              passenger?.baggages.forEach((baggage) => {
+                const key = `${baggage.type}-${baggage.formatted_type}`;
+                if (!baggageMap.has(key)) {
+                  baggageMap.set(key, {
+                    ...baggage,
+                  });
+                }
               });
             });
+          });
 
-            const uniqueBaggages = Array.from(baggageMap.values());
+          const uniqueBaggages = Array.from(baggageMap.values());
 
-            return (
-              <Box px={1}>
-                {uniqueBaggages.map((baggage, index) => (
-                  <Box
-                    key={index}
-                    display={"flex"}
-                    gap={2}
-                    alignItems={"center"}
-                    mb={1}
-                    className={styles.normalOption}
-                  >
-                    <Box className={styles.BaggageIcon}>
-                      <img
-                        src={
-                          baggage?.type === "checked"
-                            ? "/images/checkout/checked-bagg.svg"
-                            : "/images/checkout/carryon-bagg.svg"
-                        }
-                      />
-                    </Box>
-                    <Typography>
-                      {baggage.quantity}x {baggage.formatted_type}
-                    </Typography>
+          return (
+            <Box px={1}>
+              {uniqueBaggages.map((baggage, index) => (
+                <Box
+                  key={index}
+                  display={"flex"}
+                  gap={2}
+                  alignItems={"center"}
+                  mb={1}
+                  className={styles.normalOption}
+                >
+                  <Box className={styles.BaggageIcon}>
+                    <img
+                      src={
+                        baggage?.type === "checked"
+                          ? "/images/checkout/checked-bagg.svg"
+                          : "/images/checkout/carryon-bagg.svg"
+                      }
+                    />
                   </Box>
-                ))}
-              </Box>
-            );
-          })()}
+                  <Typography>
+                    {baggage.quantity}x {baggage.formatted_type}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          );
+        })()}
 
-          {/* Carbon Emission Placeholder */}
-          <Box display={"flex"} py={3} gap={2} alignItems={"center"}>
-            <img src="/images/leave-icon.svg" />
-            <Typography className={styles.normalOption}>
-              <span>{"nodata"} kg CO₂e</span>
-            </Typography>
-          </Box>
+        {/* Carbon Emission Placeholder */}
+        <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
+          <img src="/images/leave-icon.svg" />
+          <Typography className={styles.normalOption}>
+            <span>{"nodata"} kg CO₂e</span>
+          </Typography>
         </Box>
-      ) : (
-        ""
-      )}
+      </Box>
     </Box>
   );
 };
