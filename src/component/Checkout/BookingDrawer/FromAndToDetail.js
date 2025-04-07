@@ -3,7 +3,7 @@ import { Avatar, Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Link from "next/link";
 
-const FromAndToDetail = ({ getdata, logo, flightType, total_emissions }) => {
+const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_emissions }) => {
   const [isBaggage, setisBaggage] = useState(false);
 
   const bookingDetail = () => {
@@ -275,6 +275,22 @@ const FromAndToDetail = ({ getdata, logo, flightType, total_emissions }) => {
 
           return (
             <Box px={1}>
+            <Box
+                  display={"flex"}
+                  gap={2}
+                  alignItems={"center"}
+                  mb={1}
+                  className={styles.normalOption}
+                >
+                  <Box className={styles.BaggageIcon}>
+                    <img
+                      src={"/images/user-sm.svg"}
+                    />
+                  </Box>
+                  <Typography>
+                    {SearchHistoryGet.adults}
+                  </Typography>
+                </Box>
               {uniqueBaggages.map((baggage, index) => (
                 <Box
                   key={index}

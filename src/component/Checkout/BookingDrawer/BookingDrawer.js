@@ -3,7 +3,7 @@ import { Box, Typography, Divider, Grid } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
@@ -13,6 +13,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
   const HandlecloseDrawer = () => {
     dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
   };
+  const SearchHistoryGet = useSelector(
+    (state) => state.getMessages.SearchHistory
+  );
+  console.log("SearchHistoryGetbook", SearchHistoryGet);
+  
   return (
     <Box className={styles.checkoutDrower + " white-bg"}>
       <Box className={styles.checkoutDrowerSection + " white-bg"}>
@@ -74,13 +79,14 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     getdata={slice}
                     logo={getFlightDetail?.owner?.logo_symbol_url}
                     flightType={index === 0 ? "Outbound" : "Return"}
+                    SearchHistoryGet={SearchHistoryGet}
                   />
                 </>
               ))}
               <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
                 <img src="/images/leave-icon.svg" />
-                <Typography className={styles.normalOption}>
-                  <span>{getFlightDetail?.total_emissions_kg} kg CO₂e</span>
+                <Typography className={styles.normalOption + " gray"}>
+                  <span>Emissions estimate: {getFlightDetail?.total_emissions_kg} kg CO₂e</span>
                 </Typography>
               </Box>
             </>
