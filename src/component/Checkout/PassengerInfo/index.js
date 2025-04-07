@@ -19,6 +19,8 @@ const PassengerInfo = ({ getdata }) => {
   const passengerDetails = useSelector(
     (state) => state.passengerDrawer.passengerDetails
   );
+  console.log("passengerDetails111", passengerDetails);
+  
 
   // passenger toggle
   const [selectedPassenger, setSelectedPassenger] = useState(null); // Track selected passenger
@@ -63,7 +65,7 @@ const PassengerInfo = ({ getdata }) => {
     <>
       <Box py={1}>
         <Typography fontWeight={"semibold"}>
-          Now, let’s add the traveller details
+          Ready to fly? Let’s add traveller details.
         </Typography>
       </Box>
       <Box
@@ -100,7 +102,7 @@ const PassengerInfo = ({ getdata }) => {
           <Grid item xs={12}>
             <Box py={4}>
               <Typography>
-                Select your seats now or add extra baggage
+              Select now your seats and extra baggage.
               </Typography>
             </Box>
           </Grid>

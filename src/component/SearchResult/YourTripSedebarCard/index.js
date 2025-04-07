@@ -129,7 +129,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               gap={1}
                               alignItems={"center"}
                               display={"flex"}
-                              className=" semibold f12"
+                              className=" basecolor1 semibold f12"
                             >
                               <span>Flight details</span>
                               <i className="fa-angle-right fa fas"></i>{" "}
