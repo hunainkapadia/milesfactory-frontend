@@ -112,9 +112,7 @@ const AiMessage = ({ aiMessage }) => {
               <PaymentInfo />
               <PaymentDrawer />
               <PaymentAddCard />
-              {paymentSuccess ? (
-              <PaymentSuccess />
-              ): ""}
+              {paymentSuccess ? <PaymentSuccess /> : ""}
             </>
           ) : null}
         </>

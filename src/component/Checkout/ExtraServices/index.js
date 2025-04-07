@@ -4,7 +4,6 @@ import Link from "next/link";
 import { currencySymbols } from "@/src/utils/utils";
 
 const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
-  console.log("selectedFlightbaggag", selectedFlight);
 
   return (
     <Grid item xs={6}>

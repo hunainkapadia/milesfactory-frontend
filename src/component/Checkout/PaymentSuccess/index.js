@@ -56,7 +56,16 @@ const PaymentSuccess = () => {
           onChange={(event, newValue) => {
             setRating(newValue);
           }}
-          sx={{ mt: 2, color: "#00C4CC", fontSize: "30px" }}
+          sx={{
+            mt: 2,
+            fontSize: "30px",
+            "& .MuiRating-iconFilled": {
+              color: "#00C4CC", // selected star color
+            },
+            "& .MuiRating-iconHover": {
+              color: "#00C4CC", // hover color
+            },
+          }}
         />
 
         {/* Show this only after a star is clicked */}
@@ -89,7 +98,9 @@ const PaymentSuccess = () => {
               variant="contained"
               disabled={!selectedReason}
               onClick={handleSubmit}
-              className={`btn ${selectedReason ? " btn-primary " : " btn-disabled"}  btn-md btn-round`}
+              className={`btn ${
+                selectedReason ? " btn-primary " : " btn-disabled"
+              }  btn-md btn-round`}
             >
               Send
             </Button>

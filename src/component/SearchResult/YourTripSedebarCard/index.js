@@ -40,11 +40,20 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const SearchHistoryGet = useSelector((state) => state.getMessages.SearchHistory);
-  const SearchHistorySend = useSelector((state) => state.sendMessage.SearchHistory);
+  const SearchHistoryGet = useSelector(
+    (state) => state.getMessages.SearchHistory
+  );
+  const SearchHistorySend = useSelector(
+    (state) => state.sendMessage.SearchHistory
+  );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
   console.log("SearchHistorySend", SearchHistory);
+  const GetViewPassengers = useSelector(
+    (state) => state?.passengerDrawer?.ViewPassengers
+  );
+
+  console.log("GetViewPassengers", GetViewPassengers);
 
   return (
     <>
@@ -75,7 +84,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
               )}
             </Typography>
             <Typography className=" gray mb-0 f12">
-            {SearchHistory.flight_type == "round-trip" ? "Return" : "One-way" }, {SearchHistory.adults} Travellers
+              {SearchHistory.flight_type == "round-trip" ? "Return" : "One-way"}
+              , {SearchHistory.adults} Travellers
             </Typography>
           </Box>
         </Box>
@@ -181,7 +191,6 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               >
                                 {slice.origin.iata_code}
                               </Typography>
-                              
                             </Box>
 
                             {/* Flight Duration with Dotted Line */}
@@ -343,56 +352,97 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
             </Grid>
             {/* Extra Info bottom */}
           </Box>
-          <Box display={"none"} flexDirection={"column"} gap={2}>
-            <Box
-              display={"flex"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Box>
-                <Typography className="bold">Travellers</Typography>
-                <Typography className="gray">
-                  Lucia Abella, Mike Oleg
-                </Typography>
-              </Box>
-              <Box>
-                <i className="fa f20 fa-angle-right basecolor1"></i>
-              </Box>
-            </Box>
+          <Box display={"flex"} flexDirection={"column"} gap={2}>
             {/*  */}
-            <Box
-              display={"flex"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Box>
-                <Typography className="bold">Seats</Typography>
-                <Typography className="gray">
-                  Outbound: 40E, 40F / Return: predefined
-                </Typography>
-              </Box>
-              <Box>
-                <i className="fa f20 fa-angle-right basecolor1"></i>
-              </Box>
-            </Box>
-            {/*  */}
-            <Box
-              display={"flex"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Box>
-                <Typography className="bold">Extra luggage</Typography>
-                <Typography className="gray">
-                  Outbound: 1 carry-on / Return: 1 carry-on
-                </Typography>
-              </Box>
-              <Box>
-                <i className="fa f20 fa-angle-right basecolor1"></i>
-              </Box>
-            </Box>
+            {GetViewPassengers ? (
+              <>
+                <Box
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Box>
+                    <Typography className="bold">Travellers</Typography>
+                    <Typography className="gray">
+                      {GetViewPassengers?.map((p, i) => (
+                        <Typography key={i}>
+                          {p.given_name} {p.family_name}
+                        </Typography>
+                      ))}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <i className="fa f20 fa-angle-right basecolor1"></i>
+                  </Box>
+                </Box>
+                <Box
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Box>
+                    <Typography className="bold">Seats</Typography>
+                    <Typography className="gray">
+                      Outbound: 40E, 40F / Return: predefined
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <i className="fa f20 fa-angle-right basecolor1"></i>
+                  </Box>
+                </Box>
+                <Box
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Box>
+                    <Typography className="bold">Extra luggage</Typography>
+                    <Typography className="gray">
+                      {offerData?.slices
+                        .map((slice, index) => {
+                          const isOutbound =
+                            index === 0 ? "Outbound" : "Return";
+
+                          // Build baggage map
+                          const baggageMap = new Map();
+                          slice?.segments?.forEach((segment) => {
+                            segment?.passengers?.forEach((passenger) => {
+                              passenger?.baggages?.forEach((baggage) => {
+                                const key = `${baggage.type}`;
+                                if (!baggageMap.has(key)) {
+                                  baggageMap.set(key, baggage.quantity || 0);
+                                } else {
+                                  baggageMap.set(
+                                    key,
+                                    baggageMap.get(key) +
+                                      (baggage.quantity || 0)
+                                  );
+                                }
+                              });
+                            });
+                          });
+
+                          // Only show carry-on count
+                          const carryOnQty = baggageMap.get("carry_on") || 0;
+
+                          return `${isOutbound}: ${carryOnQty} carry-on`;
+                        })
+                        .join(" / ")}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <i className="fa f20 fa-angle-right basecolor1"></i>
+                  </Box>
+                </Box>
+              </>
+            ) : (
+              ""
+            )}
           </Box>
-          <Box>
+          <Box className={TripStyles.PaymentRow + " "} pt={2}>
+          <Box py={2}>
+                        <Divider />
+                      </Box>
             <Box display={"flex"} alignItems={"center"} mb={2}>
               <Box>
                 <h4 className="bold mb-0">
