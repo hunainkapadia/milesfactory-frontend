@@ -53,7 +53,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
                       .join(" - ")}
                   </Typography>
                 </Box>
-                <Box onClick={HandlecloseDrawer} className=" currsor-pointer basecolor">
+                <Box
+                  onClick={HandlecloseDrawer}
+                  className=" currsor-pointer basecolor"
+                >
                   <i className="fa fa-close fas"></i>
                 </Box>
               </Box>
@@ -61,17 +64,26 @@ const BookingDrawer = ({ getFlightDetail }) => {
           </Grid>
 
           <Box className={styles.detailsSection} px={3}>
-            {getFlightDetail?.slices.map((slice, index) => (
-              <>
-                <FromAndToDetail
-                  key={index} // Always add a unique key when mapping
-                  getdata={slice}
-                  logo={getFlightDetail?.owner?.logo_symbol_url}
-                  flightType={index === 0 ? "Outbound" : "Return"}
-                />
-              </>
-            ))}
-            
+            <>
+              
+              {getFlightDetail?.slices.map((slice, index) => (
+                <>
+                {console.log("fromandslice", slice)}
+                  <FromAndToDetail
+                    key={index} // Always add a unique key when mapping
+                    getdata={slice}
+                    logo={getFlightDetail?.owner?.logo_symbol_url}
+                    flightType={index === 0 ? "Outbound" : "Return"}
+                  />
+                </>
+              ))}
+              <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
+                <img src="/images/leave-icon.svg" />
+                <Typography className={styles.normalOption}>
+                  <span>{getFlightDetail?.total_emissions_kg} kg CO₂e</span>
+                </Typography>
+              </Box>
+            </>
           </Box>
         </Box>
 

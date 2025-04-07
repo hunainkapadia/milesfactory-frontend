@@ -1,7 +1,15 @@
 import { Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import { closeDrawer, setCloseCardDrawer, setPaymentFormSuccess } from "@/src/store/slices/PaymentSlice";
+import { useDispatch } from "react-redux";
 
-const PaymentFooter = ({HandlecloseDrawer}) => {
+const PaymentFooter = ({HandlecloseDrawer, selectedCard}) => {
+  console.log("selectedCard", selectedCard);
+  const dispatch = useDispatch();
+  const handleBookFlight =()=> {
+    dispatch(setPaymentFormSuccess(true));
+    dispatch(closeDrawer())
+  }
   return (
     <>
       <Box
@@ -68,9 +76,9 @@ const PaymentFooter = ({HandlecloseDrawer}) => {
               >
                 <button 
                   className={
-                    styles.selectFlightBtn + " btn btn-primary btn-md btn-round"
+                    `${styles.selectFlightBtn} + btn ${selectedCard ? " btn-primary " : " btn-disabled " } btn-md btn-round }`
                   }
-                  onClick={"handleBookFlight"}
+                  onClick={handleBookFlight}
                 >
                   <Box display="flex" gap={1}>
                     <Box>Pay</Box>
