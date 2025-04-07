@@ -3,7 +3,7 @@ import { Avatar, Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Link from "next/link";
 
-const FromAndToDetail = ({ getdata, logo, flightType }) => {
+const FromAndToDetail = ({ getdata, logo, flightType, total_emissions }) => {
   const [isBaggage, setisBaggage] = useState(false);
 
   const bookingDetail = () => {
@@ -28,7 +28,9 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
 
   // Get layover info
 
+  
   function getLayoverDetails(getdata) {
+    
     if (getdata?.segments?.length > 1) {
       const layovers = [];
 
@@ -57,6 +59,7 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
 
   return (
     <Box className={styles.fromAndToBody}>
+    {console.log("getdata111", getdata)}
       {/* Flight Type Label */}
 
       <Box
@@ -300,12 +303,7 @@ const FromAndToDetail = ({ getdata, logo, flightType }) => {
         })()}
 
         {/* Carbon Emission Placeholder */}
-        <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
-          <img src="/images/leave-icon.svg" />
-          <Typography className={styles.normalOption}>
-            <span>{"nodata"} kg CO₂e</span>
-          </Typography>
-        </Box>
+        
       </Box>
     </Box>
   );

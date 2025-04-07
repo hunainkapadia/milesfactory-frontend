@@ -148,7 +148,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
               </Box>
             </Box>
           </Box>
-          <PaymentFooter HandlecloseDrawer={HandlecloseDrawer} />
+          <PaymentFooter HandlecloseDrawer={HandlecloseDrawer} selectedCard={selectedCard}/>
         </Box>
       </Box>
     </Drawer>
