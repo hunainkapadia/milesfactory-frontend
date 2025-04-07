@@ -99,6 +99,8 @@ export const NationalitData = () => (dispatch) => {
     const stateOfferId = getState(); // Get the Redux state
     const offerId = stateOfferId?.getMessages.topOfferUrl; // Get offerId from Redux
     const offerIdSend = stateOfferId?.sendMessage; // Get offerId from Redux
+    console.log("offerIdSend", offerIdSend);
+    
     console.log("ViewPassengerUrlresponse", offerIdSend);
     if (!offerId) {
       return; // Stop execution if offerId is missing
