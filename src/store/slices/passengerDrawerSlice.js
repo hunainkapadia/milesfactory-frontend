@@ -96,22 +96,24 @@ export const NationalitData = () => (dispatch) => {
   
   export const PassengerForm = () => (dispatch, getState) => {
     
-    const stateOfferId = getState(); // Get the Redux state
-    const offerId = stateOfferId?.getMessages.topOfferUrl; // Get offerId from Redux
-    const offerIdSend = stateOfferId?.sendMessage; // Get offerId from Redux
+    const states = getState(); // Get the Redux state
+    const offerIdGet = states?.getMessages.topOfferUrl; // Get offerId from Redux
+    const offerIdSend = states?.sendMessage?.TopOfferUrlSend; // Get offerId from Redux
+    const finalOfferId = offerIdSend || offerIdGet;
+
+    
     console.log("offerIdSend", offerIdSend);
     
     console.log("ViewPassengerUrlresponse", offerIdSend);
-    if (!offerId) {
+    if (!finalOfferId) {
       return; // Stop execution if offerId is missing
     }
     const stateFlightId = getState(); // Get the Redux state
     const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
     
   
-  console.log("pfactive222");
   // {{BASE_URL}}/api/v1/setup/flight/b4be0bba-9f35-489e-bb0a-3f879e6ef17b/order/offer/off_0000AruCPTqbACYIE3AQvk
-  const bookingSetupUrl = `/api/v1/setup/flight/${offerId}/order/offer/${flightId}`;
+  const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
   api
     .post(bookingSetupUrl)
     .then((response) => {
