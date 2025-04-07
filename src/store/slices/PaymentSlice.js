@@ -6,22 +6,24 @@ const PaymentSlice = createSlice({
     isDrawer: false,
     AddCardDrawer: false,
     PaymentFormSuccess: false,
-
+    priceSummary: false,
   },
   reducers: {
-   setAddCardDrawer: (state)=> {
-      state.AddCardDrawer = true
-   },
-   setCloseCardDrawer: (state)=> {
-      state.AddCardDrawer = false
-   },
-   openDrawer: (state) => {
-      console.log("state111", state);
-      state.isDrawer = true; // Open drawer
-   },
-   closeDrawer: (state) => {
-      state.isDrawer = false; // Close drawer
+    setpriceSummary: (state, action) => {
+      state.priceSummary = true
     },
+    setAddCardDrawer: (state) => {
+      state.AddCardDrawer = true;
+    },
+    setCloseCardDrawer: (state) => {
+      state.AddCardDrawer = false;
+    },
+    setIsDrawer: (state, action) => {
+      state.isDrawer = action.payload;
+    },
+    // closeDrawer: (state) => {
+    //   state.isDrawer = false; // Close drawer
+    // },
     setPaymentFormSuccess: (state, action) => {
       state.PaymentFormSuccess = action.payload;
     },
@@ -36,15 +38,16 @@ export const PaymentForm = (params) => (dispatch) => {
   setTimeout(() => {
     dispatch(setPaymentFormSuccess(true));
     dispatch(setCloseCardDrawer()); // close the drawer
+    dispatch(setIsDrawer(false));
   }, 1000);
 };
 
 // Export actions
 export const {
-  openDrawer,
-  closeDrawer,
   setAddCardDrawer,
   setCloseCardDrawer,
   setPaymentFormSuccess,
+  setpriceSummary,
+  setIsDrawer,
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

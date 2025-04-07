@@ -362,14 +362,12 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                   alignItems={"center"}
                 >
                   <Box>
-                    <Typography className="bold">Travellers</Typography>
-                    <Typography className="gray">
+                    <Typography className="f12  bold">Travellers</Typography>
                       {GetViewPassengers?.map((p, i) => (
-                        <Typography key={i}>
+                        <Typography key={i} className="f12 gray">
                           {p.given_name} {p.family_name}
                         </Typography>
                       ))}
-                    </Typography>
                   </Box>
                   <Box>
                     <i className="fa f20 fa-angle-right basecolor1"></i>
@@ -381,8 +379,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                   alignItems={"center"}
                 >
                   <Box>
-                    <Typography className="bold">Seats</Typography>
-                    <Typography className="gray">
+                    <Typography className="f12 bold">Seats</Typography>
+                    <Typography className="f12 gray">
                       Outbound: 40E, 40F / Return: predefined
                     </Typography>
                   </Box>
@@ -396,8 +394,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                   alignItems={"center"}
                 >
                   <Box>
-                    <Typography className="bold">Extra luggage</Typography>
-                    <Typography className="gray">
+                    <Typography className="f12  bold">Extra luggage</Typography>
+                    <Typography className="f12 gray">
                       {offerData?.slices
                         .map((slice, index) => {
                           const isOutbound =
@@ -440,9 +438,9 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
             )}
           </Box>
           <Box className={TripStyles.PaymentRow + " "} pt={2}>
-          <Box py={2}>
-                        <Divider />
-                      </Box>
+            <Box py={2}>
+              <Divider />
+            </Box>
             <Box display={"flex"} alignItems={"center"} mb={2}>
               <Box>
                 <h4 className="bold mb-0">

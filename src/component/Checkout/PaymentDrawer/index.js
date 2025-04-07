@@ -13,7 +13,7 @@ import paymentStyles from "@/src/styles/sass/components/checkout/Payment.module.
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import Link from "next/link";
-import { closeDrawer, setAddCardDrawer } from "@/src/store/slices/PaymentSlice";
+import { closeDrawer, setAddCardDrawer, setIsDrawer } from "@/src/store/slices/PaymentSlice";
 import PaymentCard from "../PaymentCard";
 import PaymentFooter from "./PaymentFooter";
 
@@ -25,12 +25,12 @@ const PaymentDrawer = ({ getFlightDetail }) => {
   };
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
-    dispatch(closeDrawer()); //setSelectFlightKey empty then close drawer
+    dispatch(setIsDrawer(false)); //setSelectFlightKey empty then close drawer
   };
 
   const isDrawer = useSelector((state) => state.payment.isDrawer);
-  const iscloseDrawer = useSelector((state) => state.payment);
-  console.log("closeDrawer", iscloseDrawer);
+  const iscloseDrawer = useSelector((state) => state.payment.isDrawer);
+  console.log("isDrawer111", isDrawer);
   const cardData = [
     {
       id: 1,
@@ -148,7 +148,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
               </Box>
             </Box>
           </Box>
-          <PaymentFooter HandlecloseDrawer={HandlecloseDrawer} selectedCard={selectedCard}/>
+          <PaymentFooter selectedCard={selectedCard}/>
         </Box>
       </Box>
     </Drawer>

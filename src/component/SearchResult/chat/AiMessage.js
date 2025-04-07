@@ -11,10 +11,10 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import LoadingArea from "../../LoadingArea";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
-import PaymentInfo from "../../Checkout/PaymentInfo";
 import PaymentDrawer from "../../Checkout/PaymentDrawer";
 import PaymentAddCard from "../../Checkout/PaymentAddCardDrawer";
 import PaymentSuccess from "../../Checkout/PaymentSuccess";
+import PriceSummary from "../../Checkout/PriceSummary";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
@@ -112,7 +112,7 @@ const AiMessage = ({ aiMessage }) => {
           {GetViewPassengers &&
           filledPassenger.length === GetViewPassengers.length ? (
             <>
-              <PaymentInfo />
+              <PriceSummary />
               <PaymentDrawer />
               <PaymentAddCard />
               {paymentSuccess ? <PaymentSuccess /> : ""}

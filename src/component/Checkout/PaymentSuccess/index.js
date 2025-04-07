@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Typography, Chip, Rating, Stack, Button } from "@mui/material";
+import useScrollToRef from "@/src/hooks/useScrollToRef";
+import { registerScrollFunction } from "@/src/utils/scrollManager";
 
 const PaymentSuccess = () => {
   const [rating, setRating] = useState(null); // user-selected rating
   const [selectedReason, setSelectedReason] = useState(null); // user-selected reason
+  // stroll 
+  const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
+  
+    const [scrollRef, scrollToRef] = useScrollToRef();
+  
+    useEffect(() => {
+      registerScrollFunction(scrollToRef);
+    }, []);
+    
+
 
   const reasons = [
     "Pricing",
@@ -25,7 +37,7 @@ const PaymentSuccess = () => {
     // Do something with rating + reason (like dispatch or API)
   };
   return (
-    <Box py={3}>
+    <Box ref={scrollRef}  py={3}>
       {/* Success Message */}
       <Box mb={3}>
         <Box className=" imggroup" mb={2}>

@@ -288,7 +288,7 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                     />
                   </Box>
                   <Typography>
-                    {SearchHistoryGet.adults}
+                    {SearchHistoryGet?.adults}
                   </Typography>
                 </Box>
               {uniqueBaggages.map((baggage, index) => (

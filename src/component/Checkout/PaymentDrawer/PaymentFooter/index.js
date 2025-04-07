@@ -1,14 +1,23 @@
 import { Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
-import { closeDrawer, setCloseCardDrawer, setPaymentFormSuccess } from "@/src/store/slices/PaymentSlice";
+import { closeDrawer, setIsDrawer, setPaymentFormSuccess } from "@/src/store/slices/PaymentSlice";
 import { useDispatch } from "react-redux";
+import { triggerScroll } from "@/src/utils/scrollManager";
 
-const PaymentFooter = ({HandlecloseDrawer, selectedCard}) => {
-  console.log("selectedCard", selectedCard);
+const PaymentFooter = ({selectedCard}) => {
   const dispatch = useDispatch();
-  const handleBookFlight =()=> {
-    dispatch(setPaymentFormSuccess(true));
-    dispatch(closeDrawer())
+  const handlePay =()=> {
+    triggerScroll();
+    setTimeout(() => {
+      dispatch(setPaymentFormSuccess(true));
+      dispatch(setIsDrawer(false));
+    }, 300); // Optional: tweak delay
+
+        // 👇 This triggers smooth scroll to the ref
+
+  }
+  const handleCloseDrawer =()=> {
+    dispatch(setIsDrawer(false))
   }
   return (
     <>
@@ -62,7 +71,7 @@ const PaymentFooter = ({HandlecloseDrawer, selectedCard}) => {
                 gap={2}
                 className="gray f14"
                 style={{ cursor: "pointer" }}
-                onClick={HandlecloseDrawer}
+                onClick={handleCloseDrawer}
               >
                 <span>Cancel</span>
               </Box>
@@ -78,7 +87,7 @@ const PaymentFooter = ({HandlecloseDrawer, selectedCard}) => {
                   className={
                     `${styles.selectFlightBtn} + btn ${selectedCard ? " btn-primary " : " btn-disabled " } btn-md btn-round }`
                   }
-                  onClick={handleBookFlight}
+                  onClick={handlePay}
                 >
                   <Box display="flex" gap={1}>
                     <Box>Pay</Box>
