@@ -79,27 +79,20 @@
                 className={styles.priceSection}
                 display="flex"
                 alignItems="center"
-                gap={1}
               >
-                <Typography
-                  variant="subtitle2"
-                  className={styles.priceLabel + " mb-0 basecolor-dark"}
-                >
-                  Price:
-                </Typography>
                 <Typography
                   variant="h3"
                   className={styles.price + " h3 mb-0 basecolor-dark"}
                 >
                   <span>
                     {currencySymbols[getFlightDetails?.tax_currency] ||
-                      getFlightDetails?.tax_currency}{" "}
+                      getFlightDetails?.tax_currency}
                     {Math.round(getFlightDetails?.total_amount)}
                   </span>
                 </Typography>
               </Box>
               <Box className={styles.totalPersonPrice}>
-                <Typography variant="p" className="basecolor-dark f14">
+                <Typography variant="p" className=" gray f14">
                   Total per person:{" "}
                   {currencySymbols[getFlightDetails?.tax_currency] ||
                     getFlightDetails?.tax_currency}{" "}
