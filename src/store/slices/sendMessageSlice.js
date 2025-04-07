@@ -10,8 +10,14 @@ const sendMessageSlice = createSlice({
     AllFlightPostApi: null, // Store all flight search results here
     SearchHistorySend: null,
     ThreadUUIDsend: null,
+    TopOfferUrlSend: null,
   },
   reducers: {
+    setTopOfferUrlSend: (state, action)=> {
+      console.log("setTopOfferUrlSend", action);
+      
+      state.TopOfferUrlSend = action.payload;
+    },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
@@ -83,6 +89,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             response?.response?.results?.view_all_flight_result_api?.url;
           if (allFlightSearchApi) {
             const getallFlightId = allFlightSearchApi.split("/").pop();
+            dispatch(setTopOfferUrlSend(getallFlightId))
+            
             const historyUrl = `/api/v1/search/${getallFlightId}/history`;
 
             api
@@ -151,5 +159,6 @@ export const {
   setSearchHistorySend,
   setThreadUUIDsend,
   setClearChat,
+  setTopOfferUrlSend,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

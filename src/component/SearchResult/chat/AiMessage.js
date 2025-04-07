@@ -43,11 +43,13 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
 
-  useEffect(() => {
-    if (aiMessage?.OfferId) {
-      dispatch(setOfferId(aiMessage?.OfferId));
-    }
-  }, [aiMessage?.OfferId, dispatch]);
+  console.log("aiMessage?.OfferId", aiMessage?.OfferId);
+  
+  // useEffect(() => {
+  //   if (aiMessage?.OfferId) {
+  //     dispatch(setOfferId(aiMessage?.OfferId));
+  //   }
+  // }, [aiMessage?.OfferId, dispatch]);
 
   useEffect(() => {
     if (GetViewPassengers) {
@@ -70,7 +72,7 @@ const AiMessage = ({ aiMessage }) => {
     : getAllFlightGetApi?.offers?.slice(0, 3);
 
     const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
-    console.log("paymentSuccess", paymentSuccess);
+    
     
     
     
@@ -99,6 +101,7 @@ const AiMessage = ({ aiMessage }) => {
           </Box> */}
 
           {/* Show passenger form or loading */}
+          {console.log("passtest11", GetViewPassengers)}
           {GetViewPassengers ? (
             <PassengerInfo getdata={GetViewPassengers} />
           ) : (

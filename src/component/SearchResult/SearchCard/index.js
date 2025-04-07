@@ -43,12 +43,14 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  console.log("isPassenger", offerData);
-  console.log("offerkey111", offerData);
   // selected flight detail get for send data in select button click
   const flightDetail = useSelector((state) => state.booking.flightDetail);
+  // get offerid from getmessage
+  const offeridGet = useSelector((state)=> state.getMessages.topOfferUrl);
+  const offeridSend = useSelector((state)=> state);
+  console.log("offeridSend", offeridSend);
+  
   const handleBookFlight = () => {
-    
     if (offerkey) {
       dispatch(setflightDetail(offerData)); // Store flight details
       dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
@@ -61,7 +63,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     } else {
       ("");
     }
-    dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
+    dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this ai message trigger passenger flow active
   };
 
   const selectedFlightKey = useSelector(

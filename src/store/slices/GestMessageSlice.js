@@ -10,12 +10,16 @@ const initialState = {
   flightExpire: "",
   refreshSearch: "",
   SearchHistoryGet: null,
+  topOfferUrl: null,
 };
 
 const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    setTopOfferUrl: (state, action)=> {
+      state.topOfferUrl = action.payload;
+    },
     setSearchHistoryGet: (state, action)=> { 
       console.log("historyUrl", action);
       state.SearchHistory = action.payload;
@@ -85,8 +89,11 @@ export const fetchMessages = () => (dispatch) => {
           
           if (allFlightSearchApi) {
             
-             // flight history [start]
-             const getallFlightId = allFlightSearchApi.split('/').pop();
+            
+            // flight history [start]
+            const getallFlightId = allFlightSearchApi.split('/').pop();
+            dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
+            console.log("offeriddisp", getallFlightId);
              const historyUrl = `/api/v1/search/${getallFlightId}/history`;
              api.get(historyUrl).then((history_res)=> {
               //  console.log("historyUrl", history_res.data.search);
@@ -142,5 +149,6 @@ export const {
   setFlightExpire,
   setRefreshSearch,
   setSearchHistoryGet,
+  setTopOfferUrl,
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

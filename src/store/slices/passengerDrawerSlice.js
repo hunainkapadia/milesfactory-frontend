@@ -8,7 +8,7 @@ const passengerDrawerSlice = createSlice({
   initialState: {
     isOpen: false,
     countries: [],
-    setOfferId: null,
+    OfferId: null,
     OrderUuid: null,
     ViewPassengers: null,
     PassengerUUID: null,
@@ -42,7 +42,7 @@ const passengerDrawerSlice = createSlice({
       state.countries = action.payload;
     },
     setOfferId: (state, action) => {
-      state.setOfferId = action.payload;
+      state.OfferId = action.payload;
     },
     //  getting order uui for passender
     setOrderUuid: (state, action) => {
@@ -92,23 +92,24 @@ export const NationalitData = () => (dispatch) => {
       dispatch(setCountries(response.data));
     })
     .catch((error) => {});
-};
-
-export const PassengerForm = (params) => (dispatch, getState) => {
+  };
   
-  const stateOfferId = getState(); // Get the Redux state
-  const offerId = stateOfferId?.passengerDrawer?.setOfferId; // Get offerId from Redux
-  if (!offerId) {
-    return; // Stop execution if offerId is missing
-  }
-  const extractedOfferId = offerId.split("/").pop();
-  const stateFlightId = getState(); // Get the Redux state
-  const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
-  
+  export const PassengerForm = () => (dispatch, getState) => {
+    
+    const stateOfferId = getState(); // Get the Redux state
+    const offerId = stateOfferId?.getMessages.topOfferUrl; // Get offerId from Redux
+    const offerIdSend = stateOfferId?.sendMessage; // Get offerId from Redux
+    console.log("ViewPassengerUrlresponse", offerIdSend);
+    if (!offerId) {
+      return; // Stop execution if offerId is missing
+    }
+    const stateFlightId = getState(); // Get the Redux state
+    const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
+    
   
   console.log("pfactive222");
   // {{BASE_URL}}/api/v1/setup/flight/b4be0bba-9f35-489e-bb0a-3f879e6ef17b/order/offer/off_0000AruCPTqbACYIE3AQvk
-  const bookingSetupUrl = `/api/v1/setup/flight/${extractedOfferId}/order/offer/${flightId}`;
+  const bookingSetupUrl = `/api/v1/setup/flight/${offerId}/order/offer/${flightId}`;
   api
     .post(bookingSetupUrl)
     .then((response) => {
