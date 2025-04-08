@@ -3,7 +3,14 @@ import { Avatar, Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Link from "next/link";
 
-const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_emissions }) => {
+const FromAndToDetail = ({
+  SearchHistoryGet,
+  getdata,
+  logo,
+  flightType,
+  sliceLength,
+  total_emissions,
+}) => {
   const [isBaggage, setisBaggage] = useState(false);
 
   const bookingDetail = () => {
@@ -28,9 +35,7 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
 
   // Get layover info
 
-  
   function getLayoverDetails(getdata) {
-    
     if (getdata?.segments?.length > 1) {
       const layovers = [];
 
@@ -59,96 +64,110 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
 
   return (
     <Box className={styles.fromAndToBody}>
-    {console.log("getdata111", getdata)}
-      {/* Flight Type Label */}
+      {console.log("getdata111", getdata)}
+      <Box className={styles.fromAndToBodyTop}>
+        {/* Flight Type Label */}
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          className={styles.FromandToHeader}
+        >
+          {/* if oneway sliceLength 0 or return */}
+          {console.log("sliceLength", sliceLength == 1)}
 
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        className={styles.FromandToHeader}
-      >
-        <Box display={"flex"}>
-          <Typography className={styles.onewayReturn}>{flightType}</Typography>
-        </Box>
-        <Box>
-          <Box
-            className=" cursor-pointer text-decoration-none basecolor1 f12"
-            onClick={bookingDetail}
-          >
-            <Box gap={2} alignItems={"center"} display={"flex"}>
-              {!isBaggage ? (
-                <>
-                  <span>Flight details</span>
-                  <i className="fa-angle-down fa fas"></i>
-                </>
-              ) : (
-                <>
-                  <span>Flight details</span>
-                  <i className="basecolor1 fa-angle-up fa fas"></i>
-                </>
-              )}
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-
-      {/* from and to row */}
-      {isBaggage ? (
-        <>
-          <Box className={`${styles.fromAndToRow}`}>
-            <Box
-              className={`${styles.fromAndToRowIn}`}
-              position={"relative"}
-              display={"flex"}
-              flexDirection={"column"}
-              gap={3}
-            >
-              {/* From Row */}
-              <Box
-                className={styles.FromRow}
-                position={"relative"}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Box className={styles.Col1}>
-                  <h5 className={styles.Country + " mb-0"}>
-                    {new Date(getdata?.departing_at).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </h5>
-                </Box>
-                <Box className={styles.Col2}>
-                  <h5 className={styles.Country + " mb-0"}>
-                    {getdata?.origin?.iata_code}
-                    {` (${getdata?.origin?.city_name})`}
-                  </h5>
-                </Box>
-                <Box className={styles.Col3} display={"flex"} gap={4}>
-                  <Typography className={styles.Dates + " semibold gray mb-0"}>
-                    {new Date(getdata?.departing_at).toLocaleDateString(
-                      "en-US",
-                      {
-                        weekday: "short",
-                        month: "short",
-                        day: "2-digit",
-                      }
+          {sliceLength <= 1 ? (
+            <Typography className={"f14 gray"}>{"One way"}</Typography>
+          ) : (
+            <>
+              <Box display={"flex"}>
+                <Typography className={styles.onewayReturn}>
+                  {flightType}
+                </Typography>
+              </Box>
+              <Box>
+                <Box
+                  className=" cursor-pointer text-decoration-none basecolor1 f12"
+                  onClick={bookingDetail}
+                >
+                  <Box gap={2} alignItems={"center"} display={"flex"}>
+                    {!isBaggage ? (
+                      <>
+                        <span>Flight details</span>
+                        <i className="fa-angle-down fa fas"></i>
+                      </>
+                    ) : (
+                      <>
+                        <span>Flight details</span>
+                        <i className="basecolor1 fa-angle-up fa fas"></i>
+                      </>
                     )}
-                  </Typography>
+                  </Box>
                 </Box>
               </Box>
+            </>
+          )}
+        </Box>
 
-              {/* Duration + Stops */}
+        {/* from and to row */}
+
+        {isBaggage || sliceLength <= 1 ? (
+          <>
+            <Box className={`${styles.fromAndToRow}`}>
               <Box
-                className={styles.flightDurationRow + " gray"}
+                className={`${styles.fromAndToRowIn}`}
                 position={"relative"}
                 display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-                gap={1}
+                flexDirection={"column"}
+                gap={3}
               >
+                {/* From Row */}
+                <Box
+                  className={styles.FromRow}
+                  position={"relative"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Box className={styles.Col1}>
+                    <h5 className={styles.Country + " mb-0"}>
+                      {new Date(getdata?.departing_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </h5>
+                  </Box>
+                  <Box className={styles.Col2}>
+                    <h5 className={styles.Country + " mb-0"}>
+                      {getdata?.origin?.iata_code}
+                      {` (${getdata?.origin?.city_name})`}
+                    </h5>
+                  </Box>
+                  <Box className={styles.Col3} display={"flex"} gap={4}>
+                    <Typography
+                      className={styles.Dates + " semibold gray mb-0"}
+                    >
+                      {new Date(getdata?.departing_at).toLocaleDateString(
+                        "en-US",
+                        {
+                          weekday: "short",
+                          month: "short",
+                          day: "2-digit",
+                        }
+                      )}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {/* Duration + Stops */}
+                <Box
+                  className={styles.flightDurationRow + " gray"}
+                  position={"relative"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  gap={1}
+                >
                   <Box className={styles.Col1}>
                     <Typography className="f14 mb-0">
                       {getdata?.duration}
@@ -185,72 +204,73 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                       <img src={logo} alt={"image"} />
                     </Box>
                   </Box>
-              </Box>
+                </Box>
 
-              {/* To Row */}
-              <Box
-                position={"relative"}
-                className={styles.ToRow}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Box className={styles.Col1}>
-                  <h5 className={styles.Country + " mb-0"}>
-                    {new Date(getdata?.arriving_at).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </h5>
-                </Box>
-                <Box className={styles.Col2}>
-                  <h5 className={styles.Country + " mb-0"}>
-                    {getdata?.destination?.iata_code}
-                    {` (${getdata?.destination?.city_name})`}
-                  </h5>
-                </Box>
-                <Box className={styles.Col3} display={"flex"} gap={4}>
-                  <Typography className={styles.Dates + " semibold gray mb-0"}>
-                    {new Date(getdata?.arriving_at).toLocaleDateString(
-                      "en-US",
-                      {
-                        weekday: "short",
-                        month: "short",
-                        day: "2-digit",
-                      }
-                    )}
-                  </Typography>
+                {/* To Row */}
+                <Box
+                  position={"relative"}
+                  className={styles.ToRow}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Box className={styles.Col1}>
+                    <h5 className={styles.Country + " mb-0"}>
+                      {new Date(getdata?.arriving_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </h5>
+                  </Box>
+                  <Box className={styles.Col2}>
+                    <h5 className={styles.Country + " mb-0"}>
+                      {getdata?.destination?.iata_code}
+                      {` (${getdata?.destination?.city_name})`}
+                    </h5>
+                  </Box>
+                  <Box className={styles.Col3} display={"flex"} gap={4}>
+                    <Typography
+                      className={styles.Dates + " semibold gray mb-0"}
+                    >
+                      {new Date(getdata?.arriving_at).toLocaleDateString(
+                        "en-US",
+                        {
+                          weekday: "short",
+                          month: "short",
+                          day: "2-digit",
+                        }
+                      )}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
+              {/* layour */}
             </Box>
-            {/* layour */}
-          </Box>
-          {getLayoverDetails(getdata).map((layover, index) => (
-            <Box
-              px={3}
-              mt={3}
-              py={2}
-              className={styles.LayoverSection + "  "}
-              textAlign={"center"}
-            >
-              <Typography key={index} variant="p" className="f12 mb-0">
-                <i className="lightgray2 fa-clock fa"></i>{" "}
-                <span className="basecolor ">{layover}</span>
-              </Typography>
-            </Box>
-          ))}
-        </>
-      ) : (
-        ""
-      )}
+            {getLayoverDetails(getdata).map((layover, index) => (
+              <Box
+                px={3}
+                mt={3}
+                py={2}
+                className={styles.LayoverSection + "  "}
+                textAlign={"center"}
+              >
+                <Typography key={index} variant="p" className="f12 mb-0">
+                  <i className="lightgray2 fa-clock fa"></i>{" "}
+                  <span className="basecolor ">{layover}</span>
+                </Typography>
+              </Box>
+            ))}
+          </>
+        ) : (
+          ""
+        )}
+      </Box>
 
       {/* Toggle Flight Details */}
-
       {/* Flight Details Expanded */}
-
-      <Box>
+      <Box className={styles.fromAndToBodyBottom}>
         <Box mb={2}>
-          <Typography variant="h4" className="mb-0 h4">
+          <Typography className="bold f12 mb-0 h4">
             Included in ticket
           </Typography>
         </Box>
@@ -305,7 +325,8 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                   className={styles.normalOption}
                 >
                   <Box className={styles.BaggageIcon}>
-                    <img width={14}
+                    <img
+                      width={14}
                       src={
                         baggage?.type === "checked"
                           ? "/images/checkout/checked-bagg.svg"
@@ -323,7 +344,6 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
         })()}
 
         {/* Carbon Emission Placeholder */}
-        
       </Box>
     </Box>
   );

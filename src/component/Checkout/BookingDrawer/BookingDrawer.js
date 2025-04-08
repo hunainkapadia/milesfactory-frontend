@@ -76,9 +76,9 @@ const BookingDrawer = ({ getFlightDetail }) => {
               
               {getFlightDetail?.slices.map((slice, index) => (
                 <>
-                {console.log("fromandslice", slice)}
                   <FromAndToDetail
                     key={index} // Always add a unique key when mapping
+                    sliceLength={getFlightDetail?.slices.length}
                     getdata={slice}
                     logo={getFlightDetail?.owner?.logo_symbol_url}
                     flightType={index === 0 ? "Outbound" : "Return"}
@@ -88,7 +88,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
               ))}
               <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
                 <img width={14} src="/images/leave-icon.svg" />
-                <Typography className={styles.normalOption + " gray"}>
+                <Typography className={styles.normalOption + " f12 gray"}>
                   <span>Emissions estimate: {getFlightDetail?.total_emissions_kg} kg CO₂e</span>
                 </Typography>
               </Box>

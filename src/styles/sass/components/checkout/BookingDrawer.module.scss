@@ -117,10 +117,12 @@
                font-size: 0.85rem;
                color: gray;
             }
-            .fromAndToBody {
-               border-bottom: solid 1px $lightgray2;
-               margin-bottom: 24px;
-               padding-bottom: 24px;
+            .fromAndToBody {padding-bottom: 24px;
+               .fromAndToBodyTop {
+                  border-bottom: solid 1px $lightgray2;
+                  margin-bottom: 24px;
+                  padding-bottom: 0;
+               }
             }
             .FromandToHeader {
                padding: 0 0 24px ;
@@ -214,7 +216,7 @@
       }
    }
 .LayoverSection {
-   margin: 0 0 24px;
+   margin: 0;
    background-color: #69707B1A;
    color: $basecolor;
 }
