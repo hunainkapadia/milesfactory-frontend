@@ -73,7 +73,7 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
         </Box>
         <Box>
           <Box
-            className=" cursor-pointer text-decoration-none basecolor1"
+            className=" cursor-pointer text-decoration-none basecolor1 f12"
             onClick={bookingDetail}
           >
             <Box gap={2} alignItems={"center"} display={"flex"}>
@@ -112,22 +112,22 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                 alignItems={"center"}
                 justifyContent={"space-between"}
               >
-                <Box className={styles.leftCol}>
-                  <h5 className="h6 mb-0">
+                <Box className={styles.Col1}>
+                  <h5 className={styles.Country + " mb-0"}>
                     {new Date(getdata?.departing_at).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </h5>
                 </Box>
-                <Box>
-                  <h5 className="h6 mb-0">
+                <Box className={styles.Col2}>
+                  <h5 className={styles.Country + " mb-0"}>
                     {getdata?.origin?.iata_code}
                     {` (${getdata?.origin?.city_name})`}
                   </h5>
                 </Box>
-                <Box display={"flex"} gap={4}>
-                  <Typography className=" semibold gray mb-0">
+                <Box className={styles.Col3} display={"flex"} gap={4}>
+                  <Typography className={styles.Dates + " semibold gray mb-0"}>
                     {new Date(getdata?.departing_at).toLocaleDateString(
                       "en-US",
                       {
@@ -136,7 +136,6 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                         day: "2-digit",
                       }
                     )}
-                    <br />
                   </Typography>
                 </Box>
               </Box>
@@ -150,11 +149,11 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                 justifyContent={"space-between"}
                 gap={1}
               >
-                  <Box className={styles.leftCol}>
-                    <Typography className="mb-0">
+                  <Box className={styles.Col1}>
+                    <Typography className="f14 mb-0">
                       {getdata?.duration}
                     </Typography>
-                    <Typography className="mb-0 gray">
+                    <Typography className="f14 mb-0 gray">
                       {[
                         ...new Set(
                           getdata?.segments
@@ -169,9 +168,9 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                         "No Cabin Info"}
                     </Typography>
                   </Box>
-                  <Box>
+                  <Box className={styles.Col2}>
                     <Typography
-                      className={`mb-0 ${
+                      className={` f14 mb-0 ${
                         getStopDetails(getdata).toLowerCase().includes("direct")
                           ? " gray "
                           : " red "
@@ -181,8 +180,10 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                       {getStopDetails(getdata)}
                     </Typography>
                   </Box>
-                  <Box className={styles.airlineLogo + " imggroup"}>
-                    <img src={logo} alt={"image"} />
+                  <Box className={styles.Col3}>
+                    <Box className={styles.airlineLogo + " imggroup"}>
+                      <img src={logo} alt={"image"} />
+                    </Box>
                   </Box>
               </Box>
 
@@ -194,22 +195,22 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                 alignItems={"center"}
                 justifyContent={"space-between"}
               >
-                <Box className={styles.leftCol}>
-                  <h5 className="h6 mb-0">
+                <Box className={styles.Col1}>
+                  <h5 className={styles.Country + " mb-0"}>
                     {new Date(getdata?.arriving_at).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </h5>
                 </Box>
-                <Box>
-                  <h5 className="h6 mb-0">
+                <Box className={styles.Col2}>
+                  <h5 className={styles.Country + " mb-0"}>
                     {getdata?.destination?.iata_code}
                     {` (${getdata?.destination?.city_name})`}
                   </h5>
                 </Box>
-                <Box display={"flex"} gap={4}>
-                  <Typography className="semibold gray mb-0">
+                <Box className={styles.Col3} display={"flex"} gap={4}>
+                  <Typography className={styles.Dates + " semibold gray mb-0"}>
                     {new Date(getdata?.arriving_at).toLocaleDateString(
                       "en-US",
                       {
@@ -232,7 +233,7 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
               className={styles.LayoverSection + "  "}
               textAlign={"center"}
             >
-              <Typography key={index} variant="p" className="mb-0">
+              <Typography key={index} variant="p" className="f12 mb-0">
                 <i className="lightgray2 fa-clock fa"></i>{" "}
                 <span className="basecolor ">{layover}</span>
               </Typography>
@@ -275,7 +276,8 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
 
           return (
             <Box px={1}>
-            <Box
+              {SearchHistoryGet ? (
+                <Box
                   display={"flex"}
                   gap={2}
                   alignItems={"center"}
@@ -283,14 +285,16 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                   className={styles.normalOption}
                 >
                   <Box className={styles.BaggageIcon}>
-                    <img
-                      src={"/images/user-sm.svg"}
-                    />
+                    <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
-                  <Typography>
+                  <Typography className="f12">
+                    {console.log("SearchHistoryGet", SearchHistoryGet)}
                     {SearchHistoryGet?.adults}
                   </Typography>
                 </Box>
+              ) : (
+                ""
+              )}
               {uniqueBaggages.map((baggage, index) => (
                 <Box
                   key={index}
@@ -301,7 +305,7 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                   className={styles.normalOption}
                 >
                   <Box className={styles.BaggageIcon}>
-                    <img
+                    <img width={14}
                       src={
                         baggage?.type === "checked"
                           ? "/images/checkout/checked-bagg.svg"
@@ -309,7 +313,7 @@ const FromAndToDetail = ({ SearchHistoryGet, getdata, logo, flightType, total_em
                       }
                     />
                   </Box>
-                  <Typography>
+                  <Typography className="f12">
                     {baggage.quantity}x {baggage.formatted_type}
                   </Typography>
                 </Box>

@@ -128,8 +128,16 @@
             .fromAndToRow {
                position: relative;
                padding: 0 0 24px ;
-               .leftCol {
+               .Col1, .Col2, .Col3 {
                   width: 30%;
+                  &.Col3 {
+                     display: flex;
+                     justify-content: flex-end;
+                  }
+                  .Country {
+                     font-size: $f14;
+                  }
+                  .Dates {font-size: $f12;}
                }
                .fromAndToRowIn {
                   &::before {

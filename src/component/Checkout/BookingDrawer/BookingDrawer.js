@@ -16,7 +16,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
   const SearchHistoryGet = useSelector(
     (state) => state.getMessages.SearchHistory
   );
-  console.log("SearchHistoryGetbook", SearchHistoryGet);
+  const SearchHistorySend = useSelector(
+    (state) => state.sendMessage.SearchHistory
+  );
+  const searchHistory = SearchHistoryGet || SearchHistorySend;
   
   return (
     <Box className={styles.checkoutDrower + " white-bg"}>
@@ -43,7 +46,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     {getFlightDetail?.slices[0]?.origin.city_name} to{" "}
                     {getFlightDetail?.slices[0]?.destination.city_name}
                   </h4>
-                  <Typography className="semibold">
+                  <Typography className=" f14 semibold">
                     {getFlightDetail?.slices
                       .slice(0, 2)
                       .map((slice) =>
@@ -79,12 +82,12 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     getdata={slice}
                     logo={getFlightDetail?.owner?.logo_symbol_url}
                     flightType={index === 0 ? "Outbound" : "Return"}
-                    SearchHistoryGet={SearchHistoryGet}
+                    SearchHistoryGet={searchHistory}
                   />
                 </>
               ))}
               <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
-                <img src="/images/leave-icon.svg" />
+                <img width={14} src="/images/leave-icon.svg" />
                 <Typography className={styles.normalOption + " gray"}>
                   <span>Emissions estimate: {getFlightDetail?.total_emissions_kg} kg CO₂e</span>
                 </Typography>
