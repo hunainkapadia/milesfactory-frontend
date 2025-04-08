@@ -35,33 +35,7 @@ const FromAndToDetail = ({
 
   // Get layover info
 
-  function getLayoverDetails(getdata) {
-    if (getdata?.segments?.length > 1) {
-      const layovers = [];
-
-      for (let i = 0; i < getdata.segments.length - 1; i++) {
-        const first = new Date(getdata.segments[i].arriving_at);
-        const second = new Date(getdata.segments[i + 1].departing_at);
-
-        const layoverTimeMs = second - first;
-        const hours = Math.floor(layoverTimeMs / (1000 * 60 * 60));
-        const minutes = Math.floor((layoverTimeMs / (1000 * 60)) % 60);
-
-        const layoverDuration = `${hours}h${minutes}m`;
-        const airport = getdata.segments[i].destination.iata_code;
-        const layoversCityName = getdata.segments[i].destination.city_name;
-
-        layovers.push(
-          `${layoverDuration} layover in ${layoversCityName} (${airport})`
-        );
-      }
-
-      return layovers;
-    }
-
-    return [];
-  }
-
+  
   return (
     <Box className={styles.fromAndToBody}>
       {console.log("getdata111", getdata)}
@@ -246,20 +220,66 @@ const FromAndToDetail = ({
               </Box>
               {/* layour */}
             </Box>
-            {getLayoverDetails(getdata).map((layover, index) => (
-              <Box
-                px={3}
-                mt={3}
-                py={2}
-                className={styles.LayoverSection + "  "}
-                textAlign={"center"}
-              >
-                <Typography key={index} variant="p" className="f12 mb-0">
-                  <i className="lightgray2 fa-clock fa"></i>{" "}
-                  <span className="basecolor ">{layover}</span>
-                </Typography>
-              </Box>
-            ))}
+
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {getdata?.segments?.map((segment, index) => (
+  segment.stop_duration && (
+    <Box
+      key={segment.id || index}
+      px={3}
+      mt={3}
+      py={2}
+      className={styles.LayoverSection}
+      textAlign="center"
+    >
+    {console.log("segmentlay111", segment)}
+      <Typography variant="body2" className="f12 mb-0">
+        <i className="lightgray2 fa-clock fa" style={{ marginRight: 4 }}></i>
+        <span className="basecolor">
+          {segment.stop_duration} <span>layover in </span>
+          {`${segment.origin.city_name} (${segment.origin.iata_country_code})`}
+
+        </span>
+      </Typography>
+    </Box>
+  )
+))}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           </>
         ) : (
           ""
