@@ -42,11 +42,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 alignItems={"center"}
               >
                 <Box>
-                  <h4 className={styles.title + " mb-0 regular"}>
+                  <h4 className={styles.title + " mb-0"}>
                     {getFlightDetail?.slices[0]?.origin.city_name} to{" "}
                     {getFlightDetail?.slices[0]?.destination.city_name}
                   </h4>
-                  <Typography className=" f14 semibold">
+                  <Typography className=" f14 bold">
                     {getFlightDetail?.slices
                       .slice(0, 2)
                       .map((slice) =>
@@ -73,7 +73,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
 
           <Box className={styles.detailsSection} px={3}>
             <>
-              
+              {console.log("getFlightDetail", getFlightDetail)}
               {getFlightDetail?.slices.map((slice, index) => (
                 <>
                   <FromAndToDetail
@@ -86,7 +86,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                   />
                 </>
               ))}
-              <Box display={"flex"} pt={3} gap={2} alignItems={"center"}>
+              <Box display={"flex"} gap={2} alignItems={"center"}>
                 <img width={14} src="/images/leave-icon.svg" />
                 <Typography className={styles.normalOption + " f12 gray"}>
                   <span>Emissions estimate: {getFlightDetail?.total_emissions_kg} kg CO₂e</span>

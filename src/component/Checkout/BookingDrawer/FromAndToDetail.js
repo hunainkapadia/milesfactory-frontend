@@ -18,7 +18,26 @@ const FromAndToDetail = ({
       [index]: !prev[index],
     }));
   };
+  const isBaggage = baggageToggle[flightType] || sliceLength <= 1;
 
+  function getStopDetails(getdata) {
+    let stops = 0;
+    let stopAirports = [];
+  
+    if (getdata && getdata.segments) {
+      stops = getdata.segments.length - 1;
+      stopAirports = getdata.segments
+        .slice(0, -1)
+        .map((seg) => seg.destination.iata_code); // or seg.destination.city_name
+    }
+  
+    return stops > 0
+      ? `${stops} stop${stops > 1 ? "s" : ""} (${stopAirports.join(" - ")})`
+      : "Direct Flight";
+  }
+
+  
+  
   return (
     <>
       {/* === Header (One Way / Return + Flight Details Toggle) === */}
@@ -43,7 +62,7 @@ const FromAndToDetail = ({
                 onClick={() => toggleBaggage(flightType)} // use flightType as key
               >
                 <Box gap={2} alignItems="center" display="flex">
-                  {!baggageToggle[flightType] ? (
+                  {isBaggage ? (
                     <>
                       <span>Flight details</span>
                       <i className="fa-angle-down fa fas"></i>
@@ -62,156 +81,183 @@ const FromAndToDetail = ({
       </Box>
 
       {/* === Segment Details === */}
-      {(baggageToggle[flightType] || sliceLength <= 1) &&
-        getdata?.segments?.map((segment, index) => (
-          <Box className={styles.fromAndToBody} key={index}>
-            {/* Layover Info */}
-            {segment?.stop_duration && (
-              <Box
-                px={3}
-                mt={1}
-                py={2}
-                className={styles.LayoverSection}
-                textAlign="center"
-              >
-                <Typography variant="body2" className="f12 mb-0">
-                  <i
-                    className="lightgray2 fa-clock fa"
-                    style={{ marginRight: 4 }}
-                  ></i>
-                  <span className="basecolor">
-                    {segment.stop_duration} layover in{" "}
-                    {segment.origin.city_name} (
-                    {segment.origin.iata_country_code})
-                  </span>
-                </Typography>
-              </Box>
-            )}
-
-            {/* Flight Row */}
-            <Box className={styles.fromAndToBodyTop}>
-              <Box className={styles.fromAndToRow}>
+      <Box
+        className={`${styles.fromAndToContainer} ${
+          isBaggage ? styles.isBaggage : ""
+        }`}
+      >
+        {isBaggage &&
+          getdata?.segments?.map((segment, index) => (
+            <Box className={`${styles.fromAndToBody}`} key={index}>
+              {/* Layover Info */}
+              {segment?.stop_duration && (
                 <Box
-                  className={styles.fromAndToRowIn}
-                  position="relative"
-                  display="flex"
-                  flexDirection="column"
-                  gap={3}
+                  px={3}
+                  mt={1}
+                  py={2}
+                  className={styles.LayoverSection}
+                  textAlign="center"
                 >
-                  {/* From */}
-                  <Box
-                    className={styles.FromRow}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <Box className={styles.Col1}>
-                      <h5 className={styles.Country + " mb-0"}>
-                        {new Date(segment?.departing_at).toLocaleTimeString(
-                          [],
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )}
-                      </h5>
-                    </Box>
-                    <Box className={styles.Col2}>
-                      <h5 className={styles.Country + " mb-0"}>
-                        {segment?.origin?.iata_code} (
-                        {segment?.origin?.city_name})
-                      </h5>
-                    </Box>
-                    <Box className={styles.Col3} display="flex" gap={4}>
-                      <Typography
-                        className={styles.Dates + " semibold gray mb-0"}
-                      >
-                        {new Date(segment?.departing_at).toLocaleDateString(
-                          "en-US",
-                          {
-                            weekday: "short",
-                            month: "short",
-                            day: "2-digit",
-                          }
-                        )}
-                      </Typography>
-                    </Box>
-                  </Box>
+                  <Typography variant="body2" className="f12 mb-0">
+                    <i
+                      className="lightgray2 fa-clock fa"
+                      style={{ marginRight: 4 }}
+                    ></i>
+                    <span className="basecolor">
+                      {segment.stop_duration} layover in{" "}
+                      {segment.origin.city_name} (
+                      {segment.origin.iata_country_code})
+                    </span>
+                  </Typography>
+                </Box>
+              )}
 
-                  {/* Duration + Carrier */}
+              {/* Flight Row */}
+              <Box className={styles.fromAndToBodyTop}>
+                <Box className={styles.fromAndToRow}>
                   <Box
-                    className={styles.flightDurationRow + " gray"}
+                    className={styles.fromAndToRowIn}
+                    position="relative"
                     display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    gap={1}
+                    flexDirection="column"
+                    gap={3}
                   >
-                    <Box className={styles.Col1}>
-                      <Typography className="f14 mb-0">
-                        {segment?.duration}
-                      </Typography>
-                    </Box>
-                    <Box className={styles.Col2}>
-                      <Typography className={"f14 mb-0"}>
-                        {segment.operating_carrier.iata_code}-
-                        {segment.operating_carrier_flight_number}{" "}
-                        {segment.marketing_carrier.name}
-                      </Typography>
-                    </Box>
-                    <Box className={styles.Col3}>
-                      <Box className={styles.airlineLogo + " imggroup"}>
-                        <img src={logo} alt="Airline logo" />
+                    {/* From */}
+                    <Box
+                      className={styles.FromRow}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Box className={styles.Col1}>
+                        <h5 className={styles.Country + " mb-0"}>
+                          {new Date(segment?.departing_at).toLocaleTimeString(
+                            [],
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            }
+                          )}
+                        </h5>
+                      </Box>
+                      <Box className={styles.Col2}>
+                        <h5 className={styles.Country + " mb-0"}>
+                          {segment?.origin?.iata_code} (
+                          {segment?.origin?.city_name})
+                        </h5>
+                        {console.log("segmentlength11", segment.length)}
+                      </Box>
+                      <Box className={styles.Col3} display="flex" gap={4}>
+                        <Typography
+                          className={styles.Dates + " semibold gray mb-0"}
+                        >
+                          {new Date(segment?.departing_at).toLocaleDateString(
+                            "en-US",
+                            {
+                              weekday: "short",
+                              month: "short",
+                              day: "2-digit",
+                            }
+                          )}
+                        </Typography>
                       </Box>
                     </Box>
-                  </Box>
 
-                  {/* To */}
-                  <Box
-                    className={styles.ToRow}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <Box className={styles.Col1}>
-                      <h5 className={styles.Country + " mb-0"}>
-                        {new Date(segment?.arriving_at).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </h5>
-                    </Box>
-                    <Box className={styles.Col2}>
-                      <h5 className={styles.Country + " mb-0"}>
-                        {segment?.destination?.iata_code} (
-                        {segment?.destination?.city_name})
-                      </h5>
-                    </Box>
-                    <Box className={styles.Col3} display="flex" gap={4}>
-                      <Typography
-                        className={styles.Dates + " semibold gray mb-0"}
-                      >
-                        {new Date(segment?.arriving_at).toLocaleDateString(
-                          "en-US",
-                          {
-                            weekday: "short",
-                            month: "short",
-                            day: "2-digit",
-                          }
+                    {/* Duration + Carrier */}
+                    <Box
+                      className={styles.flightDurationRow + " gray"}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                      gap={1}
+                    >
+                      <Box className={styles.Col1}>
+                        <Typography className="f14 mb-0">
+                          {segment?.duration}
+                        </Typography>
+                      </Box>
+                      <Box className={styles.Col2}>
+                        {getdata.segments.length > 1 ? (
+                          <>
+                            <Typography className="red">
+                              {getStopDetails(getdata)}
+                            </Typography>
+                          </>
+                        ) : (
+                          <>
+                            <Typography className={"f14 mb-0"}>
+                              {segment.operating_carrier.iata_code}-
+                              {segment.operating_carrier_flight_number}{" "}
+                              {segment.marketing_carrier.name}
+                            </Typography>
+                            <Typography>
+                              {segment.passengers.map((getPassengers) => (
+                                <React.Fragment key={getPassengers.id}>
+                                  {getPassengers?.cabin_class}
+                                </React.Fragment>
+                              ))}
+                            </Typography>
+                          </>
                         )}
-                      </Typography>
+                      </Box>
+                      <Box className={styles.Col3}>
+                        <Box className={styles.airlineLogo + " imggroup"}>
+                          <img src={logo} alt="Airline logo" />
+                        </Box>
+                      </Box>
+                    </Box>
+
+                    {/* To */}
+                    <Box
+                      className={styles.ToRow}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Box className={styles.Col1}>
+                        <h5 className={styles.Country + " mb-0"}>
+                          {new Date(segment?.arriving_at).toLocaleTimeString(
+                            [],
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            }
+                          )}
+                        </h5>
+                      </Box>
+                      <Box className={styles.Col2}>
+                        <h5 className={styles.Country + " mb-0"}>
+                          {segment?.destination?.iata_code} (
+                          {segment?.destination?.city_name})
+                        </h5>
+                      </Box>
+                      <Box className={styles.Col3} display="flex" gap={4}>
+                        <Typography
+                          className={styles.Dates + " semibold gray mb-0"}
+                        >
+                          {new Date(segment?.arriving_at).toLocaleDateString(
+                            "en-US",
+                            {
+                              weekday: "short",
+                              month: "short",
+                              day: "2-digit",
+                            }
+                          )}
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
               </Box>
             </Box>
-          </Box>
-        ))}
+          ))}
+      </Box>
 
       {/* === Baggage Info === */}
-      <Box className={styles.fromAndToBodyBottom}>
+      <Box className={styles.fromAndToBodyBottom + " "}>
         <Box mb={2}>
           <Typography className="bold f12 mb-0 h4">
-            Included in ticket
+            Included in this ticket
           </Typography>
         </Box>
 
@@ -230,9 +276,8 @@ const FromAndToDetail = ({
           });
 
           const uniqueBaggages = Array.from(baggageMap.values());
-
           return (
-            <Box px={1}>
+            <Box>
               {SearchHistoryGet?.adults && (
                 <Box
                   display="flex"
@@ -245,7 +290,7 @@ const FromAndToDetail = ({
                     <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
                   <Typography className="f12">
-                    {SearchHistoryGet.adults}
+                    {SearchHistoryGet?.adults} adults
                   </Typography>
                 </Box>
               )}

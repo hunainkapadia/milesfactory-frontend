@@ -105,6 +105,9 @@
 
          .detailsSection {
             padding: 20px 24px 124px;
+            .fromAndToBodyBottom {
+               margin-bottom: 24px;
+            }
             >div:last-child {
                .fromAndToRowdivider {
                   display: none;
@@ -117,11 +120,24 @@
                font-size: 0.85rem;
                color: gray;
             }
-            .fromAndToBody {padding-bottom: 0;
-               .fromAndToBodyTop {
+            .fromAndToContainer {
+               border-bottom: none;
+               &.isBaggage {
                   border-bottom: solid 1px $lightgray2;
                   margin-bottom: 24px;
-                  padding-bottom: 0;
+               }
+            }
+            .fromAndToBody {padding-bottom: 0;
+               
+               &.isBaggage {
+                  
+                  .fromAndToBodyTop {
+                  }
+               }
+               .fromAndToBodyTop {
+                  // border-bottom: solid 1px $lightgray2;
+                  // margin-bottom: 24px;
+                  // padding-bottom: 0;
                }
             }
             .FromandToHeader {

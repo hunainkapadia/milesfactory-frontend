@@ -196,8 +196,6 @@ const FromAndTo = ({ offerData }) => {
                   <Typography
                     className={searchResultStyles.flightDuration + " semibold"}
                   >
-                    {console.log("slice1111", slice.segments)}
-
                     {slice.segments?.length === 1 ? (
                       "Direct"
                     ) : (
