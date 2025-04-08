@@ -44,7 +44,6 @@ const FromAndToDetail = ({
     <>
       {getdata?.segments?.map((segment, index) => (
         <Box className={styles.fromAndToBody} key={index}>
-          <Box className={styles.fromAndToBodyTop}>
             {/* Layover Section */}
             {segment?.stop_duration && (
               <Box
@@ -67,6 +66,7 @@ const FromAndToDetail = ({
                 </Typography>
               </Box>
             )}
+          <Box className={styles.fromAndToBodyTop}>
 
             {/* Flight Type Label & Toggle */}
             <Box
@@ -219,7 +219,9 @@ const FromAndToDetail = ({
 
           {/* Toggle Flight Details */}
           {/* Flight Details Expanded  */}
-          {/* <Box className={styles.fromAndToBodyBottom}>
+        </Box>
+      ))}
+          <Box className={styles.fromAndToBodyBottom}>
             <Box mb={2}>
               <Typography className="bold f12 mb-0 h4">
                 Included in ticket
@@ -291,9 +293,7 @@ const FromAndToDetail = ({
                 </Box>
               );
             })()}
-          </Box> */}
-        </Box>
-      ))}
+          </Box>
     </>
   );
 };
