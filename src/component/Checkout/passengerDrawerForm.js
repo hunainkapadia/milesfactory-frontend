@@ -64,14 +64,17 @@ const PassengerDrawerForm = () => {
   };
 
   const SubmitPassenger = () => {
-    dispatch(setIsFormLoading(true))
+    dispatch(setIsFormLoading(true));
     dispatch(PassengerFormSubmit(params));
   };
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
-  const isFormLoading = useSelector((state) => state.passengerDrawer.isFormLoading);
-  console.log("isFormLoading", isFormLoading)
+  const isFormLoading = useSelector(
+    (state) => state.passengerDrawer.isFormLoading
+  );
+  console.log("isFormLoading", isFormLoading);
+  const twelveYearsAgo = dayjs().subtract(12, "year");
 
   return (
     <Box
@@ -84,7 +87,6 @@ const PassengerDrawerForm = () => {
           <Box
             className={styles.checkoutDrowerHeder}
             py={3}
-            
             display="flex"
             justifyContent="space-between"
             alignItems={"center"}
@@ -109,7 +111,7 @@ const PassengerDrawerForm = () => {
             justifyContent={"center"}
             gap={2}
           >
-            <Box className="imggroup" >
+            <Box className="imggroup">
               <img height={"70px"} src="/images/user-circle.svg" />
             </Box>
             <Box>
@@ -117,7 +119,7 @@ const PassengerDrawerForm = () => {
             </Box>
           </Box>
 
-          <Box py={2} >
+          <Box py={2}>
             <Box className="formGroup">
               <FormLabel className="bold">Gender as per passport</FormLabel>
               <RadioGroup
@@ -180,15 +182,18 @@ const PassengerDrawerForm = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   className="formControl"
-                  value={born_on ? dayjs(born_on) : null} // Convert string to dayjs
+                  value={born_on ? dayjs(born_on) : null}
                   onChange={(newValue) =>
                     setborn_on(
                       newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
                     )
-                  } // Format date as string
+                  }
+                  maxDate={twelveYearsAgo} // Disable dates after this
                   renderInput={(params) => (
                     <TextField {...params} fullWidth margin="normal" />
                   )}
+                  openTo="year" // Start with year picker
+                  views={["year", "month", "day"]} // Order of selection
                 />
               </LocalizationProvider>
               <Typography className="error" color="red">
@@ -214,31 +219,32 @@ const PassengerDrawerForm = () => {
             <Box width="100%" className="formGroup">
               <FormLabel className="bold">Passport Expiry Date</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  className="formControl"
-                  value={
-                    passport_expire_date ? dayjs(passport_expire_date) : null
-                  } // Ensure it's a dayjs object
-                  onChange={(newValue) =>
-                    setpassport_expire_date(
-                      newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-                    )
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      className="formControl"
-                      {...params}
-                      fullWidth
-                      margin="normal"
-                    />
-                  )}
-                />
-              </LocalizationProvider>
-              {formError?.passport_expire_date && (
-                <Typography className="error" color="red">
-                  {formError.passport_expire_date}
-                </Typography>
-              )}
+  <DatePicker
+    className="formControl"
+    value={
+      passport_expire_date ? dayjs(passport_expire_date) : null
+    }
+    onChange={(newValue) =>
+      setpassport_expire_date(
+        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+      )
+    }
+    minDate={dayjs().startOf("year")} // Disables all years before current year
+    openTo="year"
+    views={["year", "month", "day"]}
+    renderInput={(params) => (
+      <TextField
+        className="formControl"
+        {...params}
+        fullWidth
+        margin="normal"
+      />
+    )}
+  />
+</LocalizationProvider>
+              <Typography className="error" color="red">
+                {(formError?.non_field_errors || [])[1]?.passport_expire_date}
+              </Typography>
             </Box>
             <Box className="formGroup">
               <FormLabel className="bold">Nationality</FormLabel>
@@ -248,7 +254,7 @@ const PassengerDrawerForm = () => {
                 getOptionLabel={(option) => option.name}
                 value={nationality} // Ensure this is a valid object from `countries`
                 onChange={(event, newValue) => setnationality(newValue)} // Use newValue directly
-                popupIcon={<i class='fa f16 fa-angle-down'></i>} // Custom FA icon
+                popupIcon={<i class="fa f16 fa-angle-down"></i>} // Custom FA icon
                 renderInput={(params) => (
                   <TextField {...params} fullWidth placeholder="Nationality" />
                 )}
@@ -283,7 +289,7 @@ const PassengerDrawerForm = () => {
               >
                 <span>Close</span>
               </Box>
-            
+
               <Button
                 className="btn btn-primary btn-md btn-round"
                 onClick={SubmitPassenger}
@@ -291,7 +297,7 @@ const PassengerDrawerForm = () => {
                 variant="contained"
                 color="success"
               >
-                  {isFormLoading ? <ButtonLoading /> : <span>Book flight</span> }
+                {isFormLoading ? <ButtonLoading /> : <span>Book flight</span>}
               </Button>
             </Box>
           </Box>
