@@ -23,21 +23,19 @@ const FromAndToDetail = ({
   function getStopDetails(getdata) {
     let stops = 0;
     let stopAirports = [];
-  
+
     if (getdata && getdata.segments) {
       stops = getdata.segments.length - 1;
       stopAirports = getdata.segments
         .slice(0, -1)
         .map((seg) => seg.destination.iata_code); // or seg.destination.city_name
     }
-  
+
     return stops > 0
       ? `${stops} stop${stops > 1 ? "s" : ""} (${stopAirports.join(" - ")})`
       : "Direct Flight";
   }
 
-  
-  
   return (
     <>
       {/* === Header (One Way / Return + Flight Details Toggle) === */}

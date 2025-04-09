@@ -76,6 +76,15 @@ const PassengerDrawerForm = () => {
   console.log("isFormLoading", isFormLoading);
   const twelveYearsAgo = dayjs().subtract(12, "year");
 
+  const passportError = formError?.non_field_errors?.find(error => error?.passport_expire_date);
+  const bornOnError = formError?.non_field_errors?.find(error => error?.born_on);
+  
+  
+  
+  
+  
+// {passportError?.passport_expire_date}
+  
   return (
     <Box
       className={`${styles.checkoutDrower + " checkoutDrower"} white-bg ${
@@ -203,7 +212,7 @@ const PassengerDrawerForm = () => {
                   />
                 </LocalizationProvider>
                 <Typography className="error" color="red">
-                  {(formError?.non_field_errors || [])[0]?.born_on}
+                  {formError?.born_on || bornOnError?.born_on}
                 </Typography>
               </Box>
               <Box className="formGroup">
@@ -216,11 +225,9 @@ const PassengerDrawerForm = () => {
                   onChange={(e) => setpassport_number(e.target.value)}
                   margin="normal"
                 />
-                {formError?.passport_number && (
-                  <Typography className="error" color="red">
-                    {formError.passport_number}
-                  </Typography>
-                )}
+                <Typography className="error" color="red">
+                  {formError?.passport_number}
+                </Typography>
               </Box>
               <Box width="100%" className="formGroup">
                 <FormLabel className="bold">Passport Expiry Date</FormLabel>
@@ -249,7 +256,8 @@ const PassengerDrawerForm = () => {
                   />
                 </LocalizationProvider>
                 <Typography className="error" color="red">
-                  {(formError?.non_field_errors || [])[1]?.passport_expire_date}
+                
+                  {formError?.passport_expire_date || passportError?.passport_expire_date}
                 </Typography>
               </Box>
               <Box className="formGroup">
@@ -272,7 +280,7 @@ const PassengerDrawerForm = () => {
               </Box>
               {formError?.nationality && (
                 <Typography className="error" color="red">
-                  {formError.nationality}
+                {formError?.nationality}
                 </Typography>
               )}
             </Box>
