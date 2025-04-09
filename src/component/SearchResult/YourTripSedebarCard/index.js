@@ -363,11 +363,11 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 >
                   <Box>
                     <Typography className="f12  bold">Travellers</Typography>
+                        <Typography className="f12 gray">
                       {GetViewPassengers?.map((p, i) => (
-                        <Typography key={i} className="f12 gray">
-                          {p.given_name} {p.family_name}
-                        </Typography>
+                          <span key={i}>{p.given_name} {p.family_name} , </span>
                       ))}
+                        </Typography>
                   </Box>
                   <Box>
                     <i className="fa f20 fa-angle-right basecolor1"></i>
