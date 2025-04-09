@@ -179,7 +179,7 @@ const FromAndToDetail = ({
                       <Box className={styles.Col2}>
                         {getdata.segments.length > 1 ? (
                           <>
-                            <Typography className="red">
+                            <Typography className="f14 red">
                               {getStopDetails(getdata)}
                             </Typography>
                           </>
