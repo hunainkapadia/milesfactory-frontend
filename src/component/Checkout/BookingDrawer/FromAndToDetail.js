@@ -177,14 +177,14 @@ const FromAndToDetail = ({
                         </Typography>
                       </Box>
                       <Box className={styles.Col2}>
-                        {getdata.segments.length > 1 ? (
+                        {/* {getdata.segments.length > 1 ? (
                           <>
                             <Typography className="red">
                               {getStopDetails(getdata)}
                             </Typography>
                           </>
                         ) : (
-                          <>
+                          <> */}
                             <Typography className={"f14 mb-0"}>
                               {segment.operating_carrier.iata_code}-
                               {segment.operating_carrier_flight_number}{" "}
@@ -197,8 +197,8 @@ const FromAndToDetail = ({
                                 </React.Fragment>
                               ))}
                             </Typography>
-                          </>
-                        )}
+                          {/* </>
+                        )} */}
                       </Box>
                       <Box className={styles.Col3}>
                         <Box className={styles.airlineLogo + " imggroup"}>

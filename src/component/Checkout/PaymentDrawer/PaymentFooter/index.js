@@ -12,9 +12,6 @@ const PaymentFooter = ({selectedCard}) => {
       dispatch(setPaymentFormSuccess(true));
       dispatch(setIsDrawer(false));
     }, 300); // Optional: tweak delay
-
-        // 👇 This triggers smooth scroll to the ref
-
   }
   const handleCloseDrawer =()=> {
     dispatch(setIsDrawer(false))

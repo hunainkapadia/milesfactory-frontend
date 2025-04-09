@@ -63,7 +63,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 </Box>
                 <Box
                   onClick={HandlecloseDrawer}
-                  className=" currsor-pointer basecolor"
+                  className=" cursor-pointer basecolor"
                 >
                   <i className="fa fa-close fas"></i>
                 </Box>
