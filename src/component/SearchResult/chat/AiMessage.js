@@ -71,8 +71,16 @@ const AiMessage = ({ aiMessage }) => {
     ? getAllFlightGetApi?.offers
     : getAllFlightGetApi?.offers?.slice(0, 3);
 
+    // scroll payment success
     const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
-    
+    useEffect(() => {
+      if (paymentSuccess) {
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }, [paymentSuccess]);
+    // scroll
     
     
     
