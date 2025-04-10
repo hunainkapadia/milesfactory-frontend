@@ -354,36 +354,40 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
             {/*  */}
             {GetViewPassengers ? (
               <>
-              {GetViewPassengers?.some(
-  (p) => p.given_name && p.family_name
-) ? (
-  <Box
-    display={"flex"}
-    justifyContent={"space-between"}
-    alignItems={"center"}
-  >
-    <Box>
-      <Typography className="f12 bold">Travellers</Typography>
-      <Typography className="f12 gray">
-        {GetViewPassengers?.map((p, i) => {
-          // Render only when both names are available
-          if (p.given_name && p.family_name) {
-            return (
-              <span key={i}>
-              {console.log("GetViewPassengers", GetViewPassengers)}
-                {p.given_name} {p.family_name} {GetViewPassengers.length >= 1 ? ", " : ""}
-              </span>
-            );
-          }
-          return null; // Skip rendering if names are missing
-        })}
-      </Typography>
-    </Box>
-    <Box>
-      <i className="fa f20 fa-angle-right basecolor1"></i>
-    </Box>
-  </Box>
-) : null}
+                {GetViewPassengers?.some(
+                  (p) => p.given_name && p.family_name
+                ) ? (
+                  <Box
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Box>
+                      <Typography className="f12 bold">Travellers</Typography>
+                      <Typography className="f12 gray">
+                        {GetViewPassengers?.map((p, i) => {
+                          // Render only when both names are available
+                          if (p.given_name && p.family_name) {
+                            return (
+                              <span key={i}>
+                                {console.log(
+                                  "GetViewPassengers",
+                                  GetViewPassengers
+                                )}
+                                {p.given_name} {p.family_name}{" "}
+                                {GetViewPassengers.length >= 1 ? ", " : ""}
+                              </span>
+                            );
+                          }
+                          return null; // Skip rendering if names are missing
+                        })}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <i className="fa f20 fa-angle-right basecolor1"></i>
+                    </Box>
+                  </Box>
+                ) : null}
 
                 <Box
                   display={"flex"}
@@ -408,46 +412,51 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                   <Box>
                     <Typography className="f12  bold">Extra luggage</Typography>
                     <Typography className="f12 gray">
-                    {(() => {
-                                        const baggageMap = new Map();
-                    
-                                        offerData?.slices.forEach((slice) => {
-                                          slice?.segments?.forEach((segment) => {
-                                            segment?.passengers?.forEach((passenger) => {
-                                              {
-                                                console.log("getdata_summary2", passenger);
-                                              }
-                                              passenger?.baggages?.forEach((baggage) => {
-                                                const key = `${baggage.type}-${baggage.formatted_type}`;
-                                                if (!baggageMap.has(key)) {
-                                                  baggageMap.set(key, { ...baggage });
-                                                }
-                                              });
-                                            });
-                                          });
-                                        });
-                    
-                                        const uniqueBaggages = Array.from(baggageMap.values());
-                                        return (
-                                          <Box>
-                                            {uniqueBaggages.map((baggage, index) => (
-                                              <span className="f12">
-                                                {/* <Box className={styles.BaggageIcon}>
-                                                  <img
-                                                    width={14}
-                                                    src={
-                                                      baggage?.type === "checked"
-                                                        ? "/images/checkout/checked-bagg.svg"
-                                                        : "/images/checkout/carryon-bagg.svg"
-                                                    }
-                                                  />
-                                                </Box> */}
-                                                {baggage.quantity}x {baggage.formatted_type} {", "}
-                                              </span>
-                                            ))}
-                                          </Box>
-                                        );
-                                      })()}
+                      {(() => {
+                        const baggageMap = new Map();
+
+                        offerData?.slices.forEach((slice, sliceIndex) => {
+                          slice?.segments?.forEach((segment) => {
+                            segment?.passengers?.forEach((passenger) => {
+                              passenger?.baggages?.forEach((baggage) => {
+                                const key = `${baggage.type}-${baggage.formatted_type}`;
+                                if (!baggageMap.has(key)) {
+                                  baggageMap.set(key, { ...baggage });
+                                }
+                              });
+                            });
+                          });
+                        });
+
+                        const uniqueBaggages = Array.from(baggageMap.values());
+
+                        return (
+                          <span>
+                            {offerData?.slices.map((slice, sliceIndex) => {
+                              const sliceLabel =
+                                sliceIndex === 0 ? "Outbound" : "Return";
+                              const baggageSummary = uniqueBaggages
+                                .filter((baggage) => baggage.quantity > 0) // Filter out baggage with quantity 0
+                                .map(
+                                  (baggage) =>
+                                    `${baggage.quantity}x ${baggage.formatted_type}`
+                                )
+                                .join(", ");
+
+                              return (
+                                <span key={sliceIndex}>
+                                  <strong>{sliceLabel}:</strong>{" "}
+                                  {baggageSummary || "No baggage info"}
+                                  {sliceIndex === 0 &&
+                                  offerData?.slices.length > 1
+                                    ? " / "
+                                    : ""}
+                                </span>
+                              );
+                            })}
+                          </span>
+                        );
+                      })()}
                     </Typography>
                   </Box>
                   <Box>

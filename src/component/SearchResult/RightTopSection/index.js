@@ -20,6 +20,7 @@ const RightTopSection = ({ offerData, SelectDrawer }) => {
         </Box>
       </Box>
       {/*  */}
+      {offerData?.slices.length > 1 ? ( // Only show for round trips
       <Box display={"flex"} flexDirection={"column"} gap={1}>
         {(() => {
           const baggageMap = new Map();
@@ -76,6 +77,8 @@ const RightTopSection = ({ offerData, SelectDrawer }) => {
           </Typography>
         </Box>
       </Box>
+
+      ): ""}
     </Box>
   );
 };

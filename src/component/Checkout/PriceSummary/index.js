@@ -117,46 +117,51 @@ const PriceSummary = ({ getdata }) => {
                 gap={4}
               >
                 <Box>
-                  {(() => {
-                    const baggageMap = new Map();
+                {(() => {
+                        const baggageMap = new Map();
 
-                    flightDetail?.slices.forEach((slice) => {
-                      slice?.segments?.forEach((segment) => {
-                        segment?.passengers?.forEach((passenger) => {
-                          {
-                            console.log("getdata_summary2", passenger);
-                          }
-                          passenger?.baggages?.forEach((baggage) => {
-                            const key = `${baggage.type}-${baggage.formatted_type}`;
-                            if (!baggageMap.has(key)) {
-                              baggageMap.set(key, { ...baggage });
-                            }
+                        flightDetail?.slices.forEach((slice, sliceIndex) => {
+                          slice?.segments?.forEach((segment) => {
+                            segment?.passengers?.forEach((passenger) => {
+                              passenger?.baggages?.forEach((baggage) => {
+                                const key = `${baggage.type}-${baggage.formatted_type}`;
+                                if (!baggageMap.has(key)) {
+                                  baggageMap.set(key, { ...baggage });
+                                }
+                              });
+                            });
                           });
                         });
-                      });
-                    });
 
-                    const uniqueBaggages = Array.from(baggageMap.values());
-                    return (
-                      <Box>
-                        {uniqueBaggages.map((baggage, index) => (
-                          <span className="f12">
-                            {/* <Box className={styles.BaggageIcon}>
-                              <img
-                                width={14}
-                                src={
-                                  baggage?.type === "checked"
-                                    ? "/images/checkout/checked-bagg.svg"
-                                    : "/images/checkout/carryon-bagg.svg"
-                                }
-                              />
-                            </Box> */}
-                            {baggage.quantity}x {baggage.formatted_type} {", "}
+                        const uniqueBaggages = Array.from(baggageMap.values());
+
+                        return (
+                          <span>
+                            {flightDetail?.slices.map((slice, sliceIndex) => {
+                              const sliceLabel =
+                                sliceIndex === 0 ? "Outbound" : "Return";
+                              const baggageSummary = uniqueBaggages
+                                .filter((baggage) => baggage.quantity > 0) // Filter out baggage with quantity 0
+                                .map(
+                                  (baggage) =>
+                                    `${baggage.quantity}x ${baggage.formatted_type}`
+                                )
+                                .join(", ");
+
+                              return (
+                                <span key={sliceIndex}>
+                                  <strong>{sliceLabel}:</strong>{" "}
+                                  {baggageSummary || "No baggage info"}
+                                  {sliceIndex === 0 &&
+                                  flightDetail?.slices.length > 1
+                                    ? " / "
+                                    : ""}
+                                </span>
+                              );
+                            })}
                           </span>
-                        ))}
-                      </Box>
-                    );
-                  })()}
+                        );
+                      })()}
                 </Box>
                 <Box>£60.00</Box>
               </Box>
