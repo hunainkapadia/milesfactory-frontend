@@ -9,7 +9,6 @@ const FromAndTo = ({ offerData }) => {
           <Box className={searchResultStyles.rowExtraInfo}>
             <Box>
               <Typography className="f12 mb-0 bold black ">
-                
                 {offerData?.owner?.name}
               </Typography>
               <Typography
@@ -79,20 +78,67 @@ const FromAndTo = ({ offerData }) => {
                     </Box>
                   )
                 ) : (
-                  <Box display={"flex"} gap={2}>
-                    <Box display={"flex"} alignItems={"center"}>
-                      <img src={"/images/checkout/carryon-bagg.svg"} />
-                      <Typography className={searchResultStyles.normalOption}>
-                        <span>2 pieces</span>
-                      </Typography>
+                  <>
+                    <Box display={"flex"} gap={2}>
+                      
+                        {(() => {
+                          const baggageMap = new Map();
+
+                          offerData?.slices.forEach((slice) => {
+                            slice?.segments?.forEach((segment) => {
+                              segment?.passengers?.forEach((passenger) => {
+                                passenger?.baggages?.forEach((baggage) => {
+                                  const key = `${baggage.type}-${baggage.formatted_type}`;
+                                  if (!baggageMap.has(key)) {
+                                    baggageMap.set(key, { ...baggage });
+                                  }
+                                });
+                              });
+                            });
+                          });
+
+                          const uniqueBaggages = Array.from(
+                            baggageMap.values()
+                          );
+                          return (
+                            <Box display={"flex"} alignItems={"center"} gap={1}>
+                              {uniqueBaggages.map((baggage, index) => (
+                                <Box
+                                  key={index}
+                                  display="flex"
+                                  gap={1}
+                                  alignItems="center"
+                                >
+                                  <Box
+                                    className={searchResultStyles.BaggageIcon}
+                                    style={{ opacity: 0.7 }}
+                                  >
+                                    <img
+                                      width={11}
+                                      src={
+                                        baggage?.type === "checked"
+                                          ? "/images/checkout/checked-bagg.svg"
+                                          : "/images/checkout/carryon-bagg.svg"
+                                      }
+                                    />
+                                  </Box>
+                                  <Typography className={" basecolor f11"}>
+                                    {baggage.quantity}x {baggage.formatted_type}
+                                  </Typography>
+                                </Box>
+                              ))}
+                            </Box>
+                          );
+                        })()}
+
+                      <Box display={"flex"} alignItems={"center"}>
+                        <img src="/images/leave-icon.svg" />
+                        <Typography className={searchResultStyles.normalOption}>
+                          <span> {offerData?.total_emissions_kg} kg CO₂e</span>
+                        </Typography>
+                      </Box>
                     </Box>
-                    <Box display={"flex"} alignItems={"center"}>
-                      <img src="/images/leave-icon.svg" />
-                      <Typography className={searchResultStyles.normalOption}>
-                        <span> {offerData?.total_emissions_kg} kg CO₂e</span>
-                      </Typography>
-                    </Box>
-                  </Box>
+                  </>
                 )}
                 {/*  */}
               </Box>
@@ -175,8 +221,8 @@ const FromAndTo = ({ offerData }) => {
                         <Box>
                           <Box className={searchResultStyles.dot + " aa"}></Box>
                         </Box>
-                          // Show one dot if only one segment
                       ) : (
+                        // Show one dot if only one segment
                         <>
                           {Array.from({ length: slice.segments.length }).map(
                             (_, index) => (

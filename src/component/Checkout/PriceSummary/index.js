@@ -163,7 +163,7 @@ const PriceSummary = ({ getdata }) => {
                         );
                       })()}
                 </Box>
-                <Box>£60.00</Box>
+                
               </Box>
             </Box>
             {/* price row */}
