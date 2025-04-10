@@ -14,7 +14,6 @@ const sendMessageSlice = createSlice({
   },
   reducers: {
     setTopOfferUrlSend: (state, action)=> {
-      console.log("setTopOfferUrlSend", action);
       
       state.TopOfferUrlSend = action.payload;
     },
@@ -22,7 +21,7 @@ const sendMessageSlice = createSlice({
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
-      console.log("passaction", action);
+      
       
       state.messages.push(action.payload);
     },
@@ -30,7 +29,7 @@ const sendMessageSlice = createSlice({
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
-      console.log("SearchHistorySend", action);
+      
       state.SearchHistory = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
@@ -51,8 +50,6 @@ const sendMessageSlice = createSlice({
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
   const ThreadUUIDsendState  = getState().sendMessage.ThreadUUIDsend;
-
-  console.log("ThreadUUIDsendState", ThreadUUIDsendState);
   
   
   dispatch(setLoading(true));
@@ -103,13 +100,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                console.log("allflightRes", flightRes)
                 dispatch(setAllFlightResults(flightRes?.data));
               })
               .catch(() => {});
           }
         } else {
-          console.log("response111", response)
+          
           dispatch(setMessage({ ai: response }));
         }
       })
@@ -136,7 +132,7 @@ export const deleteChatThread = (uuid) => (dispatch) => {
   if (!uuid) return;
   
   const url = `/api/v1/chat/thread/${uuid}/delete`;
-  console.log("delres", url);
+  
 
   api.delete(url)
     .then((res) => {

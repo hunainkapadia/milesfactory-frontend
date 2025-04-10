@@ -7,7 +7,6 @@ import PassengersCard from "../PassengersCard";
 import {PassengerForm, setOpenPassengerDrawer, setPassengerUUID } from "@/src/store/slices/passengerDrawerSlice";
 
 const AddPassengersStep = ({ getdata }) => {
-  console.log("getdata", getdata);
   
 
   const dispatch = useDispatch();

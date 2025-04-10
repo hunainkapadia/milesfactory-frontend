@@ -32,7 +32,6 @@ const PaymentSlice = createSlice({
 
 // 
 export const PaymentForm = (params) => (dispatch) => {
-  console.log("Simulating form submit", params);
 
   // Just simulate success after 1 second
   setTimeout(() => {

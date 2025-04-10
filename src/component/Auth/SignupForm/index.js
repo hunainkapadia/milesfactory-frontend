@@ -57,8 +57,6 @@ const SignUpForm = () => {
     useSelector((state) => state.signup);
 
   const isFormSupmit = useSelector((state) => state?.signup?.SignupUser);
-  console.log("isFormSupmit", isFormSupmit);
-
   // error
   const isLoading = useSelector((state) => state.signup.isLoading);
   const handleSignUp = () => {

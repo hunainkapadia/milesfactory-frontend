@@ -43,7 +43,8 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
 
-  console.log("aiMessage?.OfferId", aiMessage?.OfferId);
+  console.log("getAllFlightPostApi", getAllFlightPostApi);
+  
   
   // useEffect(() => {
   //   if (aiMessage?.OfferId) {
@@ -109,7 +110,7 @@ const AiMessage = ({ aiMessage }) => {
           </Box> */}
 
           {/* Show passenger form or loading */}
-          {console.log("passtest11", GetViewPassengers)}
+          
           {GetViewPassengers ? (
             <PassengerInfo getdata={GetViewPassengers} />
           ) : (
@@ -193,6 +194,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         // Default AI response
         <Box className={searchResultStyles.AiMessage}>
+        {console.log("aiMessage?.ai?.response", aiMessage?.ai?.response)}
           <Typography
             dangerouslySetInnerHTML={{
               __html: formatTextToHtmlList(

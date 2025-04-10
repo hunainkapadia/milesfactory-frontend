@@ -35,7 +35,6 @@ const PriceSummary = ({ getdata }) => {
   // get flight
   const flightDetail = useSelector((state) => state.booking.flightDetail);
 
-  console.log("flightDetailprice", flightDetail);
   const passengers = flightDetail.slices?.[0]?.segments?.[0]?.passengers || [];
 
   return (
@@ -117,10 +116,50 @@ const PriceSummary = ({ getdata }) => {
                 justifyContent="space-between"
                 gap={4}
               >
-                <Box>2 x 15kg carry-on bags</Box>
+                <Box>
+                  {(() => {
+                    const baggageMap = new Map();
+
+                    flightDetail?.slices.forEach((slice) => {
+                      slice?.segments?.forEach((segment) => {
+                        segment?.passengers?.forEach((passenger) => {
+                          {
+                            console.log("getdata_summary2", passenger);
+                          }
+                          passenger?.baggages?.forEach((baggage) => {
+                            const key = `${baggage.type}-${baggage.formatted_type}`;
+                            if (!baggageMap.has(key)) {
+                              baggageMap.set(key, { ...baggage });
+                            }
+                          });
+                        });
+                      });
+                    });
+
+                    const uniqueBaggages = Array.from(baggageMap.values());
+                    return (
+                      <Box>
+                        {uniqueBaggages.map((baggage, index) => (
+                          <span className="f12">
+                            {/* <Box className={styles.BaggageIcon}>
+                              <img
+                                width={14}
+                                src={
+                                  baggage?.type === "checked"
+                                    ? "/images/checkout/checked-bagg.svg"
+                                    : "/images/checkout/carryon-bagg.svg"
+                                }
+                              />
+                            </Box> */}
+                            {baggage.quantity}x {baggage.formatted_type} {", "}
+                          </span>
+                        ))}
+                      </Box>
+                    );
+                  })()}
+                </Box>
                 <Box>£60.00</Box>
               </Box>
-              
             </Box>
             {/* price row */}
             <Box

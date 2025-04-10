@@ -73,7 +73,6 @@ const BookingDrawer = ({ getFlightDetail }) => {
 
           <Box className={styles.detailsSection} px={3}>
             <>
-              {console.log("getFlightDetail", getFlightDetail)}
               {getFlightDetail?.slices.map((slice, index) => (
                 <>
                   <FromAndToDetail

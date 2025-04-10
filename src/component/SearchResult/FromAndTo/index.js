@@ -9,7 +9,7 @@ const FromAndTo = ({ offerData }) => {
           <Box className={searchResultStyles.rowExtraInfo}>
             <Box>
               <Typography className="f12 mb-0 bold black ">
-                {console.log("offerData111", offerData.slices)}
+                
                 {offerData?.owner?.name}
               </Typography>
               <Typography

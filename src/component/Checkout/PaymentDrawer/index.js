@@ -30,7 +30,6 @@ const PaymentDrawer = ({ getFlightDetail }) => {
 
   const isDrawer = useSelector((state) => state.payment.isDrawer);
   const iscloseDrawer = useSelector((state) => state.payment.isDrawer);
-  console.log("isDrawer111", isDrawer);
   const cardData = [
     {
       id: 1,
@@ -53,7 +52,6 @@ const PaymentDrawer = ({ getFlightDetail }) => {
    dispatch(setAddCardDrawer(true))
   }
   const addCardDrawer = useSelector((state)=> state.AddCardDrawer);
-  console.log("addCardDrawer", addCardDrawer);
   
   return (
     <Drawer

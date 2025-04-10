@@ -32,8 +32,8 @@ const PaymentSuccess = () => {
     setSelectedReason(reason);
   };
   const handleSubmit = () => {
-    console.log("Rating:", rating);
-    console.log("Reason:", selectedReason);
+    
+    
     // Do something with rating + reason (like dispatch or API)
   };
   return (

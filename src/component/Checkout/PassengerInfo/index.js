@@ -13,13 +13,11 @@ import {
 import ExtraServices from "../ExtraServices";
 
 const PassengerInfo = ({ getdata }) => {
-  console.log("getdata", getdata);
 
   const dispatch = useDispatch();
   const passengerDetails = useSelector(
     (state) => state.passengerDrawer.passengerDetails
   );
-  console.log("passengerDetails111", passengerDetails);
   
 
   // passenger toggle
@@ -37,7 +35,7 @@ const PassengerInfo = ({ getdata }) => {
   };
 
   const handlePassengerAdd = () => {
-    console.log("selectedPassenger", selectedPassenger);
+    
     
     if (selectedPassenger) {
       // Ensure a passenger is selected

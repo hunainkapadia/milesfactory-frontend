@@ -132,7 +132,6 @@ const Header = ({ isMessage, IsActive }) => {
   }
   const isLoginPopup = useSelector((state) => state.login.LoginPopup);
   const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
-  console.log("isSignupPopup", isSignupPopup);
   
 
   
@@ -216,7 +215,6 @@ const Header = ({ isMessage, IsActive }) => {
             <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
               {currentUser ? (
                 <Box className={styles.Dropdown} position={"relative"}>
-                {console.log("currentUser", currentUser?.first_name)}
                   <Box
                     className={styles.Login}
                     display="flex"

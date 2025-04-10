@@ -21,7 +21,7 @@ const GetMessagesSlice = createSlice({
       state.topOfferUrl = action.payload;
     },
     setSearchHistoryGet: (state, action)=> { 
-      console.log("historyUrl", action);
+      
       state.SearchHistory = action.payload;
     },
     setRefreshSearch: (state, action)=> {
@@ -31,6 +31,8 @@ const GetMessagesSlice = createSlice({
       state.messages.push(action.payload);
     },
     setAllFlightGetApi: (state, action) => {
+      console.log("setAllFlightGetApi_action", action);
+      
       state.allFlightSearchResults = action.payload;
     },
     setIsLoading: (state, action) => {
@@ -50,7 +52,7 @@ export const fetchMessages = () => (dispatch) => {
   const localUUID = sessionStorage.getItem("chat_thread_uuid");
   
   const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${localUUID}`
-  console.log("threadUrl", threadUrl);
+  
   api
   .get(threadUrl)
   .then((response) => {
@@ -83,7 +85,7 @@ export const fetchMessages = () => (dispatch) => {
           //     });
           // }
 
-          console.log("localUUIDget", item);
+          
           const allFlightSearchApi =
           item?.response?.results?.view_all_flight_result_api?.url;
           
@@ -93,7 +95,7 @@ export const fetchMessages = () => (dispatch) => {
             // flight history [start]
             const getallFlightId = allFlightSearchApi.split('/').pop();
             dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
-            console.log("offeriddisp", getallFlightId);
+            
              const historyUrl = `/api/v1/search/${getallFlightId}/history`;
              api.get(historyUrl).then((history_res)=> {
               //  console.log("historyUrl", history_res.data.search);
@@ -107,7 +109,7 @@ export const fetchMessages = () => (dispatch) => {
              dispatch(
                setMessage({ user: item.message, ai: { response: item?.response } })
              );
-             console.log("itemmessage", item);
+             
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
@@ -135,7 +137,6 @@ export const fetchMessages = () => (dispatch) => {
 };
 export const RefreshHandle =()=> {
   dispatch(setRefreshSearch())
-  console.log("REFRESH_SEARCH11")
   api.post(API_ENDPOINTS.CHAT.REFRESH_SEARCH).then((res)=> {
     console.log("REFRESH_SEARCH", res)
   })

@@ -75,7 +75,6 @@ const passengerDrawerSlice = createSlice({
       state.isLoading = true;
     },
     setIsFormLoading: (state)=> {
-      console.log("state111", state)
       state.isFormLoading = false
     },
     setPassengerFormError: (state, action) => {
@@ -102,9 +101,6 @@ export const NationalitData = () => (dispatch) => {
     const finalOfferId = offerIdSend || offerIdGet;
 
     
-    console.log("offerIdSend", offerIdSend);
-    
-    console.log("ViewPassengerUrlresponse", offerIdSend);
     if (!finalOfferId) {
       return; // Stop execution if offerId is missing
     }

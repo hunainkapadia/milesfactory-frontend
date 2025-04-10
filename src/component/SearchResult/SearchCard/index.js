@@ -48,7 +48,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   // get offerid from getmessage
   const offeridGet = useSelector((state)=> state.getMessages.topOfferUrl);
   const offeridSend = useSelector((state)=> state);
-  console.log("offeridSend", offeridSend);
   
   const handleBookFlight = () => {
     if (offerkey) {
@@ -69,7 +68,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
-  console.log("selectedFlightKey", selectedFlightKey);
+  
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -171,10 +170,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           offerData?.tax_currency}{" "}
                         {Math.round(offerData?.total_amount)}
                       </h4>
-                      {console.log(
-                        "offerData?.total_amount",
-                        offerData?.per_passenger_amount
-                      )}
+                      
                       <Typography className=" f12 gray">
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}

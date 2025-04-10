@@ -34,7 +34,6 @@ const Home = () => {
   }, [sendMessages.length, uuid]);
 
 
-  console.log("tttuuid", uuid);
   
   
   

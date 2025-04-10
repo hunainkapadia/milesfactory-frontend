@@ -143,7 +143,6 @@ const FromAndToDetail = ({
                           {segment?.origin?.iata_code} (
                           {segment?.origin?.city_name})
                         </h5>
-                        {console.log("segmentlength11", segment.length)}
                       </Box>
                       <Box className={styles.Col3} display="flex" gap={4}>
                         <Typography

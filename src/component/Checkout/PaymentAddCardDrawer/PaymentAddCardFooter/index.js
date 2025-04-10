@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { PaymentForm } from "@/src/store/slices/PaymentSlice";
 
 const PaymentAddCardFooter = ({HandlecloseDrawer, params}) => {
-  console.log("paymentparams", params);
   
   const dispatch = useDispatch();
 

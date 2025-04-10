@@ -19,7 +19,7 @@ const signupSlice = createSlice({
   initialState,
   reducers: {
     setSignupPopup: (state, action)=> {
-      console.log("action1212", action);
+      
       state.SignupPopup = action.payload
     },
     setsignUpUser: (state, action) => {    
@@ -60,7 +60,6 @@ export const SignUpUser = (params) => (dispatch) => {
     .then((res) => {
       
       if (res.status === 201) {
-        console.log("res11", res?.data);
         dispatch(setsignUpUser({user: res?.data, status: res.status}));
         // Store user info in cookies
         Cookies.set(

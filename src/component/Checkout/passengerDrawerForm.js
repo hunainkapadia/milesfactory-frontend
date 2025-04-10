@@ -73,7 +73,6 @@ const PassengerDrawerForm = () => {
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
   );
-  console.log("isFormLoading", isFormLoading);
   const twelveYearsAgo = dayjs().subtract(12, "year");
 
   const passportError = formError?.non_field_errors?.find(error => error?.passport_expire_date);

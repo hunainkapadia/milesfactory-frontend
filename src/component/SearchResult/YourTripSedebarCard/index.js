@@ -24,9 +24,7 @@ import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 
 const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
-  useEffect(() => {
-    console.log("offerDataofferData");
-  }, []);
+  
   const dispatch = useDispatch();
   const offerkey = offerData?.id;
   const HandleSelectDrawer = () => {
@@ -48,12 +46,12 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  console.log("SearchHistorySend", SearchHistory);
+  
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  console.log("GetViewPassengers", GetViewPassengers);
+  
 
   return (
     <>
@@ -356,23 +354,37 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
             {/*  */}
             {GetViewPassengers ? (
               <>
-                <Box
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <Box>
-                    <Typography className="f12  bold">Travellers</Typography>
-                        <Typography className="f12 gray">
-                      {GetViewPassengers?.map((p, i) => (
-                          <span key={i}>{p.given_name} {p.family_name} , </span>
-                      ))}
-                        </Typography>
-                  </Box>
-                  <Box>
-                    <i className="fa f20 fa-angle-right basecolor1"></i>
-                  </Box>
-                </Box>
+              {GetViewPassengers?.some(
+  (p) => p.given_name && p.family_name
+) ? (
+  <Box
+    display={"flex"}
+    justifyContent={"space-between"}
+    alignItems={"center"}
+  >
+    <Box>
+      <Typography className="f12 bold">Travellers</Typography>
+      <Typography className="f12 gray">
+        {GetViewPassengers?.map((p, i) => {
+          // Render only when both names are available
+          if (p.given_name && p.family_name) {
+            return (
+              <span key={i}>
+              {console.log("GetViewPassengers", GetViewPassengers)}
+                {p.given_name} {p.family_name} {GetViewPassengers.length >= 1 ? ", " : ""}
+              </span>
+            );
+          }
+          return null; // Skip rendering if names are missing
+        })}
+      </Typography>
+    </Box>
+    <Box>
+      <i className="fa f20 fa-angle-right basecolor1"></i>
+    </Box>
+  </Box>
+) : null}
+
                 <Box
                   display={"flex"}
                   justifyContent={"space-between"}
@@ -396,36 +408,46 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                   <Box>
                     <Typography className="f12  bold">Extra luggage</Typography>
                     <Typography className="f12 gray">
-                      {offerData?.slices
-                        .map((slice, index) => {
-                          const isOutbound =
-                            index === 0 ? "Outbound" : "Return";
-
-                          // Build baggage map
-                          const baggageMap = new Map();
-                          slice?.segments?.forEach((segment) => {
-                            segment?.passengers?.forEach((passenger) => {
-                              passenger?.baggages?.forEach((baggage) => {
-                                const key = `${baggage.type}`;
-                                if (!baggageMap.has(key)) {
-                                  baggageMap.set(key, baggage.quantity || 0);
-                                } else {
-                                  baggageMap.set(
-                                    key,
-                                    baggageMap.get(key) +
-                                      (baggage.quantity || 0)
-                                  );
-                                }
-                              });
-                            });
-                          });
-
-                          // Only show carry-on count
-                          const carryOnQty = baggageMap.get("carry_on") || 0;
-
-                          return `${isOutbound}: ${carryOnQty} carry-on`;
-                        })
-                        .join(" / ")}
+                    {(() => {
+                                        const baggageMap = new Map();
+                    
+                                        offerData?.slices.forEach((slice) => {
+                                          slice?.segments?.forEach((segment) => {
+                                            segment?.passengers?.forEach((passenger) => {
+                                              {
+                                                console.log("getdata_summary2", passenger);
+                                              }
+                                              passenger?.baggages?.forEach((baggage) => {
+                                                const key = `${baggage.type}-${baggage.formatted_type}`;
+                                                if (!baggageMap.has(key)) {
+                                                  baggageMap.set(key, { ...baggage });
+                                                }
+                                              });
+                                            });
+                                          });
+                                        });
+                    
+                                        const uniqueBaggages = Array.from(baggageMap.values());
+                                        return (
+                                          <Box>
+                                            {uniqueBaggages.map((baggage, index) => (
+                                              <span className="f12">
+                                                {/* <Box className={styles.BaggageIcon}>
+                                                  <img
+                                                    width={14}
+                                                    src={
+                                                      baggage?.type === "checked"
+                                                        ? "/images/checkout/checked-bagg.svg"
+                                                        : "/images/checkout/carryon-bagg.svg"
+                                                    }
+                                                  />
+                                                </Box> */}
+                                                {baggage.quantity}x {baggage.formatted_type} {", "}
+                                              </span>
+                                            ))}
+                                          </Box>
+                                        );
+                                      })()}
                     </Typography>
                   </Box>
                   <Box>

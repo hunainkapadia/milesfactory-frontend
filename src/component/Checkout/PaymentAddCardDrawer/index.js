@@ -38,7 +38,7 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
     CardSecurityCode,
     CardZipCode,
   };
-  console.log("params", params);
+  
   
   const handleSelect = (cardId) => {
     setSelectedCard(cardId);
@@ -49,7 +49,6 @@ const PaymentAddCardDrawer = ({ getFlightDetail }) => {
   };
 
   const isDrawer = useSelector((state) => state.payment.AddCardDrawer);
-  console.log("paymentisDrawer", isDrawer);
 
   const iscloseDrawer = useSelector((state) => state.payment);
   const cardData = [

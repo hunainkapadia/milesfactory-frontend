@@ -5,7 +5,6 @@ import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripS
 
 const YourTripSidebar = ({isMessage}) => {
    const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
-   console.log("getselectedFlight", getselectedFlight);
    
   return (
     <>

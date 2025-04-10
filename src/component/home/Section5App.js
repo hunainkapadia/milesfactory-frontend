@@ -3,9 +3,7 @@ import styles from "@/src/styles/sass/components/Home.module.scss";
 import Footer from "../layout/Footer";
 
 
-const Section5App = (props) => {
-  console.log("props", props);
-  
+const Section5App = (props) => {  
   return (
     <>
       <Box id={props?.id} className={`${styles.AppSection} `}>

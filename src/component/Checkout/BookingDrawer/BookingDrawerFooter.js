@@ -25,7 +25,6 @@
     const PassengerData = useSelector((state) => state.passengerDrawer);
     
     const handleBookFlight = () => {
-      console.log("getFlightDetails book", getFlightDetails);
       dispatch(setisLoading())
       dispatch(setCloseDrawer()); //dispatch close
       dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
