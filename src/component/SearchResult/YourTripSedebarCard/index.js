@@ -481,12 +481,12 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 <h4 className="bold mb-0">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}{" "}
-                    {totalAmount}
+                    {offerData?.total_amount_plus_markup}
                 </h4>
                 <Typography className="gray f12">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}{" "}
-                  {Math.round(offerData?.per_passenger_amount)} per person
+                  {Math.round(offerData?.per_passenger_amount_plus_markup)} per person
                 </Typography>
               </Box>
             </Box>
