@@ -18,7 +18,7 @@ const FromAndToDetail = ({
       [index]: !prev[index],
     }));
   };
-  const isBaggage = !baggageToggle[flightType] || getdata.segments.length > 1;
+  const isBaggage = !baggageToggle[flightType];
   
   console.log("sliceLength11", sliceLength);
   
