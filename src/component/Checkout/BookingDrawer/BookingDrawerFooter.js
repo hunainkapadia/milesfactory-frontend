@@ -45,7 +45,7 @@
     const personQuantity = getFlightDetails?.passengers.length;
     const Passengers = Number(getFlightDetails?.per_passenger_amount) * personQuantity;
     const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
-    const totalAmount = WithtaxAmount;
+    const totalAmount = Math.round(WithtaxAmount);
     return (
       <Box
         className={styles.checkoutDrowerFooter + " test11"}
@@ -83,7 +83,7 @@
                 display="flex"
                 alignItems="center"
               >
-                <h3
+                <h4
                   className={styles.price + " exbold mb-0 basecolor-dark"}
                 >
                   <span>
@@ -91,7 +91,7 @@
                       getFlightDetails?.tax_currency}
                     {totalAmount}
                   </span>
-                </h3>
+                </h4>
               </Box>
               <Box className={styles.totalPersonPrice}>
                 <Typography variant="p" className=" gray f12">

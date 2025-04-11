@@ -55,7 +55,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   const personQuantity = offerData?.passengers.length;
   const Passengers = Number(offerData?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
-  const totalAmount = WithtaxAmount;
+  const totalAmount = Math.round(WithtaxAmount);
 
   return (
     <>

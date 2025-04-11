@@ -60,6 +60,12 @@ const BookingDrawer = ({ getFlightDetail }) => {
                       )
                       .join(" - ")}
                   </Typography>
+                  {console.log("22222", getFlightDetail?.slices)}
+                  {getFlightDetail?.slices?.length <= 1 ? (
+                    <Typography className={"f14 gray"}>{"One way"}</Typography>
+                  ) : (
+                    <Typography className={"f14 gray"}>{"Return"}</Typography>
+                  )}
                 </Box>
                 <Box
                   onClick={HandlecloseDrawer}
@@ -88,7 +94,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
               <Box display={"flex"} gap={2} alignItems={"center"}>
                 <img width={14} src="/images/leave-icon.svg" />
                 <Typography className={styles.normalOption + " f12 gray"}>
-                  <span>Emissions estimate: {getFlightDetail?.total_emissions_kg} kg CO₂e</span>
+                  <span>
+                    Emissions estimate: {getFlightDetail?.total_emissions_kg} kg
+                    CO₂e
+                  </span>
                 </Typography>
               </Box>
             </>

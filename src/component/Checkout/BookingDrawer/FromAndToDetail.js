@@ -18,7 +18,10 @@ const FromAndToDetail = ({
       [index]: !prev[index],
     }));
   };
-  const isBaggage = baggageToggle[flightType] || sliceLength <= 1;
+  const isBaggage = !baggageToggle[flightType] || getdata.segments.length > 1;
+  
+  console.log("sliceLength11", sliceLength);
+  
 
   function getStopDetails(getdata) {
     let stops = 0;
@@ -39,15 +42,15 @@ const FromAndToDetail = ({
   return (
     <>
       {/* === Header (One Way / Return + Flight Details Toggle) === */}
+      
       <Box
         display="flex"
         alignItems="center"
         justifyContent="space-between"
         className={styles.FromandToHeader}
       >
-        {sliceLength <= 1 ? (
-          <Typography className={"f14 gray"}>{"One way"}</Typography>
-        ) : (
+        {/* sliceLength <= 1 */}
+        {getdata?.segments?.length > 1 ? (
           <>
             <Box display="flex">
               <Typography className={styles.onewayReturn}>
@@ -57,7 +60,7 @@ const FromAndToDetail = ({
             <Box>
               <Box
                 className="cursor-pointer text-decoration-none basecolor1 f12"
-                onClick={() => toggleBaggage(flightType)} // use flightType as key
+                onClick={() => toggleBaggage(flightType)}
               >
                 <Box gap={2} alignItems="center" display="flex">
                   {isBaggage ? (
@@ -75,7 +78,7 @@ const FromAndToDetail = ({
               </Box>
             </Box>
           </>
-        )}
+        ) : null}
       </Box>
 
       {/* === Segment Details === */}

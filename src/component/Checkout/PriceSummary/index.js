@@ -41,7 +41,7 @@ const PriceSummary = ({ getdata }) => {
   const Passengers =
     Number(flightDetail?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(flightDetail?.tax_amount) + Passengers;
-  const totalAmount = WithtaxAmount;
+  const totalAmount = Math.round(WithtaxAmount);
   return (
     <>
       <Box py={2}>
