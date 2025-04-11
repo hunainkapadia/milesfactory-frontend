@@ -236,6 +236,8 @@
  }
  @include for-mobile-large-screen() {
 
+
+  
    .messageContent {
      display: flex;
      justify-content: center;
@@ -243,6 +245,8 @@
      .messageContentIn {
        width: 100%;
        padding: 0px 24px 100px;
+       .Aibox {width: 100%;}
+       .UserMessage {max-width: 100%;}
      }
    }
  }
