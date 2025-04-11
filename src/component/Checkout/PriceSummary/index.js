@@ -37,9 +37,9 @@ const PriceSummary = ({ getdata }) => {
 
   const passengers = flightDetail.slices?.[0]?.segments?.[0]?.passengers || [];
 
-
   const personQuantity = flightDetail?.passengers.length;
-  const Passengers = Number(flightDetail?.per_passenger_amount) * personQuantity;
+  const Passengers =
+    Number(flightDetail?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(flightDetail?.tax_amount) + Passengers;
   const totalAmount = WithtaxAmount;
   return (
@@ -92,10 +92,10 @@ const PriceSummary = ({ getdata }) => {
                   ))}
                 </Box>
                 <Box>
-                {console.log("getpassengertype", flightDetail)}
+                  {console.log("getpassengertype", flightDetail)}
                   {currencySymbols[flightDetail?.tax_currency] ||
                     flightDetail?.tax_currency}
-                    {Passengers}
+                  {Passengers}
                 </Box>
               </Box>
 
@@ -177,22 +177,22 @@ const PriceSummary = ({ getdata }) => {
                   })()}
                 </Box>
               </Box> */}
+              <Box
+                className={styles.PriceRow + " black exbold"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                gap={4}
+              >
+                <Box>Total price</Box>
+                <h5 className="mb-0 exbold">
+                  {console.log("flightDetail111", flightDetail)}
+                  {currencySymbols[flightDetail?.tax_currency] ||
+                    flightDetail?.tax_currency}
+                  {totalAmount}
+                </h5>
+              </Box>
             </Box>
             {/* price row */}
-            <Box
-              className={styles.PriceRow + " black exbold"}
-              display={"flex"}
-              justifyContent={"space-between"}
-              gap={4}
-            >
-              <Box>Total price</Box>
-              <h5 className="mb-0">
-                {console.log("flightDetail111", flightDetail)}
-                {currencySymbols[flightDetail?.tax_currency] ||
-                  flightDetail?.tax_currency}
-                  {totalAmount}
-              </h5>
-            </Box>
           </Box>
           <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
             <Button
