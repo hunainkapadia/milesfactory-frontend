@@ -69,6 +69,12 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     (state) => state.booking.selectedFlightKey
   );
   
+  // 
+  const personQuantity = offerData?.passengers.length;
+  const Passengers = Number(offerData?.per_passenger_amount) * personQuantity;
+  const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
+  const totalAmount = WithtaxAmount;
+
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -168,7 +174,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                        {Math.round(offerData?.total_amount)}
+                        {totalAmount}
                       </h4>
                       
                       <Typography className=" f12 gray">

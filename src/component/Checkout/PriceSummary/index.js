@@ -37,6 +37,11 @@ const PriceSummary = ({ getdata }) => {
 
   const passengers = flightDetail.slices?.[0]?.segments?.[0]?.passengers || [];
 
+
+  const personQuantity = flightDetail?.passengers.length;
+  const Passengers = Number(flightDetail?.per_passenger_amount) * personQuantity;
+  const WithtaxAmount = Number(flightDetail?.tax_amount) + Passengers;
+  const totalAmount = WithtaxAmount;
   return (
     <>
       <Box py={2}>
@@ -75,14 +80,22 @@ const PriceSummary = ({ getdata }) => {
                 <Box>
                   {flightDetail.slices?.[0]?.origin.iata_code} -{" "}
                   {flightDetail.slices?.at(0)?.destination.iata_code}, Return /{" "}
-                  {passengers.length}x{" "}
-                  {passengers.length > 1 ? "adults" : "adult"}
+                  {Object.entries(
+                    flightDetail.passengers?.reduce((acc, passenger) => {
+                      acc[passenger.type] = (acc[passenger.type] || 0) + 1;
+                      return acc;
+                    }, {})
+                  ).map(([type, count]) => (
+                    <span key={type}>
+                      {count}x {type}
+                    </span>
+                  ))}
                 </Box>
                 <Box>
-                  {flightDetail.total_currency === "GBP"
-                    ? "£"
-                    : flightDetail.total_currency}
-                  {flightDetail.total_amount_plus_markup.toFixed(2)}
+                {console.log("getpassengertype", flightDetail)}
+                  {currencySymbols[flightDetail?.tax_currency] ||
+                    flightDetail?.tax_currency}
+                    {Passengers}
                 </Box>
               </Box>
 
@@ -101,7 +114,7 @@ const PriceSummary = ({ getdata }) => {
                   {Number(flightDetail.tax_amount).toFixed(2)}
                 </Box>
               </Box>
-              <Box
+              {/* <Box
                 className={styles.PriceRow}
                 display="flex"
                 justifyContent="space-between"
@@ -109,62 +122,61 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>2x upgraded seats</Box>
                 <Box>£46.00</Box>
-              </Box>
-              <Box
+              </Box> */}
+              {/* <Box
                 className={styles.PriceRow}
                 display="flex"
                 justifyContent="space-between"
                 gap={4}
               >
                 <Box>
-                {(() => {
-                        const baggageMap = new Map();
+                  {(() => {
+                    const baggageMap = new Map();
 
-                        flightDetail?.slices.forEach((slice, sliceIndex) => {
-                          slice?.segments?.forEach((segment) => {
-                            segment?.passengers?.forEach((passenger) => {
-                              passenger?.baggages?.forEach((baggage) => {
-                                const key = `${baggage.type}-${baggage.formatted_type}`;
-                                if (!baggageMap.has(key)) {
-                                  baggageMap.set(key, { ...baggage });
-                                }
-                              });
-                            });
+                    flightDetail?.slices.forEach((slice, sliceIndex) => {
+                      slice?.segments?.forEach((segment) => {
+                        segment?.passengers?.forEach((passenger) => {
+                          passenger?.baggages?.forEach((baggage) => {
+                            const key = `${baggage.type}-${baggage.formatted_type}`;
+                            if (!baggageMap.has(key)) {
+                              baggageMap.set(key, { ...baggage });
+                            }
                           });
                         });
+                      });
+                    });
 
-                        const uniqueBaggages = Array.from(baggageMap.values());
+                    const uniqueBaggages = Array.from(baggageMap.values());
 
-                        return (
-                          <span>
-                            {flightDetail?.slices.map((slice, sliceIndex) => {
-                              const sliceLabel =
-                                sliceIndex === 0 ? "Outbound" : "Return";
-                              const baggageSummary = uniqueBaggages
-                                .filter((baggage) => baggage.quantity > 0) // Filter out baggage with quantity 0
-                                .map(
-                                  (baggage) =>
-                                    `${baggage.quantity}x ${baggage.formatted_type}`
-                                )
-                                .join(", ");
+                    return (
+                      <span>
+                        {flightDetail?.slices.map((slice, sliceIndex) => {
+                          const sliceLabel =
+                            sliceIndex === 0 ? "Outbound" : "Return";
+                          const baggageSummary = uniqueBaggages
+                            .filter((baggage) => baggage.quantity > 0) // Filter out baggage with quantity 0
+                            .map(
+                              (baggage) =>
+                                `${baggage.quantity}x ${baggage.formatted_type}`
+                            )
+                            .join(", ");
 
-                              return (
-                                <span key={sliceIndex}>
-                                  <strong>{sliceLabel}:</strong>{" "}
-                                  {baggageSummary || "No baggage info"}
-                                  {sliceIndex === 0 &&
-                                  flightDetail?.slices.length > 1
-                                    ? " / "
-                                    : ""}
-                                </span>
-                              );
-                            })}
-                          </span>
-                        );
-                      })()}
+                          return (
+                            <span key={sliceIndex}>
+                              <strong>{sliceLabel}:</strong>{" "}
+                              {baggageSummary || "No baggage info"}
+                              {sliceIndex === 0 &&
+                              flightDetail?.slices.length > 1
+                                ? " / "
+                                : ""}
+                            </span>
+                          );
+                        })}
+                      </span>
+                    );
+                  })()}
                 </Box>
-                
-              </Box>
+              </Box> */}
             </Box>
             {/* price row */}
             <Box
@@ -175,9 +187,10 @@ const PriceSummary = ({ getdata }) => {
             >
               <Box>Total price</Box>
               <h5 className="mb-0">
+                {console.log("flightDetail111", flightDetail)}
                 {currencySymbols[flightDetail?.tax_currency] ||
-                  flightDetail?.tax_currency}{" "}
-                {Math.round(flightDetail?.total_amount)}
+                  flightDetail?.tax_currency}
+                  {totalAmount}
               </h5>
             </Box>
           </Box>

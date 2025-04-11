@@ -52,6 +52,10 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   );
 
   
+  const personQuantity = offerData?.passengers.length;
+  const Passengers = Number(offerData?.per_passenger_amount) * personQuantity;
+  const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
+  const totalAmount = WithtaxAmount;
 
   return (
     <>
@@ -477,7 +481,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 <h4 className="bold mb-0">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}{" "}
-                  {Math.round(offerData?.total_amount)}
+                    {totalAmount}
                 </h4>
                 <Typography className="gray f12">
                   {currencySymbols[offerData?.tax_currency] ||

@@ -42,6 +42,10 @@
       dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
     };
 
+    const personQuantity = getFlightDetails?.passengers.length;
+    const Passengers = Number(getFlightDetails?.per_passenger_amount) * personQuantity;
+    const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
+    const totalAmount = WithtaxAmount;
     return (
       <Box
         className={styles.checkoutDrowerFooter + " test11"}
@@ -79,19 +83,18 @@
                 display="flex"
                 alignItems="center"
               >
-                <Typography
-                  variant="h3"
-                  className={styles.price + " h3 mb-0 basecolor-dark"}
+                <h3
+                  className={styles.price + " exbold mb-0 basecolor-dark"}
                 >
                   <span>
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {Math.round(getFlightDetails?.total_amount)}
+                    {totalAmount}
                   </span>
-                </Typography>
+                </h3>
               </Box>
               <Box className={styles.totalPersonPrice}>
-                <Typography variant="p" className=" gray f14">
+                <Typography variant="p" className=" gray f12">
                   Total per person:{" "}
                   {currencySymbols[getFlightDetails?.tax_currency] ||
                     getFlightDetails?.tax_currency}{" "}
