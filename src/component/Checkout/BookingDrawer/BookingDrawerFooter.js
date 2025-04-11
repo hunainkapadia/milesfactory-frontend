@@ -89,7 +89,7 @@
                   <span>
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {totalAmount}
+                    {getFlightDetails?.total_amount_plus_markup}
                   </span>
                 </h4>
               </Box>
@@ -98,7 +98,7 @@
                   Total per person:{" "}
                   {currencySymbols[getFlightDetails?.tax_currency] ||
                     getFlightDetails?.tax_currency}{" "}
-                  {Math.round(getFlightDetails?.per_passenger_amount)}
+                  {Math.round(getFlightDetails?.per_passenger_amount_plus_markup)}
                 </Typography>
               </Box>
             </Box>

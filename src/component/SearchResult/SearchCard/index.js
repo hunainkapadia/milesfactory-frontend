@@ -69,7 +69,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     (state) => state.booking.selectedFlightKey
   );
   
-  // 
+  //TODO - dont need these as coming from BE. Remove later 
   const personQuantity = offerData?.passengers.length;
   const Passengers = Number(offerData?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
@@ -174,14 +174,13 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                        {totalAmount}
+                        {offerData?.total_amount_plus_markup}
                       </h4>
                       
                       <Typography className=" f12 gray">
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                        {Math.round(offerData?.per_passenger_amount)} per person
-                      </Typography>
+                        {Math.round(offerData?.per_passenger_amount_plus_markup)} per person</Typography>
                     </Box>
                     {/* main select handle */}
                     {!isPassenger ? (
