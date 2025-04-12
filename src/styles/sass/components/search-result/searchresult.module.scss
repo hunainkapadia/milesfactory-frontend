@@ -234,20 +234,32 @@
       display: grid;
       width: auto;
       margin-right: -20px;
+
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+
+
       .ExtraServicesGrid {
+        scroll-behavior: smooth; 
+        padding-right: 16px; 
+        padding-left: 16px;
+        margin-left: -5px;
+
         display: flex;
         overflow-x: auto;
         gap: 8px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        margin-left: -20px;
         flex-direction: inherit;
         flex-wrap: nowrap;
-        padding-left: 16px;
         .ExtraServicesCol {
+          scroll-snap-align: start;
+          scroll-snap-stop: always;
           min-width: 300px;
           padding-left: 0;
+          transition: transform 0.3s ease; /* ✅ animate on scroll stop if needed */
         }
       }
     }
@@ -256,16 +268,20 @@
     width: auto;
     margin-right: -20px;
     .SearchCardGrid {
+      scroll-snap-type: x mandatory;
       display: flex;
       overflow-x: auto;
       gap: 8px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      margin-left: -20px;
+      margin-left: -5px;
       padding-left: 16px;
       
       .flightOfferCard {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+          
         min-width: 300px;
         
         .rowExtraInfo {
