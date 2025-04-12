@@ -41,7 +41,7 @@ const PaymentSuccess = () => {
     // Do something with rating + reason (like dispatch or API)
   };
   return (
-    <Box ref={scrollRef} py={3}>
+    <Box ref={scrollRef} py={4}>
       {/* Success Message */}
       <Box mb={3}>
         <Box className=" imggroup" mb={2}>
