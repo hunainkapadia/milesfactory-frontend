@@ -244,8 +244,10 @@
         margin-left: -20px;
         flex-direction: inherit;
         flex-wrap: nowrap;
+        padding-left: 16px;
         .ExtraServicesCol {
           min-width: 300px;
+          padding-left: 0;
         }
       }
     }

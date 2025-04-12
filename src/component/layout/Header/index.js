@@ -163,191 +163,199 @@ const Header = ({ isMessage, IsActive }) => {
           `}
       >
         <Container>
+          <Box
+            className={styles.Box}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
             <Box
-              className={styles.Box}
+              color="white"
+              className={styles.leftCol}
               display={"flex"}
-              justifyContent={"space-between"}
               alignItems={"center"}
+              gap={2}
             >
               <Box
-                color="white"
-                className={styles.leftCol}
-                display={"flex"}
-                alignItems={"center"}
-                gap={2}
+                sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                fontSize={"24px"}
               >
-                <Box
-                  sx={{ display: { xs: "block", md: "none", lg: "none" } }}
-                  fontSize={"24px"}
-                >
-                  <i
-                    onClick={toggleDrawer}
-                    className={`fa fa-bars ${
-                      isSticky | IsActive || isMessage
-                        ? " basecolor-dark "
-                        : " white"
-                    }`}
-                    aria-hidden="true"
-                  ></i>
-                </Box>
+                <i
+                  onClick={toggleDrawer}
+                  className={`fa fa-bars ${
+                    isSticky | IsActive || isMessage
+                      ? " basecolor-dark "
+                      : " white"
+                  }`}
+                  aria-hidden="true"
+                ></i>
+              </Box>
 
-                <Box className={styles.Logo + " cursor-pointer"}>
-                  <Box onClick={logoHandle}>
-                    <Box className="d-flex align-items-center">
-                      {isSticky || isMessage || IsActive ? (
-                        <img src="/images/logo-color2.svg" />
-                      ) : (
-                        <img src="/images/logo-white2.svg" />
-                      )}
-                    </Box>
+              <Box className={styles.Logo + " cursor-pointer"}>
+                <Box onClick={logoHandle}>
+                  <Box className="d-flex align-items-center">
+                    {isSticky || isMessage || IsActive ? (
+                      <img src="/images/logo-color2.svg" />
+                    ) : (
+                      <img src="/images/logo-white2.svg" />
+                    )}
                   </Box>
                 </Box>
               </Box>
+            </Box>
 
-              <Box sx={{ display: { xs: "none", md: "block" } }}>
-                <Navbar />
-              </Box>
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
+              <Navbar />
+            </Box>
 
-              <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
-                {currentUser ? (
-                  <Box className={styles.Dropdown} position={"relative"}>
-                    <Box
-                      className={styles.Login}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      gap={1}
-                    >
-                      <i className="fa fa-user-circle"></i>
-                      <Box>{currentUser?.first_name || ""}</Box>
-                      {/*  */}
-                    </Box>
-                    <Box className={styles.DropdownItems}>
-                      <Box
-                        display={"flex"}
-                        flexDirection={"column"}
-                        gap={2}
-                        className={
-                          styles.DropdownItemsBox + "  br-12 box-shadow-md"
-                        }
-                      >
-                        <Box
-                          className={
-                            styles.DropdownItem +
-                            " text-decuration-none cursor-pointer"
-                          }
-                        >
-                          <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <Box width={"20px"}>
-                              <i className="fa fa-cog" aria-hidden="true"></i>
-                            </Box>
-                            <Typography>Profile</Typography>
-                          </Box>
-                        </Box>
-                        <Box
-                          className={
-                            styles.DropdownItem +
-                            " text-decuration-none cursor-pointer"
-                          }
-                        >
-                          <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <Box width={"20px"}>
-                              <i className="fa fa-cog" aria-hidden="true"></i>
-                            </Box>
-                            <Typography>Settings</Typography>
-                          </Box>
-                        </Box>
-                        <Box
-                          className={
-                            styles.DropdownItem +
-                            " text-decuration-none cursor-pointer"
-                          }
-                          onClick={logoutHandle}
-                        >
-                          <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <Box width={"20px"}>
-                              <i className=" fa fa-sign-out"></i>
-                            </Box>
-                            <Typography>Sign out</Typography>
-                          </Box>
-                        </Box>
-                        {/*  */}
-                      </Box>
-                    </Box>
-                  </Box>
-                ) : (
+            <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
+              {currentUser ? (
+                <Box className={styles.Dropdown} position={"relative"}>
                   <Box
-                    className={styles.Login + " cursor-pointer "}
+                    className={styles.Login}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
-                    gap={2}
-                    onClick={HandlePopup}
+                    gap={1}
                   >
-                    <Typography>Sign in</Typography>
-                    <Box
-                      className="imggroup"
-                      alignItems={"center"}
-                      display={"flex"}
-                    >
-                      {isSticky || isMessage ? (
-                        <img src="/images/user-icon-gray.svg" />
-                      ) : (
-                        <img src="/images/user-icon-white.svg" />
-                      )}
-                    </Box>
+                    <i className="fa fa-user-circle"></i>
+                    <Box>{currentUser?.first_name || ""}</Box>
                     {/*  */}
                   </Box>
-                )}
-                {isMessage ? (
-                  <Box display="flex" alignItems="center" gap={3}>
-                    <Box className=" cursor-pointer" onClick={ChatClearHandle}>
+                  <Box className={styles.DropdownItems}>
+                    <Box
+                      display={"flex"}
+                      flexDirection={"column"}
+                      gap={2}
+                      className={
+                        styles.DropdownItemsBox + "  br-12 box-shadow-md"
+                      }
+                    >
                       <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        height={48}
-                        width={48} // Optional: make it square for better centering
-                        className="imggroup"
+                        className={
+                          styles.DropdownItem +
+                          " text-decuration-none cursor-pointer"
+                        }
                       >
-                        <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                          <Box width={"20px"}>
+                            <i className="fa fa-cog" aria-hidden="true"></i>
+                          </Box>
+                          <Typography>Profile</Typography>
+                        </Box>
                       </Box>
-                    </Box>
-
-                    <Box className=" cursor-pointer">
                       <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        height={48}
-                        width={48} // Optional
-                        className="imggroup"
+                        className={
+                          styles.DropdownItem +
+                          " text-decuration-none cursor-pointer"
+                        }
                       >
-                        <img
-                          src="/images/chat-history-icon.svg"
-                          alt="Chat History Icon"
-                        />
+                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                          <Box width={"20px"}>
+                            <i className="fa fa-cog" aria-hidden="true"></i>
+                          </Box>
+                          <Typography>Settings</Typography>
+                        </Box>
                       </Box>
+                      <Box
+                        className={
+                          styles.DropdownItem +
+                          " text-decuration-none cursor-pointer"
+                        }
+                        onClick={logoutHandle}
+                      >
+                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                          <Box width={"20px"}>
+                            <i className=" fa fa-sign-out"></i>
+                          </Box>
+                          <Typography>Sign out</Typography>
+                        </Box>
+                      </Box>
+                      {/*  */}
                     </Box>
                   </Box>
-                ) : (
-                  <Box display={"flex"} alignItems={"center"}>
+                </Box>
+              ) : (
+                <Box
+                  className={styles.Login + " cursor-pointer "}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={2}
+                  onClick={HandlePopup}
+                >
+                  <Typography
+                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                  >
+                    Sign in
+                  </Typography>
+                  <Box
+                    className="imggroup"
+                    alignItems={"center"}
+                    display={"flex"}
+                  >
+                    {isSticky || isMessage ? (
+                      <img src="/images/user-icon-gray.svg" />
+                    ) : (
+                      <img src="/images/user-icon-white.svg" />
+                    )}
+                  </Box>
+                  {/*  */}
+                </Box>
+              )}
+              {isMessage ? (
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{ gap: { lg: 3, md: 3, xs: 0 } }}
+                >
+                  <Box className=" cursor-pointer" onClick={ChatClearHandle}>
                     <Box
-                      sx={{ display: { xs: "none", md: "flex" } }}
-                      className="btn btn-primary btn-md btn-round"
+                      display="flex"
                       alignItems="center"
                       justifyContent="center"
-                      gap={1}
-                      component="button"
-                      onClick={HandlePopup}
+                      height={48}
+                      width={48} // Optional: make it square for better centering
+                      className="imggroup"
                     >
-                      <Box>Book a trip</Box>
+                      <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
                     </Box>
                   </Box>
-                )}
-              </Box>
-              {/*  */}
+
+                  <Box className=" cursor-pointer">
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={48}
+                      width={48} // Optional
+                      className="imggroup"
+                    >
+                      <img
+                        src="/images/chat-history-icon.svg"
+                        alt="Chat History Icon"
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+              ) : (
+                <Box display={"flex"} alignItems={"center"}>
+                  <Box
+                    sx={{ display: { xs: "none", md: "flex" } }}
+                    className="btn btn-primary btn-md btn-round"
+                    alignItems="center"
+                    justifyContent="center"
+                    gap={1}
+                    component="button"
+                    onClick={HandlePopup}
+                  >
+                    <Box>Book a trip</Box>
+                  </Box>
+                </Box>
+              )}
             </Box>
+            {/*  */}
+          </Box>
         </Container>
       </header>
       <Drawer
