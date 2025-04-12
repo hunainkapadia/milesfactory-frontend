@@ -42,6 +42,8 @@ const PriceSummary = ({ getdata }) => {
     Number(flightDetail?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(flightDetail?.tax_amount) + Passengers;
   const totalAmount = Math.round(WithtaxAmount);
+
+  const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
   return (
     <>
       <Box py={2}>
@@ -196,7 +198,8 @@ const PriceSummary = ({ getdata }) => {
           </Box>
           <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
             <Button
-              className="btn btn-primary btn-md btn-round"
+            disabled
+              className={`btn ${paymentSuccess ? " btn-disabled " : " btn-primary "} btn-md btn-round`}
               onClick={handlePaymentDrawer}
             >
               <Box display="flex" alignItems="center" gap={1}>

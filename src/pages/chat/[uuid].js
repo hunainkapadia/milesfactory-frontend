@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
 import { useRouter } from "next/router";
-import { Box, Grid } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import Messages from "@/src/component/Messages";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
@@ -41,31 +41,35 @@ const ChatByUUID = () => {
         >
           <Header isMessage={isMessage} />
           <Box className={styles.Box}>
-            <Grid container sx={{ width: "100%", margin: 0 }}>
-              <Grid item md={1} lg={1}></Grid>
-              <Grid item md={7} lg={7}>
-                <Messages />
+            <Container>
+              <Grid container sx={{ width: "100%", margin: 0 }}>
+                <Grid item md={8} lg={8}>
+                  <Messages />
+                </Grid>
+                <Grid
+                  item
+                  md={4}
+                  lg={4}
+                  sx={{ display: { xs: "none", md: "block", lg: "block" } }}
+                >
+                  <YourTripSidebar isMessage={isMessage} />
+                </Grid>
               </Grid>
-              <Grid
-                item
-                md={4}
-                lg={4}
-                sx={{ display: { xs: "none", md: "block", lg: "block" } }}
+              <Box
+                className={inputStyles.SearchBoxGrid}
+                container
+                sx={{ width: "100%", margin: 0 }}
               >
-                <YourTripSidebar isMessage={isMessage} />
-              </Grid>
-            </Grid>
-            <Grid
-              className={inputStyles.SearchBoxGrid}
-              container
-              sx={{ width: "100%", margin: 0 }}
-            >
-              <Grid item md={1} lg={1}></Grid>
-              <Grid item md={7} lg={7} xs={12}>
-                <MessageInputBox isMessageHome={isMessage} />
-              </Grid>
-              <Grid item md={4} lg={4}></Grid>
-            </Grid>
+                <Container className="px-5">
+                  <Grid container >
+                    <Grid item md={8} lg={8} xs={12}>
+                      <MessageInputBox isMessageHome={isMessage} />
+                    </Grid>
+                    <Grid item md={4} lg={4}></Grid>
+                  </Grid>
+                </Container>
+              </Box>
+            </Container>
           </Box>
         </section>
       </main>

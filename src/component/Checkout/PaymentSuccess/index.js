@@ -82,7 +82,7 @@ const PaymentSuccess = () => {
 
         {/* Show this only after a star is clicked */}
       </Box>
-      {rating && (
+      {rating && rating < 4 ? (
         <>
           {/* Static Reason Selection */}
           <Typography variant="body1" sx={{ mt: 3, mb: 2 }}>
@@ -118,14 +118,24 @@ const PaymentSuccess = () => {
             </Button>
           </Box>
         </>
+      ) : (
+        <Box mt={3}>
+    <h3 className="regular f25">
+      <span>Please us help spread </span> <img src="/images/heart-emoji.svg" />  !
+    </h3>
+    <Typography>
+        Invite friends around to travel with Mylz.
+    </Typography>
+    
+  </Box>
       )}
 
       {/* Static Reason Selection */}
 
       {/* Static Input for "Others" */}
       <Box mt={2}>
-        <Typography variant="body2">
-          Could you please specify that reason?
+        <Typography>
+          <img src="images/hand-emoji.svg" /> <img src="images/hand-emoji.svg" /> We’ve sent the emails.  Invite more friends
         </Typography>
       </Box>
     </Box>

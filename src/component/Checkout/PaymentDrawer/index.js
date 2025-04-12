@@ -19,6 +19,8 @@ import PaymentFooter from "./PaymentFooter";
 
 const PaymentDrawer = ({ getFlightDetail }) => {
   const [selectedCard, setSelectedCard] = useState(null);
+  const [agreeTerms, setAgreeTerms]= useState(false);
+
 
   const handleSelect = (cardId) => {
     setSelectedCard(cardId);
@@ -52,7 +54,11 @@ const PaymentDrawer = ({ getFlightDetail }) => {
    dispatch(setAddCardDrawer(true))
   }
   const addCardDrawer = useSelector((state)=> state.AddCardDrawer);
-  
+  const handleTermsChange = (e) => {
+    console.log("Checkbox is now:", e.target.checked);
+    setAgreeTerms(e.target.checked);
+  };
+  console.log("agreeTerms111", agreeTerms);
   return (
     <Drawer
       className={styles.MobileDrawer}
@@ -102,9 +108,12 @@ const PaymentDrawer = ({ getFlightDetail }) => {
                     key={getdata.id}
                     getdata={getdata}
                     selected={selectedCard === getdata.name}
+                    selectedCard
+                    agreeTerms= {agreeTerms}
                     onSelect={() => handleSelect(getdata.name)}
                   />
                 ))}
+                 
 
                 <Box
                   onClick={() => AddCardHandel()}
@@ -129,9 +138,10 @@ const PaymentDrawer = ({ getFlightDetail }) => {
                     sx={{ display: "flex", alignItems: "start" }} // Aligns items to the top-left
                     control={
                       <Checkbox
-                        // onChange={(e) => setAgreeTerms("e.target.checked")}
-                        color="primary"
-                      />
+  checked={agreeTerms}
+  onChange={handleTermsChange}
+  color="primary"
+/>
                     }
                     label={
                       <Typography variant="body2" color="textSecondary">
@@ -146,7 +156,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
               </Box>
             </Box>
           </Box>
-          <PaymentFooter selectedCard={selectedCard}/>
+          <PaymentFooter selectedCard={selectedCard} agreeTerms={agreeTerms} />
         </Box>
       </Box>
     </Drawer>

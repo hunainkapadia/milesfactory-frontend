@@ -24,7 +24,6 @@ import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 
 const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
-  
   const dispatch = useDispatch();
   const offerkey = offerData?.id;
   const HandleSelectDrawer = () => {
@@ -46,12 +45,10 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  
   const personQuantity = offerData?.passengers.length;
   const Passengers = Number(offerData?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
@@ -86,8 +83,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
               )}
             </Typography>
             <Typography className=" gray mb-0 f12">
-              {SearchHistory.flight_type == "round-trip" ? "Return" : "One-way"}
-              , {SearchHistory.adults} Travellers
+              {SearchHistory.flight_type == "round-trip" ? "Return" : "One way"}
+              , {SearchHistory.adults} { offerData?.passengers?.length > 1 ? "Travellers" : "Traveller"}
             </Typography>
           </Box>
         </Box>
@@ -222,7 +219,13 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               </Typography>
                               {/* Dotted Line */}
                               <Box className={TripStyles.divider} py={0.5}>
-                                <img src="/images/plan-icon-sm.svg" />
+                                <img
+                                  src={
+                                    slice.segments?.length === 1
+                                      ? "/images/direct-plan-icon.svg"
+                                      : "/images/stop-plan-icon.svg"
+                                  }
+                                />
                               </Box>
                               <Typography className={" gray f12"}>
                                 {slice.duration}
@@ -361,132 +364,139 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 {GetViewPassengers?.some(
                   (p) => p.given_name && p.family_name
                 ) ? (
-                  <Box
-                    display={"flex"}
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                  >
-                    <Box>
-                      <Typography className="f12 bold">Travellers</Typography>
-                      <Typography className="f12 gray">
-                        {GetViewPassengers?.map((p, i) => {
-                          // Render only when both names are available
-                          if (p.given_name && p.family_name) {
-                            return (
-                              <span key={i}>
-                                {console.log(
-                                  "GetViewPassengers",
-                                  GetViewPassengers
-                                )}
-                                {p.given_name} {p.family_name}{" "}
-                                {GetViewPassengers.length >= 1 ? ", " : ""}
-                              </span>
-                            );
-                          }
-                          return null; // Skip rendering if names are missing
-                        })}
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <i className="fa f20 fa-angle-right basecolor1"></i>
-                    </Box>
-                  </Box>
-                ) : null}
-
-                <Box
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <Box>
-                    <Typography className="f12 bold">Seats</Typography>
-                    <Typography className="f12 gray">
-                      Outbound: 40E, 40F / Return: predefined
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <i className="fa f20 fa-angle-right basecolor1"></i>
-                  </Box>
-                </Box>
-                <Box
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <Box>
-                    <Typography className="f12  bold">Extra luggage</Typography>
-                    <Typography className="f12 gray">
-                      {(() => {
-                        const baggageMap = new Map();
-
-                        offerData?.slices.forEach((slice, sliceIndex) => {
-                          slice?.segments?.forEach((segment) => {
-                            segment?.passengers?.forEach((passenger) => {
-                              passenger?.baggages?.forEach((baggage) => {
-                                const key = `${baggage.type}-${baggage.formatted_type}`;
-                                if (!baggageMap.has(key)) {
-                                  baggageMap.set(key, { ...baggage });
-                                }
-                              });
-                            });
-                          });
-                        });
-
-                        const uniqueBaggages = Array.from(baggageMap.values());
-
-                        return (
-                          <span>
-                            {offerData?.slices.map((slice, sliceIndex) => {
-                              const sliceLabel =
-                                sliceIndex === 0 ? "Outbound" : "Return";
-                              const baggageSummary = uniqueBaggages
-                                .filter((baggage) => baggage.quantity > 0) // Filter out baggage with quantity 0
-                                .map(
-                                  (baggage) =>
-                                    `${baggage.quantity}x ${baggage.formatted_type}`
-                                )
-                                .join(", ");
-
+                  <>
+                    <Box
+                      display={"flex"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Box>
+                        <Typography className="f12 bold">Travellers</Typography>
+                        <Typography className="f12 gray">
+                          {GetViewPassengers?.map((p, i) => {
+                            // Render only when both names are available
+                            if (p.given_name && p.family_name) {
                               return (
-                                <span key={sliceIndex}>
-                                  <strong>{sliceLabel}:</strong>{" "}
-                                  {baggageSummary || "No baggage info"}
-                                  {sliceIndex === 0 &&
-                                  offerData?.slices.length > 1
-                                    ? " / "
-                                    : ""}
+                                <span key={i}>
+                                  {console.log(
+                                    "GetViewPassengers",
+                                    GetViewPassengers
+                                  )}
+                                  {p.given_name} {p.family_name}{" "}
+                                  {GetViewPassengers.length >= 1 ? ", " : ""}
                                 </span>
                               );
-                            })}
-                          </span>
-                        );
-                      })()}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <i className="fa f20 fa-angle-right basecolor1"></i>
-                  </Box>
-                </Box>
+                            }
+                            return null; // Skip rendering if names are missing
+                          })}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <i className="fa f20 fa-angle-right basecolor1"></i>
+                      </Box>
+                    </Box>
+                    <Box
+                      display={"flex"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Box>
+                        <Typography className="f12 bold">Seats</Typography>
+                        <Typography className="f12 gray">
+                          Outbound: 40E, 40F / Return: predefined
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <i className="fa f20 fa-angle-right basecolor1"></i>
+                      </Box>
+                    </Box>
+                    <Box
+                      display={"flex"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Box>
+                        <Typography className="f12  bold">
+                          Extra luggage
+                        </Typography>
+                        <Typography className="f12 gray">
+                          {(() => {
+                            const baggageMap = new Map();
+
+                            offerData?.slices.forEach((slice, sliceIndex) => {
+                              slice?.segments?.forEach((segment) => {
+                                segment?.passengers?.forEach((passenger) => {
+                                  passenger?.baggages?.forEach((baggage) => {
+                                    const key = `${baggage.type}-${baggage.formatted_type}`;
+                                    if (!baggageMap.has(key)) {
+                                      baggageMap.set(key, { ...baggage });
+                                    }
+                                  });
+                                });
+                              });
+                            });
+
+                            const uniqueBaggages = Array.from(
+                              baggageMap.values()
+                            );
+
+                            return (
+                              <span>
+                                {offerData?.slices.map((slice, sliceIndex) => {
+                                  const sliceLabel =
+                                    sliceIndex === 0 ? "Outbound" : "Return";
+                                  const baggageSummary = uniqueBaggages
+                                    .filter((baggage) => baggage.quantity > 0) // Filter out baggage with quantity 0
+                                    .map(
+                                      (baggage) =>
+                                        `${baggage.quantity}x ${baggage.formatted_type}`
+                                    )
+                                    .join(", ");
+
+                                  return (
+                                    <span key={sliceIndex}>
+                                      <strong>{sliceLabel}:</strong>{" "}
+                                      {baggageSummary || "No baggage info"}
+                                      {sliceIndex === 0 &&
+                                      offerData?.slices.length > 1
+                                        ? " / "
+                                        : ""}
+                                    </span>
+                                  );
+                                })}
+                              </span>
+                            );
+                          })()}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <i className="fa f20 fa-angle-right basecolor1"></i>
+                      </Box>
+                    </Box>
+                    <Box py={2}>
+              <Divider />
+            </Box>
+                  </>
+                ) : ""}
               </>
             ) : (
               ""
             )}
           </Box>
           <Box className={TripStyles.PaymentRow + " "} pt={2}>
-            <Box py={2}>
-              <Divider />
-            </Box>
+            
             <Box display={"flex"} alignItems={"center"} mb={2}>
               <Box>
                 <h4 className="bold mb-0">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}{" "}
-                    {offerData?.total_amount_plus_markup}
+                  {offerData?.total_amount_plus_markup}
                 </h4>
                 <Typography className="gray f12">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}{" "}
-                  {Math.round(offerData?.per_passenger_amount_plus_markup)} per person
+                  {Math.round(offerData?.per_passenger_amount_plus_markup)} per
+                  person
                 </Typography>
               </Box>
             </Box>

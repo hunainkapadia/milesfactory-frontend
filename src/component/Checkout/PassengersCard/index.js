@@ -9,12 +9,15 @@ const PassengersCard = ({
   isActive,
   onToggle,
   isFilled,
-  onClickCard
+  onClickCard,
+  passDetail
 }) => {
+  console.log("passDetail:", passDetail.given_name, "getdata:", getdata);
+  
   return (
     <Box
       id={getdata.uuid}
-      onClick={onClickCard} // 👉 triggers drawer + setup logic
+      onClick={onClickCard} // triggers drawer + setup logic
       className={`${styles.passengersCard} 
         ${isFilled ? styles.isFilled + " isFilled" : styles.Notactive}
         ${!onClickCard ? styles.disabledCard : ""}`}
@@ -34,7 +37,7 @@ const PassengersCard = ({
             ""
           )}
           <Typography className="f14 bold mb-0" mb={1}>
-            {passName}
+            {getdata?.given_name} {getdata?.family_name}
           </Typography>
           <Typography className="gray f12">{getdata.type}</Typography>
         </Box>
@@ -46,14 +49,9 @@ const PassengersCard = ({
         display={"flex"}
         alignItems={"center"}
         justifyContent={"flex-end"}
-        
       >
         <Typography className=" f14 bold mb-0 basecolor1 cursor-pointer">
-          {isFilled ? (
-            "Change"
-          ) : (
-            "Add"
-          )}
+          {isFilled ? "Change" : "Add"}
         </Typography>
       </Box>
     </Box>

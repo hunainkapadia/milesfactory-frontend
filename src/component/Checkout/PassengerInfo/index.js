@@ -80,7 +80,7 @@ const PassengerInfo = ({ getdata }) => {
                 <PassengersCard
                   totalPass={index + 1}
                   getdata={passenger}
-                  passName={isFilled ? passenger.given_name : ""}
+                  passDetail={isFilled ? passenger : ""}
                   isMainPassenger={index === 0}
                   isFilled={isFilled}
                   onClickCard={() =>
