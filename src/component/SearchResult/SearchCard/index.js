@@ -5,6 +5,7 @@ import {
   Avatar,
   CardContent,
   Grid,
+  Button,
 } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -107,20 +108,18 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
             display={"flex"}
             flexDirection={"column"}
           >
-            <Box sx={{ display: { xs: "block", md: "none" } }}>
-              <RightTopSection offerData={offerData} />
-            </Box>
             <Box
               display={"flex"}
-              sx={{ flexDirection: { xs: "row", lg: "column", md: "column" } }}
+              sx={{ flexDirection: { xs: "column", lg: "column", md: "column" } }}
               justifyContent={"space-between"}
               height={"100%"}
             >
               {FlightExpire ? (
                 <>
                   <Box
-                    className="aa"
+                    className=""
                     display={"flex"}
+                    
                     height={"100%"}
                     width={"100%"}
                     sx={{
@@ -160,7 +159,12 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                 </>
               ) : (
                 <>
-                  <Box sx={{ display: { xs: "none", md: "block" } }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { md: "column", lg: "column", xs: "row" },
+                    }}
+                  >
                     <RightTopSection
                       SelectDrawer={HandleSelectDrawer}
                       offerData={offerData}
@@ -168,9 +172,13 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                   </Box>
                   {/*  */}
                   <Box
-                    width={"100%"}
                     display={"flex"}
                     flexDirection={"column"}
+                    sx={{
+                      flexDirection: { lg: "column", md: "column", xs: "row" },
+                      width: { lg: "100%", md: "100%", xs: "100%" },
+                      justifyContent: "space-between",
+                    }}
                     gap={1}
                     className={searchResultStyles.PriceBottom}
                   >
@@ -199,22 +207,22 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       ""
                     )}{" "} */}
                     {selected ? (
-                      <Box width={"100%"}>
-                        <button
+                      <Box>
+                        <Button
                           className={
                             " w-100 btn btn-disabled btn-round btn-md f12 " +
                             searchResultStyles.selectFlightBtn
                           }
                         >
                           <span>Selected</span>
-                        </button>
+                        </Button>
                       </Box>
                     ) : (
                       <></>
                     )}
 
                     {selectedFlightKey ? null : (
-                      <Box width={"100%"}>
+                      <Box>
                         <button
                           className={
                             "w-100 btn btn-primary btn-round btn-md " +

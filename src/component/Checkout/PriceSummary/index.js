@@ -60,9 +60,9 @@ const PriceSummary = ({ getdata }) => {
       {priceSummary ? (
         <Box ref={priceSummaryRef} className={styles.Card + " Card white-bg"}>
           <Box pb={2}>
-            <h4 fontWeight={"regular"} className="regular mb-0">
+            <h5 fontWeight={"regular"} className="regular mb-0">
               Price summary
-            </h4>
+            </h5>
           </Box>
           <Box
             className={styles.PriceSection + " basecolor"}
@@ -74,7 +74,7 @@ const PriceSummary = ({ getdata }) => {
             <Box className={styles.BaggageBody}>
               {/* Total price row */}
               <Box
-                className={styles.PriceRow}
+                className={styles.PriceRow + " f12 "}
                 display="flex"
                 justifyContent="space-between"
                 gap={4}
@@ -103,7 +103,7 @@ const PriceSummary = ({ getdata }) => {
 
               {/* Taxes, fees & surcharges row */}
               <Box
-                className={styles.PriceRow}
+                className={styles.PriceRow + " f12"}
                 display="flex"
                 justifyContent="space-between"
                 gap={4}
@@ -180,25 +180,25 @@ const PriceSummary = ({ getdata }) => {
                 </Box>
               </Box> */}
               <Box
-                className={styles.PriceRow + " black exbold"}
+                className={styles.PriceRow + " black exbold f12"}
                 display={"flex"}
                 justifyContent={"space-between"}
                 gap={4}
               >
                 <Box>Total price</Box>
-                <h5 className="mb-0 exbold">
+                <Box className="mb-0 exbold f12">
                   {console.log("flightDetail111", flightDetail)}
                   {currencySymbols[flightDetail?.tax_currency] ||
                     flightDetail?.tax_currency}
                   {totalAmount}
-                </h5>
+                </Box>
               </Box>
             </Box>
             {/* price row */}
           </Box>
           <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
             <Button
-              className={`btn ${paymentSuccess ? " btn-disabled " : " btn-primary "} btn-md btn-round`}
+              className={`btn ${paymentSuccess ? " btn-disabled " : " btn-primary "} btn-md btn-round sm `}
               onClick={handlePaymentDrawer}
             >
               <Box display="flex" alignItems="center" gap={1}>

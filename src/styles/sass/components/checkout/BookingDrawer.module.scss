@@ -238,6 +238,11 @@
 
 }
 @include for-mobile-large-screen {
+   .passengersCard {
+      &.ExtraServices {
+         margin-bottom: 0;
+      }
+   }
    .Drawer {
          >div {
             width: 100%;

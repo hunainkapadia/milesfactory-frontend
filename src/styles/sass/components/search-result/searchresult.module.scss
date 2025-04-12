@@ -205,32 +205,34 @@
  
  @include for-mobile-large-screen {
  
-  .flightOfferCard {width: 100%;
-    .rowExtraInfo {
-      margin-bottom: 16px;  
-    }
+  .SearchCardGrid {
+    .flightOfferCard {width: 100%;
+      .rowExtraInfo {
+        margin-bottom: 16px;  
+      }
+        
+      .selectFlightBtn {
+        
+      }
+      .flightDuration {
+        font-size: 10px;
+      }
+      .airlineLogo {
+        @include scale(40px, 40px);
+      }
+      .Timings {
+        display: flex;
+        gap: 2;
+        flex-direction: column;
+      }
       
-    .selectFlightBtn {
-      
+      .flightRoute, .flightTime {
+        font-size: 12px;
+      }
+      .flightPriceSection {
+        white-space: nowrap;
+      }   
     }
-    .flightDuration {
-      font-size: 10px;
-    }
-    .airlineLogo {
-      @include scale(40px, 40px);
-    }
-    .Timings {
-      display: flex;
-      gap: 2;
-      flex-direction: column;
-    }
-    
-    .flightRoute, .flightTime {
-      font-size: 12px;
-    }
-    .flightPriceSection {
-      white-space: nowrap;
-    }   
   }
  
  }
@@ -243,8 +245,9 @@
      justify-content: center;
      width: 100%;
      .messageContentIn {
+      
        width: 100%;
-       padding: 0px 24px 100px;
+       padding: 0px 6px 100px;
        .Aibox {width: 100%;}
        .UserMessage {max-width: 100%;}
      }

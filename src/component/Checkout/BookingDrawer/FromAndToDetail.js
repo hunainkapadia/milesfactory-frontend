@@ -290,7 +290,8 @@ const FromAndToDetail = ({
                     <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
                   <Typography className="f12">
-                    {SearchHistoryGet?.adults} adults
+                  {console.log("SearchHistoryGet")}
+                    {SearchHistoryGet?.adults} adult{SearchHistoryGet?.adults > 1 ? "s" : ""}
                   </Typography>
                 </Box>
               )}

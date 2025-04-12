@@ -106,7 +106,7 @@ const PassengerDrawerForm = () => {
               alignItems={"center"}
             >
               <Box>
-                <h4 className="regular mb-0">Add new traveller</h4>
+                <h3 className="regular mb-0">Add new traveller</h3>
                 <Typography className="semibold">Adult</Typography>
               </Box>
               <Box className=" cursor-pointer" onClick={handleCloseDrawer}>
@@ -195,7 +195,7 @@ const PassengerDrawerForm = () => {
                 <FormLabel className="bold">Date of Birth</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    className="formControl"
+                    className="formControl Calendar"
                     value={born_on ? dayjs(born_on) : null}
                     onChange={(newValue) =>
                       setborn_on(
@@ -232,7 +232,7 @@ const PassengerDrawerForm = () => {
                 <FormLabel className="bold">Passport Expiry Date</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    className="formControl"
+                    className="formControl Calendar"
                     value={
                       passport_expire_date ? dayjs(passport_expire_date) : null
                     }
@@ -314,7 +314,7 @@ const PassengerDrawerForm = () => {
                   variant="contained"
                   color="success"
                 >
-                  {isFormLoading ? <ButtonLoading /> : <span>Book flight</span>}
+                  {isFormLoading ? <ButtonLoading /> : <span>Continue</span>}
                 </Button>
               </Box>
             </Box>

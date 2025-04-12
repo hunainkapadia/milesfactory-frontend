@@ -110,7 +110,7 @@ const AiMessage = ({ aiMessage }) => {
           </Box> */}
 
           {/* Show passenger form or loading */}
-          
+
           {GetViewPassengers ? (
             <PassengerInfo getdata={GetViewPassengers} />
           ) : (
@@ -130,38 +130,40 @@ const AiMessage = ({ aiMessage }) => {
         </>
       ) : aiMessage?.ai?.offers || displayedGetFlights?.length > 0 ? (
         <>
-          <Box mt={2}>
-            {/* Render POST flight offers */}
-            {displayedPostFlights?.map((offer, i) => (
-              <SearchCard
-                key={`post-${i}-${offer.id}`}
-                offerData={offer}
-                offerkey={`${i}-${offer.id}`}
-                FlightExpire={FlightExpire}
-              />
-            ))}
+          <Box mt={2} className={searchResultStyles.SearchCardWrapper}>
+            <Box mt={2} className={searchResultStyles.SearchCardGrid}>
+              {/* Render POST flight offers */}
+              {displayedPostFlights?.map((offer, i) => (
+                <SearchCard
+                  key={`post-${i}-${offer.id}`}
+                  offerData={offer}
+                  offerkey={`${i}-${offer.id}`}
+                  FlightExpire={FlightExpire}
+                />
+              ))}
 
-            {/* Render GET flight offers */}
-            {displayedGetFlights?.map((offer, i) => (
-              <SearchCard
-                key={`get-${i}-${offer.id}`}
-                offerData={offer}
-                offerkey={`${i}-${offer.id}`}
-                FlightExpire={FlightExpire}
-              />
-            ))}
+              {/* Render GET flight offers */}
+              {displayedGetFlights?.map((offer, i) => (
+                <SearchCard
+                  key={`get-${i}-${offer.id}`}
+                  offerData={offer}
+                  offerkey={`${i}-${offer.id}`}
+                  FlightExpire={FlightExpire}
+                />
+              ))}
+            </Box>
           </Box>
+
 
           {/* Toggle button */}
           <Box
             onClick={seeAllResultHandle}
-            mt={2}
+            sx={{ mt: { lg: 2, md: 2, xs: 0 } }}
             style={{ cursor: "pointer" }}
           >
             <Link href={"#"} className="text-decoration-none">
               <Box
-                mt={2}
-                mb={2}
+                sx={{ my: { lg: 2, md: 2, xs: 0 } }}
                 gap={2}
                 alignItems="center"
                 display="flex"
@@ -194,7 +196,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         // Default AI response
         <Box className={searchResultStyles.AiMessage}>
-        {console.log("aiMessage?.ai?.response", aiMessage?.ai?.response)}
+          {console.log("aiMessage?.ai?.response", aiMessage?.ai?.response)}
           <Typography
             dangerouslySetInnerHTML={{
               __html: formatTextToHtmlList(

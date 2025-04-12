@@ -21,9 +21,9 @@ const PaymentSlice = createSlice({
     setIsDrawer: (state, action) => {
       state.isDrawer = action.payload;
     },
-    // closeDrawer: (state) => {
-    //   state.isDrawer = false; // Close drawer
-    // },
+    closeDrawer: (state) => {
+      state.isDrawer = false; // Close drawer
+    },
     setPaymentFormSuccess: (state, action) => {
       state.PaymentFormSuccess = action.payload;
     },
@@ -48,5 +48,6 @@ export const {
   setPaymentFormSuccess,
   setpriceSummary,
   setIsDrawer,
+  closeDrawer,
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

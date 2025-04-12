@@ -929,6 +929,25 @@ body {
 
     width: 100%;
     margin-top: 0;
+    &.Calendar {
+      &::after {
+        content: "\f133";
+        pointer-events: none;
+
+        color: $gray;
+        font-family: "Font Awesome 6 Free";
+        position: absolute;
+        right: 13px;
+        top: 10px;
+        font-size: 20px;
+      }
+      button.MuiIconButton-root {
+          padding: 20px;
+          svg {
+            display: none;
+          }
+      }
+    }
   }
   // k) Headings / Paragraphs
   address,
@@ -1990,6 +2009,11 @@ html {
 }
 @include for-mobile-large-screen {
   .btn {
+    &.btn-md {
+      &.sm {padding: 10px 20px;}
+      padding: 10px 50px;
+    }
+
     &.btn-primary {
       &.no-rounded {
         border-radius: 4px !important;

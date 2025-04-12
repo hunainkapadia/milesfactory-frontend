@@ -12,7 +12,10 @@ const RightTopSection = ({ offerData, SelectDrawer }) => {
         justifyContent: { xs: "space-between" },
         alignItems: { xs: "center", lg: "flex-start", md: "flex-start" },
         gap: { md: 3, lg: 3, xs: 2 },
+        marginBottom:{xs: 4},
       }}
+      width={"100%"}
+      className="bbbb"
     >
       <Box sx={{ marginTop: { lg: 2, md: 2 } }} style={{ cursor: "pointer" }}>
         <Box onClick={SelectDrawer} className="text-decoration-none basecolor1">

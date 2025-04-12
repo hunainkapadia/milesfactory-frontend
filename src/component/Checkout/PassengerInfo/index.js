@@ -76,7 +76,7 @@ const PassengerInfo = ({ getdata }) => {
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
 
             return (
-              <Grid item xs={12} sm={6} key={passenger.uuid}>
+              <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
                 <PassengersCard
                   totalPass={index + 1}
                   getdata={passenger}

@@ -6,7 +6,7 @@ import { currencySymbols } from "@/src/utils/utils";
 const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
 
   return (
-    <Grid item xs={6}>
+    <Grid item xs={12} lg={6} md={6}>
       <Box className={`${styles.passengersCard} ${styles.ExtraServices} `}>
         <Box display={"flex"} alignItems={"center"} gap={2}>
           <Box className="imggroup" width={40}>
