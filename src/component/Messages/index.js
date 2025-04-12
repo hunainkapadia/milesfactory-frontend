@@ -103,7 +103,9 @@ const Messages = () => {
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
                   ) : index === messages.length - 1 && isLoading ? (
-                    <LoadingArea />
+                    <Box mb={2}>
+                      <LoadingArea />
+                    </Box>
                   ) : null}
                 </Box>
               ))}

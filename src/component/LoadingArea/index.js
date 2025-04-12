@@ -3,7 +3,7 @@ import { Box, Card, CardContent } from "@mui/material";
 
 const LoadingArea = () => {
   return (
-    <Box className="Loading" display="flex" justifyContent="flex-start" mb={2}>
+    <Box className="Loading" display="flex" justifyContent="flex-start">
       <Box
         display="flex"
         justifyContent="flex-start"

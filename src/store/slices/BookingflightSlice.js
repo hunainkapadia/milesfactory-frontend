@@ -57,10 +57,10 @@ const bookingflightsSlice = createSlice({
 
 export const fetchflightDetail = (flightId) => (dispatch) => {
   const apiUrl = `${API_ENDPOINTS.BOOKING.BOOKING_DETAIL}${flightId}`;
-
+  dispatch(setLoading(true));
   api.get(apiUrl).then((res) => {
-    
     dispatch(setflightDetail(res.data));
+    dispatch(setLoading(false));
   });
 };
 

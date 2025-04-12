@@ -114,7 +114,9 @@ const AiMessage = ({ aiMessage }) => {
           {GetViewPassengers ? (
             <PassengerInfo getdata={GetViewPassengers} />
           ) : (
-            <LoadingArea />
+            <Box mb={2}>
+              <LoadingArea />
+            </Box>
           )}
 
           {/* If all passengers are filled, show payment components */}
