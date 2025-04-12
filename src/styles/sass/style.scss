@@ -166,6 +166,7 @@ p {
 
 // a) Variable base classes - start
 
+
 button.MuiIconButton-root {padding: 13px;}
 label {margin-bottom: 8px;display: flex;color: $basecolor-dark !important;}
 label,
@@ -2008,6 +2009,10 @@ html {
   }
 }
 @include for-mobile-large-screen {
+  .MuiDialog-paper {
+    margin: 0;
+    width: 100%;
+  }
   .btn {
     &.btn-md {
       &.sm {padding: 10px 20px;}

@@ -30,7 +30,7 @@ const PoweredByglobal = (props) => {
             <Box
               className={styles.Items + " imggroup"}
               component={Link}
-              href="#"
+              
               sx={{ display: "flex", alignItems: "center" }}
             >
               <img src="/images/poweredby-airfrance.svg" alt="Air France" />
@@ -38,7 +38,7 @@ const PoweredByglobal = (props) => {
             <Box
               className={styles.Items + " imggroup"}
               component={Link}
-              href="#"
+              
               sx={{ display: "flex", alignItems: "center" }}
             >
               <img
@@ -49,7 +49,7 @@ const PoweredByglobal = (props) => {
             <Box
               className={styles.Items + " imggroup"}
               component={Link}
-              href="#"
+              
               sx={{ display: "flex", alignItems: "center" }}
             >
               <img src="/images/poweredby-transavia.svg" alt="Transavia" />
@@ -57,7 +57,7 @@ const PoweredByglobal = (props) => {
             <Box
               className={styles.Items + " imggroup"}
               component={Link}
-              href="#"
+              
               sx={{ display: "flex", alignItems: "center" }}
             >
               <img src="/images/poweredby-Expedia_Logo_20.svg" alt="Expedia" />
@@ -65,7 +65,7 @@ const PoweredByglobal = (props) => {
             <Box
               className={styles.Items + " imggroup"}
               component={Link}
-              href="#"
+              
               sx={{ display: "flex", alignItems: "center" }}
             >
               <img
@@ -77,7 +77,7 @@ const PoweredByglobal = (props) => {
             <Box
               className={styles.Items + " imggroup"}
               component={Link}
-              href="#"
+              
               sx={{ display: "flex", alignItems: "center" }}
             >
               <img src="/images/poweredby-Agoda_logo.svg" alt="Agoda" />

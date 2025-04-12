@@ -277,13 +277,11 @@ const Header = ({ isMessage, IsActive }) => {
                   </Box>
                 ) : (
                   <Box
-                    className={styles.Login + " "}
+                    className={styles.Login + " cursor-pointer "}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
                     gap={2}
-                    component={Link}
-                    href=""
                     onClick={HandlePopup}
                   >
                     <Typography>Sign in</Typography>
@@ -442,7 +440,6 @@ const Header = ({ isMessage, IsActive }) => {
           >
             <Button
               className={"btn btn-secondary btn-md no-rounded"}
-              href="#"
               onClick={HandleSigninPopup}
               component="button"
             >
@@ -450,7 +447,6 @@ const Header = ({ isMessage, IsActive }) => {
             </Button>
             <Button
               className={"btn btn-primary btn-md no-rounded"}
-              href="#"
               onClick={HandleSignupPopup}
               component="button"
             >

@@ -69,7 +69,7 @@ const LoginWithOptions = () => {
         justifyContent={"center"}
         gap={2}
         sx={{ my: { xs: 2, md: 2, lg: 2 } }}
-        px={2}
+        px={4}
       >
         <hr />
         <Typography>OR</Typography>

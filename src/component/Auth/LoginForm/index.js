@@ -53,16 +53,20 @@ const LoginForm = ({  }) => {
 
   return (
     <main className={styles.signupSection + " bg-cover bg-norepeat bg-center"}>
-      <Box py={2} px={12} position={"relative"}>
+      <Box py={2} sx={{ px: { lg: 8, md: 8, xs: 0 } }} position={"relative"}>
         <Box>
           <Box textAlign={"center"} mb={2}>
             <h1 className="">Sign in</h1>
-            <Typography textAlign={"center"} pt={2}>
-              Don’t have an account?{" "}
-              <Box onClick={()=>HandleSignup()} className="basecolor-dark cursor-pointer">
+
+            <Box display={"flex"} justifyContent={"center"} pt={2} gap={1}>
+              <Typography>Don’t have an account? </Typography>
+              <Typography
+                onClick={() => HandleSignup()}
+                className="basecolor-dark cursor-pointer"
+              >
                 Create one
-              </Box>
-            </Typography>
+              </Typography>
+            </Box>
           </Box>
           <LoginWithOptions />
 

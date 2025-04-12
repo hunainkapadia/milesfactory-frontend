@@ -93,16 +93,18 @@ const SignUpForm = () => {
         <Box>
           <Box mb={5}>
             <h1 className="center">Create an account</h1>
-            <Typography textAlign={"center"} pt={2}>
-              Already have an account?{" "}
-              <Box onClick={HandleLogin} className="basecolor-dark">
+            <Box display={"flex"} justifyContent={"center"} pt={2} gap={1}>
+              <Typography>
+                Already have an account?
+              </Typography>
+              <Typography onClick={HandleLogin} className="basecolor-dark">
                 Sign in
-              </Box>
-            </Typography>
+              </Typography>
+            </Box>
           </Box>
           <LoginWithOptions />
           <Typography align="center" mb={2}>
-            Enter your email below to create an account.
+            Complete the following information.
           </Typography>
 
           <Box>
@@ -226,7 +228,7 @@ const SignUpForm = () => {
                     >
                       {/* Select Flight Button */}
                       <Button
-                        className="btn btn-primary btn-sm"
+                        className="btn btn-primary btn-sm btn-round"
                         onClick={handleSignUp}
                         variant="contained"
                         color="success"
@@ -241,7 +243,7 @@ const SignUpForm = () => {
                           <ButtonLoading />
                         ) : (
                           <Box display="flex" alignItems="center" gap={1}>
-                            <span>Sign Up</span>
+                            <span>Continue</span>
                           </Box>
                         )}
                       </Button>
