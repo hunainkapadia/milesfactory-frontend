@@ -32,7 +32,6 @@ const PaymentSuccess = () => {
     setSelectedReason(reason);
   };
   const handleSubmit = () => {
-    
     if (rating !== null && !successReview) {
       setsuccessReview(true);
     } else {
@@ -128,7 +127,10 @@ const PaymentSuccess = () => {
             <Typography>
               <img src="/images/hand-emoji.svg" />{" "}
               <img src="/images/hand-emoji.svg" /> We’ve sent the emails.{" "}
-              <Link href={"#"} className="text-decuration-none"> Invite more friends</Link>
+              <Link href={"#"} className="text-decuration-none">
+                {" "}
+                Invite more friends
+              </Link>
             </Typography>
           </Box>
         </>
@@ -148,7 +150,9 @@ const PaymentSuccess = () => {
             Send
           </Button>
         </Box>
-      ): ""}
+      ) : (
+        ""
+      )}
       {/* Static Reason Selection */}
 
       {/* Static Input for "Others" */}
