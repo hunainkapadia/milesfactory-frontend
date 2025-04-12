@@ -110,7 +110,7 @@ const MylzDifferent = (props) => {
       <Footer
         forDark
         LearnMore={"Powered by airlines and hotels"}
-        id={"PoweredByglobal"}
+        id={"Section4Reviews"}
       />
     </section>
   );

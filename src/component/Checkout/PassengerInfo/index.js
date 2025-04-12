@@ -69,7 +69,7 @@ const PassengerInfo = ({ getdata }) => {
       <Box
         variant="outlined"
         className={searchResultStyles.PassengersSection}
-        sx={{ mt: 3, }}
+        sx={{ mt: 3 }}
       >
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
@@ -91,32 +91,42 @@ const PassengerInfo = ({ getdata }) => {
             );
           })}
         </Grid>
-
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
       {filledPassengerUUIDs.length > 0 && (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Box py={4}>
-              <Typography>
-              Select now your seats and extra baggage.
-              </Typography>
-            </Box>
+        <>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Box py={4}>
+                <Typography>
+                  Select now your seats and extra baggage.
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-
-          {getdata
-            ?.filter((passenger) =>
-              filledPassengerUUIDs.includes(passenger.uuid)
-            ) // Filter only filled
-            .map((passenger, index) => (
-              <ExtraServices
-                key={passenger.uuid}
-                getServicesdata={passenger}
-                selectedFlight={getselectedFlight}
-              />
-            ))}
-        </Grid>
+          <Box 
+            className={searchResultStyles.ExtraServicesWraper}
+          >
+            <Grid
+              container
+              spacing={2}
+              className={searchResultStyles.ExtraServicesGrid}
+            >
+              {getdata
+                ?.filter((passenger) =>
+                  filledPassengerUUIDs.includes(passenger.uuid)
+                ) // Filter only filled
+                .map((passenger, index) => (
+                  <ExtraServices
+                    key={passenger.uuid}
+                    getServicesdata={passenger}
+                    selectedFlight={getselectedFlight}
+                  />
+                ))}
+            </Grid>
+          </Box>
+        </>
       )}
 
       {/* {getPassFormData ? (

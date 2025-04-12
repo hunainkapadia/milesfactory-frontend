@@ -13,243 +13,316 @@
   &::before {
     display: none;
   }
-  .messageContent {
-    
-  }
+
+  .messageContent {}
 }
 
 .messageContent {
-  
-  .messageContentIn {padding: 0px 0 100px;margin-top: 105px;
-      .Aibox {
-        width: $BoxContainerSm;
-      }
-     .UserMessage {
-       background-color: $basecolor1-dark;
-       color: #0B1729;
-       @include border-radius(22px);
-       max-width: 80%;
-       padding: 10px 24px;
-       margin: 12px 0;
-       p {
-          color: $basecolor-dark;
-          margin: 0;
-        }
-     }
-     .AiMessage {
-       color: #0B1729;
-       width: 100%;
-       padding: 10px 0;
-       margin: 12px 0;
-       max-width: 80%;
-       p {
+
+  .messageContentIn {
+    padding: 0px 0 100px;
+    margin-top: 105px;
+
+    .Aibox {
+      width: $BoxContainerSm;
+    }
+
+    .UserMessage {
+      background-color: $basecolor1-dark;
+      color: #0B1729;
+      @include border-radius(22px);
+      max-width: 80%;
+      padding: 10px 24px;
+      margin: 12px 0;
+
+      p {
         color: $basecolor-dark;
         margin: 0;
       }
-     }
-   }
+    }
+
+    .AiMessage {
+      color: #0B1729;
+      width: 100%;
+      padding: 10px 0;
+      margin: 12px 0;
+      max-width: 80%;
+
+      p {
+        color: $basecolor-dark;
+        margin: 0;
+      }
+    }
+  }
 }
 
 
 //  
 .flightOfferCard {
-    min-height: 128px;
-    background: #FFFFFF;
-    border: 1px solid #E6EEEE;
-    border-radius: 16px;
-   display: flex;
-   flex-direction: column;
-   transition: 0.3s ease-in-out;
-   margin-bottom: 20px;
-   .flightPriceSection {
+  min-height: 128px;
+  background: #FFFFFF;
+  border: 1px solid #E6EEEE;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s ease-in-out;
+  margin-bottom: 20px;
+
+  .flightPriceSection {
     font-size: $bfsizeLabel;
     white-space: nowrap;
   }
+
   .Timings {
     .flightDay {
       font-size: 12px;
     }
   }
- 
-   &:hover {
-     transform: scale(1.02);
-   }
-   .CardLeft {
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .CardLeft {
     padding: 17px 17px 14px 16px;
-   }
-   .fromAndToRow {
+  }
+
+  .fromAndToRow {
     margin: 18px 0;
-   }
-   .CardRight {
+  }
+
+  .CardRight {
     padding: 12px 14px 16px 17px;
     border-left: solid 1px $lightgray3;
-    .selectFlightBtn {
-      
-    }
-   }
-   .airlineLogo {
-     @include scale(60px, 60px);
-     @include border-radius(100px);
+
+    .selectFlightBtn {}
+  }
+
+  .airlineLogo {
+    @include scale(60px, 60px);
+    @include border-radius(100px);
     background: $white;
     border: 1px solid $lightgray3;
-    
+
     img {
       width: 70%;
       height: auto;
     }
-   }
-   .rowExtraInfo {
+  }
+
+  .rowExtraInfo {
     margin-bottom: 8px;
-     display: flex;
-     justify-content: space-between;
-     font-size: 0.85rem;
-     color: gray;
-   }
-   .flightDurationBox {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: gray;
+  }
+
+  .flightDurationBox {
     width: 80%;
+
     .flightDuration {
       font-size: 12px;
       color: $black;
     }
-   }   
-   .SearchDivider {
-      border: 1px dashed #D9D9D9;
-      transform: matrix(-1, 0, 0, 1, 0, 0);
-      position: relative;
-      
-      .dots {position: absolute;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          left: 0;
-          width: 100%;
-          bottom: -4px;
-          gap: 14px;
-        .dot {
-          width: 8px;
-          height: 8px;
-          background: #000000;
-          border: solid 2px $white;
-          @include border-radius(20px);
-        }
+  }
+
+  .SearchDivider {
+    border: 1px dashed #D9D9D9;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    position: relative;
+
+    .dots {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      left: 0;
+      width: 100%;
+      bottom: -4px;
+      gap: 14px;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: #000000;
+        border: solid 2px $white;
+        @include border-radius(20px);
       }
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        width: 6px;
-        height: 6px;
-        background-color: #D9D9D9;
-        border-radius: 50%;
-        transform: translateY(-50%);
-      }
-      &::before {
-        left: -5px;
-      }
-      &::after {
-        right: -5px;
-      }
-   }
-   .flightTime {
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      background-color: #D9D9D9;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    &::before {
+      left: -5px;
+    }
+
+    &::after {
+      right: -5px;
+    }
+  }
+
+  .flightTime {
     font-weight: $semibold;
     font-size: 20px;
   }
-  .logoCol {display: block;}
-  .FlightTimingsCol {display: block;}
- }
- 
- 
- 
- .separater {
-   padding: 0 10px;
-   span {
-      /* Rectangle 117 */
-      background: #82B4E8;
-      width: 100%;
-      display: flex;
-      height: 1px;
-   }
+
+  .logoCol {
+    display: block;
+  }
+
+  .FlightTimingsCol {
+    display: block;
+  }
 }
- 
- .flightRoute {
-  
- }
- 
- 
- .flightPrice {
-   
- }
- 
- 
- 
- .normalOption {
-   padding: 7px 10px;
-   line-height: 1;
-   gap: 8px;
-   display: flex;
-   font-weight: 500;color: grey;
-   font-size: 11px;
-    &.fastestOption {
-      border: 1px solid #D3D3D3;
-      border-radius: 8px; 
-     }
-   }
- 
- .baggageInfo,
- .carbonFootprint {
-   display: flex;
-   align-items: center;
-   gap: 5px;
- }
- 
- @include for-mobile-large-screen {
- 
-  .SearchCardGrid {
-    .flightOfferCard {width: 100%;
-      .rowExtraInfo {
-        margin-bottom: 16px;  
-      }
-        
-      .selectFlightBtn {
-        
-      }
-      .flightDuration {
-        font-size: 10px;
-      }
-      .airlineLogo {
-        @include scale(40px, 40px);
-      }
-      .Timings {
+
+
+
+.separater {
+  padding: 0 10px;
+
+  span {
+    /* Rectangle 117 */
+    background: #82B4E8;
+    width: 100%;
+    display: flex;
+    height: 1px;
+  }
+}
+
+.flightRoute {}
+
+
+.flightPrice {}
+
+
+
+.normalOption {
+  padding: 7px 10px;
+  line-height: 1;
+  gap: 8px;
+  display: flex;
+  font-weight: 500;
+  color: grey;
+  font-size: 11px;
+
+  &.fastestOption {
+    border: 1px solid #D3D3D3;
+    border-radius: 8px;
+  }
+}
+
+.baggageInfo,
+.carbonFootprint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@include for-mobile-large-screen {
+  .ExtraServicesWraper {
+      display: grid;
+      width: auto;
+      margin-right: -20px;
+      .ExtraServicesGrid {
         display: flex;
-        gap: 2;
-        flex-direction: column;
+        overflow-x: auto;
+        gap: 8px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        margin-left: -20px;
+        flex-direction: inherit;
+        flex-wrap: nowrap;
+        .ExtraServicesCol {
+          min-width: 300px;
+        }
       }
+    }
+  .SearchCardWrapper {
+    display: grid;
+    width: auto;
+    margin-right: -20px;
+    .SearchCardGrid {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin-left: -20px;
+      padding-left: 16px;
       
-      .flightRoute, .flightTime {
-        font-size: 12px;
+      .flightOfferCard {
+        min-width: 300px;
+        
+        .rowExtraInfo {
+          margin-bottom: 16px;
+        }
+  
+        .selectFlightBtn {}
+  
+        .flightDuration {
+          font-size: 10px;
+        }
+  
+        .airlineLogo {
+          @include scale(40px, 40px);
+        }
+  
+        .Timings {
+          display: flex;
+          gap: 2;
+          flex-direction: column;
+        }
+  
+        .flightRoute,
+        .flightTime {
+          font-size: 12px;
+        }
+  
+        .flightPriceSection {
+          white-space: nowrap;
+        }
       }
-      .flightPriceSection {
-        white-space: nowrap;
-      }   
     }
   }
- 
- }
- @include for-mobile-large-screen() {
+
+}
+
+@include for-mobile-large-screen() {
 
 
-  
-   .messageContent {
-     display: flex;
-     justify-content: center;
-     width: 100%;
-     .messageContentIn {
-      
-       width: 100%;
-       padding: 0px 6px 100px;
-       .Aibox {width: 100%;}
-       .UserMessage {max-width: 100%;}
-     }
-   }
- }
+// ExtraServicesSection
+.ExtraServicesSection {
+  border: solid;
+}
+  .messageContent {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .messageContentIn {
+      width: 100%;
+      padding: 0px 6px 100px;
+
+      .Aibox {
+        width: 100%;
+      }
+
+      .UserMessage {
+        max-width: 100%;
+      }
+    }
+  }
+}

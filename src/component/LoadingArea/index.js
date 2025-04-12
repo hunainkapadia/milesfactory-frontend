@@ -8,7 +8,7 @@ const LoadingArea = () => {
         display="flex"
         justifyContent="flex-start"
         alignItems="center"
-        mb={2}
+        sx={{my:{xs:2}}}
       >
         <Box
           sx={{

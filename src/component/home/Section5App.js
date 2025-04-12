@@ -2,8 +2,7 @@ import { Grid, Box, Card, Container, Typography, Avatar } from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import Footer from "../layout/Footer";
 
-
-const Section5App = (props) => {  
+const Section5App = (props) => {
   return (
     <>
       <Box id={props?.id} className={`${styles.AppSection} `}>
@@ -14,19 +13,51 @@ const Section5App = (props) => {
           >
             <Grid container spacing={3}>
               <Grid item xs={12} md>
-                <Box pt={7} display={"flex"}>
-                  <Box mb={3}>
+                <Box
+                  sx={{
+                    paddingTop: {
+                      xs: 0,
+                      md: 7,
+                      lg: 7,
+                    },
+                    textAlign: { xs: "center", sm:"center", lg: "left", md: "left" },
+                    justifyContent: { xs: "center", sm:"center", lg: "flex-start", md: "flex-start" } 
+                  }}
+                  display={"flex"}
+                  
+                >
+                  <Box
+                    mb={3}
+                    
+                  >
                     <h1 className="basecolor-dark h1-lg mb-0">
                       Travel with Mylz!
                     </h1>
                   </Box>
                 </Box>
-                <Box display={"flex"} gap={3}>
-                  <Box>
-                    <img src="/images/app-google-play.svg" />
+                <Box
+                  display={"flex"}
+                  sx={{
+                    flexDirection: {
+                      xs: "column",
+                      sm: "column",
+                      md: "row",
+                      lg: "row",
+                    },
+                    alignItems: {
+                      xs: "center",
+                      sm: "center",
+                      md: "flex-start",
+                      lg: "flex-start",
+                    },
+                  }}
+                  gap={3}
+                >
+                  <Box className="imggroup">
+                    <img width={216} src="/images/app-google-play.svg" />
                   </Box>
-                  <Box>
-                    <img src="/images/app-app-store.svg" />
+                  <Box className="imggroup">
+                    <img width={216} src="/images/app-app-store.svg" />
                   </Box>
                 </Box>
               </Grid>
@@ -42,7 +73,7 @@ const Section5App = (props) => {
               >
                 <Box
                   className={styles.MobileDevice}
-                  sx={{ mt: { xs: 6, md: 0, lg: 0 } }}
+                  sx={{ mt: { xs: 4, md: 0, lg: 0 } }}
                 >
                   <img src="/images/phone-app-logo.svg" />
                 </Box>

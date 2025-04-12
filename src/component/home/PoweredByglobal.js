@@ -5,7 +5,7 @@ import Footer from "../layout/Footer";
 
 const PoweredByglobal = (props) => {
   return (
-    <section id={props.id} className={"section-padding-xl gray-bg"}>
+    <section id={props.id} className={styles.PoweredByglobal + " section-padding-xl gray-bg"}>
       <Container>
         <Box position={"relative"}>
           <Box
@@ -29,7 +29,7 @@ const PoweredByglobal = (props) => {
           >
             <Box
               className={styles.Items + " imggroup"}
-              component={Link}
+              
               
               sx={{ display: "flex", alignItems: "center" }}
             >
@@ -37,7 +37,7 @@ const PoweredByglobal = (props) => {
             </Box>
             <Box
               className={styles.Items + " imggroup"}
-              component={Link}
+              
               
               sx={{ display: "flex", alignItems: "center" }}
             >
@@ -48,7 +48,7 @@ const PoweredByglobal = (props) => {
             </Box>
             <Box
               className={styles.Items + " imggroup"}
-              component={Link}
+              
               
               sx={{ display: "flex", alignItems: "center" }}
             >
@@ -56,7 +56,7 @@ const PoweredByglobal = (props) => {
             </Box>
             <Box
               className={styles.Items + " imggroup"}
-              component={Link}
+              
               
               sx={{ display: "flex", alignItems: "center" }}
             >
@@ -64,7 +64,7 @@ const PoweredByglobal = (props) => {
             </Box>
             <Box
               className={styles.Items + " imggroup"}
-              component={Link}
+              
               
               sx={{ display: "flex", alignItems: "center" }}
             >
@@ -76,7 +76,7 @@ const PoweredByglobal = (props) => {
 
             <Box
               className={styles.Items + " imggroup"}
-              component={Link}
+              
               
               sx={{ display: "flex", alignItems: "center" }}
             >

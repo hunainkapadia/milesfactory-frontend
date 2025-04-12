@@ -38,7 +38,9 @@ const Section4Reviews = (props) => {
             <Grid container spacing={3}>
               <Grid item xs>
                 <Box mb={7} display={"flex"}>
-                  <Box>
+                  <Box
+                    sx={{ textAlign: { xs: "center", md: "left", lg: "left" } }}
+                  >
                     <h2>What travelers say:</h2>
                     <Typography>
                       Real experiences from travelers who have discovered the
@@ -58,12 +60,13 @@ const Section4Reviews = (props) => {
                   <Grid item md xs={12} key={index} className={styles.IdeaCard}>
                     <Card className={`no-border p-0`} variant="outlined">
                       <Box>
-                        <Box mb={4}>
+                        <Box mb={4} sx={{textAlign:{xs:"center", md:"left", lg:"left"}}}>
                           {/* Star Ratings */}
                           <Box
                             display={"flex"}
                             gap={2}
                             flexDirection={"row"}
+                            sx={{justifyContent:{xs:"center", md:"flex-start", lg:"flex-start"}}}
                             mb={2}
                           >
                             <Box className={styles.star}>
@@ -89,7 +92,9 @@ const Section4Reviews = (props) => {
                         </Box>
 
                         {/* Client Info */}
-                        <Box display={"flex"} alignItems={"center"} gap={2}>
+                        <Box display={"flex"} alignItems={"center"} gap={2}
+                        sx={{justifyContent:{xs:"center", md:"flex-start", lg:"flex-start"}}}
+                        >
                           <Box>
                             <Avatar
                               src={review.image}
@@ -127,11 +132,7 @@ const Section4Reviews = (props) => {
             </Grid>
           </Box>
         </Container>
-        <Footer
-          forReview
-          LearnMore={"Travel with Mylz"}
-          id={"Section5App"}
-        />
+        <Footer forReview LearnMore={"Travel with Mylz"} id={"Section5App"} />
       </section>
     </section>
   );

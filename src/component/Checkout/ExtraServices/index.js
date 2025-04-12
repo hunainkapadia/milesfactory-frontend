@@ -1,12 +1,14 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
+
 import Link from "next/link";
 import { currencySymbols } from "@/src/utils/utils";
 
 const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
 
   return (
-    <Grid item xs={12} lg={6} md={6}>
+    <Grid item xs={6} lg={6} md={6} className={searchResultStyles.ExtraServicesCol}>
       <Box className={`${styles.passengersCard} ${styles.ExtraServices} `}>
         <Box display={"flex"} alignItems={"center"} gap={2}>
           <Box className="imggroup" width={40}>
