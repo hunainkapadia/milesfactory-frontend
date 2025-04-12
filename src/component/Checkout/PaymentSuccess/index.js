@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Typography, Chip, Rating, Stack, Button } from "@mui/material";
 import useScrollToRef from "@/src/hooks/useScrollToRef";
 import { registerScrollFunction } from "@/src/utils/scrollManager";
+import Link from "next/link";
 
 const PaymentSuccess = () => {
   const [rating, setRating] = useState(null); // user-selected rating
-  const [selectedReason, setSelectedReason] = useState(null); // user-selected reason
-  // stroll 
+  const [selectedReason, setSelectedReason] = useState(false); // user-selected reason
+  const [successReview, setsuccessReview] = useState(false);
+  // stroll
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
-  
-    const [scrollRef, scrollToRef] = useScrollToRef();
-  
-    useEffect(() => {
-      registerScrollFunction(scrollToRef);
-    }, []);
-    
 
+  const [scrollRef, scrollToRef] = useScrollToRef();
+
+  useEffect(() => {
+    registerScrollFunction(scrollToRef);
+  }, []);
 
   const reasons = [
     "Pricing",
@@ -33,11 +33,15 @@ const PaymentSuccess = () => {
   };
   const handleSubmit = () => {
     
-    
+    if (rating !== null && !successReview) {
+      setsuccessReview(true);
+    } else {
+    }
+
     // Do something with rating + reason (like dispatch or API)
   };
   return (
-    <Box ref={scrollRef}  py={3}>
+    <Box ref={scrollRef} py={3}>
       {/* Success Message */}
       <Box mb={3}>
         <Box className=" imggroup" mb={2}>
@@ -82,7 +86,9 @@ const PaymentSuccess = () => {
 
         {/* Show this only after a star is clicked */}
       </Box>
-      {rating && rating < 4 ? (
+      {console.log("successReview22", rating)}
+
+      {rating !== null && rating <= 4 && !successReview ? (
         <>
           {/* Static Reason Selection */}
           <Typography variant="body1" sx={{ mt: 3, mb: 2 }}>
@@ -105,39 +111,47 @@ const PaymentSuccess = () => {
           </Stack>
 
           {/* Submit Button */}
-          <Box mt={4} display={"flex"} justifyContent={"flex-end"}>
-            <Button
-              variant="contained"
-              disabled={!selectedReason}
-              onClick={handleSubmit}
-              className={`btn ${
-                selectedReason ? " btn-primary " : " btn-disabled"
-              }  btn-md btn-round`}
-            >
-              Send
-            </Button>
+        </>
+      ) : (
+        ""
+      )}
+      {successReview ? (
+        <>
+          <Box mt={4}>
+            <h3 className="regular f25">
+              <span>Please us help spread </span>{" "}
+              <img src="/images/heart-emoji.svg" /> !
+            </h3>
+            <Typography>Invite friends around to travel with Mylz.</Typography>
+          </Box>
+          <Box mt={2}>
+            <Typography>
+              <img src="/images/hand-emoji.svg" />{" "}
+              <img src="/images/hand-emoji.svg" /> We’ve sent the emails.{" "}
+              <Link href={"#"}> Invite more friends</Link>
+            </Typography>
           </Box>
         </>
       ) : (
-        <Box mt={3}>
-    <h3 className="regular f25">
-      <span>Please us help spread </span> <img src="/images/heart-emoji.svg" />  !
-    </h3>
-    <Typography>
-        Invite friends around to travel with Mylz.
-    </Typography>
-    
-  </Box>
+        ""
       )}
 
+      {rating !== null && !successReview ? (
+        <Box mt={4} display={"flex"} justifyContent={"flex-end"}>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            className={`btn ${
+              selectedReason || rating ? " btn-primary " : " btn-disabled"
+            }  btn-md btn-round`}
+          >
+            Send
+          </Button>
+        </Box>
+      ): ""}
       {/* Static Reason Selection */}
 
       {/* Static Input for "Others" */}
-      <Box mt={2}>
-        <Typography>
-          <img src="images/hand-emoji.svg" /> <img src="images/hand-emoji.svg" /> We’ve sent the emails.  Invite more friends
-        </Typography>
-      </Box>
     </Box>
   );
 };
