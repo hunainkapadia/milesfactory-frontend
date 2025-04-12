@@ -128,7 +128,7 @@ const PaymentSuccess = () => {
             <Typography>
               <img src="/images/hand-emoji.svg" />{" "}
               <img src="/images/hand-emoji.svg" /> We’ve sent the emails.{" "}
-              <Link href={"#"}> Invite more friends</Link>
+              <Link href={"#"} className="text-decuration-none"> Invite more friends</Link>
             </Typography>
           </Box>
         </>
