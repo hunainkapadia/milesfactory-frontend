@@ -6,14 +6,24 @@ import axios from "axios";
 
 const LoginWithOptions = () => {
 
-  const dispatch = useDispatch();
-
   const loginHandle = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log("Google Token Response:", tokenResponse);
-      dispatch(googleLoginUser(tokenResponse.code)); // Pass the code
+    onSuccess: async (tokenResponse) => {
+      try {
+
+        console.log("tokenResponse : ", tokenResponse);
+
+        // OR: send token to your backend for Django validation
+        const response = await axios.post("https://demo.milesfactory.com/api/auth/google/", {
+          code: tokenResponse.code,
+        });
+
+        console.log("Backend JWT Response:", response.data);
+        // Save token in localStorage/cookie, etc.
+      } catch (err) {
+        console.error("Login Error", err);
+      }
     },
-    onError: () => console.log("Google Login Failed"),
+    onError: () => console.log("Login Failed"),
     flow: "auth-code",
   });
 
