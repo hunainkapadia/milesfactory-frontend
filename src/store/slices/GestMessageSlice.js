@@ -113,8 +113,14 @@ export const fetchMessages = () => (dispatch) => {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
-                console.log("allFlightSearchApi11", flightRes);
+                // dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
+                dispatch(
+                  setMessage({
+                    user: item.message,
+                    ai: flightRes.data,
+                  })
+                );
+                console.log("allFlightSearchApi11", flightRes.data);
               })
               .catch((flighterror) => {
                 dispatch(setFlightExpire(flighterror.response.data.error));

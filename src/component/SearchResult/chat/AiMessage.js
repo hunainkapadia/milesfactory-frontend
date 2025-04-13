@@ -43,7 +43,7 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
 
-  console.log("getAllFlightPostApi", getAllFlightPostApi);
+  console.log("getAllFlightPostApi", aiMessage.ai.offers);
   
   
   // useEffect(() => {
@@ -64,13 +64,10 @@ const AiMessage = ({ aiMessage }) => {
     setShowAllFlight((prev) => !prev);
   };
 
-  const displayedPostFlights = showAllFlight
-    ? getAllFlightPostApi?.offers
-    : getAllFlightPostApi?.offers?.slice(0, 3);
 
   const displayedGetFlights = showAllFlight
-    ? getAllFlightGetApi?.offers
-    : getAllFlightGetApi?.offers?.slice(0, 3);
+    ? aiMessage?.ai?.offers
+    : aiMessage?.ai?.offers?.slice(0, 3);
 
     // scroll payment success
     const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
@@ -130,12 +127,12 @@ const AiMessage = ({ aiMessage }) => {
             </>
           ) : null}
         </>
-      ) : aiMessage?.ai?.offers || displayedGetFlights?.length > 0 ? (
+      ) : displayedGetFlights || displayedGetFlights?.length > 0 ? (
         <>
           <Box mt={2} className={searchResultStyles.SearchCardWrapper}>
             <Box mt={2} className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
-              {displayedPostFlights?.map((offer, i) => (
+              {displayedGetFlights?.map((offer, i) => (
                 <SearchCard
                   key={`post-${i}-${offer.id}`}
                   offerData={offer}
@@ -145,14 +142,6 @@ const AiMessage = ({ aiMessage }) => {
               ))}
 
               {/* Render GET flight offers */}
-              {displayedGetFlights?.map((offer, i) => (
-                <SearchCard
-                  key={`get-${i}-${offer.id}`}
-                  offerData={offer}
-                  offerkey={`${i}-${offer.id}`}
-                  FlightExpire={FlightExpire}
-                />
-              ))}
             </Box>
           </Box>
 

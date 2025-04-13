@@ -44,7 +44,6 @@ const Messages = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
-  const getmessages2 = useSelector((state) => state.getMessages.messages);
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
   console.log("sendMessages111", messages);
@@ -103,7 +102,7 @@ const Messages = () => {
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
                   ) : index === messages.length - 1 && isLoading ? (
-                    <Box mb={2}>
+                    <Box my={2}>
                       <LoadingArea />
                     </Box>
                   ) : null}

@@ -6,24 +6,14 @@ import axios from "axios";
 
 const LoginWithOptions = () => {
 
-  const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
+  const dispatch = useDispatch();
 
-        console.log("tokenResponse : ", tokenResponse);
-
-        // OR: send token to your backend for Django validation
-        const response = await axios.post("http://127.0.0.1:8000/api/auth/google/", {
-          code: tokenResponse.code,
-        });
-
-        console.log("Backend JWT Response:", response.data);
-        // Save token in localStorage/cookie, etc.
-      } catch (err) {
-        console.error("Login Error", err);
-      }
+  const loginHandle = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log("Google Token Response:", tokenResponse);
+      dispatch(googleLoginUser(tokenResponse.code)); // Pass the code
     },
-    onError: () => console.log("Login Failed"),
+    onError: () => console.log("Google Login Failed"),
     flow: "auth-code",
   });
 
@@ -43,7 +33,7 @@ const LoginWithOptions = () => {
             p={1}
             mb={1}
             fontWeight={"bold"}
-            onClick={() => login()}
+            onClick={() => loginHandle()}
           >
             <i className="f20 fa-brands fa-google"></i>
             <Typography fontWeight={"bold"}>Sign up with Google</Typography>
