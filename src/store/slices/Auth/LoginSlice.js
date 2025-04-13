@@ -100,41 +100,41 @@ export const refreshToken = (rejectWithValue) => (dispatch) => {
 
 // login with options
 
-export const googleLoginUser = (code) => (dispatch) => {
+// export const googleLoginUser = (code) => (dispatch) => {
   
-  dispatch(setisLoading(true));
+//   dispatch(setisLoading(true));
   
-  console.log("googleLogin", code);
-  api
-    .post("/api/auth/google/", { code })
-    .then((res) => {
-      if (res.status === 200) {
-        dispatch(setLoginUser({ user: res.data, status: res.status }));
-        dispatch(setLoginPopup(false));
-        Cookies.set(
-          "set-user",
-          JSON.stringify({
-            email: res.data.email,
-            first_name: res.data.first_name,
-            refresh_token: res?.data?.refresh,
-            access_token: res?.data?.access,
-          }),
-          { expires: 7 }
-        );
-      }
-    })
-    .catch((error) => {
-      const LoginError = {
-        email: "",
-        password: "",
-        other: error?.response?.data?.detail || "Google login failed",
-      };
-      dispatch(setLoginError(LoginError));
-    })
-    .finally(() => {
-      dispatch(setisLoading(false));
-    });
-};
+//   console.log("googleLogin", code);
+//   api
+//     .post("/api/auth/google/", { code })
+//     .then((res) => {
+//       if (res.status === 200) {
+//         dispatch(setLoginUser({ user: res.data, status: res.status }));
+//         dispatch(setLoginPopup(false));
+//         Cookies.set(
+//           "set-user",
+//           JSON.stringify({
+//             email: res.data.email,
+//             first_name: res.data.first_name,
+//             refresh_token: res?.data?.refresh,
+//             access_token: res?.data?.access,
+//           }),
+//           { expires: 7 }
+//         );
+//       }
+//     })
+//     .catch((error) => {
+//       const LoginError = {
+//         email: "",
+//         password: "",
+//         other: error?.response?.data?.detail || "Google login failed",
+//       };
+//       dispatch(setLoginError(LoginError));
+//     })
+//     .finally(() => {
+//       dispatch(setisLoading(false));
+//     });
+// };
 
 
 export const {
