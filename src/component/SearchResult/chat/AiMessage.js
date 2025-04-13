@@ -114,7 +114,7 @@ const AiMessage = ({ aiMessage }) => {
           {GetViewPassengers ? (
             <PassengerInfo getdata={GetViewPassengers} />
           ) : (
-            <Box mb={2}>
+            <Box my={3}>
               <LoadingArea />
             </Box>
           )}
@@ -155,7 +155,6 @@ const AiMessage = ({ aiMessage }) => {
               ))}
             </Box>
           </Box>
-
 
           {/* Toggle button */}
           <Box

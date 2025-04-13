@@ -102,7 +102,6 @@ const PaymentSuccess = () => {
                 sx={{
                   bgcolor: selectedReason === reason ? "#00C4CC" : "#fff",
                   color: selectedReason === reason ? "#fff" : "#69707B",
-                  border: "1px solid #ccc",
                   cursor: "pointer",
                 }}
               />
