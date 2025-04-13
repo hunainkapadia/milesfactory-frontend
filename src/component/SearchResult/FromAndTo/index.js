@@ -6,34 +6,36 @@ const FromAndTo = ({ offerData }) => {
     <>
       {offerData?.slices.map((slice, index) => (
         <>
-          <Box className={searchResultStyles.rowExtraInfo}>
-            <Box>
-              <Typography className="f12 mb-0 bold black ">
-                {offerData?.owner?.name}
-              </Typography>
-              <Typography
-                textTransform={"capitalize"}
-                className="f12 mb-0 bold gray "
+          <Box className={searchResultStyles.FromAndToRow + " FromAndToGrid"}>
+            <Box className={searchResultStyles.rowExtraInfo}>
+              <Box>
+                <Typography className="f12 mb-0 bold black ">
+                  {offerData?.owner?.name}
+                </Typography>
+                <Typography
+                  textTransform={"capitalize"}
+                  className="f12 mb-0 bold gray "
+                >
+                  {[
+                    ...new Set(
+                      slice?.segments
+                        ?.flatMap((segment) =>
+                          segment?.passengers?.map((p) => p?.cabin_class)
+                        )
+                        ?.filter(Boolean)
+                    ),
+                  ]
+                    .join(", ")
+                    .replace(/\b\w/g, (c) => c.toUpperCase()) ||
+                    "No Cabin Info"}
+                </Typography>
+              </Box>
+              <Box
+                className={StyleSheet.RightCol}
+                display={"flex"}
+                alignItems={"center"}
               >
-                {[
-                  ...new Set(
-                    slice?.segments
-                      ?.flatMap((segment) =>
-                        segment?.passengers?.map((p) => p?.cabin_class)
-                      )
-                      ?.filter(Boolean)
-                  ),
-                ]
-                  .join(", ")
-                  .replace(/\b\w/g, (c) => c.toUpperCase()) || "No Cabin Info"}
-              </Typography>
-            </Box>
-            <Box
-              className={StyleSheet.RightCol}
-              display={"flex"}
-              alignItems={"center"}
-            >
-              {/* <Box display={"flex"} gap={2}>
+                {/* <Box display={"flex"} gap={2}>
                 <Box display={"flex"} alignItems={"center"}>
                   <img src={"/images/checkout/carryon-bagg.svg"} />
                   <Typography className={searchResultStyles.normalOption}>
@@ -48,39 +50,38 @@ const FromAndTo = ({ offerData }) => {
                 </Box>
               </Box> */}
 
-              <Box display={"flex"} gap={2}>
-                {offerData?.slices.length > 1 ? ( // Only show for round trips
-                  index === 0 ? (
-                    <Box>
-                      <Box display={"flex"}>
-                        <Typography
-                          className={
-                            searchResultStyles.onewayReturn +
-                            " btn btn-xs btn-gray "
-                          }
-                        >
-                          Outbound
-                        </Typography>
+                <Box display={"flex"} gap={2}>
+                  {offerData?.slices.length > 1 ? ( // Only show for round trips
+                    index === 0 ? (
+                      <Box>
+                        <Box display={"flex"}>
+                          <Typography
+                            className={
+                              searchResultStyles.onewayReturn +
+                              " btn btn-xs btn-gray "
+                            }
+                          >
+                            Outbound
+                          </Typography>
+                        </Box>
                       </Box>
-                    </Box>
+                    ) : (
+                      <Box>
+                        <Box display={"flex"}>
+                          <Typography
+                            className={
+                              searchResultStyles.onewayReturn +
+                              " btn btn-xs btn-gray"
+                            }
+                          >
+                            Return
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )
                   ) : (
-                    <Box>
-                      <Box display={"flex"}>
-                        <Typography
-                          className={
-                            searchResultStyles.onewayReturn +
-                            " btn btn-xs btn-gray"
-                          }
-                        >
-                          Return
-                        </Typography>
-                      </Box>
-                    </Box>
-                  )
-                ) : (
-                  <>
-                    <Box display={"flex"} gap={2}>
-                      
+                    <>
+                      <Box display={"flex"} gap={2}>
                         {(() => {
                           const baggageMap = new Map();
 
@@ -131,159 +132,173 @@ const FromAndTo = ({ offerData }) => {
                           );
                         })()}
 
-                      <Box display={"flex"} alignItems={"center"}>
-                        <img src="/images/leave-icon.svg" />
-                        <Typography className={searchResultStyles.normalOption}>
-                          <span> {offerData?.total_emissions_kg} kg CO₂e</span>
-                        </Typography>
+                        <Box display={"flex"} alignItems={"center"}>
+                          <img src="/images/leave-icon.svg" />
+                          <Typography
+                            className={searchResultStyles.normalOption}
+                          >
+                            <span>
+                              {" "}
+                              {offerData?.total_emissions_kg} kg CO₂e
+                            </span>
+                          </Typography>
+                        </Box>
                       </Box>
-                    </Box>
-                  </>
-                )}
-                {/*  */}
+                    </>
+                  )}
+                  {/*  */}
+                </Box>
               </Box>
             </Box>
-          </Box>
-          <Box
-            className={searchResultStyles.fromAndToRow}
-            key={index}
-            display="flex"
-            alignItems="center"
-            gap={2}
-            // sx={{
-            //   mt: { xs: index === 0 ? 2 : 0, md: index === 0 ? 3 : 0 },
-            // }}
-          >
-            {/* Airline Logo */}
             <Box
-              className={searchResultStyles.logoCol}
-              sx={{ mr: { xs: 0, sm: 1, md: 1 } }}
+              className={searchResultStyles.fromAndToDetail}
+              key={index}
+              display="flex"
+              alignItems="center"
+              gap={2}
+              // sx={{
+              //   mt: { xs: index === 0 ? 2 : 0, md: index === 0 ? 3 : 0 },
+              // }}
             >
-              <Avatar
-                src={offerData?.owner?.logo_symbol_url}
-                alt={offerData?.owner?.name}
-                className={searchResultStyles.airlineLogo}
-              />
-            </Box>
-
-            {/* Flight Details */}
-            <Box className={`${searchResultStyles.FlightTimingsCol} w-100`}>
+              {/* Airline Logo */}
               <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                gap={2} // Optional spacing
+                className={searchResultStyles.logoCol}
+                sx={{ mr: { xs: 0, sm: 1, md: 1 } }}
               >
-                {/* Departure Time & Code */}
-                <Box className={searchResultStyles.Timings}>
-                  <Typography
-                    className={searchResultStyles.flightDay + "  gray"}
-                  >
-                    {new Date(slice.departing_at).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                    })}
-                  </Typography>
-                  <Typography className={searchResultStyles.flightTime}>
-                    {new Date(slice.departing_at).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Typography>
-                  <Typography
-                    className={searchResultStyles.flightRoute + " bold f12"}
-                  >
-                    {slice.origin.iata_code}
-                  </Typography>
-                </Box>
+                <Avatar
+                  src={offerData?.owner?.logo_symbol_url}
+                  alt={offerData?.owner?.name}
+                  className={searchResultStyles.airlineLogo}
+                />
+              </Box>
 
-                {/* Flight Duration with Dotted Line */}
+              {/* Flight Details */}
+              <Box className={`${searchResultStyles.FlightTimingsCol} w-100`}>
                 <Box
                   display="flex"
-                  flexDirection="column"
                   alignItems="center"
                   justifyContent="center"
-                  flex={1}
-                  className={searchResultStyles.flightDurationBox}
+                  gap={2} // Optional spacing
                 >
-                  <Typography className={" gray f12"}>
-                    {slice.duration}
-                  </Typography>
-
-                  {/* Dotted Line */}
-                  <Box
-                    className={searchResultStyles.SearchDivider}
-                    width="100%"
-                    my={2}
-                  >
-                    <Box className={searchResultStyles.dots}>
-                      {slice.segments?.length === 1 ? (
-                        <Box>
-                          <Box className={searchResultStyles.dot + " aa"}></Box>
-                        </Box>
-                      ) : (
-                        // Show one dot if only one segment
-                        <>
-                          {Array.from({ length: slice.segments.length }).map(
-                            (_, index) => (
-                              <Box>
-                                <Box
-                                  key={index}
-                                  className={searchResultStyles.dot}
-                                ></Box>
-                              </Box>
-                            )
-                          )}
-                        </>
+                  {/* Departure Time & Code */}
+                  <Box className={searchResultStyles.Timings}>
+                    <Typography
+                      className={searchResultStyles.flightDay + "  gray"}
+                    >
+                      {new Date(slice.departing_at).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                        }
                       )}
-                    </Box>
+                    </Typography>
+                    <Typography className={searchResultStyles.flightTime}>
+                      {new Date(slice.departing_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Typography>
+                    <Typography
+                      className={searchResultStyles.flightRoute + " bold f12"}
+                    >
+                      {slice.origin.iata_code}
+                    </Typography>
                   </Box>
 
-                  <Typography
-                    className={searchResultStyles.flightDuration + " semibold"}
+                  {/* Flight Duration with Dotted Line */}
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    flex={1}
+                    className={searchResultStyles.flightDurationBox}
                   >
-                    {slice.segments?.length === 1 ? (
-                      "Direct"
-                    ) : (
-                      <>
-                        <span className="red">
-                          {slice.segments.length - 1} stop
-                        </span>
-                        {slice.segments.length - 1 > 1 ? "s" : ""} -{" "}
-                        {slice.segments
-                          .slice(0, -1) // get all segments *except* the last one
-                          .map(
-                            (segment) =>
-                              `${segment.destination.city_name}, (${segment.destination.iata_code})`
-                          )
-                          .join(", ")}
-                      </>
-                    )}
-                  </Typography>
-                </Box>
+                    <Typography className={" gray f12"}>
+                      {slice.duration}
+                    </Typography>
 
-                {/* Arrival Time & Code */}
-                <Box textAlign={"right"} className={searchResultStyles.Timings}>
-                  <Typography
-                    className={searchResultStyles.flightDay + "  gray"}
-                  >
-                    {new Date(slice.arriving_at).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                    })}
-                  </Typography>
+                    {/* Dotted Line */}
+                    <Box
+                      className={searchResultStyles.SearchDivider}
+                      width="100%"
+                      my={2}
+                    >
+                      <Box className={searchResultStyles.dots}>
+                        {slice.segments?.length === 1 ? (
+                          <Box>
+                            <Box
+                              className={searchResultStyles.dot + " aa"}
+                            ></Box>
+                          </Box>
+                        ) : (
+                          // Show one dot if only one segment
+                          <>
+                            {Array.from({ length: slice.segments.length }).map(
+                              (_, index) => (
+                                <Box>
+                                  <Box
+                                    key={index}
+                                    className={searchResultStyles.dot}
+                                  ></Box>
+                                </Box>
+                              )
+                            )}
+                          </>
+                        )}
+                      </Box>
+                    </Box>
 
-                  <Typography className={searchResultStyles.flightTime}>
-                    {new Date(slice.arriving_at).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Typography>
-                  <Typography
-                    className={searchResultStyles.flightRoute + " bold f12"}
+                    <Typography
+                      className={
+                        searchResultStyles.flightDuration + " semibold gray f12"
+                      }
+                    >
+                      {slice.segments?.length === 1 ? (
+                        "Direct"
+                      ) : (
+                        <>
+                          <span className="red">
+                            {slice.segments.length - 1} stop
+                          </span>
+                          {slice.segments.slice(0, -1).map((segment) => (
+                            <>
+                                {" "}{segment.destination.iata_code}
+                            </>
+                          ))}
+                          {slice.segments.length - 1 > 1 ? "s" : ""}
+                        </>
+                      )}
+                    </Typography>
+                  </Box>
+
+                  {/* Arrival Time & Code */}
+                  <Box
+                    textAlign={"right"}
+                    className={searchResultStyles.Timings}
                   >
-                    {slice.destination.iata_code}
-                  </Typography>
+                    <Typography
+                      className={searchResultStyles.flightDay + "  gray"}
+                    >
+                      {new Date(slice.arriving_at).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })}
+                    </Typography>
+
+                    <Typography className={searchResultStyles.flightTime}>
+                      {new Date(slice.arriving_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Typography>
+                    <Typography
+                      className={searchResultStyles.flightRoute + " bold f12"}
+                    >
+                      {slice.destination.iata_code}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Box>

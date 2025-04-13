@@ -143,10 +143,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                         rates and availabilities
                       </Typography>
                     </Box>
-                    <Box width={"100%"}>
+                    <Box width={"100%"} whiteSpace={"nowrap"}>
                       <button
                         className={
-                          " w-100 btn btn-border btn-round btn-md f12 " +
+                          " w-100 btn btn-border btn-round xs btn-md f12 sm " +
                           searchResultStyles.selectFlightBtn
                         }
                         // onClick={HandleSelectDrawer}

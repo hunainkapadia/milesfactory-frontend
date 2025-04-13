@@ -74,131 +74,140 @@
 
 
 //  
-.flightOfferCard {
-  min-height: 128px;
-  background: #FFFFFF;
-  border: 1px solid #E6EEEE;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  transition: 0.3s ease-in-out;
-  margin-bottom: 20px;
-
-  .flightPriceSection {
-    font-size: $bfsizeLabel;
-    white-space: nowrap;
-  }
-
-  .Timings {
-    .flightDay {
-      font-size: 12px;
-    }
-  }
-
-  &:hover {
-    transform: scale(1.02);
-  }
-
-  .CardLeft {
-    padding: 17px 17px 14px 16px;
-  }
-
-  .fromAndToRow {
-    margin: 18px 0;
-  }
-
-  .CardRight {
-    padding: 12px 14px 16px 17px;
-    border-left: solid 1px $lightgray3;
-
-    .selectFlightBtn {}
-  }
-
-  .airlineLogo {
-    @include scale(60px, 60px);
-    @include border-radius(100px);
-    background: $white;
-    border: 1px solid $lightgray3;
-
-    img {
-      width: 70%;
-      height: auto;
-    }
-  }
-
-  .rowExtraInfo {
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    color: gray;
-  }
-
-  .flightDurationBox {
-    width: 80%;
-
-    .flightDuration {
-      font-size: 12px;
-      color: $black;
-    }
-  }
-
-  .SearchDivider {
-    border: 1px dashed #D9D9D9;
-    transform: matrix(-1, 0, 0, 1, 0, 0);
-    position: relative;
-
-    .dots {
-      position: absolute;
+.SearchCardWrapper {
+  .SearchCardGrid {
+    .flightOfferCard {
+      min-height: 128px;
+      background: #FFFFFF;
+      border: 1px solid #E6EEEE;
+      border-radius: 16px;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      left: 0;
-      width: 100%;
-      bottom: -4px;
-      gap: 14px;
-
-      .dot {
-        width: 8px;
-        height: 8px;
-        background: #000000;
-        border: solid 2px $white;
-        @include border-radius(20px);
+      flex-direction: column;
+      transition: 0.3s ease-in-out;
+      margin-bottom: 20px;
+      
+      .FromAndToRow {
+        margin-bottom: 24px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .rowExtraInfo {
+          margin-bottom: 8px;
+        }
+      }
+    
+      .flightPriceSection {
+        font-size: $bfsizeLabel;
+        white-space: nowrap;
+      }
+    
+      .Timings {
+        .flightDay {
+          font-size: 12px;
+        }
+      }
+    
+      &:hover {
+        transform: scale(1.02);
+      }
+    
+      .CardLeft {
+        padding: 16px 25px 24px 16px;
+      }
+      .CardRight {
+        padding: 12px 14px 16px 17px;
+        border-left: solid 1px $lightgray3;
+    
+        .selectFlightBtn {}
+      }
+    
+      .airlineLogo {
+        @include scale(60px, 60px);
+        @include border-radius(100px);
+        background: $white;
+        border: 1px solid $lightgray3;
+    
+        img {
+          width: 70%;
+          height: auto;
+        }
+      }
+    
+      .rowExtraInfo {
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: gray;
+      }
+    
+      .flightDurationBox {
+        width: 80%;
+    
+        .flightDuration {
+          font-size: 12px;
+          color: $black;
+        }
+      }
+    
+      .SearchDivider {
+        border: 1px dashed #D9D9D9;
+        transform: matrix(-1, 0, 0, 1, 0, 0);
+        position: relative;
+    
+        .dots {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          left: 0;
+          width: 100%;
+          bottom: -4px;
+          gap: 14px;
+    
+          .dot {
+            width: 8px;
+            height: 8px;
+            background: #000000;
+            border: solid 2px $white;
+            @include border-radius(20px);
+          }
+        }
+    
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          width: 6px;
+          height: 6px;
+          background-color: #D9D9D9;
+          border-radius: 50%;
+          transform: translateY(-50%);
+        }
+    
+        &::before {
+          left: -5px;
+        }
+    
+        &::after {
+          right: -5px;
+        }
+      }
+    
+      .flightTime {
+        font-weight: $semibold;
+        font-size: 20px;
+      }
+    
+      .logoCol {
+        display: block;
+      }
+    
+      .FlightTimingsCol {
+        display: block;
       }
     }
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 6px;
-      height: 6px;
-      background-color: #D9D9D9;
-      border-radius: 50%;
-      transform: translateY(-50%);
-    }
-
-    &::before {
-      left: -5px;
-    }
-
-    &::after {
-      right: -5px;
-    }
-  }
-
-  .flightTime {
-    font-weight: $semibold;
-    font-size: 20px;
-  }
-
-  .logoCol {
-    display: block;
-  }
-
-  .FlightTimingsCol {
-    display: block;
   }
 }
 
@@ -250,7 +259,6 @@
       display: grid;
       width: auto;
       margin-right: -20px;
-
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
@@ -275,7 +283,7 @@
           scroll-snap-stop: always;
           min-width: 300px;
           padding-left: 0;
-          transition: transform 0.3s ease; /* ✅ animate on scroll stop if needed */
+          transition: transform 0.3s ease; /*animate on scroll stop if needed */
         }
       }
     }
@@ -296,12 +304,20 @@
       
       .flightOfferCard {
         scroll-snap-align: start;
-        scroll-snap-stop: always;
-          
-        min-width: 300px;
-        
-        .rowExtraInfo {
-          margin-bottom: 16px;
+        scroll-snap-stop: always;   
+        min-width: 319px;
+        .CardLeft {
+          padding: 16px 17px 0 17px;
+        }
+        .CardRight {
+          padding: 24px 17px 19px 17px;
+        }
+        .FromAndToRow {margin-bottom: 24px;
+          .fromAndToDetail {
+          }
+          .rowExtraInfo {
+            margin-bottom: 16px;
+          }
         }
   
         .selectFlightBtn {}
