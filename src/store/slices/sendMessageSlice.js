@@ -13,23 +13,21 @@ const sendMessageSlice = createSlice({
     TopOfferUrlSend: null,
   },
   reducers: {
-    setTopOfferUrlSend: (state, action)=> {
-      
+    setTopOfferUrlSend: (state, action) => {
       state.TopOfferUrlSend = action.payload;
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
-      
-      
+      console.log("sendaction", action);
+
       state.messages.push(action.payload);
     },
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
-      
       state.SearchHistory = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
@@ -49,12 +47,10 @@ const sendMessageSlice = createSlice({
 });
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
-  const ThreadUUIDsendState  = getState().sendMessage.ThreadUUIDsend;
-  
-  
+  const ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
+
   dispatch(setLoading(true));
-  dispatch(setMessage({ user: userMessage }));
-  
+  dispatch(setMessage({ user: userMessage })); // for quick show and send user message without api
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
     api
@@ -63,31 +59,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const response = res.data;
 
         if (response?.is_function) {
-          const topFlightSearchApi =
-            response?.response?.results?.view_top_flight_result_api?.url;
-
-          if (topFlightSearchApi) {
-            api
-              .get(topFlightSearchApi)
-              .then((flightRes) => {
-                dispatch(
-                  setMessage({
-                    ai: flightRes.data,
-                    OfferId: topFlightSearchApi,
-                  })
-                );
-              })
-              .catch((error) => {
-                console.log("chat error", error);
-              });
-          }
-
           const allFlightSearchApi =
             response?.response?.results?.view_all_flight_result_api?.url;
           if (allFlightSearchApi) {
             const getallFlightId = allFlightSearchApi.split("/").pop();
-            dispatch(setTopOfferUrlSend(getallFlightId))
-            
+            dispatch(setTopOfferUrlSend(getallFlightId));
+
             const historyUrl = `/api/v1/search/${getallFlightId}/history`;
 
             api
@@ -97,16 +74,35 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               })
               .catch(() => {});
 
+              // normal user and aimessag
+            dispatch(
+              setMessage({
+                user: response.message,
+                ai: { response: response?.response },
+              })
+            );
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                dispatch(setAllFlightResults(flightRes?.data));
+                console.log("flightRes22", flightRes);
+                dispatch(
+                  setMessage({
+                    user: response.message,
+                    ai: flightRes.data,
+                  })
+                );
+                // dispatch(setAllFlightResults(flightRes?.data));
               })
               .catch(() => {});
           }
         } else {
+          dispatch(
+            setMessage({
+              user: response.message,
+              ai: { response: response?.response },
+            })
+          );
           
-          dispatch(setMessage({ ai: response }));
         }
       })
       .catch(() => {})
@@ -130,11 +126,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 export const deleteChatThread = (uuid) => (dispatch) => {
   if (!uuid) return;
-  
-  const url = `/api/v1/chat/thread/${uuid}/delete`;
-  
 
-  api.delete(url)
+  const url = `/api/v1/chat/thread/${uuid}/delete`;
+
+  api
+    .delete(url)
     .then((res) => {
       if (res) {
         sessionStorage.removeItem("chat_thread_uuid");

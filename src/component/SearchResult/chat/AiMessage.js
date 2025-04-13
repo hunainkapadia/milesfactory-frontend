@@ -64,6 +64,9 @@ const AiMessage = ({ aiMessage }) => {
     setShowAllFlight((prev) => !prev);
   };
 
+  const displayedPostFlights = showAllFlight
+    ? getAllFlightPostApi?.offers
+    : getAllFlightPostApi?.offers?.slice(0, 3);
 
   const displayedGetFlights = showAllFlight
     ? aiMessage?.ai?.offers
@@ -142,6 +145,7 @@ const AiMessage = ({ aiMessage }) => {
               ))}
 
               {/* Render GET flight offers */}
+              
             </Box>
           </Box>
 
