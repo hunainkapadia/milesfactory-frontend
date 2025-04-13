@@ -1,9 +1,32 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
-
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const LoginWithOptions = () => {
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+
+        console.log("tokenResponse : ", tokenResponse);
+
+        // OR: send token to your backend for Django validation
+        const response = await axios.post("http://127.0.0.1:8000/api/auth/google/", {
+          code: tokenResponse.code,
+        });
+
+        console.log("Backend JWT Response:", response.data);
+        // Save token in localStorage/cookie, etc.
+      } catch (err) {
+        console.error("Login Error", err);
+      }
+    },
+    onError: () => console.log("Login Failed"),
+    flow: "auth-code",
+  });
+
   return (
     <>
       <Box className={styles.SignupOptions}>
@@ -20,6 +43,7 @@ const LoginWithOptions = () => {
             p={1}
             mb={1}
             fontWeight={"bold"}
+            onClick={() => login()}
           >
             <i className="f20 fa-brands fa-google"></i>
             <Typography fontWeight={"bold"}>Sign up with Google</Typography>
