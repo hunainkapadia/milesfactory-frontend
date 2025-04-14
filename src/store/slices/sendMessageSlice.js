@@ -77,7 +77,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               // normal user and aimessag
             dispatch(
               setMessage({
-                user: response.message,
                 ai: { response: response?.response },
               })
             );
@@ -87,7 +86,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 console.log("flightRes22", flightRes);
                 dispatch(
                   setMessage({
-                    user: response.message,
                     ai: flightRes.data,
                   })
                 );
@@ -98,7 +96,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         } else {
           dispatch(
             setMessage({
-              user: response.message,
+              
               ai: { response: response?.response },
             })
           );
