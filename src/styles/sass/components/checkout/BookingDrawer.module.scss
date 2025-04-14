@@ -238,6 +238,12 @@
 
 }
 @include for-mobile-large-screen {
+   
+   
+   .selectFlightBtn {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
    .passengersCard {
       &.ExtraServices {
          margin-bottom: 0;
@@ -260,6 +266,9 @@
          border: 0;
          top: inherit;
          @include border-radius(0);
+         .checkoutDrowerBody .detailsSection {
+            padding: 0 24px 150px;
+         }
       }
    }
       .title {font-size: 12px;}

@@ -77,7 +77,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
             </Grid>
           </Grid>
 
-          <Box className={styles.detailsSection} px={3}>
+          <Box className={styles.detailsSection} px={3} pb={10}>
             <>
               {getFlightDetail?.slices.map((slice, index) => (
                 <>

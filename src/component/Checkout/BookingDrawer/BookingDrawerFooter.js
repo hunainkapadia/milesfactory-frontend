@@ -138,7 +138,7 @@
                   <Box display="flex" gap={1}>
                     <Box
                     >
-                      Book flight
+                      Select flight
                     </Box>
                   </Box>
                 </button>
