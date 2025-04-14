@@ -62,15 +62,18 @@ const Header = ({ isMessage, IsActive }) => {
   const isuserLogin = useSelector((state) => state?.login?.loginUser?.user); // get user from cookie with redux
   const isuserLoginGoogle = useSelector((state) => state?.login?.loginUser?.user?.user); // get user from cookie with redux
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
+  const getSignUpUser = useSelector((state) => state?.signup?.SignupUser?.user);
 
-  console.log("isuserLogin", isuserLogin);
+  
+
   
   // login set user in redux from cookies
   useEffect(() => {
     const cookieUserString = Cookies.get("set-user");
-
+    
     if (cookieUserString) {
       const cookieUser = JSON.parse(cookieUserString);
+      console.log("isuserLogin", cookieUser);
       dispatch(
         setIsSignupUser({
           user: {
@@ -102,7 +105,7 @@ const Header = ({ isMessage, IsActive }) => {
     dispatch(logoutUser());
   };
 
-  const currentUser = isuserLoginGoogle || isuserLogin || isUserSignup; // Use single reference
+  const currentUser = isuserLoginGoogle || getSignUpUser || isuserLogin || isUserSignup; // Use single reference
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
