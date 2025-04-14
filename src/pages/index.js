@@ -49,9 +49,7 @@ const Home = () => {
       <main>
         <section
           id="fold1"
-          className={`${
-            !sendMessages.length ? styles.HomeBanner : styles.HomeBannerActive
-          }`}
+          className={styles.HomeBanner}
         >
           <HomeHeroSection />
         </section>

@@ -22,9 +22,7 @@ const AiMessage = ({ aiMessage }) => {
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const getAllFlightPostApi = useSelector(
-    (state) => state.sendMessage.AllFlightPostApi
-  );
+  
   const getAllFlightGetApi = useSelector(
     (state) => state?.getMessages?.allFlightSearchResults
   );
@@ -64,10 +62,7 @@ const AiMessage = ({ aiMessage }) => {
     setShowAllFlight((prev) => !prev);
   };
 
-  const displayedPostFlights = showAllFlight
-    ? getAllFlightPostApi?.offers
-    : getAllFlightPostApi?.offers?.slice(0, 3);
-
+  
   const displayedGetFlights = showAllFlight
     ? aiMessage?.ai?.offers
     : aiMessage?.ai?.offers?.slice(0, 3);
