@@ -281,7 +281,7 @@
         .ExtraServicesCol {
           scroll-snap-align: start;
           scroll-snap-stop: always;
-          min-width: 300px;
+          min-width: 319px;
           padding-left: 0;
           transition: transform 0.3s ease; /*animate on scroll stop if needed */
         }
@@ -320,10 +320,7 @@
           }
         }
   
-        .selectFlightBtn {
-          padding-left: 30px;
-          padding-right: 30px;
-        }
+        
   
         .flightDuration {
           font-size: 10px;
