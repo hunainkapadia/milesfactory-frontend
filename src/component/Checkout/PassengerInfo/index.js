@@ -8,17 +8,15 @@ import {
   PassengerForm,
   setOpenPassengerDrawer,
   setPassengerUUID,
-  setPassengerUUIDfill ,
+  setPassengerUUIDfill,
 } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
 
 const PassengerInfo = ({ getdata }) => {
-
   const dispatch = useDispatch();
   const passengerDetails = useSelector(
     (state) => state.passengerDrawer.passengerDetails
   );
-  
 
   // passenger toggle
   const [selectedPassenger, setSelectedPassenger] = useState(null); // Track selected passenger
@@ -35,8 +33,6 @@ const PassengerInfo = ({ getdata }) => {
   };
 
   const handlePassengerAdd = () => {
-    
-    
     if (selectedPassenger) {
       // Ensure a passenger is selected
       dispatch(PassengerForm()); //must need to knw redux export const PassengerForm
@@ -105,9 +101,7 @@ const PassengerInfo = ({ getdata }) => {
               </Box>
             </Grid>
           </Grid>
-          <Box 
-            className={searchResultStyles.ExtraServicesWraper}
-          >
+          <Box className={searchResultStyles.ExtraServicesWraper}>
             <Grid
               container
               spacing={2}

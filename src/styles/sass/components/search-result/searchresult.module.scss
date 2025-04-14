@@ -262,13 +262,13 @@
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
+      padding-left: 16px;
 
 
       .ExtraServicesGrid {
         scroll-behavior: smooth; 
-        padding-right: 16px; 
-        padding-left: 16px;
-        margin-left: -5px;
+        padding-right:16px;
+        padding-left: 0;
 
         display: flex;
         overflow-x: auto;
