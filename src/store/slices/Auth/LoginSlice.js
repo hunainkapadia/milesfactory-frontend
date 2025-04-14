@@ -17,7 +17,7 @@ const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    setIsUser: (state, action)=> {
+    setIsUser: (state, action) => {
       state.IsUser = action.payload;
     },
     setLoginUser: (state, action) => {
@@ -32,53 +32,56 @@ const loginSlice = createSlice({
       state.loginUser = null; //
       Cookies.remove("set-user");
     },
-    setisLoading: (state, action)=> {
+    setisLoading: (state, action) => {
       state.isLoading = action.payload;
     },
     setLoginPopup: (state, action) => {
       state.LoginPopup = action.payload; // Accepts `true` or `false`
     },
-    setLoginCloseDrawer: (state)=> {
+    setLoginCloseDrawer: (state) => {
       state.LoginPopup = false;
-    }
-    
+    },
   },
 });
 
 // **Thunk for Logging In a User**
 export const loginUser = (params) => (dispatch) => {
-    dispatch(setisLoading(true));
-   api
-     .post(API_ENDPOINTS.AUTH.LOGIN, params)
-     .then((res) => {
-       if (res.status === 200) {
-         dispatch(setLoginUser({ user: res.data, status: res.status }));
-         dispatch(setLoginPopup(false))
-         // Store user info in cookies
-         Cookies.set(
-           "set-user",
-           JSON.stringify({
-             email: params.email,
-             first_name: res.data.first_name,
-             password: res.data.password,
-             refresh_token: res?.data?.refresh,
-             access_token: res?.data?.access,
-           }),
-           { expires: 7 }
-         );         
-       }
-     })
-     .catch((error) => {
-      
+  dispatch(setisLoading(true));
+  api
+    .post(API_ENDPOINTS.AUTH.LOGIN, params)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch(setLoginUser({ user: res.data, status: res.status }));
+        dispatch(setLoginPopup(false));
+        // Store user info in cookies
+        Cookies.set(
+          "set-user",
+          JSON.stringify({
+            email: params.email,
+            first_name: res.data.first_name,
+            password: res.data.password,
+            refresh_token: res?.data?.refresh,
+            access_token: res?.data?.access,
+          }),
+          { expires: 7 }
+        );
+      }
+    })
+    .catch((error) => {
       const emailError = error?.response?.data?.username?.[0] || "";
       const passworderror = error?.response?.data?.password?.[0] || "";
       const otherError = error?.response?.data?.detail;
-      
-      const LoginError = {email: emailError, password: passworderror, other: otherError}
-       dispatch(setLoginError(LoginError));
-     }).finally(()=>{
+
+      const LoginError = {
+        email: emailError,
+        password: passworderror,
+        other: otherError,
+      };
+      dispatch(setLoginError(LoginError));
+    })
+    .finally(() => {
       dispatch(setisLoading(false));
-     })
+    });
 };
 
 // refreshtoken setup
@@ -95,47 +98,49 @@ export const refreshToken = (rejectWithValue) => (dispatch) => {
       Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
       return response.data.access; // Return new access token
     })
-    .catch((error) => rejectWithValue(error.response?.data || "Failed to refresh token"));
+    .catch((error) =>
+      rejectWithValue(error.response?.data || "Failed to refresh token")
+    );
 };
 
 // login with options
 
-// export const googleLoginUser = (code) => (dispatch) => {
-  
-//   dispatch(setisLoading(true));
-  
-//   console.log("googleLogin", code);
-//   api
-//     .post("/api/auth/google/", { code })
-//     .then((res) => {
-//       if (res.status === 200) {
-//         dispatch(setLoginUser({ user: res.data, status: res.status }));
-//         dispatch(setLoginPopup(false));
-//         Cookies.set(
-//           "set-user",
-//           JSON.stringify({
-//             email: res.data.email,
-//             first_name: res.data.first_name,
-//             refresh_token: res?.data?.refresh,
-//             access_token: res?.data?.access,
-//           }),
-//           { expires: 7 }
-//         );
-//       }
-//     })
-//     .catch((error) => {
-//       const LoginError = {
-//         email: "",
-//         password: "",
-//         other: error?.response?.data?.detail || "Google login failed",
-//       };
-//       dispatch(setLoginError(LoginError));
-//     })
-//     .finally(() => {
-//       dispatch(setisLoading(false));
-//     });
-// };
+export const googleLoginUser = (code) => (dispatch) => {
+  dispatch(setisLoading(true));
 
+  api
+    .post("/api/auth/google/", { code })
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch(setLoginUser({ user: res.data, status: res.status }));
+        dispatch(setLoginPopup(false));
+        console.log("googleLogin", res.data);
+        Cookies.set(
+          "set-user",
+          JSON.stringify({
+            email: res?.data?.user.email,
+            first_name: res?.data?.user.first_name,
+            last_name: res?.data?.user.last_name,
+            refresh_token: res?.data?.refresh,
+            access_token: res?.data?.access,
+          }),
+          { expires: 7 }
+        );
+      }
+    })
+    .catch((error) => {
+      console.log("googleLogin", error);
+      const LoginError = {
+        email: "",
+        password: "",
+        other: error?.response?.data?.detail || "Google login failed",
+      };
+      dispatch(setLoginError(LoginError));
+    })
+    .finally(() => {
+      dispatch(setisLoading(false));
+    });
+};
 
 export const {
   setLoginPopup,

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
 import { API_ENDPOINTS } from "../../api/apiEndpoints";
 import Cookies from "js-cookie";
+// import { setLoginPopup } from "./LoginSlice";
 
 const initialState = {
   SignupUser: null,
@@ -22,7 +23,7 @@ const signupSlice = createSlice({
       
       state.SignupPopup = action.payload
     },
-    setsignUpUser: (state, action) => {    
+    setIsSignupUser: (state, action) => {    
       state.SignupUser = action.payload;
       state.firstNameError = "";
       state.lastNameError = "";
@@ -46,7 +47,7 @@ const signupSlice = createSlice({
       Cookies.remove("set-user"); // Remove user cookie
       window.location.reload(); // Refresh the page to reflect changes
     },
-    seIstLoading: (state, action)=> {
+    setIstLoading: (state, action)=> {
       state.isLoading = action.payload;
     }
   },
@@ -54,13 +55,13 @@ const signupSlice = createSlice({
 
 // **Thunk for signing up a user**
 export const SignUpUser = (params) => (dispatch) => {
-  dispatch(seIstLoading(true))
+  dispatch(setIstLoading(true))
    api
     .post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
       
       if (res.status === 201) {
-        dispatch(setsignUpUser({user: res?.data, status: res.status}));
+        dispatch(setIsSignupUser({user: res?.data, status: res.status}));
         // Store user info in cookies
         Cookies.set(
           "set-user",
@@ -82,18 +83,18 @@ export const SignUpUser = (params) => (dispatch) => {
        dispatch(setPasswordError(errors.password?.[0] || ""));
       })
       .finally(() => {
-      dispatch(seIstLoading(false));
+      dispatch(setIstLoading(false));
     });
 };
 
 export const {
-  setsignUpUser,
+  setIsSignupUser,
   setFirstNameError,
   setLastNameError,
   setEmailError,
   setPasswordError,
   logoutUser,
-  seIstLoading,
+  setIstLoading,
   setSignupPopup,
 } = signupSlice.actions;
 

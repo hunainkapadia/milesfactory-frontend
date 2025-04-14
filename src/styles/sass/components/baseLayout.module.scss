@@ -26,16 +26,16 @@
          visibility: hidden;
          transform: translateY(-10px); // Move slightly up
          position: absolute;
-         width: 145px;
          height: auto;
          top: 70px;
          left: 0px;
          z-index: 4;
+         background-color: #0B1729E5;
+         border: solid 1px $white;
+         padding: 28px 15px 28px 50px;
+         width: 200px;
+         color: $white;
          .DropdownItemsBox {
-            background-color: #0B1729E5;
-            border: solid 1px $white;
-            padding: 28px 55px 28px 50px;
-            width: 100px;
             gap: 38px;
             a {color: $white;}
 

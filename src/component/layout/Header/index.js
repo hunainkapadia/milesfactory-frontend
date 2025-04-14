@@ -60,8 +60,11 @@ const Header = ({ isMessage, IsActive }) => {
 
   // signup
   const isuserLogin = useSelector((state) => state?.login?.loginUser?.user); // get user from cookie with redux
+  const isuserLoginGoogle = useSelector((state) => state?.login?.loginUser?.user?.user); // get user from cookie with redux
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
 
+  console.log("isuserLogin", isuserLogin);
+  
   // login set user in redux from cookies
   useEffect(() => {
     const cookieUserString = Cookies.get("set-user");
@@ -99,7 +102,7 @@ const Header = ({ isMessage, IsActive }) => {
     dispatch(logoutUser());
   };
 
-  const currentUser = isuserLogin || isUserSignup; // Use single reference
+  const currentUser = isuserLoginGoogle || isuserLogin || isUserSignup; // Use single reference
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -239,7 +242,8 @@ const Header = ({ isMessage, IsActive }) => {
                       >
                         <Box display={"flex"} alignItems={"center"} gap={1}>
                           <Box width={"20px"}>
-                            <i className="fa fa-cog" aria-hidden="true"></i>
+                          <i class="far fa-user-circle"></i>
+
                           </Box>
                           <Typography>Profile</Typography>
                         </Box>
@@ -295,9 +299,9 @@ const Header = ({ isMessage, IsActive }) => {
                     display={"flex"}
                   >
                     {isSticky || isMessage ? (
-                      <img src="/images/user-icon-gray.svg" />
+                      <img width={32} src="/images/user-icon-gray.svg" />
                     ) : (
-                      <img src="/images/user-icon-white.svg" />
+                      <img width={32} src="/images/user-icon-white.svg" />
                     )}
                   </Box>
                   {/*  */}
