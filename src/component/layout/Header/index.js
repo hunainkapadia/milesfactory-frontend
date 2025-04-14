@@ -60,17 +60,16 @@ const Header = ({ isMessage, IsActive }) => {
 
   // signup
   const isuserLogin = useSelector((state) => state?.login?.loginUser?.user); // get user from cookie with redux
-  const isuserLoginGoogle = useSelector((state) => state?.login?.loginUser?.user?.user); // get user from cookie with redux
+  const isuserLoginGoogle = useSelector(
+    (state) => state?.login?.loginUser?.user?.user
+  ); // get user from cookie with redux
   const isUserSignup = useSelector((state) => state?.signup?.user?.user);
   const getSignUpUser = useSelector((state) => state?.signup?.SignupUser?.user);
 
-  
-
-  
   // login set user in redux from cookies
   useEffect(() => {
     const cookieUserString = Cookies.get("set-user");
-    
+
     if (cookieUserString) {
       const cookieUser = JSON.parse(cookieUserString);
       console.log("isuserLogin", cookieUser);
@@ -105,7 +104,8 @@ const Header = ({ isMessage, IsActive }) => {
     dispatch(logoutUser());
   };
 
-  const currentUser = isuserLoginGoogle || getSignUpUser || isuserLogin || isUserSignup; // Use single reference
+  const currentUser =
+    isuserLoginGoogle || getSignUpUser || isuserLogin || isUserSignup; // Use single reference
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -245,8 +245,7 @@ const Header = ({ isMessage, IsActive }) => {
                       >
                         <Box display={"flex"} alignItems={"center"} gap={1}>
                           <Box width={"20px"}>
-                          <i class="far fa-user-circle"></i>
-
+                            <i class="far fa-user-circle"></i>
                           </Box>
                           <Typography>Profile</Typography>
                         </Box>
@@ -396,13 +395,17 @@ const Header = ({ isMessage, IsActive }) => {
             </Box>
           </Box>
           <Box>
-            <Navbar />
-            <Divider />
+            <Box pt={3}>
+              <Navbar />
+            </Box>
+            <Box py={4}>
+              <Divider />
+            </Box>
 
-            <Box pb={3} pt={5} display={"flex"}>
+            <Box display={"flex"}>
               <Box
                 onClick={HandleBookTrip}
-                className="w-100 btn btn-primary no-rounded btn-md cursor-pointer"
+                className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
               >
                 Book a trip
               </Box>
