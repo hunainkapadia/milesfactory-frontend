@@ -29,6 +29,7 @@
          height: auto;
          top: 70px;
          left: 0px;
+         @include border-radius(8px);
          z-index: 4;
          background-color: #0B1729E5;
          border: solid 1px $white;
@@ -37,7 +38,9 @@
          color: $white;
          .DropdownItemsBox {
             gap: 38px;
-            a {color: $white;}
+            a {color: $white;
+               
+            }
 
             i { display: flex;}
          }
@@ -48,10 +51,7 @@
       background-color: $white;
       transition: all 0.3s ease-in-out;
       .Login {
-         p {
-            color: $basecolor;
-            font-weight: $bold;
-         }
+         color: $basecolor;
       }
       .Logo img {
          display: block;
@@ -77,10 +77,8 @@
       align-items: center;
       .Box {
          .Login {
-            p {
-                  color: $basecolor;
-                  font-weight: $bold;
-               }
+            color: $basecolor;
+            
          }
          .navItems .navItem {
             color: $basecolor;
