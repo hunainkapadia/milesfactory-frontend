@@ -197,7 +197,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       <Typography className=" f12 gray">
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                        {Math.round(offerData?.per_passenger_amount_plus_markup)} per person
+                        {offerData?.per_passenger_amount_plus_markup} per person
                       </Typography>
                     </Box>
                     {/* main select handle */}
