@@ -214,7 +214,7 @@ const Header = ({ isMessage, IsActive }) => {
               <Navbar />
             </Box>
 
-            <Box display={"flex"} sx={{ gap: { md: 4, lg: 4, xs: 0 } }}>
+            <Box display={"flex"} sx={{ gap: { md: 2, lg: 2, xs: 0 } }}>
               {currentUser ? (
                 <Box className={styles.Dropdown} position={"relative"}>
                   <Box
@@ -314,7 +314,7 @@ const Header = ({ isMessage, IsActive }) => {
                 <Box
                   display="flex"
                   alignItems="center"
-                  sx={{ gap: { lg: 3, md: 3, xs: 0 } }}
+                  sx={{ gap: { lg: 1, md: 1, xs: 0 } }}
                 >
                   <Box className=" cursor-pointer" onClick={ChatClearHandle}>
                     <Box
