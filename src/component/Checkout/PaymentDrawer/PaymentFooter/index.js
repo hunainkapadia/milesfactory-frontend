@@ -1,8 +1,9 @@
 import { Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { closeDrawer, setIsDrawer, setPaymentFormSuccess } from "@/src/store/slices/PaymentSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { triggerScroll } from "@/src/utils/scrollManager";
+import { currencySymbols } from "@/src/utils/utils";
 
 const PaymentFooter = ({selectedCard, agreeTerms}) => {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
   const handleCloseDrawer =()=> {
     dispatch(setIsDrawer(false))
   }
+  const flightDetail = useSelector((state) => state.booking.flightDetail);
+
   return (
     <>
       <Box
@@ -45,7 +48,10 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
                 variant="h3"
                 className={styles.price + " h3 mb-0 basecolor-dark"}
               >
-                £ 1448.00
+                {console.log("flightDetail000", flightDetail)}
+                {currencySymbols[flightDetail?.tax_currency] ||
+                  flightDetail?.tax_currency}{" "}
+                {Math.round(flightDetail?.per_passenger_amount_plus_markup)}
               </Typography>
             </Box>
           </Box>
@@ -76,7 +82,7 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
               gap={2}
               className="basecolor1"
             >
-            {console.log("agreeTerms11", agreeTerms, selectedCard)}
+              {console.log("agreeTerms11", agreeTerms, selectedCard)}
               <button
                 className={`${styles.selectFlightBtn} btn ${
                   selectedCard && agreeTerms ? "btn-primary" : "btn-disabled"

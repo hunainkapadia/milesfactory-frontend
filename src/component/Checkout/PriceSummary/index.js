@@ -189,8 +189,8 @@ const PriceSummary = ({ getdata }) => {
                 <Box className="mb-0 exbold f12">
                   {console.log("flightDetail111", flightDetail)}
                   {currencySymbols[flightDetail?.tax_currency] ||
-                    flightDetail?.tax_currency}
-                  {totalAmount}
+                  flightDetail?.tax_currency}{" "}
+                {Math.round(flightDetail?.per_passenger_amount_plus_markup)}
                 </Box>
               </Box>
             </Box>
