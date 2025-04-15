@@ -41,13 +41,11 @@ const Messages = () => {
   );
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
-  const sendMessages2 = useSelector((state) => state.sendMessage?.messages);
-
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
-  console.log("sendMessages222", sendMessages2);
+  console.log("sendMessages222", messages);
     
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -96,6 +94,7 @@ const Messages = () => {
         <section>
           <Box className={searchResultStyles.messageContent}>
             <Box className={searchResultStyles.messageContentIn}>
+               
                 
               {messages.map((msg, index) => (
                 <Box key={index}>

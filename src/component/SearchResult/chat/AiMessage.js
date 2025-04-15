@@ -82,7 +82,7 @@ const AiMessage = ({ aiMessage }) => {
         justifyContent="flex-start"
       >
         {/* Passenger Flow */}
-        {aiMessage?.ai?.response === "passengerFlowActive" ? (
+        {aiMessage?.ai?.passengerFlowRes === "passengerFlowActive" ? (
           <>
             {/* <Box className={searchResultStyles.AiMessage}>
             <Typography fontWeight="semibold">
@@ -185,12 +185,10 @@ const AiMessage = ({ aiMessage }) => {
         ) : (
           // Default AI response
           <>
-            {console.log(
-              "aiMessage?.ai?.response",
-              aiMessage?.ai?.response?.results
-            )}
+            
             {!aiMessage?.ai?.response?.results ? (
               <Box className={searchResultStyles.AiMessage}>
+              {console.log("aiMessage000", aiMessage?.ai)}
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(

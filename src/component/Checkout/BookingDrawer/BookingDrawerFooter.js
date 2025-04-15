@@ -39,7 +39,7 @@
       } else {
         ""
       }
-      dispatch(setMessage({ ai: { response: "passengerFlowActive" } })); //this si message trigger passenger flow active
+      dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this si message trigger passenger flow active
     };
 
     const personQuantity = getFlightDetails?.passengers.length;

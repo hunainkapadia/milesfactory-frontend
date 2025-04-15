@@ -28,6 +28,8 @@ const GetMessagesSlice = createSlice({
       state.refreshSearch = action.payload;
     },
     setMessage: (state, action) => {
+      console.log("actiontest", action);
+      
       state.messages.push(action.payload);
     },
     setAllFlightGetApi: (state, action) => {
@@ -56,6 +58,7 @@ export const fetchMessages = () => (dispatch) => {
   api
   .get(threadUrl)
   .then((response) => {
+    console.log("test12", response);
     
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
@@ -130,8 +133,6 @@ export const fetchMessages = () => (dispatch) => {
           }
         } else {
           console.log("item_response", item);
-          
-          
           dispatch(
             setMessage({ user: item.message, ai: { response: item?.response } })
           );
