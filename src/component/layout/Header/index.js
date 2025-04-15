@@ -395,9 +395,8 @@ const Header = ({ isMessage, IsActive }) => {
                   </Box>
                 </Box>
               ) : (
-                <Box display={"flex"} alignItems={"center"}>
+                <Box sx={{ display: { xs: "none", md: "flex" } }} display={"flex"} alignItems={"center"} pl={3}>
                   <Box
-                    sx={{ display: { xs: "none", md: "flex" } }}
                     className="btn btn-primary btn-md btn-round btn-shadow"
                     alignItems="center"
                     justifyContent="center"
