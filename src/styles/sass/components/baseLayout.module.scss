@@ -177,8 +177,9 @@
  }
 
  @include for-mobile-large-screen () {
-    .Header {height: 80px;
+    .Header {height: 54px;
       &.isMessage {
+         .HeaderRightCol {gap: 0 24px;}
          .userName {
             display: none;
          }
@@ -186,7 +187,7 @@
       .leftCol .Logo {
          width: 53px;
       }
-      .HeaderRightCol {gap: 0 24px;
+      .HeaderRightCol {gap: 0;
          .ChatIcons {gap: 0 24px;
             .ChatIcon {width: 20px;}
          }
