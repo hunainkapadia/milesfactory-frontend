@@ -34,11 +34,7 @@ const ChatByUUID = () => {
       <main>
         <section
           id="fold1"
-          className={`${
-            !isMessage.length
-              ? styles.HomeBanner
-              : styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
-          }`}
+          className={styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"}
         >
           <Header isMessage={isMessage} />
           <Box className={styles.Box}>

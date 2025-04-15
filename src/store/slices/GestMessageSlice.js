@@ -63,7 +63,9 @@ export const fetchMessages = () => (dispatch) => {
       }
       response?.data.forEach((item) => {
         // is function true start search result flow
+        
         if (item?.is_function) {
+          
           
           // const topFlightSearchApi =
           // item?.response?.results?.view_top_flight_result_api?.url;
@@ -106,9 +108,9 @@ export const fetchMessages = () => (dispatch) => {
 
              })
              // flight history [end]
-             dispatch(
-               setMessage({ user: item.message, ai: { response: item?.response } })
-             );
+            //  dispatch(
+            //    setMessage({ user: item.message, ai: { response: item?.response } })
+            //  );
              
             api
               .get(allFlightSearchApi)
@@ -127,6 +129,8 @@ export const fetchMessages = () => (dispatch) => {
               });
           }
         } else {
+          console.log("item_response", item);
+          
           
           dispatch(
             setMessage({ user: item.message, ai: { response: item?.response } })

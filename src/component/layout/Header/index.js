@@ -364,6 +364,8 @@ const Header = ({ isMessage, IsActive }) => {
           </Box>
         </Container>
       </header>
+
+      {/* extra content for  */}
       <Drawer
         className={styles.MobileDrawer}
         anchor="left"
