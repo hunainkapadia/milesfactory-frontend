@@ -37,6 +37,8 @@ const PassengerDrawerForm = () => {
   const [passport_number, setpassport_number] = useState();
   const [passport_expire_date, setpassport_expire_date] = useState();
   const [nationality, setnationality] = useState();
+  const [phone, setphone] = useState();
+  const [email, setemail] = useState();
 
   // getting error
 
@@ -52,6 +54,8 @@ const PassengerDrawerForm = () => {
     born_on: born_on,
     passport_number: passport_number,
     passport_expire_date: passport_expire_date,
+    phone_number: phone,
+    email: email,
     nationality: nationality?.id || "",
   };
   // Fetch nationality data when the component mounts
@@ -135,7 +139,7 @@ const PassengerDrawerForm = () => {
 
             <Box py={2}>
               <Box className="formGroup">
-                <FormLabel className="bold">Gender as per passport</FormLabel>
+                <FormLabel className="bold formLabel">Gender as per passport</FormLabel>
                 <RadioGroup
                   row
                   value={gender}
@@ -160,7 +164,7 @@ const PassengerDrawerForm = () => {
               </Box>
 
               <Box className="formGroup">
-                <FormLabel className="bold">First Name</FormLabel>
+                <FormLabel className="bold formLabel">First Name</FormLabel>
                 <TextField
                   className="formControl"
                   fullWidth
@@ -176,7 +180,7 @@ const PassengerDrawerForm = () => {
                 )}
               </Box>
               <Box className="formGroup">
-                <FormLabel className="bold">Last Name</FormLabel>
+                <FormLabel className="bold formLabel">Last Name</FormLabel>
                 <TextField
                   className="formControl"
                   fullWidth
@@ -192,7 +196,7 @@ const PassengerDrawerForm = () => {
                 )}
               </Box>
               <Box width="100%" className="formGroup">
-                <FormLabel className="bold">Date of Birth</FormLabel>
+                <FormLabel className="bold formLabel">Date of Birth</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     className="formControl Calendar"
@@ -215,7 +219,7 @@ const PassengerDrawerForm = () => {
                 </Typography>
               </Box>
               <Box className="formGroup">
-                <FormLabel className="bold">Passport Number</FormLabel>
+                <FormLabel className="bold formLabel">Passport Number</FormLabel>
                 <TextField
                   className="formControl"
                   fullWidth
@@ -229,7 +233,7 @@ const PassengerDrawerForm = () => {
                 </Typography>
               </Box>
               <Box width="100%" className="formGroup">
-                <FormLabel className="bold">Passport Expiry Date</FormLabel>
+                <FormLabel className="bold formLabel">Passport Expiry Date</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     className="formControl Calendar"
@@ -255,12 +259,36 @@ const PassengerDrawerForm = () => {
                   />
                 </LocalizationProvider>
                 <Typography className="error" color="red">
-                
-                  {formError?.passport_expire_date || passportError?.passport_expire_date}
+                  {formError?.passport_expire_date ||
+                    passportError?.passport_expire_date}
                 </Typography>
               </Box>
+              <Box className=" formGroup">
+                <FormLabel className="bold formLabel">Email</FormLabel>
+                <TextField
+                  className="formControl"
+                  fullWidth
+                  placeholder="Enter Email Address"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setemail(e.target.value)}
+                  margin="normal"
+                />
+              </Box>
+              <Box className=" formGroup">
+                <FormLabel className="bold formLabel">Phone number</FormLabel>
+                <TextField
+                  className="formControl"
+                  fullWidth
+                  placeholder="Enter phone number"
+                  type="phone"
+                  value={phone}
+                  onChange={(e) => setphone(e.target.value)}
+                  margin="normal"
+                />
+              </Box>
               <Box className="formGroup">
-                <FormLabel className="bold">Nationality</FormLabel>
+                <FormLabel className="bold formLabel">Nationality</FormLabel>
                 <Autocomplete
                   className="select-dropdown"
                   options={countries}
@@ -279,7 +307,7 @@ const PassengerDrawerForm = () => {
               </Box>
               {formError?.nationality && (
                 <Typography className="error" color="red">
-                {formError?.nationality}
+                  {formError?.nationality}
                 </Typography>
               )}
             </Box>

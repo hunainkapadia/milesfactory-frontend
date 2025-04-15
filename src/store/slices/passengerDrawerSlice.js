@@ -99,7 +99,7 @@ export const NationalitData = () => (dispatch) => {
     const offerIdGet = states?.getMessages.topOfferUrl; // Get offerId from Redux
     const offerIdSend = states?.sendMessage?.TopOfferUrlSend; // Get offerId from Redux
     const finalOfferId = offerIdSend || offerIdGet;
-
+    
     
     if (!finalOfferId) {
       return; // Stop execution if offerId is missing
@@ -114,6 +114,7 @@ export const NationalitData = () => (dispatch) => {
     .post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null; // Ensure it's null-safe
+      dispatch(setOrderUuid(OrderUUId))
 
       if (OrderUUId) {
         const ViewPassengerUrl = `/api/v1/order/${OrderUUId}/passengers`;
@@ -171,11 +172,15 @@ export const validatePassengerForm = (params) => (dispatch) => {
 };
 
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
+
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return; // Stop submission if validation fails
   
   dispatch(setIsFormLoading(true))
   const statesPassengerSubmitUrl = getState();
+  console.log("statesPassengerSubmitUrl", statesPassengerSubmitUrl?.passengerDrawer?.OrderUuid);
+   statesPassengerSubmitUrl?.passengerDrawer?.OrderUuid
+  
   const PassengerSubmitUrl =
     statesPassengerSubmitUrl?.passengerDrawer?.PassengerSubmitURL;
 

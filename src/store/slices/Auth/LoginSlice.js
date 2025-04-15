@@ -54,11 +54,14 @@ export const loginUser = (params) => (dispatch) => {
         dispatch(setLoginUser({ user: res.data, status: res.status }));
         dispatch(setLoginPopup(false));
         // Store user info in cookies
+        console.log("res111", res );
+        
         Cookies.set(
           "set-user",
           JSON.stringify({
-            email: params.email,
+            email: res.data.username,
             first_name: res.data.first_name,
+            last_name: res.data.last_name,
             password: res.data.password,
             refresh_token: res?.data?.refresh,
             access_token: res?.data?.access,

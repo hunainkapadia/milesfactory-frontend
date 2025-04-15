@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Container,
@@ -56,8 +57,6 @@ const Header = ({ isMessage, IsActive }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // const isMessage = sendMessages > 0 || getmessages > 0; //check message length
-
   // signup
   const isuserLogin = useSelector((state) => state?.login?.loginUser?.user); // get user from cookie with redux
   const isuserLoginGoogle = useSelector(
@@ -77,6 +76,7 @@ const Header = ({ isMessage, IsActive }) => {
         setIsSignupUser({
           user: {
             first_name: cookieUser.first_name,
+            last_name: cookieUser.last_name,
             access_token: cookieUser.access_token,
             refresh_token: cookieUser.refresh_token,
             email: cookieUser.email,
@@ -89,6 +89,7 @@ const Header = ({ isMessage, IsActive }) => {
         setIsUser({
           user: {
             first_name: cookieUser.first_name,
+            last_name: cookieUser.last_name,
             access_token: cookieUser.access_token,
             refresh_token: cookieUser.refresh_token,
             email: cookieUser.email,
@@ -214,7 +215,11 @@ const Header = ({ isMessage, IsActive }) => {
               <Navbar />
             </Box>
 
-            <Box display={"flex"} sx={{ gap: { md: 2, lg: 2, xs: 0 } }}>
+            <Box
+              display={"flex"}
+              sx={{ gap: { md: 2, lg: 2, xs: 0 } }}
+              className={styles.HeaderRightCol}
+            >
               {currentUser ? (
                 <Box className={styles.Dropdown} position={"relative"}>
                   <Box
@@ -222,10 +227,45 @@ const Header = ({ isMessage, IsActive }) => {
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
-                    gap={1}
+                    gap={2}
                   >
-                    <i className="fa fa-user-circle"></i>
-                    <Box>{currentUser?.first_name || ""}</Box>
+                    {console.log("currentUser", currentUser)}
+                    <Typography
+                      // sx={{ display: { xs: "none", sm: "block" } }}
+                      className={styles.userName + " f14 bold"}
+                    >
+                      {!isMessage ? (
+                        <>
+                          {currentUser?.first_name.charAt(0).toUpperCase()}.
+                          <span className="capitalize">
+                            {" "}
+                            {currentUser?.last_name || ""}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          {currentUser?.first_name || ""}{" "}
+                          {currentUser?.last_name || ""}
+                        </>
+                      )}
+                    </Typography>
+
+                    <Box className={styles.userLater}>
+                      <Avatar
+                        src={"image"}
+                        alt={"review.name"}
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          margin: "0 auto",
+                          mb: 2,
+                          bgcolor: "#80E1E5",
+                        }}
+                        className="white mb-0 f16 bold"
+                      >
+                        {currentUser?.first_name.charAt(0).toUpperCase()}
+                      </Avatar>
+                    </Box>
                     {/*  */}
                   </Box>
                   <Box className={styles.DropdownItems}>
@@ -290,11 +330,20 @@ const Header = ({ isMessage, IsActive }) => {
                   gap={2}
                   onClick={HandlePopup}
                 >
-                  <Typography
+                  {!isMessage ? (
+                    <Typography className="bold f16"
+                    // sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    >
+                      Sign in
+                    </Typography>
+                  ) : (
+                    <Typography
+                    className="bold f16"
                     sx={{ display: { lg: "block", md: "block", xs: "none" } }}
-                  >
-                    Sign in
-                  </Typography>
+                    >
+                      Sign in
+                    </Typography>
+                  )}
                   <Box
                     className="imggroup"
                     alignItems={"center"}
@@ -314,6 +363,7 @@ const Header = ({ isMessage, IsActive }) => {
                   display="flex"
                   alignItems="center"
                   sx={{ gap: { lg: 1, md: 1, xs: 0 } }}
+                  className={styles.ChatIcons}
                 >
                   <Box className=" cursor-pointer" onClick={ChatClearHandle}>
                     <Box
@@ -322,7 +372,7 @@ const Header = ({ isMessage, IsActive }) => {
                       justifyContent="center"
                       height={48}
                       width={48} // Optional: make it square for better centering
-                      className="imggroup"
+                      className={styles.ChatIcon + " imggroup"}
                     >
                       <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
                     </Box>
@@ -335,7 +385,7 @@ const Header = ({ isMessage, IsActive }) => {
                       justifyContent="center"
                       height={48}
                       width={48} // Optional
-                      className="imggroup"
+                      className={styles.ChatIcon + " imggroup"}
                     >
                       <img
                         src="/images/chat-history-icon.svg"

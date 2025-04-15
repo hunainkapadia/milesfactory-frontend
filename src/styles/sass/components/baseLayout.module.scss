@@ -14,7 +14,8 @@
    align-items: center;
    .Dropdown {
       @include transition(all 0.2s ease-in-out);
-      display: flex; padding: 28px 20px;
+      display: flex; 
+      padding: 28px 0px;
       &:hover .DropdownItems {
          opacity: 1;
          visibility: visible;
@@ -173,4 +174,26 @@
       }
    }
    
+ }
+
+ @include for-mobile-large-screen () {
+    .Header {height: 80px;
+      &.isMessage {
+         .userName {
+            display: none;
+         }
+      }
+      .leftCol .Logo {
+         width: 53px;
+      }
+      .HeaderRightCol {gap: 0 24px;
+         .ChatIcons {gap: 0 24px;
+            .ChatIcon {width: 20px;}
+         }
+         .Dropdown {
+            padding: 20px 0px;  
+         }
+
+      }
+   }
  }
