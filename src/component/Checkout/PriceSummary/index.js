@@ -180,13 +180,13 @@ const PriceSummary = ({ getdata }) => {
                 </Box>
               </Box> */}
               <Box
-                className={styles.PriceRow + " black exbold f12"}
+                className={styles.PriceRow + " black exbold f18"}
                 display={"flex"}
                 justifyContent={"space-between"}
                 gap={4}
               >
                 <Box>Total price</Box>
-                <Box className="mb-0 exbold f12">
+                <Box className="mb-0 ">
                   {console.log("flightDetail111", flightDetail)}
                   {currencySymbols[flightDetail?.tax_currency] ||
                   flightDetail?.tax_currency}{" "}

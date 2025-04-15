@@ -487,7 +487,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
             
             <Box display={"flex"} alignItems={"center"} mb={2}>
               <Box>
-                <h4 className="bold mb-0">
+                <h4 className="exbold mb-0">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}{" "}
                   {offerData?.total_amount_plus_markup}

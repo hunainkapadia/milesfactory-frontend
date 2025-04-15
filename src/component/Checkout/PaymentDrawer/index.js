@@ -58,7 +58,6 @@ const PaymentDrawer = ({ getFlightDetail }) => {
     console.log("Checkbox is now:", e.target.checked);
     setAgreeTerms(e.target.checked);
   };
-  console.log("agreeTerms111", agreeTerms);
   return (
     <Drawer
       className={styles.MobileDrawer}
@@ -94,7 +93,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
 
             <Box
               pt={2}
-              pb={4}
+              pb={15}
               px={3}
               display={"flex"}
               flexDirection={"column"}
