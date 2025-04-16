@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   TextField,
   InputAdornment,
@@ -16,6 +16,9 @@ import { useRouter } from "next/router";
 const MessageInputBox = ({ isMessageHome }) => {
   console.log("isMessageHome", isMessageHome);
   const inputRef = useRef(null); // Add this
+  const recognitionRef = useRef(null); // voice recognition instance
+const [isListening, setIsListening] = useState(false);
+
 
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
@@ -33,11 +36,45 @@ const MessageInputBox = ({ isMessageHome }) => {
     if (!userMessage.trim()) return;
     if (inputRef.current) {
       inputRef.current.textContent = "";
-    }
+    } // clears actual on-screen input
     dispatch(sendMessage(userMessage)); //  Sends message to API (POST)
     setUserMessage(""); //  Clears input after sending
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
+      const SpeechRecognition = window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+  
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setUserMessage(transcript);
+        if (inputRef.current) inputRef.current.textContent = transcript;
+      };
+  
+      recognition.onerror = (event) => {
+        console.error("Voice recognition error:", event.error);
+      };
+  
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+  
+      recognitionRef.current = recognition;
+    }
+  }, []);
+  const handleVoiceInput = () => {
+    if (!recognitionRef.current) return;
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
+    }
+    setIsListening((prev) => !prev);
+  };
   return (
     <section>
       <Box
@@ -60,7 +97,7 @@ const MessageInputBox = ({ isMessageHome }) => {
                 <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                   {!isMessageHome && !isTyping ? <LabelAnimation /> : ""}
                   <div
-                    ref={inputRef} // 
+                    ref={inputRef} //
                     contentEditable
                     role="textbox"
                     placeholder="Ask anything about your trip"
@@ -88,14 +125,25 @@ const MessageInputBox = ({ isMessageHome }) => {
                       textAlign: "left",
                     }}
                   ></div>
-
-                  <Box className={inputStyles.SearchButtonBox} >
+                  
+                  <Box className={inputStyles.SearchButtonBox}>
+                  <IconButton className="f16  "
+                    
+                    onClick={handleVoiceInput}
+                  >
+                    <i
+                      className={`fa ${
+                        isListening ? "fa-microphone-slash" : "fa-microphone"
+                      }`}
+                    ></i>
+                  </IconButton>
                     <IconButton
                       className={inputStyles.SearchButton}
                       onClick={handleSearch}
                     >
                       <i className="fa fa-arrow-right"></i>
                     </IconButton>
+                    
                   </Box>
                 </Box>
                 {!isMessageHome ? (

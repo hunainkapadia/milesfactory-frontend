@@ -61,7 +61,7 @@ const Home = () => {
             <PoweredByglobal id={"PoweredByglobal"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App id={"Section5App"}/>
-            <Header isMessage={sendMessages.length} />
+            <Header  />
             {/* sending send message for chat prop only */}
           </>
         ) : (
