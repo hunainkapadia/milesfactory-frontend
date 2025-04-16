@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   TextField,
   InputAdornment,
@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 
 const MessageInputBox = ({ isMessageHome }) => {
   console.log("isMessageHome", isMessageHome);
+  const inputRef = useRef(null); // Add this
 
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
@@ -30,6 +31,9 @@ const MessageInputBox = ({ isMessageHome }) => {
   // for search button triger
   const handleSearch = () => {
     if (!userMessage.trim()) return;
+    if (inputRef.current) {
+      inputRef.current.textContent = "";
+    }
     dispatch(sendMessage(userMessage)); //  Sends message to API (POST)
     setUserMessage(""); //  Clears input after sending
   };
@@ -56,6 +60,7 @@ const MessageInputBox = ({ isMessageHome }) => {
                 <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                   {!isMessageHome && !isTyping ? <LabelAnimation /> : ""}
                   <div
+                    ref={inputRef} // 
                     contentEditable
                     role="textbox"
                     placeholder="Ask anything about your trip"
