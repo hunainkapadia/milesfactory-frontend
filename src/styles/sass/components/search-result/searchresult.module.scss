@@ -292,6 +292,7 @@
     width: auto;
     margin-right: -20px;
     .SearchCardGrid {
+      padding-right: 20px;
       scroll-snap-type: x mandatory;
       display: flex;
       overflow-x: auto;
@@ -301,6 +302,11 @@
       scrollbar-width: none;
       margin-left: -5px;
       padding-left: 16px;
+      .Box {
+        border-top: solid 1px $lightgray3;
+        padding-top: 16px;
+        
+      }
       
       .flightOfferCard {
         scroll-snap-align: start;

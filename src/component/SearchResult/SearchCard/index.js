@@ -109,6 +109,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
             flexDirection={"column"}
           >
             <Box
+            className={searchResultStyles.Box}
               display={"flex"}
               sx={{ flexDirection: { xs: "column", lg: "column", md: "column" } }}
               justifyContent={"space-between"}

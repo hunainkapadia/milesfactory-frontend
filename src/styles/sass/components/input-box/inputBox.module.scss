@@ -24,29 +24,38 @@
          left: 20px;
       }
    
-      .SearchButton {
+      .SearchButtonBox {
+         height: 100%;
          position: absolute;
-         right: 15px;
-         top: 10px;
-         width: 40px;
-         height: 40px;
-         z-index: 2;
-         background-color: $basecolor1;
-         @include border-radius(100px);
-         color: $white;
-         i {font-size: 20px;}
-   
-         &:hover {
+         right: 0;
+         top: 0;
+         display: flex;
+         align-items: center;
+         padding: 15px;
+         .SearchButton {
+            width: 40px;
+            height: 40px;
+            z-index: 2;
             background-color: $basecolor1;
+            @include border-radius(100px);
+            color: $white;
+            i {font-size: 20px;}
+      
+            &:hover {
+               background-color: $basecolor1;
+            }
          }
       }
    
       .SearchForm {
          border: 1px solid #E6EEEE;
          box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
-         @include border-radius(100px);
+         @include border-radius(36px);
          background-color: $white;
-         padding: 18px 20px !important;
+         padding: 0 60px 0  31px;
+         display: flex;
+         min-height: 66px;
+         align-items: center;
          
          &:focus,
          &:focus-visible {
@@ -78,8 +87,8 @@
 
    .SearchForm {
       outline: none;
-         height: 86px !important;
-         padding: 10px 16px;
+         min-height: 86px !important;
+         padding: 10px 45px 10px 16px;
          background: #0B1729;
          border: 1px solid #F7F7F7;
          border-radius: 16px;
@@ -88,21 +97,26 @@
          
    }
 
-   .SearchButton {
+   .SearchButtonBox {
+      display: flex;
+      align-items: flex-end;
+      padding: 15px;
       position: absolute;
       z-index: 1;
-      right: 15px;
-      bottom: 15px;
-      width: 25px;
-      height: 25px;
-      background-color: $basecolor1;
-      @include border-radius(100px);
-      color: $black;
-      font-size: $bfsize;
-
-      &:hover {
+      bottom: 0;
+      right: 0;
+      .SearchButton {
+         width: 25px;
+         height: 25px;
          background-color: $basecolor1;
-         color: $white;
+         @include border-radius(100px);
+         color: $black;
+         font-size: $bfsize;
+   
+         &:hover {
+            background-color: $basecolor1;
+            color: $white;
+         }
       }
    }
 
@@ -111,6 +125,22 @@
 }
 
 @include for-mobile-large-screen {
+
+   .SearchBoxSectionActive {
+      .SearchBoxContainer {
+         .SearchForm {
+            border-radius: 20px;
+            padding: 10px 55px 10px 15px !important;
+            height: inherit;
+            min-height: 66px;
+         }
+      }
+   }
+
+
+
+
+
    .SearchBoxGrid {
       padding: 0 0 15px;
    }
@@ -118,8 +148,10 @@
       padding: 0 15px;
       .SearchBox {
          
-         .SearchButton {
+         .SearchButtonBox {
             top: 8px;
+            .SearchButton {
+            }
          }
          
          >div {

@@ -84,12 +84,14 @@ const MessageInputBox = ({ isMessageHome }) => {
                     }}
                   ></div>
 
-                  <IconButton
-                    className={inputStyles.SearchButton}
-                    onClick={handleSearch}
-                  >
-                    <i className="fa fa-arrow-right"></i>
-                  </IconButton>
+                  <Box className={inputStyles.SearchButtonBox} >
+                    <IconButton
+                      className={inputStyles.SearchButton}
+                      onClick={handleSearch}
+                    >
+                      <i className="fa fa-arrow-right"></i>
+                    </IconButton>
+                  </Box>
                 </Box>
                 {!isMessageHome ? (
                   <Box

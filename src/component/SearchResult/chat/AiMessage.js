@@ -186,9 +186,9 @@ const AiMessage = ({ aiMessage }) => {
           // Default AI response
           <>
             
+              {/* {console.log("aiMessage111", aiMessage?.ai)} */}
             {!aiMessage?.ai?.response?.results ? (
-              <Box className={searchResultStyles.AiMessage}>
-              {console.log("aiMessage000", aiMessage?.ai)}
+              <Box className={searchResultStyles.AiMessage + " aaa"}>
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(

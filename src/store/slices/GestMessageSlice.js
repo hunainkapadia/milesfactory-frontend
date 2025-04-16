@@ -129,7 +129,9 @@ export const fetchMessages = () => (dispatch) => {
               })
               .catch((flighterror) => {
                 dispatch(setFlightExpire(flighterror.response.data.error));
-              });
+              }).finally(()=> {
+                
+              })
           }
         } else {
           console.log("item_response", item);

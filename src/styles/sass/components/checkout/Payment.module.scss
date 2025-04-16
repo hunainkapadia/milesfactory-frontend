@@ -14,7 +14,7 @@
    transition: border 0.3s;
  
    &:hover {
-     border-color: #007bff;
+     border-color: $basecolor1;
    }
  }
  .AddCard {
@@ -24,7 +24,7 @@
  }
  
  .selected {
-   border-color: #007bff;
+   border-color: $basecolor1;
  }
  
  .cardTitle {

@@ -84,7 +84,7 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
             >
               {console.log("agreeTerms11", agreeTerms, selectedCard)}
               <button
-                className={`${styles.selectFlightBtn} btn ${
+                className={` btn ${
                   selectedCard && agreeTerms ? "btn-primary" : "btn-disabled"
                 } btn-md btn-round`}
                 onClick={handlePay}

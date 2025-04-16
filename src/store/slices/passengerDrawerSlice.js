@@ -203,6 +203,8 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       }
     
     }).catch((passengerFormerror)=> {
+      console.log("passengerFormerror", passengerFormerror);
+      
       const errors = passengerFormerror.response.data;
       dispatch(setPassengerFormError(errors))
     }).finally(()=>{

@@ -180,7 +180,7 @@ const PriceSummary = ({ getdata }) => {
                 </Box>
               </Box> */}
               <Box
-                className={styles.PriceRow + " black exbold f18"}
+                className={styles.PriceRow + " black exbold f14m"}
                 display={"flex"}
                 justifyContent={"space-between"}
                 gap={4}

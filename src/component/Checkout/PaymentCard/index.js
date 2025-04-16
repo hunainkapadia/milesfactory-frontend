@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Typography, Radio } from "@mui/material";
+import { Box, Typography, Radio, FormControlLabel } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/Payment.module.scss";
 
-const PaymentCard = ({ getdata, selected, onSelect }) => {
+const PaymentCard = ({ getdata, selected, onSelect, agreeTerms }) => {
   return (
     <Box display={"flex"} flexDirection={"column"} gap={2}>
       {/* Payment Card */}
@@ -10,7 +10,10 @@ const PaymentCard = ({ getdata, selected, onSelect }) => {
         className={`${styles.paymentCard} ${selected ? styles.selected : ""}`}
         onClick={onSelect}
       >
-        <Radio checked={selected} />
+        <FormControlLabel
+                            value={`${getdata.name}`}
+                            control={<Radio checked={selected} className="customRadio" />}
+                          />
         <Box className="imggroup">
           <img src={getdata.image} alt={getdata.name} width={40} />
         </Box>
