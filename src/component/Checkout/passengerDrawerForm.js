@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import AddPassengersStep from "./AddPassengersStep";
 import Link from "next/link";
 import ButtonLoading from "../LoadingArea/ButtonLoading";
+import PhoneInput from "react-phone-input-2";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,8 @@ const PassengerDrawerForm = () => {
   const [nationality, setnationality] = useState();
   const [phone, setphone] = useState();
   const [email, setemail] = useState();
+  // const isValidPhone = phone.length > 8 && phone.match(/^\d+$/); // example
+
 
   // getting error
 
@@ -81,6 +84,8 @@ const PassengerDrawerForm = () => {
 
   const passportError = formError?.non_field_errors?.find(error => error?.passport_expire_date);
   const bornOnError = formError?.non_field_errors?.find(error => error?.born_on);
+
+  console.log("emailandPhoneError11", formError?.email);
   
   
   
@@ -139,7 +144,9 @@ const PassengerDrawerForm = () => {
 
             <Box py={2}>
               <Box className="formGroup">
-                <FormLabel className="bold formLabel">Gender as per passport</FormLabel>
+                <FormLabel className="bold formLabel">
+                  Gender as per passport
+                </FormLabel>
                 <RadioGroup
                   row
                   value={gender}
@@ -219,7 +226,9 @@ const PassengerDrawerForm = () => {
                 </Typography>
               </Box>
               <Box className="formGroup">
-                <FormLabel className="bold formLabel">Passport Number</FormLabel>
+                <FormLabel className="bold formLabel">
+                  Passport Number
+                </FormLabel>
                 <TextField
                   className="formControl"
                   fullWidth
@@ -233,7 +242,9 @@ const PassengerDrawerForm = () => {
                 </Typography>
               </Box>
               <Box width="100%" className="formGroup">
-                <FormLabel className="bold formLabel">Passport Expiry Date</FormLabel>
+                <FormLabel className="bold formLabel">
+                  Passport Expiry Date
+                </FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     className="formControl Calendar"
@@ -274,18 +285,28 @@ const PassengerDrawerForm = () => {
                   onChange={(e) => setemail(e.target.value)}
                   margin="normal"
                 />
+              {formError?.email?.[0] && (
+  <Typography className="error" color="red">
+    {formError.email[0]}
+  </Typography>
+)}
               </Box>
-              <Box className=" formGroup">
+
+              <Box className="formGroup">
                 <FormLabel className="bold formLabel">Phone number</FormLabel>
-                <TextField
-                  className="formControl"
-                  fullWidth
-                  placeholder="Enter phone number"
-                  type="phone"
+                <PhoneInput
+                  country={"us"} // Default to Netherlands
                   value={phone}
-                  onChange={(e) => setphone(e.target.value)}
-                  margin="normal"
+                  onChange={(phone) => setphone(phone)}
+                  inputStyle={{ width: "100%" }}
+                  specialLabel="" // Removes duplicate label
+                  enableSearch
                 />
+              {formError?.phone_number?.[0] && (
+  <Typography className="error" color="red">
+    {formError.phone_number[0]}
+  </Typography>
+)}
               </Box>
               <Box className="formGroup">
                 <FormLabel className="bold formLabel">Nationality</FormLabel>
@@ -311,8 +332,12 @@ const PassengerDrawerForm = () => {
                 </Typography>
               )}
             </Box>
+            {formError?.error && (
+              <Typography className="error" color="red">
+                {formError?.error}
+              </Typography>
+            )}
           </Box>
-
           <Box className={styles.passengerDrawerFooter}>
             <Divider />
             <Box py={1} px={3} display="flex" flexDirection="column">

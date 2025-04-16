@@ -138,8 +138,8 @@ const PaymentDrawer = ({ getFlightDetail }) => {
                       }
                       label={
                         <Typography variant="body2" color="textSecondary">
-                          I have read and accepted <Link className="basecolor" href={""}>General Conditions of Sale </Link>
-                          and <Link className="basecolor" href={""}>Fare conditions</Link>. I have read the <Link className="basecolor" href={""}>Legal notices</Link> and
+                          I have read and accepted <Link className="basecolor" href={"/"}>General Conditions of Sale </Link>
+                          and <Link className="basecolor" href={"/"}>Fare conditions</Link>. I have read the <Link className="basecolor" href={"/"}>Legal notices</Link> and
                           accepted that the airline policy will apply if I
                           decide to cancel or modify my trip.
                         </Typography>

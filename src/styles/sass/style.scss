@@ -500,8 +500,9 @@ label,
 .checkoutDrower .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
   border-color: $lightgray2;
 }
+.react-tel-input .form-control, 
 .formControl .MuiInputBase-root {
-  height: 50px;
+  height: 50px !important;
 }
 .customRadio.MuiRadio-root {
   color: $gray; /* Default color (optional) */
@@ -1992,6 +1993,57 @@ html {
 
 .side-bg-right {
   right: 0;
+}
+
+
+
+.formGroup .react-tel-input {
+  padding-left: 88px;
+  .form-control {
+    @include border-radius(8px);
+    padding-left: 20px;
+  }
+  .flag-dropdown {
+    
+    width: auto;
+    height: auto;
+    left: 0;
+    
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .selected-flag {
+      width: 78px;
+      padding: 12px 20px;
+    }
+    
+    
+    .country-list {
+      top: 40px;
+      left: 0;
+      .search {
+        width: 100%;
+        margin: 0;
+        padding: 13px 10px;
+        .search-box {
+          width: 100%;
+          margin: 0;
+        }
+      }
+      .search-emoji {
+        display: none;
+      }
+    }
+
+    
+    .selected-flag {
+      display: flex;
+      gap: 10px;
+    }
+  }
 }
 
 
