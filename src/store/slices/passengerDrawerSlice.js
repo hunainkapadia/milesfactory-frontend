@@ -194,9 +194,10 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
     })
     .then(() => {
       // Second API call - Passenger full form
-      return api.post(PassengerSubmitUrl, params);
+      return api.post(PassengerSubmitUrl, params); // Always runs
     })
     .then((response) => {
+      // Handle Passenger form success
       const passdata = response.data;
       dispatch(setPassFormData(passdata));
 

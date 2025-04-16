@@ -42,7 +42,6 @@ const PassengerDrawerForm = () => {
   const [email, setemail] = useState();
   // const isValidPhone = phone.length > 8 && phone.match(/^\d+$/); // example
 
-
   // getting error
 
   const countries = useSelector((state) => state.passengerDrawer.countries);
@@ -82,17 +81,17 @@ const PassengerDrawerForm = () => {
   );
   const twelveYearsAgo = dayjs().subtract(12, "year");
 
-  const passportError = formError?.non_field_errors?.find(error => error?.passport_expire_date);
-  const bornOnError = formError?.non_field_errors?.find(error => error?.born_on);
+  const passportError = formError?.non_field_errors?.find(
+    (error) => error?.passport_expire_date
+  );
+  const bornOnError = formError?.non_field_errors?.find(
+    (error) => error?.born_on
+  );
 
   console.log("emailandPhoneError11", formError?.email);
-  
-  
-  
-  
-  
-// {passportError?.passport_expire_date}
-  
+
+  // {passportError?.passport_expire_date}
+
   return (
     <Box
       className={`${styles.checkoutDrower + " checkoutDrower"} white-bg ${
@@ -285,11 +284,11 @@ const PassengerDrawerForm = () => {
                   onChange={(e) => setemail(e.target.value)}
                   margin="normal"
                 />
-              {formError?.email?.[0] && (
-  <Typography className="error" color="red">
-    {formError.email[0]}
-  </Typography>
-)}
+                {formError?.email?.[0] && (
+                  <Typography className="error" color="red">
+                    {formError.email[0]}
+                  </Typography>
+                )}
               </Box>
 
               <Box className="formGroup">
@@ -302,11 +301,11 @@ const PassengerDrawerForm = () => {
                   specialLabel="" // Removes duplicate label
                   enableSearch
                 />
-              {formError?.phone_number?.[0] && (
-  <Typography className="error" color="red">
-    {formError.phone_number[0]}
-  </Typography>
-)}
+                {formError?.phone_number?.[0] && (
+                  <Typography className="error" color="red">
+                    {formError.phone_number[0]}
+                  </Typography>
+                )}
               </Box>
               <Box className="formGroup">
                 <FormLabel className="bold formLabel">Nationality</FormLabel>

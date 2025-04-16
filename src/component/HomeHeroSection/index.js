@@ -53,7 +53,7 @@ const HomeHeroSection = () => {
             {!isMessage.length && <HerosectionContent />}
             {/* ////////////////////////// Search Box start ////////////////////////// */}
             <Container>
-              <MessageInputBox isMessageHome={sendMessages} />
+              <MessageInputBox />
             </Container>
             {/* ////////////////////////// Search Box end ////////////////////////// */}
             
