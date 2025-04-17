@@ -199,10 +199,9 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           " mb-0 black exbold"
                         }
                       >
-                      {console.log("offerData000", offerData)}
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                          {Number(offerData?.total_amount_plus_markup).toFixed(2)}
+                         {offerData?.total_amount_plus_markup}
                       </h4>
 
                       <Typography className=" f12 gray">

@@ -504,13 +504,7 @@ label,
 .formControl .MuiInputBase-root {
   height: 50px !important;
 }
-.customRadio.MuiRadio-root {
-  color: $gray; /* Default color (optional) */
-}
 
-.customRadio.Mui-checked {
-  color: $gray !important; /* Checked color */
-}
 .checkoutDrower fieldset {
   border-color: $lightgray2;
   @include border-radius(8px);
@@ -1178,7 +1172,7 @@ body {
     @extend %btn-lg-height;
   }
   &.btn-md {
-    font-size: 16px ;
+    font-size: $f14;
     padding: 10px 28px;
     line-height: 1.4 ;
   }
@@ -1996,6 +1990,21 @@ html {
 }
 
 
+.customRadio.MuiRadio-root {
+  color: $gray; /* Default color (optional) */
+}
+
+.customRadio.Mui-checked {
+  color:  $lightergray1; /* Checked color */
+}
+
+.MuiRadio-root {
+  .MuiSvgIcon-root:first-child {color: $lightergray1;}
+}
+.Mui-checked {
+  .MuiSvgIcon-root:first-child {color: $lightergray1;}
+  .MuiSvgIcon-root:last-child {color: $basecolor1;}
+}
 
 .formGroup .react-tel-input {
   padding-left: 88px;
