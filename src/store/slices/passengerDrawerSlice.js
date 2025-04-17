@@ -75,7 +75,7 @@ const passengerDrawerSlice = createSlice({
       state.isLoading = true;
     },
     setIsFormLoading: (state) => {
-      state.isFormLoading = false;
+      state.isFormLoading = true;
     },
     setPassengerFormError: (state, action) => {
       state.PassengerFormError = action.payload;
@@ -185,11 +185,9 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   api
     .post(CaptainUrl, params)
     .then((res) => {
-      console.log("CaptainUrl-res", res);
       captainApiSuccess = true;
     })
     .catch((captainError) => {
-      console.log("captainError", captainError.response?.data);
       dispatch(setPassengerFormError(captainError.response?.data));
     })
     .then(() => {
@@ -213,17 +211,17 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
         const nextPassenger = allPassengers.find(
           (p) => !filledUUIDs.includes(p.uuid)
         );
+        dispatch(setIsFormLoading(false));
+
 
         if (nextPassenger) {
           dispatch(setPassengerUUID(nextPassenger.uuid));
           dispatch(PassengerForm());
         }
-
         dispatch(setClosePassengerDrawer());
       }
     })
     .catch((passengerFormError) => {
-      console.log("passengerFormerror", passengerFormError);
       const errors = passengerFormError.response?.data;
       dispatch(setPassengerFormError(errors));
     })
