@@ -324,6 +324,13 @@
         scroll-snap-align: start;
         scroll-snap-stop: always;   
         min-width: 319px;
+        &.Oneway {
+          .CardRight .RightTopSection {margin-bottom: 8px;}
+          .FromAndToRow  .rowExtraInfo {
+            margin-bottom: 18px;
+          }
+          .CardLeft {padding: 14px 17px 0 17px;}
+        }
         .CardLeft {
           padding: 16px 17px 0 17px;
         }
