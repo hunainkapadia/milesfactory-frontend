@@ -1,9 +1,13 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const RightTopSection = ({ offerData, SelectDrawer }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const isRoundTrip = offerData?.slices.length > 1;
+
   return (
     <Box
       display="flex"
@@ -34,7 +38,7 @@ const RightTopSection = ({ offerData, SelectDrawer }) => {
         </Box>
       </Box>
       {/*  */}
-      {offerData?.slices.length > 1 ? ( // Only show for round trips
+      {(isMobile || isRoundTrip) ? ( // Only show for round trips
         <Box
           display={"flex"}
           gap={1}

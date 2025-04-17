@@ -4,7 +4,6 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 const FromAndTo = ({ offerData }) => {
   return (
     <>
-    
       {offerData?.slices.map((slice, index) => (
         <>
           <Box className={searchResultStyles.FromAndToRow + " FromAndToGrid"}>
@@ -51,7 +50,11 @@ const FromAndTo = ({ offerData }) => {
                 </Box>
               </Box> */}
 
-                <Box display={"flex"} gap={2}>
+                <Box
+                  display={"flex"}
+                  // sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
+                  gap={2}
+                >
                   {offerData?.slices.length > 1 ? ( // Only show for round trips
                     index === 0 ? (
                       <Box>
@@ -82,7 +85,10 @@ const FromAndTo = ({ offerData }) => {
                     )
                   ) : (
                     <>
-                      <Box display={"flex"} gap={2}>
+                      <Box
+                        sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
+                        gap={2}
+                      >
                         {(() => {
                           const baggageMap = new Map();
 
@@ -264,9 +270,7 @@ const FromAndTo = ({ offerData }) => {
                             {slice.segments.length - 1} stop
                           </span>
                           {slice.segments.slice(0, -1).map((segment) => (
-                            <>
-                                {" "}{segment.destination.iata_code}
-                            </>
+                            <> {segment.destination.iata_code}</>
                           ))}
                           {slice.segments.length - 1 > 1 ? "s" : ""}
                         </>

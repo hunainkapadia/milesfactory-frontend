@@ -77,7 +77,7 @@ const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
                 sx={{ marginBottom: { xs: 3, md: 0 } }}
                 className={styles.FooterBoxRight}
               >
-                <Link target="_blank" href={"/"} className="basecolor-dark">
+                <Link target="_blank" href={"https://www.tiktok.com/@gomylz"} className="basecolor-dark">
                   <i className="fab fa-tiktok"></i>
                 </Link>
                 <Link
@@ -94,13 +94,13 @@ const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
                 >
                   <i className="fab fa-x-twitter"></i>
                 </Link>
-                <Link target="_blank" href={"/"} className="basecolor-dark">
+                <Link target="_blank" href={"https://www.instagram.com/go.mylz"} className="basecolor-dark">
                   <i className="fab fa-square-instagram"></i>
                 </Link>
-                <Link target="_blank" href={"/"} className="basecolor-dark">
+                <Link target="_blank" href={"https://www.youtube.com/@gomylz"} className="basecolor-dark">
                   <i className="fab fa-square-youtube"></i>
                 </Link>
-                <Link target="_blank" href={"/"} className="basecolor-dark">
+                <Link target="_blank" href={"https://www.linkedin.com/company/gomylz"} className="basecolor-dark">
                   <i className="fab fa-linkedin"></i>
                 </Link>
               </Box>
