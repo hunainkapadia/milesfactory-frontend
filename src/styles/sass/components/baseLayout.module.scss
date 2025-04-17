@@ -13,7 +13,7 @@
    .Dropdown {
       @include transition(all 0.2s ease-in-out);
       display: flex; 
-      padding: 28px 0px;
+      padding: 0px;
       &:hover .DropdownItems {
          opacity: 1;
          visibility: visible;
@@ -190,7 +190,7 @@
             .ChatIcon {width: 20px;}
          }
          .Dropdown {
-            padding: 20px 0px;  
+            padding: 0px;  
          }
 
       }
