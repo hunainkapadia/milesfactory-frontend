@@ -4,6 +4,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 const FromAndTo = ({ offerData }) => {
   return (
     <>
+    
       {offerData?.slices.map((slice, index) => (
         <>
           <Box className={searchResultStyles.FromAndToRow + " FromAndToGrid"}>

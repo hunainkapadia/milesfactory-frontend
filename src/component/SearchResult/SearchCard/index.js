@@ -90,11 +90,19 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
 
-      <Box className={`${searchResultStyles.flightOfferCard}`}>
+      
+      <Box
+        className={`${searchResultStyles.flightOfferCard} ${
+          offerData?.slices.length > 1
+            ? searchResultStyles.Return
+            : searchResultStyles.Oneway
+        }`}
+      >
         <Grid container>
           <Grid className={searchResultStyles.CardLeft} lg={9} md={9} xs={12}>
             {/* footer */}
             {/* FromAndTo with logo */}
+
             <FromAndTo offerData={offerData} />
           </Grid>
 
@@ -109,9 +117,11 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
             flexDirection={"column"}
           >
             <Box
-            className={searchResultStyles.Box}
+              className={searchResultStyles.Box}
               display={"flex"}
-              sx={{ flexDirection: { xs: "column", lg: "column", md: "column" } }}
+              sx={{
+                flexDirection: { xs: "column", lg: "column", md: "column" },
+              }}
               justifyContent={"space-between"}
               height={"100%"}
             >
@@ -120,7 +130,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                   <Box
                     className=""
                     display={"flex"}
-                    
                     height={"100%"}
                     width={"100%"}
                     sx={{

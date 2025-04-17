@@ -85,6 +85,18 @@
       flex-direction: column;
       transition: 0.3s ease-in-out;
       margin-bottom: 20px;
+      &.Oneway {
+        .CardRight .RightTopSection {margin-bottom: 8px;}
+        .FromAndToRow  .rowExtraInfo {
+          margin-bottom: 18px;
+        }
+        .CardLeft {
+          padding: 14px 25px 18px 16px;
+        }
+      }
+      &.Return {
+        .CardRight {}
+      }
       
       .FromAndToRow {
         margin-bottom: 24px;
@@ -115,9 +127,9 @@
         padding: 16px 25px 24px 16px;
       }
       .CardRight {
-        padding: 12px 14px 16px 17px;
+        padding: 16px 14px 16px 17px;
         border-left: solid 1px $lightgray3;
-    
+        
         .selectFlightBtn {}
       }
     

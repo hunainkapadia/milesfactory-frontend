@@ -15,9 +15,9 @@ const RightTopSection = ({ offerData, SelectDrawer }) => {
         marginBottom:{xs: 4},
       }}
       width={"100%"}
-      className="bbbb"
+      className={searchResultStyles.RightTopSection + " RightTopSection"}
     >
-      <Box sx={{ marginTop: { lg: 2, md: 2 } }} style={{ cursor: "pointer" }}>
+      <Box  style={{ cursor: "pointer" }}>
         <Box onClick={SelectDrawer} className="text-decoration-none basecolor1">
           <Box
             gap={1.5}
