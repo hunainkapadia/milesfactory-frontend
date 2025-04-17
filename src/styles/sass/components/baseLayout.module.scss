@@ -10,8 +10,6 @@
    left: 0;
    z-index: 2;
    height: 80px;
-   display: flex;
-   align-items: center;
    .Dropdown {
       @include transition(all 0.2s ease-in-out);
       display: flex; 
@@ -75,8 +73,6 @@
    &.isMessage {
       background-color: $white;
       height: $header-height;
-      display: flex;
-      align-items: center;
       .Box {
          .Login {
             color: $basecolor;

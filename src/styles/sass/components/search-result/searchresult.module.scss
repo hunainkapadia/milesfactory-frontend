@@ -32,7 +32,10 @@
 
   .messageContent {}
 }
-
+.SearchBodyActive .Box .Container {
+  padding-left: 35px;
+  padding-right: 15px;
+}
 .messageContent {
 
   .messageContentIn {
@@ -77,8 +80,7 @@
 .SearchCardWrapper {
   .SearchCardGrid {
     .flightOfferCard {
-      min-height: 128px;
-      background: #FFFFFF;
+      background: $white;
       border: 1px solid #E6EEEE;
       border-radius: 16px;
       display: flex;
@@ -272,6 +274,11 @@
 }
 
 @include for-mobile-large-screen {
+  
+.SearchBodyActive .Box .Container {
+  padding-left: 22px;
+  padding-right: 22px;
+}
   .ExtraServicesWraper {
       display: grid;
       width: auto;

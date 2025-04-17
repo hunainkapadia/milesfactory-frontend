@@ -169,6 +169,7 @@ const Header = ({ isMessage, IsActive }) => {
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
       >
+      
         <Container>
           <Box
             className={styles.Box}
@@ -217,7 +218,7 @@ const Header = ({ isMessage, IsActive }) => {
 
             <Box
               display={"flex"}
-              sx={{ gap: { md: 2, lg: 2, xs: 0 } }}
+              sx={{ gap: { lg: 3, md:3, xs: 0 } }}
               className={styles.HeaderRightCol}
             >
               {currentUser ? (
@@ -359,19 +360,14 @@ const Header = ({ isMessage, IsActive }) => {
                 </Box>
               )}
               {isMessage ? (
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  sx={{ gap: { lg: 1, md: 1, xs: 0 } }}
-                  className={styles.ChatIcons}
-                >
+                <>
                   <Box className=" cursor-pointer" onClick={ChatClearHandle}>
                     <Box
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
                       height={48}
-                      width={48} // Optional: make it square for better centering
+                       // Optional: make it square for better centering
                       className={styles.ChatIcon + " imggroup"}
                     >
                       <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
@@ -384,7 +380,7 @@ const Header = ({ isMessage, IsActive }) => {
                       alignItems="center"
                       justifyContent="center"
                       height={48}
-                      width={48} // Optional
+                       // Optional
                       className={styles.ChatIcon + " imggroup"}
                     >
                       <img
@@ -393,7 +389,7 @@ const Header = ({ isMessage, IsActive }) => {
                       />
                     </Box>
                   </Box>
-                </Box>
+                  </>
               ) : (
                 <Box sx={{ display: { xs: "none", md: "flex" } }} display={"flex"} alignItems={"center"} pl={3}>
                   <Box

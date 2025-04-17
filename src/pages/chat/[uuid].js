@@ -34,14 +34,16 @@ const ChatByUUID = () => {
       <main>
         <section
           id="fold1"
-          className={styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"}
+          className={
+            styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
+          }
         >
           <Header isMessage={isMessage} />
           <Box className={styles.Box}>
-            <Container>
-            <Box sx={{display:{xs: "block", md:"none", lg:"none" }}}>
-              <MobileLoading />
-            </Box>
+            <Container className={styles.Container}>
+              <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
+                <MobileLoading />
+              </Box>
               <Grid container sx={{ width: "100%", margin: 0 }}>
                 <Grid item md={8} lg={8}>
                   <Messages />
@@ -57,11 +59,10 @@ const ChatByUUID = () => {
               </Grid>
               <Box
                 className={inputStyles.SearchBoxGrid}
-                container
                 sx={{ width: "100%", margin: 0 }}
               >
-                <Container className="px-5">
-                  <Grid container >
+                <Container>
+                  <Grid container>
                     <Grid item md={8} lg={8} xs={12}>
                       <MessageInputBox isMessageHome={isMessage} />
                     </Grid>
