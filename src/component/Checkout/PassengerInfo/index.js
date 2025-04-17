@@ -57,7 +57,7 @@ const PassengerInfo = ({ getdata }) => {
 
   return (
     <>
-      <Box py={1}>
+      <Box py={2}>
         <Typography fontWeight={"semibold"}>
           Ready to fly? Let’s add traveller details.
         </Typography>
@@ -65,7 +65,6 @@ const PassengerInfo = ({ getdata }) => {
       <Box
         variant="outlined"
         className={searchResultStyles.PassengersSection}
-        sx={{ mt: 3 }}
       >
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {

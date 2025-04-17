@@ -199,9 +199,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           " mb-0 black exbold"
                         }
                       >
+                      {console.log("offerData000", offerData)}
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}{" "}
-                        {offerData?.total_amount_plus_markup}
+                          {Number(offerData?.total_amount_plus_markup).toFixed(2)}
                       </h4>
 
                       <Typography className=" f12 gray">
@@ -220,7 +221,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       <Box>
                         <Button
                           className={
-                            " w-100 btn btn-disabled btn-round btn-md f12 " +
+                            searchResultStyles.IsSelected + " w-100 btn btn-primary btn-round btn-md " +
                             searchResultStyles.selectFlightBtn
                           }
                         >

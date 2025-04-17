@@ -145,48 +145,50 @@ const AiMessage = ({ aiMessage }) => {
             </Box>
 
             {/* Toggle button */}
-            <Box
-              onClick={seeAllResultHandle}
-              sx={{ mt: { lg: 2, md: 2, xs: 0 } }}
-              style={{ cursor: "pointer" }}
-            >
-              <Link href={"#"} className="text-decoration-none">
-                <Box
-                  sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                  gap={2}
-                  alignItems="center"
-                  display="flex"
-                  className="bold"
-                >
-                  <i
-                    className={`fa ${
-                      showAllFlight ? "fa-caret-up" : "fa-caret-down"
-                    } fas`}
-                  ></i>{" "}
-                  <span>
-                    {showAllFlight
-                      ? "Hide all flight options"
-                      : "Show all flight options"}
-                    {`${
-                      getAllFlightGetApi?.count
-                        ? " (" + getAllFlightGetApi?.count + ")"
-                        : ""
-                    }`}
-                    {`${
-                      allFlightSearcCount?.count
-                        ? " (" + allFlightSearcCount?.count + ")"
-                        : ""
-                    }`}
-                  </span>
-                </Box>
-              </Link>
-            </Box>
+            {!GetViewPassengers ? (
+              <Box
+                onClick={seeAllResultHandle}
+                style={{ cursor: "pointer" }}
+              >
+                <Link href={"#"} className="text-decoration-none">
+                  <Box
+                    sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+                    gap={2}
+                    alignItems="center"
+                    display="flex"
+                    className="bold"
+                  >
+                    <i
+                      className={`fa ${
+                        showAllFlight ? "fa-caret-up" : "fa-caret-down"
+                      } fas`}
+                    ></i>{" "}
+                    <span>
+                      {showAllFlight
+                        ? "Hide all flight options"
+                        : "Show all flight options"}
+                      {`${
+                        getAllFlightGetApi?.count
+                          ? " (" + getAllFlightGetApi?.count + ")"
+                          : ""
+                      }`}
+                      {`${
+                        allFlightSearcCount?.count
+                          ? " (" + allFlightSearcCount?.count + ")"
+                          : ""
+                      }`}
+                    </span>
+                  </Box>
+                </Link>
+              </Box>
+            ) : (
+              ""
+            )}
           </>
         ) : (
           // Default AI response
           <>
-            
-              {/* {console.log("aiMessage111", aiMessage?.ai)} */}
+            {/* {console.log("aiMessage111", aiMessage?.ai)} */}
             {!aiMessage?.ai?.response?.results ? (
               <Box className={searchResultStyles.AiMessage + " aaa"}>
                 <Typography

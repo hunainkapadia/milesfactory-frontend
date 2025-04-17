@@ -84,7 +84,12 @@
       display: flex;
       flex-direction: column;
       transition: 0.3s ease-in-out;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+      .selectFlightBtn {
+        height: 40px;
+        font-size: 12px;
+        &.IsSelected {background-color: #DEE1E6;}
+      }
       &.Oneway {
         .CardRight .RightTopSection {margin-bottom: 8px;}
         .FromAndToRow  .rowExtraInfo {

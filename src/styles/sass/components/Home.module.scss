@@ -178,6 +178,9 @@
 @media only screen and (max-width: 767px) {
   .AppSection {
     padding: 40px 0 50px;
+    .appLogos {gap: 17px;
+      .appLogo {height: auto;width: 248px;}
+    } 
   }  
   
   .PoweredByglobal {

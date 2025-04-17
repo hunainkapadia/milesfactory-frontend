@@ -20,22 +20,29 @@ const Section5App = (props) => {
                       md: 7,
                       lg: 7,
                     },
-                    textAlign: { xs: "center", sm:"center", lg: "left", md: "left" },
-                    justifyContent: { xs: "center", sm:"center", lg: "flex-start", md: "flex-start" } 
+                    textAlign: {
+                      xs: "center",
+                      sm: "center",
+                      lg: "left",
+                      md: "left",
+                    },
+                    justifyContent: {
+                      xs: "center",
+                      sm: "center",
+                      lg: "flex-start",
+                      md: "flex-start",
+                    },
                   }}
                   display={"flex"}
-                  
                 >
-                  <Box
-                    mb={3}
-                    
-                  >
+                  <Box mb={3}>
                     <h1 className="basecolor-dark h1-lg mb-0">
                       Travel with Mylz!
                     </h1>
                   </Box>
                 </Box>
                 <Box
+                  className={styles.appLogos}
                   display={"flex"}
                   sx={{
                     flexDirection: {
@@ -53,11 +60,19 @@ const Section5App = (props) => {
                   }}
                   gap={3}
                 >
-                  <Box className="imggroup">
-                    <img width={216} src="/images/app-google-play.svg" />
+                  <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    className={styles.appLogo + " imggroup"}
+                  >
+                    <img height={63} src="/images/app-google-play.svg" />
                   </Box>
-                  <Box className="imggroup">
-                    <img width={216} src="/images/app-app-store.svg" />
+                  <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    className={styles.appLogo + " imggroup"}
+                  >
+                    <img height={63} src="/images/app-app-store.svg" />
                   </Box>
                 </Box>
               </Grid>

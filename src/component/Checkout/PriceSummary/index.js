@@ -196,7 +196,7 @@ const PriceSummary = ({ getdata }) => {
             </Box>
             {/* price row */}
           </Box>
-          <Box display={"flex"} justifyContent={"flex-end"} pt={2}>
+          <Box display={"flex"} justifyContent={"flex-end"}>
             <Button
               className={`btn ${paymentSuccess ? " btn-disabled " : " btn-primary "} btn-md btn-round sm `}
               onClick={handlePaymentDrawer}
