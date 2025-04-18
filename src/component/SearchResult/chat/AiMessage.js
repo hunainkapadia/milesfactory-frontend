@@ -201,11 +201,11 @@ const AiMessage = ({ aiMessage }) => {
             ) : (
               ""
             )}
-            {console.log("aiMessageLoading", aiMessage)}
-            {isLoading ? (
+            {console.log("aiMessageLoading", aiMessage?.ai?.SearchingMessage)}
+            {aiMessage?.ai?.SearchingMessage ? (
               <Box className={searchResultStyles.AiMessage}>
                 <Typography className="bold">
-                    We have everything we need, now looking for flights
+                    {aiMessage?.ai?.SearchingMessage}
                 </Typography>
               </Box>
             ) : ""}
