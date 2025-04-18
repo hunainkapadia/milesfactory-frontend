@@ -19,18 +19,18 @@ const ChatByUUID = () => {
 
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
-  // const getMessages = useSelector((state) => state.getMessages?.messages);
+  const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
 
   console.log("isMessage", isMessage);
   
 
   // Fetch messages using the UUID from URL
-  // useEffect(() => {
-  //   if (uuid) {
-  //     dispatch(fetchMessages(uuid));
-  //   }
-  // }, [uuid]);
+  useEffect(() => {
+    if (uuid) {
+      dispatch(fetchMessages(uuid));
+    }
+  }, [uuid]);
 
   return (
     <>
