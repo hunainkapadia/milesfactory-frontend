@@ -96,7 +96,7 @@ const MessageInputBox = ({ isMessageHome }) => {
             <Box display="flex" alignItems="center" justifyContent="center">
               <Box className={inputStyles.SearchBoxContainer}>
                 <Box className={inputStyles.SearchBoxIn} position={"relative"}>
-                  {!isMessageHome && !isTyping ? <LabelAnimation /> : ""}
+                {!isMessageHome && !userMessage.trim() && !isListening ? <LabelAnimation /> : ""}
                   <div
                     ref={inputRef} //
                     contentEditable={!isLoading}
@@ -142,7 +142,7 @@ const MessageInputBox = ({ isMessageHome }) => {
                         isLoading ? inputStyles.Disabled : ""
                       }`}
                       onClick={handleSearch}
-                      disabled={!isTyping || isLoading}
+                      disabled={!userMessage.trim() || isLoading}
                     >
                       <i className="fa fa-arrow-right"></i>
                     </IconButton>
