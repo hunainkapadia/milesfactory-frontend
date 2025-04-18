@@ -41,6 +41,8 @@ const Messages = () => {
   );
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
+  const sendMessages2 = useSelector((state) => state.sendMessage?.messages);
+
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
   //  Combine stored messages (live chat) with fetched messages (history)

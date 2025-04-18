@@ -55,29 +55,28 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   dispatch(setMessage({ user: userMessage })); // for quick show and send user message without api
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-    console.log("ThreadUUIDsendState", uuid);
     api
     .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
     .then((res) => {
       const response = res.data;
       const run_Id = response.run_id;
       const URLRunId = `/api/v1/chat/get-messages/${uuid}/run/${run_Id}`;
-        api
-          .get(URLRunId)
-          .then((resRun) => {
-            const isFunction =  resRun.data.is_function;
-            if (isFunction) {
-              dispatch(
-                  setMessage({
-                      ai: {
-                    SearchingMessage:
-                      "We have everything we need, now looking for flights",
-                  },
-                })
-              );
+      api
+      .get(URLRunId)
+      .then((resRun) => {
+        const isFunction =  resRun.data.is_function;
+        console.log("resRun", resRun);
+        if (isFunction) {
+              // dispatch(
+              //     setMessage({
+              //         ai: {
+              //       SearchingMessage:
+              //         "We have everything we need, now looking for flights",
+              //     },
+              //   })
+              // );
               const allFlightSearchApi =
               response?.response?.results?.view_all_flight_result_api?.url;
-              console.log("resRun", resRun);
               if (allFlightSearchApi) {
                 const getallFlightId = allFlightSearchApi.split("/").pop();
                 dispatch(setTopOfferUrlSend(getallFlightId));
