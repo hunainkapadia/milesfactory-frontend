@@ -13,23 +13,19 @@ const sendMessageSlice = createSlice({
     TopOfferUrlSend: null,
   },
   reducers: {
-    setTopOfferUrlSend: (state, action)=> {
-      
+    setTopOfferUrlSend: (state, action) => {
       state.TopOfferUrlSend = action.payload;
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
-      
-      
       state.messages.push(action.payload);
     },
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
-      
       state.SearchHistory = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
@@ -49,26 +45,25 @@ const sendMessageSlice = createSlice({
 });
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
-  const ThreadUUIDsendState  = getState().sendMessage.ThreadUUIDsend;
-  
-  
+  const ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
+
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
-  
+
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-  
+
     api
       .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
       .then((res) => {
         let response = res.data;
         const run_id = response.run_id;
         const run_status = response.run_status;
-  
+
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
           console.log("Polling:", runStatusUrl);
-  
+
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
               const interval = setInterval(() => {
@@ -76,7 +71,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(runStatusUrl)
                   .then((resRun) => {
                     const runData = resRun.data;
-  
+
                     if (runData.run_status === "completed") {
                       clearInterval(interval);
                       resolve(runData);
@@ -89,13 +84,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               }, 2000);
             });
           };
-  
+
           // Wait for polling before continuing
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
               console.log(" Polling complete:", response);
-  
+
               handleFinalResponse(response);
             })
             .catch((error) => {
@@ -110,40 +105,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       .finally(() => {
         dispatch(setLoading(false));
       });
-  
+
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       if (response?.is_function) {
-        dispatch(
-          setMessage({
-            ai: {
-              SearchingMessage:
-                "We have everything we need, now looking for flights",
-            },
-          })
-        );
-        const topFlightSearchApi =
-          response?.response?.results?.view_top_flight_result_api?.url;
-
-        if (topFlightSearchApi) {
-          api
-            .get(topFlightSearchApi)
-            .then((flightRes) => {
-              dispatch(
-                setMessage({
-                  ai: flightRes.data,
-                  OfferId: topFlightSearchApi,
-                })
-              );
-            })
-            .catch((error) => {
-              console.log("chat error", error);
-            });
-        }
-
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
-
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(getallFlightId));
@@ -157,19 +124,34 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             })
             .catch(() => {});
 
+          // normal user and aimessag
+          dispatch(
+            setMessage({
+              ai: { response: response?.response },
+            })
+          );
           api
             .get(allFlightSearchApi)
             .then((flightRes) => {
-              dispatch(setAllFlightResults(flightRes?.data));
+              console.log("flightRes22", flightRes);
+              dispatch(
+                setMessage({
+                  ai: flightRes.data,
+                })
+              );
+              // dispatch(setAllFlightResults(flightRes?.data));
             })
             .catch(() => {});
         }
       } else {
-        dispatch(setMessage({ ai: response }));
+        dispatch(
+          setMessage({
+            ai: { response: response?.response },
+          })
+        );
       }
     };
   };
-  
 
   //  Check if thread UUID already exists
   if (ThreadUUIDsendState) {
@@ -186,11 +168,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 export const deleteChatThread = (uuid) => (dispatch) => {
   if (!uuid) return;
-  
-  const url = `/api/v1/chat/thread/${uuid}/delete`;
-  
 
-  api.delete(url)
+  const url = `/api/v1/chat/thread/${uuid}/delete`;
+
+  api
+    .delete(url)
     .then((res) => {
       if (res) {
         sessionStorage.removeItem("chat_thread_uuid");
