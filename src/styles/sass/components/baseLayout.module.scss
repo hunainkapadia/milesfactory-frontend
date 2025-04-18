@@ -14,6 +14,7 @@
       @include transition(all 0.2s ease-in-out);
       display: flex; 
       padding: 0px;
+      height: 60px;
       &:hover .DropdownItems {
          opacity: 1;
          visibility: visible;
@@ -27,7 +28,7 @@
          transform: translateY(-10px); // Move slightly up
          position: absolute;
          height: auto;
-         top: 70px;
+         top: 60px;
          left: 0px;
          @include border-radius(8px);
          z-index: 4;
@@ -162,7 +163,7 @@
    
     .Header {height: 54px;
       display: flex;align-items: center;
-      .Dropdown {padding: 20px 20px;
+      .Dropdown {padding: 20px 20px; height: 54px;
          .DropdownItems {
             left: -90px;
             top: 50px;
