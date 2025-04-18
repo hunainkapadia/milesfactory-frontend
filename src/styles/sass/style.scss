@@ -1202,11 +1202,11 @@ body {
       border-radius: 8px !important;
     }
     
-  pointer-events: none;   // disables clicks
-  cursor: not-allowed;    // optional: shows disabled cursor
+    pointer-events: none;   // disables clicks
+    cursor: not-allowed;    // optional: shows disabled cursor
     border-radius: 8px;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
-    background: $lightgray2;
+    background: $lightgray1;
     cursor: inherit;
     letter-spacing: 1.2px !important;
     color: $white !important;
@@ -1995,14 +1995,14 @@ html {
 }
 
 .customRadio.Mui-checked {
-  color:  $lightergray1; /* Checked color */
+  color:  $lightgray1; /* Checked color */
 }
 
 .MuiRadio-root {
-  .MuiSvgIcon-root:first-child {color: $lightergray1;}
+  .MuiSvgIcon-root:first-child {color: $lightgray1;}
 }
 .Mui-checked {
-  .MuiSvgIcon-root:first-child {color: $lightergray1;}
+  .MuiSvgIcon-root:first-child {color: $lightgray1;}
   .MuiSvgIcon-root:last-child {color: $basecolor1;}
 }
 

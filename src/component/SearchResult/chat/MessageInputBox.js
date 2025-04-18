@@ -17,8 +17,7 @@ const MessageInputBox = ({ isMessageHome }) => {
   console.log("isMessageHome", isMessageHome);
   const inputRef = useRef(null); // Add this
   const recognitionRef = useRef(null); // voice recognition instance
-const [isListening, setIsListening] = useState(false);
-
+  const [isListening, setIsListening] = useState(false);
 
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
@@ -27,6 +26,8 @@ const [isListening, setIsListening] = useState(false);
   const sendMessages = useSelector(
     (state) => state.sendMessage?.messages.length || 0
   );
+  const isLoading = useSelector((state) => state.sendMessage?.isLoading); // track for send message loading
+
   const getmessages = useSelector(
     (state) => state.getMessages.messages.length || 0
   );
@@ -48,21 +49,21 @@ const [isListening, setIsListening] = useState(false);
       recognition.lang = "en-US";
       recognition.continuous = false;
       recognition.interimResults = false;
-  
+
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         setUserMessage(transcript);
         if (inputRef.current) inputRef.current.textContent = transcript;
       };
-  
+
       recognition.onerror = (event) => {
         console.error("Voice recognition error:", event.error);
       };
-  
+
       recognition.onend = () => {
         setIsListening(false);
       };
-  
+
       recognitionRef.current = recognition;
     }
   }, []);
@@ -98,7 +99,8 @@ const [isListening, setIsListening] = useState(false);
                   {!isMessageHome && !isTyping ? <LabelAnimation /> : ""}
                   <div
                     ref={inputRef} //
-                    contentEditable
+                    contentEditable={!isLoading}
+                    suppressContentEditableWarning
                     role="textbox"
                     placeholder="Ask anything about your trip"
                     className={inputStyles.SearchForm + " SearchForm 222"}
@@ -125,25 +127,26 @@ const [isListening, setIsListening] = useState(false);
                       textAlign: "left",
                     }}
                   ></div>
-                  
+
                   <Box className={inputStyles.SearchButtonBox}>
-                  <IconButton className="f16  "
-                    
-                    onClick={handleVoiceInput}
-                  >
-                    <i
-                      className={`fa ${
-                        isListening ? "fa-microphone-slash" : "fa-microphone"
-                      }`}
-                    ></i>
-                  </IconButton>
+                    <IconButton className="f16  " onClick={handleVoiceInput}>
+                      <i
+                        className={`fa ${
+                          isListening ? "fa-microphone-slash" : "fa-microphone"
+                        }`}
+                      ></i>
+                    </IconButton>
+                    {/* voice btn */}
                     <IconButton
-                      className={inputStyles.SearchButton}
+                      className={`${inputStyles.SearchButton} ${
+                        !isTyping || isLoading ? inputStyles.Disabled : ""
+                      }`}
                       onClick={handleSearch}
+                      disabled={!isTyping || isLoading}
                     >
                       <i className="fa fa-arrow-right"></i>
                     </IconButton>
-                    
+                    {console.log("isLoading", isLoading)}
                   </Box>
                 </Box>
                 {!isMessageHome ? (

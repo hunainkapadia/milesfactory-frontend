@@ -39,6 +39,9 @@
             background-color: $basecolor1;
             @include border-radius(100px);
             color: $white;
+            &.Disabled {
+               background-color: $lightgray1;
+            }
             i {font-size: 20px;}
       
             &:hover {

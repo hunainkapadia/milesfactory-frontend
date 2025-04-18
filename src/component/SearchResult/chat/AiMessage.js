@@ -71,6 +71,8 @@ const AiMessage = ({ aiMessage }) => {
       }
     }, [paymentSuccess]);
     // scroll
+      const isLoading = useSelector((state) => state.sendMessage?.isLoading);
+      // track for send message loading
     
     console.log("aiMessage000", aiMessage);
     
@@ -146,10 +148,7 @@ const AiMessage = ({ aiMessage }) => {
 
             {/* Toggle button */}
             {!GetViewPassengers ? (
-              <Box
-                onClick={seeAllResultHandle}
-                style={{ cursor: "pointer" }}
-              >
+              <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
                 <Link href={"#"} className="text-decoration-none">
                   <Box
                     sx={{ my: { lg: 2, md: 2, xs: 0 } }}
@@ -202,6 +201,14 @@ const AiMessage = ({ aiMessage }) => {
             ) : (
               ""
             )}
+            {console.log("aiMessageLoading", aiMessage)}
+            {isLoading ? (
+              <Box className={searchResultStyles.AiMessage}>
+                <Typography className="bold">
+                    We have everything we need, now looking for flights
+                </Typography>
+              </Box>
+            ) : ""}
           </>
         )}
 

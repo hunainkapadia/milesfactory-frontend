@@ -145,7 +145,8 @@
  }
 
  
- @media only screen and (max-width: 767px) {
+ 
+ @include for-mobile-large-screen () {
    .FooterForDark {
       z-index: 4;
    }
@@ -158,25 +159,15 @@
          }
       }
     }
-   .Header {height: 54px;
+   
+    .Header {height: 54px;
+      display: flex;align-items: center;
       .Dropdown {padding: 20px 20px;
          .DropdownItems {
             left: -90px;
             top: 50px;
          }
       }
-      
-      &.isMessage {
-         
-      }
-   }
-   
- }
-
- @include for-mobile-large-screen () {
-    .Header {height: 54px;
-      display: flex;
-      align-items: center;
       &.isMessage {
          .HeaderRightCol {gap: 0 24px;}
          .userName {

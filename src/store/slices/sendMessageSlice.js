@@ -49,61 +49,85 @@ const sendMessageSlice = createSlice({
 export const sendMessage = (userMessage) => (dispatch, getState) => {
   const ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
 
+  
+  
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage })); // for quick show and send user message without api
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
+    console.log("ThreadUUIDsendState", threadUUIdUrl);
     api
-      .post(threadUUIdUrl, { user_message: userMessage })
-      .then((res) => {
-        const response = res.data;
+    .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
+    .then((res) => {
+      const response = res.data;
+      const run_Id = response.run_id;
+      const URLRunId = `/api/v1/chat/get-messages/${uuid}/run/${run_Id}`;
 
-        if (response?.is_function) {
-          const allFlightSearchApi =
-            response?.response?.results?.view_all_flight_result_api?.url;
-          if (allFlightSearchApi) {
-            const getallFlightId = allFlightSearchApi.split("/").pop();
-            dispatch(setTopOfferUrlSend(getallFlightId));
-
-            const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-
-            api
-              .get(historyUrl)
-              .then((history_res) => {
-                dispatch(setSearchHistorySend(history_res.data.search));
-              })
-              .catch(() => {});
-
-              // normal user and aimessag
-            dispatch(
-              setMessage({
-                ai: { response: response?.response },
-              })
-            );
-            api
-              .get(allFlightSearchApi)
-              .then((flightRes) => {
-                console.log("flightRes22", flightRes);
+        api
+          .get(URLRunId)
+          .then((resRun) => {
+            const isFunction =  resRun.data.is_function;
+            if (isFunction) {
+              // dispatch(
+                //   setMessage({
+                  //     ai: {
+              //       SearchingMessage:
+              //         "We have everything we need, now looking for flights",
+              //     },
+              //   })
+              // );
+              const allFlightSearchApi =
+              response?.response?.results?.view_all_flight_result_api?.url;
+              console.log("resRun", resRun);
+              if (allFlightSearchApi) {
+                const getallFlightId = allFlightSearchApi.split("/").pop();
+                dispatch(setTopOfferUrlSend(getallFlightId));
+    
+                const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+    
+                api
+                  .get(historyUrl)
+                  .then((history_res) => {
+                    dispatch(setSearchHistorySend(history_res.data.search));
+                  })
+                  .catch(() => {});
+    
+                // normal user and aimessag
                 dispatch(
                   setMessage({
-                    ai: flightRes.data,
+                    ai: { response: response?.response },
                   })
                 );
-                // dispatch(setAllFlightResults(flightRes?.data));
-              })
-              .catch(() => {});
-          }
-        } else {
-          dispatch(
-            setMessage({
-              
-              ai: { response: response?.response },
-            })
-          );
-          
-        }
+                api
+                  .get(allFlightSearchApi)
+                  .then((flightRes) => {
+                    console.log("flightRes22", flightRes);
+                    dispatch(
+                      setMessage({
+                        ai: flightRes.data,
+                      })
+                    );
+                    // dispatch(setAllFlightResults(flightRes?.data));
+                  })
+                  .catch(() => {});
+              }
+            } else {
+              dispatch(
+                setMessage({
+                  ai: { response: response?.response },
+                })
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {});
+
       })
-      .catch(() => {})
+      .catch((err) => {
+        console.error("Error in sendMessage:", err);
+      })
       .finally(() => {
         dispatch(setLoading(false));
       });
