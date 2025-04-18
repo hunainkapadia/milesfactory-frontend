@@ -187,7 +187,7 @@ const AiMessage = ({ aiMessage }) => {
         ) : (
           // Default AI response
           <>
-            {console.log("aiMessage111", aiMessage?.ai)}
+            {/* {console.log("aiMessage111", aiMessage?.ai)} */}
             {!aiMessage?.ai?.response?.results ? (
               <Box className={searchResultStyles.AiMessage + " aaa"}>
                 <Typography
@@ -201,7 +201,7 @@ const AiMessage = ({ aiMessage }) => {
             ) : (
               ""
             )}
-            
+            {console.log("aiMessageLoading", aiMessage?.ai?.SearchingMessage)}
             {aiMessage?.ai?.SearchingMessage ? (
               <Box className={searchResultStyles.AiMessage}>
                 <Typography className="bold">

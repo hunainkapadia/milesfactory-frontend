@@ -21,8 +21,6 @@ const ChatByUUID = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
-
-  console.log("isMessage11", isMessage);
   
 
   // Fetch messages using the UUID from URL

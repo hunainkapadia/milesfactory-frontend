@@ -46,6 +46,7 @@ const Messages = () => {
   const getmessages = useSelector((state) => state.getMessages.messages);
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
