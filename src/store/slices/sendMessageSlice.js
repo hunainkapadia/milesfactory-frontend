@@ -81,7 +81,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     clearInterval(interval);
                     reject(err);
                   });
-              }, 2000);
+              }, 1000);
             });
           };
 
