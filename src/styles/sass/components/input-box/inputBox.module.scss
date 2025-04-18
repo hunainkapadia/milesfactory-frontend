@@ -32,6 +32,7 @@
          display: flex;
          align-items: center;
          padding: 15px;
+         gap: 8px;
          .SearchButton {
             width: 40px;
             height: 40px;
@@ -47,6 +48,15 @@
             &:hover {
                background-color: $basecolor1;
             }
+         }
+         .MicButton {
+            width: 40px;
+            height: 40px;
+            z-index: 2;
+            background-color: $white;
+            @include border-radius(100px);
+            border: solid 1px $lightgray3;
+            i {font-size: 20px;}
          }
       }
    
@@ -108,6 +118,7 @@
       z-index: 1;
       bottom: 0;
       right: 0;
+      gap: 8px;
       .SearchButton {
          width: 25px;
          height: 25px;
@@ -115,7 +126,16 @@
          @include border-radius(100px);
          color: $black;
          font-size: $bfsize;
-   
+      }
+      .MicButton {
+         width: 25px;
+         height: 25px;
+         padding: 0;
+         @include border-radius(100px);
+         color: $white;
+         font-size: $bfsize;
+         border: solid 1px $lightgray2;
+         i  {font-size: 12px;}
          &:hover {
             background-color: $basecolor1;
             color: $white;

@@ -109,6 +109,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       if (response?.is_function) {
+        dispatch(
+          setMessage({
+            ai: {
+              SearchingMessage:
+                "We have everything we need, now looking for flights",
+            },
+          })
+        );
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         if (allFlightSearchApi) {

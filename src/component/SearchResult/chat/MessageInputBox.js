@@ -129,7 +129,7 @@ const MessageInputBox = ({ isMessageHome }) => {
                   ></div>
 
                   <Box className={inputStyles.SearchButtonBox}>
-                    <IconButton className="f16  " onClick={handleVoiceInput}>
+                    <IconButton className={inputStyles.MicButton + "  "} onClick={handleVoiceInput}>
                       <i
                         className={`fa ${
                           isListening ? "fa-microphone-slash" : "fa-microphone"
@@ -139,7 +139,7 @@ const MessageInputBox = ({ isMessageHome }) => {
                     {/* voice btn */}
                     <IconButton
                       className={`${inputStyles.SearchButton} ${
-                        !isTyping || isLoading ? inputStyles.Disabled : ""
+                        isLoading ? inputStyles.Disabled : ""
                       }`}
                       onClick={handleSearch}
                       disabled={!isTyping || isLoading}
