@@ -13,21 +13,23 @@ const sendMessageSlice = createSlice({
     TopOfferUrlSend: null,
   },
   reducers: {
-    setTopOfferUrlSend: (state, action) => {
+    setTopOfferUrlSend: (state, action)=> {
+      
       state.TopOfferUrlSend = action.payload;
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
-      console.log("sendaction", action);
-
+      
+      
       state.messages.push(action.payload);
     },
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
+      
       state.SearchHistory = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
@@ -47,86 +49,101 @@ const sendMessageSlice = createSlice({
 });
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
-  const ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
-
+  const ThreadUUIDsendState  = getState().sendMessage.ThreadUUIDsend;
   
   
   dispatch(setLoading(true));
-  dispatch(setMessage({ user: userMessage })); // for quick show and send user message without api
+  dispatch(setMessage({ user: userMessage }));
+  
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-    console.log("ThreadUUIDsendState", uuid);
     api
-    .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
-    .then((res) => {
-      const response = res.data;
-      const run_Id = response.run_id;
-      const URLRunId = `/api/v1/chat/get-messages/${uuid}/run/${run_Id}`;
-        api
-          .get(URLRunId)
-          .then((resRun) => {
-            const isFunction =  resRun.data.is_function;
-            if (isFunction) {
-              dispatch(
-                  setMessage({
-                      ai: {
-                    SearchingMessage:
-                      "We have everything we need, now looking for flights",
-                  },
-                })
-              );
-              const allFlightSearchApi =
-              response?.response?.results?.view_all_flight_result_api?.url;
-              console.log("resRun", resRun);
-              if (allFlightSearchApi) {
-                const getallFlightId = allFlightSearchApi.split("/").pop();
-                dispatch(setTopOfferUrlSend(getallFlightId));
-    
-                const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-    
-                api
-                  .get(historyUrl)
-                  .then((history_res) => {
-                    dispatch(setSearchHistorySend(history_res.data.search));
-                  })
-                  .catch(() => {});
-    
-                // normal user and aimessag
+      .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
+      .then((res) => {
+        let response = res.data;
+        const run_id = res.run_id;
+        const run_status = res.run_status;
+
+        if (run_status === "requires_action"){
+          const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
+
+          const pollUntilComplete = async () => {
+            return new Promise((resolve, reject) => {
+              const interval = setInterval(async () => {
+                try {
+                  const resRun = await api.get(runStatusUrl);
+                  const runData = resRun.data;
+
+                  if (runData.run_status === "completed") {
+                    clearInterval(interval);
+                    resolve(runData);
+                  }
+                } catch (err) {
+                  clearInterval(interval);
+                  reject(err);
+                }
+              }, 2000);
+            });
+          };
+
+          try {
+            const completedRun = await pollUntilComplete();
+            response = completedRun; // replace response with completed response
+          } catch (error) {
+            console.error("Polling failed:", error);
+            return;
+          }
+        }
+        
+
+        if (response?.is_function) {
+          const topFlightSearchApi =
+            response?.response?.results?.view_top_flight_result_api?.url;
+
+          if (topFlightSearchApi) {
+            api
+              .get(topFlightSearchApi)
+              .then((flightRes) => {
                 dispatch(
                   setMessage({
-                    ai: { response: response?.response },
+                    ai: flightRes.data,
+                    OfferId: topFlightSearchApi,
                   })
                 );
-                api
-                  .get(allFlightSearchApi)
-                  .then((flightRes) => {
-                    console.log("flightRes22", flightRes);
-                    dispatch(
-                      setMessage({
-                        ai: flightRes.data,
-                      })
-                    );
-                    // dispatch(setAllFlightResults(flightRes?.data));
-                  })
-                  .catch(() => {});
-              }
-            } else {
-              dispatch(
-                setMessage({
-                  ai: { response: response?.response },
-                })
-              );
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => {});
+              })
+              .catch((error) => {
+                console.log("chat error", error);
+              });
+          }
 
+          const allFlightSearchApi =
+            response?.response?.results?.view_all_flight_result_api?.url;
+          if (allFlightSearchApi) {
+            const getallFlightId = allFlightSearchApi.split("/").pop();
+            dispatch(setTopOfferUrlSend(getallFlightId))
+            
+            const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+
+            api
+              .get(historyUrl)
+              .then((history_res) => {
+                dispatch(setSearchHistorySend(history_res.data.search));
+              })
+              .catch(() => {});
+
+            api
+              .get(allFlightSearchApi)
+              .then((flightRes) => {
+                dispatch(setAllFlightResults(flightRes?.data));
+              })
+              .catch(() => {});
+          }
+        } else {
+          
+          dispatch(setMessage({ ai: response }));
+        }
       })
-      .catch((err) => {
-        console.error("Error in sendMessage:", err);
-      })
+      .catch(() => {})
       .finally(() => {
         dispatch(setLoading(false));
       });
@@ -147,11 +164,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 export const deleteChatThread = (uuid) => (dispatch) => {
   if (!uuid) return;
-
+  
   const url = `/api/v1/chat/thread/${uuid}/delete`;
+  
 
-  api
-    .delete(url)
+  api.delete(url)
     .then((res) => {
       if (res) {
         sessionStorage.removeItem("chat_thread_uuid");
