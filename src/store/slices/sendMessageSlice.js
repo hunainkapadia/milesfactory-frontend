@@ -90,19 +90,19 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             });
           };
   
-          // 🟢 Wait for polling before continuing
+          // Wait for polling before continuing
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
-              console.log("✅ Polling complete:", response);
+              console.log(" Polling complete:", response);
   
               handleFinalResponse(response);
             })
             .catch((error) => {
-              console.error("❌ Polling failed:", error);
+              console.error(" Polling failed:", error);
             });
         } else {
-          // 🔵 If no polling needed, use immediate response
+          // If no polling needed, use immediate response
           handleFinalResponse(response);
         }
       })
@@ -111,12 +111,20 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         dispatch(setLoading(false));
       });
   
-    // ✅ Common handler after response is finalized (immediate or polled)
+    //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       if (response?.is_function) {
+        dispatch(
+          setMessage({
+            ai: {
+              SearchingMessage:
+                "We have everything we need, now looking for flights",
+            },
+          })
+        );
         const topFlightSearchApi =
           response?.response?.results?.view_top_flight_result_api?.url;
-  
+
         if (topFlightSearchApi) {
           api
             .get(topFlightSearchApi)
@@ -132,23 +140,25 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               console.log("chat error", error);
             });
         }
-  
+
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
-  
+
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(getallFlightId));
-  
+
           const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-  
-          api.get(historyUrl)
+
+          api
+            .get(historyUrl)
             .then((history_res) => {
               dispatch(setSearchHistorySend(history_res.data.search));
             })
             .catch(() => {});
-  
-          api.get(allFlightSearchApi)
+
+          api
+            .get(allFlightSearchApi)
             .then((flightRes) => {
               dispatch(setAllFlightResults(flightRes?.data));
             })

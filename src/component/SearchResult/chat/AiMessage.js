@@ -187,9 +187,16 @@ const AiMessage = ({ aiMessage }) => {
         ) : (
           // Default AI response
           <>
-            {/* {console.log("aiMessage111", aiMessage?.ai)} */}
+            {console.log("aiMessage111", aiMessage?.ai)}
             {!aiMessage?.ai?.response?.results ? (
               <Box className={searchResultStyles.AiMessage + " aaa"}>
+                {aiMessage?.ai?.SearchingMessage ? (
+                  <Typography className="bold">
+                    {aiMessage?.ai?.SearchingMessage}
+                  </Typography>
+                ) : (
+                  ""
+                )}
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(
@@ -201,14 +208,6 @@ const AiMessage = ({ aiMessage }) => {
             ) : (
               ""
             )}
-            {console.log("aiMessageLoading", aiMessage?.ai?.SearchingMessage)}
-            {aiMessage?.ai?.SearchingMessage ? (
-              <Box className={searchResultStyles.AiMessage}>
-                <Typography className="bold">
-                    {aiMessage?.ai?.SearchingMessage}
-                </Typography>
-              </Box>
-            ) : ""}
           </>
         )}
 
