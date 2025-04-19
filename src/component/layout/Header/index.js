@@ -361,7 +361,7 @@ const Header = ({ isMessage, IsActive }) => {
               )}
               {isMessage ? (
                 <>
-                  <Box className=" cursor-pointer" onClick={ChatClearHandle}>
+                  <Box className=" cursor-pointer" onClick={ChatClearHandle} display={"flex"} alignItems={"center"}>
                     <Box
                       display="flex"
                       alignItems="center"
@@ -374,7 +374,7 @@ const Header = ({ isMessage, IsActive }) => {
                     </Box>
                   </Box>
 
-                  <Box className=" cursor-pointer">
+                  <Box className=" cursor-pointer" display={"flex"} alignItems={"center"}>
                     <Box
                       display="flex"
                       alignItems="center"
