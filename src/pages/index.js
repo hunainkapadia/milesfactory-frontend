@@ -34,15 +34,6 @@ const Home = () => {
   }, [sendMessages.length, uuid]);
 
 
-  
-  
-  
-
-  useEffect(() => {
-    if (uuid) {
-      router.push(`/chat/${uuid}`);
-    }
-  }, [uuid]);
 
   return (
     <>

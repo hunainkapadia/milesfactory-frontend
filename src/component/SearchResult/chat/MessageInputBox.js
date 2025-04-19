@@ -76,6 +76,7 @@ const MessageInputBox = ({ isMessageHome }) => {
     }
     setIsListening((prev) => !prev);
   };
+    const isPolling = useSelector((state) => state.sendMessage?.isPollingComplete);
   return (
     <section>
       <Box

@@ -11,8 +11,12 @@ const sendMessageSlice = createSlice({
     SearchHistorySend: null,
     ThreadUUIDsend: null,
     TopOfferUrlSend: null,
+    isPolling : false,
   },
   reducers: {
+    setisPolling : (state, action) => {
+      state.isPolling = action.payload;
+    },
     setTopOfferUrlSend: (state, action) => {
       state.TopOfferUrlSend = action.payload;
     },
@@ -62,7 +66,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-          console.log("Polling:", runStatusUrl);
 
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
@@ -71,7 +74,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(runStatusUrl)
                   .then((resRun) => {
                     const runData = resRun.data;
+                    console.log("runData.run_status", runData.run_status);
 
+                    
+                    
+                    if (runData.run_status == "in_progress") {
+                      dispatch(setisPolling(true));
+                    }
                     if (runData.run_status === "completed") {
                       clearInterval(interval);
                       resolve(runData);
@@ -109,14 +118,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       if (response?.is_function) {
-        dispatch(
-          setMessage({
-            ai: {
-              SearchingMessage:
-                "We have everything we need, now looking for flights",
-            },
-          })
-        );
+        
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         if (allFlightSearchApi) {
@@ -152,6 +154,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .catch(() => {});
         }
       } else {
+        if (response?.run_status == "completed") {
+          dispatch(setisPolling(false));
+        }
         dispatch(
           setMessage({
             ai: { response: response?.response },
@@ -202,5 +207,6 @@ export const {
   setThreadUUIDsend,
   setClearChat,
   setTopOfferUrlSend,
+  setisPolling,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
