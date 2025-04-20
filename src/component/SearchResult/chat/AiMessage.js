@@ -15,6 +15,7 @@ import PaymentDrawer from "../../Checkout/PaymentDrawer";
 import PaymentAddCard from "../../Checkout/PaymentAddCardDrawer";
 import PaymentSuccess from "../../Checkout/PaymentSuccess";
 import PriceSummary from "../../Checkout/PriceSummary";
+import PollingMessage from "../PollingMessage/PollingMessage";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
@@ -72,11 +73,7 @@ const AiMessage = ({ aiMessage }) => {
   // track for send message loading
 
   const isPolling = useSelector((state) => state.sendMessage?.isPolling);
-  console.log("isPolling", isPolling);
   
-  const isNormalPolling = useSelector(
-    (state) => state.sendMessage?.normalPolling
-  );
 
   return (
     <Box
@@ -129,12 +126,9 @@ const AiMessage = ({ aiMessage }) => {
 
       {displayedGetFlights?.length > 0 ? (
         <>
-          {isPolling ? (
-            <Box className={searchResultStyles.AiMessage}>
-              <Typography className="bold">
-                We have everything we need, now looking for flights
-              </Typography>
-            </Box>
+          {console.log("isPolling", isPolling)}
+          {isPolling.status ? (
+            <PollingMessage PollingData={isPolling?.argument}  />
           ) : (
             ""
           )}

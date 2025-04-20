@@ -11,7 +11,10 @@ const sendMessageSlice = createSlice({
     SearchHistorySend: null,
     ThreadUUIDsend: null,
     TopOfferUrlSend: null,
-    isPolling : false,
+    isPolling: {
+      status: false,
+      argument: null,
+    },
   },
   reducers: {
     setisPolling : (state, action) => {
@@ -74,12 +77,17 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(runStatusUrl)
                   .then((resRun) => {
                     const runData = resRun.data;
-                    console.log("runData.run_status", runData.run_status);
+                    console.log("runData.run_status", runData.function_template);
 
                     
                     // checking is function true before dufful flight
                     if (runData.run_status == "in_progress") {
-                      dispatch(setisPolling(true));
+                      const funcTemplate = runData.function_template?.[0];
+                      const gdata = funcTemplate?.function?.arguments || {};                    
+                      dispatch(setisPolling({
+                        status: true,
+                        argument: gdata
+                      }));
                     }
                     if (runData.run_status === "completed") {
                       clearInterval(interval);
@@ -156,7 +164,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       } else {
         // checking is function true before dufful flight
         if (response?.run_status == "completed") {
-          dispatch(setisPolling(false));
+          dispatch(setisPolling({
+            status: false,
+            argument: gdata
+          }));
         }
         dispatch(
           setMessage({
