@@ -110,7 +110,6 @@ const Messages = () => {
               ))}
               {isPolling.status ? (
                 <PollingMessage
-                  className="aaaa"
                   PollingData={isPolling?.argument}
                 />
               ) : (
