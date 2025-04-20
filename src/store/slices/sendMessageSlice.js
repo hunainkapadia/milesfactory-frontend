@@ -166,7 +166,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         if (response?.run_status == "completed") {
           dispatch(setisPolling({
             status: false,
-            argument: gdata
+            argument: null,
           }));
         }
         dispatch(

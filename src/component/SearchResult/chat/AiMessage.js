@@ -126,12 +126,12 @@ const AiMessage = ({ aiMessage }) => {
 
       {displayedGetFlights?.length > 0 ? (
         <>
-          {console.log("isPolling", isPolling)}
           {isPolling.status ? (
             <PollingMessage PollingData={isPolling?.argument}  />
           ) : (
             ""
           )}
+          {console.log("isPolling", isPolling)}
           <Box
             sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
             className={searchResultStyles.SearchCardWrapper}
