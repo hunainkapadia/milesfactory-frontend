@@ -27,6 +27,7 @@ import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
 import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import Link from "next/link";
+import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -86,6 +87,7 @@ const Messages = () => {
     dispatch(RefreshHandle())
     dispatch(setRefreshSearch())
   }
+    const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
   
 
   return (
@@ -94,7 +96,6 @@ const Messages = () => {
         <section>
           <Box className={searchResultStyles.messageContent}>
             <Box className={searchResultStyles.messageContentIn}>
-               
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}
@@ -107,6 +108,14 @@ const Messages = () => {
                   ) : null}
                 </Box>
               ))}
+              {isPolling.status ? (
+                <PollingMessage
+                  className="aaaa"
+                  PollingData={isPolling?.argument}
+                />
+              ) : (
+                ""
+              )}
               {/*  */}
               <Box ref={messagesEndRef} />
               {/* booking flow start */}

@@ -18,6 +18,8 @@ const sendMessageSlice = createSlice({
   },
   reducers: {
     setisPolling : (state, action) => {
+      console.log("action111", action);
+      
       state.isPolling = action.payload;
     },
     setTopOfferUrlSend: (state, action) => {
@@ -67,9 +69,18 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_id = response.run_id;
         const run_status = response.run_status;
 
+        console.log("run_status111", run_status);
+        
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-
+          
+          const funcTemplate = response.function_template?.[0];
+          const gdata = funcTemplate?.function?.arguments || {};                    
+          console.log("response_111", gdata);
+            dispatch(setisPolling({
+              status: true,
+              argument: gdata
+            }));
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
               const interval = setInterval(() => {
@@ -81,14 +92,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                     
                     // checking is function true before dufful flight
-                    if (runData.run_status == "in_progress") {
-                      const funcTemplate = runData.function_template?.[0];
-                      const gdata = funcTemplate?.function?.arguments || {};                    
-                      dispatch(setisPolling({
-                        status: true,
-                        argument: gdata
-                      }));
-                    }
+                    
                     if (runData.run_status === "completed") {
                       clearInterval(interval);
                       resolve(runData);
@@ -126,7 +130,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       if (response?.is_function) {
-        
+        console.log("run_status222", response);
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         if (allFlightSearchApi) {

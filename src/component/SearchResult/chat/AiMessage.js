@@ -72,7 +72,7 @@ const AiMessage = ({ aiMessage }) => {
   const isLoading = useSelector((state) => state.sendMessage?.isLoading);
   // track for send message loading
 
-  const isPolling = useSelector((state) => state.sendMessage?.isPolling);
+  
   
 
   return (
@@ -124,14 +124,9 @@ const AiMessage = ({ aiMessage }) => {
         ""
       )}
 
+      
       {displayedGetFlights?.length > 0 ? (
         <>
-          {isPolling.status ? (
-            <PollingMessage PollingData={isPolling?.argument}  />
-          ) : (
-            ""
-          )}
-          {console.log("isPolling", isPolling)}
           <Box
             sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
             className={searchResultStyles.SearchCardWrapper}
