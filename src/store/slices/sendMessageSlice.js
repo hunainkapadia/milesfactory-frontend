@@ -77,7 +77,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     console.log("runData.run_status", runData.run_status);
 
                     
-                    
+                    // checking is function true before dufful flight
                     if (runData.run_status == "in_progress") {
                       dispatch(setisPolling(true));
                     }
@@ -154,6 +154,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .catch(() => {});
         }
       } else {
+        // checking is function true before dufful flight
         if (response?.run_status == "completed") {
           dispatch(setisPolling(false));
         }
