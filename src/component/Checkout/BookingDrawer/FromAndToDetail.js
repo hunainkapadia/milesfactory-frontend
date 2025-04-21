@@ -131,7 +131,7 @@ const FromAndToDetail = ({
                       justifyContent="space-between"
                     >
                       <Box className={styles.Col1}>
-                        <h5 className={styles.Country + " mb-0"}>
+                        <h5 className={styles.Country + " f12m mb-0"}>
                           {new Date(segment?.departing_at).toLocaleTimeString(
                             [],
                             {
@@ -142,7 +142,7 @@ const FromAndToDetail = ({
                         </h5>
                       </Box>
                       <Box className={styles.Col2}>
-                        <h5 className={styles.Country + " mb-0"}>
+                        <h5 className={styles.Country + " f12m mb-0"}>
                           {segment?.origin?.iata_code} (
                           {segment?.origin?.city_name})
                         </h5>
@@ -179,7 +179,7 @@ const FromAndToDetail = ({
                       <Box className={styles.Col2}>
                         {getdata.segments.length > 1 ? (
                           <>
-                            <Typography className="f14 red">
+                            <Typography className="f14 f12m red">
                               {getStopDetails(getdata)}
                             </Typography>
                           </>
@@ -215,7 +215,7 @@ const FromAndToDetail = ({
                       justifyContent="space-between"
                     >
                       <Box className={styles.Col1}>
-                        <h5 className={styles.Country + " mb-0"}>
+                        <h5 className={styles.Country + " f12m mb-0"}>
                           {new Date(segment?.arriving_at).toLocaleTimeString(
                             [],
                             {
@@ -226,7 +226,7 @@ const FromAndToDetail = ({
                         </h5>
                       </Box>
                       <Box className={styles.Col2}>
-                        <h5 className={styles.Country + " mb-0"}>
+                        <h5 className={styles.Country + " f12m mb-0"}>
                           {segment?.destination?.iata_code} (
                           {segment?.destination?.city_name})
                         </h5>

@@ -39,7 +39,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
               <Box
                 display={"flex"}
                 justifyContent={"space-between"}
-                alignItems={"center"}
+                alignItems={"flex-start"}
               >
                 <Box>
                   <h4 className={styles.title + " mb-0"}>
