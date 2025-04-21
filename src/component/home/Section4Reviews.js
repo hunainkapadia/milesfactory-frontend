@@ -28,7 +28,7 @@ const reviews = [
 
 const Section4Reviews = (props) => {
   return (
-    <section
+    <Box position={"relative"}
       id={props.id}
       className={`${styles.HomeBannerReview} section-padding-lg white-bg no-bg`}
     >
@@ -134,7 +134,7 @@ const Section4Reviews = (props) => {
         </Container>
         <Footer forReview LearnMore={"Travel with Mylz"} id={"Section5App"} />
       </section>
-    </section>
+    </Box>
   );
 };
 

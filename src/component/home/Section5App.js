@@ -97,7 +97,7 @@ const Section5App = (props) => {
           </Box>
         </Container>
       </Box>
-      <Footer forLight />
+      
     </>
   );
 };

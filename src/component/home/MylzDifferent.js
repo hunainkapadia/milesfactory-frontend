@@ -5,10 +5,11 @@ import Footer from "../layout/Footer";
 
 const MylzDifferent = (props) => {
   return (
-    <section
+    <Box
       id={props.id}
       className={styles.HomeBanner}
       style={{ backgroundImage: "url('/images/mylz-diff-bg.png')" }}
+      position={"relative"}
     >
       <Container>
         <Box className={styles.HeroSection + " "} position={"relative"}>
@@ -112,7 +113,7 @@ const MylzDifferent = (props) => {
         LearnMore={"Powered by airlines and hotels"}
         id={"Section4Reviews"}
       />
-    </section>
+    </Box>
   );
 };
 

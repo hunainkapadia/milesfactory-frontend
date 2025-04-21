@@ -1,4 +1,4 @@
-import { FormLabel } from "@mui/material";
+import { Box, FormLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 
@@ -56,10 +56,12 @@ const LabelAnimation = () => {
   }, [displayedText, isDeleting, textIndex]);
 
   return (
-    <FormLabel className={inputStyles.label}>
-      {displayedText}
-      {showCursor ? " |" : ""}
-    </FormLabel>
+    <Box textAlign={"left"}>
+      <FormLabel className={inputStyles.label}>
+        {displayedText}
+        {showCursor ? " |" : ""}
+      </FormLabel>
+    </Box>
   );
 };
 
