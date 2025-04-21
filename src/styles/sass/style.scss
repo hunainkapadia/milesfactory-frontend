@@ -457,6 +457,9 @@ label,
 .css-1tlcqt-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0;
 }
+.MainDrower {
+  .MuiDrawer-paper {width: 480px !important;}
+}
 .formControl
 .MuiDrawer-root {
   transition: transform 0.5s ease-in-out !important;

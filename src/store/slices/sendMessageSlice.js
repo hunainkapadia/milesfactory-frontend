@@ -68,12 +68,15 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         let response = res.data;
         const run_id = response.run_id;
         const run_status = response.run_status;
+
+        console.log("run_status111", run_status);
         
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
           
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};                    
+
             dispatch(setisPolling({
               status: true,
               argument: gdata
@@ -91,10 +94,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     // checking is function true before dufful flight
                     
                     if (runData.run_status === "completed") {
-                      dispatch(setisPolling({
-                        status: false,
-                        argument: gdata
-                      }));
                       clearInterval(interval);
                       resolve(runData);
                     }

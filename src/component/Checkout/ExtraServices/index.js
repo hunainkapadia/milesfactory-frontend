@@ -4,9 +4,16 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 
 import Link from "next/link";
 import { currencySymbols } from "@/src/utils/utils";
+import { bookFlight, setBaggageDrawer } from "@/src/store/slices/BookingflightSlice";
+import { useDispatch } from "react-redux";
 
 const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
 
+  const dispatch = useDispatch();
+  const handleBaggageDrawer = ()=> {
+    dispatch(bookFlight());
+    dispatch(setBaggageDrawer(true)); // opens the drawer
+  }
   return (
     <Grid item xs={6} lg={6} md={6} className={searchResultStyles.ExtraServicesCol}>
       <Box className={`${styles.passengersCard} ${styles.ExtraServices} `}>
@@ -142,11 +149,11 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                         {isOutbound ? "Outbound baggage" : "Return baggage"}
                       </Typography>
                     </Box>
-                    <Link className="btn-link" href={"/"}>
+                    <Box className="btn-link basecolor1" onClick={()=>handleBaggageDrawer()} >
                       <Box textAlign={"right"} className="basecolor1" gap={2}>
                         <div>Add</div>
                       </Box>
-                    </Link>
+                    </Box>
                   </Box>
 
                   {/* Baggage details row */}

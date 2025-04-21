@@ -25,6 +25,8 @@ const PassengerInfo = ({ getdata }) => {
   };
 
   const handlePassengerClick = (uuid, isFilled) => {
+    console.log("uuid111", isFilled);
+    
     if (!isFilled) {
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)

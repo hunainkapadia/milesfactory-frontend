@@ -72,17 +72,29 @@ const AiMessage = ({ aiMessage }) => {
   const isLoading = useSelector((state) => state.sendMessage?.isLoading);
   // track for send message loading
 
-  
-  
+  const aiboxRef = useRef(null); // 👈 Add this ref
 
+   // Add class when all flights are shown
+   useEffect(() => {
+    if (showAllFlight && aiboxRef.current) {
+      aiboxRef.current.classList.add("showAllFlightActive"); // 👈 Your custom class
+    } else if (!showAllFlight && aiboxRef.current) {
+      aiboxRef.current.classList.remove("showAllFlightActive"); // 👈 Remove when hidden
+    }
+  }, [showAllFlight]);
+
+  
+  
   return (
     <Box
-      className={searchResultStyles.Aibox + " "}
+      ref={aiboxRef}
+      className={searchResultStyles.Aibox + " Aibox"}
       flexDirection="column"
       display="flex"
       justifyContent="flex-start"
     >
       {/* Passenger Flow */}
+
       {aiMessage?.ai?.passengerFlowRes === "passengerFlowActive" ? (
         <>
           {/* <Box className={searchResultStyles.AiMessage}>
@@ -125,6 +137,7 @@ const AiMessage = ({ aiMessage }) => {
       )}
 
       
+
       {displayedGetFlights?.length > 0 ? (
         <>
           <Box
@@ -205,6 +218,8 @@ const AiMessage = ({ aiMessage }) => {
           )}
         </>
       )}
+
+      
 
       {/* Scroll anchor */}
       <div ref={messagesEndRef} />

@@ -28,6 +28,7 @@ import MessageInputBox from "../SearchResult/chat/MessageInputBox";
 import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import Link from "next/link";
 import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
+import BaggageDrawer from "../Checkout/BaggageDrawer";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -121,6 +122,7 @@ const Messages = () => {
 
               {getFlightKey && <BookingDrawer getFlightDetail={flightDetail} />}
               {isPassengerDrawerOpen ? <PassengerDrawerForm /> : ""}
+              <BaggageDrawer getFlightDetail={flightDetail} />
               {FlightExpire ? (
                 <>
                   {/* <Box py={2}>

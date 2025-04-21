@@ -14,6 +14,9 @@ const initialState = {
   CloseDrawer: false,
   BookingSetupUrl: null,
   selectedFlightKey: null, //Store selected flight key
+  BaggageDrawer: false,
+  baggageOptions: {}, // ← add this line
+
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -21,7 +24,15 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
-    
+    setBaggageOptions: (state, action) => {
+      console.log("action_22", action);
+      
+      state.baggageOptions = action.payload;
+    },
+    setBaggageDrawer:(state, action)=> {
+      state.BaggageDrawer = action.payload;
+      
+    },
     setSelectedFlightKey: (state, action) => { // New reducer for selected flight key      
       state.selectedFlightKey = action.payload;
     },
@@ -64,10 +75,28 @@ export const fetchflightDetail = (flightId) => (dispatch) => {
   });
 };
 
+export const BaggageDrawer = ()=> {
+
+}
+
 // booking flo
 
 export const bookFlight = (flightId) => (dispatch, getState) => {
-   
+  
+  // {{BASE_URL}}/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options
+  // const getPassenger =  `${/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options}`
+  const state = getState();
+
+  const OrderUuid = state?.passengerDrawer?.OrderUuid;
+  console.log("getState:", OrderUuid);
+  
+  
+  const url = `/api/v1/passenger/order/${OrderUuid}/baggage-options`;
+  api.get(url).then((res)=> {
+    console.log("res_111", res, url);
+    dispatch(setBaggageOptions(res?.data)); // dispatch to store the baggage options
+    
+  })
   // Extract only the UUID from the URL
   
   
@@ -84,5 +113,7 @@ export const {
   setOpenDrawer,
   setBookingSetupUrl,
   setSelectedFlightKey,  
+  setBaggageDrawer, // for baggae drawer
+  setBaggageOptions,
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;
