@@ -61,8 +61,9 @@
           display="flex"
           flexDirection="column"
         >
+          {/* TODO: This will become dynamic based on airline cancellation policy */}
           <Typography variant="p" className="gray f12" pb={2}>
-            *The airline policy will apply if you decide to cancel or modify your
+            The airline policy will apply if you decide to cancel or modify your
             trip.
           </Typography>
 
@@ -97,7 +98,7 @@
                 <Typography variant="p" className=" gray f12">
                   Total per person:{" "}
                   {currencySymbols[getFlightDetails?.tax_currency] ||
-                    getFlightDetails?.tax_currency}{" "}
+                    getFlightDetails?.tax_currency}
                   {Math.round(getFlightDetails?.per_passenger_amount_plus_markup)}
                 </Typography>
               </Box>
