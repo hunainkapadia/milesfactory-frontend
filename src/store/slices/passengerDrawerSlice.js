@@ -33,7 +33,7 @@ const passengerDrawerSlice = createSlice({
       state.OpenPassengerDrawer = true;
     },
     setClosePassengerDrawer: (state) => {
-      state.OpenPassengerDrawer = false;
+      state.OpenPassengerDrawer = false
     },
     bookFlight: (state, action) => {
       state.passengerDetails = action.payload;
@@ -71,15 +71,15 @@ const passengerDrawerSlice = createSlice({
     setPassFormData: (state, action) => {
       state.PassFormData = action.payload;
     },
-    setisLoading: (state) => {
+    setisLoading: (state)=> {
       state.isLoading = true;
     },
-    setIsFormLoading: (state) => {
-      state.isFormLoading = true;
+    setIsFormLoading: (state)=> {
+      state.isFormLoading = false
     },
     setPassengerFormError: (state, action) => {
       state.PassengerFormError = action.payload;
-    },
+    }
   },
 });
 
@@ -91,50 +91,54 @@ export const NationalitData = () => (dispatch) => {
       dispatch(setCountries(response.data));
     })
     .catch((error) => {});
-};
-
-export const PassengerForm = () => (dispatch, getState) => {
-  const states = getState(); // Get the Redux state
-  const offerIdGet = states?.getMessages.topOfferUrl; // Get offerId from Redux
-  const offerIdSend = states?.sendMessage?.TopOfferUrlSend; // Get offerId from Redux
-  const finalOfferId = offerIdSend || offerIdGet;
-
-  if (!finalOfferId) {
-    return; // Stop execution if offerId is missing
-  }
-  const stateFlightId = getState(); // Get the Redux state
-  const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
-
+  };
+  
+  export const PassengerForm = () => (dispatch, getState) => {
+    
+    const states = getState(); // Get the Redux state
+    const offerIdGet = states?.getMessages.topOfferUrl; // Get offerId from Redux
+    const offerIdSend = states?.sendMessage?.TopOfferUrlSend; // Get offerId from Redux
+    const finalOfferId = offerIdSend || offerIdGet;
+    
+    
+    if (!finalOfferId) {
+      return; // Stop execution if offerId is missing
+    }
+    const stateFlightId = getState(); // Get the Redux state
+    const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
+    
+  
   // {{BASE_URL}}/api/v1/setup/flight/b4be0bba-9f35-489e-bb0a-3f879e6ef17b/order/offer/off_0000AruCPTqbACYIE3AQvk
   const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
   api
     .post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null; // Ensure it's null-safe
-      dispatch(setOrderUuid(OrderUUId));
+      dispatch(setOrderUuid(OrderUUId))
 
       if (OrderUUId) {
         const ViewPassengerUrl = `/api/v1/order/${OrderUUId}/passengers`;
-        api
-          .get(ViewPassengerUrl)
-          .then((response) => {
-            dispatch(setViewPassengers(response?.data)); // passenger data in array get and set in redux
-            // form submit url make
-            // /api/v1/order/2aec74f4-4b0e-4f93-a6bc-5d3bcbd9ff3b/passenger/68af9ac5-c1c1-4943-83c5-74eac96e15bf
-            // dispatch(bookFlight(uuid)); // Pass flight ID to bookFlight
-            // get passenger uui from redux which we set handlePassengerToggle passenger card
-            const statePassengerUUID = getState();
-            const passengerUUID =
-              statePassengerUUID?.passengerDrawer?.PassengerUUID;
-            if (passengerUUID) {
-              const AddPassengerUrl = `/api/v1/order/${OrderUUId}/passenger/${passengerUUID}`;
-              dispatch(setPassengerSubmitURL(AddPassengerUrl));
-            }
-          })
-          .catch((error) => {
-            console.log("error111", error);
-          })
-          .finally(() => {});
+        api.get(ViewPassengerUrl).then((response) => {
+          dispatch(setViewPassengers(response?.data)); // passenger data in array get and set in redux
+          // form submit url make
+          // /api/v1/order/2aec74f4-4b0e-4f93-a6bc-5d3bcbd9ff3b/passenger/68af9ac5-c1c1-4943-83c5-74eac96e15bf
+          // dispatch(bookFlight(uuid)); // Pass flight ID to bookFlight
+          // get passenger uui from redux which we set handlePassengerToggle passenger card
+          const statePassengerUUID = getState();
+          const passengerUUID =
+            statePassengerUUID?.passengerDrawer?.PassengerUUID;
+          if (passengerUUID) {
+            const AddPassengerUrl = `/api/v1/order/${OrderUUId}/passenger/${passengerUUID}`;
+            dispatch(setPassengerSubmitURL(AddPassengerUrl));
+          }
+        }).catch((error) => {
+          console.log("error111", error);
+          
+          
+        })
+        .finally(() => {
+          
+        });
       } else {
         ("");
       }
@@ -168,68 +172,45 @@ export const validatePassengerForm = (params) => (dispatch) => {
 };
 
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
+
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return; // Stop submission if validation fails
+  
+  dispatch(setIsFormLoading(true))
+  const statesPassengerSubmitUrl = getState();
+  console.log("statesPassengerSubmitUrl", statesPassengerSubmitUrl?.passengerDrawer?.OrderUuid);
+   statesPassengerSubmitUrl?.passengerDrawer?.OrderUuid
+  
+  const PassengerSubmitUrl =
+    statesPassengerSubmitUrl?.passengerDrawer?.PassengerSubmitURL;
 
-  dispatch(setIsFormLoading(true));
-
-  const state = getState();
-  const OrderUUId = state.passengerDrawer?.OrderUuid;
-  const CaptainUrl = `/api/v1/order/${OrderUUId}/captain`;
-  const PassengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
-
-  let captainApiSuccess = false;
-  let passengerApiSuccess = false;
-
-  // First API call - Captain (phone & email)
-  api
-    .post(CaptainUrl, params)
-    .then((res) => {
-      captainApiSuccess = true;
-    })
-    .catch((captainError) => {
-      dispatch(setPassengerFormError(captainError.response?.data));
-    })
-    .then(() => {
-      // Second API call - Passenger full form
-      return api.post(PassengerSubmitUrl, params); // Always runs
-    })
-    .then((response) => {
-      // Handle Passenger form success
+    api.post(PassengerSubmitUrl, params).then((response) => {
       const passdata = response.data;
       dispatch(setPassFormData(passdata));
-
-      const passengerUUID = state.passengerDrawer?.PassengerUUID;
+    
+      const passengerUUID = statesPassengerSubmitUrl?.passengerDrawer?.PassengerUUID;
       dispatch(markPassengerAsFilled(passengerUUID));
-
-      passengerApiSuccess = true;
-
-      // If both APIs succeeded, proceed to next passenger and close drawer
-      if (captainApiSuccess && passengerApiSuccess) {
-        const allPassengers = state.passengerDrawer?.ViewPassengers || [];
-        const filledUUIDs = state.passengerDrawer?.filledPassengerUUIDs || [];
-        const nextPassenger = allPassengers.find(
-          (p) => !filledUUIDs.includes(p.uuid)
-        );
-        dispatch(setIsFormLoading(false));
-
-
-        if (nextPassenger) {
-          dispatch(setPassengerUUID(nextPassenger.uuid));
-          dispatch(PassengerForm());
-        }
+    
+      // Automatically move to the next passenger
+      const allPassengers = statesPassengerSubmitUrl?.passengerDrawer?.ViewPassengers || [];
+      const filledUUIDs = statesPassengerSubmitUrl?.passengerDrawer?.filledPassengerUUIDs || [];
+      const nextPassenger = allPassengers.find(p => !filledUUIDs.includes(p.uuid));
+    
+      if (nextPassenger) {
+        dispatch(setPassengerUUID(nextPassenger.uuid));
+        dispatch(PassengerForm()); // Call API again for the next passenger
         dispatch(setClosePassengerDrawer());
       }
+    
+    }).catch((passengerFormerror)=> {
+      console.log("passengerFormerror", passengerFormerror);
+      
+      const errors = passengerFormerror.response.data;
+      dispatch(setPassengerFormError(errors))
+    }).finally(()=>{
+      dispatch(setIsFormLoading(false))
     })
-    .catch((passengerFormError) => {
-      const errors = passengerFormError.response?.data;
-      dispatch(setPassengerFormError(errors));
-    })
-    .finally(() => {
-      dispatch(setIsFormLoading(false));
-    });
 };
-
 
 // Store user info in cookies
 
