@@ -200,7 +200,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                         }
                       >
                         {currencySymbols[offerData?.tax_currency] ||
-                          offerData?.tax_currency}{" "}
+                          offerData?.tax_currency}
                          {offerData?.total_amount_plus_markup}
                       </h4>
 

@@ -21,7 +21,7 @@ const PollingMessage = ({PollingData}) => {
           month: "short",
           year: "numeric",
         })}
-        , arriving on{" "}
+        , returning on{" "}
         {new Date(PollingData?.arrival_date).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "short",
