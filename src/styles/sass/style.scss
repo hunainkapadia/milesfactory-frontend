@@ -2071,6 +2071,9 @@ html {
   }
 }
 @include for-mobile-large-screen {
+  .f12m {
+      font-size: 12px !important;
+  }
   .f14m {
     font-size: 14px !important;
   }

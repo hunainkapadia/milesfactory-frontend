@@ -10,6 +10,7 @@ import PoweredByglobal from "../component/home/PoweredByglobal";
 import { useRouter } from "next/router";
 import HomeHeroSection from "../component/HomeHeroSection";
 import { fetchMessages } from "../store/slices/GestMessageSlice";
+import Footer from "../component/layout/Footer";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -47,12 +48,13 @@ const Home = () => {
         {/* for home section */}
         {sendMessages ? (
           <>
+            <Header  />
             <HowMylzWork id={"HowMylzWork"} />
             <MylzDifferent id={"MylzDifferent"} />
             <PoweredByglobal id={"PoweredByglobal"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App id={"Section5App"}/>
-            <Header  />
+            <Footer forLight />
             {/* sending send message for chat prop only */}
           </>
         ) : (

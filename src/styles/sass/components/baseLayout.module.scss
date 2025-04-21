@@ -62,7 +62,7 @@
          .navItem {
             color: $basecolor;
             &:hover {
-               color: $basecolor;
+               color: $basecolor1;
             }
          }
       }
@@ -106,8 +106,9 @@
          font-weight: $bold;
          
          
+         
          &:hover {
-            color: #fff;
+            color: $basecolor1;
          }
       }
    }

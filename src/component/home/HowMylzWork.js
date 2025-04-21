@@ -5,7 +5,7 @@ import Footer from "../layout/Footer";
 
 const HowMylzWork = (props) => {
   return (
-    <section
+    <Box position={"relative"}
       id={props.id}
       className={styles.HomeBanner}
       style={{ backgroundImage: "url('/images/section-2-bg.png')" }}
@@ -104,7 +104,7 @@ const HowMylzWork = (props) => {
         LearnMore={"AI-powered savings"}
         id={"MylzDifferent"}
       />
-    </section>
+    </Box>
   );
 };
 

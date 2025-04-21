@@ -142,9 +142,7 @@
     
       .airlineLogo {
         @include scale(60px, 60px);
-        @include border-radius(100px);
         background: $white;
-        border: 1px solid $lightgray3;
     
         img {
           width: 70%;

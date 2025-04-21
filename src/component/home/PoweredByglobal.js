@@ -5,7 +5,7 @@ import Footer from "../layout/Footer";
 
 const PoweredByglobal = (props) => {
   return (
-    <section id={props.id} className={styles.PoweredByglobal + " section-padding-xl gray-bg"}>
+    <Box id={props.id} className={styles.PoweredByglobal + " section-padding-xl gray-bg"} position={"relative"}>
       <Container>
         <Box position={"relative"}>
           <Box
@@ -90,7 +90,7 @@ const PoweredByglobal = (props) => {
         LearnMore={"Learn more about Mylz"}
         id={"Section4Reviews"}
       />
-    </section>
+    </Box>
   );
 };
 

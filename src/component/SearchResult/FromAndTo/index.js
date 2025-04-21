@@ -233,28 +233,17 @@ const FromAndTo = ({ offerData }) => {
                       my={2}
                     >
                       <Box className={searchResultStyles.dots}>
-                        {slice.segments?.length === 1 ? (
-                          <Box>
-                            <Box
-                              className={searchResultStyles.dot + " aa"}
-                            ></Box>
-                          </Box>
-                        ) : (
-                          // Show one dot if only one segment
-                          <>
-                            {Array.from({ length: slice.segments.length }).map(
-                              (_, index) => (
-                                <Box>
-                                  <Box
-                                    key={index}
-                                    className={searchResultStyles.dot}
-                                  ></Box>
-                                </Box>
-                              )
-                            )}
-                          </>
-                        )}
-                      </Box>
+  {slice.segments?.length > 1 && (
+    <>
+      {Array.from({ length: slice.segments.length - 1 }).map((_, index) => (
+        <Box key={index}>
+          <Box className={searchResultStyles.dot}></Box>
+        </Box>
+      ))}
+    </>
+  )}
+</Box>
+
                     </Box>
 
                     <Typography
