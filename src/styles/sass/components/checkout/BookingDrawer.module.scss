@@ -280,3 +280,8 @@
    padding: 10px 0px;
    margin: 10px 0;
 }
+
+/* In your CSS file or style block */
+.capitalize-first-letter::first-letter {
+   text-transform: uppercase;
+ }
