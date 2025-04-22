@@ -1,32 +1,28 @@
 @import "../../variables";
 
 
-.MainDrawer {
-   .MainDrowerSection {
-     box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.15),
-       0px 2px 3px rgba(0, 0, 0, 0.3);
-     width: 480px;
-     bottom: 0;
-     overflow: auto;
-     background: #fff;
-     transition: all 0.4s ease-in-out;
- 
-     .checkoutDrowerBody {
-       overflow-y: auto;
-       height: 100%;
+.BaggageDrawer {
+   
+   .BaggageDrawerSection {
+      width: 480px;
+      height: 100%;
+      overflow-y: auto;
+     .BaggageDrawerBody {
        padding-bottom: 120px;
  
        .customTabs {
          margin-top: 10px;
          border-bottom: 1px solid #e0e0e0;
+         
        }
        
        .BaggageBox {
          border-right: solid 1px $lightgray2;
        }
        .customIndicator {
-         display: none   }
+            }
        .inactiveTab {
+         margin-right: 2;
          display: flex;
          flex-direction: row;
          justify-content: center;
@@ -54,34 +50,21 @@
        }
      }
  
-     .checkoutDrowerHeder {
-       border-bottom: 1px solid #eee;
- 
-       h4 {
-         font-size: 18px;
-         font-weight: 600;
-       }
- 
-       .f14 {
-         font-size: 14px;
-         color: #555;
-       }
- 
-       .fa-close {
-         font-size: 20px;
-         color: #333;
-       }
+     .BaggageRows .BaggageBox {
+      
      }
  
-     .checkoutDrowerBackdrop {
-       position: fixed;
-       top: 0;
-       left: 0;
-       height: 100vh;
-       width: 100vw;
-       background-color: rgba(0, 0, 0, 0.3);
-       z-index: -1;
-     }
+     
+   }
+   .BaggageDrawerFooter {
+      filter: drop-shadow(0px -1px 4px rgba(12, 12, 13, 0.05));
+      z-index: 3;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      position: absolute;
+      background-color: $white;
+      
    }
  }
  

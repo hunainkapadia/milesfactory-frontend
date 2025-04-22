@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { Box, Typography, Grid, Drawer, Tabs, Tab } from "@mui/material";
-import styles from "@/src/styles/sass/components/checkout/MainDrower.module.scss";
+import { Box, Typography, Grid, Drawer, Tabs, Tab, Divider, Button } from "@mui/material";
+import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.scss";
 import BaggageDrawerFooter from "./BaggageDrawerFooter";
 import { useDispatch, useSelector } from "react-redux";
-import { setBaggageDrawer } from "@/src/store/slices/BookingflightSlice";
+import {addSelectedBaggage, setBaggageDrawer } from "@/src/store/slices/BookingflightSlice";
 
 const BaggageDrawer = ({ getFlightDetail }) => {
   const dispatch = useDispatch();
+  const [selectedBaggageUUIDs, setSelectedBaggageUUIDs] = useState([]);
+  const [baggageCount, setBaggageCount] = useState({});
+
 
   const BaggageDrawer = useSelector((state) => state.booking.BaggageDrawer);
   const GetViewPassengers = useSelector(
@@ -28,24 +31,53 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   console.log("getselectedFlight", getselectedFlight);
   const baggageOptions = useSelector((state) => state.booking.baggageOptions);
   console.log("baggageOptions", baggageOptions);
-  
+
+  console.log("uuid000", selectedBaggageUUIDs);
+  const handleIncrement = (uuid) => {
+   if (baggageCount[uuid]) return; // Already added once, don't increment again
+ 
+   setBaggageCount((prev) => ({
+     ...prev,
+     [uuid]: 1,
+   }));
+ 
+   if (!selectedBaggageUUIDs.includes(uuid)) {
+     setSelectedBaggageUUIDs([...selectedBaggageUUIDs, uuid]);
+     dispatch(addSelectedBaggage(uuid));
+   }
+ };
+ const handleDecrement = (uuid) => {
+   setBaggageCount((prev) => {
+     const current = prev[uuid] || 0;
+     if (current <= 0) return prev;
+     return {
+       ...prev,
+       [uuid]: current - 1,
+     };
+   });
+ };
+
+
+ const baggageError = useSelector(((state)=> state.booking.baggageError));
+ console.log("baggageError", baggageError?.error);
+ 
+
 
   return (
     <Drawer
       anchor="right"
       open={BaggageDrawer}
       onClose={HandlecloseDrawer}
-      className={`${styles.MainDrawer} MainDrower`}
+      className={`${styles.BaggageDrawer} BaggageDrawer`}
       transitionDuration={300}
     >
-      <Box className={styles.MainDrowerSection}>
+      <Box className={styles.BaggageDrawerSection}>
         {/* Body */}
-        <Box className={styles.checkoutDrowerBody}>
+        <Box className={styles.BaggageDrawerBody}>
           {/* Header */}
           <Grid
             container
             className={styles.checkoutDrowerHeder}
-            py={3}
             px={3}
             display="flex"
             alignItems="center"
@@ -56,6 +88,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
+                pt={3}
               >
                 <Box>
                   <h3 className={styles.title + " regular mb-0"}>Baggage</h3>
@@ -74,31 +107,31 @@ const BaggageDrawer = ({ getFlightDetail }) => {
           </Grid>
 
           {/* Tabs */}
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            className={styles.customTabs}
-          >
-            <Tab
-              label="Outbound flight"
-              className={`${styles.inactiveTab} ${
-                tabValue === 0
-                  ? styles.activeTab + " "
-                  : styles.inactiveTab + " "
-              }`}
-            />
-            <Tab
-              label="Return flight"
-              className={`${styles.inactiveTab} ${
-                tabValue === 1
-                  ? styles.activeTab + " "
-                  : styles.inactiveTab + " "
-              }`}
-            />
-          </Tabs>
 
           {/* Passengers Section */}
           <Box px={3} py={2}>
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              className={styles.customTabs}
+            >
+              <Tab
+                label="Outbound flight"
+                className={`${styles.inactiveTab} ${
+                  tabValue === 0
+                    ? styles.activeTab + " "
+                    : styles.inactiveTab + " "
+                }`}
+              />
+              <Tab
+                label="Return flight"
+                className={`${styles.inactiveTab} ${
+                  tabValue === 1
+                    ? styles.activeTab + " "
+                    : styles.inactiveTab + " "
+                }`}
+              />
+            </Tabs>
             <Box display={"flex"} gap={0.5} py={2} flexDirection={"column"}>
               <Typography className=" f11 bold">Flight 2 of 2</Typography>
               <h4 className={styles.title + " mb-0"}>
@@ -117,35 +150,21 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   )
                   .join(" - ")}
               </Typography>
-
-              {console.log("22222", getselectedFlight)}
-              {getselectedFlight?.slices?.length <= 1 ? (
-                <Typography className={"f14 gray"}>{"One way"}</Typography>
-              ) : (
-                <Typography className={"f14 gray"}>{"Return"}</Typography>
-              )}
             </Box>
-            {GetViewPassengers?.map((passenger) => (
-              <Box key={passenger.uuid}>
+            {/*  */}
+            {GetViewPassengers?.map((passenger, key) => (
+              <Box key={key} py={2}>
                 <Box mb={2}>
                   <Typography className=" bold">
                     {`${passenger.title} ${passenger.given_name} ${passenger.family_name}`}
                   </Typography>
                 </Box>
-                <Box display={"flex"} gap={1} alignItems={"center"}>
-                  <Box>
-                    <img src={"/images/included-baggage.svg"}  />
-                  </Box>
-                  <Typography className={styles.baggageTotal + " bold f12"}>
-                     included 
-                  </Typography>
-                </Box>
-
-                <Box
+                <Grid
+                  container
                   className={styles.BaggageRows}
                   display={"flex"}
                   flexDirection={"row"}
-                  gap={4}
+                  columnSpacing={2}
                 >
                   {getselectedFlight?.slices.map((slice, index) => {
                     const isOutbound = index === 0;
@@ -200,13 +219,26 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                     };
 
                     return (
-                      <Box
+                      <Grid
                         className={styles.BaggageBox + " "}
                         display={"flex"}
                         flexDirection={"column"}
                         gap={2}
                         key={index}
+                        xs={4}
+                        pb={3}
+                        item
                       >
+                        <Box display={"flex"} gap={1} alignItems={"center"}>
+                          <Box>
+                            <img src={"/images/included-baggage.svg"} />
+                          </Box>
+                          <Typography
+                            className={styles.baggageTotal + " bold f12"}
+                          >
+                            included
+                          </Typography>
+                        </Box>
                         {/* Baggage details row */}
                         <Box className={styles.BaggageRow}>
                           {uniqueBaggages.map((baggage, bIndex) => {
@@ -231,7 +263,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                   <Typography
                                     className={styles.baggageTotal + " f14"}
                                   >
-                                    {baggage.totalQuantity} 
+                                    {baggage.totalQuantity}
                                   </Typography>
                                 </Box>
                                 <Typography
@@ -243,107 +275,117 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                             );
                           })}
                         </Box>
-                      </Box>
+                      </Grid>
                     );
                   })}
-                  <Box
+
+                  {Object.entries(baggageOptions).map(
+                    ([sliceUuid, options]) => (
+                      <Grid
+                        xs={4}
                         className={styles.BaggageBox + " "}
-                        display={"flex"}
-                        flexDirection={"column"}
-                        gap={2}
+                        item
+                        key={sliceUuid}
                       >
-                      {Object.entries(baggageOptions).map(([sliceUuid, options]) => (
-  <Box key={sliceUuid} sx={{ mb: 2 }}>
-  {console.log("sliceUuid", options)}
-    <Typography variant="h6">Slice UUID: {sliceUuid}</Typography>
+                        {console.log("sliceUuid", options)}
+                        {options?.checked_bag_options.map((getbaggage) => {
+                          const weightMatch =
+                            getbaggage?.label?.match(/(\d+kg)/);
+                          const priceMatch =
+                            getbaggage?.label?.match(/GBP\s(\d+\.\d{2})/);
 
-    {options.checked_bag_options.map((bag) => (
-      <Typography key={bag.uuid}>
-        {bag.label} — {bag.service_id}
-      </Typography>
-    ))}
+                          const weight = weightMatch?.[1]; // e.g., "23kg"
+                          const price = priceMatch?.[1]; // e.g., "21.00"
+                          return (
+                            <>
+                              <Box
+                                display={"flex"}
+                                gap={1}
+                                alignItems={"center"}
+                                mb={1}
+                              >
+                                <Box>
+                                  {getbaggage?.baggage_type === "checked" ? (
+                                    <img
+                                      src="/images/checkout/checked-bagg.svg"
+                                      alt="label"
+                                    />
+                                  ) : (
+                                    <img
+                                      src="/images/checkout/carryon-bagg.svg"
+                                      alt="label"
+                                    />
+                                  )}
+                                </Box>
+                                <Typography
+                                  className={styles.baggageTotal + " bold f12"}
+                                >
+                                  {baggageCount[getbaggage?.uuid] || 0}
+                                </Typography>
+                              </Box>
+                              <Box mb={2}>
+                                <Typography className="f11 gray">
+                                  {options?.checked_bag_options
+                                    ? "Checked bags"
+                                    : "Carry-on bags"}
+                                </Typography>
+                                <Typography className="f11 gray">
+                                  £{price} | {weight}
+                                </Typography>
+                              </Box>
+                              <Box
+                                display={"flex"}
+                                gap={1}
+                                alignItems={"center"}
+                              >
+                                <Box
+                                  onClick={() =>
+                                    handleDecrement(getbaggage?.uuid)
+                                  }
+                                  className={"CounterBtn"}
+                                >
+                                  <i className="fa fa-minus"></i>
+                                </Box>
+                                <Box
+                                  onClick={() =>
+                                    handleIncrement(getbaggage?.uuid)
+                                  }
+                                  className={"CounterBtn active"}
+                                >
+                                  <i className="fa fa-plus"></i>
+                                </Box>
+                              </Box>
+                            </>
+                          );
+                        })}
 
-    {options.checked_bag_options.length === 0 && (
-      <Typography>No checked bag options</Typography>
-    )}
-  </Box>
-))}
-                      </Box>
-                      
-                </Box>
-
-                <Grid container spacing={2}>
-                  {/* Included */}
-                  <Grid item xs={4}>
-                    <Box
-                      border="1px solid #eee"
-                      p={2}
-                      borderRadius={2}
-                      textAlign="center"
-                    >
-                      <Typography fontWeight={500}>1 included</Typography>
-                      <Typography variant="body2">
-                        Handbag/laptop bag
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  {/* Carry-on */}
-                  <Grid item xs={4}>
-                    <Box
-                      border="1px solid #eee"
-                      p={2}
-                      borderRadius={2}
-                      textAlign="center"
-                    >
-                      <Typography fontWeight={500}>0</Typography>
-                      <Typography variant="body2">Carry-on bags</Typography>
-                      <Typography variant="body2">
-                        £25 each | 8kg max
-                      </Typography>
-                      <Box
-                        mt={1}
-                        display="flex"
-                        justifyContent="center"
-                        gap={1}
-                      >
-                        <i className="fa fa-minus cursor-pointer basecolor"></i>
-                        <i className="fa fa-plus cursor-pointer basecolor"></i>
-                      </Box>
-                    </Box>
-                  </Grid>
-
-                  {/* Checked */}
-                  <Grid item xs={4}>
-                    <Box
-                      border="1px solid #eee"
-                      p={2}
-                      borderRadius={2}
-                      textAlign="center"
-                    >
-                      <Typography fontWeight={500}>0</Typography>
-                      <Typography variant="body2">Checked bags</Typography>
-                      <Typography variant="body2">
-                        £45 each | 23kg max
-                      </Typography>
-                      <Box
-                        mt={1}
-                        display="flex"
-                        justifyContent="center"
-                        gap={1}
-                      >
-                        <i className="fa fa-minus cursor-pointer basecolor"></i>
-                        <i className="fa fa-plus cursor-pointer basecolor"></i>
-                      </Box>
-                    </Box>
-                  </Grid>
+                        {options.checked_bag_options.length === 0 && (
+                          <Typography>No checked bag options</Typography>
+                        )}
+                      </Grid>
+                    )
+                  )}
                 </Grid>
               </Box>
             ))}
+            <Typography className="f12 red">
+               {baggageError?.error}
+            </Typography>
+            <Box display={"flex"} justifyContent={"space-between"} my={2}>
+               <Typography>Price of added bags</Typography>
+               <Typography className="bold">£30</Typography>
+            </Box>
+            <Box py={2}>
+               <Divider />
+            </Box>
           </Box>
         </Box>
+        <BaggageDrawerFooter
+          HandlecloseDrawer={HandlecloseDrawer}
+          getFlightDetails={getFlightDetail}
+        />
 
         {/* Footer */}
-        <BaggageDrawerFooter getFlightDetails={getFlightDetail} />
       </Box>
 
       {/* Backdrop */}

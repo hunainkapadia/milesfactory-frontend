@@ -1,10 +1,13 @@
   import React from "react";
   import { Box, Typography, Divider } from "@mui/material";
-  import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+  import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.scss";
+
   import { useDispatch, useSelector } from "react-redux";
   import {
+    addBaggage,
     bookFlight,
     closeDrawer,
+    setBaggageDrawer,
     setCloseDrawer,
     setflightDetail,
     setselectedFlighDetail,
@@ -17,29 +20,14 @@
   const BaggageDrawerFooter = ({ getFlightDetails }) => {
     const dispatch = useDispatch();
     const HandlecloseDrawer = () => {
-      
-      dispatch(setCloseDrawer()); // Pass an empty value to close the drawer
-
+      dispatch(setBaggageDrawer(false));
     };
 
     const PassengerData = useSelector((state) => state.passengerDrawer);
     
-    const handleBookFlight = () => {
-      dispatch(setisLoading())
-      dispatch(setCloseDrawer()); //dispatch close
-      dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
-      dispatch(PassengerForm())
-      
-      // dispatch(bookFlight());
-      // dispatch(setPassengerData()); // pass data store in slice
-
-      if (getFlightDetails?.id) {
-        dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
-
-      } else {
-        ""
-      }
-      dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this si message trigger passenger flow active
+    
+    const handleAddBaggage = () => {
+      dispatch(addBaggage());
     };
 
     const personQuantity = getFlightDetails?.passengers.length;
@@ -48,7 +36,7 @@
     const totalAmount = Math.round(WithtaxAmount);
     return (
       <Box
-        className={styles.checkoutDrowerFooter + " test11"}
+        className={styles.BaggageDrawerFooter + " test11"}
         position="absolute"
       >
         <Divider />
@@ -95,10 +83,7 @@
               </Box>
               <Box className={styles.totalPersonPrice}>
                 <Typography variant="p" className=" gray f12">
-                  Total per person:{" "}
-                  {currencySymbols[getFlightDetails?.tax_currency] ||
-                    getFlightDetails?.tax_currency}{" "}
-                  {Math.round(getFlightDetails?.per_passenger_amount_plus_markup)}
+                    Total price of extra bags 
                 </Typography>
               </Box>
             </Box>
@@ -133,12 +118,12 @@
                   className={
                     styles.selectFlightBtn + " btn btn-primary btn-md btn-round"
                   }
-                  onClick={handleBookFlight}
+                  onClick={handleAddBaggage}
                 >
                   <Box display="flex" gap={1}>
                     <Box
                     >
-                      Select flight
+                      Add to booking
                     </Box>
                   </Box>
                 </button>
