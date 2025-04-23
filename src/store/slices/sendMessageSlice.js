@@ -77,10 +77,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};                    
 
-            dispatch(setisPolling({
+          dispatch(
+            setisPolling({
               status: true,
-              argument: gdata
-            }));
+              argument: gdata,
+            })
+          );
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
               const interval = setInterval(() => {
@@ -155,6 +157,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .get(allFlightSearchApi)
             .then((flightRes) => {
               console.log("flightRes22", flightRes);
+              dispatch(setisPolling({
+                status: false,
+                argument: null,
+              }));
               dispatch(
                 setMessage({
                   ai: flightRes.data,
