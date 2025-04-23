@@ -18,6 +18,8 @@ import PriceSummary from "../../Checkout/PriceSummary";
 import PollingMessage from "../PollingMessage/PollingMessage";
 
 const AiMessage = ({ aiMessage }) => {
+  console.log("aiMessage222", aiMessage);
+  
   const dispatch = useDispatch();
 
   const [showAllFlight, setShowAllFlight] = useState(false);
@@ -72,29 +74,18 @@ const AiMessage = ({ aiMessage }) => {
   const isLoading = useSelector((state) => state.sendMessage?.isLoading);
   // track for send message loading
 
-  const aiboxRef = useRef(null); // 👈 Add this ref
-
-   // Add class when all flights are shown
-   useEffect(() => {
-    if (showAllFlight && aiboxRef.current) {
-      aiboxRef.current.classList.add("showAllFlightActive"); // 👈 Your custom class
-    } else if (!showAllFlight && aiboxRef.current) {
-      aiboxRef.current.classList.remove("showAllFlightActive"); // 👈 Remove when hidden
-    }
-  }, [showAllFlight]);
-
   
   
+
   return (
     <Box
-      ref={aiboxRef}
-      className={searchResultStyles.Aibox + " Aibox"}
+      className={searchResultStyles.Aibox + " "}
       flexDirection="column"
       display="flex"
       justifyContent="flex-start"
     >
       {/* Passenger Flow */}
-
+      
       {aiMessage?.ai?.passengerFlowRes === "passengerFlowActive" ? (
         <>
           {/* <Box className={searchResultStyles.AiMessage}>
@@ -112,7 +103,7 @@ const AiMessage = ({ aiMessage }) => {
           </Box> */}
 
           {/* Show passenger form or loading */}
-
+          
           {GetViewPassengers ? (
             <PassengerInfo getdata={GetViewPassengers} />
           ) : (
@@ -137,7 +128,6 @@ const AiMessage = ({ aiMessage }) => {
       )}
 
       
-
       {displayedGetFlights?.length > 0 ? (
         <>
           <Box
@@ -207,7 +197,7 @@ const AiMessage = ({ aiMessage }) => {
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(
-                      sanitizeResponse(aiMessage?.ai?.response)
+                      sanitizeResponse(aiMessage?.ai)
                     ),
                   }}
                 />
@@ -218,8 +208,6 @@ const AiMessage = ({ aiMessage }) => {
           )}
         </>
       )}
-
-      
 
       {/* Scroll anchor */}
       <div ref={messagesEndRef} />

@@ -166,7 +166,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   flexDirection={"row"}
                   columnSpacing={2}
                 >
-                {console.log("getselectedFlight", getselectedFlight)}
                   {getselectedFlight?.slices.map((slice, index) => {
                     const isOutbound = index === 0;
 

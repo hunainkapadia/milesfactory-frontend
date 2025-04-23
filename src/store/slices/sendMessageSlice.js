@@ -50,6 +50,8 @@ const sendMessageSlice = createSlice({
     state.messages = [];
     state.ThreadUUIDsend = null;
     sessionStorage.removeItem("chat_thread_uuid");
+    sessionStorage.removeItem("run_id");
+    
   },
 });
 
@@ -69,7 +71,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_id = response.run_id;
         const run_status = response.run_status;
 
-        console.log("run_status111", run_status);
+        // console.log("run_status111", run_id);
+        sessionStorage.setItem("run_id", run_id);
         
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
@@ -180,7 +183,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         }
         dispatch(
           setMessage({
-            ai: { response: response?.response },
+            ai:  response?.response ,
           })
         );
       }
@@ -194,6 +197,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     // Only create a new thread if one doesn't exist
     api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res) => {
       const uuid = thread_res.data.uuid;
+      console.log("thread_res_data", thread_res.data);
+      
       dispatch(setThreadUUIDsend(uuid));
       sendToThread(uuid);
     });
@@ -210,6 +215,7 @@ export const deleteChatThread = (uuid) => (dispatch) => {
     .then((res) => {
       if (res) {
         sessionStorage.removeItem("chat_thread_uuid");
+        sessionStorage.removeItem("run_id");
       }
       // dispatch(setClearChat());
     })

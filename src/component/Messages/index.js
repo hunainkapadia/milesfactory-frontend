@@ -99,8 +99,9 @@ const Messages = () => {
             <Box className={searchResultStyles.messageContentIn}>
               {messages.map((msg, index) => (
                 <Box key={index}>
-                  {msg?.user && <UserMessage userMessage={msg.user} />}
-                  {msg?.ai ? (
+                  {msg?.user && <UserMessage userMessage={msg?.user} />}
+                {console.log("messages111", msg?.ai)}
+                  {msg ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
                   ) : index === messages.length - 1 && isLoading ? (
                     <Box my={2}>
