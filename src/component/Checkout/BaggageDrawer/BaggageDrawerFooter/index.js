@@ -49,11 +49,6 @@
           display="flex"
           flexDirection="column"
         >
-          <Typography variant="p" className="gray f12" pb={2}>
-            *The airline policy will apply if you decide to cancel or modify your
-            trip.
-          </Typography>
-
           {/* Price Row */}
           <Box
             className={styles.priceRow + " aaa"}
