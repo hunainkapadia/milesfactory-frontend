@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Typography, Chip, Rating, Stack, Button } from "@mui/material";
+import { Box, Typography, Chip, Rating, Stack, Button, TextField } from "@mui/material";
 import useScrollToRef from "@/src/hooks/useScrollToRef";
+import styles from "@/src/styles/sass/components/checkout/Payment.module.scss";
 import { registerScrollFunction } from "@/src/utils/scrollManager";
 import Link from "next/link";
 
@@ -131,6 +132,27 @@ const PaymentSuccess = () => {
                 Invite more friends
               </Link>
             </Typography>
+          </Box>
+          <Box className={styles.InviteBox} display={"flex"} gap={1} pt={2}>
+            <Box className=" formGroup">
+              <TextField
+                className={styles.formControl + " formControl"}
+                fullWidth
+                placeholder="Emails, comma separated"
+                // value={"email"}
+                // onChange={(e) => setFirstName(e.target.value)}
+                margin="normal"
+              />
+            </Box>
+            <Button
+              className="btn btn-primary btn-sm btn-round"
+              // onClick={"handleInvite"}
+              variant="contained"
+              color="success"
+              type="submit" // Important!
+            >
+              Invite
+            </Button>
           </Box>
         </>
       ) : (

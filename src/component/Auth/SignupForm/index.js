@@ -97,12 +97,12 @@ const SignUpForm = () => {
               <Typography>
                 Already have an account?
               </Typography>
-              <Typography onClick={HandleLogin} className="basecolor-dark">
+              <Typography onClick={HandleLogin} className="basecolor-dark cursor-pointer">
                 Sign in
               </Typography>
             </Box>
           </Box>
-          <LoginWithOptions />
+          <LoginWithOptions options={"Sign up"} />
           <Typography align="center" mb={2}>
             Complete the following information.
           </Typography>

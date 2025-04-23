@@ -97,10 +97,14 @@ const MessageInputBox = ({ isMessageHome }) => {
             <Box display="flex" alignItems="center" justifyContent="center">
               <Box className={inputStyles.SearchBoxContainer}>
                 <Box className={inputStyles.SearchBoxIn} position={"relative"}>
-                {!isMessageHome && !userMessage.trim() && !isListening ? <LabelAnimation /> : ""}
+                  {!isMessageHome && !userMessage.trim() && !isListening ? (
+                    <LabelAnimation />
+                  ) : (
+                    ""
+                  )}
                   <div
                     ref={inputRef} //
-                    contentEditable={!isLoading}
+                    contentEditable={true}
                     suppressContentEditableWarning
                     role="textbox"
                     placeholder="Ask anything about your trip"
@@ -118,10 +122,11 @@ const MessageInputBox = ({ isMessageHome }) => {
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        e.preventDefault(); // Prevents new line
+                        if (isLoading) return; // Do nothing if loading
+                        e.preventDefault(); // Prevent newline
                         handleSearch();
                         e.currentTarget.textContent = ""; // Clear input
-                        setIsTyping(false); // Reset isTyping after sending
+                        setIsTyping(false); // Reset typing
                       }
                     }}
                     style={{
@@ -130,8 +135,10 @@ const MessageInputBox = ({ isMessageHome }) => {
                   ></div>
 
                   <Box className={inputStyles.SearchButtonBox}>
-                    <IconButton className={inputStyles.MicButton + "  "} onClick={handleVoiceInput}
-                    disabled={isLoading}
+                    <IconButton
+                      className={inputStyles.MicButton + "  "}
+                      onClick={handleVoiceInput}
+                      disabled={isLoading}
                     >
                       <i
                         className={`fa ${

@@ -2,10 +2,14 @@ import { Box, Card, CardContent, CardHeader, Divider, Typography } from "@mui/ma
 import { useSelector } from "react-redux";
 import YourTripSedebarCard from "../YourTripSedebarCard";
 import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
+import Image from "next/image";
 
 const YourTripSidebar = ({isMessage}) => {
    const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
    
+   const paymentSuccess = useSelector(
+     (state) => state.payment.PaymentFormSuccess
+   );
   return (
     <>
       <Box
@@ -19,19 +23,28 @@ const YourTripSidebar = ({isMessage}) => {
             className={YourtripStyles.CardHeader}
             display={"flex"}
             alignItems={"center"}
+            justifyContent={"space-between"}
             px={3}
-            py={3}
-            gap={2}
+            py={2}
           >
-            <Box className=" imggroup">
-              <img src="/images/plane-icon-basecolor1.svg" />
+            <Box gap={2} display={"flex"} alignItems={"center"}>
+              <Box className=" imggroup">
+                <img src="/images/plane-icon-basecolor1.svg" />
+              </Box>
+              {paymentSuccess ? (
+                <Typography textTransform={"uppercase"} className=" f12 basecolor1 mb-0 bold">YOU’RE BOOKED</Typography>
+              ) : (
+                <Typography textTransform={"uppercase"} className="f12 basecolor1 mb-0 bold">Your trip</Typography>
+              )}
             </Box>
-            <h5 className=" basecolor1 mb-0 bold">Your trip</h5>
+            {paymentSuccess ? (
+              <Image width={24} height={24} src="/images/success-check.svg" />
+            ) : (
+              ""
+            )}
           </Box>
           <Box px={3} pt={2} pb={5}>
-            <YourTripSedebarCard
-              offerData={getselectedFlight}
-            />
+            <YourTripSedebarCard offerData={getselectedFlight} />
 
             <Box
               className=" Loading"
