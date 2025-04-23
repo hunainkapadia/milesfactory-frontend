@@ -1,5 +1,8 @@
 @import "../../variables";
 
+.InviteBox {
+  .formControl > div {height: 40px !important; width: 240px; font-size: 12px;@include border-radius(8px); }
+}
 
 .paymentCard {
    display: flex;

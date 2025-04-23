@@ -3,7 +3,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
-const RightTopSection = ({ offerData, SelectDrawer }) => {
+const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   const isRoundTrip = offerData?.slices.length > 1;
@@ -16,29 +16,34 @@ const RightTopSection = ({ offerData, SelectDrawer }) => {
         justifyContent: { xs: "space-between" },
         alignItems: { xs: "center", lg: "flex-start", md: "flex-start" },
         gap: { md: 3, lg: 3, xs: 2 },
-        marginBottom:{xs: 4},
+        marginBottom: { xs: 4 },
       }}
       width={"100%"}
       className={searchResultStyles.RightTopSection + " RightTopSection"}
     >
-      <Box  style={{ cursor: "pointer" }}>
-        <Box onClick={SelectDrawer} className="text-decoration-none basecolor1">
+      {(!selectedFlightKey || selected) && (
+        <Box style={{ cursor: "pointer" }}>
           <Box
-            gap={1.5}
-            alignItems={"center"}
-            display={"flex"}
-            className=" semibold"
-            sx={{
-              fontSize: { xs: "12px", md: "16px" },
-            }}
+            onClick={SelectDrawer}
+            className="text-decoration-none basecolor1"
           >
-            <span>Flight details</span>
-            <i className="fa-angle-right fa fas"></i>{" "}
+            <Box
+              gap={1.5}
+              alignItems={"center"}
+              display={"flex"}
+              className=" semibold"
+              sx={{
+                fontSize: { xs: "12px", md: "16px" },
+              }}
+            >
+              <span>Flight details</span>
+              <i className="fa-angle-right fa fas"></i>{" "}
+            </Box>
           </Box>
         </Box>
-      </Box>
+      )}
       {/*  */}
-      {(isMobile || isRoundTrip) ? ( // Only show for round trips
+      {isMobile || isRoundTrip ? ( // Only show for round trips
         <Box
           display={"flex"}
           gap={1}

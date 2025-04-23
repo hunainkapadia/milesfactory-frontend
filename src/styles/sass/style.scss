@@ -922,6 +922,7 @@ body {
   }
   .formControl {
     margin-bottom: 5px;
+    background-color: $white;
 
     width: 100%;
     margin-top: 0;
@@ -1164,8 +1165,9 @@ body {
   }
   &.btn-sm {
     font-size: $bfsize-xs;
-    padding: 12px 20px;
+    padding: 0px 20px;
     font-weight: $bold;
+    height: 40px;
   }
   &.btn-lg {
     font-size: $bfsize + 6;
@@ -1175,6 +1177,8 @@ body {
     font-size: $f14;
     padding: 10px 28px;
     line-height: 1.4 ;
+    font-weight: $bold;
+    height: 40px;
   }
   &.btn-black {
     @include border-radius(4px);

@@ -50,7 +50,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const offeridGet = useSelector((state) => state.getMessages.topOfferUrl);
   const offeridSend = useSelector((state) => state);
   const [isselected, seIsSelected] = useState(false);
-  const [hideSelectButton, seHideSelectButton] = useState(false);
+  const [hideSelectButton, setHideSelectButton] = useState(false);
 
   //
   const personQuantity = offerData?.passengers.length;
@@ -68,7 +68,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   const handleBookFlight = () => {
     if(selected) {
-      seHideSelectButton(true);
+      setHideSelectButton(true);
     };
     if (offerkey) {
       dispatch(setflightDetail(offerData)); // Store flight details
@@ -122,7 +122,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
               sx={{
                 flexDirection: { xs: "column", lg: "column", md: "column" },
               }}
-              justifyContent={"space-between"}
+              justifyContent={"center"}
               height={"100%"}
             >
               {FlightExpire ? (
@@ -178,6 +178,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     <RightTopSection
                       SelectDrawer={HandleSelectDrawer}
                       offerData={offerData}
+                      selected={selected}
+                      selectedFlightKey={selectedFlightKey}
                     />
                   </Box>
                   {/*  */}
@@ -206,7 +208,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
 
                       <Typography className=" f12 gray">
                         {currencySymbols[offerData?.tax_currency] ||
-                          offerData?.tax_currency}
+                          offerData?.tax_currency}{" "}
                         {offerData?.per_passenger_amount_plus_markup} per person
                       </Typography>
                     </Box>
