@@ -7,7 +7,6 @@ import {
   Tabs,
   Tab,
   Divider,
-  Button,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.scss";
 import BaggageDrawerFooter from "./BaggageDrawerFooter";
@@ -75,10 +74,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     .flatMap(option => option.checked_bag_options)
     .filter(option => option.slices_index === 0 || option.slices_index === 1);
 
-  // Only show the first baggage option for the selected slice index (0 for outbound, 1 for return)
   const sliceOptions = filteredOptions.filter((option) => option.slices_index === tabValue);
-  
-  // Show only the first baggage option for the selected slice
   const firstSliceOption = sliceOptions.slice(0, 1);
 
   return (
@@ -111,10 +107,11 @@ const BaggageDrawer = ({ getFlightDetail }) => {
               <Tab label="Return flight" className={`${styles.inactiveTab} ${tabValue === 1 ? styles.activeTab : ""}`} />
             </Tabs>
 
+            {console.log("tabValue", tabValue)}
             {getselectedFlight?.slices?.[tabValue] && (
               <>
                 <Box display="flex" gap={0.5} py={4} flexDirection="column">
-                  <Typography className="f11 bold">Flight {tabValue + 1} of {getselectedFlight?.slices?.length}</Typography>
+                  <Typography className="f11 bold">Flight a {tabValue + 1} of {getselectedFlight?.slices?.length}</Typography>
                   <h4 className={`${styles.title} mb-0`}>
                     {getselectedFlight.slices[tabValue].origin.city_name} to {getselectedFlight.slices[tabValue].destination.city_name}
                   </h4>
@@ -127,53 +124,55 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   </Typography>
                 </Box>
 
-                {GetViewPassengers?.map((passenger, key) => (
-                  <Box key={key} py={2}>
-                    <Box mb={2}>
-                      <Typography className="bold">
-                        {`${passenger.title} ${passenger.given_name} ${passenger.family_name}`}
-                      </Typography>
-                    </Box>
-                    <Grid container className={styles.BaggageRows} spacing={2}>
-                      <Grid item xs={4} className={`${styles.BaggageBox} aa`}>
-                        <Box display="flex" gap={1} alignItems="center">
-                          <img src="/images/included-baggage.svg" />
-                          <Typography className={`${styles.baggageTotal} bold f12`}>included</Typography>
-                        </Box>
-                      </Grid>
-                      {console.log("firstSliceOption", firstSliceOption)}
-                      {firstSliceOption.length > 0 ? firstSliceOption.map((option, index) => {
-                        const weight = option.label.match(/\d+kg/)[0];
-                        const price = option.label.match(/GBP\s(\d+\.\d{2})/)[1];
+                {GetViewPassengers?.map((passenger, key) => {
+                  const uniquePassengerId = `${passenger.id || passenger.given_name}_${key}`;
+                  return (
+                    <Box key={uniquePassengerId} py={2}>
+                      <Box mb={2}>
+                        <Typography className="bold">
+                          {`${passenger.title} ${passenger.given_name} ${passenger.family_name}`}
+                        </Typography>
+                      </Box>
+                      <Grid container className={styles.BaggageRows} spacing={2}>
+                        <Grid item xs={4} className={`${styles.BaggageBox} aa`}>
+                          <Box display="flex" gap={1} alignItems="center">
+                            <img src="/images/included-baggage.svg" />
+                            <Typography className={`${styles.baggageTotal} bold f12`}>included</Typography>
+                          </Box>
+                        </Grid>
+                        {firstSliceOption.length > 0 ? firstSliceOption.map((option, index) => {
+                          const weight = option.label.match(/\d+kg/)[0];
+                          const price = option.label.match(/GBP\s(\d+\.\d{2})/)[1];
 
-                        return (
-                          <Grid item xs={4} key={index}>
-                            <Box display="flex" flexDirection="column" gap={1}>
-                              <Box display="flex" gap={1} alignItems="center">
-                                <img src="/images/checkout/checked-bagg.svg" alt="Checked bag" />
-                                <Typography className={`${styles.baggageTotal} bold f12`}>
-                                  {baggageCount[passenger.id]?.[option.uuid] || 0}
-                                </Typography>
-                              </Box>
-                              <Typography className="f11 gray">Checked bag</Typography>
-                              <Typography className="f11 gray">£{price} | {weight}</Typography>
-                              <Box display="flex" gap={1} alignItems="center">
-                                <Box onClick={() => handleDecrement(option.uuid, passenger.id)} className="CounterBtn">
-                                  <i className="fa fa-minus"></i>
+                          return (
+                            <Grid item xs={4} key={index}>
+                              <Box display="flex" flexDirection="column" gap={1}>
+                                <Box display="flex" gap={1} alignItems="center">
+                                  <img src="/images/checkout/checked-bagg.svg" alt="Checked bag" />
+                                  <Typography className={`${styles.baggageTotal} bold f12`}>
+                                    {baggageCount[uniquePassengerId]?.[option.uuid] || 0}
+                                  </Typography>
                                 </Box>
-                                <Box onClick={() => handleIncrement(option.uuid, passenger.id)} className="CounterBtn active">
-                                  <i className="fa fa-plus"></i>
+                                <Typography className="f11 gray">Checked bag</Typography>
+                                <Typography className="f11 gray">£{price} | {weight}</Typography>
+                                <Box display="flex" gap={1} alignItems="center">
+                                  <Box onClick={() => handleDecrement(option.uuid, uniquePassengerId)} className="CounterBtn">
+                                    <i className="fa fa-minus"></i>
+                                  </Box>
+                                  <Box onClick={() => handleIncrement(option.uuid, uniquePassengerId)} className="CounterBtn active">
+                                    <i className="fa fa-plus"></i>
+                                  </Box>
                                 </Box>
                               </Box>
-                            </Box>
-                          </Grid>
-                        );
-                      }) : (
-                        <Typography>No checked bag options</Typography>
-                      )}
-                    </Grid>
-                  </Box>
-                ))}
+                            </Grid>
+                          );
+                        }) : (
+                          <Typography>No checked bag options</Typography>
+                        )}
+                      </Grid>
+                    </Box>
+                  );
+                })}
               </>
             )}
 
