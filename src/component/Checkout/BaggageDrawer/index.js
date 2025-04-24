@@ -111,7 +111,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
             {getselectedFlight?.slices?.[tabValue] && (
               <>
                 <Box display="flex" gap={0.5} py={4} flexDirection="column">
-                  <Typography className="f11 bold">Flight a {tabValue + 1} of {getselectedFlight?.slices?.length}</Typography>
+                  <Typography className="f11 bold">Flight {tabValue + 1} of {getselectedFlight?.slices?.length}</Typography>
                   <h4 className={`${styles.title} mb-0`}>
                     {getselectedFlight.slices[tabValue].origin.city_name} to {getselectedFlight.slices[tabValue].destination.city_name}
                   </h4>
@@ -134,16 +134,19 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                         </Typography>
                       </Box>
                       <Grid container className={styles.BaggageRows} spacing={2}>
-                        <Grid item xs={4} className={`${styles.BaggageBox} aa`}>
-                          <Box display="flex" gap={1} alignItems="center">
-                            <img src="/images/included-baggage.svg" />
-                            <Typography className={`${styles.baggageTotal} bold f12`}>included</Typography>
-                          </Box>
+                        <Grid item xs={4} className={`${styles.BaggageBox} aa`} >
+                           <Box display="flex" flexDirection="column" gap={1}>
+                              <Box display="flex" gap={1} alignItems="center">
+                                 <img src="/images/included-baggage.svg" />
+                                 <Typography className={`${styles.baggageTotal} bold f12`}>included</Typography>
+                              </Box>
+                              <Typography className="f11 gray">Handbag/laptop bag</Typography>
+                           </Box>
                         </Grid>
                         {firstSliceOption.length > 0 ? firstSliceOption.map((option, index) => {
                           const weight = option.label.match(/\d+kg/)[0];
                           const price = option.label.match(/GBP\s(\d+\.\d{2})/)[1];
-
+                          {console.log("option", option)}
                           return (
                             <Grid item xs={4} key={index}>
                               <Box display="flex" flexDirection="column" gap={1}>
