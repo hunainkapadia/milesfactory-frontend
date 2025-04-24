@@ -37,23 +37,27 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   };
 
   const handleIncrement = (uuid, passengerId) => {
-    setBaggageCount((prev) => {
-      const currentPassengerBaggage = prev[passengerId] || {};
-      const currentCount = currentPassengerBaggage[uuid] || 0;
-      return {
-        ...prev,
-        [passengerId]: {
-          ...currentPassengerBaggage,
-          [uuid]: currentCount + 1,
-        },
-      };
-    });
-
-    if (!selectedBaggageUUIDs.includes(uuid)) {
-      setSelectedBaggageUUIDs([...selectedBaggageUUIDs, uuid]);
-      dispatch(addSelectedBaggage(uuid));
-    }
-  };
+   setBaggageCount((prev) => {
+     const currentPassengerBaggage = prev[passengerId] || {};
+     const currentCount = currentPassengerBaggage[uuid] || 0;
+ 
+     if (currentCount >= 1) return prev; // Restrict to max 1 bag per type
+ 
+     return {
+       ...prev,
+       [passengerId]: {
+         ...currentPassengerBaggage,
+         [uuid]: currentCount + 1,
+       },
+     };
+   });
+ 
+   if (!selectedBaggageUUIDs.includes(uuid)) {
+     setSelectedBaggageUUIDs([...selectedBaggageUUIDs, uuid]);
+     dispatch(addSelectedBaggage(uuid));
+   }
+ };
+ 
 
   const handleDecrement = (uuid, passengerId) => {
     setBaggageCount((prev) => {
@@ -126,6 +130,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
                 {GetViewPassengers?.map((passenger, key) => {
                   const uniquePassengerId = `${passenger.id || passenger.given_name}_${key}`;
+                  console.log("uniquePassengerId", uniquePassengerId)
                   return (
                     <Box key={uniquePassengerId} py={2}>
                       <Box mb={2}>
