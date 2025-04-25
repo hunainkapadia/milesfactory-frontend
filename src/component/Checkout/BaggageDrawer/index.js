@@ -215,7 +215,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
                         {/* Baggage options for the passenger */}
                         {checkedBagOptions.length > 0 ? (
-                          checkedBagOptions.map((option, index) => {
+                          checkedBagOptions.slice(0, 1).map((option, index) => {
                             const weight = option?.label?.match(/\d+kg/)[0]; // Extract weight like "15kg"
                             const price =
                               option?.label?.match(/GBP\s(\d+\.\d{2})/)[1]; // Extract price like "68.00"
