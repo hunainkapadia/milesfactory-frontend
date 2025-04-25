@@ -219,6 +219,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                             const weight = option?.label?.match(/\d+kg/)[0]; // Extract weight like "15kg"
                             const price =
                               option?.label?.match(/GBP\s(\d+\.\d{2})/)[1]; // Extract price like "68.00"
+                              const quantity = baggageCount[passengerUUID]?.[option.uuid] ?? 0;
 
                             return (
                               <Grid item xs={4} key={index}>
@@ -239,7 +240,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                     <Typography
                                       className={`${styles.baggageTotal} bold f12`}
                                     >
-                                      1
+                                      {quantity}
                                     </Typography>
                                   </Box>
                                   <Typography className="f11 gray">
