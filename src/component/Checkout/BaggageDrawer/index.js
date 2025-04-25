@@ -75,7 +75,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   };
 
   // Check if baggageOptions is an array before filtering
-  
 
   return (
     <Drawer
@@ -160,89 +159,132 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                 </Box>
 
                 {GetViewPassengers?.map((passenger, key) => {
-  const passengerUUID = passenger?.uuid; // Assuming this is the current passenger UUID
+                  const passengerUUID = passenger?.uuid; // Assuming this is the current passenger UUID
 
-  // Extract passenger IDs
-  const passengerIds = Object.keys(baggageOptions);
+                  // Extract passenger IDs
+                  const passengerIds = Object.keys(baggageOptions);
 
-  // Filter passengerIds based on the current passengerUUID
-  const filteredPassengerIds = passengerIds.filter((id) => id === passengerUUID);
+                  // Filter passengerIds based on the current passengerUUID
+                  const filteredPassengerIds = passengerIds.filter(
+                    (id) => id === passengerUUID
+                  );
 
-  console.log("Filtered Passenger IDs:", filteredPassengerIds);
+                  console.log("Filtered Passenger IDs:", filteredPassengerIds);
 
-  // Initialize checkedBagOptions
-  let checkedBagOptions = [];
+                  // Initialize checkedBagOptions
+                  let checkedBagOptions = [];
 
-  if (filteredPassengerIds.length > 0) {
-    const matchingPassengerId = filteredPassengerIds[0];
-    const passengerData = baggageOptions[matchingPassengerId];
+                  if (filteredPassengerIds.length > 0) {
+                    const matchingPassengerId = filteredPassengerIds[0];
+                    const passengerData = baggageOptions[matchingPassengerId];
 
-    // Access checked_bag_options for the matched passenger UUID
-    checkedBagOptions = passengerData?.checked_bag_options || [];
-  }
+                    // Access checked_bag_options for the matched passenger UUID
+                    checkedBagOptions =
+                      passengerData?.checked_bag_options?.filter(
+                        (option) => option?.slices_index === tabValue
+                      ) || [];
+                  }
 
-  return (
-    <Box key={passenger?.uuid} py={2}>
-      <Box mb={2}>
-        <Typography className="bold">
-          {`${passenger.title} ${passenger.given_name} ${passenger.family_name}`}
-        </Typography>
-      </Box>
-      <Grid container className={styles.BaggageRows} spacing={2}>
-        <Grid item xs={4} className={`${styles.BaggageBox} aa`}>
-          <Box display="flex" flexDirection="column" gap={1}>
-            <Box display="flex" gap={1} alignItems="center">
-              <img src="/images/included-baggage.svg" />
-              <Typography className={`${styles.baggageTotal} bold f12`}>
-                included
-              </Typography>
-            </Box>
-            <Typography className="f11 gray">Handbag/laptop bag</Typography>
-          </Box>
-        </Grid>
+                  return (
+                    <Box key={passenger?.uuid} py={2}>
+                      <Box mb={2}>
+                        <Typography className="bold">
+                          {`${passenger.title} ${passenger.given_name} ${passenger.family_name}`}
+                        </Typography>
+                      </Box>
+                      <Grid
+                        container
+                        className={styles.BaggageRows}
+                        spacing={2}
+                      >
+                        <Grid item xs={4} className={`${styles.BaggageBox} aa`}>
+                          <Box display="flex" flexDirection="column" gap={1}>
+                            <Box display="flex" gap={1} alignItems="center">
+                              <img src="/images/included-baggage.svg" />
+                              <Typography
+                                className={`${styles.baggageTotal} bold f12`}
+                              >
+                                included
+                              </Typography>
+                            </Box>
+                            <Typography className="f11 gray">
+                              Handbag/laptop bag
+                            </Typography>
+                          </Box>
+                        </Grid>
 
-        {/* Baggage options for the passenger */}
-        {checkedBagOptions.length > 0 ? (
-          checkedBagOptions.map((option, index) => {
-            const weight = option?.label?.match(/\d+kg/)[0]; // Extract weight like "15kg"
-            const price =
-              option?.label?.match(/GBP\s(\d+\.\d{2})/)[1]; // Extract price like "68.00"
+                        {/* Baggage options for the passenger */}
+                        {checkedBagOptions.length > 0 ? (
+                          checkedBagOptions.map((option, index) => {
+                            const weight = option?.label?.match(/\d+kg/)[0]; // Extract weight like "15kg"
+                            const price =
+                              option?.label?.match(/GBP\s(\d+\.\d{2})/)[1]; // Extract price like "68.00"
 
-            return (
-              <Grid item xs={4} key={index}>
-                <Box display="flex" flexDirection="column" gap={1}>
-                  <Box display="flex" gap={1} alignItems="center">
-                    <img src="/images/checkout/checked-bagg.svg" alt="Checked bag" />
-                    <Typography className={`${styles.baggageTotal} bold f12`}>1</Typography>
-                  </Box>
-                  <Typography className="f11 gray">Checked bag</Typography>
-                  <Typography className="f11 gray">{`£${price} | ${weight}`}</Typography>
-                  <Box display="flex" gap={1} alignItems="center">
-                    <Box
-                      onClick={() => handleDecrement(option.uuid, passenger?.uuid)}
-                      className="CounterBtn"
-                    >
-                      <i className="fa fa-minus"></i>
+                            return (
+                              <Grid item xs={4} key={index}>
+                                <Box
+                                  display="flex"
+                                  flexDirection="column"
+                                  gap={1}
+                                >
+                                  <Box
+                                    display="flex"
+                                    gap={1}
+                                    alignItems="center"
+                                  >
+                                    <img
+                                      src="/images/checkout/checked-bagg.svg"
+                                      alt="Checked bag"
+                                    />
+                                    <Typography
+                                      className={`${styles.baggageTotal} bold f12`}
+                                    >
+                                      1
+                                    </Typography>
+                                  </Box>
+                                  <Typography className="f11 gray">
+                                    Checked bag
+                                  </Typography>
+                                  <Typography className="f11 gray">{`£${price} | ${weight}`}</Typography>
+                                  <Box
+                                    display="flex"
+                                    gap={1}
+                                    alignItems="center"
+                                  >
+                                    <Box
+                                      onClick={() =>
+                                        handleDecrement(
+                                          option.uuid,
+                                          passenger?.uuid
+                                        )
+                                      }
+                                      className="CounterBtn"
+                                    >
+                                      <i className="fa fa-minus"></i>
+                                    </Box>
+                                    <Box
+                                      onClick={() =>
+                                        handleIncrement(
+                                          option.uuid,
+                                          passenger?.uuid
+                                        )
+                                      }
+                                      className="CounterBtn active"
+                                    >
+                                      <i className="fa fa-plus"></i>
+                                    </Box>
+                                  </Box>
+                                </Box>
+                              </Grid>
+                            );
+                          })
+                        ) : (
+                          <Typography>No checked bag options</Typography>
+                        )}
+                      </Grid>
                     </Box>
-                    <Box
-                      onClick={() => handleIncrement(option.uuid, passenger?.uuid)}
-                      className="CounterBtn active"
-                    >
-                      <i className="fa fa-plus"></i>
-                    </Box>
-                  </Box>
-                </Box>
-              </Grid>
-            );
-          })
-        ) : (
-          <Typography>No checked bag options</Typography>
-        )}
-      </Grid>
-    </Box>
-  );
-})}
-
+                  );
+                })}
               </>
             )}
 
