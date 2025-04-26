@@ -1117,6 +1117,10 @@ body {
     border: solid 1px $basecolor1;
     color: $basecolor1;
   }
+  i {
+    line-height: 0;
+    margin-top: 3px;
+  }
 }
 .btn {
   text-transform: none;

@@ -4,14 +4,15 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 
 import Link from "next/link";
 import { currencySymbols } from "@/src/utils/utils";
-import { bookFlight, setBaggageDrawer } from "@/src/store/slices/BookingflightSlice";
+import { bookFlight } from "@/src/store/slices/BookingflightSlice";
 import { useDispatch } from "react-redux";
+import { baggage, BaggageDrawer, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
 
 const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
 
   const dispatch = useDispatch();
   const handleBaggageDrawer = ()=> {
-    dispatch(bookFlight());
+    dispatch(baggage())
     dispatch(setBaggageDrawer(true)); // opens the drawer
   }
   return (

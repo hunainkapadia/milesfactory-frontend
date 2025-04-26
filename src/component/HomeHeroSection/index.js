@@ -27,16 +27,6 @@ const HomeHeroSection = () => {
   console.log("threadUUIDget", threadUUID);
   
 
-  
-  useEffect(() => {
-    const localUUID = sessionStorage.getItem("chat_thread_uuid");
-    if (localUUID) {
-      dispatch(deleteChatThread(localUUID));   // Delete thread from server
-      dispatch(setThreadUUIDsend(null));       // Clear from Redux + localStorage
-    } {
-      ""
-    }
-  }, []);
 
   return (
     <>

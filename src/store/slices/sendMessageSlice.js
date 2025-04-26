@@ -214,7 +214,7 @@ export const deleteChatThread = (uuid) => (dispatch) => {
       // dispatch(setClearChat());
     })
     .catch((err) => {
-      console.error("Error deleting thread", err);
+      console.error("Error deleting thread", err?.response.data?.error);
     });
 };
 
