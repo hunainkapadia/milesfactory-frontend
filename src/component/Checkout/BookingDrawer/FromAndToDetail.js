@@ -38,7 +38,7 @@ const FromAndToDetail = ({
 
     return stops > 0
       ? `${stops} stop${stops > 1 ? "s" : ""} (${stopAirports.join(" - ")})`
-      : "Direct Flight";
+      : "";
   }
 
   const firstSegment = getdata?.segments?.[0];
@@ -161,9 +161,35 @@ const FromAndToDetail = ({
                           </Typography>
                         </Box>
                         <Box className={styles.Col2}>
-                          <Typography className="f14 f12m red">
-                            {getStopDetails(getdata)}
-                          </Typography>
+                          {getdata.segments.length > 1 ? (
+                            <>
+                              <Typography className="f14 f12m red">
+                                {getStopDetails(getdata)}
+                              </Typography>
+                            </>
+                          ) : (
+                            <>
+                              {console.log("segment111", getdata?.segments)}
+                              {getdata.segments.map((segment) => (
+                                <div key={segment.id}>
+                                  <Typography className="f14 mb-0">
+                                    {segment.operating_carrier?.iata_code}-
+                                    {segment.operating_carrier_flight_number}{" "}
+                                    {segment.marketing_carrier?.name}
+                                  </Typography>
+                                  <Typography>
+                                    {segment.passengers.map((getPassengers) => (
+                                      <React.Fragment
+                                        key={getPassengers.passenger_id}
+                                      >
+                                        {getPassengers?.cabin_class}
+                                      </React.Fragment>
+                                    ))}
+                                  </Typography>
+                                </div>
+                              ))}
+                            </>
+                          )}
                         </Box>
                         <Box className={styles.Col3}>
                           <Box className={styles.airlineLogo + " imggroup"}>
@@ -312,7 +338,11 @@ const FromAndToDetail = ({
                             <Box className={styles.Col2}>
                               {getdata.segments.length > 1 ? (
                                 <>
-                                  <Typography className="f14 f12m red">
+                                  <Typography
+                                    className="Direct Flight
+
+"
+                                  >
                                     {getStopDetails(getdata)}
                                   </Typography>
                                 </>
