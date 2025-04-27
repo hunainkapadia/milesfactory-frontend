@@ -177,11 +177,15 @@ const FromAndToDetail = ({
                                     {segment.marketing_carrier?.name}
                                   </Typography>
                                   <Typography>
-  {segment?.passengers?.[0]?.cabin_class
-    ? segment.passengers[0].cabin_class.charAt(0).toUpperCase() + segment.passengers[0].cabin_class.slice(1)
-    : "No Cabin Info"}
-</Typography>
-
+                                    {segment?.passengers?.[0]?.cabin_class
+                                      ? segment.passengers[0].cabin_class
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                        segment.passengers[0].cabin_class.slice(
+                                          1
+                                        )
+                                      : "No Cabin Info"}
+                                  </Typography>
                                 </div>
                               ))}
                             </>
