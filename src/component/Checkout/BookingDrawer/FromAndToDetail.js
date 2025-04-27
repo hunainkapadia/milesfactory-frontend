@@ -126,7 +126,7 @@ const FromAndToDetail = ({
                             })}
                           </h5>
                         </Box>
-                        <Box className={styles.Col2}>
+                        <Box className={styles.Col2 + " col2-a"}>
                           <h5 className={styles.Country + " f12m mb-0"}>
                             {firstSegment?.origin?.iata_code} (
                             {firstSegment?.origin?.city_name})
@@ -160,7 +160,7 @@ const FromAndToDetail = ({
                             {firstSegment?.duration}
                           </Typography>
                         </Box>
-                        <Box className={styles.Col2}>
+                        <Box className={styles.Col2 + " col2-b"}>
                           {getdata.segments.length > 1 ? (
                             <>
                               <Typography className="f14 f12m red">
@@ -169,7 +169,6 @@ const FromAndToDetail = ({
                             </>
                           ) : (
                             <>
-                              {console.log("segment111", getdata?.segments)}
                               {getdata.segments.map((segment) => (
                                 <div key={segment.id}>
                                   <Typography className="f14 mb-0">
@@ -178,14 +177,11 @@ const FromAndToDetail = ({
                                     {segment.marketing_carrier?.name}
                                   </Typography>
                                   <Typography>
-                                    {segment.passengers.map((getPassengers) => (
-                                      <React.Fragment
-                                        key={getPassengers.passenger_id}
-                                      >
-                                        {getPassengers?.cabin_class}
-                                      </React.Fragment>
-                                    ))}
-                                  </Typography>
+  {segment?.passengers?.[0]?.cabin_class
+    ? segment.passengers[0].cabin_class.charAt(0).toUpperCase() + segment.passengers[0].cabin_class.slice(1)
+    : "No Cabin Info"}
+</Typography>
+
                                 </div>
                               ))}
                             </>
@@ -215,7 +211,7 @@ const FromAndToDetail = ({
                             })}
                           </h5>
                         </Box>
-                        <Box className={styles.Col2}>
+                        <Box className={styles.Col2 + " col2-c"}>
                           <h5 className={styles.Country + " f12m mb-0"}>
                             {lastSegment?.destination?.iata_code} (
                             {lastSegment?.destination?.city_name})
@@ -301,7 +297,7 @@ const FromAndToDetail = ({
                                 })}
                               </h5>
                             </Box>
-                            <Box className={styles.Col2}>
+                            <Box className={styles.Col2 + " col2-d"}>
                               <h5 className={styles.Country + " f12m mb-0"}>
                                 {segment?.origin?.iata_code} (
                                 {segment?.origin?.city_name})
@@ -335,7 +331,7 @@ const FromAndToDetail = ({
                                 {segment?.duration}
                               </Typography>
                             </Box>
-                            <Box className={styles.Col2}>
+                            <Box className={styles.Col2 + " col2-e"}>
                               {getdata.segments.length > 1 ? (
                                 <>
                                   <Typography
@@ -387,7 +383,7 @@ const FromAndToDetail = ({
                                 })}
                               </h5>
                             </Box>
-                            <Box className={styles.Col2}>
+                            <Box className={styles.Col2 + " col2-f"}>
                               <h5 className={styles.Country + " f12m mb-0"}>
                                 {segment?.destination?.iata_code} (
                                 {segment?.destination?.city_name})
