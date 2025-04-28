@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import HomeHeroSection from "../component/HomeHeroSection";
 import { fetchMessages } from "../store/slices/GestMessageSlice";
 import Footer from "../component/layout/Footer";
+import { deleteChatThread, setThreadUUIDsend } from "../store/slices/sendMessageSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -27,14 +28,27 @@ const Home = () => {
 
   const uuid = useSelector((state) => state.sendMessage.ThreadUUIDsend); // <-- Adjust based on your store
 
+  
   const router = useRouter();
   useEffect(() => {
     if (sendMessages.length > 0 && uuid) {
       router.push(`/chat/${uuid}`);
     }
   }, [sendMessages.length, uuid]);
-
-
+  
+  
+  
+  
+  useEffect(() => {
+    const localUUID = sessionStorage.getItem("chat_thread_uuid");
+    if (localUUID) {
+      dispatch(deleteChatThread(localUUID));   // Delete thread from server
+      dispatch(setThreadUUIDsend(null));       // Clear from Redux + localStorage
+      sessionStorage.removeItem("chat_thread_uuid");
+    } {
+      ""
+    }
+  }, []);
 
   return (
     <>

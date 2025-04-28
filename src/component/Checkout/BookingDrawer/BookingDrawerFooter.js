@@ -56,7 +56,7 @@
         {/* Footer Content */}
         <Box
           className={styles.checkoutDrowerHeder}
-          py={1}
+          py={2}
           px={3}
           display="flex"
           flexDirection="column"
@@ -96,10 +96,11 @@
               </Box>
               <Box className={styles.totalPersonPrice}>
                 <Typography variant="p" className=" gray f12">
-                  Total per person:{" "}
+                
                   {currencySymbols[getFlightDetails?.tax_currency] ||
                     getFlightDetails?.tax_currency}
                   {Math.round(getFlightDetails?.per_passenger_amount_plus_markup)}
+                  {" "} per person
                 </Typography>
               </Box>
             </Box>

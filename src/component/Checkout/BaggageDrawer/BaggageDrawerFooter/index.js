@@ -4,10 +4,8 @@
 
   import { useDispatch, useSelector } from "react-redux";
   import {
-    addBaggage,
     bookFlight,
     closeDrawer,
-    setBaggageDrawer,
     setCloseDrawer,
     setflightDetail,
     setselectedFlighDetail,
@@ -16,6 +14,7 @@
   import { setMessage } from "@/src/store/slices/sendMessageSlice";
   import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
   import { currencySymbols } from "@/src/utils/utils";
+import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
 
   const BaggageDrawerFooter = ({ getFlightDetails }) => {
     const dispatch = useDispatch();
@@ -34,6 +33,7 @@
     const Passengers = Number(getFlightDetails?.per_passenger_amount) * personQuantity;
     const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
     const totalAmount = Math.round(WithtaxAmount);
+    const baggageAddData = useSelector((state)=> state.bagage.baggageAddData);
     return (
       <Box
         className={styles.BaggageDrawerFooter + " test11"}
@@ -70,9 +70,8 @@
                   className={styles.price + " exbold mb-0 basecolor-dark"}
                 >
                   <span>
-                    {currencySymbols[getFlightDetails?.tax_currency] ||
-                      getFlightDetails?.tax_currency}
-                    {getFlightDetails?.total_amount_plus_markup}
+                    {currencySymbols[getFlightDetails?.tax_currency]}
+                    {baggageAddData?.total_amount_plus_markup_and_all_services}
                   </span>
                 </h4>
               </Box>

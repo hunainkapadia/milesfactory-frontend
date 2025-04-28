@@ -7,14 +7,13 @@ import {
   Tabs,
   Tab,
   Divider,
+  Alert,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.scss";
 import BaggageDrawerFooter from "./BaggageDrawerFooter";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addSelectedBaggage,
-  setBaggageDrawer,
-} from "@/src/store/slices/BookingflightSlice";
+
+import {setAddSelectedBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
 
 const BaggageDrawer = ({ getFlightDetail }) => {
   const dispatch = useDispatch();
@@ -26,38 +25,52 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     setTabValue(newValue);
   };
 
-  const BaggageDrawerOpen = useSelector((state) => state.booking.BaggageDrawer);
+  const BaggageDrawerOpen = useSelector((state) => state.bagage.BaggageDrawer);
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
-  const baggageOptions = useSelector((state) => state.booking.baggageOptions);
-  const baggageError = useSelector((state) => state.booking.baggageError);
+  const baggageOptions = useSelector((state) => state.bagage.baggageOptions);
+  const baggageError = useSelector((state) => state.bagage.baggageError);
+  console.log("baggageError00", baggageError);
+  
 
   const HandlecloseDrawer = () => {
     dispatch(setBaggageDrawer(false));
   };
 
   const handleIncrement = (uuid, passengerId) => {
+    const currentCount = baggageCount[passengerId]?.[uuid] || 0;
+  
+    if (currentCount >= 1) return; // Allow only one increment
+  
+    const newCount = currentCount + 1;
+  
+    console.log("Incremented Baggage:");
+    console.log("Passenger UUID:", passengerId);
+    console.log("Baggage UUID:", uuid, newCount);
+    console.log("New Quantity:", newCount);
+  
     setBaggageCount((prev) => {
       const currentPassengerBaggage = prev[passengerId] || {};
-      const currentCount = currentPassengerBaggage[uuid] || 0;
       return {
         ...prev,
         [passengerId]: {
           ...currentPassengerBaggage,
-          [uuid]: currentCount + 1,
+          [uuid]: newCount,
         },
       };
     });
-
-    if (!selectedBaggageUUIDs.includes(uuid)) {
-      setSelectedBaggageUUIDs([...selectedBaggageUUIDs, uuid]);
-      dispatch(addSelectedBaggage(uuid));
-    }
+  
+    console.log("selectedBaggageUUIDs", selectedBaggageUUIDs);
+    
+    dispatch(setAddSelectedBaggage(uuid));
+    
   };
+  
+  
 
   const handleDecrement = (uuid, passengerId) => {
     setBaggageCount((prev) => {
@@ -73,6 +86,13 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       };
     });
   };
+  console.log("BaggageDrawerOpen", BaggageDrawerOpen);
+
+  // respons baggage add data
+  const baggageAddData = useSelector((state)=> state.bagage.baggageAddData);
+  console.log("baggageAddData", baggageAddData);
+  
+  
 
   // Check if baggageOptions is an array before filtering
 
@@ -168,7 +188,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   const filteredPassengerIds = passengerIds.filter(
                     (id) => id === passengerUUID
                   );
-
                   console.log("Filtered Passenger IDs:", filteredPassengerIds);
 
                   // Initialize checkedBagOptions
@@ -219,10 +238,18 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                             const weight = option?.label?.match(/\d+kg/)[0]; // Extract weight like "15kg"
                             const price =
                               option?.label?.match(/GBP\s(\d+\.\d{2})/)[1]; // Extract price like "68.00"
-                              const quantity = baggageCount[passengerUUID]?.[option.uuid] ?? 0;
+                            const quantity =
+                              baggageCount[passengerUUID]?.[option.uuid] ?? 0;
 
                             return (
-                              <Grid item xs={4} key={index}>
+                              <Grid
+                                item
+                                xs={4}
+                                key={index}
+                                className={`${styles.AddBaggeSection} ${
+                                  quantity === 0 ? " " : styles.active
+                                }`}
+                              >
                                 <Box
                                   display="flex"
                                   flexDirection="column"
@@ -232,6 +259,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                     display="flex"
                                     gap={1}
                                     alignItems="center"
+                                    className={styles.Header}
                                   >
                                     <img
                                       src="/images/checkout/checked-bagg.svg"
@@ -240,13 +268,17 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                     <Typography
                                       className={`${styles.baggageTotal} bold f12`}
                                     >
-                                      {quantity}
+                                      {quantity}{" "}
+                                      {quantity === 0 ? "" : <span>added</span>}
                                     </Typography>
                                   </Box>
-                                  <Typography className="f11 gray">
-                                    Checked bag
+                                  <Typography
+                                    className="f11 gray"
+                                    textTransform={"capitalize"}
+                                  >
+                                    {`${option?.baggage_type} bags`}
                                   </Typography>
-                                  <Typography className="f11 gray">{`£${price} | ${weight}`}</Typography>
+                                  <Typography className="f11 gray">{`£${option?.service_amount} | ${option?.metadata?.maximum_weight_kg}kg max`}</Typography>
                                   <Box
                                     display="flex"
                                     gap={1}
@@ -259,7 +291,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                           passenger?.uuid
                                         )
                                       }
-                                      className="CounterBtn"
+                                      className={`CounterBtn ${
+                                        quantity === 0 ? "" : " active "
+                                      }`}
                                     >
                                       <i className="fa fa-minus"></i>
                                     </Box>
@@ -289,12 +323,20 @@ const BaggageDrawer = ({ getFlightDetail }) => {
               </>
             )}
 
-            <Typography className="f12 red">{baggageError?.error}</Typography>
             <Box display="flex" justifyContent="space-between" my={2}>
               <Typography>Price of added bags</Typography>
-              <Typography className="bold">£30</Typography>
+              <Typography className="bold">
+                £{baggageAddData?.total_amount_plus_markup_and_all_services}
+              </Typography>
             </Box>
             <Divider />
+            {baggageError?.error && (
+              <Box py={2}>
+                <Alert severity="error" className="f12">
+                  {baggageError.error}
+                </Alert>
+              </Box>
+            )}
           </Box>
         </Box>
         <BaggageDrawerFooter
