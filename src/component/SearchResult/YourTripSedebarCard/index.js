@@ -401,21 +401,6 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                       alignItems={"center"}
                     >
                       <Box>
-                        <Typography className="f12 bold">Seats</Typography>
-                        <Typography className="f12 gray">
-                          Outbound: 40E, 40F / Return: predefined
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <i className="fa f20 fa-angle-right basecolor1"></i>
-                      </Box>
-                    </Box>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <Box>
                         <Typography className="f12  bold">
                           Extra luggage
                         </Typography>
