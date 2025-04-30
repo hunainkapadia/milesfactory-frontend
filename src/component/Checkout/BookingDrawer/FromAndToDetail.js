@@ -41,8 +41,8 @@ const FromAndToDetail = ({
       : "";
   }
 
-  const firstSegment = getdata?.segments?.[0];
-  const lastSegment = getdata?.segments?.[getdata?.segments?.length - 1];
+  const firstSegment = getdata?.segments?.[0]; // 1st segment khi to barcelona 
+  const lastSegment = getdata?.segments?.[getdata?.segments?.length - 1]; // last segment bacelona to karachi
 
   return (
     <>
@@ -98,8 +98,10 @@ const FromAndToDetail = ({
       >
         {flightDetail ? (
           <>
+            {/* from and to without stop detail  */}
             {firstSegment && lastSegment && (
               <Box className={styles.fromAndToBody + " fromAndToBodyNosegment"}>
+                {console.log("firstSegment11", firstSegment)}
                 <Box className={styles.fromAndToBodyTop}>
                   <Box className={styles.fromAndToRow}>
                     <Box
@@ -243,6 +245,7 @@ const FromAndToDetail = ({
           </>
         ) : (
           <>
+            {/* from and to with stop detail  */}
             {getdata?.segments?.length > 1 && (
               <Box
                 className={
