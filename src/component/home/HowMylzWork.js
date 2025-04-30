@@ -91,10 +91,6 @@ const HowMylzWork = (props) => {
               href={"#MylzDifferent"}
               className={styles.footerBtn + " white text-decoration-none"}
             >
-              <Box py={6} gap={2} alignItems={"center"} display={"flex"}>
-                <i className="fa-arrow-right fa fas"></i>{" "}
-                <span>Start planning my trip</span>
-              </Box>
             </Link>
           </Box>
         </Container>

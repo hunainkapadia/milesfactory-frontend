@@ -41,7 +41,7 @@ const Section4Reviews = (props) => {
                   <Box
                     sx={{ textAlign: { xs: "center", md: "left", lg: "left" } }}
                   >
-                    <h2>What travelers say:</h2>
+                    <h2>What travelers say</h2>
                     <Typography>
                       Real experiences from travelers who have discovered the
                       power of Mylz AI.

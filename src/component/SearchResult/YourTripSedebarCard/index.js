@@ -401,21 +401,6 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                       alignItems={"center"}
                     >
                       <Box>
-                        <Typography className="f12 bold">Seats</Typography>
-                        <Typography className="f12 gray">
-                          Outbound: 40E, 40F / Return: predefined
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <i className="fa f20 fa-angle-right basecolor1"></i>
-                      </Box>
-                    </Box>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <Box>
                         <Typography className="f12  bold">
                           Extra luggage
                         </Typography>
@@ -490,12 +475,12 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 <h4 className="exbold mb-0">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}
-                  {offerData?.total_amount_plus_markup}
+                  {Math.round(offerData?.total_amount)}
                 </h4>
                 <Typography className="gray f12">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}
-                  {Math.round(offerData?.per_passenger_amount_plus_markup)} per
+                  {Math.round(offerData?.per_passenger_amount)} per
                   person
                 </Typography>
               </Box>
