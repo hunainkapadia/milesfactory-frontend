@@ -206,22 +206,23 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
                       // Initialize checkedBagOptions
                       let checkedBagOptions = [];
-let carryOnBagOptions = [];
+                      let carryOnBagOptions = [];
 
-if (filteredPassengerIds.length > 0) {
-  const matchingPassengerId = filteredPassengerIds[0];
-  const passengerData = baggageOptions[matchingPassengerId];
+                      if (filteredPassengerIds.length > 0) {
+                        const matchingPassengerId = filteredPassengerIds[0];
+                        const passengerData =
+                          baggageOptions[matchingPassengerId];
 
-  checkedBagOptions =
-    passengerData?.checked_bag_options?.filter(
-      (option) => option?.slices_index === tabValue
-    ) || [];
+                        checkedBagOptions =
+                          passengerData?.checked_bag_options?.filter(
+                            (option) => option?.slices_index === tabValue
+                          ) || [];
 
-  carryOnBagOptions =
-    passengerData?.carry_on_bag_options?.filter(
-      (option) => option?.slices_index === tabValue
-    ) || [];
-}
+                        carryOnBagOptions =
+                          passengerData?.carry_on_bag_options?.filter(
+                            (option) => option?.slices_index === tabValue
+                          ) || [];
+                      }
 
                       return (
                         <>
@@ -239,7 +240,6 @@ if (filteredPassengerIds.length > 0) {
                                 container
                                 className={styles.BaggageRows}
                                 columnSpacing={2} // Only horizontal spacing
-
                               >
                                 <Grid
                                   item
@@ -270,73 +270,125 @@ if (filteredPassengerIds.length > 0) {
                                 </Grid>
 
                                 {/* Baggage options for the passenger */}
-                                {(checkedBagOptions.length > 0 || carryOnBagOptions.length > 0) ? (
-  [checkedBagOptions[0], carryOnBagOptions[0]].map((option, index) => {
-    if (!option) return null;
-    const isChecked = checkedBagOptions.includes(option);
-    const iconSrc = isChecked
-      ? "/images/checkout/checked-bagg.svg"
-      : "/images/checkout/carryon-bagg.svg";
-    const quantity = baggageCount[passengerUUID]?.[option.uuid] ?? 0;
+                                {checkedBagOptions.length > 0 ||
+                                carryOnBagOptions.length > 0 ? (
+                                  [
+                                    checkedBagOptions[0],
+                                    carryOnBagOptions[0],
+                                  ].map((option, index) => {
+                                    if (!option) return null;
+                                    const isChecked =
+                                      checkedBagOptions.includes(option);
+                                    const iconSrc = isChecked
+                                      ? "/images/checkout/checked-bagg.svg"
+                                      : "/images/checkout/carryon-bagg.svg";
+                                    const quantity =
+                                      baggageCount[passengerUUID]?.[
+                                        option.uuid
+                                      ] ?? 0;
 
-    return (
-      <Grid
-        item
-        xs={4}
-        key={index}
-        className={`${styles.BaggageBox} ${styles.AddBaggeSection} ${
-          quantity === 0 ? "" : styles.active
-        }`}
-      >
-        <Box display="flex" flexDirection="column" gap={1}>
-          <Box
-            display="flex"
-            gap={1}
-            alignItems="center"
-            className={styles.Header}
-          >
-            <img
-              src={iconSrc}
-              alt={isChecked ? "Checked bag" : "Carry-on bag"}
-            />
-            <Typography className={`${styles.baggageTotal} bold f12`}>
-              {quantity} {quantity === 0 ? "" : <span>added</span>}
-            </Typography>
-          </Box>
-          <Typography className="f11 gray" textTransform={"capitalize"}>
-            
-            {option?.baggage_type === "checked"
-              ? "Carry-on bags"
-              : "Checked bags"}
-          </Typography>
-          <Typography className="f11 gray">
-            £{option?.service_amount} each
-            {option?.metadata?.maximum_weight_kg
-              ? ` | ${option.metadata.maximum_weight_kg} kg max`
-              : ""}
-          </Typography>
-          <Box display="flex" gap={1} alignItems="center">
-            <Box
-              onClick={() => handleDecrement(option.uuid, passenger?.uuid)}
-              className={`CounterBtn ${quantity === 0 ? "" : "active"}`}
-            >
-              <i className="fa fa-minus"></i>
-            </Box>
-            <Box
-              onClick={() => handleIncrement(option.uuid, passenger?.uuid)}
-              className={`CounterBtn ${quantity === 0 ? "active" : ""}`}
-            >
-              <i className="fa fa-plus"></i>
-            </Box>
-          </Box>
-        </Box>
-      </Grid>
-    );
-  })
-) : (
-  <Typography>No baggage options available</Typography>
-)}
-
+                                    return (
+                                      <Grid
+                                        item
+                                        xs={4}
+                                        key={index}
+                                        className={`${styles.BaggageBox} ${
+                                          styles.AddBaggeSection
+                                        } ${
+                                          quantity === 0 ? "" : styles.active
+                                        }`}
+                                      >
+                                        <Box
+                                          display="flex"
+                                          flexDirection="column"
+                                          gap={1}
+                                        >
+                                          <Box
+                                            display="flex"
+                                            gap={1}
+                                            alignItems="center"
+                                            className={styles.Header}
+                                          >
+                                            <img
+                                              src={iconSrc}
+                                              alt={
+                                                isChecked
+                                                  ? "Checked bag"
+                                                  : "Carry-on bag"
+                                              }
+                                            />
+                                            <Typography
+                                              className={`${styles.baggageTotal} bold f12`}
+                                            >
+                                              {quantity}{" "}
+                                              {quantity === 0 ? (
+                                                ""
+                                              ) : (
+                                                <span>added</span>
+                                              )}
+                                            </Typography>
+                                          </Box>
+                                          <Typography
+                                            className="f11 gray"
+                                            textTransform={"capitalize"}
+                                          >
+                                            {option?.baggage_type === "checked"
+                                              ? "Carry-on bags"
+                                              : "Checked bags"}
+                                          </Typography>
+                                          <Typography className="f11 gray">
+                                            £{option?.service_amount} each
+                                            {option?.metadata?.maximum_weight_kg
+                                              ? ` | ${option.metadata.maximum_weight_kg} kg max`
+                                              : ""}
+                                          </Typography>
+                                          <Box
+                                            display="flex"
+                                            gap={1}
+                                            alignItems="center"
+                                          >
+                                            <Box
+                                              onClick={() =>
+                                                handleDecrement(
+                                                  option.uuid,
+                                                  passenger?.uuid
+                                                )
+                                              }
+                                              className={`CounterBtn ${
+                                                quantity === 0 ? "" : "active"
+                                              }`}
+                                            >
+                                              <i className="fa fa-minus"></i>
+                                            </Box>
+                                            <Box
+                                              onClick={() =>
+                                                handleIncrement(
+                                                  option.uuid,
+                                                  passenger?.uuid
+                                                )
+                                              }
+                                              className={`CounterBtn ${
+                                                quantity === 0 ? "active" : ""
+                                              }`}
+                                            >
+                                              <i className="fa fa-plus"></i>
+                                            </Box>
+                                          </Box>
+                                        </Box>
+                                      </Grid>
+                                    );
+                                  })
+                                ) : (
+                                  <Grid
+                                    item
+                                    xs={4}
+                                    className={`${styles.BaggageBox}`}
+                                  >
+                                    <Typography className="f12">
+                                      No baggage options available
+                                    </Typography>
+                                  </Grid>
+                                )}
                               </Grid>
                             </Box>
 
