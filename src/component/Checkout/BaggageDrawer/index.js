@@ -332,9 +332,10 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                             className="f11 gray"
                                             textTransform={"capitalize"}
                                           >
+                                          
                                             {option?.baggage_type === "checked"
-                                              ? "Carry-on bags"
-                                              : "Checked bags"}
+                                              ? "Checked bags"
+                                              : "Carry-on bags"}
                                           </Typography>
                                           <Typography className="f11 gray">
                                             £{option?.service_amount} each
