@@ -77,6 +77,9 @@
 
 
 //  
+.RightColBaggage {
+  line-height: 1;
+}
 .SearchCardWrapper {
   .SearchCardGrid {
     .flightOfferCard {
@@ -87,6 +90,7 @@
       flex-direction: column;
       transition: 0.3s ease-in-out;
       margin-bottom: 10px;
+      
       .selectFlightBtn {
         height: 40px;
         font-size: 12px;
@@ -95,7 +99,7 @@
       &.Oneway {
         .CardRight .RightTopSection {margin-bottom: 8px;}
         .FromAndToRow  .rowExtraInfo {
-          margin-bottom: 18px;
+          margin-bottom: 18px;align-items: flex-start;
         }
         .CardLeft {
           padding: 14px 25px 18px 16px;
@@ -120,11 +124,12 @@
         white-space: nowrap;
       }
     
-      .Timings {
-        .flightDay {
-          font-size: 12px;
-        }
+      .flightDay {
+        font-size: 12px;
       }
+      .Timings {
+      }
+      .Duration  {}
     
       &:hover {
         transform: scale(1.02);
@@ -160,7 +165,7 @@
     
       .flightDurationBox {
         width: 80%;
-    
+        
         .flightDuration {
           font-size: 12px;
           color: $black;
@@ -171,6 +176,7 @@
         border: 1px dashed #D9D9D9;
         transform: matrix(-1, 0, 0, 1, 0, 0);
         position: relative;
+        margin: 8px 0;
     
         .dots {
           position: absolute;
@@ -273,10 +279,10 @@
 
 @include for-mobile-large-screen {
   
-.SearchBodyActive .Box .Container {
-  padding-left: 22px;
-  padding-right: 22px;
-}
+  .SearchBodyActive .Box .Container {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
   .ExtraServicesWraper {
       display: grid;
       width: auto;

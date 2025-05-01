@@ -31,7 +31,7 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
               gap={1.5}
               alignItems={"center"}
               display={"flex"}
-              className=" semibold"
+              className=" semibold f12"
               sx={{
                 fontSize: { xs: "12px", md: "16px" },
               }}

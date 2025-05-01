@@ -54,37 +54,53 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
   const totalAmount = Math.round(WithtaxAmount);
 
+  const validPassengers = GetViewPassengers?.filter(
+    (p) => p.given_name && p.family_name
+  );
   return (
     <>
       {/* Open drawer only for the selected flight */}
       {SearchHistory ? (
-        <Box className={TripStyles.Header2 + " "}>
+        <Box className={TripStyles.Header2 + " aaa"} mb={2}>
           <Box>
             <h4 className="regular mb-0">
               {SearchHistory?.from_title} to {SearchHistory?.to_title}
             </h4>
           </Box>
-          <Box className=" " mb={2}>
+          <Box className=" ">
             <Typography className=" f12 black semibold">
-              {new Date(SearchHistory?.departure_date).toLocaleDateString(
-                "en-GB",
-                {
-                  day: "2-digit",
-                  month: "short",
-                }
+              {SearchHistory?.departure_date ? (
+                <>
+                  {new Date(SearchHistory?.departure_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )}
+                </>
+              ) : (
+                ""
               )}
-              {" - "}
-              {new Date(SearchHistory?.arrival_date).toLocaleDateString(
-                "en-GB",
-                {
-                  day: "2-digit",
-                  month: "short",
-                }
+              {SearchHistory?.arrival_date ? (
+                <>
+                  {" - "}
+                  {new Date(SearchHistory.arrival_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )}
+                </>
+              ) : (
+                ""
               )}
             </Typography>
             <Typography className=" gray mb-0 f12">
               {SearchHistory.flight_type == "round-trip" ? "Return" : "One way"}
-              , {SearchHistory.adults} { offerData?.passengers?.length > 1 ? "Travellers" : "Traveller"}
+              , {SearchHistory.adults}{" "}
+              {offerData?.passengers?.length > 1 ? "Travellers" : "Traveller"}
             </Typography>
           </Box>
         </Box>
@@ -93,7 +109,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
       )}
       {offerData ? (
         <>
-          <Box className={`${TripStyles.flightOfferCard}`}>
+          <Box className={`${TripStyles.flightOfferCard}`} mt={2}>
             <Grid>
               <Grid className={TripStyles.CardLeft} lg={12} md={12}>
                 {/* footer */}
@@ -365,35 +381,34 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                   (p) => p.given_name && p.family_name
                 ) ? (
                   <>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <Box>
-                        <Typography className="f12 bold">Travellers</Typography>
-                        <Typography className="f12 gray">
-                          {GetViewPassengers?.map((p, i) => {
-                            // Render only when both names are available
-                            if (p.given_name && p.family_name) {
-                              return (
-                                <span key={i}>
-                                  {console.log(
-                                    "GetViewPassengers",
-                                    GetViewPassengers
-                                  )}
-                                  {p.given_name} {p.family_name}{" "}
-                                  {GetViewPassengers.length >= 1 ? ", " : ""}
-                                </span>
-                              );
-                            }
-                            return null; // Skip rendering if names are missing
-                          })}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <i className="fa f20 fa-angle-right basecolor1"></i>
-                      </Box>
+                    <Box display={"flex"} flexDirection={"column"} gap={2}>
+                      {validPassengers?.length ? (
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Box>
+                            <Typography className="f12 bold">
+                              Travellers
+                            </Typography>
+                            <Typography className="f12 gray">
+                              {validPassengers?.map((p, i) => {
+                                const isLast = i === validPassengers.length - 1;
+                                return (
+                                  <span key={i}>
+                                    {p.given_name} {p.family_name}
+                                    {!isLast && ", "}
+                                  </span>
+                                );
+                              })}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <i className="fa f20 fa-angle-right basecolor1"></i>
+                          </Box>
+                        </Box>
+                      ) : null}
                     </Box>
                     <Box
                       display={"flex"}
@@ -459,17 +474,18 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                       </Box>
                     </Box>
                     <Box py={2}>
-              <Divider />
-            </Box>
+                      <Divider />
+                    </Box>
                   </>
-                ) : ""}
+                ) : (
+                  ""
+                )}
               </>
             ) : (
               ""
             )}
           </Box>
           <Box className={TripStyles.PaymentRow + " "} pt={2}>
-            
             <Box display={"flex"} alignItems={"center"} mb={2}>
               <Box>
                 <h4 className="exbold mb-0">
@@ -480,8 +496,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 <Typography className="gray f12">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}
-                  {Math.round(offerData?.per_passenger_amount)} per
-                  person
+                  {Math.round(offerData?.per_passenger_amount)} per person
                 </Typography>
               </Box>
             </Box>

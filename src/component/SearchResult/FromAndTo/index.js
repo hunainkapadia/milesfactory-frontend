@@ -31,7 +31,7 @@ const FromAndTo = ({ offerData }) => {
                 </Typography>
               </Box>
               <Box
-                className={StyleSheet.RightCol}
+                className={searchResultStyles.RightColBaggage}
                 display={"flex"}
                 alignItems={"center"}
               >
@@ -109,7 +109,7 @@ const FromAndTo = ({ offerData }) => {
                             baggageMap.values()
                           );
                           return (
-                            <Box display={"flex"} alignItems={"center"} gap={1}>
+                            <Box display={"flex"} alignItems={"center"} gap={2}>
                               {uniqueBaggages.map((baggage, index) => (
                                 <Box
                                   key={index}
@@ -182,6 +182,36 @@ const FromAndTo = ({ offerData }) => {
               {/* Flight Details */}
               <Box className={`${searchResultStyles.FlightTimingsCol} w-100`}>
                 <Box
+                  className={searchResultStyles.FromTopRow}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Typography
+                    className={searchResultStyles.flightDay + "  gray"}
+                  >
+                    {new Date(slice.departing_at).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                    })}
+                  </Typography>
+                  <Typography
+                    lineHeight={1}
+                    className={searchResultStyles.Duration + " gray f12"}
+                  >
+                    {slice.duration}
+                  </Typography>
+                  <Typography
+                    className={searchResultStyles.flightDay + "  gray"}
+                  >
+                    {new Date(slice.arriving_at).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                    })}
+                  </Typography>
+                </Box>
+
+                <Box
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
@@ -189,31 +219,19 @@ const FromAndTo = ({ offerData }) => {
                 >
                   {/* Departure Time & Code */}
                   <Box className={searchResultStyles.Timings}>
-                    <Typography
-                      className={searchResultStyles.flightDay + "  gray"}
-                    >
-                      {new Date(slice.departing_at).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                        }
-                      )}
-                    </Typography>
                     <Typography className={searchResultStyles.flightTime}>
-                      {new Date(slice.departing_at).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </Typography>
-                    <Typography
-                      className={searchResultStyles.flightRoute + " bold f12"}
-                    >
-                      {slice.origin.iata_code}
+                      {new Date(slice.departing_at)
+                        .toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })
+                        .replace(/ AM| PM/, "")}
                     </Typography>
                   </Box>
 
                   {/* Flight Duration with Dotted Line */}
+
                   <Box
                     display="flex"
                     flexDirection="column"
@@ -222,10 +240,6 @@ const FromAndTo = ({ offerData }) => {
                     flex={1}
                     className={searchResultStyles.flightDurationBox}
                   >
-                    <Typography className={" gray f12"}>
-                      {slice.duration}
-                    </Typography>
-
                     {/* Dotted Line */}
                     <Box
                       className={searchResultStyles.SearchDivider}
@@ -233,38 +247,19 @@ const FromAndTo = ({ offerData }) => {
                       my={2}
                     >
                       <Box className={searchResultStyles.dots}>
-  {slice.segments?.length > 1 && (
-    <>
-      {Array.from({ length: slice.segments.length - 1 }).map((_, index) => (
-        <Box key={index}>
-          <Box className={searchResultStyles.dot}></Box>
-        </Box>
-      ))}
-    </>
-  )}
-</Box>
-
+                        {slice.segments?.length > 1 && (
+                          <>
+                            {Array.from({
+                              length: slice.segments.length - 1,
+                            }).map((_, index) => (
+                              <Box key={index}>
+                                <Box className={searchResultStyles.dot}></Box>
+                              </Box>
+                            ))}
+                          </>
+                        )}
+                      </Box>
                     </Box>
-
-                    <Typography
-                      className={
-                        searchResultStyles.flightDuration + " semibold gray f12"
-                      }
-                    >
-                      {slice.segments?.length === 1 ? (
-                        "Direct"
-                      ) : (
-                        <>
-                          <span className="red">
-                            {slice.segments.length - 1} stop
-                          </span>
-                          {slice.segments.slice(0, -1).map((segment) => (
-                            <> {segment.destination.iata_code}</>
-                          ))}
-                          {slice.segments.length - 1 > 1 ? "s" : ""}
-                        </>
-                      )}
-                    </Typography>
                   </Box>
 
                   {/* Arrival Time & Code */}
@@ -272,27 +267,52 @@ const FromAndTo = ({ offerData }) => {
                     textAlign={"right"}
                     className={searchResultStyles.Timings}
                   >
-                    <Typography
-                      className={searchResultStyles.flightDay + "  gray"}
-                    >
-                      {new Date(slice.arriving_at).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                      })}
-                    </Typography>
-
                     <Typography className={searchResultStyles.flightTime}>
-                      {new Date(slice.arriving_at).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </Typography>
-                    <Typography
-                      className={searchResultStyles.flightRoute + " bold f12"}
-                    >
-                      {slice.destination.iata_code}
+                      {new Date(slice.arriving_at)
+                        .toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })
+                        .replace(/ AM| PM/, "")}
                     </Typography>
                   </Box>
+                </Box>
+                <Box
+                  className={searchResultStyles.ToBottomRow}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Typography
+                    className={searchResultStyles.flightRoute + " bold f12"}
+                  >
+                    {slice.origin.iata_code}
+                  </Typography>
+                  <Typography
+                    className={
+                      searchResultStyles.flightDuration + " semibold gray f12"
+                    }
+                  >
+                    {slice.segments?.length === 1 ? (
+                      "Direct"
+                    ) : (
+                      <>
+                        <span className="red">
+                          {slice.segments.length - 1} stop
+                        </span>
+                        {slice.segments.slice(0, -1).map((segment) => (
+                          <> - {segment.destination.iata_code}</>
+                        ))}
+                        {slice.segments.length - 1 > 1 ? "s" : ""}
+                      </>
+                    )}
+                  </Typography>
+                  <Typography
+                    className={searchResultStyles.flightRoute + " bold f12"}
+                  >
+                    {slice.destination.iata_code}
+                  </Typography>
                 </Box>
               </Box>
             </Box>

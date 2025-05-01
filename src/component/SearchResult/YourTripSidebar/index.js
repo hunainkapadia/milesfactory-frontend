@@ -43,10 +43,10 @@ const YourTripSidebar = ({isMessage}) => {
               ""
             )}
           </Box>
-          <Box px={3} pt={2} pb={5}>
+          <Box px={3}  py={3}>
             <YourTripSedebarCard offerData={getselectedFlight} />
 
-            <Box
+            <Box py={2}
               className=" Loading"
               sx={{
                 display: "flex",
