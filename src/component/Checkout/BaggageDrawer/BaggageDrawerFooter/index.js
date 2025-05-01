@@ -61,6 +61,8 @@ import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
               display={"flex"}
               flexDirection="column"
             >
+            {baggageAddData &&
+            <>
               <Box
                 className={styles.priceSection}
                 display="flex"
@@ -80,6 +82,9 @@ import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
                     Total price of extra bags 
                 </Typography>
               </Box>
+
+            </>
+            }
             </Box>
 
             {/* Actions Section */}

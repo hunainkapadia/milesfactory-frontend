@@ -206,18 +206,22 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
                       // Initialize checkedBagOptions
                       let checkedBagOptions = [];
+let carryOnBagOptions = [];
 
-                      if (filteredPassengerIds.length > 0) {
-                        const matchingPassengerId = filteredPassengerIds[0];
-                        const passengerData =
-                          baggageOptions[matchingPassengerId];
+if (filteredPassengerIds.length > 0) {
+  const matchingPassengerId = filteredPassengerIds[0];
+  const passengerData = baggageOptions[matchingPassengerId];
 
-                        // Access checked_bag_options for the matched passenger UUID
-                        checkedBagOptions =
-                          passengerData?.checked_bag_options?.filter(
-                            (option) => option?.slices_index === tabValue
-                          ) || [];
-                      }
+  checkedBagOptions =
+    passengerData?.checked_bag_options?.filter(
+      (option) => option?.slices_index === tabValue
+    ) || [];
+
+  carryOnBagOptions =
+    passengerData?.carry_on_bag_options?.filter(
+      (option) => option?.slices_index === tabValue
+    ) || [];
+}
 
                       return (
                         <>
@@ -234,7 +238,8 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                               <Grid
                                 container
                                 className={styles.BaggageRows}
-                                gap={2}
+                                columnSpacing={2} // Only horizontal spacing
+
                               >
                                 <Grid
                                   item
@@ -265,106 +270,73 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                 </Grid>
 
                                 {/* Baggage options for the passenger */}
-                                {checkedBagOptions.length > 0 ? (
-                                  checkedBagOptions
-                                    .slice(0, 1)
-                                    .map((option, index) => {
-                                      const weight =
-                                        option?.label?.match(/\d+kg/)[0]; // Extract weight like "15kg"
-                                      const price =
-                                        option?.label?.match(
-                                          /GBP\s(\d+\.\d{2})/
-                                        )[1]; // Extract price like "68.00"
-                                      const quantity =
-                                        baggageCount[passengerUUID]?.[
-                                          option.uuid
-                                        ] ?? 0;
+                                {(checkedBagOptions.length > 0 || carryOnBagOptions.length > 0) ? (
+  [checkedBagOptions[0], carryOnBagOptions[0]].map((option, index) => {
+    if (!option) return null;
+    const isChecked = checkedBagOptions.includes(option);
+    const iconSrc = isChecked
+      ? "/images/checkout/checked-bagg.svg"
+      : "/images/checkout/carryon-bagg.svg";
+    const quantity = baggageCount[passengerUUID]?.[option.uuid] ?? 0;
 
-                                      return (
-                                        <Grid
-                                          item
-                                          xs={4}
-                                          key={index}
-                                          className={`${
-                                            styles.AddBaggeSection
-                                          } ${
-                                            quantity === 0 ? " " : styles.active
-                                          }`}
-                                        >
-                                          <Box
-                                            display="flex"
-                                            flexDirection="column"
-                                            gap={1}
-                                          >
-                                            <Box
-                                              display="flex"
-                                              gap={1}
-                                              alignItems="center"
-                                              className={styles.Header}
-                                            >
-                                              <img
-                                                src="/images/checkout/checked-bagg.svg"
-                                                alt="Checked bag"
-                                              />
-                                              <Typography
-                                                className={`${styles.baggageTotal} bold f12`}
-                                              >
-                                                {quantity}{" "}
-                                                {quantity === 0 ? (
-                                                  ""
-                                                ) : (
-                                                  <span>added</span>
-                                                )}
-                                              </Typography>
-                                            </Box>
-                                            <Typography
-                                              className="f11 gray"
-                                              textTransform={"capitalize"}
-                                            >
-                                              {`${option?.baggage_type} bags`}
-                                            </Typography>
-                                            <Typography className="f11 gray">{`£${option?.service_amount} | ${option?.metadata?.maximum_weight_kg}kg max`}</Typography>
-                                            <Box
-                                              display="flex"
-                                              gap={1}
-                                              alignItems="center"
-                                            >
-                                              <Box
-                                                onClick={() =>
-                                                  handleDecrement(
-                                                    option.uuid,
-                                                    passenger?.uuid
-                                                  )
-                                                }
-                                                className={`CounterBtn ${
-                                                  quantity === 0
-                                                    ? ""
-                                                    : " active "
-                                                }`}
-                                              >
-                                                <i className="fa fa-minus"></i>
-                                              </Box>
-                                              <Box
-                                                onClick={() =>
-                                                  handleIncrement(
-                                                    option.uuid,
-                                                    passenger?.uuid
-                                                  )
-                                                }
-                                                className="CounterBtn active"
-                                              >
-                                                <i className="fa fa-plus"></i>
-                                              </Box>
-                                            </Box>
-                                          </Box>
-                                        </Grid>
-                                      );
-                                    })
-                                ) : (
-                                  <Typography>
-                                    No checked bag options
-                                  </Typography>
-                                )}
+    return (
+      <Grid
+        item
+        xs={4}
+        key={index}
+        className={`${styles.BaggageBox} ${styles.AddBaggeSection} ${
+          quantity === 0 ? "" : styles.active
+        }`}
+      >
+        <Box display="flex" flexDirection="column" gap={1}>
+          <Box
+            display="flex"
+            gap={1}
+            alignItems="center"
+            className={styles.Header}
+          >
+            <img
+              src={iconSrc}
+              alt={isChecked ? "Checked bag" : "Carry-on bag"}
+            />
+            <Typography className={`${styles.baggageTotal} bold f12`}>
+              {quantity} {quantity === 0 ? "" : <span>added</span>}
+            </Typography>
+          </Box>
+          <Typography className="f11 gray" textTransform={"capitalize"}>
+            
+            {option?.baggage_type === "checked"
+              ? "Carry-on bags"
+              : "Checked bags"}
+          </Typography>
+          <Typography className="f11 gray">
+            £{option?.service_amount} each
+            {option?.metadata?.maximum_weight_kg
+              ? ` | ${option.metadata.maximum_weight_kg} kg max`
+              : ""}
+          </Typography>
+          <Box display="flex" gap={1} alignItems="center">
+            <Box
+              onClick={() => handleDecrement(option.uuid, passenger?.uuid)}
+              className={`CounterBtn ${quantity === 0 ? "" : "active"}`}
+            >
+              <i className="fa fa-minus"></i>
+            </Box>
+            <Box
+              onClick={() => handleIncrement(option.uuid, passenger?.uuid)}
+              className={`CounterBtn ${quantity === 0 ? "active" : ""}`}
+            >
+              <i className="fa fa-plus"></i>
+            </Box>
+          </Box>
+        </Box>
+      </Grid>
+    );
+  })
+) : (
+  <Typography>No baggage options available</Typography>
+)}
+
                               </Grid>
                             </Box>
 
@@ -381,7 +353,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                 </>
               )}
               {/* price of baggage row */}
-              {baggageAddData ? (
+              {baggageAddData &&
                 <>
                   <Box py={2} display="flex" justifyContent="space-between" >
                     <Typography>Price of added bags</Typography>
@@ -396,9 +368,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                     <Divider />
                   </Box>
                 </>
-              ) : (
-                ""
-              )}
+              }
               {baggageError?.error && (
                 <Box py={2}>
                   <Alert severity="error" className="f12">
