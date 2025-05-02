@@ -88,6 +88,9 @@ const AiMessage = ({ aiMessage }) => {
   
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
+  console.log("isPolling_data", isPolling);
+  
+
   return (
     <Box
       ref={aiboxRef}
@@ -138,92 +141,96 @@ const AiMessage = ({ aiMessage }) => {
         ""
       )}
 
-      {aiMessage?.ai?.isPolling?.status && (
+      {displayedGetFlights?.length > 0 ? (
         <>
-        {console.log("displayedGetFlights_length", displayedGetFlights)}
-          <PollingMessage PollingData={isPolling?.argument} />
+          <Box
+            sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
+            className={searchResultStyles.SearchCardWrapper}
+          >
+            <Box mt={2} className={searchResultStyles.SearchCardGrid}>
+              {/* Render POST flight offers */}
+              {displayedGetFlights?.map((offer, i) => (
+                <SearchCard
+                  key={`post-${i}-${offer.id}`}
+                  offerData={offer}
+                  offerkey={`${i}-${offer.id}`}
+                  FlightExpire={FlightExpire}
+                />
+              ))}
+
+              {/* Render GET flight offers */}
+            </Box>
+          </Box>
+
+          {/* Toggle button */}
+          {!GetViewPassengers ? (
+            <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
+              <Link href={"#"} className="text-decoration-none">
+                <Box
+                  sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+                  gap={2}
+                  alignItems="center"
+                  display="flex"
+                  className="bold"
+                >
+                  <i
+                    className={`fa ${
+                      showAllFlight ? "fa-caret-up" : "fa-caret-down"
+                    } fas`}
+                  ></i>{" "}
+                  <span>
+                    {showAllFlight
+                      ? "Hide all flight options"
+                      : "Show all flight options"}
+                    {`${
+                      getAllFlightGetApi?.count
+                        ? " (" + getAllFlightGetApi?.count + ")"
+                        : ""
+                    }`}
+                    {`${
+                      allFlightSearcCount?.count
+                        ? " (" + allFlightSearcCount?.count + ")"
+                        : ""
+                    }`}
+                  </span>
+                </Box>
+              </Link>
+            </Box>
+          ) : (
+            ""
+          )}
+        </>
+      ) : (
+        // Default AI response
+        <>
+          {/* {console.log("aiMessage111", aiMessage?.ai)} */}
+          {console.log("ai_test111", aiMessage?.ai?.response)}
+          {!aiMessage?.ai?.response?.results ? (
+            <>
+              <Box className={searchResultStyles.AiMessage + " aaa"}>
+                {aiMessage?.ai?.isPolling?.status && (
+                  <>
+                    {console.log(
+                      "displayedGetFlights_length",
+                      displayedGetFlights
+                    )}
+                    <PollingMessage PollingData={aiMessage?.ai?.isPolling?.argument} />
+                  </>
+                )}
+                <Typography
+                  dangerouslySetInnerHTML={{
+                    __html: formatTextToHtmlList(
+                      sanitizeResponse(aiMessage?.ai?.response)
+                    ),
+                  }}
+                />
+              </Box>
+            </>
+          ) : (
+            ""
+          )}
         </>
       )}
-
-      {isPolling?.status && displayedGetFlights?.length === 0 ? (
-  // Show loading while polling but no results yet
-  <Box my={3}>
-    <LoadingArea />
-  </Box>
-) : displayedGetFlights?.length > 0 ? (
-  <>
-    {/* Show flight cards */}
-    <Box
-      sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
-      className={searchResultStyles.SearchCardWrapper}
-    >
-      <Box mt={2} className={searchResultStyles.SearchCardGrid}>
-        {displayedGetFlights.map((offer, i) => (
-          <SearchCard
-            key={`post-${i}-${offer.id}`}
-            offerData={offer}
-            offerkey={`${i}-${offer.id}`}
-            FlightExpire={FlightExpire}
-          />
-        ))}
-      </Box>
-    </Box>
-
-    {/* Toggle button */}
-    {!GetViewPassengers && (
-      <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
-        <Link href={"#"} className="text-decoration-none">
-          <Box
-            sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-            gap={2}
-            alignItems="center"
-            display="flex"
-            className="bold"
-          >
-            <i
-              className={`fa ${
-                showAllFlight ? "fa-caret-up" : "fa-caret-down"
-              } fas`}
-            ></i>
-            <span>
-              {showAllFlight
-                ? "Hide all flight options"
-                : "Show all flight options"}
-              {`${
-                getAllFlightGetApi?.count
-                  ? " (" + getAllFlightGetApi?.count + ")"
-                  : ""
-              }`}
-              {`${
-                allFlightSearcCount?.count
-                  ? " (" + allFlightSearcCount?.count + ")"
-                  : ""
-              }`}
-            </span>
-          </Box>
-        </Link>
-      </Box>
-    )}
-  </>
-) : (
-  // Fallback if no polling and no flights and maybe a plain AI message
-  <>
-    {!aiMessage?.ai?.response?.results && (
-      <Box className={searchResultStyles.AiMessage + " aaa"}>
-        <Typography
-          dangerouslySetInnerHTML={{
-            __html: formatTextToHtmlList(
-              sanitizeResponse(aiMessage?.ai?.response)
-            ),
-          }}
-        />
-      </Box>
-    )}
-  </>
-)}
-
-
-      
 
       {/* Scroll anchor */}
       <div ref={messagesEndRef} />

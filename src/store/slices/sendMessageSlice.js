@@ -75,7 +75,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
           
           const funcTemplate = response.function_template?.[0];
-          const gdata = funcTemplate?.function?.arguments || {};                    
+          const gdata = funcTemplate?.function?.arguments || {};
+          console.log("gdata_00", gdata);
+          
 
           dispatch(
             setMessage({
