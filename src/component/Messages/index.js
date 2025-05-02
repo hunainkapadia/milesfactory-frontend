@@ -74,7 +74,7 @@ const Messages = () => {
   const isPassengerDrawerOpen = useSelector(
     (state) => state.passengerDrawer?.OpenPassengerDrawer
   );
-  console.log("isPassengerDrawerOpen", isPassengerDrawerOpen);
+  console.log("isLoading111", isLoading);
   
   
   
@@ -88,7 +88,7 @@ const Messages = () => {
     dispatch(RefreshHandle())
     dispatch(setRefreshSearch())
   }
-    const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
+    
   
 
   return (
@@ -101,21 +101,15 @@ const Messages = () => {
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
-                    <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
-                  ) : index === messages.length - 1 && isLoading ? (
-                    <Box my={2}>
-                      <LoadingArea />
-                    </Box>
-                  ) : null}
+  <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
+) : index === messages.length - 1 && isLoading  ? (
+  <Box my={2}>
+    <LoadingArea />
+  </Box>
+) : null}
                 </Box>
               ))}
-              {isPolling.status ? (
-                <PollingMessage
-                  PollingData={isPolling?.argument}
-                />
-              ) : (
-                ""
-              )}
+
               {/*  */}
               <Box ref={messagesEndRef} />
               {/* booking flow start */}
