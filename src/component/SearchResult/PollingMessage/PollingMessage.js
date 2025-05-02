@@ -36,8 +36,9 @@ const PollingMessage = ({ PollingData }) => {
               year: "numeric",
             })}
           </li>
+          {console.log("PollingData_arrival_date", PollingData)}
           <li style={{ marginBottom: "0.5rem" }}>
-            Return:{" "}
+            Arrival:{" "}
             {new Date(PollingData?.arrival_date).toLocaleDateString("en-GB", {
               day: "2-digit",
               month: "short",
