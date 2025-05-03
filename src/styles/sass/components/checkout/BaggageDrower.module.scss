@@ -27,6 +27,7 @@
        }
        .customTabs {
          margin-top: 10px;
+         min-height: auto;
          border-bottom: 1px solid #e0e0e0;
          
        }
@@ -38,6 +39,7 @@
             }
        .inactiveTab {
          margin-right: 4px;
+         min-height: 38px;
          display: flex;
          flex-direction: row;
          justify-content: center;
@@ -51,10 +53,13 @@
 
          transition: all 0.2s ease;
          text-transform: capitalize;
+         p {
+          font-size: $f12;
+          font-weight: $semibold;
+         }
       }
       .activeTab {
-         border-bottom: solid 1px #ddd;
-         background-color: $lightgray;
+         background-color: $lightgray3;
          color: $basecolor;
 
        }

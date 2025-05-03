@@ -6,17 +6,28 @@ import Link from "next/link";
 import { currencySymbols } from "@/src/utils/utils";
 import { bookFlight } from "@/src/store/slices/BookingflightSlice";
 import { useDispatch } from "react-redux";
-import { baggage, BaggageDrawer, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
+import {
+  baggage,
+  BaggageDrawer,
+  setBaggageDrawer,
+} from "@/src/store/slices/BaggageSlice";
 
 const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
+  console.log("selectedFlight", selectedFlight);
 
   const dispatch = useDispatch();
-  const handleBaggageDrawer = ()=> {
-    dispatch(baggage())
+  const handleBaggageDrawer = () => {
+    dispatch(baggage());
     dispatch(setBaggageDrawer(true)); // opens the drawer
-  }
+  };
   return (
-    <Grid item xs={6} lg={6} md={6} className={searchResultStyles.ExtraServicesCol}>
+    <Grid
+      item
+      xs={6}
+      lg={6}
+      md={6}
+      className={searchResultStyles.ExtraServicesCol}
+    >
       <Box className={`${styles.passengersCard} ${styles.ExtraServices} `}>
         <Box display={"flex"} alignItems={"center"} gap={2}>
           <Box className="imggroup" width={40}>
@@ -77,122 +88,143 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
             flexDirection={"column"}
             gap={4}
           >
-            {selectedFlight?.slices.map((slice, index) => {
-              const isOutbound = index === 0;
-
-              // Build baggage map (to remove duplicates)
+            {(() => {
               const baggageMap = new Map();
+              
 
-              slice?.segments.forEach((segment) => {
-                segment?.passengers.forEach((passenger) => {
-                  passenger?.baggages.forEach((baggage) => {
-                    const key = `${baggage.type}-${baggage.formatted_type}`;
-                    if (!baggageMap.has(key)) {
-                      baggageMap.set(key, {
-                        ...baggage,
-                        totalQuantity: baggage.quantity || 0,
-                      });
-                    } else {
-                      // Accumulate quantity if duplicate
-                      const existing = baggageMap.get(key);
-                      existing.totalQuantity += baggage.quantity || 0;
-                    }
+              // Group baggage into outbound and return
+              selectedFlight?.slices?.forEach((slice, index) => {
+                const isOutbound = index === 0;
+
+                slice.segments?.forEach((segment) => {
+                  segment?.passengers?.forEach((passenger) => {
+                    passenger?.baggages?.forEach((baggage) => {
+                      const direction = isOutbound
+                        ? "Outbound baggage"
+                        : "Return baggage";
+                      const key = `${baggage.type}-${baggage.formatted_type}-${direction}`;
+                      if (!baggageMap.has(key)) {
+                        baggageMap.set(key, { ...baggage, direction });
+                      }
+                    });
                   });
                 });
               });
 
               const uniqueBaggages = Array.from(baggageMap.values());
 
-              // Map type to image and label
-              const getBaggageInfo = (type) => {
-                switch (type) {
-                  case "personal_item":
-                    return {
-                      label: "Handbag/laptop bag",
-                      icon: "/images/checkout/personal-items.svg",
-                    };
-                  case "carry_on":
-                    return {
-                      label: "Carry-on bags",
-                      icon: "/images/checkout/carryon-bagg.svg",
-                    };
-                  case "checked":
-                    return {
-                      label: "Checked bags",
-                      icon: "/images/checkout/checked-bagg.svg",
-                    };
-                  default:
-                    return {
-                      label: type,
-                      icon: "",
-                    };
-                }
-              };
+              const outboundBaggages = uniqueBaggages.filter(
+                (baggage) => baggage.direction === "Outbound baggage"
+              );
+              const returnBaggages = uniqueBaggages.filter(
+                (baggage) => baggage.direction === "Return baggage"
+              );
 
-              return (
+              const renderBaggageSection = (title, baggages) => (
                 <Box
                   className={styles.BaggageBox}
-                  display={"flex"}
-                  flexDirection={"column"}
+                  display="flex"
+                  flexDirection="column"
                   gap={2}
-                  key={index}
                 >
-                  <Box
-                    display={"flex"}
-                    justifyContent={"space-between"}
-                    gap={4}
-                  >
-                    <Box>
-                      <Typography
-                        className="f12 basecolor-dark"
-                        fontWeight={"bold"}
-                      >
-                        {isOutbound ? "Outbound baggage" : "Return baggage"}
-                      </Typography>
-                    </Box>
-                    <Box className="btn-link basecolor1" onClick={()=>handleBaggageDrawer()} >
-                      <Box textAlign={"right"} className="basecolor1" gap={2}>
+                  <Box display="flex" justifyContent="space-between" gap={4}>
+                    <Typography
+                      className="f12 basecolor-dark"
+                      fontWeight="bold"
+                    >
+                      {title}
+                    </Typography>
+                    <Box
+                      className="btn-link basecolor1"
+                      onClick={handleBaggageDrawer}
+                    >
+                      <Box textAlign="right" className="basecolor1" gap={2}>
                         <div>Add</div>
                       </Box>
                     </Box>
                   </Box>
 
-                  {/* Baggage details row */}
-                  <Box display={"flex"} className={styles.BaggageRow}>
-                    {uniqueBaggages.map((baggage, bIndex) => {
-                      const { icon, label } = getBaggageInfo(baggage.type);
+                  <Box display="flex" className={styles.BaggageRow}>
+                    <Box
+                      className={styles.BaggageCol}
+                      width="100%"
+                      display="flex"
+                      gap={1}
+                      flexDirection="column"
+                    >
+                      <Box display="flex" gap={1} alignItems="center">
+                        <Box>
+                          <img
+                            src="/images/checkout/personal-items.svg"
+                            alt="Handbag"
+                          />
+                        </Box>
+                        <Typography className={styles.baggageTotal + " f14"}>
+                          1 x
+                        </Typography>
+                      </Box>
+                      <Typography className={styles.baggageLabel + " f11 gray"}>
+                        Handbag/laptop bag
+                      </Typography>
+                    </Box>
 
-                      return (
-                        <Box
-                          key={bIndex}
-                          className={styles.BaggageCol}
-                          width={"100%"}
-                          display={"flex"}
-                          gap={1}
-                          flexDirection={"column"}
-                        >
-                          <Box display={"flex"} gap={1} alignItems={"center"}>
-                            <Box>
-                              <img src={icon} alt={label} />
-                            </Box>
-                            <Typography
-                              className={styles.baggageTotal + " f14"}
-                            >
-                              {baggage.totalQuantity} x
-                            </Typography>
+                      {console.log("baggageMap", baggages)}
+                    {baggages.map((baggage, index) => (
+                      <Box
+                        key={index}
+                        className={styles.BaggageCol}
+                        width="100%"
+                        display="flex"
+                        gap={1}
+                        flexDirection="column"
+                      >
+                        <Box display="flex" gap={1} alignItems="center">
+                          <Box>
+                            <img
+                              src={
+                                baggage.type === "personal"
+                                  ? "/images/checkout/personal-items.svg"
+                                  : baggage.type === "carry_on"
+                                  ? "/images/checkout/carryon-bagg.svg"
+                                  : baggage.type === "checked"
+                                  ? "/images/checkout/checked-bagg.svg"
+                                  : "/images/checkout/default-bagg.svg"
+                              }
+                              alt={baggage.type}
+                            />
                           </Box>
                           <Typography
-                            className={styles.baggageLabel + " f11 gray"}
+                            className={styles.baggageTotal + " f14 gray"}
                           >
-                            {label}
+                            {baggage.quantity} x
                           </Typography>
                         </Box>
-                      );
-                    })}
+                        <Typography
+                          className={styles.baggageLabel + " f11 gray"}
+                        >
+                          {baggage.type === "personal"
+                            ? "Handbag/laptop bag"
+                            : baggage.type === "carry_on"
+                            ? "Carry-on bags"
+                            : baggage.type === "checked"
+                            ? "Checked bags"
+                            : "Checked bags"}
+                        </Typography>
+                      </Box>
+                    ))}
                   </Box>
                 </Box>
               );
-            })}
+
+              return (
+                <Box>
+                  {outboundBaggages.length > 0 &&
+                    renderBaggageSection("Outbound baggage", outboundBaggages)}
+                  {returnBaggages.length > 0 &&
+                    renderBaggageSection("Return baggage", returnBaggages)}
+                </Box>
+              );
+            })()}
           </Box>
           {/* Unique Baggage Items */}
 

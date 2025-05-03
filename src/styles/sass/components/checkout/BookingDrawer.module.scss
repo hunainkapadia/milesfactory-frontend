@@ -1,10 +1,12 @@
 @import "../../variables";
 
-
+.BaggageBox:not(:last-child) {
+   margin-bottom: 24px;
+}
 .BaggageRow {
    .BaggageCol {
-      margin-right: 15px;
-      padding-right: 24px;
+      margin-right: 10px;
+      padding-right: 10px;
    }
 }
 .BaggageCol:not(:last-child) {
@@ -282,6 +284,6 @@
 }
 
 /* In your CSS file or style block */
-.capitalize-first-letter::first-letter {
+.capitalizeFirstLetter::first-letter {
    text-transform: uppercase;
  }

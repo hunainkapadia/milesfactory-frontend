@@ -146,13 +146,33 @@ const BaggageDrawer = ({ getFlightDetail }) => {
               className={styles.customTabs}
             >
               <Tab
-                label="Outbound flight"
+                label={
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={1}
+                  >
+                    <img
+                      src="/images/direct-plan-icon.svg"
+                      alt="Flight icon"
+                      style={{ width: 16, height: 16 }} // optional: control image size
+                    />
+                    <Typography className="basecolor-dark">Outbound flight</Typography>
+                  </Box>
+                }
                 className={`${styles.inactiveTab} ${
                   tabValue === 0 ? styles.activeTab : ""
                 }`}
               />
+
               <Tab
-                label="Return flight"
+                label={
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <img src="/images/direct-plan-icon.svg" alt="Return icon" />
+                    <Typography className="basecolor-dark f12">Return flight</Typography>
+                  </Box>
+                }
                 className={`${styles.inactiveTab} ${
                   tabValue === 1 ? styles.activeTab : ""
                 }`}
@@ -332,7 +352,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                             className="f11 gray"
                                             textTransform={"capitalize"}
                                           >
-                                          
                                             {option?.baggage_type === "checked"
                                               ? "Checked bags"
                                               : "Carry-on bags"}
@@ -406,9 +425,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                 </>
               )}
               {/* price of baggage row */}
-              {baggageAddData &&
+              {baggageAddData && (
                 <>
-                  <Box py={2} display="flex" justifyContent="space-between" >
+                  <Box py={2} display="flex" justifyContent="space-between">
                     <Typography>Price of added bags</Typography>
                     <Typography className="bold basecolor1">
                       {currencySymbols[getFlightDetail?.tax_currency]}
@@ -417,11 +436,11 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                       }
                     </Typography>
                   </Box>
-                  <Box >
+                  <Box>
                     <Divider />
                   </Box>
                 </>
-              }
+              )}
               {baggageError?.error && (
                 <Box py={2}>
                   <Alert severity="error" className="f12">
