@@ -206,22 +206,24 @@ const PassengerDrawerForm = () => {
               <Box width="100%" className="formGroup">
                 <FormLabel className="bold formLabel">Date of Birth</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    className="formControl Calendar"
-                    value={born_on ? dayjs(born_on) : null}
-                    onChange={(newValue) =>
-                      setborn_on(
-                        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-                      )
-                    }
-                    maxDate={twelveYearsAgo} // Disable dates after this
-                    renderInput={(params) => (
-                      <TextField {...params} fullWidth margin="normal" />
-                    )}
-                    openTo="year" // Start with year picker
-                    views={["year", "month", "day"]} // Order of selection
-                  />
-                </LocalizationProvider>
+  <DatePicker
+    className="formControl Calendar"
+    value={born_on ? dayjs(born_on) : null}
+    onChange={(newValue) =>
+      setborn_on(
+        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+      )
+    }
+    maxDate={twelveYearsAgo}
+    format="DD/MM/YYYY" // <-- This sets the display format
+    renderInput={(params) => (
+      <TextField {...params} fullWidth margin="normal" />
+    )}
+    openTo="year"
+    views={["year", "month", "day"]}
+  />
+</LocalizationProvider>
+
                 <Typography className="error" color="red">
                   {formError?.born_on || bornOnError?.born_on}
                 </Typography>
@@ -247,29 +249,31 @@ const PassengerDrawerForm = () => {
                   Passport Expiry Date
                 </FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    className="formControl Calendar"
-                    value={
-                      passport_expire_date ? dayjs(passport_expire_date) : null
-                    }
-                    onChange={(newValue) =>
-                      setpassport_expire_date(
-                        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-                      )
-                    }
-                    minDate={dayjs().startOf("year")} // Disables all years before current year
-                    openTo="year"
-                    views={["year", "month", "day"]}
-                    renderInput={(params) => (
-                      <TextField
-                        className="formControl"
-                        {...params}
-                        fullWidth
-                        margin="normal"
-                      />
-                    )}
-                  />
-                </LocalizationProvider>
+  <DatePicker
+    className="formControl Calendar"
+    value={
+      passport_expire_date ? dayjs(passport_expire_date) : null
+    }
+    onChange={(newValue) =>
+      setpassport_expire_date(
+        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+      )
+    }
+    minDate={dayjs().startOf("year")}
+    openTo="year"
+    views={["year", "month", "day"]}
+    format="DD/MM/YYYY" // <-- Display format updated
+    renderInput={(params) => (
+      <TextField
+        className="formControl"
+        {...params}
+        fullWidth
+        margin="normal"
+      />
+    )}
+  />
+</LocalizationProvider>
+
                 <Typography className="error" color="red">
                   {formError?.passport_expire_date ||
                     passportError?.passport_expire_date}

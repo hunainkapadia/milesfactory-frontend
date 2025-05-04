@@ -7,8 +7,17 @@ const PaymentSlice = createSlice({
     AddCardDrawer: false,
     PaymentFormSuccess: false,
     priceSummary: false,
+    clientSessionId: "",
+    client: "",
+    
   },
   reducers: {
+    setClient: (state, action)=> {
+      state.client = action.payload
+    },
+    setClientSecret: (state, action)=> {
+      state.clientSecret = action.payload
+    },
     setpriceSummary: (state, action) => {
       state.priceSummary = true
     },
@@ -25,6 +34,8 @@ const PaymentSlice = createSlice({
       state.isDrawer = false; // Close drawer
     },
     setPaymentFormSuccess: (state, action) => {
+      console.log("PaymentFormSuccess", action.payload);
+      
       state.PaymentFormSuccess = action.payload;
     },
   },
@@ -32,13 +43,12 @@ const PaymentSlice = createSlice({
 
 // 
 export const PaymentForm = (params) => (dispatch) => {
-
+  const state = getState();
+  console.log("payment_state", state);
+  
   // Just simulate success after 1 second
-  setTimeout(() => {
-    dispatch(setPaymentFormSuccess(true));
-    dispatch(setCloseCardDrawer()); // close the drawer
-    dispatch(setIsDrawer(false));
-  }, 1000);
+  
+  
 };
 
 // Export actions
@@ -49,5 +59,7 @@ export const {
   setpriceSummary,
   setIsDrawer,
   closeDrawer,
+  setClient,
+  setClientSecret,
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;
