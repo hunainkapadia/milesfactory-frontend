@@ -11,14 +11,16 @@ const HerosectionContent = () => {
            justifyContent={"center"}
            flexDirection={"column"}
          >
-           <Box sx={{ px: { xs: 0, md: 5, lg: 5 } }}>
+           <Box sx={{ px: { xs: 0, md: 2, lg: 2 } }}>
              <h1 className="h1-lg test333">
-               Travel smarter with<br/>AI-powered savings
+               Trips built by AI.
+               <br />
+               Booked in seconds.
              </h1>
              <Typography color="white">
-               Find and book your perfect trip at the best price - effortlessly.
-               Mylz has access to live prices and availability directly from all
-               global airlines, hotels, and tour guides.
+               Skip the markups and chaos. Mylz finds the smartest routes across
+               flights, trains, and hotels - always at direct prices and with no
+               hidden fees. Built for speed. Powered by AI.
              </Typography>
            </Box>
          </Box>

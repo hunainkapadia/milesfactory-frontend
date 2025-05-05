@@ -160,7 +160,8 @@ const MessageInputBox = ({ isMessageHome }) => {
                   </Box>
                 </Box>
                 {!isMessageHome ? (
-                  <Box
+                  <>
+                    {/* <Box
                     display={"flex"}
                     gap={2}
                     mt={2}
@@ -172,7 +173,26 @@ const MessageInputBox = ({ isMessageHome }) => {
                     <Box>
                       <img height={28} src="/images/app-app-store.svg" />
                     </Box>
-                  </Box>
+                  </Box> */}
+                    <Box
+                      className={styles.ChatBullets}
+                      display={"flex"}
+                      flexWrap={"wrap"}
+                    >
+                      <Box className={styles.ChatBullet1 + " " + styles.ChatBullet + " br-12 "}>
+                        Surprise me with a foodie weekend
+                      </Box>
+                      <Box className={styles.ChatBullet2 + " " + styles.ChatBullet + " br-12 "}>
+                        Book Paris for 2 from Friday to Sunday, departing 6pm
+                      </Box>
+                      <Box className={styles.ChatBullet3 + " " + styles.ChatBullet + " br-12 "}>
+                        I want a 3-day sunny getaway from London under £300
+                      </Box>
+                      <Box className={styles.ChatBullet4 + " " + styles.ChatBullet + " br-12 "}>
+                        Plan a solo adventure to Spain
+                      </Box>
+                    </Box>
+                  </>
                 ) : (
                   ""
                 )}

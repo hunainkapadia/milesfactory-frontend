@@ -4,14 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import Section4Reviews from "../component/home/Section4Reviews";
 import Section5App from "../component/home/Section5App";
-import HowMylzWork from "../component/home/HowMylzWork";
-import MylzDifferent from "../component/home/MylzDifferent";
 import PoweredByglobal from "../component/home/PoweredByglobal";
 import { useRouter } from "next/router";
 import HomeHeroSection from "../component/HomeHeroSection";
 import { fetchMessages } from "../store/slices/GestMessageSlice";
 import Footer from "../component/layout/Footer";
 import { deleteChatThread, setThreadUUIDsend } from "../store/slices/sendMessageSlice";
+import HomeSection3 from "../component/home/HomeSection3";
+import HomeSection4 from "../component/home/HomeSection4";
+import HomeSection2 from "../component/home/HomeSection2";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -63,8 +64,10 @@ const Home = () => {
         {sendMessages ? (
           <>
             <Header  />
-            <HowMylzWork id={"HowMylzWork"} />
-            <MylzDifferent id={"MylzDifferent"} />
+            <HomeSection2 id={"HomeSection2"} /> 
+            <HomeSection3 id={"HomeSection3"} />
+            <HomeSection4 id={"HomeSection4"} />
+
             <PoweredByglobal id={"PoweredByglobal"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App id={"Section5App"}/>

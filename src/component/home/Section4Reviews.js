@@ -28,28 +28,19 @@ const reviews = [
 
 const Section4Reviews = (props) => {
   return (
-    <Box position={"relative"}
+    <Box
+      position={"relative"}
       id={props.id}
       className={`${styles.HomeBannerReview} section-padding-lg white-bg no-bg`}
     >
       <section>
         <Container>
           <Box className={`${styles.ReviewSection} + ""`} position={"relative"}>
-            <Grid container spacing={3}>
-              <Grid item xs>
-                <Box mb={7} display={"flex"}>
-                  <Box
-                    sx={{ textAlign: { xs: "center", md: "left", lg: "left" } }}
-                  >
-                    <h2>What travelers say</h2>
-                    <Typography>
-                      Real experiences from travelers who have discovered the
-                      power of Mylz AI.
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
+            <Box mb={5} display={"flex"} justifyContent={"center"}>
+              <Box textAlign={"center"}>
+                <h2>What travelers say</h2>
+              </Box>
+            </Box>
 
             {/* Grid Review */}
             <Grid container spacing={3}>
@@ -60,13 +51,24 @@ const Section4Reviews = (props) => {
                   <Grid item md xs={12} key={index} className={styles.IdeaCard}>
                     <Card className={`no-border p-0`} variant="outlined">
                       <Box>
-                        <Box mb={4} sx={{textAlign:{xs:"center", md:"left", lg:"left"}}}>
+                        <Box
+                          mb={4}
+                          sx={{
+                            textAlign: { xs: "center", md: "left", lg: "left" },
+                          }}
+                        >
                           {/* Star Ratings */}
                           <Box
                             display={"flex"}
                             gap={2}
                             flexDirection={"row"}
-                            sx={{justifyContent:{xs:"center", md:"flex-start", lg:"flex-start"}}}
+                            sx={{
+                              justifyContent: {
+                                xs: "center",
+                                md: "flex-start",
+                                lg: "flex-start",
+                              },
+                            }}
                             mb={2}
                           >
                             <Box className={styles.star}>
@@ -92,8 +94,17 @@ const Section4Reviews = (props) => {
                         </Box>
 
                         {/* Client Info */}
-                        <Box display={"flex"} alignItems={"center"} gap={2}
-                        sx={{justifyContent:{xs:"center", md:"flex-start", lg:"flex-start"}}}
+                        <Box
+                          display={"flex"}
+                          alignItems={"center"}
+                          gap={2}
+                          sx={{
+                            justifyContent: {
+                              xs: "center",
+                              md: "flex-start",
+                              lg: "flex-start",
+                            },
+                          }}
                         >
                           <Box>
                             <Avatar

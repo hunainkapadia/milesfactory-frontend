@@ -9,6 +9,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPaymentData, setPaymentDrawer, setPaymentFormSuccess } from '@/src/store/slices/PaymentSlice';
+import api from '@/src/store/api';
 
 const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
 
@@ -28,41 +29,56 @@ const StripePayment = () => {
   useEffect(() => {
     if (!orderUUID) return;
 
-    fetch(`https://demo.milesfactory.com/api/v1/stripe/create-checkout-session?order_uuid=${orderUUID}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ frontend_url: window.location.origin }),
-    })
-      .then(res => res.json())
-      .then(data => {
+    api.post(`/api/v1/stripe/create-checkout-session?order_uuid=${orderUUID}`,
+        {
+          frontend_url: window.location.origin,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        const data = response.data;
         setClientSecret(data.clientSecret);
         setSessionId(data.sessionId);
-        setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((error) => {
+        console.error("Checkout session error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [orderUUID]);
 
-  useEffect(() => {
-    if (!sessionId) return;
 
-    const interval = setInterval(() => {
-      fetch(`https://demo.milesfactory.com/api/v1/stripe/session-status?session_id=${sessionId}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === 'complete') {
-            setCustomerEmail(data.customer_email);
-            setPaymentComplete(true);
-            dispatch(setPaymentFormSuccess(true));
-            dispatch(setPaymentData(data));
-            dispatch(setPaymentDrawer(false))
-            
-            clearInterval(interval);
-          }
-        });
-    }, 3000);
+useEffect(() => {
+  if (!sessionId) return;
 
-    return () => clearInterval(interval);
-  }, [sessionId]);
+  const interval = setInterval(() => {
+    api
+      .get(`/api/v1/stripe/session-status?session_id=${sessionId}`)
+      .then((response) => {
+        const data = response.data;
+        if (data.status === "complete") {
+          setCustomerEmail(data.customer_email);
+          setPaymentComplete(true);
+          dispatch(setPaymentFormSuccess(true));
+          dispatch(setPaymentData(data));
+          dispatch(setPaymentDrawer(false));
+
+          clearInterval(interval);
+        }
+      })
+      .catch((error) => {
+        console.error("Session status check failed:", error);
+      });
+  }, 3000);
+
+  return () => clearInterval(interval);
+}, [sessionId]);
+
 
   const options = {
     fetchClientSecret: () => Promise.resolve(clientSecret),

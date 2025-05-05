@@ -1,6 +1,31 @@
 @import "../_variables.scss";
 
 
+.ChatBullets {
+  gap:7px 12px;
+  padding-top: 20px;
+  .ChatBullet {
+    background-color: rgba(#0B1729, 0.5);
+    padding: 7px 22px;
+    font-size: 14px;
+    color: #D3D3D3;
+    border: 1px solid rgba(246, 246, 246, 0.3);
+    line-height: 1.2;
+    &.ChatBullet1 {
+      width: auto;
+    }
+    &.ChatBullet2 {
+      width: auto;
+    }
+    &.ChatBullet3 {
+      padding: 7px 29px;
+    }
+    &.ChatBullet4 {
+      padding: 7px 29px;
+    }
+
+  }
+}
 .HomeBannerReview {
   h1 {
     color: $white;
@@ -58,7 +83,7 @@
 .HeroSection {
   position: relative;
   z-index: 1;
-  padding: 27vh 0 2vh;
+  padding: 20vh 0 2vh;
 
   &.mainHeroSection {
     .Box {
@@ -100,7 +125,7 @@
         justify-content: center;
         width: 100%;
       .Content2In {
-        width: 42%;
+        // width: 42%;
         &.ContentFullWidth {
           width: 100%;
         }
@@ -225,7 +250,7 @@
   .mainHeroSection.HeroSection {
     padding: 25vh 0 16vh;
     .Box .Content .ContentIn {
-      padding-bottom: 24px;
+      padding-bottom: 26px;
       width: $BoxContainerXs;
     }
     &.Active {
