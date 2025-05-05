@@ -1222,7 +1222,18 @@ body {
     font-size: 12px;
   }
   
-  &.btn-disabled {
+  &.btn-disabled, &:disabled {
+    &.btn-primary {
+    pointer-events: none;   // disables clicks
+    cursor: not-allowed;    // optional: shows disabled cursor
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    background: $lightgray2;
+    cursor: inherit;
+    letter-spacing: 1.2px !important;
+    color: $white !important;
+    font-weight: 500;
+    }
     &.btn-round {
       border-radius: 100px;
       box-shadow: none;
@@ -1231,15 +1242,6 @@ body {
       border-radius: 8px !important;
     }
     
-    pointer-events: none;   // disables clicks
-    cursor: not-allowed;    // optional: shows disabled cursor
-    border-radius: 8px;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
-    background: $lightgray1;
-    cursor: inherit;
-    letter-spacing: 1.2px !important;
-    color: $white !important;
-    font-weight: 500;
     &.active:hover,
     &.active,
     &.active:focus {

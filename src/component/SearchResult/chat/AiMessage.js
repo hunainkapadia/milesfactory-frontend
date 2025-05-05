@@ -64,6 +64,8 @@ const AiMessage = ({ aiMessage }) => {
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
+  console.log("paymentSuccess", paymentSuccess);
+  
   useEffect(() => {
     if (paymentSuccess) {
       setTimeout(() => {

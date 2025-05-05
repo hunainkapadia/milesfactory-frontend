@@ -22,6 +22,7 @@ import PaymentCard from "../PaymentCard";
 import PaymentFooter from "./PaymentFooter";
 import StripePayment from "./StripePayment";
 
+
 const PaymentDrawer = ({ getFlightDetail }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -95,6 +96,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
             {/* Header Section */}
 
             <StripePayment />
+
           </Box>
           {/* <PaymentFooter selectedCard={selectedCard} agreeTerms={agreeTerms} /> */}
         </Box>

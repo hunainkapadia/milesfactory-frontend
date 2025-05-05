@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import {
-  setIsDrawer,
+  setPaymentDrawer,
   setpriceSummary,
-  toggleDrawer,
 } from "@/src/store/slices/PaymentSlice";
 import { currencySymbols } from "@/src/utils/utils";
 
@@ -17,7 +16,7 @@ const PriceSummary = ({ getdata }) => {
 
   const dispatch = useDispatch();
   const handlePaymentDrawer = () => {
-    dispatch(setIsDrawer(true));
+    dispatch(setPaymentDrawer(true));
   };
 
   const priceSummaryHandle = () => {
@@ -43,7 +42,7 @@ const PriceSummary = ({ getdata }) => {
   const WithtaxAmount = Number(flightDetail?.tax_amount) + Passengers;
   const totalAmount = Math.round(flightDetail?.base_amount) + Math.round(flightDetail?.tax_amount) + Math.round(flightDetail?.markup_amount);
 
-  const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
+  const paymentSuccess = useSelector((state) => state.payment.PaymentFormSuccess);
   return (
     <>
       <Box py={2}>
@@ -213,6 +212,7 @@ const PriceSummary = ({ getdata }) => {
           </Box>
           <Box display={"flex"} justifyContent={"flex-end"}>
             <Button
+              disabled={paymentSuccess}
               className={`btn btn-primary btn-md btn-round sm `}
               onClick={handlePaymentDrawer}
             >

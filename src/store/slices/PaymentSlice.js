@@ -3,15 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const PaymentSlice = createSlice({
   name: "payment",
   initialState: {
-    isDrawer: false,
+    PaymentDrawer: false,
     AddCardDrawer: false,
     PaymentFormSuccess: false,
     priceSummary: false,
     clientSessionId: "",
     client: "",
+    PaymentData: null,
     
   },
   reducers: {
+    setPaymentData: (state, action)=> {
+      state.PaymentData = action.payload;
+    },
     setClient: (state, action)=> {
       state.client = action.payload
     },
@@ -27,7 +31,7 @@ const PaymentSlice = createSlice({
     setCloseCardDrawer: (state) => {
       state.AddCardDrawer = false;
     },
-    setIsDrawer: (state, action) => {
+    setPaymentDrawer: (state, action) => {
       state.isDrawer = action.payload;
     },
     closeDrawer: (state) => {
@@ -57,9 +61,10 @@ export const {
   setCloseCardDrawer,
   setPaymentFormSuccess,
   setpriceSummary,
-  setIsDrawer,
+  setPaymentDrawer,
   closeDrawer,
   setClient,
   setClientSecret,
+  setPaymentData
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

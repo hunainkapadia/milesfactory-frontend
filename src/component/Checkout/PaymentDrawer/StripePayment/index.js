@@ -1,57 +1,92 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { loadStripe } from "@stripe/stripe-js";
+
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
-} from "@stripe/react-stripe-js";
-import api from "@/src/store/api";
-import { useDispatch, useSelector } from "react-redux";
-import { setClient, setPaymentFormSuccess } from "@/src/store/slices/PaymentSlice";
+} from '@stripe/react-stripe-js';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPaymentData, setPaymentDrawer, setPaymentFormSuccess } from '@/src/store/slices/PaymentSlice';
 
-// Load Stripe outside the component
+const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
 
 const StripePayment = () => {
-  const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
-  const [customerEmail, setCustomerEmail] = useState("");
-  const [ClientSessionId,  setClientSessionId]=useState(null);
-  const OrderUuid = useSelector((state)=> state.passengerDrawer.OrderUuid);
-  const cliendIds = useSelector((state)=> state.payment.client);
-  // const PaymentStatus = useSelector((state)=> state.payment.PaymentFormSuccess);
   
+  const [clientSecret, setClientSecret] = useState(null);
+  const [sessionId, setSessionId] = useState(null);
+  const [paymentComplete, setPaymentComplete] = useState(false);
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [loading, setLoading] = useState(true);
+  
+  const orderUUID = useSelector((state)=> state.passengerDrawer.OrderUuid);
   const dispatch = useDispatch();
-  // Fetch session status if session_id is present (i.e. return page)
-  useEffect(() => {
-    if (!cliendIds.sessionId) return;
-    api.get(`/api/v1/stripe/session-status?session_id=${cliendIds.sessionId}`)
-      .then((data) => {
-        console.log("res_data", data)
-        setCustomerEmail(data.customer_email);
-      });
-  }, [cliendIds.sessionId]);
-
-  // If session is still open, redirect to embedded checkout
-  const fetchClientSecret = useCallback(() => {
-    return api
-      .post(`/api/v1/stripe/create-checkout-session?order_uuid=${OrderUuid}`)
-      .then((res) => {
-        console.log("stripe_res", res);
-        setClientSessionId(res.data.sessionId);
-        dispatch(setClient(res.data)); // ← now works
-        return res.data.clientSecret;
-      });
-  }, [OrderUuid, dispatch]);
-
-  const options = { fetchClientSecret };
-
-  // Success page
+  console.log("paymentComplete", paymentComplete);
   
-  // Checkout page
+
+  useEffect(() => {
+    if (!orderUUID) return;
+
+    fetch(`https://demo.milesfactory.com/api/v1/stripe/create-checkout-session?order_uuid=${orderUUID}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ frontend_url: window.location.origin }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        setClientSecret(data.clientSecret);
+        setSessionId(data.sessionId);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [orderUUID]);
+
+  useEffect(() => {
+    if (!sessionId) return;
+
+    const interval = setInterval(() => {
+      fetch(`https://demo.milesfactory.com/api/v1/stripe/session-status?session_id=${sessionId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'complete') {
+            setCustomerEmail(data.customer_email);
+            setPaymentComplete(true);
+            dispatch(setPaymentFormSuccess(true));
+            dispatch(setPaymentData(data));
+            dispatch(setPaymentDrawer(false))
+            
+            clearInterval(interval);
+          }
+        });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [sessionId]);
+
+  const options = {
+    fetchClientSecret: () => Promise.resolve(clientSecret),
+  };
+
+  if (loading) return <p>Loading...</p>;
+
   return (
-    <div id="checkout">
-      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <EmbeddedCheckout />
-      </EmbeddedCheckoutProvider>
+    <div style={{ maxWidth: 600, margin: '0 auto', padding: '2rem' }}>
+      {!paymentComplete && clientSecret && (
+        <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+          <EmbeddedCheckout />
+        </EmbeddedCheckoutProvider>
+      )}
+
+      {paymentComplete && (
+        <div>
+          <h2>✅ Payment Successful!</h2>
+          <p>
+            A confirmation email has been sent to <strong>{customerEmail}</strong>.<br />
+            If you have any questions, contact us at <a href="mailto:support@example.com">support@example.com</a>.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
