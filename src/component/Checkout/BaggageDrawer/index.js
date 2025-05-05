@@ -105,7 +105,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       className={`${styles.BaggageDrawer} BaggageDrawer`}
       transitionDuration={300}
     >
-      <Box className={styles.BaggageDrawerSection}>
+      <Box className={styles.BaggageDrawerSection} width={480}>
         <Box className={styles.BaggageDrawerBody}>
           <Grid
             container

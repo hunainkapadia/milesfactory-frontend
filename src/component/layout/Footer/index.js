@@ -2,7 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
+const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => {
   return (
     <>
       {forDark ? (
@@ -183,6 +183,32 @@ const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
             </Box>
           </Container>
         </footer>
+      ) : forHomeHero ? (
+        <>
+          <footer className={styles.FooterForReview} sx={{ pb: 4 }}>
+            <Container>
+              <Box
+                className={styles.FooterBox + " "}
+                display={"flex"}
+                justifyContent={"center"}
+              >
+                <Link
+                  href={`#${id}`} // Use template literals
+                  className={
+                    styles.footerBtn + "  white text-decoration-none"
+                  }
+                >
+                  <Box gap={2} alignItems={"center"} display={"flex"}>
+                    <i className="fa-arrow-down fa fas"></i>{" "}
+                    <span>
+                      🔥 Over 1,300 trips planned by early users — and counting.
+                    </span>
+                  </Box>
+                </Link>
+              </Box>
+            </Container>
+          </footer>
+        </>
       ) : (
         ""
       )}

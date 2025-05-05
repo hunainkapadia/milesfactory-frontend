@@ -41,6 +41,8 @@ import {
 import { useRouter } from "next/router";
 import LoginForm from "../../Auth/LoginForm";
 import SignUpForm from "../../Auth/SignupForm";
+import ThreadDrawer from "../../SearchResult/ThreadDrawer";
+import { setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -159,9 +161,14 @@ const Header = ({ isMessage, IsActive }) => {
       window.location.reload();
     }
   };
+  const handleThreadDrawer = () => {
+    dispatch(thread());
+    dispatch(setThreadDrawer(true)); // opens the drawer
+  };
   return (
     <>
       <Head></Head>
+      <ThreadDrawer />
       <header
         className={`
           ${styles.Header} //normal header
@@ -382,6 +389,7 @@ const Header = ({ isMessage, IsActive }) => {
                       height={48}
                        // Optional
                       className={styles.ChatIcon + " imggroup"}
+                      onClick={handleThreadDrawer}
                     >
                       <img
                         src="/images/chat-history-icon.svg"

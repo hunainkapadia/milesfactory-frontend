@@ -1,58 +1,40 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import {
-  EmbeddedCheckoutProvider,
-  EmbeddedCheckout,
-} from "@stripe/react-stripe-js";
 import api from "@/src/store/api";
+import StripeElementsPayment from "../StripeElementsPayment";
 import { useDispatch, useSelector } from "react-redux";
-import { setClient, setPaymentFormSuccess } from "@/src/store/slices/PaymentSlice";
+import { setClient } from "@/src/store/slices/PaymentSlice";
 
-// Load Stripe outside the component
+const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
+
 
 const StripePayment = () => {
-  const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
-  const [customerEmail, setCustomerEmail] = useState("");
+  const OrderUuid = useSelector((state) => state.passengerDrawer.OrderUuid);
+  const [clientSecret, setClientSecret] = useState(null);
   const [ClientSessionId,  setClientSessionId]=useState(null);
-  const OrderUuid = useSelector((state)=> state.passengerDrawer.OrderUuid);
-  const cliendIds = useSelector((state)=> state.payment.client);
-  // const PaymentStatus = useSelector((state)=> state.payment.PaymentFormSuccess);
-  
   const dispatch = useDispatch();
-  // Fetch session status if session_id is present (i.e. return page)
-  useEffect(() => {
-    if (!cliendIds.sessionId) return;
-    api.get(`/api/v1/stripe/session-status?session_id=${cliendIds.sessionId}`)
-      .then((data) => {
-        console.log("res_data", data)
-        setCustomerEmail(data.customer_email);
-      });
-  }, [cliendIds.sessionId]);
 
-  // If session is still open, redirect to embedded checkout
-  const fetchClientSecret = useCallback(() => {
-    return api
-      .post(`/api/v1/stripe/create-checkout-session?order_uuid=${OrderUuid}`)
+  useEffect(() => {
+    if (!OrderUuid) return;
+    api.post(`/api/v1/stripe/create-checkout-session?order_uuid=${OrderUuid}`)
       .then((res) => {
-        console.log("stripe_res", res);
-        setClientSessionId(res.data.sessionId);
+        setClientSecret(res.data.clientSecret);
+        
         dispatch(setClient(res.data)); // ← now works
         return res.data.clientSecret;
       });
-  }, [OrderUuid, dispatch]);
+  }, [OrderUuid]);
 
-  const options = { fetchClientSecret };
+  const appearance = { theme: 'stripe' };
+  const options = { clientSecret, appearance };
 
-  // Success page
-  
-  // Checkout page
+  if (!clientSecret) return <p>Loading...</p>;
+
   return (
-    <div id="checkout">
-      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <EmbeddedCheckout />
-      </EmbeddedCheckoutProvider>
-    </div>
+    <Elements stripe={stripePromise} options={options}>
+      <StripeElementsPayment clientSecret={clientSecret} />
+    </Elements>
   );
 };
 

@@ -27,9 +27,9 @@ const Home = () => {
   
 
   const uuid = useSelector((state) => state.sendMessage.ThreadUUIDsend); // <-- Adjust based on your store
-
-  
   const router = useRouter();
+  
+  // when send message from home move url chat with uuid
   useEffect(() => {
     if (sendMessages.length > 0 && uuid) {
       router.push(`/chat/${uuid}`);
@@ -38,7 +38,7 @@ const Home = () => {
   
   
   
-  
+  // when home page come thread new every time
   useEffect(() => {
     const localUUID = sessionStorage.getItem("chat_thread_uuid");
     if (localUUID) {
@@ -65,6 +65,7 @@ const Home = () => {
             <Header  />
             <HowMylzWork id={"HowMylzWork"} />
             <MylzDifferent id={"MylzDifferent"} />
+            {/* <HeroSection4 /> */}
             <PoweredByglobal id={"PoweredByglobal"} />
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App id={"Section5App"}/>
