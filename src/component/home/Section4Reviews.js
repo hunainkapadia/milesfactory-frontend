@@ -43,7 +43,7 @@ const Section4Reviews = (props) => {
             </Box>
 
             {/* Grid Review */}
-            <Grid container spacing={3}>
+            <Grid container columnSpacing={12}>
               {reviews.map((review, index) => {
                 const firstLetter = review.name.charAt(0).toUpperCase();
 
@@ -54,7 +54,7 @@ const Section4Reviews = (props) => {
                         <Box
                           mb={4}
                           sx={{
-                            textAlign: { xs: "center", md: "left", lg: "left" },
+                            textAlign: "center",
                           }}
                         >
                           {/* Star Ratings */}
@@ -63,11 +63,7 @@ const Section4Reviews = (props) => {
                             gap={2}
                             flexDirection={"row"}
                             sx={{
-                              justifyContent: {
-                                xs: "center",
-                                md: "flex-start",
-                                lg: "flex-start",
-                              },
+                              justifyContent: "center",
                             }}
                             mb={2}
                           >
@@ -99,11 +95,7 @@ const Section4Reviews = (props) => {
                           alignItems={"center"}
                           gap={2}
                           sx={{
-                            justifyContent: {
-                              xs: "center",
-                              md: "flex-start",
-                              lg: "flex-start",
-                            },
+                            justifyContent: "center",
                           }}
                         >
                           <Box>

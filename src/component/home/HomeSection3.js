@@ -53,7 +53,10 @@ const HomeSection3 = (props) => {
                 className={`${styles.Card} br-12 bg-dark-box`}
                 variant="outlined"
               >
-                <Box>
+                <Box
+                  sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
+                  className={"aaaa"}
+                >
                   <Box mb={3}>
                     <h6 className="white mb-0">
                       💬 “Weekend in Lisbon under £200”
@@ -83,7 +86,10 @@ const HomeSection3 = (props) => {
                 className={`${styles.Card} br-12 bg-dark-box`}
                 variant="outlined"
               >
-                <Box>
+                <Box
+                  sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
+                  className={"aaaa"}
+                >
                   <Box mb={3}>
                     <h6 className="white mb-0">
                       💬 “Paris to Amsterdam Wednesday”
@@ -113,7 +119,10 @@ const HomeSection3 = (props) => {
                 className={`${styles.Card} br-12 bg-dark-box`}
                 variant="outlined"
               >
-                <Box>
+                <Box
+                  sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
+                  className={"aaaa"}
+                >
                   <Box mb={3}>
                     <h6 className="white mb-0">
                       💬 “Sunny 3-day escape under £300”

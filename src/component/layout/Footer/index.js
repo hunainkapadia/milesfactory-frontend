@@ -65,7 +65,10 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   </Link>
                 </Box>
                 <Box>
-                  <Link className="basecolor" href={"/sanctions-compliance-policy"}>
+                  <Link
+                    className="basecolor"
+                    href={"/sanctions-compliance-policy"}
+                  >
                     Sanctions Compliance Policy
                   </Link>
                 </Box>
@@ -194,12 +197,12 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
               >
                 <Link
                   href={`#${id}`} // Use template literals
-                  className={
-                    styles.footerBtn + "  white text-decoration-none"
-                  }
+                  className={styles.footerBtn + "  white text-decoration-none"}
                 >
-                  <Box gap={2} alignItems={"center"} display={"flex"}>
-                    <i className="fa-arrow-down fa fas"></i>{" "}
+                  <Box gap={2} alignItems={"center"} display={"flex"} textAlign={"center"}>
+                    <Box sx={{ display: { xs: "none", lg: "block", md:"block"  } }}>
+                      <i className="fa-arrow-down fa fas"></i>{" "}
+                    </Box>
                     <span>
                       🔥 Over 1,300 trips planned by early users — and counting.
                     </span>
