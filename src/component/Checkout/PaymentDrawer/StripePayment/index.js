@@ -14,7 +14,9 @@ import LoadingArea from '@/src/component/LoadingArea';
 import ButtonLoading from '@/src/component/LoadingArea/ButtonLoading';
 import { Box, CircularProgress } from '@mui/material';
 
+// const stripePromise = loadStripe("sk_test_51RAUC9PaaBt1oHi1VffJjKEbUkfOqDDTf6HDAruS7nJioRlD7uBTLT3RGwvMpiRfvYDiGdete2axYSnZMChaY08q00FtqNHsS7");
 const stripePromise = loadStripe("sk_test_51RAUC9PaaBt1oHi1VffJjKEbUkfOqDDTf6HDAruS7nJioRlD7uBTLT3RGwvMpiRfvYDiGdete2axYSnZMChaY08q00FtqNHsS7");
+
 
 const StripePayment = () => {
   
