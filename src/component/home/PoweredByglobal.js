@@ -5,7 +5,11 @@ import Footer from "../layout/Footer";
 
 const PoweredByglobal = (props) => {
   return (
-    <Box id={props.id} className={styles.PoweredByglobal + " section-padding-xl gray-bg"} position={"relative"}>
+    <Box
+      id={props.id}
+      className={styles.PoweredByglobal + " section-padding-xl gray-bg"}
+      position={"relative"}
+    >
       <Container>
         <Box position={"relative"}>
           <Box
@@ -14,13 +18,17 @@ const PoweredByglobal = (props) => {
             justifyContent={"center"}
           >
             <Box className={``} mb={6}>
-              <h3 className=" semibold white align-center">
-                Powered by global airlines and hotels
-              </h3>
+              <h2 className=" semibold white align-center">
+                Trusted by our global travel partners
+              </h2>
             </Box>
           </Box>
-
-          <Box
+          <Grid width={"100%"} item xs={12} md={12} container columnSpacing={3}>
+            <Grid item xs={4}>asas</Grid>
+            <Grid item xs={4}>asas</Grid>
+            <Grid item xs={4}>asas</Grid>
+          </Grid>
+          {/* <Box
             display="flex"
             flexWrap="wrap"
             justifyContent="space-between"
@@ -82,7 +90,7 @@ const PoweredByglobal = (props) => {
             >
               <img src="/images/poweredby-Agoda_logo.svg" alt="Agoda" />
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </Container>
       <Footer

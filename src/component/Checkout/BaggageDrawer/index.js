@@ -41,6 +41,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   const HandlecloseDrawer = () => {
     dispatch(setBaggageDrawer(false));
   };
+  const segmentId = useSelector((state)=> state.bagage.SegmentId);
+  console.log("segmentId000", segmentId);
+  
 
   const handleIncrement = (uuid, passengerId) => {
     const currentCount = baggageCount[passengerId]?.[uuid] || 0;

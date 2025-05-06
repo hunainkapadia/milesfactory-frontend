@@ -20,6 +20,7 @@ const initialState = {
   baggageError: null,
   addSelectedBaggage: null,
   baggageAddData: null,
+  SegmentId: null,
 };
 // for selectflightDetail button
 const baggageSlice = createSlice({
@@ -27,6 +28,9 @@ const baggageSlice = createSlice({
   initialState,
 
   reducers: {
+    setSegmentId: (state, action)=> {
+      state.SegmentId = action.payload
+    },
     setbaggageAddData: (state, action)=> {
       state.baggageAddData = action.payload
     },
@@ -125,6 +129,7 @@ export const {
   setBaggageOptions,
   setAddSelectedBaggage,
   setBaggageError,
-  setbaggageAddData
+  setbaggageAddData,
+  setSegmentId,
 } = baggageSlice.actions; //action exporting here
 export default baggageSlice.reducer;

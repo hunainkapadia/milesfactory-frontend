@@ -90,7 +90,8 @@ const AiMessage = ({ aiMessage }) => {
   
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
-  console.log("isPolling_data", isPolling);
+  // const IsServices = useSelector((state)=> state.booking.singleFlightData.available_services)
+  // console.log("singleflight111", singleflight);
   
 
   return (

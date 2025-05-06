@@ -56,6 +56,7 @@ const PassengerInfo = ({ getdata }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
+  const IsServices = useSelector((state)=> state.booking.singleFlightData.available_services);
 
   return (
     <>

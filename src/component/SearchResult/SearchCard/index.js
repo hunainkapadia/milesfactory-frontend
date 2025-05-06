@@ -66,6 +66,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   
   
+  
   const handleBookFlight = () => {
     if(selected) {
       setHideSelectButton(true);
@@ -77,6 +78,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     dispatch(setisLoading());
     dispatch(setflightDetail(offerData)); //dispatch selected flight detail
     dispatch(PassengerForm());
+
+    dispatch(bookFlight());
     if (flightDetail?.id) {
       dispatch(bookFlight(flightDetail.id)); // Pass flight ID to bookFlight
     } else {

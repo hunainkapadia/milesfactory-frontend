@@ -55,12 +55,12 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   </Link>
                 </Box>
                 <Box>
-                  <Link className="basecolor" href={"/"}>
+                  <Link className="basecolor" href={"/terms-and-conditions"}>
                     Terms of Service
                   </Link>
                 </Box>
                 <Box>
-                  <Link className="basecolor" href={"/"}>
+                  <Link className="basecolor" href={"/privacy-policy"}>
                     Privacy Policy
                   </Link>
                 </Box>

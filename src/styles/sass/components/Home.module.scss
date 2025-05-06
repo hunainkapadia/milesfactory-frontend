@@ -60,6 +60,10 @@
   background-position: center 10%;
   position: relative;
   background-size: cover;
+  &.HomeBannerSm {
+    height: 40vh;
+
+  }
 
   h1 {
     color: $white;
