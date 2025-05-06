@@ -10,6 +10,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { setPaymentData, setPaymentDrawer, setPaymentFormSuccess } from '@/src/store/slices/PaymentSlice';
 import api from '@/src/store/api';
+import LoadingArea from '@/src/component/LoadingArea';
+import ButtonLoading from '@/src/component/LoadingArea/ButtonLoading';
+import { Box, CircularProgress } from '@mui/material';
 
 const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
 
@@ -63,7 +66,7 @@ useEffect(() => {
         const data = response.data;
         if (data.status === "complete") {
           setCustomerEmail(data.customer_email);
-          setPaymentComplete(true);
+          // setPaymentComplete(true);
           dispatch(setPaymentFormSuccess(true));
           dispatch(setPaymentData(data));
           dispatch(setPaymentDrawer(false));
@@ -84,7 +87,14 @@ useEffect(() => {
     fetchClientSecret: () => Promise.resolve(clientSecret),
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return (
+    <>
+    <Box width={"100%"} display={"flex"} justifyContent={"center"} alignItems={"center"} py={10} height={"80%"}>
+      <CircularProgress />
+    </Box>
+
+    </>
+  );
 
   return (
     <div style={{ maxWidth: 600, margin: '0 auto', padding: '2rem' }}>
@@ -94,7 +104,7 @@ useEffect(() => {
         </EmbeddedCheckoutProvider>
       )}
 
-      {paymentComplete && (
+      {/* {paymentComplete && (
         <div>
           <h2>✅ Payment Successful!</h2>
           <p>
@@ -102,7 +112,7 @@ useEffect(() => {
             If you have any questions, contact us at <a href="mailto:support@example.com">support@example.com</a>.
           </p>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

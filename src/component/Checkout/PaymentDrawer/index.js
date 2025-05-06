@@ -17,6 +17,7 @@ import {
   closeDrawer,
   setAddCardDrawer,
   setIsDrawer,
+  setPaymentDrawer,
 } from "@/src/store/slices/PaymentSlice";
 import PaymentCard from "../PaymentCard";
 import PaymentFooter from "./PaymentFooter";
@@ -32,7 +33,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
   };
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
-    dispatch(setIsDrawer(false)); //setSelectFlightKey empty then close drawer
+    dispatch(setPaymentDrawer(false)); //setSelectFlightKey empty then close drawer
   };
 
   const isDrawer = useSelector((state) => state.payment.isDrawer);
