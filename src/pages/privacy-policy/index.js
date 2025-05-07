@@ -16,7 +16,7 @@ const PrivacyPolicy = () => {
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="subtitle1" gutterBottom>
-            Effective Date: [Insert Date]
+            Effective Date: May 7th, 2025
           </Typography>
 
           <Typography paragraph>
