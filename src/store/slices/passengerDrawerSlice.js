@@ -187,24 +187,22 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   console.log("passengerSubmitUrl", passengerSubmitUrl);
   console.log("passengerUuid", passengerUuid);
 
-  // Extract only phone_number and email region fields
-  const { phone_number, email, region, ...restParams } = params;
-  const captainParams = { phone_number, email, region };
-
   // First, send phone/email to captain API
-  api.post(`/api/v1/order/${orderUuid}/captain`, captainParams).then((captainResponse) => {
+  api.post(`/api/v1/order/${orderUuid}/captain`, params).then((captainResponse) => {
     console.log("captainResponse", captainResponse);
-  }).catch((error)=> {
-    console.log("error", error);
-    
+    dispatch(setClosePassengerDrawer(true));
+  }).catch((error) => {
+    console.log("errors_00", error);
+  
+    const responseErrors = error.response?.data || {};
+    dispatch(setClosePassengerDrawer(false));
+    dispatch(setPassengerFormError(responseErrors));
   });
-  // Then, submit the remaining passenger data (excluding phone/email)
-  api.post(passengerSubmitUrl, restParams).then((formResponse) => {
-    console.log("fullpassres", formResponse);
 
+  // Then, submit the full passenger form
+  api.post(passengerSubmitUrl, params).then((formResponse) => {
     const formData = formResponse.data;
     dispatch(setPassFormData(formData));
-
     dispatch(markPassengerAsFilled(passengerUuid));
 
     const allPassengers = state.passengerDrawer?.ViewPassengers || [];
@@ -227,7 +225,6 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
     dispatch(setIsFormLoading(false));
   });
 };
-
 
 
 // Store user info in cookies

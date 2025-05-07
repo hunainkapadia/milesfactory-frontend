@@ -92,7 +92,7 @@ const PassengerDrawerForm = () => {
     (error) => error?.born_on
   );
 
-  console.log("emailandPhoneError11", formError?.email);
+  console.log("formError__", formError?.error);
 
   console.log("isFormLoading", isFormLoading);
 
@@ -343,12 +343,12 @@ const PassengerDrawerForm = () => {
                   {formError?.nationality}
                 </Typography>
               )}
+              {formError?.error && (
+                <Typography className="error" color="red">
+                  {formError?.error}
+                </Typography>
+              )}
             </Box>
-            {formError?.error && (
-              <Typography className="error" color="red">
-                {formError?.error}
-              </Typography>
-            )}
           </Box>
           <Box className={styles.passengerDrawerFooter}>
             <Divider />
