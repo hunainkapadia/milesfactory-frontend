@@ -8,10 +8,9 @@ const PoweredByglobal = (props) => {
     <Box
       id={props.id}
       className={styles.PoweredByglobal + " "}
-      pt={20}
+      sx={{ pt: { lg: 20, md: 20, xs: 8 }, backgroundColor: "#69707B" }}
       pb={8}
       position={"relative"}
-      sx={{ backgroundColor: "#69707B" }}
     >
       <Container>
         <Box position={"relative"}>
@@ -28,7 +27,11 @@ const PoweredByglobal = (props) => {
           </Box>
           <Grid width={"100%"} item xs={12} md={12} container columnSpacing={3}>
             <Grid item xs={12} lg={4} md={4}>
-              <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+              >
                 <Box mb={4} className="white">
                   <h1 className="h1-lg mb-0 white">200 +</h1>
                   <Typography className="f12">Global airlines</Typography>
@@ -39,10 +42,16 @@ const PoweredByglobal = (props) => {
               </Box>
             </Grid>
             <Grid item xs={12} lg={4} md={4}>
-              <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+              >
                 <Box mb={4} className="white">
                   <h1 className="h1-lg mb-0 white">800 +</h1>
-                  <Typography className="f12">Trains, coaches, and buses</Typography>
+                  <Typography className="f12">
+                    Trains, coaches, and buses
+                  </Typography>
                 </Box>
                 <Box>
                   <img src="/images/train-coatches.bussesn.svg" />
@@ -50,7 +59,11 @@ const PoweredByglobal = (props) => {
               </Box>
             </Grid>
             <Grid item xs={12} lg={4} md={4}>
-              <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+              >
                 <Box mb={4} className="white">
                   <h1 className="h1-lg mb-0 white">600k +</h1>
                   <Typography className="f12">Hotels and stays</Typography>
@@ -126,7 +139,6 @@ const PoweredByglobal = (props) => {
           </Box> */}
         </Box>
       </Container>
-      
     </Box>
   );
 };

@@ -11,6 +11,7 @@ import {
   setPassengerUUIDfill,
 } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
+import { setpriceSummary } from "@/src/store/slices/PaymentSlice";
 
 const PassengerInfo = ({ getdata }) => {
   const dispatch = useDispatch();
@@ -56,7 +57,13 @@ const PassengerInfo = ({ getdata }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
-  const IsServices = useSelector((state)=> state.booking.singleFlightData.available_services);
+  const IsServices = useSelector((state)=> state?.booking?.singleFlightData?.available_services);
+  console.log("IsServices", IsServices);
+
+  if (!IsServices?.length) {
+    dispatch(setpriceSummary(true));
+  }
+  
 
   return (
     <>
@@ -92,7 +99,7 @@ const PassengerInfo = ({ getdata }) => {
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
-      {filledPassengerUUIDs.length > 0 && (
+      {!IsServices?.length || filledPassengerUUIDs.length > 0 && (
         <>
           <Grid container spacing={2}>
             <Grid item xs={12}>
