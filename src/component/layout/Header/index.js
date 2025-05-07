@@ -43,6 +43,7 @@ import LoginForm from "../../Auth/LoginForm";
 import SignUpForm from "../../Auth/SignupForm";
 import ThreadDrawer from "../../SearchResult/ThreadDrawer";
 import { setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
+import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -176,7 +177,6 @@ const Header = ({ isMessage, IsActive }) => {
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
       >
-      
         <Container>
           <Box
             className={styles.Box}
@@ -198,9 +198,7 @@ const Header = ({ isMessage, IsActive }) => {
                 <i
                   onClick={toggleDrawer}
                   className={`fa fa-bars ${
-                    isSticky | IsActive || isMessage
-                      ? " basecolor "
-                      : " white"
+                    isSticky | IsActive || isMessage ? " basecolor " : " white"
                   }`}
                   aria-hidden="true"
                 ></i>
@@ -225,7 +223,7 @@ const Header = ({ isMessage, IsActive }) => {
 
             <Box
               display={"flex"}
-              sx={{ gap: { lg: 3, md:3, xs: 0 } }}
+              sx={{ gap: { lg: 3, md: 3, xs: 0 } }}
               className={styles.HeaderRightCol}
             >
               {currentUser ? (
@@ -339,15 +337,16 @@ const Header = ({ isMessage, IsActive }) => {
                   onClick={HandlePopup}
                 >
                   {!isMessage ? (
-                    <Typography className="bold f16"
-                    // sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    <Typography
+                      className="bold f16"
+                      // sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                     >
                       Sign in
                     </Typography>
                   ) : (
                     <Typography
-                    className="bold f16"
-                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                      className="bold f16"
+                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                     >
                       Sign in
                     </Typography>
@@ -368,26 +367,35 @@ const Header = ({ isMessage, IsActive }) => {
               )}
               {isMessage ? (
                 <>
-                  <Box className=" cursor-pointer" onClick={ChatClearHandle} display={"flex"} alignItems={"center"}>
+                  <Box
+                    className=" cursor-pointer"
+                    onClick={ChatClearHandle}
+                    display={"flex"}
+                    alignItems={"center"}
+                  >
                     <Box
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
                       height={48}
-                       // Optional: make it square for better centering
+                      // Optional: make it square for better centering
                       className={styles.ChatIcon + " imggroup"}
                     >
                       <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
                     </Box>
                   </Box>
 
-                  <Box className=" cursor-pointer" display={"flex"} alignItems={"center"}>
+                  <Box
+                    className=" cursor-pointer"
+                    display={"flex"}
+                    alignItems={"center"}
+                  >
                     <Box
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
                       height={48}
-                       // Optional
+                      // Optional
                       className={styles.ChatIcon + " imggroup"}
                       onClick={handleThreadDrawer}
                     >
@@ -397,9 +405,14 @@ const Header = ({ isMessage, IsActive }) => {
                       />
                     </Box>
                   </Box>
-                  </>
+                </>
               ) : (
-                <Box sx={{ display: { xs: "none", md: "flex" } }} display={"flex"} alignItems={"center"} pl={2}>
+                <Box
+                  sx={{ display: { xs: "none", md: "flex" } }}
+                  display={"flex"}
+                  alignItems={"center"}
+                  pl={2}
+                >
                   <Box
                     className="btn btn-primary btn-md btn-round btn-shadow"
                     alignItems="center"
@@ -416,6 +429,7 @@ const Header = ({ isMessage, IsActive }) => {
             {/*  */}
           </Box>
         </Container>
+        {/* {isSticky ? <MessageInputBox isSticky={isSticky}  /> : ""} */}
       </header>
 
       {/* extra content for  */}

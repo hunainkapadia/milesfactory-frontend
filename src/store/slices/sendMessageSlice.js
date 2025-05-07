@@ -15,8 +15,12 @@ const sendMessageSlice = createSlice({
       status: false,
       argument: null,
     },
+    pollingComplete: false,
   },
   reducers: {
+    setpollingComplete: (state, action)=> {
+      state.pollingComplete = action.payload;
+    },
     setisPolling : (state, action) => {
       console.log("action111", action);
       
@@ -119,7 +123,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .then((completedRun) => {
               response = completedRun;
               console.log(" Polling complete:", response);
-
+              dispatch(setpollingComplete(true))
               handleFinalResponse(response);
             })
             .catch((error) => {
@@ -145,7 +149,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           dispatch(setTopOfferUrlSend(getallFlightId));
 
           const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-
           api
             .get(historyUrl)
             .then((history_res) => {
@@ -235,5 +238,6 @@ export const {
   setClearChat,
   setTopOfferUrlSend,
   setisPolling,
+  setpollingComplete,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

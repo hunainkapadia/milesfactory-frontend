@@ -215,7 +215,7 @@ const AiMessage = ({ aiMessage }) => {
                   <>
                     {console.log(
                       "displayedGetFlights_length",
-                      displayedGetFlights
+                      aiMessage?.ai?.isPolling
                     )}
                     <PollingMessage PollingData={aiMessage?.ai?.isPolling?.argument} />
                   </>

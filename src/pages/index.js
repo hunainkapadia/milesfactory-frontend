@@ -54,16 +54,13 @@ const Home = () => {
   return (
     <>
       <main>
+            <Header  />
         <section
           id="fold1"
           className={styles.HomeBanner}
         >
           <HomeHeroSection />
         </section>
-        {/* for home section */}
-        {sendMessages ? (
-          <>
-            <Header  />
             <HomeSection2 id={"HomeSection2"} /> 
             <HomeSection3 id={"HomeSection3"} />
             <HomeSection4 id={"HomeSection4"} />
@@ -72,6 +69,9 @@ const Home = () => {
             <Section4Reviews id={"Section4Reviews"} />
             <Section5App id={"Section5App"}/>
             <Footer forLight />
+        {/* for home section */}
+        {sendMessages ? (
+          <>
             {/* sending send message for chat prop only */}
           </>
         ) : (

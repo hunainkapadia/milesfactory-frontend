@@ -13,7 +13,7 @@ import LabelAnimation from "../../home/LabelAnimation";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
 
-const MessageInputBox = ({ isMessageHome }) => {
+const MessageInputBox = ({ isMessageHome, isSticky }) => {
   console.log("isMessageHome", isMessageHome);
   const inputRef = useRef(null); // Add this
   const recognitionRef = useRef(null); // voice recognition instance
@@ -174,52 +174,56 @@ const MessageInputBox = ({ isMessageHome }) => {
                         <img height={28} src="/images/app-app-store.svg" />
                       </Box>
                     </Box>
-                    <Box
-                      sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
-                      className={styles.ChatBullets}
-                      flexWrap={"wrap"}
-                    >
+                    {!isSticky ? (
                       <Box
-                        className={
-                          styles.ChatBullet1 +
-                          " " +
-                          styles.ChatBullet +
-                          " br-12 "
-                        }
+                        sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
+                        className={styles.ChatBullets}
+                        flexWrap={"wrap"}
                       >
-                        Surprise me with a foodie weekend
+                        <Box
+                          className={
+                            styles.ChatBullet1 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          Surprise me with a foodie weekend
+                        </Box>
+                        <Box
+                          className={
+                            styles.ChatBullet2 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          Book Paris for 2 from Friday to Sunday, departing 6pm
+                        </Box>
+                        <Box
+                          className={
+                            styles.ChatBullet3 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          I want a 3-day sunny getaway from London under £300
+                        </Box>
+                        <Box
+                          className={
+                            styles.ChatBullet4 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          Plan a solo adventure to Spain
+                        </Box>
                       </Box>
-                      <Box
-                        className={
-                          styles.ChatBullet2 +
-                          " " +
-                          styles.ChatBullet +
-                          " br-12 "
-                        }
-                      >
-                        Book Paris for 2 from Friday to Sunday, departing 6pm
-                      </Box>
-                      <Box
-                        className={
-                          styles.ChatBullet3 +
-                          " " +
-                          styles.ChatBullet +
-                          " br-12 "
-                        }
-                      >
-                        I want a 3-day sunny getaway from London under £300
-                      </Box>
-                      <Box
-                        className={
-                          styles.ChatBullet4 +
-                          " " +
-                          styles.ChatBullet +
-                          " br-12 "
-                        }
-                      >
-                        Plan a solo adventure to Spain
-                      </Box>
-                    </Box>
+                    ) : (
+                      ""
+                    )}
                   </>
                 ) : (
                   ""
