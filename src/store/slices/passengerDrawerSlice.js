@@ -187,7 +187,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   console.log("passengerSubmitUrl", passengerSubmitUrl);
   console.log("passengerUuid", passengerUuid);
 
-  // Extract only phone_number and email region
+  // Extract only phone_number and email region fields
   const { phone_number, email, region, ...restParams } = params;
   const captainParams = { phone_number, email, region };
 
