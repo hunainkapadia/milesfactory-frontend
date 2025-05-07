@@ -194,6 +194,9 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   // First, send phone/email to captain API
   api.post(`/api/v1/order/${orderUuid}/captain`, captainParams).then((captainResponse) => {
     console.log("captainResponse", captainResponse);
+  }).catch((error)=> {
+    console.log("error", error);
+    
   });
   // Then, submit the remaining passenger data (excluding phone/email)
   api.post(passengerSubmitUrl, restParams).then((formResponse) => {
