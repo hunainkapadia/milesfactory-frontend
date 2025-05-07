@@ -186,7 +186,6 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return; // Stop submission if validation fails
 
-
   dispatch(setIsFormLoading(true));
 
   const state = getState();
@@ -197,52 +196,65 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const captain = state.passengerDrawer.captainSuccess;
   const form = state.passengerDrawer.formSuccess;
   console.log("captain_form", captain, form);
-  
+
   console.log("passengerSubmitUrl", passengerSubmitUrl);
   console.log("passengerUuid", passengerUuid);
 
-
   // First, send phone/email to captain API
-  api.post(`/api/v1/order/${orderUuid}/captain`, params).then((captainResponse) => {
-    console.log("captainResponse", captainResponse);
-    if(captainResponse.status == 200) {
-      dispatch(setCaptainSuccess(true));
-    }
-  }).catch((error) => {
-    console.log("errors_00", error);
-    const responseErrors = error.response?.data || {};
-    dispatch(setPassengerFormError(responseErrors));
-  });
+  const captainParams = {
+    email: params.email,
+    phone_number: params.phone_number,
+    region: params.region
+  };
+
+  api
+    .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
+    .then((captainResponse) => {
+      console.log("captainResponse", captainResponse);
+      if (captainResponse.status == 200) {
+        dispatch(setCaptainSuccess(true));
+      }
+    })
+    .catch((error) => {
+      console.log("errors_00", error);
+      const responseErrors = error.response?.data || {};
+
+      dispatch(setPassengerFormError(responseErrors));
+    });
 
   // Then, submit the full passenger form
-  api.post(passengerSubmitUrl, params).then((formResponse) => {
-    const formData = formResponse.data;
-    dispatch(setPassFormData(formData));
-    dispatch(markPassengerAsFilled(passengerUuid));
-    if(captainResponse.status == 200) {
-      dispatch(setFormSuccess(true));
-    }
-    const allPassengers = state.passengerDrawer?.ViewPassengers || [];
-    const filledPassengerUuids = state.passengerDrawer?.filledPassengerUUIDs || [];
+  api
+    .post(passengerSubmitUrl, params)
+    .then((formResponse) => {
+      const formData = formResponse.data;
+      dispatch(setPassFormData(formData));
+      dispatch(markPassengerAsFilled(passengerUuid));
+      if (captainResponse.status == 200) {
+        dispatch(setFormSuccess(true));
+      }
+      const allPassengers = state.passengerDrawer?.ViewPassengers || [];
+      const filledPassengerUuids =
+        state.passengerDrawer?.filledPassengerUUIDs || [];
 
-    const nextPassenger = allPassengers.find(
-      (p) => !filledPassengerUuids.includes(p.uuid)
-    );
+      const nextPassenger = allPassengers.find(
+        (p) => !filledPassengerUuids.includes(p.uuid)
+      );
 
-    if (nextPassenger) {
-      dispatch(setPassengerUUID(nextPassenger.uuid));
-      dispatch(PassengerForm());
-      dispatch(setCloseDrawer());
-      
-    }
-  }).catch((error) => {
-    console.log("passengerFormError", error);
-    const errors = error.response?.data || {};
-    dispatch(setPassengerFormError(errors));
-    dispatch(setOpenPassengerDrawer(true));
-  }).finally(() => {
-    dispatch(setIsFormLoading(false));
-  });
+      if (nextPassenger) {
+        dispatch(setPassengerUUID(nextPassenger.uuid));
+        dispatch(PassengerForm());
+        dispatch(setCloseDrawer());
+      }
+    })
+    .catch((error) => {
+      console.log("passengerFormError", error);
+      const errors = error.response?.data || {};
+      dispatch(setPassengerFormError(errors));
+      dispatch(setOpenPassengerDrawer(true));
+    })
+    .finally(() => {
+      dispatch(setIsFormLoading(false));
+    });
 };
 
 
