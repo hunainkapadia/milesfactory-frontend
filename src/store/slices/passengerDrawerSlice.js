@@ -172,45 +172,61 @@ export const validatePassengerForm = (params) => (dispatch) => {
 };
 
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
+  console.log("params__0", params);
 
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return; // Stop submission if validation fails
-  
-  dispatch(setIsFormLoading(true))
-  const statesPassengerSubmitUrl = getState();
-  console.log("statesPassengerSubmitUrl", statesPassengerSubmitUrl?.passengerDrawer?.OrderUuid);
-   statesPassengerSubmitUrl?.passengerDrawer?.OrderUuid
-  
-  const PassengerSubmitUrl =
-    statesPassengerSubmitUrl?.passengerDrawer?.PassengerSubmitURL;
 
-    api.post(PassengerSubmitUrl, params).then((response) => {
-      const passdata = response.data;
-      dispatch(setPassFormData(passdata));
-    
-      const passengerUUID = statesPassengerSubmitUrl?.passengerDrawer?.PassengerUUID;
-      dispatch(markPassengerAsFilled(passengerUUID));
-    
-      // Automatically move to the next passenger
-      const allPassengers = statesPassengerSubmitUrl?.passengerDrawer?.ViewPassengers || [];
-      const filledUUIDs = statesPassengerSubmitUrl?.passengerDrawer?.filledPassengerUUIDs || [];
-      const nextPassenger = allPassengers.find(p => !filledUUIDs.includes(p.uuid));
-    
-      if (nextPassenger) {
-        dispatch(setPassengerUUID(nextPassenger.uuid));
-        dispatch(PassengerForm()); // Call API again for the next passenger
-        dispatch(setClosePassengerDrawer());
-      }
-    
-    }).catch((passengerFormerror)=> {
-      console.log("passengerFormerror", passengerFormerror);
-      
-      const errors = passengerFormerror.response.data;
-      dispatch(setPassengerFormError(errors))
-    }).finally(()=>{
-      dispatch(setIsFormLoading(false))
-    })
+  dispatch(setIsFormLoading(true));
+
+  const state = getState();
+  const orderUuid = state.passengerDrawer?.OrderUuid;
+  const passengerUuid = state.passengerDrawer?.PassengerUUID;
+  const passengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
+
+  console.log("passengerSubmitUrl", passengerSubmitUrl);
+  console.log("passengerUuid", passengerUuid);
+
+  // Extract only phone_number and email
+  const { phone_number, email, ...restParams } = params;
+  const captainParams = { phone_number, email };
+
+  // First, send phone/email to captain API
+  api.post(`/api/v1/order/${orderUuid}/captain`, captainParams).then((captainResponse) => {
+    console.log("captainResponse", captainResponse);
+  });
+
+  // Then, submit the remaining passenger data (excluding phone/email)
+  api.post(passengerSubmitUrl, restParams).then((formResponse) => {
+    console.log("fullpassres", formResponse);
+
+    const formData = formResponse.data;
+    dispatch(setPassFormData(formData));
+
+    dispatch(markPassengerAsFilled(passengerUuid));
+
+    const allPassengers = state.passengerDrawer?.ViewPassengers || [];
+    const filledPassengerUuids = state.passengerDrawer?.filledPassengerUUIDs || [];
+
+    const nextPassenger = allPassengers.find(
+      (p) => !filledPassengerUuids.includes(p.uuid)
+    );
+
+    if (nextPassenger) {
+      dispatch(setPassengerUUID(nextPassenger.uuid));
+      dispatch(PassengerForm());
+      dispatch(setClosePassengerDrawer());
+    }
+  }).catch((error) => {
+    console.log("passengerFormError", error);
+    const errors = error.response?.data || {};
+    dispatch(setPassengerFormError(errors));
+  }).finally(() => {
+    dispatch(setIsFormLoading(false));
+  });
 };
+
+
 
 // Store user info in cookies
 
