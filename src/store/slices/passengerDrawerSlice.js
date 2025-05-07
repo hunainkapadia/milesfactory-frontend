@@ -6,6 +6,8 @@ import { setCloseDrawer } from "./BookingflightSlice";
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
   initialState: {
+    captainSuccess: false,
+    formSuccess: false,
     isOpen: false,
     countries: [],
     OfferId: null,
@@ -24,6 +26,13 @@ const passengerDrawerSlice = createSlice({
     // selectedFlightDetail: null,
   },
   reducers: {
+    setCaptainSuccess: (state, action)=> {
+      state.captainSuccess = action.payload;
+    },
+    setFormSuccess: (state, action)=> {
+      state.formSuccess = action.payload;
+    },
+    
     markPassengerAsFilled: (state, action) => {
       if (!state.filledPassengerUUIDs.includes(action.payload)) {
         state.filledPassengerUUIDs.push(action.payload);
@@ -177,6 +186,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return; // Stop submission if validation fails
 
+
   dispatch(setIsFormLoading(true));
 
   const state = getState();
@@ -184,18 +194,23 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   const passengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
 
+  const captain = state.passengerDrawer.captainSuccess;
+  const form = state.passengerDrawer.formSuccess;
+  console.log("captain_form", captain, form);
+  
   console.log("passengerSubmitUrl", passengerSubmitUrl);
   console.log("passengerUuid", passengerUuid);
+
 
   // First, send phone/email to captain API
   api.post(`/api/v1/order/${orderUuid}/captain`, params).then((captainResponse) => {
     console.log("captainResponse", captainResponse);
-    dispatch(setClosePassengerDrawer(true));
+    if(captainResponse.status == 200) {
+      dispatch(setCaptainSuccess(true));
+    }
   }).catch((error) => {
     console.log("errors_00", error);
-  
     const responseErrors = error.response?.data || {};
-    dispatch(setClosePassengerDrawer(false));
     dispatch(setPassengerFormError(responseErrors));
   });
 
@@ -204,7 +219,9 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
     const formData = formResponse.data;
     dispatch(setPassFormData(formData));
     dispatch(markPassengerAsFilled(passengerUuid));
-
+    if(captainResponse.status == 200) {
+      dispatch(setFormSuccess(true));
+    }
     const allPassengers = state.passengerDrawer?.ViewPassengers || [];
     const filledPassengerUuids = state.passengerDrawer?.filledPassengerUUIDs || [];
 
@@ -215,12 +232,14 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
     if (nextPassenger) {
       dispatch(setPassengerUUID(nextPassenger.uuid));
       dispatch(PassengerForm());
-      dispatch(setClosePassengerDrawer());
+      dispatch(setCloseDrawer());
+      
     }
   }).catch((error) => {
     console.log("passengerFormError", error);
     const errors = error.response?.data || {};
     dispatch(setPassengerFormError(errors));
+    dispatch(setOpenPassengerDrawer(true));
   }).finally(() => {
     dispatch(setIsFormLoading(false));
   });
@@ -248,6 +267,8 @@ export const {
   markPassengerAsFilled,
   setPassengerFormError,
   setIsFormLoading,
+  setCaptainSuccess,
+  setFormSuccess
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

@@ -6,6 +6,8 @@ import Link from "next/link";
 import PassengersCard from "../PassengersCard";
 import {
   PassengerForm,
+  setCaptainSuccess,
+  setFormSuccess,
   setOpenPassengerDrawer,
   setPassengerUUID,
   setPassengerUUIDfill,
@@ -29,6 +31,8 @@ const PassengerInfo = ({ getdata }) => {
     console.log("uuid111", isFilled);
     
     if (!isFilled) {
+      dispatch(setCaptainSuccess(false))
+      dispatch(setFormSuccess(false))
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
       dispatch(setOpenPassengerDrawer()); // open drawer
@@ -78,7 +82,10 @@ const PassengerInfo = ({ getdata }) => {
       >
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
+            console.log("passenger__0", passenger)
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+            console.log("isFilled", isFilled)
+            
 
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>

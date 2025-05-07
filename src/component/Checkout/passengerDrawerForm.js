@@ -95,7 +95,18 @@ const PassengerDrawerForm = () => {
   console.log("formError__", formError?.error);
 
   console.log("isFormLoading", isFormLoading);
+  const captainSuccess = useSelector(
+    (state) => state?.passengerDrawer?.captainSuccess
+  );
+  const formSuccess = useSelector(
+    (state) => state?.passengerDrawer?.captainSuccess
+  );
+  if (captainSuccess && formSuccess) {
+    dispatch(setClosePassengerDrawer());
+  }
 
+  console.log("captain000", captainSuccess, formSuccess);
+  
   // {passportError?.passport_expire_date}
 
   return (
