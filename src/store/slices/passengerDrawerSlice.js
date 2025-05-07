@@ -187,15 +187,14 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   console.log("passengerSubmitUrl", passengerSubmitUrl);
   console.log("passengerUuid", passengerUuid);
 
-  // Extract only phone_number and email
-  const { phone_number, email, ...restParams } = params;
-  const captainParams = { phone_number, email };
+  // Extract only phone_number and email region
+  const { phone_number, email, region, ...restParams } = params;
+  const captainParams = { phone_number, email, region };
 
   // First, send phone/email to captain API
   api.post(`/api/v1/order/${orderUuid}/captain`, captainParams).then((captainResponse) => {
     console.log("captainResponse", captainResponse);
   });
-
   // Then, submit the remaining passenger data (excluding phone/email)
   api.post(passengerSubmitUrl, restParams).then((formResponse) => {
     console.log("fullpassres", formResponse);

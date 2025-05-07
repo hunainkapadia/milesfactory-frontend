@@ -40,6 +40,7 @@ const PassengerDrawerForm = () => {
   const [nationality, setnationality] = useState();
   const [phone, setphone] = useState();
   const [email, setemail] = useState();
+  const [region, setRegion] = useState();
   // const isValidPhone = phone.length > 8 && phone.match(/^\d+$/); // example
 
   // getting error
@@ -59,7 +60,10 @@ const PassengerDrawerForm = () => {
     phone_number: phone,
     email: email,
     nationality: nationality?.id || "",
+    region: region,
   };
+  console.log("params__0", params);
+  
   // Fetch nationality data when the component mounts
   useEffect(() => {
     dispatch(NationalitData());
@@ -91,7 +95,7 @@ const PassengerDrawerForm = () => {
   console.log("emailandPhoneError11", formError?.email);
 
   console.log("isFormLoading", isFormLoading);
-  
+
   // {passportError?.passport_expire_date}
 
   return (
@@ -206,23 +210,23 @@ const PassengerDrawerForm = () => {
               <Box width="100%" className="formGroup">
                 <FormLabel className="bold formLabel">Date of Birth</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DatePicker
-    className="formControl Calendar"
-    value={born_on ? dayjs(born_on) : null}
-    onChange={(newValue) =>
-      setborn_on(
-        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-      )
-    }
-    maxDate={twelveYearsAgo}
-    format="DD/MM/YYYY" // <-- This sets the display format
-    renderInput={(params) => (
-      <TextField {...params} fullWidth margin="normal" />
-    )}
-    openTo="year"
-    views={["year", "month", "day"]}
-  />
-</LocalizationProvider>
+                  <DatePicker
+                    className="formControl Calendar"
+                    value={born_on ? dayjs(born_on) : null}
+                    onChange={(newValue) =>
+                      setborn_on(
+                        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+                      )
+                    }
+                    maxDate={twelveYearsAgo}
+                    format="DD/MM/YYYY" // <-- This sets the display format
+                    renderInput={(params) => (
+                      <TextField {...params} fullWidth margin="normal" />
+                    )}
+                    openTo="year"
+                    views={["year", "month", "day"]}
+                  />
+                </LocalizationProvider>
 
                 <Typography className="error" color="red">
                   {formError?.born_on || bornOnError?.born_on}
@@ -249,30 +253,30 @@ const PassengerDrawerForm = () => {
                   Passport Expiry Date
                 </FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DatePicker
-    className="formControl Calendar"
-    value={
-      passport_expire_date ? dayjs(passport_expire_date) : null
-    }
-    onChange={(newValue) =>
-      setpassport_expire_date(
-        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-      )
-    }
-    minDate={dayjs().startOf("year")}
-    openTo="year"
-    views={["year", "month", "day"]}
-    format="DD/MM/YYYY" // <-- Display format updated
-    renderInput={(params) => (
-      <TextField
-        className="formControl"
-        {...params}
-        fullWidth
-        margin="normal"
-      />
-    )}
-  />
-</LocalizationProvider>
+                  <DatePicker
+                    className="formControl Calendar"
+                    value={
+                      passport_expire_date ? dayjs(passport_expire_date) : null
+                    }
+                    onChange={(newValue) =>
+                      setpassport_expire_date(
+                        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+                      )
+                    }
+                    minDate={dayjs().startOf("year")}
+                    openTo="year"
+                    views={["year", "month", "day"]}
+                    format="DD/MM/YYYY" // <-- Display format updated
+                    renderInput={(params) => (
+                      <TextField
+                        className="formControl"
+                        {...params}
+                        fullWidth
+                        margin="normal"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
 
                 <Typography className="error" color="red">
                   {formError?.passport_expire_date ||
@@ -302,7 +306,10 @@ const PassengerDrawerForm = () => {
                 <PhoneInput
                   country={"us"} // Default to Netherlands
                   value={phone}
-                  onChange={(phone) => setphone(phone)}
+                  onChange={(value, country) => {
+                    setphone(value);
+                    setRegion(country.countryCode?.toUpperCase()); // "us" -> "US"
+                  }}
                   inputStyle={{ width: "100%" }}
                   specialLabel="" // Removes duplicate label
                   enableSearch
