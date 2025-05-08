@@ -112,11 +112,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 </Box>
               </>
             </Box>
-              {/* Footer Section */}
-              <BookingDrawerFooter getFlightDetails={getFlightDetail} />
           </Box>
         </Box>
       </Box>
+              {/* Footer Section */}
+              <BookingDrawerFooter getFlightDetails={getFlightDetail} />
     </Drawer>
   );
 };
