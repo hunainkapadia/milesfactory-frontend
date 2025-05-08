@@ -60,14 +60,14 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   </Link>
                 </Box>
                 <Box>
-                  <Link className="basecolor" href={"/privacy-policy"}>
+                  <Link className="basecolor" href={"/privacy"}>
                     Privacy
                   </Link>
                 </Box>
                 <Box>
                   <Link
                     className="basecolor"
-                    href={"/sanctions-compliance-policy"}
+                    href={"/sanctions-compliance"}
                   >
                     Sanctions Compliance
                   </Link>
