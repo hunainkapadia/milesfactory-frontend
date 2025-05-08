@@ -18,7 +18,7 @@ import { Box, CircularProgress } from '@mui/material';
 // live
 
 const stripePromise = loadStripe("pk_test_51RAUC9PaaBt1oHi12mCzrlKhgWZdiGomdFxffVrhwjmdzjZGa5lriNO1V0snWqbZnH6jgFOGEYC5rwF4Dhzm3Ttc00kkLGG7QA");
-// local
+// local stripe
 
 
 const StripePayment = () => {
