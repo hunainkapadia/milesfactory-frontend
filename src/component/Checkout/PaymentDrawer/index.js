@@ -66,7 +66,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
   return (
     <Drawer
       className={styles.MobileDrawer}
-      anchor="left"
+      anchor="right"
       open={isDrawer} // Use correct state
       onClose={HandlecloseDrawer} // Close on backdrop click
     >
