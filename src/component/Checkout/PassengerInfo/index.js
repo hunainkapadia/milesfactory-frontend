@@ -31,8 +31,7 @@ const PassengerInfo = ({ getdata }) => {
     console.log("uuid111", isFilled);
     
     if (!isFilled) {
-      dispatch(setCaptainSuccess(false))
-      dispatch(setFormSuccess(false))
+      
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
       dispatch(setOpenPassengerDrawer()); // open drawer

@@ -92,7 +92,7 @@ const PassengerDrawerForm = () => {
     (error) => error?.born_on
   );
 
-  console.log("formError__", formError?.error);
+  console.log("formError__", formError);
 
   console.log("isFormLoading", isFormLoading);
   const captainSuccess = useSelector(
