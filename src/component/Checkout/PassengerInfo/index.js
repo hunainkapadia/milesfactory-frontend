@@ -105,7 +105,7 @@ const PassengerInfo = ({ getdata }) => {
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
-      {!IsServices?.length || filledPassengerUUIDs.length > 0 && (
+      {IsServices?.length > 0 && filledPassengerUUIDs.length === getdata.length && (
         <>
           <Grid container spacing={2}>
             <Grid item xs={12}>

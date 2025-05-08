@@ -80,11 +80,11 @@ const MessageInputBox = ({ isMessageHome, isSticky }) => {
   return (
     <section>
       <Box
-        className={
+        className={`${
           isMessageHome
             ? inputStyles.SearchBoxSectionActive
-            : inputStyles.SearchBoxSection
-        }
+            : inputStyles.SearchBoxSection 
+        } ${isSticky ? inputStyles.SearchBoxSticky : ""}`}
       >
         <Box className={styles.Content}>
           <Box
