@@ -12,10 +12,9 @@ const passengerDrawerSlice = createSlice({
     countries: [],
     OfferId: null,
     OrderUuid: null,
-    ViewPassengers: null,
+    ViewPassengers: [],
     PassengerUUID: null,
     PassengerData: null,
-    PassengerSubmitURL: null,
     PassFormData: null,
     isLoading: false,
     filledPassengerUUIDs: [],
@@ -23,7 +22,6 @@ const passengerDrawerSlice = createSlice({
     OpenPassengerDrawer: false,
     PassengerFormError: null,
     isFormLoading: false,
-    // selectedFlightDetail: null,
   },
   reducers: {
     setCaptainSuccess: (state, action) => {
@@ -32,7 +30,6 @@ const passengerDrawerSlice = createSlice({
     setFormSuccess: (state, action) => {
       state.formSuccess = action.payload;
     },
-
     markPassengerAsFilled: (state, action) => {
       if (!state.filledPassengerUUIDs.includes(action.payload)) {
         state.filledPassengerUUIDs.push(action.payload);
@@ -53,15 +50,12 @@ const passengerDrawerSlice = createSlice({
     setOfferId: (state, action) => {
       state.OfferId = action.payload;
     },
-    //  getting order uui for passender
     setOrderUuid: (state, action) => {
       state.OrderUuid = action.payload;
     },
-    // view all passengers data
     setViewPassengers: (state, action) => {
-      state.ViewPassengers = action.payload;
+      state.ViewPassengers = action.payload || []; // Ensure always an array
     },
-    // set select passenger uuiid getting from PassengerInfo for each pasenger select card
     setPassengerUUID: (state, action) => {
       state.PassengerUUID = action.payload;
     },
@@ -73,9 +67,6 @@ const passengerDrawerSlice = createSlice({
     },
     setError: (state, action) => {
       state.isLoading = action.payload;
-    },
-    setPassengerSubmitURL: (state, action) => {
-      state.PassengerSubmitURL = action.payload;
     },
     setPassFormData: (state, action) => {
       state.PassFormData = action.payload;
@@ -92,80 +83,65 @@ const passengerDrawerSlice = createSlice({
   },
 });
 
-// **Fetch nationality data using Axios without async/await**
 export const NationalitData = () => (dispatch) => {
   api
     .get(API_ENDPOINTS.BOOKING.COUNTRIES)
     .then((response) => {
       dispatch(setCountries(response.data));
     })
-    .catch((error) => {});
+    .catch(() => {});
 };
 
 export const PassengerForm = () => (dispatch, getState) => {
-  const states = getState(); // Get the Redux state
-  const offerIdGet = states?.getMessages.topOfferUrl; // Get offerId from Redux
-  const offerIdSend = states?.sendMessage?.TopOfferUrlSend; // Get offerId from Redux
+  const states = getState();
+  const offerIdGet = states?.getMessages.topOfferUrl;
+  const offerIdSend = states?.sendMessage?.TopOfferUrlSend;
   const finalOfferId = offerIdSend || offerIdGet;
 
-  if (!finalOfferId) {
-    return; // Stop execution if offerId is missing
-  }
-  const stateFlightId = getState(); // Get the Redux state
-  const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
+  if (!finalOfferId) return;
 
-  // {{BASE_URL}}/api/v1/setup/flight/b4be0bba-9f35-489e-bb0a-3f879e6ef17b/order/offer/off_0000AruCPTqbACYIE3AQvk
+  const flightId = states?.booking?.flightDetail?.id;
   const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
-  api
-    .post(bookingSetupUrl)
-    .then((response) => {
-      const OrderUUId = response?.data?.order_uuid || null; // Ensure it's null-safe
-      dispatch(setOrderUuid(OrderUUId));
 
+  api.post(bookingSetupUrl)
+    .then((response) => {
+      const OrderUUId = response?.data?.order_uuid || null;
+      dispatch(setOrderUuid(OrderUUId));
       if (OrderUUId) {
-        const ViewPassengerUrl = `/api/v1/order/${OrderUUId}/passengers`;
-        api
-          .get(ViewPassengerUrl)
-          .then((response) => {
-            console.log("view_pass_response", response?.data);
-            
-            dispatch(setViewPassengers(response?.data)); // passenger data in array get and set in redux
-            // form submit url make
-            // /api/v1/order/2aec74f4-4b0e-4f93-a6bc-5d3bcbd9ff3b/passenger/68af9ac5-c1c1-4943-83c5-74eac96e15bf
-            // dispatch(bookFlight(uuid)); // Pass flight ID to bookFlight
-            // get passenger uui from redux which we set handlePassengerToggle passenger card
-            const statePassengerUUID = getState();
-            const passengerUUID =
-              statePassengerUUID?.passengerDrawer?.PassengerUUID;
-            if (passengerUUID) {
-              const AddPassengerUrl = `/api/v1/order/${OrderUUId}/passenger/${passengerUUID}`;
-              dispatch(setPassengerSubmitURL(AddPassengerUrl));
-            }
-          })
-          .catch((error) => {
-            console.log("error111", error);
-          })
-          .finally(() => {});
-      } else {
-        ("");
+        dispatch(ViewPassengers());
       }
     })
     .catch((error) => {
-      //
-      //   dispatch(setError(error.response?.data || "Booking failed"));
-    })
-    .finally(() => {
-      //   // dispatch(setLoading(false));
+      console.log(error);
     });
 };
+
+export const ViewPassengers = () => (dispatch, getState) => {
+  const states = getState();
+  const orderUuid = states.passengerDrawer?.OrderUuid;
+
+  if (!orderUuid) return;
+
+  const viewPassengerUrl = `/api/v1/order/${orderUuid}/passengers`;
+
+  api
+    .get(viewPassengerUrl)
+    .then((response) => {
+      console.log("response000", response?.data);
+      dispatch(setViewPassengers(response?.data || []));
+    })
+    .catch((error) => {
+      console.error("fetchViewPassengers error", error);
+    });
+};
+
 export const validatePassengerForm = (params) => (dispatch) => {
   let errors = {};
 
-  const nameRegex = /^[A-Za-z\s'-]+$/; // letters, spaces, hyphens, apostrophes
-  const passportNumberRegex = /^[A-Za-z0-9]+$/; // alphanumeric only
+  const nameRegex = /^[A-Za-z\s'-]+$/;
+  const passportNumberRegex = /^[A-Za-z0-9]+$/;
 
   if (!params.gender) errors.gender = "Gender is required.";
-
   if (!params.given_name) {
     errors.given_name = "First Name is required.";
   } else if (!nameRegex.test(params.given_name)) {
@@ -179,7 +155,6 @@ export const validatePassengerForm = (params) => (dispatch) => {
   }
 
   if (!params.born_on) errors.born_on = "Date of Birth is required.";
-
   if (!params.passport_number) {
     errors.passport_number = "Passport Number is required.";
   } else if (!passportNumberRegex.test(params.passport_number)) {
@@ -188,7 +163,6 @@ export const validatePassengerForm = (params) => (dispatch) => {
 
   if (!params.passport_expire_date)
     errors.passport_expire_date = "Passport Expiry Date is required.";
-
   if (!params.nationality) errors.nationality = "Nationality is required.";
 
   if (Object.keys(errors).length > 0) {
@@ -196,10 +170,9 @@ export const validatePassengerForm = (params) => (dispatch) => {
     return false;
   }
 
-  dispatch(setPassengerFormError(null)); // Clear previous errors
+  dispatch(setPassengerFormError(null));
   return true;
 };
-
 
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   console.log("params__0", params);
@@ -212,13 +185,11 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const state = getState();
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
-  const passengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
+  const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
 
-  // for check both api
   let captainSuccess = false;
   let formSuccess = false;
 
-  // First call - captain API
   const captainParams = {
     email: params.email,
     phone_number: params.phone_number,
@@ -227,12 +198,9 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
 
   api
     .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
-    .then((captainResponse) => {
-      console.log("captainResponse", captainResponse);
+    .then(() => {
       captainSuccess = true;
-
-      // Second call - passenger form API
-      return api.post(passengerSubmitUrl, params);
+      return api.post(SubmitUrl, params);
     })
     .then((formResponse) => {
       console.log("formResponse", formResponse);
@@ -252,10 +220,16 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
           (p) => !filledPassengerUuids.includes(p.uuid)
         );
 
+        console.log("Next Passenger:", nextPassenger);
+
         if (nextPassenger) {
           dispatch(setPassengerUUID(nextPassenger.uuid));
-          dispatch(PassengerForm());
         }
+
+        // Add delay before fetching updated passengers
+        setTimeout(() => {
+          dispatch(ViewPassengers());
+        }, 500);
 
         dispatch(setClosePassengerDrawer());
       }
@@ -271,9 +245,6 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
     });
 };
 
-// Store user info in cookies
-
-// Export actions
 export const {
   setLoading,
   setError,
@@ -286,7 +257,6 @@ export const {
   setViewPassengers,
   setPassengerUUID,
   setPassengerData,
-  setPassengerSubmitURL,
   setPassFormData,
   setisLoading,
   markPassengerAsFilled,

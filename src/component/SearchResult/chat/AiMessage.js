@@ -123,24 +123,27 @@ const AiMessage = ({ aiMessage }) => {
 
           {/* Show passenger form or loading */}
 
+          {/* If all passengers are filled, show payment components */}
           {GetViewPassengers ? (
-            <PassengerInfo getdata={GetViewPassengers} />
+            <>
+              {/* Display PassengerInfo even if all passengers are filled */}
+              <PassengerInfo getdata={GetViewPassengers} />
+
+              {/* Show PriceSummary only when all passengers are filled */}
+              {filledPassenger.length === GetViewPassengers.length ? (
+                <>
+                  <PriceSummary />
+                  <PaymentDrawer />
+                  <PaymentAddCard />
+                  {paymentSuccess ? <PaymentSuccess /> : ""}
+                </>
+              ) : null}
+            </>
           ) : (
             <Box my={3}>
               <LoadingArea />
             </Box>
           )}
-
-          {/* If all passengers are filled, show payment components */}
-          {GetViewPassengers &&
-          filledPassenger.length === GetViewPassengers.length ? (
-            <>
-              <PriceSummary />
-              <PaymentDrawer />
-              <PaymentAddCard />
-              {paymentSuccess ? <PaymentSuccess /> : ""}
-            </>
-          ) : null}
         </>
       ) : (
         ""
@@ -219,7 +222,9 @@ const AiMessage = ({ aiMessage }) => {
                       "displayedGetFlights_length",
                       aiMessage?.ai?.isPolling
                     )}
-                    <PollingMessage PollingData={aiMessage?.ai?.isPolling?.argument} />
+                    <PollingMessage
+                      PollingData={aiMessage?.ai?.isPolling?.argument}
+                    />
                   </>
                 )}
                 <Typography
