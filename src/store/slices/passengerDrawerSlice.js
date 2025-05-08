@@ -106,26 +106,21 @@ export const PassengerForm = () => (dispatch, getState) => {
   const states = getState(); // Get the Redux state
   const offerIdGet = states?.getMessages.topOfferUrl; // Get offerId from Redux
   const offerIdSend = states?.sendMessage?.TopOfferUrlSend; // Get offerId from Redux
-  
-  console.log("offerIdSend", offerIdGet);
-  
-  
+  const finalOfferId = offerIdSend || offerIdGet;
 
-  if (!offerIdSend) {
+  if (!finalOfferId) {
     return; // Stop execution if offerId is missing
   }
   const stateFlightId = getState(); // Get the Redux state
   const flightId = stateFlightId?.booking?.flightDetail?.id; // Get offerId from Redux
 
   // {{BASE_URL}}/api/v1/setup/flight/b4be0bba-9f35-489e-bb0a-3f879e6ef17b/order/offer/off_0000AruCPTqbACYIE3AQvk
-  const bookingSetupUrl = `/api/v1/setup/flight/${offerIdSend}/order/offer/${flightId}`;
+  const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
   api
     .post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null; // Ensure it's null-safe
       dispatch(setOrderUuid(OrderUUId));
-      console.log("OrderUUId_test", OrderUUId);
-      
 
       if (OrderUUId) {
         const ViewPassengerUrl = `/api/v1/order/${OrderUUId}/passengers`;
@@ -135,6 +130,17 @@ export const PassengerForm = () => (dispatch, getState) => {
             console.log("view_pass_response", response?.data);
             
             dispatch(setViewPassengers(response?.data)); // passenger data in array get and set in redux
+            // form submit url make
+            // /api/v1/order/2aec74f4-4b0e-4f93-a6bc-5d3bcbd9ff3b/passenger/68af9ac5-c1c1-4943-83c5-74eac96e15bf
+            // dispatch(bookFlight(uuid)); // Pass flight ID to bookFlight
+            // get passenger uui from redux which we set handlePassengerToggle passenger card
+            const statePassengerUUID = getState();
+            const passengerUUID =
+              statePassengerUUID?.passengerDrawer?.PassengerUUID;
+            if (passengerUUID) {
+              const AddPassengerUrl = `/api/v1/order/${OrderUUId}/passenger/${passengerUUID}`;
+              dispatch(setPassengerSubmitURL(AddPassengerUrl));
+            }
           })
           .catch((error) => {
             console.log("error111", error);
@@ -206,9 +212,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const state = getState();
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
-  const passengerSubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
-  console.log("passengerSubmitUrl", passengerSubmitUrl);
-  
+  const passengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
 
   // for check both api
   let captainSuccess = false;
@@ -241,25 +245,16 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       if (captainSuccess && formSuccess) {
         const state = getState();
         const allPassengers = state.passengerDrawer?.ViewPassengers || [];
-        console.log("allPassengers", allPassengers); 
-        
         const filledPassengerUuids =
           state.passengerDrawer?.filledPassengerUUIDs || [];
-          console.log("filledPassengerUuids", filledPassengerUuids);
-          
 
         const nextPassenger = allPassengers.find(
           (p) => !filledPassengerUuids.includes(p.uuid)
         );
-        console.log("nextPassenger0", nextPassenger);
-        
-        
+
         if (nextPassenger) {
-          console.log("nextPassenger1", nextPassenger);
           dispatch(setPassengerUUID(nextPassenger.uuid));
-          setTimeout(() => {
-            dispatch(PassengerForm()); // <-- this re-calls the view passenger API
-          }, 1000); // Delay time in milliseconds (1 second here)
+          dispatch(PassengerForm());
         }
 
         dispatch(setClosePassengerDrawer());

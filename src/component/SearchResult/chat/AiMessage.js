@@ -55,6 +55,8 @@ const AiMessage = ({ aiMessage }) => {
   const seeAllResultHandle = () => {
     setShowAllFlight((prev) => !prev);
   };
+  console.log("GetViewPassengers", GetViewPassengers);
+  
 
   const displayedGetFlights = showAllFlight
     ? aiMessage?.ai?.offers
