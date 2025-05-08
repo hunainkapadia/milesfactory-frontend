@@ -47,9 +47,9 @@
     const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
     const totalAmount = Math.round(WithtaxAmount);
     return (
-      <Box
+      <Box px={3} 
         className={styles.checkoutDrowerFooter + " test11"}
-        position="absolute"
+        width={"100%"}
       >
         <Divider />
 
@@ -57,7 +57,7 @@
         <Box
           className={styles.checkoutDrowerHeder}
           py={2}
-          px={3}
+          
           display="flex"
           flexDirection="column"
         >

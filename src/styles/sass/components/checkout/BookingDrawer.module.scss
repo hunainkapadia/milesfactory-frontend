@@ -97,7 +97,7 @@
          height: 100%;
 
          .detailsSection {
-            padding: 0 24px 124px;
+            padding: 0 24px 30px;
             .fromAndToBodyBottom {
                margin-bottom: 24px;
             }
@@ -214,11 +214,11 @@
       .checkoutDrowerFooter {
          filter: drop-shadow(0px -1px 4px rgba(12, 12, 13, 0.05));
          z-index: 3;
-         bottom: 0;
-         right: 0;
-         width: 100%;
-         position: absolute;
-         background-color: $white;
+         // bottom: 0;
+         // right: 0;
+         // width: 100%;
+         // position: absolute;
+         // background-color: $white;
          
       }
    }
@@ -252,6 +252,7 @@
          }
       }
    .checkoutDrower {
+      width: 100%;
       padding: 0 15px;
       .checkoutDrowerSection {
          height: 100%;
@@ -260,7 +261,7 @@
          top: inherit;
          @include border-radius(0);
          .checkoutDrowerBody .detailsSection {
-            padding: 0 24px 150px;
+            padding: 0 24px 30px;
          }
       }
    }
