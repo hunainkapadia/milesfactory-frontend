@@ -23,6 +23,7 @@ import {
   PassengerFormSubmit,
   setClosePassengerDrawer,
   setIsFormLoading,
+  setPassengerFormError,
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
 import AddPassengersStep from "./AddPassengersStep";
@@ -112,6 +113,21 @@ const PassengerDrawerForm = () => {
   const isPassengerDrawerOpen = useSelector(
     (state) => state.passengerDrawer?.OpenPassengerDrawer
   );
+  useEffect(() => {
+    if (isPassengerDrawerOpen) {
+      setgender("");
+      setgiven_name("");
+      setfamily_name("");
+      setborn_on("");
+      setpassport_number("");
+      setpassport_expire_date("");
+      setnationality(null);
+      setphone("");
+      setemail("");
+      setRegion("");
+      dispatch(setPassengerFormError(null)); // clear any previous errors
+    }
+  }, [isPassengerDrawerOpen, dispatch]);
   return (
     <Drawer
         anchor="right"
