@@ -8,7 +8,7 @@ import {
   EmbeddedCheckout,
 } from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPaymentData, setPaymentDrawer, setPaymentFormSuccess } from '@/src/store/slices/PaymentSlice';
+import { fetchOrderDetails, PaymentForm, setPaymentData, setPaymentDrawer, setPaymentFormSuccess } from '@/src/store/slices/PaymentSlice';
 import api from '@/src/store/api';
 import LoadingArea from '@/src/component/LoadingArea';
 import ButtonLoading from '@/src/component/LoadingArea/ButtonLoading';
@@ -71,8 +71,11 @@ useEffect(() => {
           dispatch(setPaymentFormSuccess(true));
           dispatch(setPaymentData(data));
           dispatch(setPaymentDrawer(false));
-
+          dispatch(PaymentForm(data.status))
+          
           clearInterval(interval);
+          dispatch(fetchOrderDetails(orderUUID)); // Load full order info
+
         }
       })
       .catch((error) => {

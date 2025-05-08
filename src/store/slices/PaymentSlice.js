@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import api from "../api";
 
 const PaymentSlice = createSlice({
   name: "payment",
@@ -46,13 +47,27 @@ const PaymentSlice = createSlice({
 });
 
 // 
-export const PaymentForm = (params) => (dispatch) => {
+export const PaymentForm = () => (dispatch, getState) => {
   const state = getState();
-  console.log("payment_state", state);
+  const payment = state.payment;
+  console.log("payment_state", payment);
   
   // Just simulate success after 1 second
   
   
+};
+export const fetchOrderDetails = (orderId) => (dispatch) => {
+  console.log("payment_response_0", orderId);
+  return api
+    .get(`/api/v1/order/${orderId}/details`)
+    .then((response) => {
+      console.log("payment_response", response);
+      
+      dispatch(setPaymentData(response.data));
+    })
+    .catch((error) => {
+      console.error("Failed to fetch order details:", error);
+    });
 };
 
 // Export actions
