@@ -127,6 +127,8 @@ export const PassengerForm = () => (dispatch, getState) => {
         api
           .get(ViewPassengerUrl)
           .then((response) => {
+            console.log("view_pass_response", response?.data);
+            
             dispatch(setViewPassengers(response?.data)); // passenger data in array get and set in redux
             // form submit url make
             // /api/v1/order/2aec74f4-4b0e-4f93-a6bc-5d3bcbd9ff3b/passenger/68af9ac5-c1c1-4943-83c5-74eac96e15bf
@@ -212,6 +214,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   const passengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
 
+  // for check both api
   let captainSuccess = false;
   let formSuccess = false;
 

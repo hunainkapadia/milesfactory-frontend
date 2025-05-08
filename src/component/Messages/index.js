@@ -9,7 +9,11 @@ import {
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMessages, RefreshHandle, setRefreshSearch } from "@/src/store/slices/GestMessageSlice";
+import {
+  fetchMessages,
+  RefreshHandle,
+  setRefreshSearch,
+} from "@/src/store/slices/GestMessageSlice";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 
 import styles from "@/src/styles/sass/components/Home.module.scss";
@@ -70,26 +74,19 @@ const Messages = () => {
   const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
 
   // for passenger form
+
   
-  const isPassengerDrawerOpen = useSelector(
-    (state) => state.passengerDrawer?.OpenPassengerDrawer
-  );
   console.log("isLoading111", isLoading);
-  
-  
-  
-  
+
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
-  const FlightExpire = useSelector((state)=> state.getMessages.flightExpire);
-  
-  const refreshHandle =()=> {
-    dispatch(RefreshHandle())
-    dispatch(setRefreshSearch())
-  }
-    
-  
+  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+
+  const refreshHandle = () => {
+    dispatch(RefreshHandle());
+    dispatch(setRefreshSearch());
+  };
 
   return (
     <>
@@ -101,12 +98,12 @@ const Messages = () => {
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
-  <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
-) : index === messages.length - 1 && isLoading  ? (
-  <Box my={2}>
-    <LoadingArea />
-  </Box>
-) : null}
+                    <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
+                  ) : index === messages.length - 1 && isLoading ? (
+                    <Box my={2}>
+                      <LoadingArea />
+                    </Box>
+                  ) : null}
                 </Box>
               ))}
 
@@ -115,7 +112,7 @@ const Messages = () => {
               {/* booking flow start */}
 
               {getFlightKey && <BookingDrawer getFlightDetail={flightDetail} />}
-              {isPassengerDrawerOpen ? <PassengerDrawerForm /> : ""}
+              <PassengerDrawerForm />
               <BaggageDrawer getFlightDetail={flightDetail} />
               {FlightExpire ? (
                 <>
