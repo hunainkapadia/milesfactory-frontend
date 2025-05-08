@@ -17,8 +17,7 @@ const TermsAndConditions = () => {
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography paragraph>
             This agreement also incorporates by reference our{" "}
-            <MuiLink href="/privacy-policy">Privacy Policy</MuiLink> and
-            <MuiLink href="/sanctions-compliance-policy">Sanctions Compliance Policy</MuiLink>, which form an integral part of these
+            <MuiLink href="/privacy-policy">Privacy Policy</MuiLink> and <MuiLink href="/sanctions-compliance-policy">Sanctions Compliance Policy</MuiLink>, which form an integral part of these
             Terms.
           </Typography>
 
