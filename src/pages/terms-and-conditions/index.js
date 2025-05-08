@@ -18,7 +18,7 @@ const TermsAndConditions = () => {
           <Typography paragraph>
             This agreement also incorporates by reference our{" "}
             <MuiLink href="/privacy-policy">Privacy Policy</MuiLink> and
-            Sanctions Compliance Policy, which form an integral part of these
+            <MuiLink href="/sanctions-compliance-policy">Sanctions Compliance Policy</MuiLink>, which form an integral part of these
             Terms.
           </Typography>
 
