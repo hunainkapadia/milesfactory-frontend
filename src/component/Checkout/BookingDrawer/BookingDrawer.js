@@ -9,6 +9,7 @@ import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 
 const BookingDrawer = ({ getFlightDetail }) => {
+  console.log("getFlightDetail", getFlightDetail)
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer

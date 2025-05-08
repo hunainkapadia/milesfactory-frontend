@@ -56,13 +56,14 @@
         {/* Footer Content */}
         <Box
           className={styles.checkoutDrowerHeder}
-          py={1}
+          py={2}
           px={3}
           display="flex"
           flexDirection="column"
         >
+          {/* TODO: This will become dynamic based on airline cancellation policy */}
           <Typography variant="p" className="gray f12" pb={2}>
-            *The airline policy will apply if you decide to cancel or modify your
+            The airline policy will apply if you decide to cancel or modify your
             trip.
           </Typography>
 
@@ -89,16 +90,17 @@
                   <span>
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {getFlightDetails?.total_amount_plus_markup}
+                    {Math.round(getFlightDetails?.total_amount)}
                   </span>
                 </h4>
               </Box>
               <Box className={styles.totalPersonPrice}>
                 <Typography variant="p" className=" gray f12">
-                  Total per person:{" "}
+                
                   {currencySymbols[getFlightDetails?.tax_currency] ||
-                    getFlightDetails?.tax_currency}{" "}
-                  {Math.round(getFlightDetails?.per_passenger_amount_plus_markup)}
+                    getFlightDetails?.tax_currency}
+                  {Math.round(getFlightDetails?.per_passenger_amount)}
+                  {" "} per person
                 </Typography>
               </Box>
             </Box>

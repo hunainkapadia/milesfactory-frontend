@@ -6,7 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { googleLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 
-const LoginWithOptions = () => {
+const LoginWithOptions = ({options}) => {
 
   
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const LoginWithOptions = () => {
             onClick={() => loginHandle()}
           >
             <i className="f20 fa-brands fa-google"></i>
-            <Typography fontWeight={"bold"}>Sign up with Google</Typography>
+            <Typography fontWeight={"bold"}>{options} with Google</Typography>
           </Box>
         </Box>
         <Box
@@ -58,7 +58,7 @@ const LoginWithOptions = () => {
             fontWeight={"bold"}
           >
             <i className="f20 fa-brands fa-apple"></i>
-            <Typography fontWeight={"bold"}>Sign up with Apple ID</Typography>
+            <Typography fontWeight={"bold"}>{options} with Apple ID</Typography>
           </Box>
         </Box>
         <Box
@@ -76,7 +76,7 @@ const LoginWithOptions = () => {
             fontWeight={"bold"}
           >
             <i className="f20 fa-brands fa-facebook"></i>
-            <Typography fontWeight={"bold"}>Sign up with Facebook</Typography>
+            <Typography fontWeight={"bold"}>{options} with Facebook</Typography>
           </Box>
         </Box>
       </Box>

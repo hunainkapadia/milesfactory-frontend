@@ -6,6 +6,8 @@ import { setCloseDrawer } from "./BookingflightSlice";
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
   initialState: {
+    captainSuccess: false,
+    formSuccess: false,
     isOpen: false,
     countries: [],
     OfferId: null,
@@ -24,6 +26,13 @@ const passengerDrawerSlice = createSlice({
     // selectedFlightDetail: null,
   },
   reducers: {
+    setCaptainSuccess: (state, action) => {
+      state.captainSuccess = action.payload;
+    },
+    setFormSuccess: (state, action) => {
+      state.formSuccess = action.payload;
+    },
+
     markPassengerAsFilled: (state, action) => {
       if (!state.filledPassengerUUIDs.includes(action.payload)) {
         state.filledPassengerUUIDs.push(action.payload);
@@ -75,7 +84,7 @@ const passengerDrawerSlice = createSlice({
       state.isLoading = true;
     },
     setIsFormLoading: (state) => {
-      state.isFormLoading = true;
+      state.isFormLoading = false;
     },
     setPassengerFormError: (state, action) => {
       state.PassengerFormError = action.payload;
@@ -118,6 +127,8 @@ export const PassengerForm = () => (dispatch, getState) => {
         api
           .get(ViewPassengerUrl)
           .then((response) => {
+            console.log("view_pass_response", response?.data);
+            
             dispatch(setViewPassengers(response?.data)); // passenger data in array get and set in redux
             // form submit url make
             // /api/v1/order/2aec74f4-4b0e-4f93-a6bc-5d3bcbd9ff3b/passenger/68af9ac5-c1c1-4943-83c5-74eac96e15bf
@@ -150,12 +161,34 @@ export const PassengerForm = () => (dispatch, getState) => {
 export const validatePassengerForm = (params) => (dispatch) => {
   let errors = {};
 
+  const nameRegex = /^[A-Za-z\s'-]+$/; // letters, spaces, hyphens, apostrophes
+  const passportNumberRegex = /^[A-Za-z0-9]+$/; // alphanumeric only
+
   if (!params.gender) errors.gender = "Gender is required.";
-  if (!params.given_name) errors.given_name = "First Name is required.";
-  if (!params.family_name) errors.family_name = "Last Name is required.";
+
+  if (!params.given_name) {
+    errors.given_name = "First Name is required.";
+  } else if (!nameRegex.test(params.given_name)) {
+    errors.given_name = "First Name must contain only letters.";
+  }
+
+  if (!params.family_name) {
+    errors.family_name = "Last Name is required.";
+  } else if (!nameRegex.test(params.family_name)) {
+    errors.family_name = "Last Name must contain only letters.";
+  }
+
   if (!params.born_on) errors.born_on = "Date of Birth is required.";
-  if (!params.passport_number) errors.passport_number = "Passport Number is required.";
-  if (!params.passport_expire_date) errors.passport_expire_date = "Passport Expiry Date is required.";
+
+  if (!params.passport_number) {
+    errors.passport_number = "Passport Number is required.";
+  } else if (!passportNumberRegex.test(params.passport_number)) {
+    errors.passport_number = "Passport Number must be alphanumeric.";
+  }
+
+  if (!params.passport_expire_date)
+    errors.passport_expire_date = "Passport Expiry Date is required.";
+
   if (!params.nationality) errors.nationality = "Nationality is required.";
 
   if (Object.keys(errors).length > 0) {
@@ -167,69 +200,76 @@ export const validatePassengerForm = (params) => (dispatch) => {
   return true;
 };
 
+
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
+  console.log("params__0", params);
+
   const isValid = dispatch(validatePassengerForm(params));
-  if (!isValid) return; // Stop submission if validation fails
+  if (!isValid) return;
 
   dispatch(setIsFormLoading(true));
 
   const state = getState();
-  const OrderUUId = state.passengerDrawer?.OrderUuid;
-  const CaptainUrl = `/api/v1/order/${OrderUUId}/captain`;
-  const PassengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
+  const orderUuid = state.passengerDrawer?.OrderUuid;
+  const passengerUuid = state.passengerDrawer?.PassengerUUID;
+  const passengerSubmitUrl = state.passengerDrawer?.PassengerSubmitURL;
 
-  let captainApiSuccess = false;
-  let passengerApiSuccess = false;
+  // for check both api
+  let captainSuccess = false;
+  let formSuccess = false;
 
-  // First API call - Captain (phone & email)
+  // First call - captain API
+  const captainParams = {
+    email: params.email,
+    phone_number: params.phone_number,
+    region: params.region,
+  };
+
   api
-    .post(CaptainUrl, params)
-    .then((res) => {
-      captainApiSuccess = true;
-    })
-    .catch((captainError) => {
-      dispatch(setPassengerFormError(captainError.response?.data));
-    })
-    .then(() => {
-      // Second API call - Passenger full form
-      return api.post(PassengerSubmitUrl, params); // Always runs
-    })
-    .then((response) => {
-      // Handle Passenger form success
-      const passdata = response.data;
-      dispatch(setPassFormData(passdata));
+    .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
+    .then((captainResponse) => {
+      console.log("captainResponse", captainResponse);
+      captainSuccess = true;
 
-      const passengerUUID = state.passengerDrawer?.PassengerUUID;
-      dispatch(markPassengerAsFilled(passengerUUID));
+      // Second call - passenger form API
+      return api.post(passengerSubmitUrl, params);
+    })
+    .then((formResponse) => {
+      console.log("formResponse", formResponse);
+      const formData = formResponse.data;
 
-      passengerApiSuccess = true;
+      dispatch(setPassFormData(formData));
+      dispatch(markPassengerAsFilled(passengerUuid));
+      formSuccess = true;
 
-      // If both APIs succeeded, proceed to next passenger and close drawer
-      if (captainApiSuccess && passengerApiSuccess) {
+      if (captainSuccess && formSuccess) {
+        const state = getState();
         const allPassengers = state.passengerDrawer?.ViewPassengers || [];
-        const filledUUIDs = state.passengerDrawer?.filledPassengerUUIDs || [];
-        const nextPassenger = allPassengers.find(
-          (p) => !filledUUIDs.includes(p.uuid)
-        );
-        dispatch(setIsFormLoading(false));
+        const filledPassengerUuids =
+          state.passengerDrawer?.filledPassengerUUIDs || [];
 
+        const nextPassenger = allPassengers.find(
+          (p) => !filledPassengerUuids.includes(p.uuid)
+        );
 
         if (nextPassenger) {
           dispatch(setPassengerUUID(nextPassenger.uuid));
           dispatch(PassengerForm());
         }
+
         dispatch(setClosePassengerDrawer());
       }
     })
-    .catch((passengerFormError) => {
-      const errors = passengerFormError.response?.data;
-      dispatch(setPassengerFormError(errors));
+    .catch((error) => {
+      console.log("error", error);
+      const responseErrors = error.response?.data || {};
+      dispatch(setPassengerFormError(responseErrors));
+      dispatch(setOpenPassengerDrawer(true));
     })
     .finally(() => {
       dispatch(setIsFormLoading(false));
     });
 };
-
 
 // Store user info in cookies
 
@@ -252,6 +292,8 @@ export const {
   markPassengerAsFilled,
   setPassengerFormError,
   setIsFormLoading,
+  setCaptainSuccess,
+  setFormSuccess,
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

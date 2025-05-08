@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import {
-  setIsDrawer,
+  setPaymentDrawer,
   setpriceSummary,
-  toggleDrawer,
 } from "@/src/store/slices/PaymentSlice";
 import { currencySymbols } from "@/src/utils/utils";
 
@@ -17,7 +16,7 @@ const PriceSummary = ({ getdata }) => {
 
   const dispatch = useDispatch();
   const handlePaymentDrawer = () => {
-    dispatch(setIsDrawer(true));
+    dispatch(setPaymentDrawer(true));
   };
 
   const priceSummaryHandle = () => {
@@ -41,9 +40,9 @@ const PriceSummary = ({ getdata }) => {
   const Passengers =
     Number(flightDetail?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(flightDetail?.tax_amount) + Passengers;
-  const totalAmount = Math.round(WithtaxAmount);
+  const totalAmount = Math.round(flightDetail?.base_amount) + Math.round(flightDetail?.tax_amount) + Math.round(flightDetail?.markup_amount);
 
-  const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
+  const paymentSuccess = useSelector((state) => state.payment.PaymentFormSuccess);
   return (
     <>
       <Box py={2}>
@@ -97,7 +96,7 @@ const PriceSummary = ({ getdata }) => {
                   {console.log("getpassengertype", flightDetail)}
                   {currencySymbols[flightDetail?.tax_currency] ||
                     flightDetail?.tax_currency}
-                  {Passengers}
+                  {Math.round(flightDetail?.base_amount)}
                 </Box>
               </Box>
 
@@ -113,7 +112,7 @@ const PriceSummary = ({ getdata }) => {
                   {flightDetail.tax_currency === "GBP"
                     ? "£"
                     : flightDetail.tax_currency}
-                  {Number(flightDetail.tax_amount).toFixed(2)}
+                  {Math.round(flightDetail.tax_amount)}
                 </Box>
               </Box>
               {/* <Box
@@ -179,6 +178,21 @@ const PriceSummary = ({ getdata }) => {
                   })()}
                 </Box>
               </Box> */}
+              {/* Markup row */}
+              <Box
+                className={styles.PriceRow + " f12"}
+                display="flex"
+                justifyContent="space-between"
+                gap={4}
+              >
+                <Box>Admin Fee</Box>
+                <Box>
+                  {flightDetail.tax_currency === "GBP"
+                    ? "£"
+                    : flightDetail.tax_currency}
+                  {Math.round(flightDetail.markup_amount)}
+                </Box>
+              </Box>
               <Box
                 className={styles.PriceRow + " black exbold f14m"}
                 display={"flex"}
@@ -189,8 +203,8 @@ const PriceSummary = ({ getdata }) => {
                 <Box className="mb-0 ">
                   {console.log("flightDetail111", flightDetail)}
                   {currencySymbols[flightDetail?.tax_currency] ||
-                  flightDetail?.tax_currency}{" "}
-                {Math.round(flightDetail?.per_passenger_amount_plus_markup)}
+                  flightDetail?.tax_currency}
+                {totalAmount}
                 </Box>
               </Box>
             </Box>
@@ -198,7 +212,8 @@ const PriceSummary = ({ getdata }) => {
           </Box>
           <Box display={"flex"} justifyContent={"flex-end"}>
             <Button
-              className={`btn ${paymentSuccess ? " btn-disabled " : " btn-primary "} btn-md btn-round sm `}
+              disabled={paymentSuccess}
+              className={`btn btn-primary btn-md btn-round sm `}
               onClick={handlePaymentDrawer}
             >
               <Box display="flex" alignItems="center" gap={1}>

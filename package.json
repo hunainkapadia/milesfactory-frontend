@@ -18,6 +18,8 @@
     "@mui/x-date-pickers": "^7.27.1",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.5.0",
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.3.0",
     "axios": "^1.7.9",
     "country-flag-icons": "^1.5.18",
     "dayjs": "^1.11.13",

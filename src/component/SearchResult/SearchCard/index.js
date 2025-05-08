@@ -50,7 +50,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const offeridGet = useSelector((state) => state.getMessages.topOfferUrl);
   const offeridSend = useSelector((state) => state);
   const [isselected, seIsSelected] = useState(false);
-  const [hideSelectButton, seHideSelectButton] = useState(false);
+  const [hideSelectButton, setHideSelectButton] = useState(false);
 
   //
   const personQuantity = offerData?.passengers.length;
@@ -66,9 +66,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   
   
+  
   const handleBookFlight = () => {
     if(selected) {
-      seHideSelectButton(true);
+      setHideSelectButton(true);
     };
     if (offerkey) {
       dispatch(setflightDetail(offerData)); // Store flight details
@@ -77,6 +78,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     dispatch(setisLoading());
     dispatch(setflightDetail(offerData)); //dispatch selected flight detail
     dispatch(PassengerForm());
+
+    dispatch(bookFlight());
     if (flightDetail?.id) {
       dispatch(bookFlight(flightDetail.id)); // Pass flight ID to bookFlight
     } else {
@@ -122,7 +125,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
               sx={{
                 flexDirection: { xs: "column", lg: "column", md: "column" },
               }}
-              justifyContent={"space-between"}
+              justifyContent={"center"}
               height={"100%"}
             >
               {FlightExpire ? (
@@ -178,6 +181,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     <RightTopSection
                       SelectDrawer={HandleSelectDrawer}
                       offerData={offerData}
+                      selected={selected}
+                      selectedFlightKey={selectedFlightKey}
                     />
                   </Box>
                   {/*  */}
@@ -200,14 +205,14 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                         }
                       >
                         {currencySymbols[offerData?.tax_currency] ||
-                          offerData?.tax_currency}{" "}
-                         {offerData?.total_amount_plus_markup}
+                          offerData?.tax_currency}
+                         {Math.round(offerData?.total_amount)}
                       </h4>
 
                       <Typography className=" f12 gray">
                         {currencySymbols[offerData?.tax_currency] ||
-                          offerData?.tax_currency}{" "}
-                        {offerData?.per_passenger_amount_plus_markup} per person
+                          offerData?.tax_currency}
+                        {Math.round(offerData?.per_passenger_amount)} per person
                       </Typography>
                     </Box>
                     {/* main select handle */}
@@ -219,9 +224,9 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     {selected ? (
                       <Box>
                         <Button
+                          disabled
                           className={
-                            searchResultStyles.IsSelected + " w-100 btn btn-primary btn-round btn-md " +
-                            searchResultStyles.selectFlightBtn
+                            searchResultStyles.IsSelected + " w-100 btn btn-primary btn-round btn-md "
                           }
                         >
                           <span>Selected</span>

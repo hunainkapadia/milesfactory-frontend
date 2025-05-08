@@ -2,7 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
+const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => {
   return (
     <>
       {forDark ? (
@@ -55,18 +55,21 @@ const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
                   </Link>
                 </Box>
                 <Box>
-                  <Link className="basecolor" href={"/"}>
-                    Terms of Service
+                  <Link className="basecolor" href={"/terms-and-conditions"}>
+                    Terms & Conditions
                   </Link>
                 </Box>
                 <Box>
-                  <Link className="basecolor" href={"/"}>
-                    Privacy Policy
+                  <Link className="basecolor" href={"/privacy-policy"}>
+                    Privacy
                   </Link>
                 </Box>
                 <Box>
-                  <Link className="basecolor" href={"/"}>
-                    Accessibility
+                  <Link
+                    className="basecolor"
+                    href={"/sanctions-compliance-policy"}
+                  >
+                    Sanctions Compliance
                   </Link>
                 </Box>
               </Box>
@@ -77,7 +80,11 @@ const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
                 sx={{ marginBottom: { xs: 3, md: 0 } }}
                 className={styles.FooterBoxRight}
               >
-                <Link target="_blank" href={"https://www.tiktok.com/@gomylz"} className="basecolor-dark">
+                <Link
+                  target="_blank"
+                  href={"https://www.tiktok.com/@gomylz"}
+                  className="basecolor-dark"
+                >
                   <i className="fab fa-tiktok"></i>
                 </Link>
                 <Link
@@ -94,31 +101,59 @@ const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
                 >
                   <i className="fab fa-x-twitter"></i>
                 </Link>
-                <Link target="_blank" href={"https://www.instagram.com/go.mylz"} className="basecolor-dark">
+                <Link
+                  target="_blank"
+                  href={"https://www.instagram.com/go.mylz"}
+                  className="basecolor-dark"
+                >
                   <i className="fab fa-square-instagram"></i>
                 </Link>
-                <Link target="_blank" href={"https://www.youtube.com/@gomylz"} className="basecolor-dark">
+                <Link
+                  target="_blank"
+                  href={"https://www.youtube.com/@gomylz"}
+                  className="basecolor-dark"
+                >
                   <i className="fab fa-square-youtube"></i>
                 </Link>
-                <Link target="_blank" href={"https://www.linkedin.com/company/gomylz"} className="basecolor-dark">
+                <Link
+                  target="_blank"
+                  href={"https://www.linkedin.com/company/gomylz"}
+                  className="basecolor-dark"
+                >
                   <i className="fab fa-linkedin"></i>
                 </Link>
               </Box>
             </Box>
             {/*  */}
-            <Box className={styles.Box}>
+            <Box
+              className={styles.Box}
+              sx={{
+                textAlign: { xs: "center", md: "left", lg: "left" },
+                paddingY: { xs: 4, md: 2, lg: 2 },
+              }}
+            >
               <Box className={styles.Logo} mb={2}>
                 <Link href={"/"}>
-                  <Box className="d-flex align-items-center">
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    sx={{
+                      justifyContent: {
+                        xs: "center",
+                        md: "flex-start",
+                        lg: "flex-start",
+                      },
+                    }}
+                  >
                     <img src="/images/logo-color2.svg" />
                   </Box>
                 </Link>
               </Box>
-              <Typography mb={4} className="f12" color="#69707B">
+              <Typography mb={4} className="f12 basecolor">
                 Mylz uses AI to find you the cheapest flights, accommodations,
                 and experiences. Bundle together for even more savings.
               </Typography>
-              <Typography className="f12" color="#69707B">
+              <Typography className="f12 basecolor">
                 🍪 We do not like cookie banners (they’re simpy annoying) and we
                 take privacy compliance very seriously. That’s why we are not
                 using any cookies that are not essential to the functioning of
@@ -151,6 +186,32 @@ const Footer = ({ forReview, forLight, forDark, id, ...props }) => {
             </Box>
           </Container>
         </footer>
+      ) : forHomeHero ? (
+        <>
+          <footer className={styles.FooterForReview} sx={{ pb: 4 }}>
+            <Container>
+              <Box
+                className={styles.FooterBox + " "}
+                display={"flex"}
+                justifyContent={"center"}
+              >
+                <Link
+                  href={`#${id}`} // Use template literals
+                  className={styles.footerBtn + "  white text-decoration-none"}
+                >
+                  <Box gap={2} alignItems={"center"} display={"flex"} textAlign={"center"}>
+                    <Box sx={{ display: { xs: "none", lg: "block", md:"block"  } }}>
+                      <i className="fa-arrow-down fa fas"></i>{" "}
+                    </Box>
+                    <span>
+                      🔥 Over 1,300 trips planned by early users — and counting.
+                    </span>
+                  </Box>
+                </Link>
+              </Box>
+            </Container>
+          </footer>
+        </>
       ) : (
         ""
       )}

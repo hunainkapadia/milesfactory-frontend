@@ -1,0 +1,96 @@
+@import "../../variables";
+
+
+.BaggageDrawer {
+   
+   .BaggageDrawerSection {
+      height: 100%;
+      overflow-y: auto;
+     .BaggageDrawerBody {
+       padding-bottom: 120px;
+       .AddBaggeSection {
+        .Header {color: $gray;
+          img {
+            filter: brightness(0) saturate(100%) invert(69%) sepia(1%) saturate(303%) hue-rotate(179deg) brightness(91%) contrast(91%);
+
+          }
+        }
+          &.active {
+            .Header {color: $black;
+              img {
+                filter: brightness(0);
+
+              }
+            }
+          }
+       }
+       .customTabs {
+         margin-top: 10px;
+         min-height: auto;
+         border-bottom: 1px solid #e0e0e0;
+         
+       }
+       
+       .BaggageBox {
+         border-right: solid 1px $lightgray2;
+       }
+       .customIndicator {
+            }
+       .inactiveTab {
+         margin-right: 4px;
+         min-height: 38px;
+         display: flex;
+         flex-direction: row;
+         justify-content: center;
+         align-items: center;
+         padding: 10px 20px;
+         background: rgba(255, 255, 255, 0.6);
+         border-width: 1px 1px 0px 1px;
+         border-style: solid;
+         border-color: #E6EEEE;
+         border-radius: 8px 8px 0px 0px;
+
+         transition: all 0.2s ease;
+         text-transform: capitalize;
+         p {
+          font-size: $f12;
+          font-weight: $semibold;
+         }
+      }
+      .activeTab {
+         background-color: $lightgray3;
+         color: $basecolor;
+
+       }
+      //  tabs
+       .detailsSection {
+         // Placeholder for future details
+         
+       }
+     }
+ 
+     .BaggageRows .BaggageBox {
+      
+     }
+ 
+     
+   }
+   .BaggageDrawerFooter {
+      filter: drop-shadow(0px -1px 4px rgba(12, 12, 13, 0.05));
+      z-index: 3;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      position: absolute;
+      background-color: $white;
+      
+   }
+ }
+@include for-mobile-large-screen () {
+  .BaggageDrawer {
+    >div {width: 100%;}
+    .BaggageDrawerSection {
+      width: 100%;
+    }
+  }
+}

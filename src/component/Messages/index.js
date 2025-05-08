@@ -9,7 +9,11 @@ import {
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMessages, RefreshHandle, setRefreshSearch } from "@/src/store/slices/GestMessageSlice";
+import {
+  fetchMessages,
+  RefreshHandle,
+  setRefreshSearch,
+} from "@/src/store/slices/GestMessageSlice";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 
 import styles from "@/src/styles/sass/components/Home.module.scss";
@@ -27,6 +31,8 @@ import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
 import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import Link from "next/link";
+import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
+import BaggageDrawer from "../Checkout/BaggageDrawer";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -68,25 +74,19 @@ const Messages = () => {
   const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
 
   // for passenger form
+
   
-  const isPassengerDrawerOpen = useSelector(
-    (state) => state.passengerDrawer?.OpenPassengerDrawer
-  );
-  console.log("isPassengerDrawerOpen", isPassengerDrawerOpen);
-  
-  
-  
-  
+  console.log("isLoading111", isLoading);
+
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
-  const FlightExpire = useSelector((state)=> state.getMessages.flightExpire);
-  
-  const refreshHandle =()=> {
-    dispatch(RefreshHandle())
-    dispatch(setRefreshSearch())
-  }
-  
+  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+
+  const refreshHandle = () => {
+    dispatch(RefreshHandle());
+    dispatch(setRefreshSearch());
+  };
 
   return (
     <>
@@ -94,7 +94,6 @@ const Messages = () => {
         <section>
           <Box className={searchResultStyles.messageContent}>
             <Box className={searchResultStyles.messageContentIn}>
-                
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}
@@ -107,12 +106,14 @@ const Messages = () => {
                   ) : null}
                 </Box>
               ))}
+
               {/*  */}
               <Box ref={messagesEndRef} />
               {/* booking flow start */}
 
               {getFlightKey && <BookingDrawer getFlightDetail={flightDetail} />}
-              {isPassengerDrawerOpen ? <PassengerDrawerForm /> : ""}
+              <PassengerDrawerForm />
+              <BaggageDrawer getFlightDetail={flightDetail} />
               {FlightExpire ? (
                 <>
                   {/* <Box py={2}>

@@ -1,10 +1,12 @@
 @import "../../variables";
 
-
+.BaggageBox:not(:last-child) {
+   margin-bottom: 24px;
+}
 .BaggageRow {
    .BaggageCol {
-      margin-right: 15px;
-      padding-right: 24px;
+      margin-right: 10px;
+      padding-right: 10px;
    }
 }
 .BaggageCol:not(:last-child) {
@@ -88,16 +90,7 @@
     }
 
    .checkoutDrowerSection {
-      box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3);
-      z-index: 11;
-      position: fixed;
-      right: 0px;
-      top: 0;
-      height: 100%;
-      width: 480px;
-      bottom: 0;
-      overflow: auto;
-      transition: all 0.4sease -in-out;
+      
 
       .checkoutDrowerBody {
          overflow-y: auto;
@@ -271,7 +264,7 @@
          }
       }
    }
-      .title {font-size: 12px;}
+      .title {font-size: 16px;}
 }
 
 // payment
@@ -280,3 +273,8 @@
    padding: 10px 0px;
    margin: 10px 0;
 }
+
+/* In your CSS file or style block */
+.capitalizeFirstLetter::first-letter {
+   text-transform: uppercase;
+ }

@@ -13,7 +13,7 @@ import LabelAnimation from "../../home/LabelAnimation";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
 
-const MessageInputBox = ({ isMessageHome }) => {
+const MessageInputBox = ({ isMessageHome, isSticky }) => {
   console.log("isMessageHome", isMessageHome);
   const inputRef = useRef(null); // Add this
   const recognitionRef = useRef(null); // voice recognition instance
@@ -76,14 +76,15 @@ const MessageInputBox = ({ isMessageHome }) => {
     }
     setIsListening((prev) => !prev);
   };
+    const isPolling = useSelector((state) => state.sendMessage?.isPollingComplete);
   return (
     <section>
       <Box
-        className={
+        className={`${
           isMessageHome
             ? inputStyles.SearchBoxSectionActive
-            : inputStyles.SearchBoxSection
-        }
+            : inputStyles.SearchBoxSection 
+        } ${isSticky ? inputStyles.SearchBoxSticky : ""}`}
       >
         <Box className={styles.Content}>
           <Box
@@ -96,10 +97,14 @@ const MessageInputBox = ({ isMessageHome }) => {
             <Box display="flex" alignItems="center" justifyContent="center">
               <Box className={inputStyles.SearchBoxContainer}>
                 <Box className={inputStyles.SearchBoxIn} position={"relative"}>
-                {!isMessageHome && !userMessage.trim() && !isListening ? <LabelAnimation /> : ""}
+                  {!isMessageHome && !userMessage.trim() && !isListening ? (
+                    <LabelAnimation />
+                  ) : (
+                    ""
+                  )}
                   <div
                     ref={inputRef} //
-                    contentEditable={!isLoading}
+                    contentEditable={true}
                     suppressContentEditableWarning
                     role="textbox"
                     placeholder="Ask anything about your trip"
@@ -117,10 +122,11 @@ const MessageInputBox = ({ isMessageHome }) => {
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        e.preventDefault(); // Prevents new line
+                        if (isLoading) return; // Do nothing if loading
+                        e.preventDefault(); // Prevent newline
                         handleSearch();
                         e.currentTarget.textContent = ""; // Clear input
-                        setIsTyping(false); // Reset isTyping after sending
+                        setIsTyping(false); // Reset typing
                       }
                     }}
                     style={{
@@ -129,8 +135,10 @@ const MessageInputBox = ({ isMessageHome }) => {
                   ></div>
 
                   <Box className={inputStyles.SearchButtonBox}>
-                    <IconButton className={inputStyles.MicButton + "  "} onClick={handleVoiceInput}
-                    disabled={isLoading}
+                    <IconButton
+                      className={inputStyles.MicButton + "  "}
+                      onClick={handleVoiceInput}
+                      disabled={isLoading}
                     >
                       <i
                         className={`fa ${
@@ -152,19 +160,71 @@ const MessageInputBox = ({ isMessageHome }) => {
                   </Box>
                 </Box>
                 {!isMessageHome ? (
-                  <Box
-                    display={"flex"}
-                    gap={2}
-                    mt={2}
-                    justifyContent={"center"}
-                  >
-                    <Box>
-                      <img height={28} src="/images/app-google-play.svg" />
+                  <>
+                    <Box
+                      sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
+                      gap={2}
+                      mt={2}
+                      justifyContent={"center"}
+                    >
+                      <Box>
+                        <img height={28} src="/images/app-google-play.svg" />
+                      </Box>
+                      <Box>
+                        <img height={28} src="/images/app-app-store.svg" />
+                      </Box>
                     </Box>
-                    <Box>
-                      <img height={28} src="/images/app-app-store.svg" />
-                    </Box>
-                  </Box>
+                    {!isSticky ? (
+                      <Box
+                        sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
+                        className={styles.ChatBullets}
+                        flexWrap={"wrap"}
+                      >
+                        <Box
+                          className={
+                            styles.ChatBullet1 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          Surprise me with a foodie weekend
+                        </Box>
+                        <Box
+                          className={
+                            styles.ChatBullet2 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          Book Paris for 2 from Friday to Sunday, departing 6pm
+                        </Box>
+                        <Box
+                          className={
+                            styles.ChatBullet3 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          I want a 3-day sunny getaway from London under £300
+                        </Box>
+                        <Box
+                          className={
+                            styles.ChatBullet4 +
+                            " " +
+                            styles.ChatBullet +
+                            " br-12 "
+                          }
+                        >
+                          Plan a solo adventure to Spain
+                        </Box>
+                      </Box>
+                    ) : (
+                      ""
+                    )}
+                  </>
                 ) : (
                   ""
                 )}

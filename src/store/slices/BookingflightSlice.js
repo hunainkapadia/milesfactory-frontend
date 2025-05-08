@@ -14,6 +14,12 @@ const initialState = {
   CloseDrawer: false,
   BookingSetupUrl: null,
   selectedFlightKey: null, //Store selected flight key
+  BaggageDrawer: false,
+  baggageOptions: {}, // ← add this line
+  selectedBaggage: [], // add in initialState
+  baggageError: null,
+  singleFlightData:  null,
+
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -21,7 +27,9 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
-    
+    setSingleFlightData: (state, action)=> {
+      state.singleFlightData = action.payload
+    },
     setSelectedFlightKey: (state, action) => { // New reducer for selected flight key      
       state.selectedFlightKey = action.payload;
     },
@@ -50,7 +58,9 @@ const bookingflightsSlice = createSlice({
     },
     setBookingSetupUrl: (state,action)=> {
       state.BookingSetupUrl= action.payload;
-    }
+    },
+    
+
     
   },
 });
@@ -64,10 +74,29 @@ export const fetchflightDetail = (flightId) => (dispatch) => {
   });
 };
 
+
 // booking flo
 
 export const bookFlight = (flightId) => (dispatch, getState) => {
-   
+  
+  // {{BASE_URL}}/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options
+  // const getPassenger =  `${/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options}`
+  // {{BASE_URL}}/api/v1/search/single/result/off_0000AtoC3XiG43x9eXiVTE
+  const FlightId = getState().booking.selectedFlightId;
+  console.log("state001", FlightId);
+  
+  api
+    .get(`/api/v1/search/single/result/${FlightId}`)
+    .then((res) => {
+      console.log("res0001", res);
+      dispatch(setSingleFlightData(res.data))
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  
+  
   // Extract only the UUID from the URL
   
   
@@ -83,6 +112,7 @@ export const {
   setCloseDrawer,
   setOpenDrawer,
   setBookingSetupUrl,
-  setSelectedFlightKey,  
+  setSelectedFlightKey,
+  setSingleFlightData,
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

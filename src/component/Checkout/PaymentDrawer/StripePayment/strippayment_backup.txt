@@ -1,0 +1,41 @@
+import React, { useEffect, useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import api from "@/src/store/api";
+import StripeElementsPayment from "../StripeElementsPayment";
+import { useDispatch, useSelector } from "react-redux";
+import { setClient } from "@/src/store/slices/PaymentSlice";
+
+const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
+
+
+const StripePayment = () => {
+  const OrderUuid = useSelector((state) => state.passengerDrawer.OrderUuid);
+  const [clientSecret, setClientSecret] = useState(null);
+  const [ClientSessionId,  setClientSessionId]=useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!OrderUuid) return;
+    api.post(`/api/v1/stripe/create-payment-intent?order_uuid=${OrderUuid}`)
+      .then((res) => {
+        setClientSecret(res.data.clientSecret);
+        
+        dispatch(setClient(res.data)); // ← now works
+        return res.data.clientSecret;
+      });
+  }, [OrderUuid]);
+
+  const appearance = { theme: 'stripe' };
+  const options = { clientSecret, appearance };
+
+  if (!clientSecret) return <p>Loading...</p>;
+
+  return (
+    <Elements stripe={stripePromise} options={options}>
+      <StripeElementsPayment clientSecret={clientSecret} />
+    </Elements>
+  );
+};
+
+export default StripePayment;

@@ -1,0 +1,59 @@
+import React, { useCallback, useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout,
+} from "@stripe/react-stripe-js";
+import api from "@/src/store/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setClient, setPaymentFormSuccess } from "@/src/store/slices/PaymentSlice";
+
+// Load Stripe outside the component
+
+const StripePayment = () => {
+  const stripePromise = loadStripe("pk_test_51KOpGgEpUId2bVouR53qbdD9ID74eEKrnJQXRa23eyNYABjw1NCV8UNBvVNpvIspr70eZQBJMJvLjRgTX6nBYttT00KM8QM4AS");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [ClientSessionId,  setClientSessionId]=useState(null);
+  const OrderUuid = useSelector((state)=> state.passengerDrawer.OrderUuid);
+  const cliendIds = useSelector((state)=> state.payment.client);
+  // const PaymentStatus = useSelector((state)=> state.payment.PaymentFormSuccess);
+  
+  const dispatch = useDispatch();
+  // Fetch session status if session_id is present (i.e. return page)
+  useEffect(() => {
+    if (!cliendIds.sessionId) return;
+    api.get(`/api/v1/stripe/session-status?session_id=${cliendIds.sessionId}`)
+      .then((data) => {
+        console.log("res_data", data)
+        setCustomerEmail(data.customer_email);
+      });
+  }, [cliendIds.sessionId]);
+
+  // If session is still open, redirect to embedded checkout
+  const fetchClientSecret = useCallback(() => {
+    return api
+      .post(`/api/v1/stripe/create-checkout-session?order_uuid=${OrderUuid}`)
+      .then((res) => {
+        console.log("stripe_res", res);
+        setClientSessionId(res.data.sessionId);
+        dispatch(setClient(res.data)); // ← now works
+        return res.data.clientSecret;
+      });
+  }, [OrderUuid, dispatch]);
+
+  const options = { fetchClientSecret };
+
+  // Success page
+  
+  // Checkout page
+  return (
+    <div id="checkout">
+      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+        <EmbeddedCheckout />
+      </EmbeddedCheckoutProvider>
+    </div>
+  );
+};
+
+export default StripePayment;

@@ -15,14 +15,17 @@ import PaymentDrawer from "../../Checkout/PaymentDrawer";
 import PaymentAddCard from "../../Checkout/PaymentAddCardDrawer";
 import PaymentSuccess from "../../Checkout/PaymentSuccess";
 import PriceSummary from "../../Checkout/PriceSummary";
+import PollingMessage from "../PollingMessage/PollingMessage";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
 
+  console.log("aiMessage_00", aiMessage);
+  
+
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
 
-  
   const getAllFlightGetApi = useSelector(
     (state) => state?.getMessages?.allFlightSearchResults
   );
@@ -41,9 +44,6 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
 
-  console.log("getAllFlightPostApi", aiMessage.ai.offers);
-  
-
   useEffect(() => {
     if (GetViewPassengers) {
       setTimeout(() => {
@@ -56,140 +56,170 @@ const AiMessage = ({ aiMessage }) => {
     setShowAllFlight((prev) => !prev);
   };
 
-  
   const displayedGetFlights = showAllFlight
     ? aiMessage?.ai?.offers
     : aiMessage?.ai?.offers?.slice(0, 3);
 
-    // scroll payment success
-    const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
-    useEffect(() => {
-      if (paymentSuccess) {
-        setTimeout(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      }
-    }, [paymentSuccess]);
-    // scroll
-      const isLoading = useSelector((state) => state.sendMessage?.isLoading);
-      // track for send message loading
-    
-    console.log("aiMessage000", aiMessage);
-    
-    return (
-      <Box
-        className={searchResultStyles.Aibox + " "}
-        flexDirection="column"
-        display="flex"
-        justifyContent="flex-start"
-      >
-        {/* Passenger Flow */}
-        {aiMessage?.ai?.passengerFlowRes === "passengerFlowActive" ? (
-          <>
-            {/* <Box className={searchResultStyles.AiMessage}>
+  // scroll payment success
+  const paymentSuccess = useSelector(
+    (state) => state.payment.PaymentFormSuccess
+  );
+  console.log("paymentSuccess", paymentSuccess);
+  
+  useEffect(() => {
+    if (paymentSuccess) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [paymentSuccess]);
+  // scroll
+  const isLoading = useSelector((state) => state.sendMessage?.isLoading);
+  // track for send message loading
+
+  const aiboxRef = useRef(null); //  Add this ref
+
+   // Add class when all flights are shown
+   useEffect(() => {
+    if (showAllFlight && aiboxRef.current) {
+      aiboxRef.current.classList.add("showAllFlightActive"); //  Your custom class
+    } else if (!showAllFlight && aiboxRef.current) {
+      aiboxRef.current.classList.remove("showAllFlightActive"); //  Remove when hidden
+    }
+  }, [showAllFlight]);
+  
+  const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
+
+  // const IsServices = useSelector((state)=> state.booking.singleFlightData.available_services)
+  // console.log("singleflight111", singleflight);
+  
+
+  return (
+    <Box
+      ref={aiboxRef}
+      className={searchResultStyles.Aibox + " Aibox"}
+      flexDirection="column"
+      display="flex"
+      justifyContent="flex-start"
+    >
+      {/* Passenger Flow */}
+      {aiMessage?.ai?.passengerFlowRes === "passengerFlowActive" ? (
+        <>
+          {/* <Box className={searchResultStyles.AiMessage}>
             <Typography fontWeight="semibold">
               You have selected the flight option below.
             </Typography>
           </Box> */}
 
-            {/* Selected flight preview */}
-            {/* <Box mt={2}>
+          {/* Selected flight preview */}
+          {/* <Box mt={2}>
             <SearchCard
               offerData={getselectedFlight}
               FlightExpire={FlightExpire}
             />
           </Box> */}
 
-            {/* Show passenger form or loading */}
+          {/* Show passenger form or loading */}
 
-            {GetViewPassengers ? (
-              <PassengerInfo getdata={GetViewPassengers} />
-            ) : (
-              <Box my={3}>
-                <LoadingArea />
-              </Box>
-            )}
-
-            {/* If all passengers are filled, show payment components */}
-            {GetViewPassengers &&
-            filledPassenger.length === GetViewPassengers.length ? (
-              <>
-                <PriceSummary />
-                <PaymentDrawer />
-                <PaymentAddCard />
-                {paymentSuccess ? <PaymentSuccess /> : ""}
-              </>
-            ) : null}
-          </>
-        ) : (
-          ""
-        )}
-
-        {displayedGetFlights?.length > 0 ? (
-          <>
-            <Box
-              sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
-              className={searchResultStyles.SearchCardWrapper}
-            >
-              <Box mt={2} className={searchResultStyles.SearchCardGrid}>
-                {/* Render POST flight offers */}
-                {displayedGetFlights?.map((offer, i) => (
-                  <SearchCard
-                    key={`post-${i}-${offer.id}`}
-                    offerData={offer}
-                    offerkey={`${i}-${offer.id}`}
-                    FlightExpire={FlightExpire}
-                  />
-                ))}
-
-                {/* Render GET flight offers */}
-              </Box>
+          {GetViewPassengers ? (
+            <PassengerInfo getdata={GetViewPassengers} />
+          ) : (
+            <Box my={3}>
+              <LoadingArea />
             </Box>
+          )}
 
-            {/* Toggle button */}
-            {!GetViewPassengers ? (
-              <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
-                <Link href={"#"} className="text-decoration-none">
-                  <Box
-                    sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                    gap={2}
-                    alignItems="center"
-                    display="flex"
-                    className="bold"
-                  >
-                    <i
-                      className={`fa ${
-                        showAllFlight ? "fa-caret-up" : "fa-caret-down"
-                      } fas`}
-                    ></i>{" "}
-                    <span>
-                      {showAllFlight
-                        ? "Hide all flight options"
-                        : "Show all flight options"}
-                      {`${
-                        getAllFlightGetApi?.count
-                          ? " (" + getAllFlightGetApi?.count + ")"
-                          : ""
-                      }`}
-                      {`${
-                        allFlightSearcCount?.count
-                          ? " (" + allFlightSearcCount?.count + ")"
-                          : ""
-                      }`}
-                    </span>
-                  </Box>
-                </Link>
-              </Box>
-            ) : (
-              ""
-            )}
-          </>
-        ) : (
-          // Default AI response
-          <>
-            {/* {console.log("aiMessage111", aiMessage?.ai)} */}
-            {!aiMessage?.ai?.response?.results ? (
+          {/* If all passengers are filled, show payment components */}
+          {GetViewPassengers &&
+          filledPassenger.length === GetViewPassengers.length ? (
+            <>
+              <PriceSummary />
+              <PaymentDrawer />
+              <PaymentAddCard />
+              {paymentSuccess ? <PaymentSuccess /> : ""}
+            </>
+          ) : null}
+        </>
+      ) : (
+        ""
+      )}
+
+      {displayedGetFlights?.length > 0 ? (
+        <>
+          <Box
+            sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
+            className={searchResultStyles.SearchCardWrapper}
+          >
+            <Box mt={2} className={searchResultStyles.SearchCardGrid}>
+              {/* Render POST flight offers */}
+              {displayedGetFlights?.map((offer, i) => (
+                <SearchCard
+                  key={`post-${i}-${offer.id}`}
+                  offerData={offer}
+                  offerkey={`${i}-${offer.id}`}
+                  FlightExpire={FlightExpire}
+                />
+              ))}
+
+              {/* Render GET flight offers */}
+            </Box>
+          </Box>
+
+          {/* Toggle button */}
+          {!GetViewPassengers ? (
+            <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
+              <Link href={"#"} className="text-decoration-none">
+                <Box
+                  sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+                  gap={2}
+                  alignItems="center"
+                  display="flex"
+                  className="bold"
+                >
+                  <i
+                    className={`fa ${
+                      showAllFlight ? "fa-caret-up" : "fa-caret-down"
+                    } fas`}
+                  ></i>{" "}
+                  <span>
+                    {showAllFlight
+                      ? "Hide all flight options"
+                      : "Show all flight options"}
+                    {`${
+                      getAllFlightGetApi?.count
+                        ? " (" + getAllFlightGetApi?.count + ")"
+                        : ""
+                    }`}
+                    {`${
+                      allFlightSearcCount?.count
+                        ? " (" + allFlightSearcCount?.count + ")"
+                        : ""
+                    }`}
+                  </span>
+                </Box>
+              </Link>
+            </Box>
+          ) : (
+            ""
+          )}
+        </>
+      ) : (
+        // Default AI response
+        <>
+          {/* {console.log("aiMessage111", aiMessage?.ai)} */}
+          {console.log("ai_test111", aiMessage?.ai?.response)}
+          {!aiMessage?.ai?.response?.results ? (
+            <>
               <Box className={searchResultStyles.AiMessage + " aaa"}>
+                {aiMessage?.ai?.isPolling?.status && (
+                  <>
+                    {console.log(
+                      "displayedGetFlights_length",
+                      aiMessage?.ai?.isPolling
+                    )}
+                    <PollingMessage PollingData={aiMessage?.ai?.isPolling?.argument} />
+                  </>
+                )}
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(
@@ -198,24 +228,17 @@ const AiMessage = ({ aiMessage }) => {
                   }}
                 />
               </Box>
-            ) : (
-              ""
-            )}
-            {console.log("aiMessageLoading", aiMessage?.ai?.SearchingMessage)}
-            {aiMessage?.ai?.SearchingMessage ? (
-              <Box className={searchResultStyles.AiMessage}>
-                <Typography className="bold">
-                    {aiMessage?.ai?.SearchingMessage}
-                </Typography>
-              </Box>
-            ) : ""}
-          </>
-        )}
+            </>
+          ) : (
+            ""
+          )}
+        </>
+      )}
 
-        {/* Scroll anchor */}
-        <div ref={messagesEndRef} />
-      </Box>
-    );
+      {/* Scroll anchor */}
+      <div ref={messagesEndRef} />
+    </Box>
+  );
 };
 
 export default AiMessage;

@@ -11,8 +11,21 @@ const sendMessageSlice = createSlice({
     SearchHistorySend: null,
     ThreadUUIDsend: null,
     TopOfferUrlSend: null,
+    isPolling: {
+      status: false,
+      argument: null,
+    },
+    pollingComplete: false,
   },
   reducers: {
+    setpollingComplete: (state, action)=> {
+      state.pollingComplete = action.payload;
+    },
+    setisPolling : (state, action) => {
+      console.log("action111", action);
+      
+      state.isPolling = action.payload;
+    },
     setTopOfferUrlSend: (state, action) => {
       state.TopOfferUrlSend = action.payload;
     },
@@ -60,10 +73,26 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_id = response.run_id;
         const run_status = response.run_status;
 
+        console.log("run_status111 ", run_status);
+        
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-          console.log("Polling:", runStatusUrl);
+          
+          const funcTemplate = response.function_template?.[0];
+          const gdata = funcTemplate?.function?.arguments || {};
+          console.log("gdata_00", gdata);
+          
 
+          dispatch(
+            setMessage({
+              ai: {
+                isPolling : {
+                  status: true,
+                  argument: gdata,
+                }
+              }
+            })
+          );
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
               const interval = setInterval(() => {
@@ -71,7 +100,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(runStatusUrl)
                   .then((resRun) => {
                     const runData = resRun.data;
+                    console.log("runData.run_status", runData.function_template);
 
+                    
+                    // checking is function true before dufful flight
+                    
                     if (runData.run_status === "completed") {
                       clearInterval(interval);
                       resolve(runData);
@@ -90,7 +123,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .then((completedRun) => {
               response = completedRun;
               console.log(" Polling complete:", response);
-
+              dispatch(setpollingComplete(true))
               handleFinalResponse(response);
             })
             .catch((error) => {
@@ -109,14 +142,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       if (response?.is_function) {
-        dispatch(
-          setMessage({
-            ai: {
-              SearchingMessage:
-                "We have everything we need, now looking for flights",
-            },
-          })
-        );
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         if (allFlightSearchApi) {
@@ -124,7 +149,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           dispatch(setTopOfferUrlSend(getallFlightId));
 
           const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-
           api
             .get(historyUrl)
             .then((history_res) => {
@@ -142,6 +166,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .get(allFlightSearchApi)
             .then((flightRes) => {
               console.log("flightRes22", flightRes);
+              // dispatch(setisPolling({
+              //   status: false,
+              //   argument: null,
+              // }));
               dispatch(
                 setMessage({
                   ai: flightRes.data,
@@ -152,6 +180,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .catch(() => {});
         }
       } else {
+        // checking is function true before dufful flight
+        if (response?.run_status == "completed") {
+          // dispatch(setisPolling({
+          //   status: false,
+          //   argument: null,
+          // }));
+        }
         dispatch(
           setMessage({
             ai: { response: response?.response },
@@ -188,7 +223,7 @@ export const deleteChatThread = (uuid) => (dispatch) => {
       // dispatch(setClearChat());
     })
     .catch((err) => {
-      console.error("Error deleting thread", err.response.data.error);
+      console.error("Error deleting thread", err?.response.data?.error);
     });
 };
 
@@ -202,5 +237,7 @@ export const {
   setThreadUUIDsend,
   setClearChat,
   setTopOfferUrlSend,
+  setisPolling,
+  setpollingComplete,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

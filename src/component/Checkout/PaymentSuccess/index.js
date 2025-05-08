@@ -1,14 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Typography, Chip, Rating, Stack, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Chip,
+  Rating,
+  Stack,
+  Button,
+  TextField,
+} from "@mui/material";
 import useScrollToRef from "@/src/hooks/useScrollToRef";
+import styles from "@/src/styles/sass/components/checkout/Payment.module.scss";
 import { registerScrollFunction } from "@/src/utils/scrollManager";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const PaymentSuccess = () => {
   const [rating, setRating] = useState(null); // user-selected rating
   const [selectedReason, setSelectedReason] = useState(false); // user-selected reason
   const [successReview, setsuccessReview] = useState(false);
   // stroll
+  const PaymentStatus = useSelector((state) => state?.payment?.PaymentData);
+  console.log("order detail", PaymentStatus);
+
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
 
   const [scrollRef, scrollToRef] = useScrollToRef();
@@ -47,17 +60,37 @@ const PaymentSuccess = () => {
           <img src="/images/success-check.svg" />
         </Box>
         <Box>
-          <h4 className="regular">Congratulations, you booked your flight!</h4>
-          <Typography>
-            You and the other passengers have received a booking confirmation.
-            Install the Mylz app to monitor your flight and any potential
-            disruption.
-          </Typography>
+          {!PaymentStatus?.duffel_order?.payment_status ? (
+            <>
+              <Typography>
+                We have received your payment but there is a problem with the
+                order. We will check and get back to you
+              </Typography>
+            </>
+          ) : (
+            <>
+              <h4 className="regular">
+                Congratulations, you booked your flight!
+              </h4>
+              <Typography>
+                Your Mylz order ID is {PaymentStatus?.order?.id} with booking
+                reference number{" "}
+                {PaymentStatus?.duffel_order?.booking_reference}
+              </Typography>
+            </>
+          )}
         </Box>
       </Box>
 
       {/*  Static Rating */}
       <Box mb={3}>
+        <Typography>
+          <Typography>
+            You and the other passengers have received a booking confirmation.
+            Install the Mylz app to monitor your flight and any potential
+            disruption.
+          </Typography>
+        </Typography>
         <Typography variant="body1">
           How was your booking experience?
         </Typography>
@@ -131,6 +164,27 @@ const PaymentSuccess = () => {
                 Invite more friends
               </Link>
             </Typography>
+          </Box>
+          <Box className={styles.InviteBox} display={"flex"} gap={1} pt={2}>
+            <Box className=" formGroup">
+              <TextField
+                className={styles.formControl + " formControl"}
+                fullWidth
+                placeholder="Emails, comma separated"
+                // value={"email"}
+                // onChange={(e) => setFirstName(e.target.value)}
+                margin="normal"
+              />
+            </Box>
+            <Button
+              className="btn btn-primary btn-sm btn-round"
+              // onClick={"handleInvite"}
+              variant="contained"
+              color="success"
+              type="submit" // Important!
+            >
+              Invite
+            </Button>
           </Box>
         </>
       ) : (

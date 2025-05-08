@@ -6,11 +6,14 @@ import Link from "next/link";
 import PassengersCard from "../PassengersCard";
 import {
   PassengerForm,
+  setCaptainSuccess,
+  setFormSuccess,
   setOpenPassengerDrawer,
   setPassengerUUID,
   setPassengerUUIDfill,
 } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
+import { setpriceSummary } from "@/src/store/slices/PaymentSlice";
 
 const PassengerInfo = ({ getdata }) => {
   const dispatch = useDispatch();
@@ -25,7 +28,10 @@ const PassengerInfo = ({ getdata }) => {
   };
 
   const handlePassengerClick = (uuid, isFilled) => {
+    console.log("uuid111", isFilled);
+    
     if (!isFilled) {
+      
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
       dispatch(setOpenPassengerDrawer()); // open drawer
@@ -54,6 +60,13 @@ const PassengerInfo = ({ getdata }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
+  const IsServices = useSelector((state)=> state?.booking?.singleFlightData?.available_services);
+  console.log("IsServices", IsServices);
+
+  if (!IsServices?.length) {
+    dispatch(setpriceSummary(true));
+  }
+  
 
   return (
     <>
@@ -68,7 +81,10 @@ const PassengerInfo = ({ getdata }) => {
       >
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
+            console.log("passenger__0", passenger)
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+            console.log("isFilled", isFilled)
+            
 
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
@@ -89,7 +105,7 @@ const PassengerInfo = ({ getdata }) => {
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
-      {filledPassengerUUIDs.length > 0 && (
+      {IsServices?.length > 0 && filledPassengerUUIDs.length === getdata.length && (
         <>
           <Grid container spacing={2}>
             <Grid item xs={12}>

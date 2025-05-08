@@ -83,16 +83,14 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
               className="basecolor1"
             >
               {console.log("agreeTerms11", agreeTerms, selectedCard)}
-              <button
-                className={` btn ${
-                  selectedCard && agreeTerms ? "btn-primary" : "btn-disabled"
-                } btn-md btn-round`}
+              {/* <button
+                className={` btn btn-primary btn-md btn-round`}
                 onClick={handlePay}
               >
                 <Box display="flex" gap={1}>
                   <Box>Pay</Box>
                 </Box>
-              </button>
+              </button> */}
             </Box>
           </Box>
         </Box>

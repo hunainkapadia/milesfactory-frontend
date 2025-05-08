@@ -45,6 +45,11 @@ const Section5App = (props) => {
                   className={styles.appLogos}
                   display={"flex"}
                   sx={{
+                    paddingTop: {
+                      xs: 8,
+                      md: 0,
+                      lg: 0,
+                    },
                     flexDirection: {
                       xs: "column",
                       sm: "column",
@@ -97,7 +102,6 @@ const Section5App = (props) => {
           </Box>
         </Container>
       </Box>
-      <Footer forLight />
     </>
   );
 };

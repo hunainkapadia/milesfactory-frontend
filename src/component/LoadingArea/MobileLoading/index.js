@@ -55,8 +55,8 @@ const MobileLoading = () => {
             </Box>
             <Typography className="bold f14">
               {currencySymbols[Slectedflight?.tax_currency] ||
-                Slectedflight?.tax_currency}{" "}
-              {Slectedflight?.total_amount_plus_markup}
+                Slectedflight?.tax_currency}
+              {Math.round(Slectedflight?.total_amount)}
             </Typography>
           </Box>
         ) : (

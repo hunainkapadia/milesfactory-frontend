@@ -68,7 +68,7 @@ const LoginForm = ({  }) => {
               </Typography>
             </Box>
           </Box>
-          <LoginWithOptions />
+          <LoginWithOptions options={"Sign in"} />
 
           <Typography align="center" mb={2}>
             Enter your email and password below
