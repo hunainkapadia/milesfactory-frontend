@@ -70,7 +70,7 @@ const PaymentDrawer = ({ getFlightDetail }) => {
       open={isDrawer} // Use correct state
       onClose={HandlecloseDrawer} // Close on backdrop click
     >
-      <Box className={styles.checkoutDrower + " white-bg"}>
+      <Box className={styles.checkoutDrower + " white-bg"} width={480}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box className={styles.checkoutDrowerBody}>
             <Box className={styles.checkoutDrowerHeder} px={3}>
