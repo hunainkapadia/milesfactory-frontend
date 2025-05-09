@@ -14,11 +14,16 @@ import LoadingArea from '@/src/component/LoadingArea';
 import ButtonLoading from '@/src/component/LoadingArea/ButtonLoading';
 import { Box, CircularProgress } from '@mui/material';
 
+
+const STRIPE_PUBLIC_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "pk_test_51RAUC9PaaBt1oHi12mCzrlKhgWZdiGomdFxffVrhwjmdzjZGa5lriNO1V0snWqbZnH6jgFOGEYC5rwF4Dhzm3Ttc00kkLGG7QA";
+
 // const stripePromise = loadStripe("pk_live_51RAUC2BDuRwOLvB4Jo4ZPfyvAzkY8TlRWkMmRne2mBD5angd26kG7A3KfpnZS5Ac0s0RfJMGANwUbINKIntXvEK000pY2vHGV0");
 // // live
 
-const stripePromise = loadStripe("pk_test_51RAUC9PaaBt1oHi12mCzrlKhgWZdiGomdFxffVrhwjmdzjZGa5lriNO1V0snWqbZnH6jgFOGEYC5rwF4Dhzm3Ttc00kkLGG7QA");
+const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 // local stripe
+// API Base URL
+
 
 
 const StripePayment = () => {
