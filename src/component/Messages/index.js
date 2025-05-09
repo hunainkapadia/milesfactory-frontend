@@ -71,7 +71,7 @@ const Messages = () => {
   const SelectedFlightId = useSelector(
     (state) => state.booking?.selectedFlightId
   );
-  const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
+  
 
   // for passenger form
 
@@ -111,7 +111,7 @@ const Messages = () => {
               <Box ref={messagesEndRef} />
               {/* booking flow start */}
 
-              {getFlightKey && <BookingDrawer getFlightDetail={flightDetail} />}
+              <BookingDrawer getFlightDetail={flightDetail} />
               <PassengerDrawerForm />
               <BaggageDrawer getFlightDetail={flightDetail} />
               {FlightExpire ? (

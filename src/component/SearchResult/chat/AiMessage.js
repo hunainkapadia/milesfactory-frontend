@@ -56,6 +56,8 @@ const AiMessage = ({ aiMessage }) => {
     setShowAllFlight((prev) => !prev);
   };
   console.log("GetViewPassengers", GetViewPassengers);
+  console.log("filledPassenger", filledPassenger);
+
   
 
   const displayedGetFlights = showAllFlight
@@ -124,20 +126,20 @@ const AiMessage = ({ aiMessage }) => {
           {/* Show passenger form or loading */}
 
           {/* If all passengers are filled, show payment components */}
-          {GetViewPassengers ? (
+
+          {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
             <>
-              {/* Display PassengerInfo even if all passengers are filled */}
               <PassengerInfo getdata={GetViewPassengers} />
 
-              {/* Show PriceSummary only when all passengers are filled */}
-              {filledPassenger.length === GetViewPassengers.length ? (
-                <>
-                  <PriceSummary />
-                  <PaymentDrawer />
-                  <PaymentAddCard />
-                  {paymentSuccess ? <PaymentSuccess /> : ""}
-                </>
-              ) : null}
+              {Array.isArray(filledPassenger) &&
+                filledPassenger.length === GetViewPassengers.length && (
+                  <>
+                    <PriceSummary />
+                    <PaymentDrawer />
+                    <PaymentAddCard />
+                    {paymentSuccess && <PaymentSuccess />}
+                  </>
+                )}
             </>
           ) : (
             <Box my={3}>

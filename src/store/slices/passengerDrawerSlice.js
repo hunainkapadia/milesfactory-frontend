@@ -63,6 +63,9 @@ const passengerDrawerSlice = createSlice({
       state.PassengerData = action.payload;
     },
     setLoading: (state, action) => {
+      console.log("action_loading", action);
+      
+
       state.isLoading = action.payload;
     },
     setError: (state, action) => {
@@ -124,11 +127,13 @@ export const ViewPassengers = () => (dispatch, getState) => {
 
   const viewPassengerUrl = `/api/v1/order/${orderUuid}/passengers`;
 
+  dispatch(setLoading(true))
   api
     .get(viewPassengerUrl)
     .then((response) => {
       console.log("response000", response?.data);
       dispatch(setViewPassengers(response?.data || []));
+      dispatch(setisLoading(false))
     })
     .catch((error) => {
       console.error("fetchViewPassengers error", error);

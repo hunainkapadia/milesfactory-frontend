@@ -68,6 +68,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   
   const handleBookFlight = () => {
+    dispatch(setisLoading(true));
     if(selected) {
       setHideSelectButton(true);
     };
@@ -75,7 +76,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
       dispatch(setflightDetail(offerData)); // Store flight details
       dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
     }
-    dispatch(setisLoading());
+    
     dispatch(setflightDetail(offerData)); //dispatch selected flight detail
     dispatch(PassengerForm());
 

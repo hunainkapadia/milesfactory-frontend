@@ -66,6 +66,9 @@ const PassengerInfo = ({ getdata }) => {
   if (!IsServices?.length) {
     dispatch(setpriceSummary(true));
   }
+  const istLoading = useSelector((state) => state?.passengerDrawer?.isLoading);
+  console.log("istLoading_pass", istLoading);
+  
   
 
   return (
@@ -105,7 +108,7 @@ const PassengerInfo = ({ getdata }) => {
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
-      {!IsServices?.length || filledPassengerUUIDs.length > 0 && (
+      {IsServices?.length > 0 && filledPassengerUUIDs.length === getdata.length && (
         <>
           <Grid container spacing={2}>
             <Grid item xs={12}>
