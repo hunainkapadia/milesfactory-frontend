@@ -13,9 +13,9 @@ const HerosectionContent = () => {
          >
            <Box sx={{ px: { xs: 0, md: 2, lg: 2 } }}>
              <h1 className="h1-lg test-444">
-               Trips built by AI.
+                Stop the multi-tabs.
                <br />
-               Booked in seconds.
+               Book trips in seconds.
              </h1>
              <Typography color="white">
                Skip the markups and chaos. Mylz finds the smartest routes across
