@@ -12,7 +12,6 @@ const PassengersCard = ({
   onClickCard,
   passDetail
 }) => {
-  console.log("passDetail:", passDetail.given_name, "getdata:", getdata);
   
   return (
     <Box
@@ -30,16 +29,30 @@ const PassengersCard = ({
         </Box>
         <Box p={0} m={0}>
           {!isFilled ? (
-            <Typography className="f14 bold mb-0" mb={1}>
-              Traveller {totalPass}
-            </Typography>
+            <>
+              <Typography className="f14 bold mb-0" mb={1}>
+                Traveller {totalPass}
+              </Typography>
+              <Typography
+                textTransform={"capitalize"}
+                className={" gray f12 capitalize-first-letter"}
+              >
+                {getdata.type}
+              </Typography>
+            </>
           ) : (
-            ""
+            <>
+              <Typography className="f14 bold mb-0" mb={1}>
+                {getdata?.given_name} {getdata?.family_name}
+              </Typography>
+              <Typography
+                textTransform={"capitalize"}
+                className={" gray f12 capitalize-first-letter"}
+              >
+                {getdata.type}
+              </Typography>
+            </>
           )}
-          <Typography className="f14 bold mb-0" mb={1}>
-            {getdata?.given_name} {getdata?.family_name}
-          </Typography>
-          <Typography textTransform={"capitalize"} className={ " gray f12 capitalize-first-letter"}>{getdata.type}</Typography>
         </Box>
       </Box>
       <Box

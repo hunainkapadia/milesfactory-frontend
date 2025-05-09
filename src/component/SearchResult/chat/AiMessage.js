@@ -56,6 +56,8 @@ const AiMessage = ({ aiMessage }) => {
     setShowAllFlight((prev) => !prev);
   };
   console.log("GetViewPassengers", GetViewPassengers);
+  console.log("filledPassenger", filledPassenger);
+
   
 
   const displayedGetFlights = showAllFlight
@@ -123,24 +125,27 @@ const AiMessage = ({ aiMessage }) => {
 
           {/* Show passenger form or loading */}
 
-          {GetViewPassengers ? (
-            <PassengerInfo getdata={GetViewPassengers} />
+          {/* If all passengers are filled, show payment components */}
+
+          {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
+            <>
+              <PassengerInfo getdata={GetViewPassengers} />
+
+              {Array.isArray(filledPassenger) &&
+                filledPassenger.length === GetViewPassengers.length && (
+                  <>
+                    <PriceSummary />
+                    <PaymentDrawer />
+                    <PaymentAddCard />
+                    {paymentSuccess && <PaymentSuccess />}
+                  </>
+                )}
+            </>
           ) : (
             <Box my={3}>
               <LoadingArea />
             </Box>
           )}
-
-          {/* If all passengers are filled, show payment components */}
-          {GetViewPassengers &&
-          filledPassenger.length === GetViewPassengers.length ? (
-            <>
-              <PriceSummary />
-              <PaymentDrawer />
-              <PaymentAddCard />
-              {paymentSuccess ? <PaymentSuccess /> : ""}
-            </>
-          ) : null}
         </>
       ) : (
         ""
@@ -219,7 +224,9 @@ const AiMessage = ({ aiMessage }) => {
                       "displayedGetFlights_length",
                       aiMessage?.ai?.isPolling
                     )}
-                    <PollingMessage PollingData={aiMessage?.ai?.isPolling?.argument} />
+                    <PollingMessage
+                      PollingData={aiMessage?.ai?.isPolling?.argument}
+                    />
                   </>
                 )}
                 <Typography
