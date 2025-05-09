@@ -85,8 +85,8 @@ const ThreadDrawer = ({ getFlightDetail }) => {
               return (
                 <>
                   <Box pb={3}>
-                    <Typography className={``}>{getdata?.name}</Typography>
-                    <Typography>
+                    <Typography className="f12">{getdata?.name}</Typography>
+                    {/* <Typography className="f12">
                       {new Date(getdata?.created_date).toLocaleString("en-GB", {
                         day: "2-digit",
                         month: "short",
@@ -95,7 +95,7 @@ const ThreadDrawer = ({ getFlightDetail }) => {
                         minute: "2-digit",
                         hour12: false,
                       })}
-                    </Typography>
+                    </Typography> */}
                   </Box>
                 </>
               );

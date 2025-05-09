@@ -31,7 +31,7 @@ const StripePayment = () => {
   
   const orderUUID = useSelector((state)=> state.passengerDrawer.OrderUuid);
   const dispatch = useDispatch();
-  console.log("paymentComplete", paymentComplete);
+  console.log("paymentComplete", paymentComplete, orderUUID);
   
 
   useEffect(() => {

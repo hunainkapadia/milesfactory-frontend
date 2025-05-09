@@ -78,16 +78,12 @@ const PassengerInfo = ({ getdata }) => {
           Ready to fly? Let’s add traveller details.
         </Typography>
       </Box>
-      <Box
-        variant="outlined"
-        className={searchResultStyles.PassengersSection}
-      >
+      <Box variant="outlined" className={searchResultStyles.PassengersSection}>
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
-            console.log("passenger__0", passenger)
+            console.log("passenger__0", passenger);
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-            console.log("isFilled", isFilled)
-            
+            console.log("isFilled", isFilled);
 
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
@@ -108,38 +104,40 @@ const PassengerInfo = ({ getdata }) => {
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
-      {IsServices?.length > 0 && filledPassengerUUIDs.length === getdata.length && (
-        <>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Box py={4}>
-                <Typography>
-                  Select now your seats and extra baggage.
-                </Typography>
-              </Box>
+      {IsServices?.length > 0 &&
+        filledPassengerUUIDs.length === getdata.length && (
+          <>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Box py={4}>
+                  <Typography>
+                    Select now your seats and extra baggage.
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-          <Box className={searchResultStyles.ExtraServicesWraper}>
-            <Grid
-              container
-              spacing={2}
-              className={searchResultStyles.ExtraServicesGrid}
-            >
-              {getdata
-                ?.filter((passenger) =>
-                  filledPassengerUUIDs.includes(passenger.uuid)
-                ) // Filter only filled
-                .map((passenger, index) => (
-                  <ExtraServices
-                    key={passenger.uuid}
-                    getServicesdata={passenger}
-                    selectedFlight={getselectedFlight}
-                  />
-                ))}
-            </Grid>
-          </Box>
-        </>
-      )}
+            <Box className={searchResultStyles.ExtraServicesWraper}>
+              <Grid
+                container
+                spacing={2}
+                className={searchResultStyles.ExtraServicesGrid}
+              >
+                {console.log("getdata_00", getdata, "filledPassengerUUIDs", filledPassengerUUIDs)}
+                {getdata
+                  ?.filter((passenger) =>
+                    filledPassengerUUIDs.includes(passenger.uuid)
+                  ) // Filter only filled
+                  .map((passenger, index) => (
+                    <ExtraServices
+                      key={passenger.uuid}
+                      getServicesdata={passenger}
+                      selectedFlight={getselectedFlight}
+                    />
+                  ))}
+              </Grid>
+            </Box>
+          </>
+        )}
 
       {/* {getPassFormData ? (
           <>
