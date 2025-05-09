@@ -13,7 +13,7 @@ const Section5App = (props) => {
           >
             <Grid container spacing={3}>
               <Grid item xs={12} md>
-                <Box
+                <Box display={"none"}
                   sx={{
                     paddingTop: {
                       xs: 0,
@@ -41,9 +41,9 @@ const Section5App = (props) => {
                     </h1>
                   </Box>
                 </Box>
-                <Box
+                <Box display={"none"}
                   className={styles.appLogos}
-                  display={"flex"}
+                  // display={"flex"}
                   sx={{
                     paddingTop: {
                       xs: 8,

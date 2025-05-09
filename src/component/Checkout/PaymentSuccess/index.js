@@ -60,6 +60,7 @@ const PaymentSuccess = () => {
           <img src="/images/success-check.svg" />
         </Box>
         <Box>
+        {console.log("duffel_order", PaymentStatus?.duffel_order)}
           {!PaymentStatus?.duffel_order?.payment_status ? (
             <>
               <Typography>

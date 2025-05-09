@@ -173,7 +173,7 @@ const AiMessage = ({ aiMessage }) => {
           </Box>
 
           {/* Toggle button */}
-          {!GetViewPassengers ? (
+          {!GetViewPassengers.length > 0 ? (
             <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
               <Link href={"#"} className="text-decoration-none">
                 <Box

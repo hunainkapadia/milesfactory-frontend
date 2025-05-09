@@ -65,7 +65,7 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
               >
                 <Box mb={4} className="white">
-                  <h1 className="h1-lg mb-0 white">600k +</h1>
+                  <h1 className="h1-lg mb-0 white">700k +</h1>
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>
                 <Box>

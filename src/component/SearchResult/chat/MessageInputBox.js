@@ -161,8 +161,8 @@ const MessageInputBox = ({ isMessageHome, isSticky }) => {
                 </Box>
                 {!isMessageHome ? (
                   <>
-                    <Box
-                      sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
+                    <Box display={"none"}
+                      // sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
                       gap={2}
                       mt={2}
                       justifyContent={"center"}
