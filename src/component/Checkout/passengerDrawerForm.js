@@ -133,11 +133,11 @@ const PassengerDrawerForm = () => {
         anchor="right"
         open={isPassengerDrawerOpen}
         onClose={handleCloseDrawer}
-        className={`${styles.BaggageDrawer} BaggageDrawer`}
+        className={`${styles.checkoutDrower} checkoutDrower00`}
         transitionDuration={300}
       >
         <Box
-          className={`${styles.checkoutDrower + " checkoutDrower"} white-bg ${
+          className={`${styles.checkoutDrower + " checkoutDrower"} bbb white-bg ${
             styles.PassengerDrower
           }`}
           width={480}
@@ -148,7 +148,7 @@ const PassengerDrawerForm = () => {
               SubmitPassenger(); // Call login
             }}
           >
-            <Box className={styles.checkoutDrowerSection + " white-bg"}>
+            <Box className={styles.checkoutDrowerSection + " aa white-bg"}>
               <Box px={3}>
                 <Box
                   className={styles.checkoutDrowerHeder}

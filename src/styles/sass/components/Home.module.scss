@@ -43,10 +43,17 @@
 }
 
 .AppSection {
-  background: linear-gradient(to bottom, $basecolor1-sky 60%, $white 50%);
-  padding: 100px 0 60px;
+  background: linear-gradient(to bottom, $basecolor1-sky 90%, $white 50%);
+  
+  padding: 100px 0 0;
+  
 
-  .MobileDevice {}
+  .MobileDevice {
+    position: absolute;
+  }
+  .AppSectionRight {
+    padding: 60px 0 178px;
+  }
 }
 
 .HomeBanner {
@@ -208,6 +215,13 @@
 @media only screen and (max-width: 767px) {
   .AppSection {
     padding: 40px 0 50px;
+    background: linear-gradient(to bottom, $basecolor1-sky 75%, $white 50%);
+    .MobileDevice {
+      position: relative;
+    }
+    .AppSectionRight {
+      padding: 60px 0 0;
+    }
     .appLogos {gap: 17px;
       .appLogo {width: 248px;
         height: 100%;

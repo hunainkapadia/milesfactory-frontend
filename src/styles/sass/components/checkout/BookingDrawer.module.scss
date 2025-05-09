@@ -234,6 +234,14 @@
 }
 @include for-mobile-large-screen {
    
+   .checkoutDrower {
+      width: 100%;
+      >div {
+         width: 100%;
+      }
+      &.checkoutDrower .checkoutDrower {width: 100%;}
+
+   }
    
    .selectFlightBtn {
       padding-left: 20px !important;

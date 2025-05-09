@@ -13,6 +13,7 @@ const Section5App = (props) => {
           >
             <Grid container spacing={3}>
               <Grid item xs={12} md>
+              <Box className={styles.AppSectionRight}>
                 <Box display={"none"}
                   sx={{
                     paddingTop: {
@@ -80,6 +81,7 @@ const Section5App = (props) => {
                     <img height={63} src="/images/app-app-store.svg" />
                   </Box>
                 </Box>
+              </Box>
               </Grid>
               <Grid
                 item
