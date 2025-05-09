@@ -51,7 +51,7 @@
 
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
-      padding: 0 15px;
+      padding: 0;
       flex: 1;
       overflow-y: auto;
       .checkoutDrowerSection {
@@ -255,7 +255,7 @@
       }
    .checkoutDrower {width: 100%;
       .checkoutDrower {width: 100%;}
-      padding: 0 15px;
+      padding: 0;
       .checkoutDrowerSection {
          height: 100%;
          width: 100%;
