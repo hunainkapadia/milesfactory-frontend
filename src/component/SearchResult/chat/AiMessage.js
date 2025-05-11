@@ -214,8 +214,10 @@ const AiMessage = ({ aiMessage }) => {
         // Default AI response
         <>
           {/* {console.log("aiMessage111", aiMessage?.ai)} */}
-          {console.log("ai_test111", aiMessage?.ai?.response)}
-          {!aiMessage?.ai?.response?.results ? (
+          {console.log("ai_test111", aiMessage?.ai?.newThread)}
+          {!aiMessage?.ai?.response?.results ||
+          aiMessage?.ai?.newThread ||
+          aiMessage?.ai?.deleteThread ? (
             <>
               <Box className={searchResultStyles.AiMessage + " aaa"}>
                 {aiMessage?.ai?.isPolling?.status && (
@@ -232,7 +234,11 @@ const AiMessage = ({ aiMessage }) => {
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(
-                      sanitizeResponse(aiMessage?.ai?.response)
+                      sanitizeResponse(
+                        aiMessage?.ai?.response ||
+                          aiMessage?.ai?.newThread ||
+                          aiMessage?.ai?.deleteThread
+                      )
                     ),
                   }}
                 />

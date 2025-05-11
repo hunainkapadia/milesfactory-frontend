@@ -13,8 +13,10 @@ import LabelAnimation from "../../home/LabelAnimation";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
 
-const MessageInputBox = ({ isMessageHome, isSticky }) => {
-  console.log("isMessageHome", isMessageHome);
+const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
+  
+  
+  console.log("HeaderInput", HeaderInput);
   const inputRef = useRef(null); // Add this
   const recognitionRef = useRef(null); // voice recognition instance
   const [isListening, setIsListening] = useState(false);
@@ -78,15 +80,18 @@ const MessageInputBox = ({ isMessageHome, isSticky }) => {
   };
     const isPolling = useSelector((state) => state.sendMessage?.isPollingComplete);
   return (
-    <section>
+    
       <Box
         className={`${
           isMessageHome
             ? inputStyles.SearchBoxSectionActive
-            : inputStyles.SearchBoxSection 
-        } ${isSticky ? inputStyles.SearchBoxSticky : ""}`}
+            : inputStyles.SearchBoxSection // for all input use
+        } ${HeaderInput ? inputStyles.HeaderInput : ""} ${
+          // for input sticky
+          isSticky ? inputStyles.InputSticky : ""
+        }`}
       >
-        <Box className={styles.Content}>
+        <Box className={styles.Content + " " + inputStyles.Content}>
           <Box
             className={styles.ContentIn}
             textAlign={"center"}
@@ -161,7 +166,8 @@ const MessageInputBox = ({ isMessageHome, isSticky }) => {
                 </Box>
                 {!isMessageHome ? (
                   <>
-                    <Box display={"none"}
+                    <Box
+                      display={"none"}
                       // sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
                       gap={2}
                       mt={2}
@@ -234,7 +240,7 @@ const MessageInputBox = ({ isMessageHome, isSticky }) => {
           </Box>
         </Box>
       </Box>
-    </section>
+    
   );
 };
 

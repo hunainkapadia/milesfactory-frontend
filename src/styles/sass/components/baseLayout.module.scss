@@ -162,8 +162,10 @@
       }
     }
    
-    .Header {height: 54px;
-      display: flex;align-items: center;
+    .Header {
+      .Box {
+         height: 54px;
+      }
       .Dropdown {padding: 20px 20px; height: 54px;
          .DropdownItems {
             left: -90px;

@@ -62,7 +62,7 @@ const ChatByUUID = () => {
                 className={inputStyles.SearchBoxGrid}
                 sx={{ width: "100%", margin: 0 }}
               >
-                <Container>
+                <Container className={inputStyles.SearchBoxContainer}>
                   <Grid container>
                     <Grid item md={8} lg={8} xs={12}>
                       <MessageInputBox isMessageHome={isMessage} />

@@ -25,7 +25,7 @@ const Navbar = () => {
           Contact support
         </Box>
         <Box component={Link} href="#" className={styles.navItem}>
-            Give feedback
+            💬 Share an idea or feedback
         </Box>
 
         <Box component={Link} href="#" className={styles.navItem}>

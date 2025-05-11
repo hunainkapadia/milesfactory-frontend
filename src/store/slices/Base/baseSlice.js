@@ -5,12 +5,16 @@ const initialState = {
   LoginError: "",
   ThreadDrawer: false,
   ThreadData: null,
+  currentUser: "",
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setCurrentUser: (state, action)=> {
+      state.currentUser = action.payload;
+    },
     setThreadData: (state, action)=> {
       console.log("thread_action", action);
       
@@ -44,6 +48,7 @@ export const {
   setSectionActive,
   setThreadDrawer,
   setThreadData,
+  setCurrentUser,
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

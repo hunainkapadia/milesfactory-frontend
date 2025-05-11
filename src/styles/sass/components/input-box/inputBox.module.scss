@@ -1,10 +1,6 @@
 @import "../../_variables.scss";
 
-// .SearchBoxSticky {
-//    display: flex;
-//    justify-content: center;
-//    align-items: center;
-// }
+
 .SearchBoxGrid {
    position: fixed;
    width: 100%;
@@ -17,6 +13,9 @@
    background-size: cover;
    background-position: bottom center;
    background-repeat: no-repeat;
+   .SearchBoxContainer {
+      padding: 0 10px;
+   }
 }
 .SearchBoxSectionActive {
    .SearchBoxContainer {
@@ -89,73 +88,127 @@
 }
 
 
-.SearchBoxSection .SearchBoxContainer {
-   position: relative;
-   width: 100%;
-
-   .label {
-      pointer-events: none;
-      user-select: none; 
-      position: absolute;
-      z-index: 3;
-      color: #D3D3D3 !important;
-      top: 12px;
-      left: 18px;
-      line-height: 150%;
-   }
-
-   .SearchForm {
-      outline: none;
-         min-height: 86px !important;
-         padding: 10px 45px 10px 16px;
-         background: #0B1729;
-         border: 1px solid #F7F7F7;
-         border-radius: 16px;
-         color: #D3D3D3;
-         text-align: center;
-         
-   }
-
-   .SearchButtonBox {
+.SearchBoxSection {
+   &.HeaderInput {
       display: flex;
-      align-items: flex-end;
-      padding: 15px;
-      position: absolute;
-      z-index: 1;
-      bottom: 0;
-      right: 0;
-      gap: 8px;
-      .SearchButton {
-         width: 25px;
-         height: 25px;
-         background-color: $basecolor1;
-         @include border-radius(100px);
-         color: $black;
-         font-size: $bfsize;
-      }
-      .MicButton {
-         width: 25px;
-         height: 25px;
-         padding: 0;
-         @include border-radius(100px);
-         color: $white;
-         font-size: $bfsize;
-         border: solid 1px $lightgray2;
-         i  {font-size: 12px;}
-         &:hover {
-            background-color: $basecolor1;
-            color: $white;
+      justify-content: center;
+      align-items: center;
+      margin-top: -2px;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      display: none;
+      &.InputSticky {
+         display: flex;
+         transform: translateY(0);
+         opacity: 1;
+         .Content {
+            width: 756px;
+            background-image: url("/images/input-sticky-bg.svg");
+            background-size: 100%;
+            background-position: bottom center;
+            height: 58px;
+            padding: 4px 50px 0;
+            background-repeat: no-repeat;
+   
+            .SearchForm {
+               min-height: 43px;
+               background-color: $white;
+               color: $basecolor;
+            }
+            .SearchButtonBox {
+               padding: 10px 15px;
+               .MicButton {
+                  color: $gray;
+               }
+            }
          }
       }
+      
    }
+   .SearchBoxContainer {
+      position: relative;
+      width: 100%;
 
-   i {}
+      .label {
+         pointer-events: none;
+         user-select: none; 
+         position: absolute;
+         z-index: 3;
+         color: #D3D3D3 !important;
+         top: 12px;
+         left: 18px;
+         line-height: 150%;
+      }
 
+      .SearchForm {
+         outline: none;
+            min-height: 86px;
+            padding: 10px 45px 10px 16px;
+            background: #0B1729;
+            border: 1px solid #F7F7F7;
+            border-radius: 16px;
+            color: #D3D3D3;
+            text-align: center;
+            
+      }
+
+      .SearchButtonBox {
+         display: flex;
+         align-items: flex-end;
+         padding: 15px;
+         position: absolute;
+         z-index: 1;
+         bottom: 0;
+         right: 0;
+         gap: 8px;
+         .SearchButton {
+            width: 25px;
+            height: 25px;
+            background-color: $basecolor1;
+            @include border-radius(100px);
+            color: $black;
+            font-size: $bfsize;
+         }
+         .MicButton {
+            width: 25px;
+            height: 25px;
+            padding: 0;
+            @include border-radius(100px);
+            color: $white;
+            font-size: $bfsize;
+            border: solid 1px $lightgray2;
+            i  {font-size: 12px;}
+            &:hover {
+               background-color: $basecolor1;
+               color: $white;
+            }
+         }
+      }
+
+      i {}
+
+   }
 }
 
 
 @include for-mobile-large-screen {
-
+   .SearchBoxSection {
+      &.HeaderInput {
+         &.InputSticky {
+            position: absolute;
+            width: 100%;
+            top: 60px;
+            left: 0px;
+            .Content {
+               background-color: $white;
+               padding: 4px 15px 5px;
+               @include border-radius(0px 0px 12px 12px);
+            }
+         }
+      }
+   }
+      
    .SearchBoxSectionActive {
       .SearchBoxContainer {
          .SearchForm {
