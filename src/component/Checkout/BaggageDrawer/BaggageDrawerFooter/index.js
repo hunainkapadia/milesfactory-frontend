@@ -16,7 +16,7 @@
   import { currencySymbols } from "@/src/utils/utils";
 import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
 
-  const BaggageDrawerFooter = ({ getFlightDetails, newCount }) => {
+  const BaggageDrawerFooter = ({ getFlightDetails, newCount, totalInitialBaggagePrice }) => {
     const dispatch = useDispatch();
     const HandlecloseDrawer = () => {
       dispatch(setBaggageDrawer(false));
@@ -40,6 +40,9 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
     const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
     const totalAmount = Math.round(WithtaxAmount);
     const baggageAddData = useSelector((state)=> state.bagage.baggageAddData);
+
+    console.log("totalInitialBaggagePrice_0", totalInitialBaggagePrice);
+    
     return (
       <Box
         className={styles.BaggageDrawerFooter + " test11"}
@@ -77,7 +80,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
                       <span>
                         {currencySymbols[getFlightDetails?.tax_currency]}
                         {
-                          baggageAddData?.total_amount_plus_markup_and_all_services
+                          totalInitialBaggagePrice
                         }
                       </span>
                     </h4>

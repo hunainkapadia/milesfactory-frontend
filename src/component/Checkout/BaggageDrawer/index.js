@@ -508,6 +508,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
         <BaggageDrawerFooter
           newCount={totalBaggageCount}
+          totalInitialBaggagePrice = {totalInitialBaggagePrice.toFixed(2)}
           HandlecloseDrawer={HandlecloseDrawer}
           getFlightDetails={getFlightDetail}
         />
