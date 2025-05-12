@@ -79,9 +79,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
                     >
                       <span>
                         {currencySymbols[getFlightDetails?.tax_currency]}
-                        {
-                          totalInitialBaggagePrice
-                        }
+                        {totalInitialBaggagePrice}
                       </span>
                     </h4>
                   </Box>
@@ -103,7 +101,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
             >
               {/* Close Button */}
               <Box
-                display="flex"
+                sx={{ display: { xs: "none", md: "flex", lg: "flex" } }}
                 alignItems="center"
                 gap={2}
                 className="gray f14"
@@ -124,7 +122,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
                   <button
                     className={
                       styles.selectFlightBtn +
-                      " btn btn-primary btn-md btn-round"
+                      " btn btn-primary btn-md sm btn-round"
                     }
                     onClick={handleRemoveBaggage}
                   >
@@ -136,7 +134,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
                   <button
                     className={
                       styles.selectFlightBtn +
-                      " btn btn-primary btn-md btn-round"
+                      " btn btn-primary btn-md sm btn-round"
                     }
                     onClick={handleAddBaggage}
                   >

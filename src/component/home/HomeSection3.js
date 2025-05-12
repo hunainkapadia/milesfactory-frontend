@@ -148,6 +148,17 @@ const HomeSection3 = (props) => {
             </Grid>
             {/*  */}
           </Grid>
+          <Box mt={5}>
+              <Link
+                href={"#HomeSection3"}
+                className={styles.footerBtn + " white text-decoration-none"}
+              >
+                <Typography className="align-center white">
+                  🔍 Prices pulled directly from other platforms on their live website. All bookings made on Mylz.
+                  seconds.
+                </Typography>
+              </Link>
+            </Box>
           <Link
             href={"#HomeSection4"}
             className={styles.footerBtn + " white text-decoration-none"}

@@ -193,6 +193,11 @@
 
 
 @include for-mobile-large-screen {
+   .SearchBoxGrid {
+      .SearchBoxContainer {
+         padding: 0 5px;
+      }
+   }
    .SearchBoxSection {
       &.HeaderInput {
          &.InputSticky {

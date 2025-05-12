@@ -177,17 +177,17 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   </Box>
                 </Link>
               </Box>
-              <Typography mb={4} className="f12 basecolor">
-                Mylz uses AI to find you the cheapest flights, accommodations,
-                and experiences. Bundle together for even more savings.
+              <Typography mb={4} className="f12 basecolor1-dark2">
+                Mylz uses AI to find the cheapest flights, trains, stays and
+                experiences. Bundle together for even more savings.
               </Typography>
               <Typography className="f12 basecolor">
-                🍪 We do not like cookie banners (they’re simpy annoying) and we
-                take privacy compliance very seriously. That’s why we are not
-                using any cookies that are not essential to the functioning of
-                the website and we do not use any tracking scripts or analytics.
-                Therefore we eliminated the need for cookie consent banners and
-                do not track you in any way.
+                🍪 We do not like cookies and take privacy compliance very
+                seriously. That’s why we are not using any cookies that are not
+                essential to the functioning of the website and we do not use
+                any tracking scripts. Therefore we eliminated the need for
+                cookie consent banners and do not track you in any way during
+                your travel search.
               </Typography>
             </Box>
           </Container>
