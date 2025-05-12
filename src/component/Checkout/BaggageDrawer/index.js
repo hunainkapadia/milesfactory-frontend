@@ -116,9 +116,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
     if (passengerData) {
       const checkedAmount =
-        passengerData.initial_checked_bag?.service_duffel_amount || 0;
+        passengerData.initial_checked_bag?.service_amount || 0;
       const carryOnAmount =
-        passengerData.initial_carry_on_bag?.service_duffel_amount || 0;
+        passengerData.initial_carry_on_bag?.service_amount || 0;
       totalInitialBaggagePrice += checkedAmount + carryOnAmount;
     }
   });
@@ -267,12 +267,12 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                         console.log(
                           "passengerData_cehcked",
                           passengerData?.initial_checked_bag
-                            ?.service_duffel_amount
+                            ?.service_amount
                         );
                         console.log(
                           "passengerData_carry",
                           passengerData?.initial_carry_on_bag
-                            ?.service_duffel_amount
+                            ?.service_amount
                         );
 
                         checkedBagOptions =
@@ -474,7 +474,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
                     <Typography className="bold basecolor1">
                       {currencySymbols[getFlightDetail?.tax_currency]}
-                      {totalInitialBaggagePrice.toFixed(2)}
+                      {totalInitialBaggagePrice.toFixed(0)}
                     </Typography>
                   </Box>
                   <Box>
