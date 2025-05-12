@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import HomeHeroSection from "../component/HomeHeroSection";
 import { fetchMessages } from "../store/slices/GestMessageSlice";
 import Footer from "../component/layout/Footer";
-import { deleteChatThread, setThreadUUIDsend } from "../store/slices/sendMessageSlice";
+import {OnlydeleteChatThread, setThreadUUIDsend } from "../store/slices/sendMessageSlice";
 import HomeSection3 from "../component/home/HomeSection3";
 import HomeSection4 from "../component/home/HomeSection4";
 import HomeSection2 from "../component/home/HomeSection2";
@@ -25,31 +25,12 @@ const Home = () => {
 
   //  Combine stored messages (live chat) with fetched messages (history)
   const isMessage = [...getmessages, ...sendMessages];
-  
 
   const uuid = useSelector((state) => state.sendMessage.ThreadUUIDsend); // <-- Adjust based on your store
-
   
-  const router = useRouter();
-  useEffect(() => {
-    if (sendMessages.length > 0 && uuid) {
-      router.push(`/chat/${uuid}`);
-    }
-  }, [sendMessages.length, uuid]);
-  
-  
-  
-  
-  useEffect(() => {
-    const localUUID = sessionStorage.getItem("chat_thread_uuid");
-    if (localUUID) {
-      dispatch(deleteChatThread(localUUID));   // Delete thread from server
-      dispatch(setThreadUUIDsend(null));       // Clear from Redux + localStorage
-      sessionStorage.removeItem("chat_thread_uuid");
-    } {
-      ""
-    }
-  }, []);
+  useEffect(()=> {
+    dispatch(OnlydeleteChatThread())
+  }, [0])
 
   return (
     <>

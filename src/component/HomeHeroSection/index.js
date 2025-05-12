@@ -6,10 +6,6 @@ import styles from "@/src/styles/sass/components/Home.module.scss";
 import Footer from "../layout/Footer";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
-import {
-  deleteChatThread,
-  setThreadUUIDsend,
-} from "@/src/store/slices/sendMessageSlice";
 
 const HomeHeroSection = () => {
   //  Get past messages from API (GET)

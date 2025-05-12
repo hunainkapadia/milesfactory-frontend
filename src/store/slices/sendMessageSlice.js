@@ -238,18 +238,17 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
     });
 };
 
-export const deleteChatThread = (followUpMessage = null) => (dispatch, getState) => {
+export const deleteAndCreateThread = (followUpMessage = null) => (dispatch, getState) => {
   let getuser = getState().base.currentUser;
     
   const uuid = sessionStorage.getItem("chat_thread_uuid");
   if (!uuid) return;
 
   const url = `/api/v1/chat/thread/${uuid}/delete`;
-
   api
-    .delete(url)
-    .then((res) => {
-      if (res) {
+  .delete(url)
+  .then((res) => {
+    if (res) {
         // Clear previous chat history/messages in Redux store
         dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
 
@@ -283,6 +282,25 @@ export const deleteChatThread = (followUpMessage = null) => (dispatch, getState)
     })
     .catch((err) => {
       console.error("Error deleting thread", err);
+    });
+};
+
+export const OnlydeleteChatThread = (followUpMessage = null) => (dispatch, getState) => {
+  const uuid = sessionStorage.getItem("chat_thread_uuid");
+  if (!uuid) return;
+
+  const url = `/api/v1/chat/thread/${uuid}/delete`;
+  api
+  .delete(url)
+  .then((res) => {
+    if (res) {
+        // Clear previous chat history/messages in Redux store
+        dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
+        sessionStorage.removeItem("chat_thread_uuid");
+      }
+    })
+    .catch((err) => {
+      console.error("Error deleting thread", err?.response?.data?.error);
     });
 };
 

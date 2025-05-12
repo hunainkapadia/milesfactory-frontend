@@ -44,7 +44,7 @@ import SignUpForm from "../../Auth/SignupForm";
 import ThreadDrawer from "../../SearchResult/ThreadDrawer";
 import { setCurrentUser, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
-import { createThreadAndRedirect, deleteChatThread, setThreadUUIDsend } from "@/src/store/slices/sendMessageSlice";
+import { createThreadAndRedirect, deleteAndCreateThread, deleteChatThread, setThreadUUIDsend } from "@/src/store/slices/sendMessageSlice";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -157,16 +157,8 @@ const Header = ({ isMessage, IsActive }) => {
 
   const router = useRouter();
   const logoHandle = () => {
-    if (router.pathname !== "/") {
-      // Navigate to Home
-      router.push("/").then(() => {
-        // Force page refresh after routing to Home
-        window.location.reload();
-      });
-    } else {
-      // Already on Home — just refresh
-      window.location.reload();
-    }
+    dispatch(deleteAndCreateThread()); // No then, no async
+    router.push("/")
   };
   const ChatClearHandle = () => {
     Cookies.remove("sessionid"); // Clear the cookie
@@ -185,7 +177,7 @@ const Header = ({ isMessage, IsActive }) => {
     dispatch(createThreadAndRedirect(router));
   };
   const HandleNewThread = () => {
-    dispatch(deleteChatThread()); // No then, no async
+    dispatch(deleteAndCreateThread()); // No then, no async
   };
 
 
@@ -229,7 +221,8 @@ const Header = ({ isMessage, IsActive }) => {
               </Box>
 
               <Box className={styles.Logo + " cursor-pointer"}>
-                <Box onClick={logoHandle}>
+                <Box  component="a"
+  href="/">
                   <Box className="d-flex align-items-center">
                     {isSticky || isMessage || IsActive ? (
                       <img src="/images/logo-color2.svg" />

@@ -12,6 +12,7 @@ import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.
 import LabelAnimation from "../../home/LabelAnimation";
 import { sendMessage } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
   
@@ -20,11 +21,12 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
   const inputRef = useRef(null); // Add this
   const recognitionRef = useRef(null); // voice recognition instance
   const [isListening, setIsListening] = useState(false);
+  const [getuuid, setGetuuid] = useState(null);
 
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const sendMessages = useSelector(
     (state) => state.sendMessage?.messages.length || 0
   );
@@ -34,7 +36,20 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
     (state) => state.getMessages.messages.length || 0
   );
   const isMessage = sendMessages > 0 || getmessages > 0; //check message length
+  const uuid = useSelector((state) => state?.sendMessage?.ThreadUUIDsend); // <-- Adjust based on your store
+  
+  
+  
+  
   // for search button triger
+  
+  useEffect(() => {
+    const storedUuid = sessionStorage.getItem("chat_thread_uuid");
+    setGetuuid(storedUuid)
+  }, []);
+  
+  
+  
   const handleSearch = () => {
     if (!userMessage.trim()) return;
     if (inputRef.current) {
@@ -42,6 +57,7 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
     } // clears actual on-screen input
     dispatch(sendMessage(userMessage)); //  Sends message to API (POST)
     setUserMessage(""); //  Clears input after sending
+    router.push(`/chat/${getuuid}`);
   };
 
   useEffect(() => {
@@ -78,7 +94,7 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
     }
     setIsListening((prev) => !prev);
   };
-    const isPolling = useSelector((state) => state.sendMessage?.isPollingComplete);
+  const isPolling = useSelector((state) => state.sendMessage?.isPollingComplete);
   return (
     
       <Box
