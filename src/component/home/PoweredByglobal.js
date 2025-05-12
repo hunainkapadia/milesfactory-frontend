@@ -25,12 +25,20 @@ const PoweredByglobal = (props) => {
               </h2>
             </Box>
           </Box>
-          <Grid width={"100%"} item xs={12} md={12} container columnSpacing={3}>
+          <Grid
+            width={"100%"}
+            item
+            xs={12}
+            md={12}
+            container
+            sx={{ gap: { lg: 0, md: 0, xs: 3 } }}
+          >
             <Grid item xs={12} lg={4} md={4}>
               <Box
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
+                textAlign={"center"}
               >
                 <Box mb={4} className="white">
                   <h1 className="h1-lg mb-0 white">200 +</h1>
@@ -46,6 +54,7 @@ const PoweredByglobal = (props) => {
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
+                textAlign={"center"}
               >
                 <Box mb={4} className="white">
                   <h1 className="h1-lg mb-0 white">800 +</h1>
@@ -63,6 +72,7 @@ const PoweredByglobal = (props) => {
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
+                textAlign={"center"}
               >
                 <Box mb={4} className="white">
                   <h1 className="h1-lg mb-0 white">700k +</h1>
