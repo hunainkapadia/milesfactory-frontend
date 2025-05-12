@@ -100,6 +100,7 @@ export const baggage = (flightId) => (dispatch, getState) => {
 
   // Extract only the UUID from the URL
 };
+// for add baggage
 export const addBaggage = () => (dispatch, getState) => {
   const state = getState();
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
@@ -111,13 +112,36 @@ export const addBaggage = () => (dispatch, getState) => {
     .then((res) => {
       console.log("state_resss", res.data);
       dispatch(setbaggageAddData(res.data));
+      dispatch(baggage());
       console.log("Baggage added:", res);
     })
     .catch((error) => {
-      console.log(" ", error.response.data);
-      dispatch(setBaggageError(error.response.data));
+      console.log("add errr ", error.response.data);
+      dispatch(setbaggageAddData(error.response.data));
     });
 };
+// for add baggage
+export const removeBaggage = () => (dispatch, getState) => {
+  const state = getState();
+  const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
+
+  const removeUrl = `/api/v1/passenger/baggage/${selectedBaggagesUUID}/remove`;
+  console.log("state_uuid", removeUrl);
+
+  api
+    .post(removeUrl)
+    .then((res) => {
+      console.log("state_resss", res.data);
+      dispatch(setbaggageAddData(res.data)); // Update store with new baggage state
+      console.log("Baggage removed:", res);
+      dispatch(baggage());
+    })
+    .catch((error) => {
+      console.log("remove err ", error.response?.data || error.message);
+      dispatch(setbaggageAddData(error.response?.data || { detail: "Error removing baggage" }));
+    });
+};
+
 
 export const {
   setLoading,
