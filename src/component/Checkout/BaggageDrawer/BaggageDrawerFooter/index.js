@@ -14,9 +14,9 @@
   import { setMessage } from "@/src/store/slices/sendMessageSlice";
   import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
   import { currencySymbols } from "@/src/utils/utils";
-import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
+import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
 
-  const BaggageDrawerFooter = ({ getFlightDetails }) => {
+  const BaggageDrawerFooter = ({ getFlightDetails, newCount, totalInitialBaggagePrice }) => {
     const dispatch = useDispatch();
     const HandlecloseDrawer = () => {
       dispatch(setBaggageDrawer(false));
@@ -25,15 +25,24 @@ import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
     const PassengerData = useSelector((state) => state.passengerDrawer);
     
     
+    console.log("newCount", newCount);
+
     const handleAddBaggage = () => {
       dispatch(addBaggage());
     };
+    const handleRemoveBaggage = () => {
+      dispatch(removeBaggage());
+    };
+    
 
     const personQuantity = getFlightDetails?.passengers.length;
     const Passengers = Number(getFlightDetails?.per_passenger_amount) * personQuantity;
     const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
     const totalAmount = Math.round(WithtaxAmount);
     const baggageAddData = useSelector((state)=> state.bagage.baggageAddData);
+
+    console.log("totalInitialBaggagePrice_0", totalInitialBaggagePrice);
+    
     return (
       <Box
         className={styles.BaggageDrawerFooter + " test11"}
@@ -57,34 +66,30 @@ import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
             width={"100%"}
           >
             {/* Price Section */}
-            <Box
-              display={"flex"}
-              flexDirection="column"
-            >
-            {baggageAddData &&
-            <>
-              <Box
-                className={styles.priceSection}
-                display="flex"
-                alignItems="center"
-              >
-                <h4
-                  className={styles.price + " exbold mb-0 basecolor-dark"}
-                >
-                  <span>
-                    {currencySymbols[getFlightDetails?.tax_currency]}
-                    {baggageAddData?.total_amount_plus_markup_and_all_services}
-                  </span>
-                </h4>
-              </Box>
-              <Box className={styles.totalPersonPrice}>
-                <Typography variant="p" className=" gray f12">
-                    Total price of extra bags 
-                </Typography>
-              </Box>
-
-            </>
-            }
+            <Box display={"flex"} flexDirection="column">
+              {baggageAddData && (
+                <>
+                  <Box
+                    className={styles.priceSection}
+                    display="flex"
+                    alignItems="center"
+                  >
+                    <h4
+                      className={styles.price + " exbold mb-0 basecolor-dark"}
+                    >
+                      <span>
+                        {currencySymbols[getFlightDetails?.tax_currency]}
+                        {totalInitialBaggagePrice}
+                      </span>
+                    </h4>
+                  </Box>
+                  <Box className={styles.totalPersonPrice}>
+                    <Typography variant="p" className=" gray f12">
+                      Total price of extra bags
+                    </Typography>
+                  </Box>
+                </>
+              )}
             </Box>
 
             {/* Actions Section */}
@@ -96,7 +101,7 @@ import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
             >
               {/* Close Button */}
               <Box
-                display="flex"
+                sx={{ display: { xs: "none", md: "flex", lg: "flex" } }}
                 alignItems="center"
                 gap={2}
                 className="gray f14"
@@ -113,19 +118,31 @@ import { addBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
                 gap={2}
                 className="basecolor1"
               >
-                <button
-                  className={
-                    styles.selectFlightBtn + " btn btn-primary btn-md btn-round"
-                  }
-                  onClick={handleAddBaggage}
-                >
-                  <Box display="flex" gap={1}>
-                    <Box
-                    >
-                      Add to booking
+                {newCount === 0 ? (
+                  <button
+                    className={
+                      styles.selectFlightBtn +
+                      " btn btn-primary btn-md sm btn-round"
+                    }
+                    onClick={handleRemoveBaggage}
+                  >
+                    <Box display="flex" gap={1}>
+                      <Box>Add to booking</Box>
                     </Box>
-                  </Box>
-                </button>
+                  </button>
+                ) : (
+                  <button
+                    className={
+                      styles.selectFlightBtn +
+                      " btn btn-primary btn-md sm btn-round"
+                    }
+                    onClick={handleAddBaggage}
+                  >
+                    <Box display="flex" gap={1}>
+                      <Box>Add to booking</Box>
+                    </Box>
+                  </button>
+                )}
               </Box>
             </Box>
           </Box>

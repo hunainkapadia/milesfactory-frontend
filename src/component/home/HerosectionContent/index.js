@@ -13,14 +13,14 @@ const HerosectionContent = () => {
          >
            <Box sx={{ px: { xs: 0, md: 2, lg: 2 } }}>
              <h1 className="h1-lg test-444">
-                Stop the multi-tabs.
+               Stop the multi-tabs.
                <br />
                Book trips in seconds.
              </h1>
              <Typography color="white">
-               Skip the markups and chaos. Mylz finds the smartest routes across
-               flights, trains, and hotels - always at direct prices and with no
-               hidden fees. Built for speed. Powered by AI.
+               No more juggling tabs or comparing markups. Mylz cuts through the
+               chaos to find the fastest trips across flights, trains, and more
+               at direct prices. Built for speed.
              </Typography>
            </Box>
          </Box>

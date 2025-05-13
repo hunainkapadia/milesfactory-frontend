@@ -11,7 +11,13 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             <Box
               className={styles.FooterBox}
               display={"flex"}
-              justifyContent={"flex-end"}
+              sx={{
+                justifyContent: {
+                  lg: "flex-end",
+                  md: "flex-end",
+                  xs: "center",
+                },
+              }}
             >
               <Link
                 href={`#${id}`} // Use template literals
@@ -29,24 +35,58 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
         <footer className={styles.FooterForLight}>
           <Container>
             <Box
+              display={"flex"}
+              sx={{ justifyContent: { xs: "center", lg: "left", md: "left" } }}
+              pb={7}
+              gap={6}
+            >
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              >
+                <Box>
+                  <img src="/images/google-review-logo.png" />
+                </Box>
+              </Box>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              >
+                <Box>
+                  <img src="/images/trust-pilot-logo.png" />
+                </Box>
+                <Typography className="bold black">
+                  4.8/5 - 750 reviews
+                </Typography>
+              </Box>
+            </Box>
+            {/*  */}
+            <Box
               className={styles.FooterBox + ""}
-              py={3}
+              
               display={"flex"}
               justifyContent={"space-between"}
               alignItems={"center"}
               flexWrap={"wrap"}
               sx={{
                 flexDirection: { xs: "column-reverse", md: "row" }, // Reverse on mobile
+                pt:{lg:3, md: 3, xs: 3},
+                pb:{lg:3, md: 3, xs: 0}
               }}
             >
               <Box
                 display={"flex"}
                 alignItems={"center"}
-                gap={4}
+                
                 className=" no-list"
                 sx={{
                   justifyContent: { xs: "center", md: "space-between" },
                   flexWrap: { xs: "wrap", md: "" },
+                  gap:{lg: 4, md: 4, xs: 3}
                 }}
               >
                 <Box>
@@ -65,10 +105,7 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   </Link>
                 </Box>
                 <Box>
-                  <Link
-                    className="basecolor"
-                    href={"/sanctions-compliance"}
-                  >
+                  <Link className="basecolor" href={"/sanctions-compliance"}>
                     Sanctions Compliance
                   </Link>
                 </Box>
@@ -149,17 +186,31 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   </Box>
                 </Link>
               </Box>
-              <Typography mb={4} className="f12 basecolor">
-                Mylz uses AI to find you the cheapest flights, accommodations,
-                and experiences. Bundle together for even more savings.
+              <Typography mb={4} className="f12 basecolor1-dark2">
+                Mylz uses AI to find the cheapest flights, trains, stays and
+                experiences. Bundle together for even more savings.
               </Typography>
-              <Typography className="f12 basecolor">
-                🍪 We do not like cookie banners (they’re simpy annoying) and we
-                take privacy compliance very seriously. That’s why we are not
-                using any cookies that are not essential to the functioning of
-                the website and we do not use any tracking scripts or analytics.
-                Therefore we eliminated the need for cookie consent banners and
-                do not track you in any way.
+              <Typography
+                className="f12 basecolor"
+                sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+              >
+                🍪 We do not like cookies and take privacy compliance very
+                seriously. That’s why we are not using any cookies that are not
+                essential to the functioning of the website and we do not use
+                any tracking scripts. Therefore we eliminated the need for
+                cookie consent banners and do not track you in any way during
+                your travel search.
+              </Typography>
+              <Typography
+                className="f12 basecolor"
+                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+              >
+                🍪 We do not like cookies and take privacy compliance very
+                seriously. That’s why we are not using any cookies that are not
+                essential to the functioning of the website and we do not use
+                any tracking scripts. Therefore we eliminated the need for
+                cookie consent banners and do not track you in any way during
+                your travel search.
               </Typography>
             </Box>
           </Container>
@@ -170,7 +221,13 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             <Box
               className={styles.FooterBox}
               display={"flex"}
-              justifyContent={"flex-end"}
+              sx={{
+                justifyContent: {
+                  lg: "flex-end",
+                  md: "flex-end",
+                  xs: "center",
+                },
+              }}
             >
               <Link
                 href={`#${id}`} // Use template literals
@@ -193,19 +250,39 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
               <Box
                 className={styles.FooterBox + " "}
                 display={"flex"}
-                justifyContent={"center"}
+                sx={{
+                  justifyContent: {
+                    lg: "flex-end",
+                    md: "flex-end",
+                    xs: "center",
+                  },
+                }}
               >
                 <Link
                   href={`#${id}`} // Use template literals
                   className={styles.footerBtn + "  white text-decoration-none"}
                 >
-                  <Box gap={2} alignItems={"center"} display={"flex"} textAlign={"center"}>
-                    <Box sx={{ display: { xs: "none", lg: "block", md:"block"  } }}>
+                  <Box
+                    gap={2}
+                    alignItems={"center"}
+                    display={"flex"}
+                    textAlign={"center"}
+                  >
+                    <Box
+                      sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+                    >
                       <i className="fa-arrow-down fa fas"></i>{" "}
                     </Box>
-                    <span>
+                    <Typography
+                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    >
                       🔥 Over 1,300 trips planned by early users — and counting.
-                    </span>
+                    </Typography>
+                    <Typography
+                      sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                    >
+                      🔥 Over 1,300 trips planned by early users.
+                    </Typography>
                   </Box>
                 </Link>
               </Box>

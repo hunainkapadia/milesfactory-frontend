@@ -13,7 +13,10 @@ import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.s
 import BaggageDrawerFooter from "./BaggageDrawerFooter";
 import { useDispatch, useSelector } from "react-redux";
 
-import {setAddSelectedBaggage, setBaggageDrawer } from "@/src/store/slices/BaggageSlice";
+import {
+  setAddSelectedBaggage,
+  setBaggageDrawer,
+} from "@/src/store/slices/BaggageSlice";
 import { currencySymbols } from "@/src/utils/utils";
 
 const BaggageDrawer = ({ getFlightDetail }) => {
@@ -21,6 +24,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   const [selectedBaggageUUIDs, setSelectedBaggageUUIDs] = useState([]);
   const [baggageCount, setBaggageCount] = useState({});
   const [tabValue, setTabValue] = useState(0);
+  // const[newCount, setNewCount]=useState();
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -34,29 +38,26 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     (state) => state?.booking?.flightDetail
   );
   const baggageOptions = useSelector((state) => state.bagage.baggageOptions);
-  const baggageError = useSelector((state) => state.bagage.baggageError);
-  console.log("baggageError00", baggageError);
-  
+  console.log("baggageOptions", baggageOptions);
 
   const HandlecloseDrawer = () => {
     dispatch(setBaggageDrawer(false));
   };
-  const segmentId = useSelector((state)=> state.bagage.SegmentId);
+  const segmentId = useSelector((state) => state.bagage.SegmentId);
   console.log("segmentId000", segmentId);
-  
 
   const handleIncrement = (uuid, passengerId) => {
     const currentCount = baggageCount[passengerId]?.[uuid] || 0;
-  
+
     if (currentCount >= 1) return; // Allow only one increment
-  
+
     const newCount = currentCount + 1;
-  
+
     console.log("Incremented Baggage:");
     console.log("Passenger UUID:", passengerId);
     console.log("Baggage UUID:", uuid, newCount);
-    console.log("New Quantity:", newCount);
-  
+    console.log("currentCount:", currentCount);
+
     setBaggageCount((prev) => {
       const currentPassengerBaggage = prev[passengerId] || {};
       return {
@@ -67,14 +68,11 @@ const BaggageDrawer = ({ getFlightDetail }) => {
         },
       };
     });
-  
+
     console.log("selectedBaggageUUIDs", selectedBaggageUUIDs);
-    
+
     dispatch(setAddSelectedBaggage(uuid));
-    
   };
-  
-  
 
   const handleDecrement = (uuid, passengerId) => {
     setBaggageCount((prev) => {
@@ -90,15 +88,42 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       };
     });
   };
-  console.log("BaggageDrawerOpen", BaggageDrawerOpen);
+
+  const totalBaggageCount = Object.values(baggageCount).reduce(
+    (passengerTotal, baggageMap) => {
+      const baggageSum = Object.values(baggageMap).reduce(
+        (sum, count) => sum + count,
+        0
+      );
+      return passengerTotal + baggageSum;
+    },
+    0
+  );
+
+  console.log("totalBaggageCount", totalBaggageCount);
 
   // respons baggage add data
-  const baggageAddData = useSelector((state)=> state.bagage.baggageAddData);
-  console.log("baggageAddData", baggageAddData);
-  
+  const baggageAddData = useSelector((state) => state.bagage.baggageAddData);
+  console.log("baggageAddData", baggageAddData?.request_type);
+// Check if baggageOptions is an array before filtering
   
 
-  // Check if baggageOptions is an array before filtering
+  // calculate totalInitialBaggagePrice [start]
+  let totalInitialBaggagePrice = 0;
+  GetViewPassengers?.forEach((passenger) => {
+    const passengerUUID = passenger?.uuid;
+    const passengerData = baggageOptions?.[passengerUUID];
+
+    if (passengerData) {
+      const checkedAmount =
+        passengerData.initial_checked_bag?.service_amount || 0;
+      const carryOnAmount =
+        passengerData.initial_carry_on_bag?.service_amount || 0;
+      totalInitialBaggagePrice += checkedAmount + carryOnAmount;
+    }
+  });
+// calculate totalInitialBaggagePrice [end]
+  
 
   return (
     <Drawer
@@ -161,7 +186,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                       alt="Flight icon"
                       style={{ width: 16, height: 16 }} // optional: control image size
                     />
-                    <Typography className="basecolor-dark">Outbound flight</Typography>
+                    <Typography className="basecolor-dark">
+                      Outbound flight
+                    </Typography>
                   </Box>
                 }
                 className={`${styles.inactiveTab} ${
@@ -173,7 +200,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                 label={
                   <Box display="flex" alignItems="center" gap={1}>
                     <img src="/images/direct-plan-icon.svg" alt="Return icon" />
-                    <Typography className="basecolor-dark f12">Return flight</Typography>
+                    <Typography className="basecolor-dark f12">
+                      Return flight
+                    </Typography>
                   </Box>
                 }
                 className={`${styles.inactiveTab} ${
@@ -235,6 +264,16 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                         const matchingPassengerId = filteredPassengerIds[0];
                         const passengerData =
                           baggageOptions[matchingPassengerId];
+                        console.log(
+                          "passengerData_cehcked",
+                          passengerData?.initial_checked_bag
+                            ?.service_amount
+                        );
+                        console.log(
+                          "passengerData_carry",
+                          passengerData?.initial_carry_on_bag
+                            ?.service_amount
+                        );
 
                         checkedBagOptions =
                           passengerData?.checked_bag_options?.filter(
@@ -432,11 +471,10 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                 <>
                   <Box py={2} display="flex" justifyContent="space-between">
                     <Typography>Price of added bags</Typography>
+
                     <Typography className="bold basecolor1">
                       {currencySymbols[getFlightDetail?.tax_currency]}
-                      {
-                        baggageAddData?.per_passenger_amount_plus_markup_and_all_services
-                      }
+                      {totalInitialBaggagePrice.toFixed(0)}
                     </Typography>
                   </Box>
                   <Box>
@@ -444,18 +482,33 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   </Box>
                 </>
               )}
-              {baggageError?.error && (
-                <Box py={2}>
-                  <Alert severity="error" className="f12">
-                    {baggageError.error}
+              {console.log("baggageError_0", baggageAddData?.error)}
+              <Box py={2}>
+                {baggageAddData?.request_type === "remove" ? (
+                  <Alert severity="success" className="f12">
+                    Baggage removed successfully.
                   </Alert>
-                </Box>
-              )}
+                ) : baggageAddData?.request_type === "add" ? (
+                  <Alert severity="success" className="f12">
+                    Baggage added successfully.
+                  </Alert>
+                ) : baggageAddData?.error ? (
+                  <Alert severity="error" className="f12">
+                    {baggageAddData?.error}
+                  </Alert>
+                ) : null}
+              </Box>
+              {/* <Alert severity="error" className="f12">
+                  {"baggageError.error"}
+                </Alert> */}
             </Box>
             {/* body enf passengerbody */}
           </Box>
         </Box>
+
         <BaggageDrawerFooter
+          newCount={totalBaggageCount}
+          totalInitialBaggagePrice = {totalInitialBaggagePrice.toFixed(2)}
           HandlecloseDrawer={HandlecloseDrawer}
           getFlightDetails={getFlightDetail}
         />

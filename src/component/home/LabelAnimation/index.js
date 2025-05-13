@@ -6,7 +6,7 @@ const LabelAnimation = () => {
   // Letter typing texts
   const texts = [
     "Where do you want to go today?",
-    "Explore the world, one destination at a time.",
+    "Explore one destination at a time.",
     "Adventure is waiting for you!"
   ];
 

@@ -49,12 +49,13 @@ const sendMessageSlice = createSlice({
         // sessionStorage.removeItem("chat_thread_uuid");
       }
     },
+    setClearChat: (state) => {
+      state.messages = [];
+      state.ThreadUUIDsend = null;
+      sessionStorage.removeItem("chat_thread_uuid");
+    },
   },
-  setClearChat: (state) => {
-    state.messages = [];
-    state.ThreadUUIDsend = null;
-    sessionStorage.removeItem("chat_thread_uuid");
-  },
+
 });
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
@@ -209,23 +210,103 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   }
 };
 
-export const deleteChatThread = (uuid) => (dispatch) => {
+// create thread api call
+export const createThreadAndRedirect = (router) => (dispatch, getState) => {
+    let getuser = getState().base.currentUser;
+    
+    
+  api
+    .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+    .then((res) => {
+      const uuid = res.data.uuid;
+      if (uuid) {
+        dispatch(setThreadUUIDsend(uuid));
+        dispatch(
+          setMessage({
+            // `Hello ${getuser?.first_name} ${getuser?.last_name}, I'm Mylz. How can I help you?`
+            ai: {
+              newThread: `Hello ${getuser?.first_name} ${getuser?.last_name}, I'm Mylz. How can I help you?`,
+            },
+          })
+        );
+        
+        router.push(`/chat/${uuid}`);
+      }
+    })
+    .catch((error) => {
+      console.error("Failed to create thread:", error);
+    });
+};
+
+export const deleteAndCreateThread = (followUpMessage = null) => (dispatch, getState) => {
+  let getuser = getState().base.currentUser;
+    
+  const uuid = sessionStorage.getItem("chat_thread_uuid");
   if (!uuid) return;
 
   const url = `/api/v1/chat/thread/${uuid}/delete`;
-
   api
-    .delete(url)
-    .then((res) => {
-      if (res) {
+  .delete(url)
+  .then((res) => {
+    if (res) {
+        // Clear previous chat history/messages in Redux store
+        dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
+
         sessionStorage.removeItem("chat_thread_uuid");
+
+        api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+          .then((newThreadRes) => {
+            const newUuid = newThreadRes.data.uuid;
+            if (newUuid) {
+              dispatch(setThreadUUIDsend(newUuid));
+              sessionStorage.setItem("chat_thread_uuid", newUuid);
+
+              // Dispatch the welcome message (deleteThread message)
+              dispatch(
+                setMessage({
+                  ai: {
+                    deleteThread: `Hello ${getuser?.first_name} ${getuser?.last_name}, I'm Mylz. How can I help you?`,
+                  },
+                })
+              );
+
+              if (followUpMessage) {
+                dispatch(sendMessage(followUpMessage)); // Send the follow-up message if exists.
+              }
+            }
+          })
+          .catch((err) => {
+            console.error("Failed to create new thread", err);
+          });
       }
-      // dispatch(setClearChat());
     })
     .catch((err) => {
-      console.error("Error deleting thread", err?.response.data?.error);
+      console.error("Error deleting thread", err);
     });
 };
+
+export const OnlydeleteChatThread = (followUpMessage = null) => (dispatch, getState) => {
+  const uuid = sessionStorage.getItem("chat_thread_uuid");
+  if (!uuid) return;
+
+  const url = `/api/v1/chat/thread/${uuid}/delete`;
+  api
+  .delete(url)
+  .then((res) => {
+    if (res) {
+        // Clear previous chat history/messages in Redux store
+        dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
+        sessionStorage.removeItem("chat_thread_uuid");
+      }
+    })
+    .catch((err) => {
+      console.error("Error deleting thread", err?.response?.data?.error);
+    });
+};
+
+
+
+
 
 // for delete thread
 

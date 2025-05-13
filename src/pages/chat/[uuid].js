@@ -12,24 +12,13 @@ import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
 import MobileLoading from "@/src/component/LoadingArea/MobileLoading";
 
 const ChatByUUID = () => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-
-  const { uuid } = router.query;
-
+  
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
-  const isMessage = [...getMessages, ...sendMessages];
-  
-
+  const isMessage = [...getMessages, ...sendMessages];  
   // Fetch messages using the UUID from URL
-  useEffect(() => {
-    if (uuid) {
-      dispatch(fetchMessages(uuid));
-    }
-  }, [uuid]);
-
+  
   return (
     <>
       <main>
@@ -62,7 +51,7 @@ const ChatByUUID = () => {
                 className={inputStyles.SearchBoxGrid}
                 sx={{ width: "100%", margin: 0 }}
               >
-                <Container>
+                <Container className={inputStyles.SearchBoxContainer}>
                   <Grid container>
                     <Grid item md={8} lg={8} xs={12}>
                       <MessageInputBox isMessageHome={isMessage} />

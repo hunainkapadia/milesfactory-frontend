@@ -2124,12 +2124,12 @@ html {
   }
   .h2,
     h2 {
-      font-size: $h1-sm ;
+      font-size: 28px ;
       line-height: 1.4 ;
     }
   
     .h1-lg {
-      font-size: $h1-sm ;
+      font-size: 28px ;
       line-height: 1.4;
     }
   .owl-theme .owl-dots {
@@ -2155,7 +2155,7 @@ html {
     background-image: none;
   }
   .section-padding-lg {
-    padding: 30px 0 ;
+    padding: 60px 0 0 !important;
   }
   .section-w {
     width: 100%;

@@ -65,10 +65,11 @@ const PaymentDrawer = ({ getFlightDetail }) => {
   };
   return (
     <Drawer
-      className={styles.MobileDrawer}
+      // className={styles.MobileDrawer}
       anchor="right"
       open={isDrawer} // Use correct state
       onClose={HandlecloseDrawer} // Close on backdrop click
+      className={`${styles.checkoutDrower} ${styles.MobileDrawer} aaaaa`}
     >
       <Box className={styles.checkoutDrower + " white-bg"} width={480}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>

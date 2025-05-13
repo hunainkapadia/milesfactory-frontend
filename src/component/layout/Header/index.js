@@ -42,18 +42,23 @@ import { useRouter } from "next/router";
 import LoginForm from "../../Auth/LoginForm";
 import SignUpForm from "../../Auth/SignupForm";
 import ThreadDrawer from "../../SearchResult/ThreadDrawer";
-import { setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
+import { setCurrentUser, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
+import { createThreadAndRedirect, deleteAndCreateThread, deleteChatThread, setThreadUUIDsend } from "@/src/store/slices/sendMessageSlice";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
+  const [InputSticky, setInputSticky] = useState(false);
   const [isUserPopup, setisUserPopup] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsSticky(window.scrollY > 50); // Add sticky class after scrolling 50px
+      setIsSticky(window.scrollY > 50); // Sticky header after 50px
+
+      // Separate logic for input sticky (e.g., after 200px)
+      setInputSticky(window.scrollY > 400);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -110,6 +115,14 @@ const Header = ({ isMessage, IsActive }) => {
 
   const currentUser =
     isuserLoginGoogle || getSignUpUser || isuserLogin || isUserSignup; // Use single reference
+
+    dispatch(setCurrentUser(currentUser))
+    const userget = useSelector((state)=> state.base.currentUser);
+    
+
+
+    console.log("currentUser", currentUser);
+    
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -144,16 +157,8 @@ const Header = ({ isMessage, IsActive }) => {
 
   const router = useRouter();
   const logoHandle = () => {
-    if (router.pathname !== "/") {
-      // Navigate to Home
-      router.push("/").then(() => {
-        // Force page refresh after routing to Home
-        window.location.reload();
-      });
-    } else {
-      // Already on Home — just refresh
-      window.location.reload();
-    }
+    dispatch(deleteAndCreateThread()); // No then, no async
+    router.push("/")
   };
   const ChatClearHandle = () => {
     Cookies.remove("sessionid"); // Clear the cookie
@@ -166,6 +171,17 @@ const Header = ({ isMessage, IsActive }) => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
+  // book a trip new thread
+  
+  const HandleBookThread = () => {
+    dispatch(createThreadAndRedirect(router));
+  };
+  const HandleNewThread = () => {
+    dispatch(deleteAndCreateThread()); // No then, no async
+  };
+
+
+
   return (
     <>
       <Head></Head>
@@ -205,7 +221,8 @@ const Header = ({ isMessage, IsActive }) => {
               </Box>
 
               <Box className={styles.Logo + " cursor-pointer"}>
-                <Box onClick={logoHandle}>
+                <Box  component="a"
+  href="/">
                   <Box className="d-flex align-items-center">
                     {isSticky || isMessage || IsActive ? (
                       <img src="/images/logo-color2.svg" />
@@ -217,7 +234,12 @@ const Header = ({ isMessage, IsActive }) => {
               </Box>
             </Box>
 
-            <Box sx={{ display: { xs: "none", md: "block" } }}>
+            <Box
+              sx={{
+                display: { xs: "none", md: "block" },
+                pl: { xs: 8, lg: 0, md: 0 },
+              }}
+            >
               <Navbar />
             </Box>
 
@@ -369,7 +391,7 @@ const Header = ({ isMessage, IsActive }) => {
                 <>
                   <Box
                     className=" cursor-pointer"
-                    onClick={ChatClearHandle}
+                    onClick={HandleNewThread}
                     display={"flex"}
                     alignItems={"center"}
                   >
@@ -378,7 +400,6 @@ const Header = ({ isMessage, IsActive }) => {
                       alignItems="center"
                       justifyContent="center"
                       height={48}
-                      // Optional: make it square for better centering
                       className={styles.ChatIcon + " imggroup"}
                     >
                       <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
@@ -419,7 +440,7 @@ const Header = ({ isMessage, IsActive }) => {
                     justifyContent="center"
                     gap={1}
                     component="button"
-                    onClick={HandlePopup}
+                    onClick={currentUser ? HandleBookThread : HandlePopup}
                   >
                     <Box>Book a trip</Box>
                   </Box>
@@ -428,8 +449,8 @@ const Header = ({ isMessage, IsActive }) => {
             </Box>
             {/*  */}
           </Box>
+          <MessageInputBox isSticky={InputSticky} HeaderInput={"HeaderInput"} />
         </Container>
-        {/* {isSticky ? <MessageInputBox isSticky={isSticky}  /> : ""} */}
       </header>
 
       {/* extra content for  */}

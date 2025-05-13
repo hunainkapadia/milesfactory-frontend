@@ -43,10 +43,17 @@
 }
 
 .AppSection {
-  background: linear-gradient(to bottom, $basecolor1-sky 60%, $white 50%);
-  padding: 100px 0 60px;
+  background: linear-gradient(to bottom, $basecolor1-sky 90%, $white 50%);
+  
+  padding: 180px 0 0;
+  
 
-  .MobileDevice {}
+  .MobileDevice {
+    position: absolute;
+  }
+  .AppSectionRight {
+    padding: 60px 0 178px;
+  }
 }
 
 .HomeBanner {
@@ -206,8 +213,26 @@
 }
 
 @media only screen and (max-width: 767px) {
+  
+  
+  .HomeBannerReview {
+    h1 {
+      color: $white;
+    }
+
+    .ReviewSection {
+      .IdeaCard {margin-bottom: 62px;}
+    }
+  }
   .AppSection {
     padding: 40px 0 50px;
+    background: linear-gradient(to bottom, $basecolor1-sky 75%, $white 50%);
+    .MobileDevice {
+      position: relative;
+    }
+    .AppSectionRight {
+      padding: 60px 0 0;
+    }
     .appLogos {gap: 17px;
       .appLogo {width: 248px;
         height: 100%;
@@ -232,7 +257,7 @@
       justify-content: center;
     }
   }
-
+  
   .HomeBanner {
     height: auto;
 
@@ -253,7 +278,7 @@
   }
 
   .mainHeroSection.HeroSection {
-    padding: 25vh 0 16vh;
+    padding:  20vh 0 2vh;
     .Box .Content .ContentIn {
       padding-bottom: 26px;
       width: $BoxContainerXs;

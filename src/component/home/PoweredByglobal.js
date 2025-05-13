@@ -19,21 +19,32 @@ const PoweredByglobal = (props) => {
             display={"flex"}
             justifyContent={"center"}
           >
-            <Box className={``} mb={6}>
+            <Box className={``} sx={{ mb: { lg: 6, md: 6, xs: 3 } }}>
               <h2 className=" semibold white align-center mb-0">
                 Trusted by our global travel partners
               </h2>
             </Box>
           </Box>
-          <Grid width={"100%"} item xs={12} md={12} container columnSpacing={3}>
+          <Grid
+            width={"100%"}
+            item
+            xs={12}
+            md={12}
+            container
+            sx={{ gap: { lg: 0, md: 0, xs: 5 } }}
+          >
             <Grid item xs={12} lg={4} md={4}>
               <Box
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
+                textAlign={"center"}
               >
                 <Box mb={4} className="white">
-                  <h1 className="h1-lg mb-0 white">200 +</h1>
+                <Typography className="mb-0 white bold" variant="h2" fontSize={56}>
+                  200 +
+                </Typography>
+                  
                   <Typography className="f12">Global airlines</Typography>
                 </Box>
                 <Box>
@@ -46,9 +57,10 @@ const PoweredByglobal = (props) => {
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
+                textAlign={"center"}
               >
                 <Box mb={4} className="white">
-                  <h1 className="h1-lg mb-0 white">800 +</h1>
+                  <Typography className="mb-0 white bold" variant="h2" fontSize={56}>800 +</Typography>
                   <Typography className="f12">
                     Trains, coaches, and buses
                   </Typography>
@@ -63,9 +75,10 @@ const PoweredByglobal = (props) => {
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
+                textAlign={"center"}
               >
                 <Box mb={4} className="white">
-                  <h1 className="h1-lg mb-0 white">700k +</h1>
+                  <Typography className="mb-0 white bold" variant="h2" fontSize={56}>700k +</Typography>
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>
                 <Box>
@@ -74,6 +87,7 @@ const PoweredByglobal = (props) => {
               </Box>
             </Grid>
           </Grid>
+
           {/* <Box
             display="flex"
             flexWrap="wrap"
@@ -139,6 +153,13 @@ const PoweredByglobal = (props) => {
           </Box> */}
         </Box>
       </Container>
+      <Box sx={{ display: { xs: "block", lg: "none", md: "none" } }}>
+        <Footer
+          forDark
+          LearnMore={"Trusted by our global travel partners"}
+          id={"PoweredByglobal"}
+        />
+      </Box>
     </Box>
   );
 };

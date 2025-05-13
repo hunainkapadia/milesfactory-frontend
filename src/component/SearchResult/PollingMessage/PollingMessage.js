@@ -48,14 +48,21 @@ const PollingMessage = ({ PollingData }) => {
               )}
             </li>
             {console.log("PollingData_arrival_date", PollingData)}
-            <li style={{ marginBottom: "0.5rem" }}>
-              Arrival:{" "}
-              {new Date(PollingData?.arrival_date).toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
-            </li>
+            {PollingData?.flight_type !== "one-way" ? (
+              <li style={{ marginBottom: "0.5rem" }}>
+                Arrival:{" "}
+                {new Date(PollingData?.arrival_date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  }
+                )}
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </Box>
       </Typography>
