@@ -67,26 +67,24 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             {/*  */}
             <Box
               className={styles.FooterBox + ""}
-              
               display={"flex"}
               justifyContent={"space-between"}
               alignItems={"center"}
               flexWrap={"wrap"}
               sx={{
                 flexDirection: { xs: "column-reverse", md: "row" }, // Reverse on mobile
-                pt:{lg:3, md: 3, xs: 3},
-                pb:{lg:3, md: 3, xs: 0}
+                pt: { lg: 3, md: 3, xs: 3 },
+                pb: { lg: 3, md: 3, xs: 0 },
               }}
             >
               <Box
                 display={"flex"}
                 alignItems={"center"}
-                
                 className=" no-list"
                 sx={{
                   justifyContent: { xs: "center", md: "space-between" },
                   flexWrap: { xs: "wrap", md: "" },
-                  gap:{lg: 4, md: 4, xs: 3}
+                  gap: { lg: 4, md: 4, xs: 3 },
                 }}
               >
                 <Box>
@@ -187,8 +185,8 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 </Link>
               </Box>
               <Typography mb={4} className="f12 basecolor1-dark2">
-                Mylz uses AI to find the cheapest flights, trains, stays and
-                experiences. Bundle together for even more savings.
+                Mylz uses AI to find the cheapest flights, trains, stays, and
+                local experiences. Bundle together for even more savings.
               </Typography>
               <Typography
                 className="f12 basecolor"
@@ -207,10 +205,8 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
               >
                 🍪 We do not like cookies and take privacy compliance very
                 seriously. That’s why we are not using any cookies that are not
-                essential to the functioning of the website and we do not use
-                any tracking scripts. Therefore we eliminated the need for
-                cookie consent banners and do not track you in any way during
-                your travel search.
+                essential to the functioning of the website. Therefore we
+                eliminated the need for any cookies consent banner.
               </Typography>
             </Box>
           </Container>
