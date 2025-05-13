@@ -67,23 +67,26 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             {/*  */}
             <Box
               className={styles.FooterBox + ""}
-              py={3}
+              
               display={"flex"}
               justifyContent={"space-between"}
               alignItems={"center"}
               flexWrap={"wrap"}
               sx={{
                 flexDirection: { xs: "column-reverse", md: "row" }, // Reverse on mobile
+                pt:{lg:3, md: 3, xs: 3},
+                pb:{lg:3, md: 3, xs: 0}
               }}
             >
               <Box
                 display={"flex"}
                 alignItems={"center"}
-                gap={4}
+                
                 className=" no-list"
                 sx={{
                   justifyContent: { xs: "center", md: "space-between" },
                   flexWrap: { xs: "wrap", md: "" },
+                  gap:{lg: 4, md: 4, xs: 3}
                 }}
               >
                 <Box>
@@ -187,7 +190,21 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 Mylz uses AI to find the cheapest flights, trains, stays and
                 experiences. Bundle together for even more savings.
               </Typography>
-              <Typography className="f12 basecolor">
+              <Typography
+                className="f12 basecolor"
+                sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+              >
+                🍪 We do not like cookies and take privacy compliance very
+                seriously. That’s why we are not using any cookies that are not
+                essential to the functioning of the website and we do not use
+                any tracking scripts. Therefore we eliminated the need for
+                cookie consent banners and do not track you in any way during
+                your travel search.
+              </Typography>
+              <Typography
+                className="f12 basecolor"
+                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+              >
                 🍪 We do not like cookies and take privacy compliance very
                 seriously. That’s why we are not using any cookies that are not
                 essential to the functioning of the website and we do not use
