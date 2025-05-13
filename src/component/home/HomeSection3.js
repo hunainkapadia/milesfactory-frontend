@@ -57,7 +57,7 @@ const HomeSection3 = (props) => {
                   sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
                   className={"aaaa"}
                 >
-                  <Box mb={3}>
+                  <Box sx={{ mb: { xs: 1, lg: 3, md: 3 } }}>
                     <h6 className="white mb-0">
                       💬 “Weekend in Lisbon under £200”
                     </h6>
@@ -90,7 +90,7 @@ const HomeSection3 = (props) => {
                   sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
                   className={"aaaa"}
                 >
-                  <Box mb={3}>
+                  <Box sx={{ mb: { xs: 1, lg: 3, md: 3 } }}>
                     <h6 className="white mb-0">
                       💬 “Paris to Amsterdam Wednesday”
                     </h6>
@@ -123,7 +123,7 @@ const HomeSection3 = (props) => {
                   sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
                   className={"aaaa"}
                 >
-                  <Box mb={3}>
+                  <Box sx={{ mb: { xs: 1, lg: 3, md: 3 } }}>
                     <h6 className="white mb-0">
                       💬 “Sunny 3-day escape under £300”
                     </h6>
