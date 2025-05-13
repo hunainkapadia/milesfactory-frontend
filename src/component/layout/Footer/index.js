@@ -256,9 +256,16 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                     >
                       <i className="fa-arrow-down fa fas"></i>{" "}
                     </Box>
-                    <span>
+                    <Typography
+                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    >
                       🔥 Over 1,300 trips planned by early users — and counting.
-                    </span>
+                    </Typography>
+                    <Typography
+                      sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                    >
+                      🔥 Over 1,300 trips planned by early users.
+                    </Typography>
                   </Box>
                 </Link>
               </Box>
