@@ -45,7 +45,7 @@ const HomeSection4 = (props) => {
                 </Box>
               </Box>
             </Box>
-            <Grid container columnSpacing={{ xs: 4, md: 4 }}>
+            <Grid container spacing={{ xs: 2, md: 4 }}>
               <Grid item xs={12} md className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
@@ -98,14 +98,23 @@ const HomeSection4 = (props) => {
               </Grid>
               {/*  */}
             </Grid>
-            <Box mt={5}>
+            <Box sx={{ mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
               <Link
                 href={"#PoweredByglobal"}
                 className={styles.footerBtn + " white text-decoration-none"}
               >
-                <Typography className="align-center white">
+                <Typography
+                  className="align-center white"
+                  sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+                >
                   🛡️ Built for travellers, not marketers. No tracking. Just
                   smarter travel every time.
+                </Typography>
+                <Typography
+                  className="align-center white"
+                  sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                >
+                  🛡️ Built for travellers. No tracking.
                 </Typography>
               </Link>
             </Box>

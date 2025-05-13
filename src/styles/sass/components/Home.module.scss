@@ -213,6 +213,17 @@
 }
 
 @media only screen and (max-width: 767px) {
+  
+  
+  .HomeBannerReview {
+    h1 {
+      color: $white;
+    }
+
+    .ReviewSection {
+      .IdeaCard {margin-bottom: 62px;}
+    }
+  }
   .AppSection {
     padding: 40px 0 50px;
     background: linear-gradient(to bottom, $basecolor1-sky 75%, $white 50%);
@@ -246,7 +257,7 @@
       justify-content: center;
     }
   }
-
+  
   .HomeBanner {
     height: auto;
 
@@ -267,7 +278,7 @@
   }
 
   .mainHeroSection.HeroSection {
-    padding: 25vh 0 16vh;
+    padding:  20vh 0 2vh;
     .Box .Content .ContentIn {
       padding-bottom: 26px;
       width: $BoxContainerXs;

@@ -47,7 +47,7 @@ const HomeSection3 = (props) => {
               </Box>
             </Box>
           </Box>
-          <Grid container spacing={3}>
+          <Grid container spacing={{ xs: 2, md: 4 }}>
             <Grid item xs={12} md className={styles.IdeaCard}>
               <Card
                 className={`${styles.Card} br-12 bg-dark-box`}
@@ -148,17 +148,26 @@ const HomeSection3 = (props) => {
             </Grid>
             {/*  */}
           </Grid>
-          <Box mt={5}>
-              <Link
-                href={"#HomeSection3"}
-                className={styles.footerBtn + " white text-decoration-none"}
+          <Box sx={{ mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
+            <Link
+              href={"#HomeSection3"}
+              className={styles.footerBtn + " white text-decoration-none"}
+            >
+              <Typography
+                className="align-center white"
+                sx={{ display: { xs: "none", lg: "block", md: "block" } }}
               >
-                <Typography className="align-center white">
-                  🔍 Prices pulled directly from other platforms on their live website. All bookings made on Mylz.
-                  seconds.
-                </Typography>
-              </Link>
-            </Box>
+                🔍 Prices pulled directly from other platforms on their live
+                website. All bookings made on Mylz.
+              </Typography>
+              <Typography
+                className="align-center white"
+                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+              >
+                🔍 Prices pulled directly from live websites.
+              </Typography>
+            </Link>
+          </Box>
           <Link
             href={"#HomeSection4"}
             className={styles.footerBtn + " white text-decoration-none"}

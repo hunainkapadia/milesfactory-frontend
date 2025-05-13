@@ -11,7 +11,13 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             <Box
               className={styles.FooterBox}
               display={"flex"}
-              justifyContent={"flex-end"}
+              sx={{
+                justifyContent: {
+                  lg: "flex-end",
+                  md: "flex-end",
+                  xs: "center",
+                },
+              }}
             >
               <Link
                 href={`#${id}`} // Use template literals
@@ -198,7 +204,13 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             <Box
               className={styles.FooterBox}
               display={"flex"}
-              justifyContent={"flex-end"}
+              sx={{
+                justifyContent: {
+                  lg: "flex-end",
+                  md: "flex-end",
+                  xs: "center",
+                },
+              }}
             >
               <Link
                 href={`#${id}`} // Use template literals
@@ -221,7 +233,13 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
               <Box
                 className={styles.FooterBox + " "}
                 display={"flex"}
-                justifyContent={"center"}
+                sx={{
+                  justifyContent: {
+                    lg: "flex-end",
+                    md: "flex-end",
+                    xs: "center",
+                  },
+                }}
               >
                 <Link
                   href={`#${id}`} // Use template literals

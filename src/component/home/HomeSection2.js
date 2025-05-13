@@ -42,7 +42,7 @@ const HomeSection2 = (props) => {
                 </Box>
               </Box>
             </Box>
-            <Grid container spacing={{ xs: 4, md: 4 }}>
+            <Grid container spacing={{ xs: 2, md: 4 }}>
               <Grid item xs={12} md className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
@@ -98,13 +98,16 @@ const HomeSection2 = (props) => {
               </Grid>
               {/*  */}
             </Grid>
-            <Box mt={5}>
+            <Box sx={{ mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
               <Link
                 href={"#HomeSection3"}
                 className={styles.footerBtn + " white text-decoration-none"}
               >
-                <Typography className="align-center white">
-                  ✅ No markups. No redirects. Book at the real price in
+                <Typography className="align-center white" sx={{ display: { xs: "none", lg: "block", md: "block" } }}>
+                  ✅ No markups. No redirects. Book at the real price in seconds.
+                </Typography>
+                <Typography className="align-center white" sx={{ display: { lg: "none", md: "none", xs: "block" } }}>
+                  ✅ No markups. Real price in seconds.
                   seconds.
                 </Typography>
               </Link>

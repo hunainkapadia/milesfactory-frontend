@@ -36,9 +36,9 @@ const Section4Reviews = (props) => {
       <section>
         <Container>
           <Box className={`${styles.ReviewSection} + ""`} position={"relative"}>
-            <Box mb={5} display={"flex"} justifyContent={"center"}>
+            <Box mb={4.5} display={"flex"} justifyContent={"center"}>
               <Box textAlign={"center"}>
-                <h2>What travelers say</h2>
+                <h2 className=" mb-0">What travelers say</h2>
               </Box>
             </Box>
 
