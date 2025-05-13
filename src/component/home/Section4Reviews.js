@@ -28,10 +28,10 @@ const reviews = [
 
 const Section4Reviews = (props) => {
   return (
-    <Box
+    <Box sx={{ paddingTop:{lg: "50px", md:"50px", xs:"50px"}}}
       position={"relative"}
       id={props.id}
-      className={`${styles.HomeBannerReview} section-padding-lg white-bg no-bg`}
+      className={`${styles.HomeBannerReview} white-bg no-bg`}
     >
       <section>
         <Container>
