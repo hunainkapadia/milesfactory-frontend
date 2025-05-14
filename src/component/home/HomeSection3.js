@@ -50,9 +50,17 @@ const HomeSection3 = (props) => {
                     className="align-center white"
                     sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                   >
-                    These aren’t mockups - they’re real bookings made by our
-                    users. No hidden fees, no upsells, no bouncing between many
-                    tabs.
+                    These aren’t mockups - they’re real bookings{" "}
+                    <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />
+                    made by our users. No hidden fees, no{" "}
+                    <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />
+                    upsells, no bouncing between many tabs.
                   </Typography>
                 </Box>
               </Box>

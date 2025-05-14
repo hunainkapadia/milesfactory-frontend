@@ -55,7 +55,7 @@ const PoweredByglobal = (props) => {
                   <Typography className="f12">Global airlines</Typography>
                 </Box>
                 <Box>
-                  <img src="/images/global-airline.svg" />
+                  <img src="/images/global-airline-v3.svg" />
                 </Box>
               </Box>
             </Grid>
@@ -79,7 +79,7 @@ const PoweredByglobal = (props) => {
                   </Typography>
                 </Box>
                 <Box>
-                  <img src="/images/train-coatches.bussesn.svg" />
+                  <img src="/images/train-coatches.bussesn-v3.svg" />
                 </Box>
               </Box>
             </Grid>
@@ -101,7 +101,7 @@ const PoweredByglobal = (props) => {
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>
                 <Box>
-                  <img src="/images/hotel-stays.png" />
+                  <img src="/images/hotel-stays-v3.svg" />
                 </Box>
               </Box>
             </Grid>
