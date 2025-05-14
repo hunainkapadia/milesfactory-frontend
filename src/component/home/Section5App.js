@@ -97,7 +97,7 @@ const Section5App = (props) => {
                   className={styles.MobileDevice}
                   sx={{ mt: { xs: 4, md: 0, lg: 0 } }}
                 >
-                  <img src="/images/phone-app-logo.svg" />
+                  <img src="/images/mobile-device-v2.svg" />
                 </Box>
               </Grid>
             </Grid>
