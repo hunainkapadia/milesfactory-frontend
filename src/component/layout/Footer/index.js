@@ -36,8 +36,10 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
           <Container>
             <Box
               display={"flex"}
-              sx={{ justifyContent: { xs: "center", lg: "left", md: "left" } }}
-              pb={7}
+              sx={{
+                justifyContent: { xs: "center", lg: "left", md: "left" },
+                pb: { lg: 7, md: 7, xs: 3 },
+              }}
               gap={6}
             >
               <Box
