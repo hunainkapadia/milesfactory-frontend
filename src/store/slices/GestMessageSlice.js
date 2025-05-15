@@ -50,6 +50,8 @@ const GetMessagesSlice = createSlice({
 });
 
 export const fetchMessages = () => (dispatch) => {
+
+  
   dispatch(setIsLoading(true));
   const localUUID = sessionStorage.getItem("chat_thread_uuid");
   
