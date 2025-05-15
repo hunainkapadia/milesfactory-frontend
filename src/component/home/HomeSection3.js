@@ -90,7 +90,7 @@ const HomeSection3 = (props) => {
                       <br />
                       Opodo + Booking.com: £232
                       <br />
-                      <Typography sx={{ display: { xs: "none", sm: "block" } }}>Saved: £46</Typography>
+                      <Typography sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: £46</Typography>
                     </Typography>
                     <Typography className="f14 bold" color="white">
                       ⏱️ Booked in: 1 min and 24 seconds
@@ -123,7 +123,7 @@ const HomeSection3 = (props) => {
                       <br />
                       Booking.com (equivalent flight): €161
                       <br />
-                      <Typography sx={{ display: { xs: "none", sm: "block" } }}>Saved: €12 (and quicker)</Typography>
+                      <Typography sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: €12 (and quicker)</Typography>
                     </Typography>
                     <Typography className="f14 bold" color="white">
                       ⏱️ Booked in: 2 min and 49 seconds
@@ -156,7 +156,7 @@ const HomeSection3 = (props) => {
                       <br />
                       Easyjet + Airbnb: £319
                       <br />
-                      <Typography sx={{ display: { xs: "none", sm: "block" } }}>Saved: £45</Typography>
+                      <Typography sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: £45</Typography>
                     </Typography>
                     <Typography className="f14 bold" color="white">
                       ⏱️ Booked in: 4 min and 27 seconds
@@ -186,7 +186,7 @@ const HomeSection3 = (props) => {
                 className="align-center white"
                 sx={{ display: { lg: "none", md: "none", xs: "block" } }}
               >
-                🔍 Prices pulled directly from live websites.
+                ✅ No markups. Real price in seconds.
               </Typography>
             </Link>
           </Box>
