@@ -24,9 +24,9 @@ const ChatByUUID = () => {
   
 
   // Fetch messages using the UUID from URL
-    useEffect(() => {
-      console.log("Router object:", router);
-    }, [router]);
+  useEffect(() => {
+    console.log("Router object:", router);
+  }, [router]);
   
 
   return (
