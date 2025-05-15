@@ -82,6 +82,8 @@ const Messages = () => {
     (state) => state.sendMessage?.messages || []
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+  console.log("FlightExpire", FlightExpire);
+  
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());
@@ -116,15 +118,15 @@ const Messages = () => {
               <BaggageDrawer getFlightDetail={flightDetail} />
               {FlightExpire ? (
                 <>
-                  {/* <Box py={2}>
+                  <Box py={2}>
                     <Box  onClick={refreshHandle} className="text-decuration-none bold cursor-pointer">
                       Refresh this search
-                    </Link>
+                    </Box>
                   </Box>
                   <Typography>
                     Your search has expired. Please enter a new search or
                     refresh the old one.{" "}
-                  </Typography> */}
+                  </Typography>
                 </>
               ) : (
                 ""
