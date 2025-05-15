@@ -98,7 +98,7 @@ const HomeSection2 = (props) => {
               </Grid>
               {/*  */}
             </Grid>
-            <Box sx={{ mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
+            <Box sx={{ mb: { lg: 0, md: 0, xs: 7}, mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
               <Link
                 href={"#HomeSection3"}
                 className={styles.footerBtn + " white text-decoration-none"}

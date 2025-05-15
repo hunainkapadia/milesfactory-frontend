@@ -44,6 +44,7 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
   // for search button triger
   
   useEffect(() => {
+    
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
     setGetuuid(storedUuid)
   }, []);
@@ -51,6 +52,7 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
   
   
   const handleSearch = () => {
+    console.log("storedUuid", getuuid);
     if (!userMessage.trim()) return;
     if (inputRef.current) {
       inputRef.current.textContent = "";

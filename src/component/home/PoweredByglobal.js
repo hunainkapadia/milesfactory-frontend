@@ -31,7 +31,10 @@ const PoweredByglobal = (props) => {
             xs={12}
             md={12}
             container
-            sx={{ gap: { lg: 0, md: 0, xs: 5 } }}
+            sx={{
+              gap: { lg: 0, md: 0, xs: 5 },
+              marginBottom: { lg: 0, md: 0, xs: 5 },
+            }}
           >
             <Grid item xs={12} lg={4} md={4}>
               <Box
@@ -41,14 +44,18 @@ const PoweredByglobal = (props) => {
                 textAlign={"center"}
               >
                 <Box mb={4} className="white">
-                <Typography className="mb-0 white bold" variant="h2" fontSize={56}>
-                  200 +
-                </Typography>
-                  
+                  <Typography
+                    className="mb-0 white bold"
+                    variant="h2"
+                    fontSize={56}
+                  >
+                    200 +
+                  </Typography>
+
                   <Typography className="f12">Global airlines</Typography>
                 </Box>
                 <Box>
-                  <img src="/images/global-airline.svg" />
+                  <img src="/images/global-airline-v3.svg" />
                 </Box>
               </Box>
             </Grid>
@@ -60,13 +67,19 @@ const PoweredByglobal = (props) => {
                 textAlign={"center"}
               >
                 <Box mb={4} className="white">
-                  <Typography className="mb-0 white bold" variant="h2" fontSize={56}>800 +</Typography>
+                  <Typography
+                    className="mb-0 white bold"
+                    variant="h2"
+                    fontSize={56}
+                  >
+                    800 +
+                  </Typography>
                   <Typography className="f12">
                     Trains, coaches, and buses
                   </Typography>
                 </Box>
                 <Box>
-                  <img src="/images/train-coatches.bussesn.svg" />
+                  <img src="/images/train-coatches.bussesn-v3.svg" />
                 </Box>
               </Box>
             </Grid>
@@ -78,11 +91,17 @@ const PoweredByglobal = (props) => {
                 textAlign={"center"}
               >
                 <Box mb={4} className="white">
-                  <Typography className="mb-0 white bold" variant="h2" fontSize={56}>700k +</Typography>
+                  <Typography
+                    className="mb-0 white bold"
+                    variant="h2"
+                    fontSize={56}
+                  >
+                    700k +
+                  </Typography>
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>
                 <Box>
-                  <img src="/images/hotel-stays.png" />
+                  <img src="/images/hotel-stays-v3.svg" />
                 </Box>
               </Box>
             </Grid>
@@ -156,8 +175,8 @@ const PoweredByglobal = (props) => {
       <Box sx={{ display: { xs: "block", lg: "none", md: "none" } }}>
         <Footer
           forDark
-          LearnMore={"Trusted by our global travel partners"}
-          id={"PoweredByglobal"}
+          LearnMore={"What travellers say"}
+          id={"Section4Reviews"}
         />
       </Box>
     </Box>

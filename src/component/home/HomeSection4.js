@@ -36,11 +36,22 @@ const HomeSection4 = (props) => {
                   <h2 className="white align-center">
                     Smarter with every trip.
                   </h2>
-                  <Typography className="align-center white">
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                  >
                     The more you use Mylz, the smarter it gets - learning your
                     preferences, saving your time, and tailoring each journey to
                     your style. An AI that adapts to you - not the other way
                     around.
+                  </Typography>
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    The more you use Mylz, the smarter it gets - learning your
+                    preferences, saving your time, and tailoring each journey to
+                    your style.
                   </Typography>
                 </Box>
               </Box>
@@ -56,7 +67,7 @@ const HomeSection4 = (props) => {
                       Travel style remembered
                     </h5>
                     <Typography className="f14" color="white">
-                      Prefer late departures? Hate early flights? Love trains?
+                      Prefer late departures? Hate early flights? <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />Love trains?
                       Mylz learns your habits.
                     </Typography>
                   </Box>
@@ -73,7 +84,7 @@ const HomeSection4 = (props) => {
                       Prompt memory
                     </h5>
                     <Typography className="f14" color="white">
-                      Repeat that Rome trip from last spring? Just ask - your
+                      Repeat that Rome trip from last spring? <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />Just ask - your
                       past prompts are saved.
                     </Typography>
                   </Box>
@@ -90,7 +101,7 @@ const HomeSection4 = (props) => {
                       Faster booking every time
                     </h5>
                     <Typography className="f14" color="white">
-                      Mylz remembers your behaviour and gets you through to
+                      Mylz remembers your behaviour and gets <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />you through to
                       booking in seconds.
                     </Typography>
                   </Box>
@@ -98,7 +109,10 @@ const HomeSection4 = (props) => {
               </Grid>
               {/*  */}
             </Grid>
-            <Box sx={{ mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
+            <Box
+              sx={{ mt: { lg: 5, md: 5, xs: 3 }, mb: { lg: 0, md: 0, xs: 7 } }}
+              spacing={{ xs: 2, md: 4 }}
+            >
               <Link
                 href={"#PoweredByglobal"}
                 className={styles.footerBtn + " white text-decoration-none"}

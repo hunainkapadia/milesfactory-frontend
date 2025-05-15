@@ -37,11 +37,30 @@ const HomeSection3 = (props) => {
                   <h2 className="white align-center">
                     Real trips. Real savings.
                   </h2>
-                  <Typography className="align-center white">
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+                  >
                     These aren’t mockups - they’re real bookings made by our
                     users. No hidden fees, no upsells, no bouncing between tabs.
                     Just fast, smart travel - flights, trains, and hotels - at
                     the price it should be.
+                  </Typography>
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    These aren’t mockups - they’re real bookings{" "}
+                    <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />
+                    made by our users. No hidden fees, no{" "}
+                    <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />
+                    upsells, no bouncing between many tabs.
                   </Typography>
                 </Box>
               </Box>
@@ -148,9 +167,12 @@ const HomeSection3 = (props) => {
             </Grid>
             {/*  */}
           </Grid>
-          <Box sx={{ mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
+          <Box
+            sx={{ mt: { lg: 5, md: 5, xs: 3 }, mb: { lg: 0, md: 0, xs: 7 } }}
+            spacing={{ xs: 2, md: 4 }}
+          >
             <Link
-              href={"#HomeSection3"}
+              href={"#HomeSection4"}
               className={styles.footerBtn + " white text-decoration-none"}
             >
               <Typography
@@ -164,14 +186,10 @@ const HomeSection3 = (props) => {
                 className="align-center white"
                 sx={{ display: { lg: "none", md: "none", xs: "block" } }}
               >
-                🔍 Prices pulled directly from live websites.
+                ✅ No markups. Real price in seconds.
               </Typography>
             </Link>
           </Box>
-          <Link
-            href={"#HomeSection4"}
-            className={styles.footerBtn + " white text-decoration-none"}
-          ></Link>
         </Box>
       </Container>
       <Footer

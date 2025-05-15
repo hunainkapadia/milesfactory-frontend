@@ -29,7 +29,7 @@ const Navbar = () => {
         </Box>
 
         <Box component={Link} href="#" className={styles.navItem}>
-          My trips
+          My booked trips
         </Box>
       </Box>
     </Box>

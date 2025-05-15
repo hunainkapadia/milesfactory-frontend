@@ -238,6 +238,7 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
     });
 };
 
+// for chat page header plus  icon
 export const deleteAndCreateThread = (followUpMessage = null) => (dispatch, getState) => {
   let getuser = getState().base.currentUser;
     
@@ -281,9 +282,10 @@ export const deleteAndCreateThread = (followUpMessage = null) => (dispatch, getS
       }
     })
     .catch((err) => {
-      console.error("Error deleting thread", err);
+      console.error("Error deleting thread", err?.response?.data?.error);
     });
 };
+
 
 export const OnlydeleteChatThread = (followUpMessage = null) => (dispatch, getState) => {
   const uuid = sessionStorage.getItem("chat_thread_uuid");

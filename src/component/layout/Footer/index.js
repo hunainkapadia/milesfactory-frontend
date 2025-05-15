@@ -36,8 +36,10 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
           <Container>
             <Box
               display={"flex"}
-              sx={{ justifyContent: { xs: "center", lg: "left", md: "left" } }}
-              pb={7}
+              sx={{
+                justifyContent: { xs: "center", lg: "left", md: "left" },
+                pb: { lg: 7, md: 7, xs: 3 },
+              }}
               gap={6}
             >
               <Box
@@ -67,54 +69,57 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             {/*  */}
             <Box
               className={styles.FooterBox + ""}
-              
               display={"flex"}
               justifyContent={"space-between"}
               alignItems={"center"}
               flexWrap={"wrap"}
               sx={{
                 flexDirection: { xs: "column-reverse", md: "row" }, // Reverse on mobile
-                pt:{lg:3, md: 3, xs: 3},
-                pb:{lg:3, md: 3, xs: 0}
+                pt: { lg: 3, md: 3, xs: 4 },
+                pb: { lg: 3, md: 3, xs: 0 },
               }}
             >
               <Box
                 display={"flex"}
                 alignItems={"center"}
-                
                 className=" no-list"
                 sx={{
                   justifyContent: { xs: "center", md: "space-between" },
                   flexWrap: { xs: "wrap", md: "" },
-                  gap:{lg: 4, md: 4, xs: 3}
+                  columnGap: { lg: 4, md: 4, xs: 3 },
+                  rowGap: { lg: 4, md: 4, xs: 2}
                 }}
               >
-                <Box>
-                  <Link className="basecolor" href={"/"}>
-                    © 2025 Milesfactory
-                  </Link>
+                <Box display={"flex"} sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}>
+                  <Box>
+                    <Link className="basecolor" href={"/"}>
+                      © 2025 Milesfactory
+                    </Link>
+                  </Box>
+                  <Box>
+                    <Link className="basecolor" href={"/terms-and-conditions"}>
+                      Terms & Conditions
+                    </Link>
+                  </Box>
                 </Box>
-                <Box>
-                  <Link className="basecolor" href={"/terms-and-conditions"}>
-                    Terms & Conditions
-                  </Link>
-                </Box>
-                <Box>
-                  <Link className="basecolor" href={"/privacy"}>
-                    Privacy
-                  </Link>
-                </Box>
-                <Box>
-                  <Link className="basecolor" href={"/sanctions-compliance"}>
-                    Sanctions Compliance
-                  </Link>
+                <Box display={"flex"} sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}>
+                  <Box>
+                    <Link className="basecolor" href={"/privacy"}>
+                      Privacy
+                    </Link>
+                  </Box>
+                  <Box>
+                    <Link className="basecolor" href={"/sanctions-compliance"}>
+                      Sanctions Compliance
+                    </Link>
+                  </Box>
                 </Box>
               </Box>
               <Box
                 display={"flex"}
                 gap={2}
                 alignItems={"center"}
-                sx={{ marginBottom: { xs: 3, md: 0 } }}
+                sx={{ marginBottom: { xs: 4, md: 0 } }}
                 className={styles.FooterBoxRight}
               >
                 <Link
@@ -187,8 +192,12 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 </Link>
               </Box>
               <Typography mb={4} className="f12 basecolor1-dark2">
-                Mylz uses AI to find the cheapest flights, trains, stays and
-                experiences. Bundle together for even more savings.
+                Mylz uses AI to find the cheapest flights, trains, stays, and
+                <Box
+                  component="br"
+                  sx={{ display: { xs: "block", sm: "none" } }}
+                />
+                local experiences. Bundle together for even more savings.
               </Typography>
               <Typography
                 className="f12 basecolor"
@@ -207,10 +216,8 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
               >
                 🍪 We do not like cookies and take privacy compliance very
                 seriously. That’s why we are not using any cookies that are not
-                essential to the functioning of the website and we do not use
-                any tracking scripts. Therefore we eliminated the need for
-                cookie consent banners and do not track you in any way during
-                your travel search.
+                essential to the functioning of the website. Therefore we
+                eliminated the need for any cookies consent banner.
               </Typography>
             </Box>
           </Container>

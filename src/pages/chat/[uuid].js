@@ -12,13 +12,23 @@ import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
 import MobileLoading from "@/src/component/LoadingArea/MobileLoading";
 
 const ChatByUUID = () => {
-  
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { uuid } = router.query;
+
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
-  const isMessage = [...getMessages, ...sendMessages];  
-  // Fetch messages using the UUID from URL
+  const isMessage = [...getMessages, ...sendMessages];
   
+
+  // Fetch messages using the UUID from URL
+    useEffect(() => {
+      console.log("Router object:", router);
+    }, [router]);
+  
+
   return (
     <>
       <main>
