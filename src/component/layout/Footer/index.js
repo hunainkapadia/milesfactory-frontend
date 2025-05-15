@@ -44,26 +44,26 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             >
               <Box
                 display={"flex"}
-                alignItems={"center"}
+                alignItems={"flex-start"}
                 justifyContent={"center"}
                 flexDirection={"column"}
               >
-                <Box>
-                  <img src="/images/google-review-logo.png" />
+                <Box className="imggroup" sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }} mb={0.5}>
+                  <img src="/images/trust-pilot-v2.svg" />
                 </Box>
+                <Typography className="bold black">
+                  4.8/5 - 750 reviews
+                </Typography>
               </Box>
               <Box
                 display={"flex"}
-                alignItems={"center"}
+                alignItems={"flex-start"}
                 justifyContent={"center"}
                 flexDirection={"column"}
               >
-                <Box>
-                  <img src="/images/trust-pilot-logo.png" />
+                <Box className="imggroup" sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}>
+                  <img src="/images/google-review-v2.svg" />
                 </Box>
-                <Typography className="bold black">
-                  4.8/5 - 750 reviews
-                </Typography>
               </Box>
             </Box>
             {/*  */}
@@ -87,10 +87,13 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   justifyContent: { xs: "center", md: "space-between" },
                   flexWrap: { xs: "wrap", md: "" },
                   columnGap: { lg: 4, md: 4, xs: 3 },
-                  rowGap: { lg: 4, md: 4, xs: 2}
+                  rowGap: { lg: 4, md: 4, xs: 2 },
                 }}
               >
-                <Box display={"flex"} sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}>
+                <Box
+                  display={"flex"}
+                  sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
+                >
                   <Box>
                     <Link className="basecolor" href={"/"}>
                       © 2025 Milesfactory
@@ -102,7 +105,10 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                     </Link>
                   </Box>
                 </Box>
-                <Box display={"flex"} sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}>
+                <Box
+                  display={"flex"}
+                  sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
+                >
                   <Box>
                     <Link className="basecolor" href={"/privacy"}>
                       Privacy

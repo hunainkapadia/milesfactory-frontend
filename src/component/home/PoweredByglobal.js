@@ -21,7 +21,10 @@ const PoweredByglobal = (props) => {
           >
             <Box className={``} sx={{ mb: { lg: 6, md: 6, xs: 3 } }}>
               <h2 className=" semibold white align-center mb-0">
-                Trusted by our global travel partners
+                Trusted by our <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />global travel partners
               </h2>
             </Box>
           </Box>
@@ -49,7 +52,7 @@ const PoweredByglobal = (props) => {
                     variant="h2"
                     fontSize={56}
                   >
-                    200 +
+                    200+
                   </Typography>
 
                   <Typography className="f12">Global airlines</Typography>
@@ -72,7 +75,7 @@ const PoweredByglobal = (props) => {
                     variant="h2"
                     fontSize={56}
                   >
-                    800 +
+                    800+
                   </Typography>
                   <Typography className="f12">
                     Trains, coaches, and buses
@@ -96,7 +99,7 @@ const PoweredByglobal = (props) => {
                     variant="h2"
                     fontSize={56}
                   >
-                    700k +
+                    700k+
                   </Typography>
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>

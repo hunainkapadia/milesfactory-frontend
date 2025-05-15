@@ -68,7 +68,7 @@ export const fetchMessages = () => (dispatch) => {
       }
       response?.data.forEach((item) => {
         // is function true start search result flow
-        
+        console.log("allFlightSearchApi", item);
         if (item?.is_function) {
           
           
@@ -92,6 +92,8 @@ export const fetchMessages = () => (dispatch) => {
           //     });
           // }
 
+          
+          
           
           const allFlightSearchApi =
           item?.response?.results?.view_all_flight_result_api?.url;
@@ -130,7 +132,8 @@ export const fetchMessages = () => (dispatch) => {
                 console.log("allFlightSearchApi11", flightRes.data);
               })
               .catch((flighterror) => {
-                dispatch(setFlightExpire(flighterror.response.data.error));
+                
+                dispatch(setFlightExpire(flighterror?.response.data?.error));
               }).finally(()=> {
                 
               })

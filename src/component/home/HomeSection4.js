@@ -101,7 +101,7 @@ const HomeSection4 = (props) => {
                       Faster booking every time
                     </h5>
                     <Typography className="f14" color="white">
-                      Mylz remembers your behaviour and gets <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />you through to
+                      Mylz remembers your behaviour and <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />gets you through to
                       booking in seconds.
                     </Typography>
                   </Box>

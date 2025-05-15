@@ -34,10 +34,27 @@ const HomeSection2 = (props) => {
                   }}
                 >
                   <h2 className="white align-center">Plan less. Go further.</h2>
-                  <Typography className="align-center white">
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                  >
                     No more endless tabs, hidden fees, or confusing options.
                     Just tell Mylz your trip idea and get the smartest routes
                     instantly, at direct prices.
+                  </Typography>
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    No more endless tabs, hidden fees, or <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />confusing options.
+                    Just tell Mylz your trip <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />idea and get the best routes at
+                    direct prices.
                   </Typography>
                 </Box>
               </Box>
@@ -98,17 +115,25 @@ const HomeSection2 = (props) => {
               </Grid>
               {/*  */}
             </Grid>
-            <Box sx={{ mb: { lg: 0, md: 0, xs: 7}, mt: { lg: 5, md: 5, xs: 3 } }} spacing={{ xs: 2, md: 4 }}>
+            <Box
+              sx={{ mb: { lg: 0, md: 0, xs: 7 }, mt: { lg: 5, md: 5, xs: 3 } }}
+              spacing={{ xs: 2, md: 4 }}
+            >
               <Link
                 href={"#HomeSection3"}
                 className={styles.footerBtn + " white text-decoration-none"}
               >
-                <Typography className="align-center white" sx={{ display: { xs: "none", lg: "block", md: "block" } }}>
+                <Typography
+                  className="align-center white"
+                  sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+                >
                   ✅ No markups. No redirects. Book at the real price in seconds.
                 </Typography>
-                <Typography className="align-center white" sx={{ display: { lg: "none", md: "none", xs: "block" } }}>
+                <Typography
+                  className="align-center white"
+                  sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                >
                   ✅ No markups. Real price in seconds.
-                  seconds.
                 </Typography>
               </Link>
             </Box>
