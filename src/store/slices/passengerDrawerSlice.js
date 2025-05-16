@@ -115,7 +115,7 @@ export const PassengerForm = () => (dispatch, getState) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.log("booking_error", error);
     });
 };
 

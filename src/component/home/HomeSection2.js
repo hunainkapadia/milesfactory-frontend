@@ -46,15 +46,17 @@ const HomeSection2 = (props) => {
                     className="align-center white"
                     sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                   >
-                    No more endless tabs, hidden fees, or <Box
+                    No more endless tabs, hidden fees, or{" "}
+                    <Box
                       component="br"
                       sx={{ display: { xs: "block", sm: "none" } }}
-                    />confusing options.
-                    Just tell Mylz your trip <Box
+                    />
+                    confusing options. Just tell Mylz your trip{" "}
+                    <Box
                       component="br"
                       sx={{ display: { xs: "block", sm: "none" } }}
-                    />idea and get the best routes at
-                    direct prices.
+                    />
+                    idea and get the best routes at direct prices.
                   </Typography>
                 </Box>
               </Box>
@@ -69,10 +71,13 @@ const HomeSection2 = (props) => {
                     <h5 className="white mb-5" color="white" variant="h5">
                       Chat your trip
                     </h5>
-                    <Typography className="f14" color="white">
+                    <Typography className="f14" color="white" sx={{display:{lg:"block", md:"block", xs:"none"}}}>
                       Forget filters and forms. Type your plan like “weekend in
                       Porto under £200” and Mylz gets to work. Mylz understands
                       your goals.
+                    </Typography>
+                    <Typography className="f14" color="white" sx={{display:{lg:"none", md:"none", xs:"block"}}}>
+                      Forget filters and forms. Type your plan like “weekend in Porto”  and Mylz gets to work.
                     </Typography>
                   </Box>
                 </Card>
@@ -87,10 +92,13 @@ const HomeSection2 = (props) => {
                     <h5 className="white mb-5" color="white" variant="h5">
                       Get smart options
                     </h5>
-                    <Typography className="f14" color="white">
-                      Mylz compares flights, trains, and hotels to build the
-                      best route - in seconds. Always real prices with no
-                      markups or redirects.
+                    <Typography className="f14" color="white" sx={{display:{lg:"block", md:"block", xs:"none"}}}>
+                      Mylz checks every route across flights, trains, and more –
+                      comparing time, price, and flexibility to plan your trip
+                      in seconds.
+                    </Typography>
+                    <Typography className="f14" color="white" sx={{display:{lg:"none", md:"none", xs:"block"}}}>
+                      Mylz compares flights, trains, and more  to build the best travel route in seconds. 
                     </Typography>
                   </Box>
                 </Card>
@@ -105,10 +113,13 @@ const HomeSection2 = (props) => {
                     <h5 className="white mb-5" color="white" variant="h5">
                       Book it in one tap
                     </h5>
-                    <Typography className="f14" color="white">
-                      See something you like? Book instantly. No unnecessary
-                      upsells. Mylz remembers your travel preferences for next
-                      time.
+                    <Typography className="f14" color="white" sx={{display:{lg:"block", md:"block", xs:"none"}}}>
+                      See something you like? Book instantly. Always at the real
+                      price with no markups or redirects. No unnecessary
+                      upsells.
+                    </Typography>
+                    <Typography className="f14" color="white" sx={{display:{lg:"none", md:"none", xs:"block"}}}>
+                      See something you like? Book instantly at  real prices with no markups or redirects. 
                     </Typography>
                   </Box>
                 </Card>
@@ -127,7 +138,8 @@ const HomeSection2 = (props) => {
                   className="align-center white"
                   sx={{ display: { xs: "none", lg: "block", md: "block" } }}
                 >
-                  ✅ No markups. No redirects. Book at the real price in seconds.
+                  ✅ No markups. No redirects. Book at the real price in
+                  seconds.
                 </Typography>
                 <Typography
                   className="align-center white"

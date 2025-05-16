@@ -81,7 +81,6 @@ const Messages = () => {
 
   
   console.log("isLoading111", isLoading);
-
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
@@ -120,27 +119,37 @@ const Messages = () => {
               <BookingDrawer getFlightDetail={flightDetail} />
               <PassengerDrawerForm />
               <BaggageDrawer getFlightDetail={flightDetail} />
-              {FlightExpire ? (
-                <>
-                  <Box py={2}>
-                    <Box  onClick={refreshHandle} className="text-decuration-none bold cursor-pointer">
-                      Refresh this search
-                    </Box>
-                  </Box>
-                  <Typography>
-                    Your search has expired. Please enter a new search or
-                    refresh the old one.{" "}
-                  </Typography>
-                </>
-              ) : (
-                ""
-              )}
             </Box>
           </Box>
         </section>
       ) : (
-        ""
+        <>
+        </>
       )}
+          {FlightExpire ? (
+            <>
+              <section>
+                <Box className={searchResultStyles.messageContent}>
+                  <Box className={searchResultStyles.messageContentIn}>
+                    <Box py={2}>
+                      <Box
+                        onClick={refreshHandle}
+                        className="text-decuration-none bold cursor-pointer"
+                      >
+                        Refresh this search
+                      </Box>
+                    </Box>
+                    <Typography>
+                      Your search has expired. Please enter a new search or
+                      refresh the old one.{" "}
+                    </Typography>
+                  </Box>
+                </Box>
+              </section>
+            </>
+          ) : (
+            ""
+          )}
 
       {/* //////////////////////// Chat Messages end ////////////////////////*/}
     </>
