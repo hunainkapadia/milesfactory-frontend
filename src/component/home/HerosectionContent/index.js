@@ -12,7 +12,7 @@ const HerosectionContent = () => {
            flexDirection={"column"}
          >
            <Box sx={{ px: { xs: 0, md: 2, lg: 2 } }}>
-             <h1 className="h1-lg test-5555">
+             <h1 className="h1-lg test-666">
                Stop the multi-tabs.
                <br />
                Book trips in seconds.
