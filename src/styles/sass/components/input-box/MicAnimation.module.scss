@@ -1,0 +1,21 @@
+@import "../../_variables.scss";
+.barContainer {
+  display: flex;
+  align-items: center; /* Center bars vertically for symmetric growth */
+  height: 30px;
+  width: 100%;
+  overflow: hidden;
+  padding: 0 4px;
+  gap: 2px;
+}
+
+.bar {
+  flex: 1;
+  height: 100%;
+  background-color: $white;
+  border-radius: 2px;
+  transform: scaleY(0.3);       /* Base scale */
+  transform-origin: center;      /* Grow/shrink from vertical center */
+  will-change: transform, background-color;
+  
+}

@@ -34,6 +34,7 @@ export default function App({ Component, pageProps }) {
                 rel="stylesheet"
               />
               <link rel="icon" href="/images/favicon_mylz_v2.svg" />
+              
             </Head>
             <AppWrapper Component={Component} pageProps={pageProps} />
           </ThemeProvider>

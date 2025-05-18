@@ -20,6 +20,7 @@
 .SearchBoxSectionActive {
    .SearchBoxContainer {
       width: 100%;
+      padding: 0;
       .label {
          position: absolute;
          z-index: 3;
@@ -29,38 +30,47 @@
       }
    
       .SearchButtonBox {
-         height: 100%;
          position: absolute;
          right: 0;
          top: 0;
-         display: flex;
-         align-items: center;
+         background-color: $white;
+         @include border-radius(36px);
+         background-color: $white;
+         width: auto;
          padding: 15px;
-         gap: 8px;
-         .SearchButton {
-            width: 40px;
-            height: 40px;
-            z-index: 2;
-            background-color: $basecolor1;
-            @include border-radius(100px);
-            color: $white;
-            &.Disabled {
-               background-color: $lightgray1;
-            }
-            i {font-size: 20px;}
-      
-            &:hover {
+         &.active { width: 100%;@include display(flex);align-items: center;}
+         
+         .BoxButtons {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            .SearchButton {
+               width: 40px;
+               height: 40px;
+               z-index: 2;
                background-color: $basecolor1;
+               @include border-radius(100px);
+               color: $white;
+               &.Disabled {
+                  background-color: $lightgray1;
+               }
+               i {font-size: 20px;}
+         
+               &:hover {
+                  background-color: $basecolor1;
+               }
             }
-         }
-         .MicButton {
-            width: 40px;
-            height: 40px;
-            z-index: 2;
-            background-color: $white;
-            @include border-radius(100px);
-            border: solid 1px $lightgray3;
-            i {font-size: 20px;}
+            .MicButton {
+               width: 40px;
+               height: 40px;
+               z-index: 2;
+               background-color: $white;
+               @include border-radius(100px);
+               border: solid 1px $lightgray3;
+               color: #656565;
+               i {font-size: 20px;}
+            }
          }
       }
    
@@ -117,7 +127,7 @@
                color: $basecolor;
             }
             .SearchButton {color: $white;}
-            .SearchButtonBox {
+            .SearchButtonBox .BoxButtons {
                padding: 10px 15px;
                .MicButton {
                   color: $gray;
@@ -154,41 +164,56 @@
             
       }
 
-      .SearchButtonBox {
-         display: flex;
-         align-items: flex-end;
-         padding: 15px;
-         position: absolute;
-         z-index: 1;
-         bottom: 0;
-         right: 0;
-         gap: 8px;
-         .SearchButton {
-            width: 25px;
-            height: 25px;
+      
+      i {}
+      
+   }
+}
+.SearchButtonBox {
+   position: absolute;
+   z-index: 1;
+   bottom: 0;
+   right: 0;
+   display: flex;
+   width: 100%;
+   align-items:flex-end;
+   padding: 15px;
+   gap: 0 10px;
+   height: auto;
+   &.active {
+      height: 100%;
+      z-index: 1;
+      background: #0B1729;
+      border: 1px solid #F7F7F7;
+      border-radius: 16px;
+   }
+   .BoxButtons {
+      display: flex;
+      align-items: center;
+      
+      gap: 8px;
+      .SearchButton {
+         width: 25px;
+         height: 25px;
+         background-color: $basecolor1;
+         @include border-radius(100px);
+         color: $black;
+         font-size: $bfsize;
+      }
+      .MicButton {
+         width: 25px;
+         height: 25px;
+         padding: 0;
+         @include border-radius(100px);
+         color: $white;
+         font-size: $bfsize;
+         border: solid 1px $lightgray2;
+         i  {font-size: 12px;}
+         &:hover {
             background-color: $basecolor1;
-            @include border-radius(100px);
-            color: $black;
-            font-size: $bfsize;
-         }
-         .MicButton {
-            width: 25px;
-            height: 25px;
-            padding: 0;
-            @include border-radius(100px);
             color: $white;
-            font-size: $bfsize;
-            border: solid 1px $lightgray2;
-            i  {font-size: 12px;}
-            &:hover {
-               background-color: $basecolor1;
-               color: $white;
-            }
          }
       }
-
-      i {}
-
    }
 }
 
@@ -237,7 +262,7 @@
       padding: 0 8px;
       .SearchBox {
          
-         .SearchButtonBox {
+         .SearchButtonBox .BoxButtons {
             top: 8px;
             .SearchButton {
             }
