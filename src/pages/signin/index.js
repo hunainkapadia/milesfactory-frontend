@@ -1,4 +1,4 @@
-import LoginForm from "@/src/component/Auth/LoginForm";
+import LoginForm from "@/src/component/Auth/LoginPopup";
 import HomeHeroSection from "@/src/component/HomeHeroSection";
 import Header from "@/src/component/layout/Header";
 import styles from "@/src/styles/sass/components/auth/Auth.module.scss";

@@ -80,6 +80,10 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
       SpeechRecognition.startListening({ continuous: true, language: "en-US" });
     }
   };
+  const ScrollDown = () => {
+    messageRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
 
   return (
     <Box
@@ -100,6 +104,13 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
           flexDirection={"column"}
         >
           <Box display="flex" alignItems="center" justifyContent="center">
+            {/* <IconButton sx={{position:"absolute", top:-60,}}
+              className={" CircleButton btn-white " + inputStyles.CircleButton}
+              onClick={ScrollDown}
+
+            >
+              <i className="fa fa-arrow-down"></i>
+            </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (

@@ -3,10 +3,6 @@ import {
   Box,
   Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Divider,
   Drawer,
   Grid,
@@ -21,35 +17,28 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
 import {
-  IsSignupUser,
   logoutUser,
-  openDrawer,
-  setIsSignupPopup,
   setIsSignupUser,
-  setOpenDrawer,
+  setisUserPopup,
   setSignupPopup,
-  setsignUpUser,
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
 import {
   setIsUser,
-  setLoginCloseDrawer,
-  setLoginOpenDrawer,
-  setLoginPopup,
-  setLoginUser,
 } from "@/src/store/slices/Auth/LoginSlice";
 import { useRouter } from "next/router";
-import LoginForm from "../../Auth/LoginForm";
-import SignUpForm from "../../Auth/SignupForm";
 import ThreadDrawer from "../../SearchResult/ThreadDrawer";
 import { setCurrentUser, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
 import { createThreadAndRedirect, deleteAndCreateThread, deleteChatThread, setThreadUUIDsend } from "@/src/store/slices/sendMessageSlice";
+import RegisterPopup from "../../Auth/RegisterPopup";
+import SignUpPopup from "../../Auth/SignUpPopup";
+import UserPopup from "../../Auth/UserPopup";
+import LoginPopup from "../../Auth/LoginPopup";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
-  const [isUserPopup, setisUserPopup] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
 
@@ -106,7 +95,7 @@ const Header = ({ isMessage, IsActive }) => {
         })
       );
     }
-  }, []); // Empty array = only runs once on component mount
+  }, [0]); // Empty array = only runs once on component mount
   /////
   // logout
   const logoutHandle = () => {
@@ -118,55 +107,26 @@ const Header = ({ isMessage, IsActive }) => {
 
     dispatch(setCurrentUser(currentUser))
     const userget = useSelector((state)=> state.base.currentUser);
-    
-
-
-    console.log("currentUser", currentUser);
-    
+        
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
   // for login dialog
   const HandleBookTrip = () => {
     setIsDrawerOpen(!isDrawerOpen);
-    setisUserPopup(true);
+    dispatch(setisUserPopup(true));
   };
+
   const HandlePopup = () => {
-    setisUserPopup(true);
+    dispatch(setisUserPopup(true))
   };
-  const handlePopupClose = () => {
-    setisUserPopup(false);
-  };
+  
   // for login dialog
-  const HandleSigninPopup = () => {
-    setisUserPopup(false); // for close user popup
-    dispatch(setLoginPopup(true)); // for close login popup
-  };
-  const handleLoginPopupClose = () => {
-    dispatch(setLoginPopup(false));
-  };
-  const HandleSignupPopup = () => {
-    setisUserPopup(false);
-    dispatch(setSignupPopup(true));
-  };
-  const handleSignupPopupClose = () => {
-    dispatch(setSignupPopup(false));
-  };
-  const isLoginPopup = useSelector((state) => state.login.LoginPopup);
+  
+  
   const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
 
   const router = useRouter();
-  const logoHandle = () => {
-    dispatch(deleteAndCreateThread()); // No then, no async
-    router.push("/")
-  };
-  const ChatClearHandle = () => {
-    Cookies.remove("sessionid"); // Clear the cookie
-    // Reload the page after 1 second
-    if (typeof window !== "undefined") {
-      window.location.reload();
-    }
-  };
   const handleThreadDrawer = () => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
@@ -179,7 +139,7 @@ const Header = ({ isMessage, IsActive }) => {
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread()); // No then, no async
   };
-
+  
 
 
   return (
@@ -221,8 +181,7 @@ const Header = ({ isMessage, IsActive }) => {
               </Box>
 
               <Box className={styles.Logo + " cursor-pointer"}>
-                <Box  component="a"
-  href="/">
+                <Box component="a" href="/">
                   <Box className="d-flex align-items-center">
                     {isSticky || isMessage || IsActive ? (
                       <img src="/images/logo-color2.svg" />
@@ -505,122 +464,13 @@ const Header = ({ isMessage, IsActive }) => {
 
         {/*  */}
       </Drawer>
-      <Dialog
-        open={isUserPopup}
-        onClose={handlePopupClose}
-        maxWidth="sm" // Set max width to 1280px
-        fullWidth // Forces Dialog to expand to maxWidth
-      >
-        <IconButton
-          aria-label="close"
-          onClick={handlePopupClose}
-          sx={{
-            position: "absolute",
-            right: 16,
-            zIndex: 1,
-            top: 8,
-            color: "#000", // Change color if needed
-          }}
-        >
-          <i className="fa fa-times" aria-hidden="true"></i>
-        </IconButton>
 
-        <DialogContent
-          sx={{
-            textAlign: { xs: "center", md: "left", lg: "left" },
-          }}
-        >
-          <Box mb={1}>
-            <h4 className="mb-0">Sign in to continue</h4>
-          </Box>
-          <Box mb={2}>
-            <Typography>
-              Create an account or sign in before booking a trip
-            </Typography>
-          </Box>
-          <Box
-            display={"flex"}
-            flexDirection={"column"}
-            gap={2}
-            sx={{
-              paddingBottom: { xs: 4, md: 0, lg: 0 },
-            }}
-          >
-            <Button
-              className={"btn btn-secondary btn-md no-rounded"}
-              onClick={HandleSigninPopup}
-              component="button"
-            >
-              <Box>Sign in</Box>
-            </Button>
-            <Button
-              className={"btn btn-primary btn-md no-rounded"}
-              onClick={HandleSignupPopup}
-              component="button"
-            >
-              <Box>Sign up for free</Box>
-            </Button>
-          </Box>
-        </DialogContent>
-      </Dialog>
-
+      <UserPopup />
       {/* logoin popup */}
-      <Dialog
-        open={isLoginPopup}
-        onClose={HandleSigninPopup}
-        maxWidth="sm" // Set max width to 1280px
-        fullWidth // Forces Dialog to expand to maxWidth
-      >
-        <IconButton
-          aria-label="close"
-          onClick={handleLoginPopupClose}
-          sx={{
-            position: "absolute",
-            right: 16,
-            zIndex: 1,
-            top: 8,
-            color: "#000", // Change color if needed
-          }}
-        >
-          <i className="fa fa-times" aria-hidden="true"></i>
-        </IconButton>
-
-        <DialogContent
-          sx={{
-            textAlign: { xs: "center", md: "left", lg: "left" },
-          }}
-        >
-          <LoginForm />
-        </DialogContent>
-      </Dialog>
-      <Dialog
-        open={isSignupPopup}
-        onClose={HandleSignupPopup}
-        maxWidth="sm" // Set max width to 1280px
-        fullWidth // Forces Dialog to expand to maxWidth
-      >
-        <IconButton
-          aria-label="close"
-          onClick={handleSignupPopupClose}
-          sx={{
-            position: "absolute",
-            right: 16,
-            zIndex: 1,
-            top: 8,
-            color: "#000", // Change color if needed
-          }}
-        >
-          <i className="fa fa-times" aria-hidden="true"></i>
-        </IconButton>
-
-        <DialogContent
-          sx={{
-            textAlign: { xs: "center", md: "left", lg: "left" },
-          }}
-        >
-          <SignUpForm />
-        </DialogContent>
-      </Dialog>
+      
+      <LoginPopup />
+      <RegisterPopup  />
+      <SignUpPopup />
     </>
   );
 };

@@ -13,12 +13,20 @@ const initialState = {
   emailError: "",
   passwordError: "",
   SignupPopup: false,
+  registerPopup: false,
+  UserPopup: false,
 };
 
 const signupSlice = createSlice({
   name: "signup",
   initialState,
   reducers: {
+    setisUserPopup: (state, action)=> {
+      state.UserPopup = action.payload
+    },
+    setRegisterPopup: (state, action)=> {
+      state.registerPopup = action.payload
+    },
     setSignupPopup: (state, action)=> {
       
       state.SignupPopup = action.payload
@@ -62,6 +70,7 @@ export const SignUpUser = (params) => (dispatch) => {
       
       if (res.status === 201) {
         dispatch(setIsSignupUser({user: res?.data, status: res.status}));
+        dispatch(setSignupPopup(false));
         // Store user info in cookies
         Cookies.set(
           "set-user",
@@ -96,6 +105,8 @@ export const {
   logoutUser,
   setIstLoading,
   setSignupPopup,
+  setRegisterPopup,
+  setisUserPopup,
 } = signupSlice.actions;
 
 export default signupSlice.reducer;

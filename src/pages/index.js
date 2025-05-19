@@ -9,7 +9,11 @@ import { useRouter } from "next/router";
 import HomeHeroSection from "../component/HomeHeroSection";
 import { fetchMessages } from "../store/slices/GestMessageSlice";
 import Footer from "../component/layout/Footer";
-import {OnlydeleteChatThread, setThreadUUIDsend } from "../store/slices/sendMessageSlice";
+import {
+  createThread,
+  OnlydeleteChatThread,
+  setThreadUUIDsend,
+} from "../store/slices/sendMessageSlice";
 import HomeSection3 from "../component/home/HomeSection3";
 import HomeSection4 from "../component/home/HomeSection4";
 import HomeSection2 from "../component/home/HomeSection2";
@@ -27,34 +31,34 @@ const Home = () => {
   const isMessage = [...getmessages, ...sendMessages];
 
   const uuid = useSelector((state) => state.sendMessage.ThreadUUIDsend); // <-- Adjust based on your store
-  
-  useEffect(()=> {
-    dispatch(OnlydeleteChatThread())
-  }, [0])
+
+  useEffect(() => {
+    dispatch(OnlydeleteChatThread());
+  }, [0]);
+
+  // 1st creat thread befor befor message from home 
+  useEffect(() => {
+    dispatch(createThread());
+  }, [dispatch]);
 
   return (
     <>
       <main>
-            <Header  />
-        <section
-          id="fold1"
-          className={styles.HomeBanner}
-        >
+        <Header />
+        <section id="fold1" className={styles.HomeBanner}>
           <HomeHeroSection />
         </section>
-            <HomeSection2 id={"HomeSection2"} /> 
-            <HomeSection3 id={"HomeSection3"} />
-            <HomeSection4 id={"HomeSection4"} />
+        <HomeSection2 id={"HomeSection2"} />
+        <HomeSection3 id={"HomeSection3"} />
+        <HomeSection4 id={"HomeSection4"} />
 
-            <PoweredByglobal id={"PoweredByglobal"} />
-            <Section4Reviews id={"Section4Reviews"} />
-            <Section5App id={"Section5App"}/>
-            <Footer forLight />
+        <PoweredByglobal id={"PoweredByglobal"} />
+        <Section4Reviews id={"Section4Reviews"} />
+        <Section5App id={"Section5App"} />
+        <Footer forLight />
         {/* for home section */}
         {sendMessages ? (
-          <>
-            {/* sending send message for chat prop only */}
-          </>
+          <>{/* sending send message for chat prop only */}</>
         ) : (
           ""
         )}

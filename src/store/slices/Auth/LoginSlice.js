@@ -52,8 +52,8 @@ export const loginUser = (params) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch(setLoginUser({ user: res.data, status: res.status }));
-        dispatch(setLoginPopup(false));
         // Store user info in cookies
+        dispatch(setLoginPopup(false))
         console.log("res111", res );
         
         Cookies.set(
@@ -115,8 +115,7 @@ export const googleLoginUser = (code) => (dispatch) => {
     .post("/api/auth/google/", { code })
     .then((res) => {
       if (res.status === 200) {
-        dispatch(setLoginUser({ user: res.data, status: res.status }));
-        dispatch(setLoginPopup(false));
+        dispatch(setLoginUser({ user: res.data, status: res.status,  userPopup: false }));
         console.log("googleLogin", res.data);
         Cookies.set(
           "set-user",

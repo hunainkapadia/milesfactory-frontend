@@ -6,9 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { googleLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 
-const LoginWithOptions = ({options}) => {
-
-  
+const LoginWithOptions = ({ options }) => {
   const dispatch = useDispatch();
 
   const loginHandle = useGoogleLogin({
@@ -20,64 +18,58 @@ const LoginWithOptions = ({options}) => {
     flow: "auth-code",
   });
 
-
   return (
     <>
       <Box className={styles.SignupOptions}>
         <Box
           className={
-            styles.SignupOption + " basecolor-dark text-decoration-none bold cursor-pointer"
+            styles.SignupOption +
+            " btn btn-sm btn-border black-border btn-round"
           }
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          gap={1}
+          p={1}
+          mb={1}
+          fontWeight={"bold"}
         >
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            gap={1}
-            p={1}
-            mb={1}
-            fontWeight={"bold"}
-            onClick={() => loginHandle()}
-          >
-            <i className="f20 fa-brands fa-google"></i>
-            <Typography fontWeight={"bold"}>{options} with Google</Typography>
-          </Box>
+          <i className="f20 fa-brands fa-apple"></i>
+          <Typography fontWeight={"bold"}>{options} Apple ID</Typography>
         </Box>
         <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          gap={1}
+          p={1}
+          mb={1}
+          fontWeight={"bold"}
+          onClick={() => loginHandle()}
           className={
-            styles.SignupOption + " basecolor-dark text-decoration-none bold cursor-pointer"
+            styles.SignupOption +
+            " btn btn-sm btn-border black-border btn-round"
           }
         >
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            gap={1}
-            p={1}
-            mb={1}
-            fontWeight={"bold"}
-          >
-            <i className="f20 fa-brands fa-apple"></i>
-            <Typography fontWeight={"bold"}>{options} with Apple ID</Typography>
-          </Box>
+          <i className="f20 fa-brands fa-google"></i>
+          <Typography fontWeight={"bold"}>{options} Google</Typography>
         </Box>
+
         <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          gap={1}
+          p={1}
+          mb={1}
+          fontWeight={"bold"}
           className={
-            styles.SignupOption + " basecolor-dark text-decoration-none bold"
+            styles.SignupOption +
+            " btn btn-sm btn-border black-border btn-round"
           }
         >
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            gap={1}
-            p={1}
-            mb={1}
-            fontWeight={"bold"}
-          >
-            <i className="f20 fa-brands fa-facebook"></i>
-            <Typography fontWeight={"bold"}>{options} with Facebook</Typography>
-          </Box>
+          <i className="f20 fa-brands fa-facebook"></i>
+          <Typography fontWeight={"bold"}>{options} Facebook</Typography>
         </Box>
       </Box>
       <Box
