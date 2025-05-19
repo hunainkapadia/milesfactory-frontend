@@ -127,10 +127,12 @@
                color: $basecolor;
             }
             .SearchButton {color: $white;}
-            .SearchButtonBox .BoxButtons {
-               padding: 10px 15px;
-               .MicButton {
-                  color: $gray;
+            .SearchButtonBox {padding: 0;
+               .BoxButtons {
+                  padding: 10px 15px;
+                  .MicButton {
+                     color: $gray;
+                  }
                }
             }
          }
