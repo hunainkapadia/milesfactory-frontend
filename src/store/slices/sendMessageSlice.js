@@ -223,9 +223,10 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
         dispatch(setThreadUUIDsend(uuid));
         dispatch(
           setMessage({
-            // `Hello ${getuser?.first_name} ${getuser?.last_name}, I'm Mylz. How can I help you?`
             ai: {
-              newThread: `Hello ${getuser?.first_name} ${getuser?.last_name}, I'm Mylz. How can I help you?`,
+              newThread: `Hello ${getuser?.first_name ?? "there"} ${
+                getuser?.last_name ?? ""
+              }, I'm Mylz. How can I help you?`,
             },
           })
         );
@@ -269,7 +270,9 @@ export const deleteAndCreateThread =
                 dispatch(
                   setMessage({
                     ai: {
-                      deleteThread: `Hello ${getuser?.first_name} ${getuser?.last_name}, I'm Mylz. How can I help you?`,
+                      newThread: `Hello ${getuser?.first_name ?? "there"} ${
+                        getuser?.last_name ?? ""
+                      }, I'm Mylz. How can I help you?`,
                     },
                   })
                 );
