@@ -81,135 +81,146 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
   console.log("ThreadUUIDsendState", ThreadUUIDsendState);
 
-  if (!ThreadUUIDsendState) {
-    console.warn("No Thread UUID found; cannot send message");
-    dispatch(setLoading(false));
-    return;
-  }
-
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
 
-  const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${ThreadUUIDsendState}`;
-  console.log("threadUUIdUrl ", threadUUIdUrl);
+  // Define sendToThread inside this thunk or move it outside
+    const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${ThreadUUIDsendState}`;
+    console.log("run_status111 ", threadUUIdUrl);
+    api
+      .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
+      .then((res) => {
+        let response = res.data;
+        const run_id = response.run_id;
+        const run_status = response.run_status;
 
-  // Helper to handle final response, used for both immediate and polled responses
-  const handleFinalResponse = (response) => {
-    if (response?.is_function) {
-      const allFlightSearchApi =
-        response?.response?.results?.view_all_flight_result_api?.url;
-      if (allFlightSearchApi) {
-        const getallFlightId = allFlightSearchApi.split("/").pop();
-        dispatch(setTopOfferUrlSend(getallFlightId));
 
-        const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-        api
-          .get(historyUrl)
-          .then((history_res) => {
-            dispatch(setSearchHistorySend(history_res.data.search));
-          })
-          .catch(() => {});
+        if (run_status === "requires_action") {
+          const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
 
+          const funcTemplate = response.function_template?.[0];
+          const gdata = funcTemplate?.function?.arguments || {};
+          console.log("gdata_00", gdata);
+
+          dispatch(
+            setMessage({
+              ai: {
+                isPolling: {
+                  status: true,
+                  argument: gdata,
+                },
+              },
+            })
+          );
+          const pollUntilComplete = () => {
+            return new Promise((resolve, reject) => {
+              const interval = setInterval(() => {
+                api
+                  .get(runStatusUrl)
+                  .then((resRun) => {
+                    const runData = resRun.data;
+                    console.log("runData.run_status", runData);
+
+                    // checking is function true before dufful flight
+
+                    if (runData.run_status === "completed") {
+                      clearInterval(interval);
+                      resolve(runData);
+                    }
+                  })
+                  .catch((err) => {
+                    clearInterval(interval);
+                    reject(err);
+                  });
+              }, 1000);
+            });
+          };
+
+          // Wait for polling before continuing
+          return pollUntilComplete()
+            .then((completedRun) => {
+              response = completedRun;
+              console.log(" Polling complete:", response);
+              dispatch(setpollingComplete(true));
+              handleFinalResponse(response);
+            })
+            .catch((error) => {
+              console.error(" Polling failed:", error);
+            });
+        } else {
+          // If no polling needed, use immediate response
+          handleFinalResponse(response);
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+
+    //  Common handler after response is finalized (immediate or polled)
+    const handleFinalResponse = (response) => {
+      if (response?.is_function) {
+        const allFlightSearchApi =
+          response?.response?.results?.view_all_flight_result_api?.url;
+        if (allFlightSearchApi) {
+          const getallFlightId = allFlightSearchApi.split("/").pop();
+          dispatch(setTopOfferUrlSend(getallFlightId));
+
+          const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+          api
+            .get(historyUrl)
+            .then((history_res) => {
+              dispatch(setSearchHistorySend(history_res.data.search));
+            })
+            .catch(() => {});
+
+          // normal user and aimessag
+          dispatch(
+            setMessage({
+              ai: { response: response?.response },
+            })
+          );
+          api
+            .get(allFlightSearchApi)
+            .then((flightRes) => {
+              console.log("flightRes22", flightRes);
+              // dispatch(setisPolling({
+              //   status: false,
+              //   argument: null,
+              // }));
+              dispatch(
+                setMessage({
+                  ai: flightRes.data,
+                })
+              );
+              // dispatch(setAllFlightResults(flightRes?.data));
+            })
+            .catch(() => {});
+        }
+      } else {
+        // checking is function true before dufful flight
+        if (response?.run_status == "completed") {
+          // dispatch(setisPolling({
+          //   status: false,
+          //   argument: null,
+          // }));
+        }
         dispatch(
           setMessage({
             ai: { response: response?.response },
           })
         );
-
-        api
-          .get(allFlightSearchApi)
-          .then((flightRes) => {
-            console.log("flightRes22", flightRes);
-            dispatch(
-              setMessage({
-                ai: flightRes.data,
-              })
-            );
-          })
-          .catch(() => {});
       }
-    } else {
-      if (response?.run_status === "completed") {
-        // Optionally handle polling status update here
-      }
-      dispatch(
-        setMessage({
-          ai: { response: response?.response },
-        })
-      );
-    }
-  };
+    };
 
-  api
-    .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
-    .then((res) => {
-      let response = res.data;
-      const run_id = response.run_id;
-      const run_status = response.run_status;
-      const uuid = ThreadUUIDsendState; // use existing ThreadUUIDsendState
+  //  Check if thread UUID already exists
+  // if (ThreadUUIDsendState) {
+  //   sendToThread(ThreadUUIDsendState);
+  // } else {
+  //   // Only create a new thread if one doesn't exist
 
-      if (run_status === "requires_action") {
-        const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-
-        const funcTemplate = response.function_template?.[0];
-        const gdata = funcTemplate?.function?.arguments || {};
-        console.log("gdata_00", gdata);
-
-        dispatch(
-          setMessage({
-            ai: {
-              isPolling: {
-                status: true,
-                argument: gdata,
-              },
-            },
-          })
-        );
-
-        const pollUntilComplete = () => {
-          return new Promise((resolve, reject) => {
-            const interval = setInterval(() => {
-              api
-                .get(runStatusUrl)
-                .then((resRun) => {
-                  const runData = resRun.data;
-                  console.log("runData.run_status", runData.run_status);
-
-                  if (runData.run_status === "completed") {
-                    clearInterval(interval);
-                    resolve(runData);
-                  }
-                })
-                .catch((err) => {
-                  clearInterval(interval);
-                  reject(err);
-                });
-            }, 1000);
-          });
-        };
-
-        return pollUntilComplete()
-          .then((completedRun) => {
-            response = completedRun;
-            console.log("Polling complete:", response);
-            dispatch(setpollingComplete(true));
-            handleFinalResponse(response);
-          })
-          .catch((error) => {
-            console.error("Polling failed:", error);
-          });
-      } else {
-        handleFinalResponse(response);
-      }
-    })
-    .catch((err) => {
-      console.error("Send message failed:", err);
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
+  // }
 };
-
 
 // create thread api call
 export const createThreadAndRedirect = (router) => (dispatch, getState) => {

@@ -114,6 +114,17 @@
    }
 }
 
+.forHomeHero {
+   padding: 20px 0;
+   .FooterBox {
+      .FooterBoxRight {
+         font-size: 24px;
+         a:hover {
+            color: $basecolor1 !important;
+         }
+      }
+   }
+}
  .FooterForLight  {position: relative;z-index: 1;
    padding: 20px 0;
    .FooterBox {

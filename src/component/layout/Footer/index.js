@@ -48,7 +48,11 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 justifyContent={"center"}
                 flexDirection={"column"}
               >
-                <Box className="imggroup" sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }} mb={0.5}>
+                <Box
+                  className="imggroup"
+                  sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}
+                  mb={0.5}
+                >
                   <img src="/images/trust-pilot-v2.svg" />
                 </Box>
                 <Typography className="bold black">
@@ -61,7 +65,10 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 justifyContent={"center"}
                 flexDirection={"column"}
               >
-                <Box className="imggroup" sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}>
+                <Box
+                  className="imggroup"
+                  sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}
+                >
                   <img src="/images/google-review-v2.svg" />
                 </Box>
               </Box>
@@ -258,7 +265,17 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
         </footer>
       ) : forHomeHero ? (
         <>
-          <Box component={"footer"}  className={`${styles.FooterForReview} ${styles.forHomeHero}`} sx={{ pb: 4 }} position={"absolute"} bottom={0}>
+          <Box
+  component="footer"
+  className={`   ${styles.forHomeHero}`}
+  sx={{
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    pb: 4,
+  }}
+>
             <Container>
               <Box
                 className={styles.FooterBox + " "}
