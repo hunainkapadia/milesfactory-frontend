@@ -9,6 +9,7 @@ import {
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
+   setisUserPopup,
   setRegisterPopup,
   setSignupPopup,
 } from "@/src/store/slices/Auth/SignupSlice";
@@ -28,7 +29,7 @@ const RegisterPopup = () => {
   // get error
 
   // error
-    const isRegisterPopup = useSelector((state) => state?.signup?.registerPopup);
+   const isRegisterPopup = useSelector((state) => state?.signup?.registerPopup);
   
   const handleSignUp = () => {
      dispatch(setRegisterPopup(false))
@@ -37,13 +38,12 @@ const RegisterPopup = () => {
   //
 
   const HandleSigninPopup = () => {
-   //  dispatch(setisUserPopup(false)); // for close user popup
-    dispatch(setLoginPopup(true)); // for close login popup
+    dispatch(setisUserPopup(true)); // for close user popup
+   //  dispatch(setLoginPopup(true)); // for close login popup
     dispatch(setRegisterPopup(false))
   };
 
   const HandleRegisterPopupClose = () => {
-    dispatch(setRegisterPopup(false))
     dispatch(setRegisterPopup(false))
   };
   return (

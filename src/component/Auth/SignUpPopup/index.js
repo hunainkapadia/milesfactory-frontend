@@ -213,10 +213,9 @@ const SignUpPopup = () => {
                             sx={{ cursor: "pointer" }}
                           >
                             By registering, I confirm that I accept the{" "}
-                            <Link href="/terms" passHref legacyBehavior>
+                            <Link href="/terms-and-conditions" passHref legacyBehavior>
                               <a
                                 className="basecolor"
-                                target="_blank"
                                 style={{ textDecoration: "underline" }}
                                 onClick={(e) => e.stopPropagation()} // prevents toggling checkbox when clicking link
                               >
@@ -227,7 +226,6 @@ const SignUpPopup = () => {
                             <Link href="/privacy" passHref legacyBehavior>
                               <a
                                 className="basecolor"
-                                target="_blank"
                                 style={{ textDecoration: "underline" }}
                                 onClick={(e) => e.stopPropagation()}
                               >
@@ -235,12 +233,11 @@ const SignUpPopup = () => {
                               </a>
                             </Link>{" "}
                             and{" "}
-                            <Link href="/privacy" passHref legacyBehavior>
+                            <Link href="/sanctions-compliance" passHref legacyBehavior>
                               <a
                                 className="basecolor"
                                 target="_blank"
                                 style={{ textDecoration: "underline" }}
-                                onClick={(e) => e.stopPropagation()}
                               >
                                 Sanctions Compliance
                               </a>

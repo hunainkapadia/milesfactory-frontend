@@ -16,7 +16,7 @@ import { loginUser, setLoginPopup } from "@/src/store/slices/Auth/LoginSlice";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
 import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
-import { setRegisterPopup, setSignupPopup } from "@/src/store/slices/Auth/SignupSlice";
+import { setSignupPopup } from "@/src/store/slices/Auth/SignupSlice";
 
 const LoginPopup = ({}) => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const LoginPopup = ({}) => {
 
   const HandleSignup = () => {
     dispatch(setLoginPopup(false));
-    dispatch(setRegisterPopup(true));
+    dispatch(setSignupPopup(true));
   };
   const isLoginPopup = useSelector((state) => state.login.LoginPopup);
   const handleLoginPopupClose = () => {
@@ -83,8 +83,9 @@ const LoginPopup = ({}) => {
             sx={{ px: { lg: 8, md: 8, xs: 0 } }}
             position={"relative"}
           >
-            <Box textAlign={"center"} mb={2}>
+            <Box mb={2}>
               <h3 className="">Welcome back!</h3>
+              <Typography>How do you like our service?</Typography>
             </Box>
 
             {/* LoginPopup  */}
