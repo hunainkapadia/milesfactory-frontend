@@ -270,7 +270,7 @@ export const deleteAndCreateThread =
                 dispatch(
                   setMessage({
                     ai: {
-                      newThread: `Hello ${getuser?.first_name ?? "there"} ${
+                      deleteThread: `Hello ${getuser?.first_name ?? "there"} ${
                         getuser?.last_name ?? ""
                       }, I'm Mylz. How can I help you?`,
                     },
