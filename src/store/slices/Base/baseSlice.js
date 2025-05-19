@@ -6,12 +6,16 @@ const initialState = {
   ThreadDrawer: false,
   ThreadData: null,
   currentUser: "",
+  feedbackDialog: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setFeedbackDialog: (state,action)=> {
+      state.feedbackDialog = action.payload;
+    },
     setCurrentUser: (state, action)=> {
       state.currentUser = action.payload;
     },
@@ -31,6 +35,9 @@ const baseSlice = createSlice({
   },
 });
 
+export const feedBack=()=> {
+  
+}
 export const thread = () => (dispatch, getState) => {
   api.get("/api/v1/chat/thread/all").then((res)=> {
     dispatch(setThreadData(res.data))
@@ -49,6 +56,7 @@ export const {
   setThreadDrawer,
   setThreadData,
   setCurrentUser,
+  setFeedbackDialog,
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

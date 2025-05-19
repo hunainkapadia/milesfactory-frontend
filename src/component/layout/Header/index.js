@@ -35,6 +35,7 @@ import RegisterPopup from "../../Auth/RegisterPopup";
 import SignUpPopup from "../../Auth/SignUpPopup";
 import UserPopup from "../../Auth/UserPopup";
 import LoginPopup from "../../Auth/LoginPopup";
+import Feedback from "../Feedback";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -394,7 +395,7 @@ const Header = ({ isMessage, IsActive }) => {
                   pl={2}
                 >
                   <Box
-                    className="btn btn-primary btn-md btn-round btn-shadow"
+                    className="btn btn-primary btn-sm  btn-round btn-shadow"
                     alignItems="center"
                     justifyContent="center"
                     gap={1}
@@ -471,6 +472,7 @@ const Header = ({ isMessage, IsActive }) => {
       <LoginPopup />
       <RegisterPopup  />
       <SignUpPopup />
+      <Feedback />
     </>
   );
 };
