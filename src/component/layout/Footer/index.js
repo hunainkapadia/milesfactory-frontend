@@ -258,7 +258,7 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
         </footer>
       ) : forHomeHero ? (
         <>
-          <footer className={styles.FooterForReview} sx={{ pb: 4 }}>
+          <Box component={"footer"}  className={`${styles.FooterForReview} ${styles.forHomeHero}`} sx={{ pb: 4 }} position={"absolute"} bottom={0}>
             <Container>
               <Box
                 className={styles.FooterBox + " "}
@@ -300,7 +300,7 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 </Link>
               </Box>
             </Container>
-          </footer>
+          </Box>
         </>
       ) : (
         ""

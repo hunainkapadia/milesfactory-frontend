@@ -95,7 +95,7 @@
 .HeroSection {
   position: relative;
   z-index: 1;
-  padding: 20vh 0 2vh;
+  padding: 20vh 0 12vh;
   
   &.mainHeroSection {
     height:100vh ;
@@ -267,6 +267,9 @@
       &.Home {
         height:90vh ;
       }
+      footer {
+        display: block;
+      }
 
       .Box {
         .Content2 {
@@ -280,7 +283,7 @@
   }
 
   .mainHeroSection.HeroSection {
-    height: 90vh;
+    height: 100vh;
     padding: 25vh 0 16vh;
 
     .Box .Content .ContentIn {
