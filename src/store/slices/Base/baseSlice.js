@@ -17,6 +17,8 @@ const baseSlice = createSlice({
       state.feedbackDialog = action.payload;
     },
     setCurrentUser: (state, action)=> {
+      console.log("currentuser_state", action);
+      
       state.currentUser = action.payload;
     },
     setThreadData: (state, action)=> {

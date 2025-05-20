@@ -48,6 +48,9 @@ const LoginPopup = ({}) => {
   const handleLoginPopupClose = () => {
     dispatch(setLoginPopup(false)); // for close login popup
   };
+  const isFormValid =
+  email &&
+  password
   return (
     <Dialog
       open={isLoginPopup}
@@ -145,8 +148,10 @@ const LoginPopup = ({}) => {
                       type="submit" // Important!
                       className="btn btn-primary btn-md btn-round"
                       sx={{
-                        width: { xs: "100%", lg: "100%", md: "100%" },
-                      }}
+                          width: { xs: "100%", lg: "100%", md: "100%" },
+                          opacity: `${isFormValid ? "100%" : "50%"}`
+
+                        }}
                       onClick={handleLogin}
                       variant="contained"
                       color="success"

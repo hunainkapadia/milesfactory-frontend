@@ -50,6 +50,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import HeaderRightforChat from "./HeaderRightforChat";
 import MobileNavDrawer from "./MobileNavDrawer";
+import HeaderUser from "./HeaderUser";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -69,60 +70,7 @@ const Header = ({ isMessage, IsActive }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // signup
-  const isuserLogin = useSelector((state) => state?.login?.loginUser?.user); // get user from cookie with redux
-  const isuserLoginGoogle = useSelector(
-    (state) => state?.login?.loginUser?.user?.user
-  ); // get user from cookie with redux
-  const isUserSignup = useSelector((state) => state?.signup?.user?.user);
-  const getSignUpUser = useSelector((state) => state?.signup?.SignupUser?.user);
-
-  // login set user in redux from cookies
-  useEffect(() => {
-    const cookieUserString = Cookies.get("set-user");
-
-    if (cookieUserString) {
-      const cookieUser = JSON.parse(cookieUserString);
-      console.log("isuserLogin", cookieUser);
-      dispatch(
-        setIsSignupUser({
-          user: {
-            first_name: cookieUser.first_name,
-            last_name: cookieUser.last_name,
-            access_token: cookieUser.access_token,
-            refresh_token: cookieUser.refresh_token,
-            email: cookieUser.email,
-          },
-          status: 200,
-        })
-      );
-
-      dispatch(
-        setIsUser({
-          user: {
-            first_name: cookieUser.first_name,
-            last_name: cookieUser.last_name,
-            access_token: cookieUser.access_token,
-            refresh_token: cookieUser.refresh_token,
-            email: cookieUser.email,
-          },
-          status: 200,
-        })
-      );
-    }
-  }, [0]); // Empty array = only runs once on component mount
-  /////
-  // logout
-  const logoutHandle = () => {
-    dispatch(logoutUser());
-  };
-
-  const currentUser =
-    isuserLoginGoogle || getSignUpUser || isuserLogin || isUserSignup; // Use single reference
-
-  dispatch(setCurrentUser(currentUser));
-  const userget = useSelector((state) => state.base.currentUser);
-
+  
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -132,14 +80,12 @@ const Header = ({ isMessage, IsActive }) => {
     dispatch(setisUserPopup(true));
   };
 
-  const HandlePopup = () => {
-    dispatch(setisUserPopup(true));
-  };
+  
 
   // for login dialog
 
-  const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
-
+  const currentUser = useSelector((state) => state.base?.currentUser);
+  
   const router = useRouter();
   // book a trip new thread
 
@@ -226,155 +172,7 @@ const Header = ({ isMessage, IsActive }) => {
               {console.log("isSticky_1", isSticky)}
               <HeaderRightforChat isSticky={isSticky | IsActive || isMessage} />
               {/*  */}
-              {currentUser ? (
-                <Box className={styles.Dropdown} position={"relative"}>
-                  <Box
-                    className={styles.Login}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    gap={2}
-                  >
-                    {console.log("currentUser", currentUser)}
-                    <Typography
-                      // sx={{ display: { xs: "none", sm: "block" } }}
-                      className={styles.userName + " f14 bold"}
-                    >
-                      {!isMessage ? (
-                        <>
-                          {currentUser?.first_name.charAt(0).toUpperCase()}.
-                          <span className="capitalize">
-                            {" "}
-                            {currentUser?.last_name || ""}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          {currentUser?.first_name || ""}{" "}
-                          {currentUser?.last_name || ""}
-                        </>
-                      )}
-                    </Typography>
-
-                    <Box className={styles.userLater}>
-                      <Avatar
-                        src={"image"}
-                        alt={"review.name"}
-                        sx={{
-                          width: 32,
-                          height: 32,
-                          margin: "0 auto",
-                          mb: 2,
-                          bgcolor: "#80E1E5",
-                        }}
-                        className="white mb-0 f16 bold"
-                      >
-                        {currentUser?.first_name.charAt(0).toUpperCase()}
-                      </Avatar>
-                    </Box>
-                    {/*  */}
-                  </Box>
-                  <Box className={styles.DropdownItems}>
-                    <Box
-                      display={"flex"}
-                      flexDirection={"column"}
-                      gap={2}
-                      className={
-                        styles.DropdownItemsBox + "  br-12 box-shadow-md"
-                      }
-                    >
-                      <Box
-                        className={
-                          styles.DropdownItem +
-                          " text-decuration-none cursor-pointer"
-                        }
-                      >
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
-                          <Box width={"20px"}>
-                            <i class="far fa-user-circle"></i>
-                          </Box>
-                          <Typography>Profile</Typography>
-                        </Box>
-                      </Box>
-                      <Box
-                        className={
-                          styles.DropdownItem +
-                          " text-decuration-none cursor-pointer"
-                        }
-                      >
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
-                          <Box width={"20px"}>
-                            <i className="fa fa-cog" aria-hidden="true"></i>
-                          </Box>
-                          <Typography>Settings</Typography>
-                        </Box>
-                      </Box>
-                      <Box
-                        className={
-                          styles.DropdownItem +
-                          " text-decuration-none cursor-pointer"
-                        }
-                        onClick={logoutHandle}
-                      >
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
-                          <Box width={"20px"}>
-                            <i className=" fa fa-sign-out"></i>
-                          </Box>
-                          <Typography>Sign out</Typography>
-                        </Box>
-                      </Box>
-                      {/*  */}
-                    </Box>
-                  </Box>
-                </Box>
-              ) : (
-                <Box
-                  className={styles.Login + " cursor-pointer "}
-                  sx={{ display: { lg: "flex", md: "flex", xs: "flex" } }}
-                  alignItems="center"
-                  justifyContent="center"
-                  gap={2}
-                  onClick={HandlePopup}
-                >
-                  {!isMessage ? (
-                    <Typography
-                      className="bold f16"
-                      // sx={{ display: { lg: "block", md: "block", xs: "none" } }}
-                    >
-                      Sign in
-                    </Typography>
-                  ) : (
-                    <Typography
-                      className="bold f16"
-                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
-                    >
-                      Sign in
-                    </Typography>
-                  )}
-                  <Box
-                    className="imggroup"
-                    alignItems={"center"}
-                    display={"flex"}
-                  >
-                    {isSticky | IsActive || isMessage ? (
-                      <Box
-                        sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-                        className="imggroup"
-                      >
-                        <img src="/images/user-icon-gray.svg" />
-                      </Box>
-                    ) : (
-                      <Box
-                        sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-                        className="imggroup"
-                      >
-                        <img src="/images/user-icon-white.svg" />
-                      </Box>
-                    )}
-                  </Box>
-                  {/*  */}
-                </Box>
-              )}
+              <HeaderUser forhHader={"forhHader"} isMessage={isMessage || isSticky || IsActive} />
 
               <Box
                 className=" cursor-pointer"
@@ -414,7 +212,7 @@ const Header = ({ isMessage, IsActive }) => {
                     justifyContent="center"
                     gap={1}
                     component="button"
-                    onClick={currentUser ? HandleBookThread : HandlePopup}
+                    onClick={currentUser ? HandleBookThread : "HandlePopup"}
                   >
                     <Box>Book a trip</Box>
                   </Box>
@@ -426,12 +224,11 @@ const Header = ({ isMessage, IsActive }) => {
           <MessageInputBox isSticky={InputSticky} HeaderInput={"HeaderInput"} />
         </Container>
       </header>
-
       {/* extra content for  */}
-
       <MobileNavDrawer
         isDrawerOpen={isDrawerOpen}
         toggleDrawer={toggleDrawer}
+        MobileNavDrawer={MobileNavDrawer}
       />
 
       <UserPopup />

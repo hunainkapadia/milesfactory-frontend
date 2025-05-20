@@ -1,0 +1,245 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { Box, Typography, Avatar, useTheme, useMediaQuery } from "@mui/material";
+import {
+  setIsSignupUser,
+  logoutUser,
+  setisUserPopup,
+} from "@/src/store/slices/Auth/SignupSlice"; // adjust import paths based on your store structure
+import styles from "@/src/styles/sass/components/baseLayout.module.scss";
+import { setIsUser } from "@/src/store/slices/Auth/LoginSlice";
+import { setCurrentUser } from "@/src/store/slices/Base/baseSlice";
+// import isMessage, isSticky, IsActive, HandlePopup as needed
+
+const HeaderUser = ({isMessage, MobileNavDrawer, forhHader}) => {
+  const dispatch = useDispatch();
+
+  // Select users from Redux
+  const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
+  const isUserLogin = useSelector((state) => state.login.loginUser?.user);
+  const isUserLoginGoogle = useSelector(
+    (state) => state.login.loginUser?.user?.user
+  );
+  const isUserSignup = useSelector((state) => state.signup.user?.user);
+  const getSignUpUser = useSelector((state) => state.signup.SignupUser?.user);
+
+  // Combine all sources to find current user
+  const currentUser =
+    isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
+
+
+    console.log("currentUser_2", currentUser);
+    
+  // Set user to Redux on initial mount from cookies
+  useEffect(() => {
+    const cookieUserString = Cookies.get("set-user");
+
+    if (cookieUserString) {
+      const cookieUser = JSON.parse(cookieUserString);
+      console.log("Cookie user loaded", cookieUser);
+
+      dispatch(
+        setIsSignupUser({
+          user: {
+            first_name: cookieUser.first_name,
+            last_name: cookieUser.last_name,
+            access_token: cookieUser.access_token,
+            refresh_token: cookieUser.refresh_token,
+            email: cookieUser.email,
+          },
+          status: 200,
+        })
+      );
+
+      dispatch(
+        setIsUser({
+          user: {
+            first_name: cookieUser.first_name,
+            last_name: cookieUser.last_name,
+            access_token: cookieUser.access_token,
+            refresh_token: cookieUser.refresh_token,
+            email: cookieUser.email,
+          },
+          status: 200,
+        })
+      );
+    }
+  }, []);
+
+  // Sync latest user to currentUser state
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(setCurrentUser(currentUser));
+    }
+  }, [currentUser, dispatch]);
+
+  const logoutHandle = () => {
+    dispatch(logoutUser());
+  };
+
+  const HandlePopup = () => {
+    dispatch(setisUserPopup(true));
+  };
+const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  return (
+    <>
+      {currentUser ? (
+        <>
+          <Box className={styles.Dropdown} position={"relative"}>
+            <Box
+              className={styles.Login}
+              display="flex"
+              alignItems="center"
+              sx={{
+                justifyContent: {
+                  lg: "center",
+                  md: "center",
+                  xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
+                },
+                flexDirection: {
+                  lg: "row",
+                  md: "row",
+                  xs: `${MobileNavDrawer ? "column-reverse" : " row-reverse"}`,
+                },
+                justifyContent: {
+                  lg: "center",
+                  md: "center",
+                  xs: `${MobileNavDrawer ? "flex-end" : " flex-end"}`,
+                },
+              }}
+              gap={2}
+            >
+              <Typography className={`${styles.userName} f14 bold`}>
+                {!isMessage ? (
+                  <>
+                    {currentUser?.first_name.charAt(0).toUpperCase()}.
+                    <span className="capitalize">
+                      {" "}
+                      {currentUser?.last_name || ""}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    {currentUser?.first_name || ""}{" "}
+                    {currentUser?.last_name || ""}
+                  </>
+                )}
+              </Typography>
+
+              <Box className={styles.userLater}>
+                <Avatar
+                  src={"image"}
+                  alt={"User"}
+                  sx={{
+                    width: { lg: 32, md: 32, xs: 24 },
+                    height: { lg: 32, md: 32, xs: 24 },
+                    margin: "0 auto",
+                    mb: 2,
+                    bgcolor: "#80E1E5",
+                  }}
+                  className="white mb-0 f16 bold"
+                >
+                  {currentUser?.first_name.charAt(0).toUpperCase()}
+                </Avatar>
+              </Box>
+            </Box>
+            {forhHader ? (
+              <Box className={styles.DropdownItems}>
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  gap={2}
+                  className={`${styles.DropdownItemsBox} br-12 box-shadow-md`}
+                >
+                  <Box
+                    className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
+                  >
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Box width="20px">
+                        <i className="far fa-user-circle"></i>
+                      </Box>
+                      <Typography>Profile</Typography>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
+                  >
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Box width="20px">
+                        <i className="fa fa-cog" aria-hidden="true"></i>
+                      </Box>
+                      <Typography>Settings</Typography>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
+                    onClick={logoutHandle}
+                  >
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Box width="20px">
+                        <i className="fa fa-sign-out"></i>
+                      </Box>
+                      <Typography>Sign out</Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            ) : (
+              ""
+            )}
+          </Box>
+        </>
+      ) : (
+        <Box
+          className={`${styles.Login} cursor-pointer`}
+          sx={{
+            display: { lg: "flex", md: "flex", xs: "flex" },
+            justifyContent: {
+              lg: "center",
+              md: "center",
+              xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
+            },
+          }}
+          alignItems="center"
+          gap={2}
+          onClick={HandlePopup}
+        >
+          <Typography
+            className="bold f16"
+            sx={{
+              display: {
+                lg: "block",
+                md: "block",
+                xs: isMessage ? "none" : "block",
+              },
+            }}
+          >
+            Sign in
+          </Typography>
+
+          <Box
+            className="imggroup"
+            alignItems="center"
+            display="flex"
+            sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+          >
+            <img
+              src={
+                isMessage
+                  ? "/images/user-icon-gray.svg"
+                  : "/images/user-icon-white.svg"
+              }
+              alt="User Icon"
+            />
+          </Box>
+        </Box>
+      )}
+    </>
+  );
+};
+
+export default HeaderUser;

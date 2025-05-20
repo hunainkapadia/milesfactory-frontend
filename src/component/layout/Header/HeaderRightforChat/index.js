@@ -30,8 +30,8 @@ const currencyList = [
 ];
 
 const HeaderRightforChat = (isSticky) => {
-   console.log("isSticky_0", isSticky?.isSticky);
-   
+  console.log("isSticky_0", isSticky?.isSticky);
+
   const dispatch = useDispatch();
   const [languageAnchor, setLanguageAnchor] = useState(null);
   const [currencyAnchor, setCurrencyAnchor] = useState(null);
@@ -65,80 +65,79 @@ const HeaderRightforChat = (isSticky) => {
     <>
       <Box
         sx={{
-          display: { lg: "flex", md: "flex", xs: "none" },
+          display: { lg: "flex", md: "flex" },
           gap: { lg: 3, md: 3, xs: 0 },
         }}
       >
-        
-          <Box
-            display="flex"
-            alignItems="center"
-            onClick={handleCurrencyClick}
-            sx={{ cursor: "pointer", gap: 1 }}
-            className={`${isSticky?.isSticky ? " basecolor1-dark2 " : " white " }`}
-          >
-            <Typography  variant="body2">{selectedCurrency.icon}</Typography>
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              style={{ marginLeft: 6, fontSize: 15 }}
-            />
-          </Box>
+        <Box
+          display="flex"
+          alignItems="center"
+          onClick={handleCurrencyClick}
+          sx={{ cursor: "pointer", gap: 1 }}
+          className={`${isSticky?.isSticky ? " basecolor1-dark2 " : " white "}`}
+        >
+          <Typography variant="body2">{selectedCurrency.icon}</Typography>
+          <FontAwesomeIcon
+            icon={faChevronDown}
+            style={{ marginLeft: 6, fontSize: 15 }}
+          />
+        </Box>
 
-          <Menu
-            anchorEl={currencyAnchor}
-            open={Boolean(currencyAnchor)}
-            onClose={handleClose}
-          >
-            {currencyList.map((currency) => (
-              <MenuItem
-                key={currency.code}
-                onClick={() => handleCurrencySelect(currency)}
-              >
-                <Typography   variant="body2">{currency.name}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-        
-          {/* Language Dropdown */}
-          <Box
-            display="flex"
-            alignItems="center"
-            onClick={handleLangClick}
-            sx={{ cursor: "pointer" }}
-            className={`${isSticky?.isSticky ? " basecolor1-dark2 " : " white " }`}
-          >
-            <img
-              src={selectedLanguage.flag}
-              alt={selectedLanguage.code.toUpperCase()}
-              className={styles.flagIcon}
-            />
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              style={{ marginLeft: 6, fontSize: 15 }}
-            />
-          </Box>
+        <Menu
+          anchorEl={currencyAnchor}
+          open={Boolean(currencyAnchor)}
+          onClose={handleClose}
+        >
+          {currencyList.map((currency) => (
+            <MenuItem
+              key={currency.code}
+              onClick={() => handleCurrencySelect(currency)}
+            >
+              <Typography variant="body2">{currency.name}</Typography>
+            </MenuItem>
+          ))}
+        </Menu>
 
-          <Menu
-            anchorEl={languageAnchor}
-            open={Boolean(languageAnchor)}
-            onClose={handleClose}
-          >
-            {languageList.map((lang) => (
-              <MenuItem
-                key={lang.code}
-                onClick={() => handleLanguageSelect(lang)}
-              >
-                <img
-                  src={lang.flag}
-                  alt={lang.name}
-                  className={styles.flagIcon}
-                />
-                <Typography variant="body2" ml={1}>
-                  {lang.name}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Menu>
+        {/* Language Dropdown */}
+        <Box
+          display="flex"
+          alignItems="center"
+          onClick={handleLangClick}
+          sx={{ cursor: "pointer" }}
+          className={`${isSticky?.isSticky ? " basecolor1-dark2 " : " white "}`}
+        >
+          <img
+            src={selectedLanguage.flag}
+            alt={selectedLanguage.code.toUpperCase()}
+            className={styles.flagIcon}
+          />
+          <FontAwesomeIcon
+            icon={faChevronDown}
+            style={{ marginLeft: 6, fontSize: 15 }}
+          />
+        </Box>
+
+        <Menu
+          anchorEl={languageAnchor}
+          open={Boolean(languageAnchor)}
+          onClose={handleClose}
+        >
+          {languageList.map((lang) => (
+            <MenuItem
+              key={lang.code}
+              onClick={() => handleLanguageSelect(lang)}
+            >
+              <img
+                src={lang.flag}
+                alt={lang.name}
+                className={styles.flagIcon}
+              />
+              <Typography variant="body2" ml={1}>
+                {lang.name}
+              </Typography>
+            </MenuItem>
+          ))}
+        </Menu>
         {/* Currency Dropdown */}
       </Box>
 

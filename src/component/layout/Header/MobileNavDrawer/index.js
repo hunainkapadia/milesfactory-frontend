@@ -1,9 +1,11 @@
-import { Drawer, Box, Divider } from "@mui/material";
+import { Drawer, Box, Divider, Typography } from "@mui/material";
 import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import { useState } from "react";
 import Navbar from "../Navbar";
+import HeaderUser from "../HeaderUser";
+import HeaderRightforChat from "../HeaderRightforChat";
 
 const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
   const HandleBookTrip = () => {
@@ -56,8 +58,70 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
 
           {/* Navigation & CTA */}
           <Box>
-            <Box pt={3}>
-              <Navbar />
+            <Box pt={3} display={"flex"} flexDirection={"column"} gap={3}>
+              <HeaderUser />
+              <Box
+                className={`${styles.Login} cursor-pointer`}
+                sx={{
+                  display: { lg: "flex", md: "flex", xs: "flex" },
+                }}
+                alignItems="center"
+                gap={2}
+                onClick={"HandlePopup"}
+              >
+                <Box
+                  className="imggroup"
+                  alignItems="center"
+                  display="flex"
+                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                >
+                  <img src={"/images/user-icon-gray.svg"} alt="User Icon" />
+                </Box>
+                <Typography
+                  className="bold f16"
+                  sx={{
+                    display: {
+                      lg: "block",
+                      md: "block",
+                    },
+                  }}
+                >
+                  Search history
+                </Typography>
+              </Box>
+              {/*  */}
+              <Box
+                className={`${styles.Login} cursor-pointer`}
+                sx={{
+                  display: { lg: "flex", md: "flex", xs: "flex" },
+                }}
+                alignItems="center"
+                gap={2}
+                onClick={"HandlePopup"}
+              >
+                <Box
+                  className="imggroup"
+                  alignItems="center"
+                  display="flex"
+                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                  fontSize={20}
+                >
+                  
+                    <i className="fa fa-sign-out"></i>
+                  
+                </Box>
+                <Typography
+                  className="bold f16"
+                  sx={{
+                    display: {
+                      lg: "block",
+                      md: "block",
+                    },
+                  }}
+                >
+                  Sign out
+                </Typography>
+              </Box>
             </Box>
 
             <Box py={4}>
@@ -72,6 +136,9 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                 Book a trip
               </Box>
             </Box>
+
+            <HeaderRightforChat />
+            {/*  */}
           </Box>
         </Box>
       </Drawer>
