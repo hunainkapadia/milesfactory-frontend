@@ -36,6 +36,7 @@ import SignUpPopup from "../../Auth/SignUpPopup";
 import UserPopup from "../../Auth/UserPopup";
 import LoginPopup from "../../Auth/LoginPopup";
 import Feedback from "../Feedback";
+import MobileLoading from "../../LoadingArea/MobileLoading";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -312,7 +313,7 @@ const Header = ({ isMessage, IsActive }) => {
               ) : (
                 <Box
                   className={styles.Login + " cursor-pointer "}
-                  display="flex"
+                  sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
                   alignItems="center"
                   justifyContent="center"
                   gap={2}
@@ -339,9 +340,19 @@ const Header = ({ isMessage, IsActive }) => {
                     display={"flex"}
                   >
                     {isSticky || isMessage ? (
-                      <img width={32} src="/images/user-icon-gray.svg" />
+                      <Box
+                        sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                        className="imggroup"
+                      >
+                        <img src="/images/user-icon-gray.svg" />
+                      </Box>
                     ) : (
-                      <img width={32} src="/images/user-icon-white.svg" />
+                      <Box
+                        sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                        className="imggroup"
+                      >
+                        <img src="/images/user-icon-white.svg" />
+                      </Box>
                     )}
                   </Box>
                   {/*  */}
@@ -350,41 +361,51 @@ const Header = ({ isMessage, IsActive }) => {
               {isMessage ? (
                 <>
                   <Box
-                    className=" cursor-pointer"
-                    onClick={HandleNewThread}
-                    display={"flex"}
-                    alignItems={"center"}
+                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                    gap={3}
                   >
                     <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height={48}
-                      className={styles.ChatIcon + " imggroup"}
+                      className=" cursor-pointer"
+                      onClick={HandleNewThread}
+                      display={"flex"}
+                      alignItems={"center"}
                     >
-                      <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        height={48}
+                        className={styles.ChatIcon + " imggroup"}
+                      >
+                        <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      className=" cursor-pointer"
+                      display={"flex"}
+                      alignItems={"center"}
+                    >
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        height={48}
+                        // Optional
+                        className={styles.ChatIcon + " imggroup"}
+                        onClick={handleThreadDrawer}
+                      >
+                        <img
+                          src="/images/chat-history-icon.svg"
+                          alt="Chat History Icon"
+                        />
+                      </Box>
                     </Box>
                   </Box>
-
                   <Box
-                    className=" cursor-pointer"
-                    display={"flex"}
-                    alignItems={"center"}
+                    sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                   >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height={48}
-                      // Optional
-                      className={styles.ChatIcon + " imggroup"}
-                      onClick={handleThreadDrawer}
-                    >
-                      <img
-                        src="/images/chat-history-icon.svg"
-                        alt="Chat History Icon"
-                      />
-                    </Box>
+                    <MobileLoading />
                   </Box>
                 </>
               ) : (
@@ -428,7 +449,12 @@ const Header = ({ isMessage, IsActive }) => {
           }}
           width={"280px"}
         >
-          <Box component={"header"} display={"flex"} alignItems={"center"} gap={2}>
+          <Box
+            component={"header"}
+            display={"flex"}
+            alignItems={"center"}
+            gap={2}
+          >
             {/* Close Button */}
             <Box fontSize={"20px"}>
               <i

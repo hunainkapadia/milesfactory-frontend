@@ -9,7 +9,6 @@ import Messages from "@/src/component/Messages";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
-import MobileLoading from "@/src/component/LoadingArea/MobileLoading";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -41,9 +40,7 @@ const ChatByUUID = () => {
           <Header isMessage={isMessage} />
           <Box className={styles.Box}>
             <Container className={styles.Container}>
-              <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
-                <MobileLoading />
-              </Box>
+              
               <Grid container sx={{ width: "100%", margin: 0 }}>
                 <Grid item md={8} lg={8}>
                   <Messages />

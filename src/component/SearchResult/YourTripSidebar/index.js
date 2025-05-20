@@ -43,7 +43,7 @@ const YourTripSidebar = ({isMessage}) => {
               ""
             )}
           </Box>
-          <Box px={3} component={"section"} py={2.4}>
+          <Box px={3} component={"section"} pt={2.5} pb={3.5}>
             <YourTripSedebarCard offerData={getselectedFlight} />
 
             {/* <Box py={2}
