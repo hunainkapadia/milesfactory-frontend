@@ -5,13 +5,25 @@ import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import { useState } from "react";
 import Navbar from "../Navbar";
 import HeaderUser from "../HeaderUser";
-import HeaderRightforChat from "../HeaderRightforChat";
+import { setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "@/src/store/slices/Auth/SignupSlice";
+import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
 
 const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
   const HandleBookTrip = () => {
     // Your booking logic here
     console.log("Book a trip clicked");
   };
+  const dispatch = useDispatch();
+  const handleThreadDrawer = () => {
+    dispatch(thread());
+    dispatch(setThreadDrawer(true)); // opens the drawer
+  };
+  const logoutHandle = () => {
+    dispatch(logoutUser());
+  };
+  const currentUser = useSelector((state) => state.base?.currentUser);
 
   return (
     <>
@@ -59,7 +71,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
           {/* Navigation & CTA */}
           <Box>
             <Box pt={3} display={"flex"} flexDirection={"column"} gap={3}>
-              <HeaderUser />
+              <HeaderUser formobileDrawer={"formobileDrawer"} />
               <Box
                 className={`${styles.Login} cursor-pointer`}
                 sx={{
@@ -67,7 +79,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                 }}
                 alignItems="center"
                 gap={2}
-                onClick={"HandlePopup"}
+                onClick={handleThreadDrawer}
               >
                 <Box
                   className="imggroup"
@@ -75,7 +87,10 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                   display="flex"
                   sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                 >
-                  <img src={"/images/user-icon-gray.svg"} alt="User Icon" />
+                  <img
+                    src={"/images/chat-history-icon.svg"}
+                    alt="chat history"
+                  />
                 </Box>
                 <Typography
                   className="bold f16"
@@ -90,36 +105,41 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                 </Typography>
               </Box>
               {/*  */}
-              <Box
-                className={`${styles.Login} cursor-pointer`}
-                sx={{
-                  display: { lg: "flex", md: "flex", xs: "flex" },
-                }}
-                alignItems="center"
-                gap={2}
-                onClick={"HandlePopup"}
-              >
+              {currentUser ? (
+                <>
                 <Box
-                  className="imggroup"
-                  alignItems="center"
-                  display="flex"
-                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-                  fontSize={20}
-                >
-                  <i className="fa fa-sign-out"></i>
-                </Box>
-                <Typography
-                  className="bold f16"
+                  className={`${styles.Login} cursor-pointer`}
                   sx={{
-                    display: {
-                      lg: "block",
-                      md: "block",
-                    },
+                    display: { lg: "flex", md: "flex", xs: "flex" },
                   }}
+                  alignItems="center"
+                  gap={2}
+                  onClick={logoutHandle}
                 >
-                  Sign out
-                </Typography>
-              </Box>
+                  <Box
+                    className="imggroup"
+                    alignItems="center"
+                    display="flex"
+                    sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    fontSize={20}
+                  >
+                    <i className="fa fa-sign-out"></i>
+                  </Box>
+                  <Typography
+                    className="bold f16"
+                    
+                    sx={{
+                      display: {
+                        lg: "block",
+                        md: "block",
+                      },
+                    }}
+                  >
+                    Sign out
+                  </Typography>
+                </Box>
+                </>
+              ): ""}
             </Box>
 
             <Box py={4}>
@@ -135,7 +155,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
               </Box>
             </Box>
             <Box my={3}>
-              <HeaderRightforChat formobileDrawer={"formobileDrawer"} />
+              <HeaderCurrencyLanguage formobileDrawer={"formobileDrawer"} />
             </Box>
             {/*  */}
           </Box>

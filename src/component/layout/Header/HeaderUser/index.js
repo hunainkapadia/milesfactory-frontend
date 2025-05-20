@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { Box, Typography, Avatar, useTheme, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Avatar,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import {
   setIsSignupUser,
   logoutUser,
@@ -12,7 +18,14 @@ import { setIsUser } from "@/src/store/slices/Auth/LoginSlice";
 import { setCurrentUser } from "@/src/store/slices/Base/baseSlice";
 // import isMessage, isSticky, IsActive, HandlePopup as needed
 
-const HeaderUser = ({isSticky, IsActive, isMessage, MobileNavDrawer, forhHader}) => {
+const HeaderUser = ({
+  isSticky,
+  IsActive,
+  isMessage,
+  MobileNavDrawer,
+  formobileDrawer,
+  forhHader,
+}) => {
   const dispatch = useDispatch();
 
   // Select users from Redux
@@ -28,9 +41,8 @@ const HeaderUser = ({isSticky, IsActive, isMessage, MobileNavDrawer, forhHader})
   const currentUser =
     isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
 
+  console.log("currentUser_2", currentUser);
 
-    console.log("currentUser_2", currentUser);
-    
   // Set user to Redux on initial mount from cookies
   useEffect(() => {
     const cookieUserString = Cookies.get("set-user");
@@ -81,7 +93,7 @@ const HeaderUser = ({isSticky, IsActive, isMessage, MobileNavDrawer, forhHader})
   const HandlePopup = () => {
     dispatch(setisUserPopup(true));
   };
-const theme = useTheme();
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   return (
     <>
@@ -194,49 +206,82 @@ const theme = useTheme();
           </Box>
         </>
       ) : (
-        <Box
-          className={`${styles.Login} cursor-pointer`}
-          sx={{
-            display: { lg: "flex", md: "flex", xs: "flex" },
-            justifyContent: {
-              lg: "center",
-              md: "center",
-              xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
-            },
-          }}
-          alignItems="center"
-          gap={2}
-          onClick={HandlePopup}
-        >
-          <Typography
-            className="bold f16"
-            sx={{
-              display: {
-                lg: "block",
-                md: "block",
-                xs: isMessage ? "none" : "block",
-              },
-            }}
-          >
-            Sign in
-          </Typography>
+        <>
+          {formobileDrawer ? (
+            <>
+              <Box
+                className={`${styles.Login} cursor-pointer`}
+                sx={{
+                  display: { lg: "flex", md: "flex", xs: "flex" },
+                  justifyContent: {
+                    lg: "center",
+                    md: "center",
+                    xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
+                  },
+                }}
+                alignItems="center"
+                gap={2}
+                onClick={HandlePopup}
+              >
+                <Box
+                  className="imggroup"
+                  alignItems="center"
+                  display="flex"
+                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                >
+                  <img src={"/images/user-icon-gray.svg"} alt="User Icon" />
+                </Box>
+                <Typography className="bold f16">Sign in</Typography>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Box
+                className={`${styles.Login} cursor-pointer`}
+                sx={{
+                  display: { lg: "flex", md: "flex", xs: "flex" },
+                  justifyContent: {
+                    lg: "center",
+                    md: "center",
+                    xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
+                  },
+                }}
+                alignItems="center"
+                gap={2}
+                onClick={HandlePopup}
+              >
+                <Typography
+                  className="bold f16"
+                  sx={{
+                    display: {
+                      lg: "block",
+                      md: "block",
+                      xs: isMessage ? "none" : "block",
+                    },
+                  }}
+                >
+                  Sign in
+                </Typography>
 
-          <Box
-            className="imggroup"
-            alignItems="center"
-            display="flex"
-            sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-          >
-            <img
-              src={
-                isMessage || isSticky || IsActive
-                  ? "/images/user-icon-gray.svg"
-                  : "/images/user-icon-white.svg"
-              }
-              alt="User Icon"
-            />
-          </Box>
-        </Box>
+                <Box
+                  className="imggroup"
+                  alignItems="center"
+                  display="flex"
+                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                >
+                  <img
+                    src={
+                      isMessage || isSticky || IsActive
+                        ? "/images/user-icon-gray.svg"
+                        : "/images/user-icon-white.svg"
+                    }
+                    alt="User Icon"
+                  />
+                </Box>
+              </Box>
+            </>
+          )}
+        </>
       )}
     </>
   );
