@@ -70,18 +70,8 @@ const HeaderCurrencyLanguage = ({
   return (
     <>
       {formobileDrawer ? (
-        <Box
-          sx={{
-            display: {
-              lg: "flex",
-              md: "flex",
-              xs: forHeader ? "none" : "flex",
-            },
-            gap: { lg: 3, md: 3, xs: 4 },
-          }}
-          flexDirection={"column"}
-          py={2}
-        >
+        <>
+
           {/* Language Dropdown */}
           <Box
             display="flex"
@@ -158,31 +148,10 @@ const HeaderCurrencyLanguage = ({
             ))}
           </Menu>
 
-          <Box
-            display="flex"
-            alignItems="center"
-            // onClick={handleCurrencyClick}
-            sx={{ cursor: "pointer", gap: 0 }}
-            className={`basecolor1-dark2`}
-          >
-            <Typography  variant="body2">
-              Contact support
-            </Typography>
-          </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            // onClick={handleCurrencyClick}
-            sx={{ cursor: "pointer", gap: 0 }}
-            className={`basecolor1-dark2`}
-          >
-            <Typography  variant="body2">
-              Share an idea or give us feedback
-            </Typography>
-          </Box>
+         
 
           {/* Currency Dropdown */}
-        </Box>
+        </>
       ) : (
         <Box
           sx={{
