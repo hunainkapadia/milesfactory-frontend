@@ -29,9 +29,9 @@ const currencyList = [
   { code: "INR", name: "Rupee (INR)", icon: "₨" },
 ];
 
-const HeaderRightforChat = (isSticky) => {
-  console.log("isSticky_0", isSticky?.isSticky);
-
+const HeaderRightforChat = ({isSticky, forHeader}) => {
+   console.log("isSticky_0", isSticky?.isSticky);
+   
   const dispatch = useDispatch();
   const [languageAnchor, setLanguageAnchor] = useState(null);
   const [currencyAnchor, setCurrencyAnchor] = useState(null);
@@ -65,7 +65,11 @@ const HeaderRightforChat = (isSticky) => {
     <>
       <Box
         sx={{
-          display: { lg: "flex", md: "flex" },
+          display: {
+            lg: "flex",
+            md: "flex",
+            xs: forHeader ? "none" : "flex",
+          },
           gap: { lg: 3, md: 3, xs: 0 },
         }}
       >
