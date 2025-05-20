@@ -102,12 +102,12 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
                 >
                   <Box>
-                    <Link className="basecolor" href={"/"}>
+                    <Link className="link" href={"/"}>
                       © 2025 Milesfactory
                     </Link>
                   </Box>
                   <Box>
-                    <Link className="basecolor" href={"/terms-and-conditions"}>
+                    <Link className="link" href={"/terms-and-conditions"}>
                       Terms & Conditions
                     </Link>
                   </Box>
@@ -117,12 +117,12 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
                 >
                   <Box>
-                    <Link className="basecolor" href={"/privacy"}>
+                    <Link className="link" href={"/privacy"}>
                       Privacy
                     </Link>
                   </Box>
                   <Box>
-                    <Link className="basecolor" href={"/sanctions-compliance"}>
+                    <Link className="link" href={"/sanctions-compliance"}>
                       Sanctions Compliance
                     </Link>
                   </Box>

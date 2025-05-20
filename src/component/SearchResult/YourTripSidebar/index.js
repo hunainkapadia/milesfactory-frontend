@@ -19,7 +19,7 @@ const YourTripSidebar = ({isMessage}) => {
         justifyContent={"center"}
       >
         <Box className={YourtripStyles.YourTripCard} p={0}>
-          <Box
+          <Box component={"header"}
             className={YourtripStyles.CardHeader}
             display={"flex"}
             alignItems={"center"}
@@ -43,10 +43,10 @@ const YourTripSidebar = ({isMessage}) => {
               ""
             )}
           </Box>
-          <Box px={3}  py={3}>
+          <Box px={3} component={"section"} py={2.4}>
             <YourTripSedebarCard offerData={getselectedFlight} />
 
-            <Box py={2}
+            {/* <Box py={2}
               className=" Loading"
               sx={{
                 display: "flex",
@@ -58,7 +58,7 @@ const YourTripSidebar = ({isMessage}) => {
               <span className="dot"></span>
               <span className="dot"></span>
               <span className="dot"></span>
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </Box>

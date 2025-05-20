@@ -4,10 +4,13 @@ import {
   Typography,
   Grid,
   Drawer,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setThreadDrawer } from "@/src/store/slices/Base/baseSlice";
+import Link from "next/link";
 
 const ThreadDrawer = () => {
   const dispatch = useDispatch();
@@ -21,7 +24,11 @@ const ThreadDrawer = () => {
   const groupRecordsByDate = (data) => {
     const today = new Date();
 
-    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const startOfToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
     const startOfYesterday = new Date(startOfToday);
     startOfYesterday.setDate(startOfToday.getDate() - 1);
 
@@ -49,10 +56,25 @@ const ThreadDrawer = () => {
       const itemDate = new Date(item.created_date);
 
       // Normalize itemDate to local timezone before truncating to midnight
-      const localDate = new Date(itemDate.getTime() + itemDate.getTimezoneOffset() * 60000);
-      const itemDay = new Date(localDate.getFullYear(), localDate.getMonth(), localDate.getDate());
+      const localDate = new Date(
+        itemDate.getTime() + itemDate.getTimezoneOffset() * 60000
+      );
+      const itemDay = new Date(
+        localDate.getFullYear(),
+        localDate.getMonth(),
+        localDate.getDate()
+      );
 
-      console.log("Item:", item.name || "-", "UTC:", itemDate, "Local:", localDate, "→", itemDay);
+      console.log(
+        "Item:",
+        item.name || "-",
+        "UTC:",
+        itemDate,
+        "Local:",
+        localDate,
+        "→",
+        itemDay
+      );
 
       if (itemDay.getTime() === startOfToday.getTime()) {
         console.log("→ Grouped as Today");
@@ -100,23 +122,56 @@ const ThreadDrawer = () => {
     });
   };
 
+  const theme = useTheme();
+  // Check if the screen size is "small" or below (mobile)
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Drawer
-      anchor="right"
+      anchor={isMobile ? "left" : "right"}
       open={ThreadDrawerOpen}
       onClose={HandlecloseDrawer}
-      className={`${styles.BaggageDrawer} BaggageDrawer`}
-      transitionDuration={300}
+      className={`${styles.ThreadDrawer} ThreadDrawer`}
+      transitionDuration={200}
     >
-      <Box className={styles.BaggageDrawerSection} width={300}>
-        <Box className={styles.BaggageDrawerBody}>
+      <Box
+        className={styles.ThreadDrawerSection}
+        sx={{ width: { lg: 300, md: 300, xs: 280 } }}
+      >
+        <Box
+          component={"header"}
+          alignItems={"center"}
+          sx={{display: {lg:"none", md: "none", xs:"flex"}}}
+          gap={2}
+          px={2}
+          pt={1}
+          pb={3}
+        >
+          {/* Close Button */}
+          <Box fontSize={"20px"}>
+            <i
+              onClick={HandlecloseDrawer}
+              className="fa fa-arrow-left basecolor"
+            ></i>
+          </Box>
+          <Box className={styles.Logo}>
+            <Link href={"/"}>
+              <Box
+                sx={{ width: { xs: 53 } }}
+                className="d-flex align-items-center imggroup"
+              >
+                <img src="/images/logo-color2.svg" />
+              </Box>
+            </Link>
+          </Box>
+        </Box>
+        <Box className={styles.ThreadDrawerBody}>
           <Grid
             container
             className={styles.checkoutDrowerHeder}
             px={3}
-            display="flex"
             alignItems="center"
             justifyContent="space-between"
+            sx={{display:{lg:"flex", md: "flex", xs: "none"}}}
           >
             <Grid item xs={12}>
               <Box
@@ -125,7 +180,6 @@ const ThreadDrawer = () => {
                 alignItems="center"
                 pt={3}
               >
-                
                 <Box
                   onClick={HandlecloseDrawer}
                   className="cursor-pointer basecolor"

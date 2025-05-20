@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 // Import react-speech-recognition hooks
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
-const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
+const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef }) => {
   const inputRef = useRef(null);
 
   const [getuuid, setGetuuid] = useState(null);
@@ -80,8 +80,8 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput }) => {
       SpeechRecognition.startListening({ continuous: true, language: "en-US" });
     }
   };
-  const ScrollDown = () => {
-    messageRef.current?.scrollIntoView({ behavior: "smooth" });
+   const ScrollDown = () => {
+    messagesEndRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
 

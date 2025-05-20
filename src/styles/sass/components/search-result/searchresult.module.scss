@@ -37,10 +37,19 @@
   padding-right: 15px;
 }
 .messageContent {
+  .CircleButton {
+    position: fixed;
+    bottom: 100px !important;
+    z-index: 28;
+    top: inherit;
+    left: 48%;
+  }
 
   .messageContentIn {
     padding: 0px 0 100px;
     margin-top: 105px;
+    position: relative;
+
 
     .Aibox {
       width: $BoxContainerSm;

@@ -1,6 +1,14 @@
 @import "../../variables";
 
 
+
+.ThreadDrawer {
+  .ThreadDrawerSection {
+    
+    overflow-y: auto;
+    .ThreadDrawerBody {}
+  }
+}
 .BaggageDrawer {
    
    .BaggageDrawerSection {

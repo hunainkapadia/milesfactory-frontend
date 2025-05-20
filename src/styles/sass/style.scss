@@ -514,10 +514,7 @@ label,
   height: 50px !important;
 }
 
-.checkoutDrower fieldset {
-  border-color: $lightgray2;
-  @include border-radius(8px);
-}
+
 .SearchBoxSection fieldset {
   @include border-radius(100px);
   /* M3/Elevation Light/2 */
@@ -931,9 +928,10 @@ body {
   }
   .formControl .MuiInputBase-root {
   height: 50px;
-  border-radius: 16px;
+  border-radius: 8px;
   align-items: center; // to vertically center text
-  border: solid 1px #D9D9D9;
+  border: solid 0px $bluedark2;
+  fieldset { border-color: $bluedark2;}
 }
 
 
@@ -1009,8 +1007,7 @@ body {
   }
   a,
   .link {
-    color: $link;
-    text-decoration: underline;
+    color: $basecolor;
     &,
     * {
       @include transition($duration-2);
@@ -1019,7 +1016,7 @@ body {
   a:focus,
   a:hover,
   .link:hover {
-    color: $linkhover;
+    color: $basecolor1;
   }
 }
 
@@ -1159,6 +1156,7 @@ body {
       background-color: $white;
       color: $basecolor1;
     }
+    &:hover {background-color: $white;}
 }
 .btn {
   text-transform: none;

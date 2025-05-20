@@ -428,17 +428,20 @@ const Header = ({ isMessage, IsActive }) => {
           }}
           width={"280px"}
         >
-          <Box display={"flex"} alignItems={"center"} gap={3}>
+          <Box component={"header"} display={"flex"} alignItems={"center"} gap={2}>
             {/* Close Button */}
-            <Box fontSize={"24px"}>
+            <Box fontSize={"20px"}>
               <i
                 onClick={toggleDrawer}
-                className="fa fa-arrow-left basecolor1"
+                className="fa fa-arrow-left basecolor"
               ></i>
             </Box>
             <Box className={styles.Logo}>
               <Link href={"/"}>
-                <Box className="d-flex align-items-center">
+                <Box
+                  sx={{ width: { xs: 53 } }}
+                  className="d-flex align-items-center imggroup"
+                >
                   <img src="/images/logo-color2.svg" />
                 </Box>
               </Link>
@@ -468,9 +471,9 @@ const Header = ({ isMessage, IsActive }) => {
 
       <UserPopup />
       {/* logoin popup */}
-      
+
       <LoginPopup />
-      <RegisterPopup  />
+      <RegisterPopup />
       <SignUpPopup />
       <Feedback />
     </>

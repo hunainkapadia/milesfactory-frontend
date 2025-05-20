@@ -32,8 +32,8 @@ const SignUpPopup = () => {
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [agreeTerms, setAgreeTerms] = useState(true);
-  const [emailUpdate, setEmailUpdate] = useState(true);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [emailUpdate, setEmailUpdate] = useState(false);
 
   const params = {
     first_name: firstName,
@@ -66,6 +66,12 @@ const SignUpPopup = () => {
     dispatch(setSignupPopup(false));
   };
 
+  const isFormValid =
+  firstName &&
+  lastName &&
+  email &&
+  password &&
+  agreeTerms;
   return (
     <Dialog
       open={isSignupPopup}
@@ -262,10 +268,13 @@ const SignUpPopup = () => {
                         color="success"
                         disabled={isLoading} // Disable when loading
                         width={"100%"}
+                        
                         type="submit" // Important!
                         className="btn btn-primary btn-md btn-round" // Important!
                         sx={{
                           width: { xs: "100%", lg: "100%", md: "100%" },
+                          opacity: `${isFormValid ? "100%" : "50%"}`
+
                         }}
                       >
                         {isLoading ? (
