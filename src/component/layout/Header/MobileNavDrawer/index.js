@@ -106,9 +106,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                   sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                   fontSize={20}
                 >
-                  
-                    <i className="fa fa-sign-out"></i>
-                  
+                  <i className="fa fa-sign-out"></i>
                 </Box>
                 <Typography
                   className="bold f16"
@@ -136,8 +134,9 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                 Book a trip
               </Box>
             </Box>
-
-            <HeaderRightforChat />
+            <Box my={3}>
+              <HeaderRightforChat formobileDrawer={"formobileDrawer"} />
+            </Box>
             {/*  */}
           </Box>
         </Box>

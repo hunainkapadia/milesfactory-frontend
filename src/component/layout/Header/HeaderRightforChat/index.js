@@ -29,9 +29,9 @@ const currencyList = [
   { code: "INR", name: "Rupee (INR)", icon: "₨" },
 ];
 
-const HeaderRightforChat = ({isSticky, forHeader}) => {
-   console.log("isSticky_0", isSticky?.isSticky);
-   
+const HeaderRightforChat = ({ isSticky, IsActive, isMessage, forHeader, formobileDrawer }) => {
+  console.log("isSticky_0", isSticky);
+
   const dispatch = useDispatch();
   const [languageAnchor, setLanguageAnchor] = useState(null);
   const [currencyAnchor, setCurrencyAnchor] = useState(null);
@@ -78,7 +78,7 @@ const HeaderRightforChat = ({isSticky, forHeader}) => {
           alignItems="center"
           onClick={handleCurrencyClick}
           sx={{ cursor: "pointer", gap: 1 }}
-          className={`${isSticky?.isSticky ? " basecolor1-dark2 " : " white "}`}
+          className={`${isSticky || IsActive || isMessage ? " basecolor1-dark2 " : " white "}`}
         >
           <Typography variant="body2">{selectedCurrency.icon}</Typography>
           <FontAwesomeIcon
@@ -108,7 +108,7 @@ const HeaderRightforChat = ({isSticky, forHeader}) => {
           alignItems="center"
           onClick={handleLangClick}
           sx={{ cursor: "pointer" }}
-          className={`${isSticky?.isSticky ? " basecolor1-dark2 " : " white "}`}
+          className={`${IsActive || isMessage ? " basecolor1-dark2 " : " white "}`}
         >
           <img
             src={selectedLanguage.flag}

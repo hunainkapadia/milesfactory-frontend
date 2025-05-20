@@ -170,9 +170,9 @@ const Header = ({ isMessage, IsActive }) => {
                 <MobileLoading />
               </Box>
               {console.log("isSticky_1", isSticky)}
-              <HeaderRightforChat forHeader={"forHeader"} isSticky={isSticky | IsActive || isMessage} />
+              <HeaderRightforChat forHeader={"forHeader"} isSticky={isSticky} IsActive={IsActive} isMessage={isMessage} />
               {/*  */}
-              <HeaderUser forhHader={"forhHader"} isMessage={isMessage || isSticky || IsActive} />
+              <HeaderUser forhHader={"forhHader"} isSticky={isSticky} IsActive={IsActive} isMessage={isMessage} />
 
               <Box
                 className=" cursor-pointer"

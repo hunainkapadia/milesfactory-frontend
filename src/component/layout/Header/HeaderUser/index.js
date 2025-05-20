@@ -12,7 +12,7 @@ import { setIsUser } from "@/src/store/slices/Auth/LoginSlice";
 import { setCurrentUser } from "@/src/store/slices/Base/baseSlice";
 // import isMessage, isSticky, IsActive, HandlePopup as needed
 
-const HeaderUser = ({isMessage, MobileNavDrawer, forhHader}) => {
+const HeaderUser = ({isSticky, IsActive, isMessage, MobileNavDrawer, forhHader}) => {
   const dispatch = useDispatch();
 
   // Select users from Redux
@@ -112,7 +112,7 @@ const theme = useTheme();
               gap={2}
             >
               <Typography className={`${styles.userName} f14 bold`}>
-                {!isMessage ? (
+                {!isMessage || !isSticky || !IsActive ? (
                   <>
                     {currentUser?.first_name.charAt(0).toUpperCase()}.
                     <span className="capitalize">
@@ -229,7 +229,7 @@ const theme = useTheme();
           >
             <img
               src={
-                isMessage
+                isMessage || isSticky || IsActive
                   ? "/images/user-icon-gray.svg"
                   : "/images/user-icon-white.svg"
               }
