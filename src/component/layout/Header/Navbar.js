@@ -35,10 +35,6 @@ const Navbar = () => {
         <Box onClick={feedbackHandle} className={styles.navItem + " cursor-pointer"}>
             💬 Share an idea or feedback
         </Box>
-
-        <Box component={Link} href="#" className={styles.navItem}>
-          My booked trips
-        </Box>
       </Box>
     </Box>
   );

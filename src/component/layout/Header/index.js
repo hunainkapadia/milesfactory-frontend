@@ -7,6 +7,8 @@ import {
   Drawer,
   Grid,
   IconButton,
+  Menu,
+  MenuItem,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
@@ -23,20 +25,31 @@ import {
   setSignupPopup,
 } from "@/src/store/slices/Auth/SignupSlice";
 import Cookies from "js-cookie";
-import {
-  setIsUser,
-} from "@/src/store/slices/Auth/LoginSlice";
+import { setIsUser } from "@/src/store/slices/Auth/LoginSlice";
 import { useRouter } from "next/router";
 import ThreadDrawer from "../../SearchResult/ThreadDrawer";
-import { setCurrentUser, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
+import {
+  setCurrentUser,
+  setThreadDrawer,
+  thread,
+} from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
-import { createThreadAndRedirect, deleteAndCreateThread, deleteChatThread, setThreadUUIDsend } from "@/src/store/slices/sendMessageSlice";
+import {
+  createThreadAndRedirect,
+  deleteAndCreateThread,
+  deleteChatThread,
+  setThreadUUIDsend,
+} from "@/src/store/slices/sendMessageSlice";
 import RegisterPopup from "../../Auth/RegisterPopup";
 import SignUpPopup from "../../Auth/SignUpPopup";
 import UserPopup from "../../Auth/UserPopup";
 import LoginPopup from "../../Auth/LoginPopup";
 import Feedback from "../Feedback";
 import MobileLoading from "../../LoadingArea/MobileLoading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import HeaderRightforChat from "./HeaderRightforChat";
+import MobileNavDrawer from "./MobileNavDrawer";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -107,9 +120,9 @@ const Header = ({ isMessage, IsActive }) => {
   const currentUser =
     isuserLoginGoogle || getSignUpUser || isuserLogin || isUserSignup; // Use single reference
 
-    dispatch(setCurrentUser(currentUser))
-    const userget = useSelector((state)=> state.base.currentUser);
-        
+  dispatch(setCurrentUser(currentUser));
+  const userget = useSelector((state) => state.base.currentUser);
+
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -120,30 +133,27 @@ const Header = ({ isMessage, IsActive }) => {
   };
 
   const HandlePopup = () => {
-    dispatch(setisUserPopup(true))
+    dispatch(setisUserPopup(true));
   };
-  
+
   // for login dialog
-  
-  
+
   const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
 
   const router = useRouter();
+  // book a trip new thread
+
+  const HandleBookThread = () => {
+    dispatch(createThreadAndRedirect(router));
+  };
+
+  const HandleNewThread = () => {
+    dispatch(deleteAndCreateThread());
+  };
   const handleThreadDrawer = () => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
-  // book a trip new thread
-  
-  const HandleBookThread = () => {
-    dispatch(createThreadAndRedirect(router));
-  };
-  const HandleNewThread = () => {
-    dispatch(deleteAndCreateThread()); // No then, no async
-  };
-  
-
-
   return (
     <>
       <Head></Head>
@@ -209,6 +219,13 @@ const Header = ({ isMessage, IsActive }) => {
               sx={{ gap: { lg: 3, md: 3, xs: 0 } }}
               className={styles.HeaderRightCol}
             >
+              {/* Mobile Loader */}
+              <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
+                <MobileLoading />
+              </Box>
+              {console.log("isSticky_1", isSticky)}
+              <HeaderRightforChat isSticky={isSticky | IsActive || isMessage} />
+              {/*  */}
               {currentUser ? (
                 <Box className={styles.Dropdown} position={"relative"}>
                   <Box
@@ -313,7 +330,7 @@ const Header = ({ isMessage, IsActive }) => {
               ) : (
                 <Box
                   className={styles.Login + " cursor-pointer "}
-                  sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                  sx={{ display: { lg: "flex", md: "flex", xs: "flex" } }}
                   alignItems="center"
                   justifyContent="center"
                   gap={2}
@@ -339,7 +356,7 @@ const Header = ({ isMessage, IsActive }) => {
                     alignItems={"center"}
                     display={"flex"}
                   >
-                    {isSticky || isMessage ? (
+                    {isSticky | IsActive || isMessage ? (
                       <Box
                         sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                         className="imggroup"
@@ -358,62 +375,38 @@ const Header = ({ isMessage, IsActive }) => {
                   {/*  */}
                 </Box>
               )}
-              {isMessage ? (
-                <>
-                  <Box
-                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-                    gap={3}
-                  >
-                    <Box
-                      className=" cursor-pointer"
-                      onClick={HandleNewThread}
-                      display={"flex"}
-                      alignItems={"center"}
-                    >
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        height={48}
-                        className={styles.ChatIcon + " imggroup"}
-                      >
-                        <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
-                      </Box>
-                    </Box>
 
-                    <Box
-                      className=" cursor-pointer"
-                      display={"flex"}
-                      alignItems={"center"}
-                    >
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        height={48}
-                        // Optional
-                        className={styles.ChatIcon + " imggroup"}
-                        onClick={handleThreadDrawer}
-                      >
-                        <img
-                          src="/images/chat-history-icon.svg"
-                          alt="Chat History Icon"
-                        />
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{ display: { xs: "block", md: "none", lg: "none" } }}
-                  >
-                    <MobileLoading />
-                  </Box>
-                </>
+              <Box
+                className=" cursor-pointer"
+                alignItems={"center"}
+                sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  height={48}
+                  // Optional
+                  className={styles.ChatIcon + " imggroup"}
+                  onClick={handleThreadDrawer}
+                >
+                  <img
+                    src={`${
+                      isSticky | IsActive || isMessage
+                        ? "/images/chat-history-icon.svg"
+                        : "/images/chat-history-icon-white.svg"
+                    }`}
+                    alt="Chat History Icon"
+                  />
+                </Box>
+              </Box>
+              {isMessage ? (
+                <></>
               ) : (
                 <Box
                   sx={{ display: { xs: "none", md: "flex" } }}
                   display={"flex"}
                   alignItems={"center"}
-                  pl={2}
                 >
                   <Box
                     className="btn btn-primary btn-sm  btn-round btn-shadow"
@@ -435,65 +428,11 @@ const Header = ({ isMessage, IsActive }) => {
       </header>
 
       {/* extra content for  */}
-      <Drawer
-        className={styles.MobileDrawer}
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={toggleDrawer}
-      >
-        <Box
-          className={styles.HeaderDrawer}
-          sx={{
-            px: { xs: 3 }, // Padding X (left & right) of 3 units only on extra-small (xs) screens
-            py: 3,
-          }}
-          width={"280px"}
-        >
-          <Box
-            component={"header"}
-            display={"flex"}
-            alignItems={"center"}
-            gap={2}
-          >
-            {/* Close Button */}
-            <Box fontSize={"20px"}>
-              <i
-                onClick={toggleDrawer}
-                className="fa fa-arrow-left basecolor"
-              ></i>
-            </Box>
-            <Box className={styles.Logo}>
-              <Link href={"/"}>
-                <Box
-                  sx={{ width: { xs: 53 } }}
-                  className="d-flex align-items-center imggroup"
-                >
-                  <img src="/images/logo-color2.svg" />
-                </Box>
-              </Link>
-            </Box>
-          </Box>
-          <Box>
-            <Box pt={3}>
-              <Navbar />
-            </Box>
-            <Box py={4}>
-              <Divider />
-            </Box>
 
-            <Box display={"flex"}>
-              <Box
-                onClick={HandleBookTrip}
-                className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
-              >
-                Book a trip
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-
-        {/*  */}
-      </Drawer>
+      <MobileNavDrawer
+        isDrawerOpen={isDrawerOpen}
+        toggleDrawer={toggleDrawer}
+      />
 
       <UserPopup />
       {/* logoin popup */}
