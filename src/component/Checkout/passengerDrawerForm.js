@@ -73,6 +73,7 @@ const PassengerDrawerForm = () => {
     }
   }, [captainSuccess, formSuccess, dispatch]);
 
+
   // Load form data or reset on drawer open
   useEffect(() => {
     if (isPassengerDrawerOpen) {
@@ -90,9 +91,6 @@ const PassengerDrawerForm = () => {
         setphone(passengerData.phone_number || "");
         setemail(passengerData.email || "");
         setRegion(passengerData.phone_number || "");
-        console.log("passengerData_", passengerData);
-        
-
         // Match nationality by ID
         const matchedNationality = countries.find(
           (c) => c.id === passengerData?.nationality?.id
@@ -112,8 +110,6 @@ const PassengerDrawerForm = () => {
         setRegion("");
 
         // Set default if no data provided
-        const defaultCountry = countries.find((c) => c.name === "India");
-        setNationality(defaultCountry || null);
       }
 
       dispatch(setPassengerFormError(null));
@@ -423,32 +419,39 @@ const PassengerDrawerForm = () => {
 
             {/* Footer */}
             <Box className={styles.passengerDrawerFooter}>
-              <Divider />
-              <Box
-                py={1}
-                px={3}
-                display="flex"
-                justifyContent="flex-end"
-                gap={3}
-              >
-                <Box
-                  className="basecolor1 f14"
-                  style={{ cursor: "pointer" }}
-                  onClick={handleCloseDrawer}
-                >
-                  <span>Close</span>
+                <Divider />
+                <Box py={1} px={3} display="flex" flexDirection="column">
+                  <Box
+                    display="flex"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    gap={3}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      gap={2}
+                      className="basecolor1 f14"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleCloseDrawer}
+                      disabled={isFormLoading} // Disable when loading
+                    >
+                      <span>Close</span>
+                    </Box>
+
+                    <Button
+                      type="submit" // Important!
+                      className="btn btn-primary btn-md btn-round"
+                      onClick={SubmitPassenger}
+                      disabled={isFormLoading} // Disable when loading
+                      variant="contained"
+                      color="success"
+                    >
+                      {isFormLoading ? <ButtonLoading /> : <span>Continue</span>}
+                    </Button>
+                  </Box>
                 </Box>
-                <Button
-                  type="submit"
-                  className="btn btn-primary btn-md btn-round"
-                  disabled={isFormLoading}
-                  variant="contained"
-                  color="success"
-                >
-                  {isFormLoading ? <ButtonLoading /> : <span>Continue</span>}
-                </Button>
               </Box>
-            </Box>
           </Box>
         </form>
       </Box>
