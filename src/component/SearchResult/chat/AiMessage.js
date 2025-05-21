@@ -21,7 +21,6 @@ const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
 
   console.log("aiMessage_00", aiMessage);
-  
 
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
@@ -58,8 +57,6 @@ const AiMessage = ({ aiMessage }) => {
   console.log("GetViewPassengers", GetViewPassengers);
   console.log("filledPassenger", filledPassenger);
 
-  
-
   const displayedGetFlights = showAllFlight
     ? aiMessage?.ai?.offers
     : aiMessage?.ai?.offers?.slice(0, 3);
@@ -69,7 +66,7 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state.payment.PaymentFormSuccess
   );
   console.log("paymentSuccess", paymentSuccess);
-  
+
   useEffect(() => {
     if (paymentSuccess) {
       setTimeout(() => {
@@ -83,20 +80,19 @@ const AiMessage = ({ aiMessage }) => {
 
   const aiboxRef = useRef(null); //  Add this ref
 
-   // Add class when all flights are shown
-   useEffect(() => {
+  // Add class when all flights are shown
+  useEffect(() => {
     if (showAllFlight && aiboxRef.current) {
       aiboxRef.current.classList.add("showAllFlightActive"); //  Your custom class
     } else if (!showAllFlight && aiboxRef.current) {
       aiboxRef.current.classList.remove("showAllFlightActive"); //  Remove when hidden
     }
   }, [showAllFlight]);
-  
+
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
   // const IsServices = useSelector((state)=> state.booking.singleFlightData.available_services)
   // console.log("singleflight111", singleflight);
-  
 
   return (
     <Box

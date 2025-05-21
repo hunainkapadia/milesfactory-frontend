@@ -267,7 +267,7 @@ const HeaderUser = ({
                   className="imggroup"
                   alignItems="center"
                   display="flex"
-                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                  sx={{ width: { lg: 24, md: 24, xs: 24 } }}
                 >
                   <img
                     src={
