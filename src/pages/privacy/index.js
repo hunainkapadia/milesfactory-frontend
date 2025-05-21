@@ -16,7 +16,7 @@ const PrivacyPolicy = () => {
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="subtitle1" gutterBottom>
-            Effective Date: May 7th, 2025
+            Effective Date: May 18th, 2025
           </Typography>
 
           <Typography paragraph>
@@ -141,7 +141,7 @@ const PrivacyPolicy = () => {
               We use third-party services to support platform functionality
               including:
             </Typography>
-            <Typography component="ul" sx={{ pl: 3 }}>
+            <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
               <li>Payment processors</li>
               <li>Social sign-in services (Google, Facebook, Apple)</li>
               <li>Analytics platforms (e.g., Google Analytics, Tableau)</li>
@@ -177,7 +177,7 @@ const PrivacyPolicy = () => {
               7. User Rights
             </Typography>
             <Typography paragraph>You have the right to:</Typography>
-            <Typography component="ul" sx={{ pl: 3 }}>
+            <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
               <li>Access the data we hold about you</li>
               <li>Request correction or deletion of your personal data</li>
               <li>Object to or restrict certain types of processing</li>

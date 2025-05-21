@@ -66,7 +66,8 @@ const TermsAndConditions = () => {
             You must be at least 18 years of age and have the legal capacity to
             enter into a binding agreement to use the Platform. By using Mylz, you warrant that:
           </Typography>
-          <Typography component="ul" sx={{ pl: 3 }}>
+
+          <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
             <li>
               You are not subject to any international sanctions restrictions
             </li>
@@ -76,7 +77,7 @@ const TermsAndConditions = () => {
           <Typography paragraph>
             You agree not to:
           </Typography>
-          <Typography component="ul" sx={{ pl: 3 }}>
+          <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
             <li>
               Use the Platform for any unlawful, fraudulent, or abusive purpose
             </li>
@@ -147,7 +148,7 @@ const TermsAndConditions = () => {
           <Typography paragraph>
             Use of the Platform is strictly prohibited for:
           </Typography>
-          <Typography component="ul" sx={{ pl: 3 }}>
+          <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
             <li>
             Persons located in or ordinarily resident in comprehensively sanctioned countries or regions, including: Iran, North Korea, Syria, Cuba, 
             Russia, Belarus, Venezuela, and the regions of Crimea, Donetsk, and Luhansk
@@ -160,7 +161,7 @@ const TermsAndConditions = () => {
             By using the Platform, you represent and warrant that none of the above restrictions apply to you or your use of our services. 
             Mylz reserves the right to:
           </Typography>
-          <Typography component="ul" sx={{ pl: 3 }}>
+          <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
             <li>
               Restrict, suspend, or terminate your access without notice
             </li>
