@@ -177,7 +177,7 @@ const HeaderCurrencyLanguage = ({
             <Typography variant="body2">{selectedCurrency.icon}</Typography>
             <FontAwesomeIcon
               icon={faChevronDown}
-              style={{ marginLeft: 6, fontSize: 15 }}
+              style={{ marginLeft: 6, fontSize: 12 }}
             />
           </Box>
 
@@ -215,7 +215,7 @@ const HeaderCurrencyLanguage = ({
             />
             <FontAwesomeIcon
               icon={faChevronDown}
-              style={{ marginLeft: 6, fontSize: 15 }}
+              style={{ marginLeft: 6, fontSize: 12 }}
             />
           </Box>
 
