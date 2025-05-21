@@ -10,17 +10,17 @@ const PrivacyPolicy = () => {
     <main>
       <Header />
       <section id="fold1" className={styles.HomeBanner}>
-        <HerosectionSm heading={"Privacy Policy"} />
+        <HerosectionSm heading={"Privacy"} />
       </section>
 
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="subtitle1" gutterBottom>
-            Effective Date: May 18th, 2025
+            Last Modified: May 18th, 2025
           </Typography>
 
           <Typography paragraph>
-            This Privacy Policy describes how Milesfactory LTD, trading as Mylz
+            This Privacy policy describes how Milesfactory LTD, trading as Mylz
             (“Mylz”, “we”, “us”), collects, uses, and protects your personal
             information when you use our platform at{" "}
             <MuiLink

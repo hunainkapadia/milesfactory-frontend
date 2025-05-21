@@ -10,13 +10,13 @@ const SanctionsPolicy = () => {
     <main>
       <Header />
       <section id="fold1" className={styles.HomeBanner}>
-        <HerosectionSm heading={"Sanctions Compliance Policy"} />
+        <HerosectionSm heading={"Sanctions Compliance"} />
       </section>
 
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="subtitle1" gutterBottom>
-                    Effective Date: May 18th, 2025
+            Last Modified: May 18th, 2025
           </Typography>
           <Typography paragraph>
             Milesfactory LTD, trading as Mylz (“Mylz”, “we”, “our”), is committed to complying with all applicable international sanctions
