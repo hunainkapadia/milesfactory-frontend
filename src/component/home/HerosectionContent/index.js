@@ -11,16 +11,28 @@ const HerosectionContent = () => {
            justifyContent={"center"}
            flexDirection={"column"}
          >
-           <Box sx={{ px: { xs: 0, md: 2, lg: 2 }, pb: {lg:3, md: 3, xs: 3} }}>
+           <Box
+             sx={{ px: { xs: 0, md: 2, lg: 2 }, pb: { lg: 3, md: 3, xs: 1 } }}
+           >
              <h1 className="h1-lg test-000">
                Stop the multi-tabs.
                <br />
                Book trips in seconds.
              </h1>
-             <Typography color="white">
+             <Typography
+               sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+               color="white"
+             >
                No more juggling tabs or comparing markups. Mylz cuts through the
                chaos to find the fastest trips across flights, trains, and more
                at direct prices. Built for speed.
+             </Typography>
+             <Typography
+               sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+               color="white"
+             >
+               No more juggling tab or comparing markups.<br/>Mylz finds the fastest
+               trips across flights,<br/>trains and more – always at direct prices.
              </Typography>
            </Box>
          </Box>

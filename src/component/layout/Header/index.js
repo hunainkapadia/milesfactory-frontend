@@ -37,8 +37,6 @@ import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
 import {
   createThreadAndRedirect,
   deleteAndCreateThread,
-  deleteChatThread,
-  setThreadUUIDsend,
 } from "@/src/store/slices/sendMessageSlice";
 import RegisterPopup from "../../Auth/RegisterPopup";
 import SignUpPopup from "../../Auth/SignUpPopup";
@@ -46,11 +44,9 @@ import UserPopup from "../../Auth/UserPopup";
 import LoginPopup from "../../Auth/LoginPopup";
 import Feedback from "../Feedback";
 import MobileLoading from "../../LoadingArea/MobileLoading";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import HeaderRightforChat from "./HeaderRightforChat";
 import MobileNavDrawer from "./MobileNavDrawer";
 import HeaderUser from "./HeaderUser";
+import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
 
 const Header = ({ isMessage, IsActive }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -170,9 +166,9 @@ const Header = ({ isMessage, IsActive }) => {
                 <MobileLoading />
               </Box>
               {console.log("isSticky_1", isSticky)}
-              <HeaderRightforChat forHeader={"forHeader"} isSticky={isSticky | IsActive || isMessage} />
+              <HeaderCurrencyLanguage forHeader={"forHeader"} isSticky={isSticky} IsActive={IsActive} isMessage={isMessage} />
               {/*  */}
-              <HeaderUser forhHader={"forhHader"} isMessage={isMessage || isSticky || IsActive} />
+              <HeaderUser forhHader={"forhHader"} isSticky={isSticky} IsActive={IsActive} isMessage={isMessage} />
 
               <Box
                 className=" cursor-pointer"

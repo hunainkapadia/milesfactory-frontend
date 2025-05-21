@@ -58,11 +58,12 @@ const Feedback = () => {
 
       <DialogContent>
         <Box component="main" className={styles.signupSection}>
-          <Box position="relative">
+          <Box position="relative" sx={{textAlign:{lg:"left", md: "left", xs:"center"}}}>
             {!successReview ? (
               <>
                 <Box mb={2}>
-                  <Typography display={"flex"} variant="h6">Share an idea or give us feedback</Typography>
+                  <Box component={"h4"} mb={1} sx={{display:{lg:"block", md: "block", xs: "none"}}}>Share an idea or give us feedback</Box>
+                  <Box component={"h3"} mb={1} sx={{display:{lg:"none", md: "none", xs: "block"}}} display={"flex"}>Share feedback</Box>
                   <Typography>How do you like our service?</Typography>
                 </Box>
 
@@ -81,7 +82,7 @@ const Feedback = () => {
                 <Typography sx={{ mt: 2, mb: 1, fontWeight: 500 }}>
                   Tell us what we can improve on
                 </Typography>
-                <TextField
+                <TextField sx={{textAlign:{lg:"left", md:"left", xs: "center"}}}
                   fullWidth
                   multiline
                   rows={3}
@@ -90,7 +91,7 @@ const Feedback = () => {
                   onChange={(e) => setFeedbackText(e.target.value)}
                 />
 
-                <Box mt={2} display="flex" justifyContent="flex-end">
+                <Box mt={2} display="flex" justifyContent="flex-end" width={"100%"}>
                   <Button
                     variant="contained"
                     onClick={handleSubmit}
