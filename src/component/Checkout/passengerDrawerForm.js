@@ -89,7 +89,9 @@ const PassengerDrawerForm = () => {
         setpassport_expire_date(passengerData.passport_expire_date || "");
         setphone(passengerData.phone_number || "");
         setemail(passengerData.email || "");
-        setRegion(passengerData.region || "");
+        setRegion(passengerData.phone_number || "");
+        console.log("passengerData_", passengerData);
+        
 
         // Match nationality by ID
         const matchedNationality = countries.find(
