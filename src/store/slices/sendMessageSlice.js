@@ -22,6 +22,9 @@ const sendMessageSlice = createSlice({
     setCreatethread: (state, action) => {
       state.Createthread = action.payload;
     },
+    clearMessages(state) {
+        state.messages = [];
+    },
     setpollingComplete: (state, action) => {
       state.pollingComplete = action.payload;
     },
@@ -160,6 +163,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
+      
+      
+      
+      // flight result [start]
       if (response?.is_function) {
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
@@ -217,13 +224,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                   if (isComplete === true) {
                     clearInterval(interval);
+                    dispatch(clearMessages()); // Clear the placeholder first ✅
+
                     console.log("Polling complete — show real results now");
-                    showRealResults(); // fetch and display the final results
-                    dispatch(
-                      setMessage({
-                        ai: { response: response?.response }, // placeholder
-                      })
-                    );
+                    showRealResults(); // ✅ This already dispatches the final result
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults(); // fetch and display the final results
@@ -249,6 +253,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           // Start polling now
           pollHistoryUntilComplete();
         }
+
+
+        // flight result [end]
       } else {
         // checking is function true before dufful flight
         if (response?.run_status == "completed") {
@@ -395,5 +402,6 @@ export const {
   setisPolling,
   setpollingComplete,
   setCreatethread,
+  clearMessages
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
