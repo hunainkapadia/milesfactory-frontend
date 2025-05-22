@@ -56,7 +56,7 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   <img src="/images/trust-pilot-v2.svg" />
                 </Box>
                 <Typography className="bold black">
-                  4.8/5 - 750 reviews
+                  4.4/5 - Excellent
                 </Typography>
               </Box>
               <Box
@@ -205,12 +205,10 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 </Link>
               </Box>
               <Typography mb={4} className="f12 basecolor1-dark2">
-                Mylz uses AI to find the cheapest flights, trains, stays, and
-                <Box
+                Mylz uses AI to find the cheapest flights, trains, stays, and <Box
                   component="br"
                   sx={{ display: { xs: "block", sm: "none" } }}
-                />
-                local experiences. Bundle together for even more savings.
+                />local experiences. Bundle together for even more savings.
               </Typography>
               <Typography
                 className="f12 basecolor"

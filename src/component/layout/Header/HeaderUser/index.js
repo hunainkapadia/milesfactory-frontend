@@ -187,17 +187,6 @@ const HeaderUser = ({
 
                   <Box
                     className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
-                  >
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Box width="20px">
-                        <i className="fa fa-cog" aria-hidden="true"></i>
-                      </Box>
-                      <Typography>Settings</Typography>
-                    </Box>
-                  </Box>
-
-                  <Box
-                    className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
                     onClick={logoutHandle}
                   >
                     <Box display="flex" alignItems="center" gap={1}>
