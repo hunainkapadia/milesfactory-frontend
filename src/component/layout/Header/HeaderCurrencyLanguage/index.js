@@ -23,6 +23,7 @@ const languageList = [
 
 // Currency list
 const currencyList = [
+  { code: "GBP", name: "GBP", icon: "£" },
   { code: "EUR", name: "Euro", icon: "€" },
   { code: "USD", name: "Dollar", icon: "$" },
   { code: "PKR", name: "Rupee (PKR)", icon: "₨" },
@@ -42,7 +43,7 @@ const HeaderCurrencyLanguage = ({
   const [languageAnchor, setLanguageAnchor] = useState(null);
   const [currencyAnchor, setCurrencyAnchor] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(languageList[0]); // Default EN
-  const [selectedCurrency, setSelectedCurrency] = useState(currencyList[0]); // Default EUR
+  const [selectedCurrency, setSelectedCurrency] = useState(currencyList[0]); // Default GBP
 
   const handleLangClick = (event) => {
     setLanguageAnchor(event.currentTarget);
