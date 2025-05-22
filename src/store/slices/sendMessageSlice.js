@@ -93,23 +93,22 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
 
         console.log("run_status111 ", run_status);
-        
+
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-          
+
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
           console.log("gdata_00", gdata);
-          
 
           dispatch(
             setMessage({
               ai: {
-                isPolling : {
+                isPolling: {
                   status: true,
                   argument: gdata,
-                }
-              }
+                },
+              },
             })
           );
           const pollUntilComplete = () => {
@@ -121,12 +120,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     const runData = resRun.data;
                     console.log("runData.run_status", runData);
 
-                    
                     // checking is function true before dufful flight
-                    
+
                     if (runData.run_status === "completed") {
                       console.log(runData.run_status);
-                      
+
                       clearInterval(interval);
                       resolve(runData);
                     }
@@ -144,7 +142,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             .then((completedRun) => {
               response = completedRun;
               console.log(" Polling complete:", response);
-              dispatch(setpollingComplete(true))
+              dispatch(setpollingComplete(true));
               handleFinalResponse(response);
             })
             .catch((error) => {
@@ -178,7 +176,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .then((flightRes) => {
                 const isComplete = flightRes?.data?.is_complete;
                 console.log("flightRes", flightRes);
-                
+
                 console.log(
                   " Final refreshed flightRes is_complete:",
                   isComplete
@@ -192,9 +190,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     })
                   );
                 } else {
-                  console.log(
-                    "Still not complete after polling"
-                  );
+                  console.log("Still not complete after polling");
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -218,7 +214,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   dispatch(setSearchHistorySend(history_res.data.search));
 
                   console.log("response_0", response);
-                  
 
                   if (isComplete === true) {
                     clearInterval(interval);
@@ -254,10 +249,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           // Start polling now
           pollHistoryUntilComplete();
         }
-
-
-
-
       } else {
         // checking is function true before dufful flight
         if (response?.run_status == "completed") {
@@ -288,7 +279,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   }
 };
 // close send messge
-
 
 // create thread api call
 export const createThreadAndRedirect = (router) => (dispatch, getState) => {

@@ -14,7 +14,7 @@ import {
   setisUserPopup,
 } from "@/src/store/slices/Auth/SignupSlice"; // adjust import paths based on your store structure
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-import { setIsUser } from "@/src/store/slices/Auth/LoginSlice";
+import { setIsUser, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 import { setCurrentUser } from "@/src/store/slices/Base/baseSlice";
 // import isMessage, isSticky, IsActive, HandlePopup as needed
 
@@ -30,49 +30,56 @@ const HeaderUser = ({
 
   // Select users from Redux
   const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
-  const isUserLogin = useSelector((state) => state.login.loginUser?.user);
+  
+  const isUserLogin = useSelector((state) => state?.login?.loginUser?.user);
   const isUserLoginGoogle = useSelector(
-    (state) => state.login.loginUser?.user?.user
+    (state) => state?.login?.loginUser?.user?.user
   );
-  const isUserSignup = useSelector((state) => state.signup.user?.user);
+  const isUserSignup = useSelector((state) => state.signup?.IsUser);
   const getSignUpUser = useSelector((state) => state.signup.SignupUser?.user);
 
   // Combine all sources to find current user
-  const currentUser =
-    isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
+  const currentUser = isUserLogin;
 
-  console.log("currentUser_2", currentUser);
+    // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
+    // Set user to Redux on initial mount from cookies
+    console.log("currentUser", isUserLogin);
+    useEffect(() => {
+      const cookieUserString = Cookies.get("set-user");
+      const access_token = Cookies.get("access_token");
+      const refresh_token = Cookies.get("refresh_token");
+      
+      if (cookieUserString && access_token && refresh_token) {
+        console.log("cookieUserString", cookieUserString);
+        const cookieUser = JSON.parse(cookieUserString);
 
-  // Set user to Redux on initial mount from cookies
-  useEffect(() => {
-    const cookieUserString = Cookies.get("set-user");
-
-    if (cookieUserString) {
-      const cookieUser = JSON.parse(cookieUserString);
-      console.log("Cookie user loaded", cookieUser);
 
       dispatch(
         setIsSignupUser({
           user: {
-            first_name: cookieUser.first_name,
-            last_name: cookieUser.last_name,
-            access_token: cookieUser.access_token,
-            refresh_token: cookieUser.refresh_token,
-            email: cookieUser.email,
+            user: {
+              first_name: cookieUser.first_name,
+              last_name: cookieUser.last_name,
+              email: cookieUser.email,
+            },
           },
+          access_token: access_token,
+          refresh_token: refresh_token,
           status: 200,
         })
       );
 
       dispatch(
-        setIsUser({
+        setLoginUser({
           user: {
-            first_name: cookieUser.first_name,
-            last_name: cookieUser.last_name,
-            access_token: cookieUser.access_token,
-            refresh_token: cookieUser.refresh_token,
-            email: cookieUser.email,
+            user: {
+              first_name: cookieUser.first_name,
+              last_name: cookieUser.last_name,
+              email: cookieUser.email,
+            },
           },
+          access_token: access_token,
+          refresh_token: refresh_token,
           status: 200,
         })
       );
@@ -80,11 +87,11 @@ const HeaderUser = ({
   }, []);
 
   // Sync latest user to currentUser state
-  useEffect(() => {
-    if (currentUser) {
-      dispatch(setCurrentUser(currentUser));
-    }
-  }, [currentUser, dispatch]);
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     dispatch(setCurrentUser(currentUser));
+  //   }
+  // }, [currentUser, dispatch]);
 
   const logoutHandle = () => {
     dispatch(logoutUser());
@@ -95,9 +102,11 @@ const HeaderUser = ({
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+
+  
   return (
     <>
-      {currentUser ? (
+      {currentUser?.user ? (
         <>
           <Box className={styles.Dropdown} position={"relative"}>
             <Box
@@ -126,16 +135,16 @@ const HeaderUser = ({
               <Typography className={`${styles.userName} f14 bold`}>
                 {!isMessage || !isSticky || !IsActive ? (
                   <>
-                    {currentUser?.first_name.charAt(0).toUpperCase()}.
+                    {currentUser?.user?.first_name.charAt(0).toUpperCase()}.
                     <span className="capitalize">
                       {" "}
-                      {currentUser?.last_name || ""}
+                      {currentUser?.user?.last_name || ""}
                     </span>
                   </>
                 ) : (
                   <>
-                    {currentUser?.first_name || ""}{" "}
-                    {currentUser?.last_name || ""}
+                    {currentUser?.user?.first_name || ""}{" "}
+                    {currentUser?.user?.last_name || ""}
                   </>
                 )}
               </Typography>
@@ -153,7 +162,7 @@ const HeaderUser = ({
                   }}
                   className="white mb-0 f16 bold"
                 >
-                  {currentUser?.first_name.charAt(0).toUpperCase()}
+                  {currentUser?.user?.first_name.charAt(0).toUpperCase()}
                 </Avatar>
               </Box>
             </Box>

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
 import { API_ENDPOINTS } from "../../api/apiEndpoints";
 import Cookies from "js-cookie";
+import { setLoginUser } from "./LoginSlice";
 // import { setLoginPopup } from "./LoginSlice";
 
 const initialState = {
@@ -53,6 +54,9 @@ const signupSlice = createSlice({
     logoutUser: (state) => {
       state.user = null; // Remove user from Redux
       Cookies.remove("set-user"); // Remove user cookie
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+
       window.location.reload(); // Refresh the page to reflect changes
     },
     setIstLoading: (state, action)=> {
@@ -69,7 +73,11 @@ export const SignUpUser = (params) => (dispatch) => {
     .then((res) => {
       
       if (res.status === 201) {
-        dispatch(setIsSignupUser({user: res?.data, status: res.status}));
+        console.log("signup_res", res?.data?.data);
+        
+        dispatch(
+          setLoginUser({ user: { user: res?.data }, status: res.status })
+        );
         dispatch(setSignupPopup(false));
         // Store user info in cookies
         Cookies.set(

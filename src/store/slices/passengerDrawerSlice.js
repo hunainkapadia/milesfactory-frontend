@@ -132,6 +132,15 @@ export const ViewPassengers = () => (dispatch, getState) => {
     .get(viewPassengerUrl)
     .then((response) => {
       console.log("response000", response?.data);
+
+      api
+        .get(`/api/v1/user/passenger/profiles`)
+        .then((pass_profile_res) => {
+          console.log("pass_profile_res", pass_profile_res);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       dispatch(setViewPassengers(response?.data || []));
       dispatch(setisLoading(false))
     })

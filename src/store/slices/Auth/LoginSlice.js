@@ -18,9 +18,12 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     setIsUser: (state, action) => {
+      console.log("user_action", action);
+      
       state.IsUser = action.payload;
     },
     setLoginUser: (state, action) => {
+      
       state.loginUser = action.payload;
       state.emailError = "";
       state.passwordError = "";
@@ -31,6 +34,9 @@ const loginSlice = createSlice({
     logoutUser: (state) => {
       state.loginUser = null; //
       Cookies.remove("set-user");
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+
     },
     setisLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -51,23 +57,37 @@ export const loginUser = (params) => (dispatch) => {
     .post(API_ENDPOINTS.AUTH.LOGIN, params)
     .then((res) => {
       if (res.status === 200) {
-        dispatch(setLoginUser({ user: res.data, status: res.status }));
-        // Store user info in cookies
-        dispatch(setLoginPopup(false))
-        console.log("res111", res );
-        
+        // 1. Update Redux state
+        dispatch(setLoginUser({ user: {user: res.data}, status: res.status }));
+        dispatch(setLoginPopup(false));
+
+        console.log("res111", res);
+
+        const { username, first_name, last_name, access, refresh } = res.data;
+
+        // 2. Store basic user info (NO password, NO tokens)
         Cookies.set(
           "set-user",
           JSON.stringify({
-            email: res.data.username,
-            first_name: res.data.first_name,
-            last_name: res.data.last_name,
-            password: res.data.password,
-            refresh_token: res?.data?.refresh,
-            access_token: res?.data?.access,
+            email: username,
+            first_name : first_name,
+            last_name: last_name,
           }),
           { expires: 7 }
         );
+
+        // 3. Store tokens in separate cookies (optional: set secure attributes)
+        Cookies.set("access_token", access, {
+          expires: 1,
+          secure: true,
+          sameSite: "Strict",
+        });
+
+        Cookies.set("refresh_token", refresh, {
+          expires: 7,
+          secure: true,
+          sameSite: "Strict",
+        });
       }
     })
     .catch((error) => {
@@ -115,19 +135,37 @@ export const googleLoginUser = (code) => (dispatch) => {
     .post("/api/auth/google/", { code })
     .then((res) => {
       if (res.status === 200) {
-        dispatch(setLoginUser({ user: res.data, status: res.status,  userPopup: false }));
-        console.log("googleLogin", res.data);
+        const { user, access, refresh } = res.data;
+
+        // 1. Store user info in Redux
+        dispatch(
+          setLoginUser({
+            user: res.data,
+            status: res.status,
+            userPopup: false,
+          })
+        );
+
+        console.log("googleLogin_res", res.data);
+
+        // 2. Store user info (without tokens) in cookie
+
+        
         Cookies.set(
           "set-user",
           JSON.stringify({
-            email: res?.data?.user.email,
-            first_name: res?.data?.user.first_name,
-            last_name: res?.data?.user.last_name,
-            refresh_token: res?.data?.refresh,
-            access_token: res?.data?.access,
+            email: res.data.user.email,
+            first_name : res.data.user.first_name,
+            last_name: res.data.user.last_name,
           }),
           { expires: 7 }
         );
+
+        // 3. Store tokens in separate cookies (optional: with shorter expiration)
+        Cookies.set("access_token", access, { expires: 1 }); // expires in 1 day
+        Cookies.set("refresh_token", refresh, { expires: 7 }); // expires in 7 days
+      } else {
+        console.error("Login failed", res);
       }
     })
     .catch((error) => {
