@@ -48,7 +48,7 @@ import MobileNavDrawer from "./MobileNavDrawer";
 import HeaderUser from "./HeaderUser";
 import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
 
-const Header = ({ isMessage, IsActive, isHome }) => {
+const Header = ({ isMessage, IsActive, isHome, isChat }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
@@ -166,9 +166,23 @@ const Header = ({ isMessage, IsActive, isHome }) => {
                 <MobileLoading />
               </Box>
               {console.log("isSticky_1", isSticky)}
-              <HeaderCurrencyLanguage forHeader={"forHeader"} isSticky={isSticky} IsActive={IsActive} isMessage={isMessage} />
+              <HeaderCurrencyLanguage
+                forHeader={"forHeader"}
+                isSticky={isSticky}
+                IsActive={IsActive}
+                isMessage={isMessage}
+              />
               {/*  */}
-              <HeaderUser forhHader={"forhHader"} isSticky={isSticky} IsActive={IsActive} isMessage={isMessage} />
+              {!isChat ? (
+                <HeaderUser
+                  forhHader={"forhHader"}
+                  isSticky={isSticky}
+                  IsActive={IsActive}
+                  isMessage={isMessage}
+                />
+              ) : (
+                ""
+              )}
 
               <Box
                 className=" cursor-pointer"
@@ -217,7 +231,14 @@ const Header = ({ isMessage, IsActive, isHome }) => {
             </Box>
             {/*  */}
           </Box>
-          {isHome ? <MessageInputBox isSticky={InputSticky} HeaderInput={"HeaderInput"} /> : ""}
+          {isHome ? (
+            <MessageInputBox
+              isSticky={InputSticky}
+              HeaderInput={"HeaderInput"}
+            />
+          ) : (
+            ""
+          )}
         </Container>
       </header>
       {/* extra content for  */}

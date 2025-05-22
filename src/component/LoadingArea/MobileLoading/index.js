@@ -15,6 +15,7 @@ const MobileLoading = () => {
     <Box
       className={style.MobileLoadingRow}
       display={"flex"}
+      height={"100%"}
       justifyContent={"center"}
       alignItems={"center"}
     >

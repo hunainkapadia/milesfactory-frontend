@@ -38,7 +38,7 @@ const ChatByUUID = () => {
             styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
           }
         >
-          <Header isMessage={isMessage} />
+          <Header isMessage={isMessage} isChat={"isChat"} />
           <Box className={styles.Box}>
             <Container className={styles.Container}>
               <Grid container sx={{ width: "100%", margin: 0 }}>
