@@ -22,8 +22,12 @@ const sendMessageSlice = createSlice({
     setCreatethread: (state, action) => {
       state.Createthread = action.payload;
     },
-    clearMessages(state) {
-        state.messages = [];
+    // when ic complete true previus flight update
+    setClearflight(state) {
+      state.messages = state.messages.filter(
+        (msg) =>
+          msg?.type !== "flight_placeholder" && msg?.type !== "flight_result"
+      );
     },
     setpollingComplete: (state, action) => {
       state.pollingComplete = action.payload;
@@ -163,9 +167,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
-      
-      
-      
       // flight result [start]
       if (response?.is_function) {
         const allFlightSearchApi =
@@ -201,6 +202,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
+                      type: "flight_result",
                     })
                   );
                 }
@@ -217,17 +219,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .then((history_res) => {
                   const isComplete = history_res?.data?.search?.is_complete;
                   console.log(" Polling: is_complete =", isComplete);
-
                   dispatch(setSearchHistorySend(history_res.data.search));
-
-                  console.log("response_0", response);
-
+                  
                   if (isComplete === true) {
                     clearInterval(interval);
-                    dispatch(clearMessages()); // Clear the placeholder first ✅
-
-                    console.log("Polling complete — show real results now");
-                    showRealResults(); // ✅ This already dispatches the final result
+                    dispatch(setClearflight()); // ✅ Clear placeholder/previous flight results
+                    showRealResults(); // ✅ Then dispatch the final flight results
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults(); // fetch and display the final results
@@ -238,7 +235,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                     dispatch(
                       setMessage({
-                        ai: { response: response?.response }, // placeholder
+                        ai: { response: response?.response },
+                        type: "flight_placeholder", //if check clear 
                       })
                     );
                   }
@@ -253,7 +251,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           // Start polling now
           pollHistoryUntilComplete();
         }
-
 
         // flight result [end]
       } else {
@@ -402,6 +399,6 @@ export const {
   setisPolling,
   setpollingComplete,
   setCreatethread,
-  clearMessages
+  setClearflight,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
