@@ -27,6 +27,7 @@ const ChatByUUID = () => {
       console.log("Router object:", router);
     }, [router]);
   
+    const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
 
   return (
     <>
@@ -40,7 +41,6 @@ const ChatByUUID = () => {
           <Header isMessage={isMessage} />
           <Box className={styles.Box}>
             <Container className={styles.Container}>
-              
               <Grid container sx={{ width: "100%", margin: 0 }}>
                 <Grid item md={8} lg={8}>
                   <Messages />
@@ -51,7 +51,11 @@ const ChatByUUID = () => {
                   lg={4}
                   sx={{ display: { xs: "none", md: "block", lg: "block" } }}
                 >
-                  <YourTripSidebar isMessage={isMessage} />
+                  {getselectedFlight ? (
+                    <YourTripSidebar isMessage={isMessage} />
+                  ) : (
+                    " "
+                  )}
                 </Grid>
               </Grid>
               <Box
