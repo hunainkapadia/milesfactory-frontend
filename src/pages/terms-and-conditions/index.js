@@ -20,7 +20,7 @@ const TermsAndConditions = () => {
           </Typography>
           <Typography paragraph>
             This agreement also incorporates by reference our{" "}
-            <MuiLink href="/privacy-policy">Privacy Policy</MuiLink> and <MuiLink href="/sanctions-compliance-policy">Sanctions Compliance Policy</MuiLink>, which form an integral part of these
+            <MuiLink href="/privacy">Privacy Policy</MuiLink> and <MuiLink href="/sanctions-compliance">Sanctions Compliance Policy</MuiLink>, which form an integral part of these
             Terms.
           </Typography>
 
@@ -170,7 +170,7 @@ const TermsAndConditions = () => {
           </Typography>
           <Typography paragraph>
             Violations of this policy are treated as material breaches of these Terms and may result in immediate enforcement actions. 
-            For more details, see our full <MuiLink href="/sanctions-compliance-policy">Sanctions Compliance Policy</MuiLink>.
+            For more details, see our full <MuiLink href="/sanctions-compliance">Sanctions Compliance Policy</MuiLink>.
           </Typography>
 
           <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>

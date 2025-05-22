@@ -15,7 +15,7 @@ const PrivacyPolicy = () => {
 
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
-          <Typography variant="subtitle1" gutterBottom>
+          <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
             Last Modified: May 18th, 2025
           </Typography>
 
