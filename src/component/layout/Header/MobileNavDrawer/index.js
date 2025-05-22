@@ -5,7 +5,7 @@ import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import { useState } from "react";
 import Navbar from "../Navbar";
 import HeaderUser from "../HeaderUser";
-import { setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
+import { setFeedbackDialog, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/src/store/slices/Auth/SignupSlice";
 import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
@@ -24,6 +24,9 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
     dispatch(logoutUser());
   };
   const currentUser = useSelector((state) => state.base?.currentUser);
+  const feedbackHandle = () => {
+    dispatch(setFeedbackDialog(true));
+  };
 
   return (
     <>
@@ -72,41 +75,75 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
           <Box>
             <Box pt={7} display={"flex"} flexDirection={"column"} gap={3}>
               <HeaderUser formobileDrawer={"formobileDrawer"} />
-              <Box
-                className={`${styles.Login} cursor-pointer`}
-                sx={{
-                  display: { lg: "flex", md: "flex", xs: "flex" },
-                }}
-                alignItems="center"
-                gap={2}
-                onClick={handleThreadDrawer}
-              >
-                <Box
-                  className="imggroup"
-                  alignItems="center"
-                  display="flex"
-                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-                >
-                  <img
-                    src={"/images/chat-history-icon.svg"}
-                    alt="chat history"
-                  />
-                </Box>
-                <Typography
-                  className="bold f16"
-                  sx={{
-                    display: {
-                      lg: "block",
-                      md: "block",
-                    },
-                  }}
-                >
-                  Search history
-                </Typography>
-              </Box>
+
               {/*  */}
               {currentUser ? (
                 <>
+                  <Box
+                    className={`${styles.Login} cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                    }}
+                    alignItems="center"
+                    gap={2}
+                    onClick={handleThreadDrawer}
+                  >
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    >
+                      <img
+                        src={"/images/book-trip-icon.svg"}
+                        alt="chat history"
+                      />
+                    </Box>
+                    <Typography
+                      className="bold f16"
+                      sx={{
+                        display: {
+                          lg: "block",
+                          md: "block",
+                        },
+                      }}
+                    >
+                      My booked trips
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    className={`${styles.Login} cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                    }}
+                    alignItems="center"
+                    gap={2}
+                    onClick={handleThreadDrawer}
+                  >
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    >
+                      <img
+                        src={"/images/chat-history-icon.svg"}
+                        alt="chat history"
+                      />
+                    </Box>
+                    <Typography
+                      className="bold f16"
+                      sx={{
+                        display: {
+                          lg: "block",
+                          md: "block",
+                        },
+                      }}
+                    >
+                      Search history
+                    </Typography>
+                  </Box>
                   <Box
                     className={`${styles.Login} cursor-pointer`}
                     sx={{
@@ -139,7 +176,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                   </Box>
                 </>
               ) : (
-                ""
+                <></>
               )}
             </Box>
 
@@ -158,7 +195,8 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
             <Box py={3}>
               <Divider />
             </Box>
-            <Box component={"section"}
+            <Box
+              component={"section"}
               sx={{
                 display: "flex",
                 gap: 3,
@@ -179,7 +217,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
               <Box
                 display="flex"
                 alignItems="center"
-                // onClick={handleCurrencyClick}
+                onClick={feedbackHandle}
                 sx={{ cursor: "pointer", gap: 0 }}
                 className={`basecolor1-dark2`}
               >
@@ -188,7 +226,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                 </Typography>
               </Box>
             </Box>
-              {/*  */}
+            {/*  */}
             {/*  */}
           </Box>
         </Box>

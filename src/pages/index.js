@@ -44,7 +44,7 @@ const Home = () => {
   return (
     <>
       <main>
-        <Header />
+        <Header isHome={"isHome"} />
         <section id="fold1" className={styles.HomeBanner}>
           <HomeHeroSection />
         </section>

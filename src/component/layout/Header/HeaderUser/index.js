@@ -87,11 +87,11 @@ const HeaderUser = ({
   }, []);
 
   // Sync latest user to currentUser state
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     dispatch(setCurrentUser(currentUser));
-  //   }
-  // }, [currentUser, dispatch]);
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(setCurrentUser(currentUser));
+    }
+  }, [currentUser, dispatch]);
 
   const logoutHandle = () => {
     dispatch(logoutUser());

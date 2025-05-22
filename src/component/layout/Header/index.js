@@ -48,7 +48,7 @@ import MobileNavDrawer from "./MobileNavDrawer";
 import HeaderUser from "./HeaderUser";
 import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
 
-const Header = ({ isMessage, IsActive }) => {
+const Header = ({ isMessage, IsActive, isHome }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
@@ -217,7 +217,7 @@ const Header = ({ isMessage, IsActive }) => {
             </Box>
             {/*  */}
           </Box>
-          <MessageInputBox isSticky={InputSticky} HeaderInput={"HeaderInput"} />
+          {isHome ? <MessageInputBox isSticky={InputSticky} HeaderInput={"HeaderInput"} /> : ""}
         </Container>
       </header>
       {/* extra content for  */}
