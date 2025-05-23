@@ -78,7 +78,7 @@ export const createThread = () => (dispatch) => {
       const uuid = thread_res.data.uuid;
       console.log("thread_response", uuid);
       sessionStorage.setItem("chat_thread_uuid", uuid);
-      
+
       dispatch(setThreadUUIDsend(uuid));
     })
     .catch((err) => {
@@ -95,7 +95,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
     console.log("threadUUIdUrl", threadUUIdUrl);
-    
 
     api
       .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
@@ -228,8 +227,25 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                   if (isComplete === true) {
                     clearInterval(interval);
-                    dispatch(setClearflight()); // Clear placeholder/previous flight results
-                    showRealResults(); //  Then dispatch the final flight results
+                    // First fetch the new data
+                    api
+                      .get(allFlightSearchApi)
+                      .then((flightRes) => {
+                        const realFlightData = flightRes.data;
+
+                        // First clear placeholders
+                        dispatch(setClearflight());
+
+                        // Then add final results
+                        dispatch(
+                          setMessage({
+                            ai: realFlightData,
+                          })
+                        );
+                      })
+                      .catch((err) => {
+                        console.error("Error fetching final results", err);
+                      });
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults(); // fetch and display the final results
@@ -241,7 +257,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     dispatch(
                       setMessage({
                         ai: { response: response?.response },
-                        type: "flight_placeholder", //if check clear 
+                        type: "flight_placeholder", //if check clear
                       })
                     );
                   }

@@ -10,6 +10,8 @@ import {
   Menu,
   MenuItem,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
@@ -94,6 +96,10 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
+
+  const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  
   return (
     <>
       <Head></Head>
@@ -172,7 +178,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                 isMessage={isMessage}
               />
               {/*  */}
-              {!isChat ? (
+              {/* show for home desk and mobiel chat for dektop only  */}
+              {isHome || (isChat && !isMobile) ? (
                 <HeaderUser
                   forhHader={"forhHader"}
                   isSticky={isSticky}
@@ -183,6 +190,30 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                 ""
               )}
 
+              <Box
+                className=" cursor-pointer"
+                alignItems={"center"}
+                sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  height={24}
+                  // Optional
+                  className={styles.ChatIcon + " imggroup"}
+                  onClick={"handleThreadDrawer"}
+                >
+                  <img width={24}
+                    src={`${
+                      isSticky | IsActive || isMessage
+                        ? "/images/book-trip-icon.svg"
+                        : "/images/book-trip-icon-white.svg"
+                    }`}
+                    alt="book trip"
+                  />
+                </Box>
+              </Box>
               <Box
                 className=" cursor-pointer"
                 alignItems={"center"}
@@ -239,7 +270,6 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
             ""
           )}
         </Container>
-        
       </Box>
 
       {/* extra content for  */}

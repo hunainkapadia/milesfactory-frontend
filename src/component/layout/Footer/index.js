@@ -2,7 +2,14 @@ import { Box, Container, Typography } from "@mui/material";
 import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => {
+const Footer = ({
+  forHomeHero,
+  forReview,
+  forLight,
+  forDark,
+  id,
+  ...props
+}) => {
   return (
     <>
       {forDark ? (
@@ -205,10 +212,12 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 </Link>
               </Box>
               <Typography mb={4} className="f12 basecolor1-dark2">
-                Mylz uses AI to find the cheapest flights, trains, stays, and <Box
+                Mylz uses AI to find the cheapest flights, trains, stays, and{" "}
+                <Box
                   component="br"
                   sx={{ display: { xs: "block", sm: "none" } }}
-                />local experiences. Bundle together for even more savings.
+                />
+                local experiences. Bundle together for even more savings.
               </Typography>
               <Typography
                 className="f12 basecolor"
@@ -264,24 +273,24 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
       ) : forHomeHero ? (
         <>
           <Box
-  component="footer"
-  className={`   ${styles.forHomeHero}`}
-  sx={{
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    pb: 4,
-  }}
->
+            component="footer"
+            className={`   ${styles.forHomeHero}`}
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              pb: 4,
+            }}
+          >
             <Container>
               <Box
                 className={styles.FooterBox + " "}
                 display={"flex"}
                 sx={{
                   justifyContent: {
-                    lg: "flex-end",
-                    md: "flex-end",
+                    lg: "center",
+                    md: "center",
                     xs: "center",
                   },
                 }}
