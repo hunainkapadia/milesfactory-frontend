@@ -28,7 +28,7 @@ const HomeSection4 = (props) => {
                   sx={{
                     width: {
                       xs: "100%", // Extra small screens
-                      sm: "59.7%", // Small screens
+                      sm: "59.7%", // Small screenss
                       lg: "59.7%", // Large screens
                     },
                   }}
