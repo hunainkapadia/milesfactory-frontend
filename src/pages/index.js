@@ -35,10 +35,11 @@ const Home = () => {
 
   
   
+
+  // for home page delete chat thread
   useEffect(() => {
     dispatch(OnlydeleteChatThread());
   }, [0]);
-  
   // 1st creat thread befor befor message from home 
   useEffect(() => {
     dispatch(createThread());
