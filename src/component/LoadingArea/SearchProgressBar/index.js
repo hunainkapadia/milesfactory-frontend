@@ -20,10 +20,10 @@ const SearchProgressBar = () => {
 
       interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev < 80) return prev + 1; // Stop at 90% to wait for real complete
+          if (prev < 90) return prev + 1; // Stop at 90% to wait for real complete
           return prev;
         });
-      }, 120); // Slightly slower for a smoother feel
+      }, 90); // Slightly slower for a smoother feel
     }
 
     if (isPollComplete === true) {

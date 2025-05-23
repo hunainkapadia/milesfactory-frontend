@@ -227,9 +227,23 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   dispatch(setSearchHistorySend(history_res.data.search));
 
                   if (isComplete === true) {
-                    clearInterval(interval);
-                    dispatch(setClearflight()); // Clear placeholder/previous flight results
-                    showRealResults(); //  Then dispatch the final flight results
+  clearInterval(interval);
+  // ✅ First fetch the new data
+  api.get(allFlightSearchApi).then((flightRes) => {
+  const realFlightData = flightRes.data;
+
+  // ✅ First clear placeholders
+  dispatch(setClearflight());
+
+  // ✅ Then add final results
+  dispatch(
+    setMessage({
+      ai: realFlightData,
+    })
+  );
+  }).catch((err) => {
+    console.error("Error fetching final results", err);
+  });
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults(); // fetch and display the final results
