@@ -67,7 +67,6 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -77,12 +76,10 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
     dispatch(setisUserPopup(true));
   };
 
-  
-
   // for login dialog
 
   const currentUser = useSelector((state) => state.base?.currentUser);
-  
+
   const router = useRouter();
   // book a trip new thread
 
@@ -242,9 +239,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
             ""
           )}
         </Container>
-        <Box className="SearchBar SearchBar_000">
-          <SearchProgressBar />
-        </Box>
+        
       </Box>
 
       {/* extra content for  */}

@@ -16,6 +16,7 @@ import PaymentAddCard from "../../Checkout/PaymentAddCardDrawer";
 import PaymentSuccess from "../../Checkout/PaymentSuccess";
 import PriceSummary from "../../Checkout/PriceSummary";
 import PollingMessage from "../PollingMessage/PollingMessage";
+import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
@@ -153,6 +154,9 @@ const AiMessage = ({ aiMessage }) => {
             sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
             className={searchResultStyles.SearchCardWrapper}
           >
+            <Box className="SearchBar SearchBar_000">
+              <SearchProgressBar />
+            </Box>
             <Box mt={2} className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
