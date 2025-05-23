@@ -220,11 +220,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   const isComplete = history_res?.data?.search?.is_complete;
                   console.log(" Polling: is_complete =", isComplete);
                   dispatch(setSearchHistorySend(history_res.data.search));
-                  
+
                   if (isComplete === true) {
                     clearInterval(interval);
-                    dispatch(setClearflight()); // ✅ Clear placeholder/previous flight results
-                    showRealResults(); // ✅ Then dispatch the final flight results
+                    dispatch(setClearflight()); // Clear placeholder/previous flight results
+                    showRealResults(); //  Then dispatch the final flight results
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults(); // fetch and display the final results

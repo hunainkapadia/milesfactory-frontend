@@ -47,6 +47,7 @@ import MobileLoading from "../../LoadingArea/MobileLoading";
 import MobileNavDrawer from "./MobileNavDrawer";
 import HeaderUser from "./HeaderUser";
 import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
+import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 
 const Header = ({ isMessage, IsActive, isHome, isChat }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -100,7 +101,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
     <>
       <Head></Head>
       <ThreadDrawer />
-      <header
+      <Box
+        component={"header"}
         className={`
           ${styles.Header} //normal header
           ${isMessage ? styles.isMessage : ""} // if message header change
@@ -240,7 +242,11 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
             ""
           )}
         </Container>
-      </header>
+        <Box className="SearchBar SearchBar_000">
+          <SearchProgressBar />
+        </Box>
+      </Box>
+
       {/* extra content for  */}
       <MobileNavDrawer
         isDrawerOpen={isDrawerOpen}
