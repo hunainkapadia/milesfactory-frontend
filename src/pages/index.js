@@ -17,6 +17,7 @@ import {
 import HomeSection3 from "../component/home/HomeSection3";
 import HomeSection4 from "../component/home/HomeSection4";
 import HomeSection2 from "../component/home/HomeSection2";
+import Cookies from "js-cookie";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -32,10 +33,12 @@ const Home = () => {
 
   const uuid = useSelector((state) => state.sendMessage.ThreadUUIDsend); // <-- Adjust based on your store
 
+  
+  
   useEffect(() => {
     dispatch(OnlydeleteChatThread());
   }, [0]);
-
+  
   // 1st creat thread befor befor message from home 
   useEffect(() => {
     dispatch(createThread());

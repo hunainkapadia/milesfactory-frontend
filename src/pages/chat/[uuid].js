@@ -16,6 +16,9 @@ const ChatByUUID = () => {
 
   const { uuid } = router.query;
 
+  console.log("uuid_chat", uuid);
+  
+
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);

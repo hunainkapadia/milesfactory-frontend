@@ -36,6 +36,7 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
 
   useEffect(() => {
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
+    console.log("storedUuid", storedUuid);
     setGetuuid(storedUuid);
   }, []);
 

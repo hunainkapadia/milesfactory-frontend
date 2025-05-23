@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
+import Cookies from "js-cookie";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -75,7 +76,9 @@ export const createThread = () => (dispatch) => {
     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((thread_res) => {
       const uuid = thread_res.data.uuid;
-      console.log("thread_response", thread_res);
+      console.log("thread_response", uuid);
+      sessionStorage.setItem("chat_thread_uuid", uuid);
+      
       dispatch(setThreadUUIDsend(uuid));
     })
     .catch((err) => {
@@ -91,6 +94,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
+    console.log("threadUUIdUrl", threadUUIdUrl);
+    
 
     api
       .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
