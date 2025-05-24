@@ -38,6 +38,8 @@ const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
+  const [hasFlightOffers, sethasFlightOffers] = useState(false);
+
   const messagesEndRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -50,11 +52,24 @@ const Messages = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
+  useEffect(() => {
+    dispatch(fetchMessages());
+  }, []);
+
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const lastMessage = messages[messages.length - 1];
+
+    const hasFlightOffers =
+      lastMessage?.ai?.offers && lastMessage?.ai?.offers.length > 0;
+
+    sethasFlightOffers(hasFlightOffers);
+
+    if (!hasFlightOffers) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   const handleSearch = () => {
@@ -71,17 +86,15 @@ const Messages = () => {
   const SelectedFlightId = useSelector(
     (state) => state.booking?.selectedFlightId
   );
-  
 
   // for passenger form
 
-  
   console.log("isLoading111", isLoading);
-
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+  console.log("FlightExpire111", FlightExpire);
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());
@@ -108,30 +121,41 @@ const Messages = () => {
               ))}
 
               {/*  */}
-              <Box ref={messagesEndRef} />
+
+              {console.log("hasFlightOffers", hasFlightOffers)}
+              {!hasFlightOffers ? <Box ref={messagesEndRef} /> : ""}
               {/* booking flow start */}
 
               <BookingDrawer getFlightDetail={flightDetail} />
               <PassengerDrawerForm />
               <BaggageDrawer getFlightDetail={flightDetail} />
-              {FlightExpire ? (
-                <>
-                  {/* <Box py={2}>
-                    <Box  onClick={refreshHandle} className="text-decuration-none bold cursor-pointer">
-                      Refresh this search
-                    </Link>
-                  </Box>
-                  <Typography>
-                    Your search has expired. Please enter a new search or
-                    refresh the old one.{" "}
-                  </Typography> */}
-                </>
-              ) : (
-                ""
-              )}
             </Box>
           </Box>
         </section>
+      ) : (
+        <></>
+      )}
+      {FlightExpire ? (
+        <>
+          <section>
+            <Box className={searchResultStyles.messageContent}>
+              <Box className={searchResultStyles.messageContentIn}>
+                <Box py={2}>
+                  <Box
+                    onClick={refreshHandle}
+                    className="text-decuration-none bold cursor-pointer"
+                  >
+                    Refresh this search
+                  </Box>
+                </Box>
+                <Typography>
+                  Your search has expired. Please enter a new search or refresh
+                  the old one.{" "}
+                </Typography>
+              </Box>
+            </Box>
+          </section>
+        </>
       ) : (
         ""
       )}

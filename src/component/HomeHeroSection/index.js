@@ -41,13 +41,13 @@ const HomeHeroSection = () => {
 
             {/* //////////////////////// Chat Message end ////////////////////////*/}
           </Box>
+          {!isMessage.length ? (
+            <Footer id={"HomeSection2"} forHomeHero LearnMore={"Travel smarter"} />
+          ) : (
+            ""
+          )}
         </Box>
       </section>
-      {!isMessage.length ? (
-        <Footer id={"HomeSection2"} forHomeHero LearnMore={"Travel smarter"} />
-      ) : (
-        ""
-      )}
     </>
   );
 };

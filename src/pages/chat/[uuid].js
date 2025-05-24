@@ -9,13 +9,15 @@ import Messages from "@/src/component/Messages";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
-import MobileLoading from "@/src/component/LoadingArea/MobileLoading";
 
 const ChatByUUID = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const { uuid } = router.query;
+
+  console.log("uuid_chat", uuid);
+  
 
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
@@ -28,6 +30,7 @@ const ChatByUUID = () => {
       console.log("Router object:", router);
     }, [router]);
   
+    const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
 
   return (
     <>
@@ -38,12 +41,9 @@ const ChatByUUID = () => {
             styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
           }
         >
-          <Header isMessage={isMessage} />
+          <Header isMessage={isMessage} isChat={"isChat"} />
           <Box className={styles.Box}>
             <Container className={styles.Container}>
-              <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
-                <MobileLoading />
-              </Box>
               <Grid container sx={{ width: "100%", margin: 0 }}>
                 <Grid item md={8} lg={8}>
                   <Messages />
@@ -54,7 +54,11 @@ const ChatByUUID = () => {
                   lg={4}
                   sx={{ display: { xs: "none", md: "block", lg: "block" } }}
                 >
-                  <YourTripSidebar isMessage={isMessage} />
+                  {getselectedFlight ? (
+                    <YourTripSidebar isMessage={isMessage} />
+                  ) : (
+                    " "
+                  )}
                 </Grid>
               </Grid>
               <Box

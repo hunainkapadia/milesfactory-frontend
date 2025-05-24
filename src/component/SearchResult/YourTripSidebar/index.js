@@ -6,6 +6,8 @@ import Image from "next/image";
 
 const YourTripSidebar = ({isMessage}) => {
    const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
+   console.log("getselectedFlight", getselectedFlight);
+   
    
    const paymentSuccess = useSelector(
      (state) => state.payment.PaymentFormSuccess
@@ -19,7 +21,7 @@ const YourTripSidebar = ({isMessage}) => {
         justifyContent={"center"}
       >
         <Box className={YourtripStyles.YourTripCard} p={0}>
-          <Box
+          <Box component={"header"}
             className={YourtripStyles.CardHeader}
             display={"flex"}
             alignItems={"center"}
@@ -43,10 +45,10 @@ const YourTripSidebar = ({isMessage}) => {
               ""
             )}
           </Box>
-          <Box px={3}  py={3}>
+          <Box px={3} component={"section"} pt={2.5} pb={3.5}>
             <YourTripSedebarCard offerData={getselectedFlight} />
 
-            <Box py={2}
+            {/* <Box py={2}
               className=" Loading"
               sx={{
                 display: "flex",
@@ -58,7 +60,7 @@ const YourTripSidebar = ({isMessage}) => {
               <span className="dot"></span>
               <span className="dot"></span>
               <span className="dot"></span>
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </Box>

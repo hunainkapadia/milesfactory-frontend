@@ -80,18 +80,20 @@ const HomeSection3 = (props) => {
                     <h6 className="white mb-0">
                       💬 “Weekend in Lisbon under £200”
                     </h6>
-                    <Typography className="f14" color="white" mb={2}>
+                    <Typography className="f14" color="white" mb={0}>
                       ✅ London → Lisbon, 2 nights guesthouse
                     </Typography>
                   </Box>
-                  <Box>
-                    <Typography className="f14" color="white" mb={2}>
+                  <Box mb={2}>
+                    <Typography className="f14" color="white" mb={0}>
                       <span className="bold">Mylz: £186</span>
                       <br />
                       Opodo + Booking.com: £232
                       <br />
-                      Saved: £46
                     </Typography>
+                    <Typography className="f14" color="white" mb={2} sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: £46</Typography>
+                  </Box>
+                  <Box>
                     <Typography className="f14 bold" color="white">
                       ⏱️ Booked in: 1 min and 24 seconds
                     </Typography>
@@ -117,14 +119,16 @@ const HomeSection3 = (props) => {
                       ✅ 11:00am train from Paris to Amsterdam
                     </Typography>
                   </Box>
-                  <Box>
-                    <Typography className="f14" color="white" mb={2}>
+                  <Box mb={2}>
+                    <Typography className="f14" color="white" mb={0}>
                       <span className="bold">Mylz: €149</span>
                       <br />
                       Booking.com (equivalent flight): €161
                       <br />
-                      Saved: €12 (and quicker)
                     </Typography>
+                    <Typography className="f14" color="white" mb={2} sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: €12 (and quicker)</Typography>
+                  </Box>
+                  <Box>
                     <Typography className="f14 bold" color="white">
                       ⏱️ Booked in: 2 min and 49 seconds
                     </Typography>
@@ -150,14 +154,16 @@ const HomeSection3 = (props) => {
                       ✅ London → Palma + hotel by the beach
                     </Typography>
                   </Box>
-                  <Box>
-                    <Typography className="f14" color="white" mb={2}>
+                  <Box mb={2}>
+                    <Typography className="f14" color="white" mb={0}>
                       <span className="bold">Mylz: £274</span>
                       <br />
                       Easyjet + Airbnb: £319
                       <br />
-                      Saved: £45
                     </Typography>
+                    <Typography className="f14" color="white" mb={2} sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: £45</Typography>
+                  </Box>
+                  <Box>
                     <Typography className="f14 bold" color="white">
                       ⏱️ Booked in: 4 min and 27 seconds
                     </Typography>

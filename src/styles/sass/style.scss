@@ -166,7 +166,10 @@ p {
 
 // a) Variable base classes - start
 
-
+.MuiCheckbox-colorPrimary {
+  margin: 0;
+  padding: 0;
+}
 button.MuiIconButton-root {padding: 13px;}
 label {margin-bottom: 8px;display: flex;color: $basecolor-dark !important;}
 label,
@@ -505,15 +508,13 @@ label,
 .checkoutDrower .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
   border-color: $lightgray2;
 }
-.react-tel-input .form-control, 
-.formControl .MuiInputBase-root {
+.react-tel-input .form-control
+// .formControl .MuiInputBase-root 
+{
   height: 50px !important;
 }
 
-.checkoutDrower fieldset {
-  border-color: $lightgray2;
-  @include border-radius(8px);
-}
+
 .SearchBoxSection fieldset {
   @include border-radius(100px);
   /* M3/Elevation Light/2 */
@@ -925,12 +926,26 @@ body {
   .formGroup {
     margin-bottom: 12px;
   }
+  .formControl .MuiInputBase-root {
+  height: 50px;
+  border-radius: 8px;
+  align-items: center; // to vertically center text
+  border: solid 0px $bluedark2;
+  fieldset { border-color: $bluedark2;}
+}
+
+
+/* Optional: Adjust input padding if needed */
+.formControl input {
+  padding: 12px 14px;
+}
   .formControl {
     margin-bottom: 5px;
     background-color: $white;
 
     width: 100%;
     margin-top: 0;
+    
     &.Calendar {
       &::after {
         content: "\f133";
@@ -992,8 +1007,7 @@ body {
   }
   a,
   .link {
-    color: $link;
-    text-decoration: underline;
+    color: $basecolor;
     &,
     * {
       @include transition($duration-2);
@@ -1002,7 +1016,7 @@ body {
   a:focus,
   a:hover,
   .link:hover {
-    color: $linkhover;
+    color: $basecolor1;
   }
 }
 
@@ -1122,6 +1136,28 @@ body {
     margin-top: 0;
   }
 }
+.MuiDialog-paper {
+  @include border-radius(16px);
+}
+.CircleButton {
+    width: 40px;
+    height: 40px;
+    z-index: 2;
+    background-color: $white;
+    @include border-radius(100px);
+    border: solid 1px $lightgray3;
+    color: $basecolor1;
+    i {font-size: 20px;}
+    .btn-primary {
+      background-color: $basecolor1;
+      color: $white;
+    }
+    .btn-white {
+      background-color: $white;
+      color: $basecolor1;
+    }
+    &:hover {background-color: $white;}
+}
 .btn {
   text-transform: none;
   font-family: $primary-font;
@@ -1199,11 +1235,11 @@ body {
     @extend %btn-lg-height;
   }
   &.btn-md {
-    font-size: $f14;
+    font-size: $bfsize;
     padding: 10px 28px;
     line-height: 1.4 ;
     font-weight: $bold;
-    height: 40px;
+    height: 50px;
   }
   &.btn-black {
     @include border-radius(4px);
@@ -1272,6 +1308,9 @@ body {
     }
   }
   &.btn-border {
+    &.black-border {
+    border: 1px solid $black;
+    }
     background: #FFFFFF;
     border: 1px solid #E0EBEB;
     color: $basecolor1-dark2;
@@ -2099,6 +2138,9 @@ html {
   }
 }
 @include for-mobile-large-screen {
+  .modalDialog .MuiDialog-container {
+    align-items: flex-end;
+  }
   .f12m {
       font-size: 12px !important;
   }
@@ -2113,7 +2155,7 @@ html {
   .btn {
     &.btn-md {
       &.sm {padding: 10px 20px;}
-      padding: 10px 50px;
+      padding: 14px 50px 10px;
     }
 
     &.btn-primary {

@@ -1,5 +1,7 @@
 @import "../../_variables.scss";
 
+
+
 .flightOfferCard {
    width: 100%;
    display: flex;
@@ -94,7 +96,20 @@
      height: 1px;
   }
 }
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .YourTripSidebar {
+  animation: slideInRight 0.5s ease forwards;
+
   position: fixed;
     top: 50px;
     right: calc((100vw - 1130px) / 2);

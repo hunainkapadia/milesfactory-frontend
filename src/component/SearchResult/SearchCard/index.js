@@ -29,6 +29,7 @@ import {
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import FromAndTo from "../FromAndTo";
 import RightTopSection from "../RightTopSection";
+import { RefreshHandle, setRefreshSearch } from "@/src/store/slices/GestMessageSlice";
 
 const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
@@ -63,7 +64,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   );
   const selected = selectedFlightKey === offerkey;
 
-  
+  const refreshHandle = () => {
+    dispatch(RefreshHandle());
+    dispatch(setRefreshSearch());
+  };  
   
   
   
@@ -158,7 +162,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       </Typography>
                     </Box>
                     <Box width={"100%"} whiteSpace={"nowrap"}>
-                      <button
+                      <button onClick={refreshHandle}
                         className={
                           " w-100 btn btn-border btn-round xs btn-md f12 sm " +
                           searchResultStyles.selectFlightBtn

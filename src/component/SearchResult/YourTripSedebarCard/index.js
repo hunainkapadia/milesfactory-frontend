@@ -61,7 +61,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
       {SearchHistory ? (
-        <Box className={TripStyles.Header2 + " aaa"} mb={2}>
+        <Box className={TripStyles.Header2 + " aaa"}>
           <Box>
             <h4 className="regular mb-0">
               {SearchHistory?.from_title} to {SearchHistory?.to_title}
@@ -373,7 +373,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
             </Grid>
             {/* Extra Info bottom */}
           </Box>
-          <Box display={"flex"} flexDirection={"column"} gap={2}>
+          <Box display={"flex"} flexDirection={"column"} gap={1}>
             {/*  */}
             {GetViewPassengers ? (
               <>
@@ -387,6 +387,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                           display="flex"
                           justifyContent="space-between"
                           alignItems="center"
+                          gap={2}
                         >
                           <Box>
                             <Typography className="f12 bold">
@@ -414,6 +415,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                       display={"flex"}
                       justifyContent={"space-between"}
                       alignItems={"center"}
+                      gap={2}
                     >
                       <Box>
                         <Typography className="f12  bold">
@@ -485,8 +487,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
               ""
             )}
           </Box>
-          <Box className={TripStyles.PaymentRow + " "} pt={2}>
-            <Box display={"flex"} alignItems={"center"} mb={2}>
+          <Box className={TripStyles.PaymentRow + " "}>
+            <Box display={"flex"} alignItems={"center"}>
               <Box>
                 <h4 className="exbold mb-0">
                   {currencySymbols[offerData?.tax_currency] ||

@@ -8,7 +8,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import "@/src/styles/sass/style.scss";
 import 'react-phone-input-2/lib/style.css';
-
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 // ✅ Define a Custom Theme with the New Font
 const theme = createTheme({
@@ -34,6 +34,7 @@ export default function App({ Component, pageProps }) {
                 rel="stylesheet"
               />
               <link rel="icon" href="/images/favicon_mylz_v2.svg" />
+              
             </Head>
             <AppWrapper Component={Component} pageProps={pageProps} />
           </ThemeProvider>

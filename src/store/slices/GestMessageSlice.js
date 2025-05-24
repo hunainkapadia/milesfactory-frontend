@@ -50,6 +50,8 @@ const GetMessagesSlice = createSlice({
 });
 
 export const fetchMessages = () => (dispatch) => {
+
+  
   dispatch(setIsLoading(true));
   const localUUID = sessionStorage.getItem("chat_thread_uuid");
   
@@ -66,7 +68,7 @@ export const fetchMessages = () => (dispatch) => {
       }
       response?.data.forEach((item) => {
         // is function true start search result flow
-        
+        console.log("allFlightSearchApi", item);
         if (item?.is_function) {
           
           
@@ -91,6 +93,8 @@ export const fetchMessages = () => (dispatch) => {
           // }
 
           
+          
+          
           const allFlightSearchApi =
           item?.response?.results?.view_all_flight_result_api?.url;
           
@@ -100,6 +104,7 @@ export const fetchMessages = () => (dispatch) => {
             // flight history [start]
             const getallFlightId = allFlightSearchApi.split('/').pop();
             dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
+            
             
              const historyUrl = `/api/v1/search/${getallFlightId}/history`;
              api.get(historyUrl).then((history_res)=> {
@@ -114,7 +119,8 @@ export const fetchMessages = () => (dispatch) => {
             //  dispatch(
             //    setMessage({ user: item.message, ai: { response: item?.response } })
             //  );
-             
+            
+            console.log("allFlightSearch11", allFlightSearchApi);
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
@@ -128,10 +134,11 @@ export const fetchMessages = () => (dispatch) => {
                 console.log("allFlightSearchApi11", flightRes.data);
               })
               .catch((flighterror) => {
-                dispatch(setFlightExpire(flighterror.response.data.error));
-              }).finally(()=> {
-                
+                console.log("flighterror", flighterror?.response.data?.error);
+
+                dispatch(setFlightExpire(flighterror?.response.data?.error));
               })
+              .finally(() => {});
           }
         } else {
           console.log("item_response", item);
@@ -142,16 +149,36 @@ export const fetchMessages = () => (dispatch) => {
       });
     })
     .catch((error) => {
+      console.log("thread_error", error);
+      
       dispatch(setError("Error fetching messages"));
     })
     .finally(() => {
       dispatch(setIsLoading(false));
     });
 };
-export const RefreshHandle =()=> {
-  dispatch(setRefreshSearch())
-  api.post(API_ENDPOINTS.CHAT.REFRESH_SEARCH).then((res)=> {
-    console.log("REFRESH_SEARCH", res)
+export const RefreshHandle = () => (dispatch, getState) => {
+  const state = getState();
+  const uuid = state?.getMessages?.SearchHistory?.uuid
+  console.log("state_0", uuid);
+  const threadUUID = sessionStorage.getItem("chat_thread_uuid");
+
+  console.log("threadUUID_0", threadUUID);
+
+  
+// {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
+  // const url = `api/v1/search/<str:flight_search_uuid>/refresh/<str:chat_thread_uuid></str:chat_thread_uuid>`
+  const expireURL =  `/api/v1/search/${uuid}/refresh/${threadUUID}`
+
+  console.log("expireURL", expireURL);
+  
+
+  api.post(expireURL).then((res)=> {
+    console.log("expire_res", res)
+    dispatch(setRefreshSearch())
+  }).catch((error)=> {
+    console.log("error", error);
+    
   })
 }
 

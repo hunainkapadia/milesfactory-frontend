@@ -28,7 +28,7 @@ const HomeSection4 = (props) => {
                   sx={{
                     width: {
                       xs: "100%", // Extra small screens
-                      sm: "59.7%", // Small screens
+                      sm: "59.7%", // Small screenss
                       lg: "59.7%", // Large screens
                     },
                   }}
@@ -101,7 +101,7 @@ const HomeSection4 = (props) => {
                       Faster booking every time
                     </h5>
                     <Typography className="f14" color="white">
-                      Mylz remembers your behaviour and gets <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />you through to
+                      Mylz remembers your behaviour and <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />gets you through to
                       booking in seconds.
                     </Typography>
                   </Box>

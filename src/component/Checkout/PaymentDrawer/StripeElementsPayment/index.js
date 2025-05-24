@@ -44,7 +44,7 @@ const StripeElementsPayment = ({ clientSecret }) => {
     if (error) {
       setMessage(error.message);
     } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-      setMessage('✅ Payment successful!');
+      setMessage(' Payment successful!');
     }
 
     setLoading(false);

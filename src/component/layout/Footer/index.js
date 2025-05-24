@@ -2,7 +2,14 @@ import { Box, Container, Typography } from "@mui/material";
 import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => {
+const Footer = ({
+  forHomeHero,
+  forReview,
+  forLight,
+  forDark,
+  id,
+  ...props
+}) => {
   return (
     <>
       {forDark ? (
@@ -44,26 +51,33 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
             >
               <Box
                 display={"flex"}
-                alignItems={"center"}
+                alignItems={"flex-start"}
                 justifyContent={"center"}
                 flexDirection={"column"}
               >
-                <Box>
-                  <img src="/images/google-review-logo.png" />
+                <Box
+                  className="imggroup"
+                  sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}
+                  mb={0.5}
+                >
+                  <img src="/images/trust-pilot-v2.svg" />
                 </Box>
+                <Typography className="bold black">
+                  4.4/5 - Excellent
+                </Typography>
               </Box>
               <Box
                 display={"flex"}
-                alignItems={"center"}
+                alignItems={"flex-start"}
                 justifyContent={"center"}
                 flexDirection={"column"}
               >
-                <Box>
-                  <img src="/images/trust-pilot-logo.png" />
+                <Box
+                  className="imggroup"
+                  sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}
+                >
+                  <img src="/images/google-review-v2.svg" />
                 </Box>
-                <Typography className="bold black">
-                  4.8/5 - 750 reviews
-                </Typography>
               </Box>
             </Box>
             {/*  */}
@@ -87,29 +101,35 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                   justifyContent: { xs: "center", md: "space-between" },
                   flexWrap: { xs: "wrap", md: "" },
                   columnGap: { lg: 4, md: 4, xs: 3 },
-                  rowGap: { lg: 4, md: 4, xs: 2}
+                  rowGap: { lg: 4, md: 4, xs: 2 },
                 }}
               >
-                <Box display={"flex"} sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}>
+                <Box
+                  display={"flex"}
+                  sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
+                >
                   <Box>
-                    <Link className="basecolor" href={"/"}>
+                    <Link className="link" href={"/"}>
                       © 2025 Milesfactory
                     </Link>
                   </Box>
                   <Box>
-                    <Link className="basecolor" href={"/terms-and-conditions"}>
+                    <Link className="link" href={"/terms-and-conditions"}>
                       Terms & Conditions
                     </Link>
                   </Box>
                 </Box>
-                <Box display={"flex"} sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}>
+                <Box
+                  display={"flex"}
+                  sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
+                >
                   <Box>
-                    <Link className="basecolor" href={"/privacy"}>
+                    <Link className="link" href={"/privacy"}>
                       Privacy
                     </Link>
                   </Box>
                   <Box>
-                    <Link className="basecolor" href={"/sanctions-compliance"}>
+                    <Link className="link" href={"/sanctions-compliance"}>
                       Sanctions Compliance
                     </Link>
                   </Box>
@@ -192,7 +212,7 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 </Link>
               </Box>
               <Typography mb={4} className="f12 basecolor1-dark2">
-                Mylz uses AI to find the cheapest flights, trains, stays, and
+                Mylz uses AI to find the cheapest flights, trains, stays, and{" "}
                 <Box
                   component="br"
                   sx={{ display: { xs: "block", sm: "none" } }}
@@ -252,15 +272,25 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
         </footer>
       ) : forHomeHero ? (
         <>
-          <footer className={styles.FooterForReview} sx={{ pb: 4 }}>
+          <Box
+            component="footer"
+            className={`   ${styles.forHomeHero}`}
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              pb: 4,
+            }}
+          >
             <Container>
               <Box
                 className={styles.FooterBox + " "}
                 display={"flex"}
                 sx={{
                   justifyContent: {
-                    lg: "flex-end",
-                    md: "flex-end",
+                    lg: "center",
+                    md: "center",
                     xs: "center",
                   },
                 }}
@@ -294,7 +324,7 @@ const Footer = ({ forHomeHero, forReview, forLight, forDark, id, ...props }) => 
                 </Link>
               </Box>
             </Container>
-          </footer>
+          </Box>
         </>
       ) : (
         ""
