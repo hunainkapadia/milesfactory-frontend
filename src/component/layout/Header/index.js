@@ -190,6 +190,29 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                 ""
               )}
 
+              {isChat && !isMobile ? (
+                <>
+                  <Box
+                    className=" cursor-pointer"
+                    onClick={HandleNewThread}
+                    display={"flex"}
+                    alignItems={"center"}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={48}
+                      className={styles.ChatIcon + " imggroup"}
+                    >
+                      <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                ""
+              )}
+
               {currentUser ? (
                 <>
                   <Box
