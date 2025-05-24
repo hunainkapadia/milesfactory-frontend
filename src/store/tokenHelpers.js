@@ -10,7 +10,7 @@ export function isTokenExpired(token) {
 
     return decoded.exp < currentTime;
   } catch (e) {
-    console.error("Failed to decode token", e);
+    console.error("❌ Failed to decode token", e);
     return true; // consider expired if decoding fails
   }
 }
