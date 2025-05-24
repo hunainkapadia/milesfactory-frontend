@@ -39,15 +39,19 @@ api.interceptors.request.use(async (config) => {
       isRefreshing = true;
 
       try {
+        console.log("refreshToken_0", refreshToken);
         const response = await axios.post(`${API_BASE_URL}/api/v1/refresh/`, {
+          
           refresh: refreshToken,
         });
 
         const newAccessToken = response.data.access;
         const newRefreshToken = response.data.refresh;
+        console.log("tokens_0", newRefreshToken, newRefreshToken);
+        
 
         Cookies.set("access_token", newAccessToken);
-        Cookies.set("refresh_token", newRefreshToken, { expires: 7 });
+        Cookies.set("refresh_token", newRefreshToken);
 
         isRefreshing = false;
         processQueue(null, newAccessToken);
