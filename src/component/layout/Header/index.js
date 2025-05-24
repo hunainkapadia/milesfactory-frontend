@@ -190,54 +190,61 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                 ""
               )}
 
-              <Box
-                className=" cursor-pointer"
-                alignItems={"center"}
-                sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-              >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  height={24}
-                  // Optional
-                  className={styles.ChatIcon + " imggroup"}
-                  onClick={"handleThreadDrawer"}
-                >
-                  <img width={24}
-                    src={`${
-                      isSticky | IsActive || isMessage
-                        ? "/images/book-trip-icon.svg"
-                        : "/images/book-trip-icon-white.svg"
-                    }`}
-                    alt="book trip"
-                  />
-                </Box>
-              </Box>
-              <Box
-                className=" cursor-pointer"
-                alignItems={"center"}
-                sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-              >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  height={48}
-                  // Optional
-                  className={styles.ChatIcon + " imggroup"}
-                  onClick={handleThreadDrawer}
-                >
-                  <img
-                    src={`${
-                      isSticky | IsActive || isMessage
-                        ? "/images/chat-history-icon.svg"
-                        : "/images/chat-history-icon-white.svg"
-                    }`}
-                    alt="Chat History Icon"
-                  />
-                </Box>
-              </Box>
+              {currentUser ? (
+                <>
+                  <Box
+                    className=" cursor-pointer"
+                    alignItems={"center"}
+                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={24}
+                      // Optional
+                      className={styles.ChatIcon + " imggroup"}
+                      onClick={"handleThreadDrawer"}
+                    >
+                      <img
+                        width={24}
+                        src={`${
+                          isSticky | IsActive || isMessage
+                            ? "/images/book-trip-icon.svg"
+                            : "/images/book-trip-icon-white.svg"
+                        }`}
+                        alt="book trip"
+                      />
+                    </Box>
+                  </Box>
+                  <Box
+                    className=" cursor-pointer"
+                    alignItems={"center"}
+                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={48}
+                      // Optional
+                      className={styles.ChatIcon + " imggroup"}
+                      onClick={handleThreadDrawer}
+                    >
+                      <img
+                        src={`${
+                          isSticky | IsActive || isMessage
+                            ? "/images/chat-history-icon.svg"
+                            : "/images/chat-history-icon-white.svg"
+                        }`}
+                        alt="Chat History Icon"
+                      />
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                ""
+              )}
               {isMessage ? (
                 <></>
               ) : (
