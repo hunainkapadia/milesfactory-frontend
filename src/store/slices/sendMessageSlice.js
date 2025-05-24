@@ -308,8 +308,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 // create thread api call
 export const createThreadAndRedirect = (router) => (dispatch, getState) => {
-  let getuser = getState().base.currentUser;
+  const getuser = getState()?.base?.currentUser?.user;
 
+  console.log("getuser_chat", getuser);
+  
   api
     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((res) => {
@@ -338,8 +340,8 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
 export const deleteAndCreateThread =
   (followUpMessage = null) =>
   (dispatch, getState) => {
-    let getuser = getState().base.currentUser;
-
+    const getuser = getState()?.base?.currentUser?.user;
+    console.log("getuser_0", getuser);
     const uuid = sessionStorage.getItem("chat_thread_uuid");
     if (!uuid) return;
 
@@ -360,8 +362,10 @@ export const deleteAndCreateThread =
               if (newUuid) {
                 dispatch(setThreadUUIDsend(newUuid));
                 sessionStorage.setItem("chat_thread_uuid", newUuid);
-
+                
+                
                 // Dispatch the welcome message (deleteThread message)
+
                 dispatch(
                   setMessage({
                     ai: {

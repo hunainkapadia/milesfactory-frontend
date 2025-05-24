@@ -97,6 +97,9 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
 
+  const HandlePopup = () => {
+      dispatch(setisUserPopup(true));
+    };
   const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   
@@ -282,7 +285,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                     justifyContent="center"
                     gap={1}
                     component="button"
-                    onClick={currentUser ? HandleBookThread : "HandlePopup"}
+                    onClick={currentUser ? HandleBookThread : HandlePopup}
                   >
                     <Box>Book a trip</Box>
                   </Box>
