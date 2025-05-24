@@ -45,7 +45,7 @@ const AiMessage = ({ aiMessage }) => {
   );
 
   useEffect(() => {
-    if (GetViewPassengers) {
+    if (GetViewPassengers.length > 0) {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
       }, 100);
@@ -55,7 +55,7 @@ const AiMessage = ({ aiMessage }) => {
   const seeAllResultHandle = () => {
     setShowAllFlight((prev) => !prev);
   };
-  console.log("GetViewPassengers", GetViewPassengers);
+  console.log("GetViewPassengers", GetViewPassengers.length > 0);
   console.log("filledPassenger", filledPassenger);
 
   const displayedGetFlights = showAllFlight
