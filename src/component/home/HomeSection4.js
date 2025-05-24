@@ -114,7 +114,7 @@ const HomeSection4 = (props) => {
               spacing={{ xs: 2, md: 4 }}
             >
               <Link
-                href={"#PoweredByglobal"}
+                href={"#HomeSection2"}
                 className={styles.footerBtn + " white text-decoration-none"}
               >
                 <Typography
@@ -137,8 +137,8 @@ const HomeSection4 = (props) => {
       </section>
       <Footer
         forDark
-        LearnMore={"Trusted by our global travel partners"}
-        id={"PoweredByglobal"}
+        LearnMore={"Plan, remix and share."}
+        id={"HomeSection2"}
       />
     </Box>
   );

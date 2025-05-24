@@ -8,7 +8,7 @@ const HomeSection3 = (props) => {
     <Box
       id={props.id}
       className={styles.HomeBanner}
-      style={{ backgroundImage: "url('/images/mylz-diff-bg.png')" }}
+      style={{ backgroundImage: "url('/images/section-2-bg.png')" }}
       position={"relative"}
     >
       <Container>
@@ -34,33 +34,14 @@ const HomeSection3 = (props) => {
                     },
                   }}
                 >
-                  <h2 className="white align-center">
-                    Real trips. Real savings.
-                  </h2>
+                  <h2 className="white align-center">Plan less. Go further.</h2>
                   <Typography
                     className="align-center white"
                     sx={{ display: { xs: "none", lg: "block", md: "block" } }}
                   >
-                    These aren’t mockups - they’re real bookings made by our
-                    users. No hidden fees, no upsells, no bouncing between tabs.
-                    Just fast, smart travel - flights, trains, and hotels - at
-                    the price it should be.
-                  </Typography>
-                  <Typography
-                    className="align-center white"
-                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
-                  >
-                    These aren’t mockups - they’re real bookings{" "}
-                    <Box
-                      component="br"
-                      sx={{ display: { xs: "block", sm: "none" } }}
-                    />
-                    made by our users. No hidden fees, no{" "}
-                    <Box
-                      component="br"
-                      sx={{ display: { xs: "block", sm: "none" } }}
-                    />
-                    upsells, no bouncing between many tabs.
+                    No more endless tabs, hidden fees, or confusing options.
+                    Just tell Mylz your trip idea and get the smartest routes
+                    instantly, at direct prices.
                   </Typography>
                 </Box>
               </Box>
@@ -69,105 +50,98 @@ const HomeSection3 = (props) => {
           <Grid container spacing={{ xs: 2, md: 4 }}>
             <Grid item xs={12} md className={styles.IdeaCard}>
               <Card
-                className={`${styles.Card} br-12 bg-dark-box`}
+                className={`${styles.Card} br-12 bg-dark-box align-center`}
                 variant="outlined"
               >
-                <Box
-                  sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
-                  className={"aaaa"}
-                >
-                  <Box sx={{ mb: { xs: 1, lg: 3, md: 3 } }}>
-                    <h6 className="white mb-0">
-                      💬 “Weekend in Lisbon under £200”
-                    </h6>
-                    <Typography className="f14" color="white" mb={0}>
-                      ✅ London → Lisbon, 2 nights guesthouse
-                    </Typography>
-                  </Box>
-                  <Box mb={2}>
-                    <Typography className="f14" color="white" mb={0}>
-                      <span className="bold">Mylz: £186</span>
-                      <br />
-                      Opodo + Booking.com: £232
-                      <br />
-                    </Typography>
-                    <Typography className="f14" color="white" mb={2} sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: £46</Typography>
-                  </Box>
-                  <Box>
-                    <Typography className="f14 bold" color="white">
-                      ⏱️ Booked in: 1 min and 24 seconds
-                    </Typography>
-                  </Box>
+                <Box>
+                  <h5 className="white mb-5" color="white" variant="h5">
+                    Chat your trip
+                  </h5>
+                  <Typography
+                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    className="f14"
+                    color="white"
+                  >
+                    Forget filters and forms. Type your plan like “weekend in
+                    Porto under £200” and Mylz gets to work. Mylz understands
+                    your goals.
+                  </Typography>
+                  <Typography
+                    className="f14"
+                    color="white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    Forget filters and forms. Type your plan like<Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />“weekend in
+                    Porto” and Mylz gets to work.
+                  </Typography>
                 </Box>
               </Card>
             </Grid>
 
             <Grid item xs={12} md className={styles.IdeaCard}>
               <Card
-                className={`${styles.Card} br-12 bg-dark-box`}
+                className={`${styles.Card} br-12 bg-dark-box align-center`}
                 variant="outlined"
               >
-                <Box
-                  sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
-                  className={"aaaa"}
-                >
-                  <Box sx={{ mb: { xs: 1, lg: 3, md: 3 } }}>
-                    <h6 className="white mb-0">
-                      💬 “Paris to Amsterdam Wednesday”
-                    </h6>
-                    <Typography className="f14" color="white" mb={2}>
-                      ✅ 11:00am train from Paris to Amsterdam
-                    </Typography>
-                  </Box>
-                  <Box mb={2}>
-                    <Typography className="f14" color="white" mb={0}>
-                      <span className="bold">Mylz: €149</span>
-                      <br />
-                      Booking.com (equivalent flight): €161
-                      <br />
-                    </Typography>
-                    <Typography className="f14" color="white" mb={2} sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: €12 (and quicker)</Typography>
-                  </Box>
-                  <Box>
-                    <Typography className="f14 bold" color="white">
-                      ⏱️ Booked in: 2 min and 49 seconds
-                    </Typography>
-                  </Box>
+                <Box>
+                  <h5 className="white mb-5" color="white" variant="h5">
+                    Get smart options
+                  </h5>
+                  <Typography
+                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    className="f14"
+                    color="white"
+                  >
+                    Mylz checks every route across flights, trains, and more –
+                    comparing time, price, and flexibility to plan your trip in
+                    seconds.
+                  </Typography>
+                  <Typography
+                    className="f14"
+                    color="white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    Mylz compares flights, trains, and more<Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />to build the best
+                    travel route in seconds.
+                  </Typography>
                 </Box>
               </Card>
             </Grid>
 
             <Grid item xs={12} md className={styles.IdeaCard}>
               <Card
-                className={`${styles.Card} br-12 bg-dark-box`}
+                className={`${styles.Card} br-12 bg-dark-box align-center`}
                 variant="outlined"
               >
-                <Box
-                  sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
-                  className={"aaaa"}
-                >
-                  <Box sx={{ mb: { xs: 1, lg: 3, md: 3 } }}>
-                    <h6 className="white mb-0">
-                      💬 “Sunny 3-day escape under £300”
-                    </h6>
-                    <Typography className="f14" color="white" mb={2}>
-                      ✅ London → Palma + hotel by the beach
-                    </Typography>
-                  </Box>
-                  <Box mb={2}>
-                    <Typography className="f14" color="white" mb={0}>
-                      <span className="bold">Mylz: £274</span>
-                      <br />
-                      Easyjet + Airbnb: £319
-                      <br />
-                    </Typography>
-                    <Typography className="f14" color="white" mb={2} sx={{display:{xs:"none", lg:"block", md:"block"}}}>Saved: £45</Typography>
-                  </Box>
-                  <Box>
-                    <Typography className="f14 bold" color="white">
-                      ⏱️ Booked in: 4 min and 27 seconds
-                    </Typography>
-                  </Box>
+                <Box>
+                  <h5 className="white mb-5" color="white" variant="h5">
+                    Book it in one tap
+                  </h5>
+                  <Typography
+                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    className="f14"
+                    color="white"
+                  >
+                    See something you like? Book instantly. Always at the real
+                    price with no markups or redirects. No unnecessary upsells.
+                  </Typography>
+                  <Typography
+                    className="f14"
+                    color="white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    See something you like? Book instantly <Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />at real prices with
+                    no markups or redirects.
+                  </Typography>
                 </Box>
               </Card>
             </Grid>
@@ -185,8 +159,7 @@ const HomeSection3 = (props) => {
                 className="align-center white"
                 sx={{ display: { xs: "none", lg: "block", md: "block" } }}
               >
-                🔍 Prices pulled directly from other platforms on their live
-                website. All bookings made on Mylz.
+                ✅ No markups. No redirects. Book at the real price in seconds.
               </Typography>
               <Typography
                 className="align-center white"

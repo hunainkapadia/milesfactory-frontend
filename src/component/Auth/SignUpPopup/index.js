@@ -221,6 +221,7 @@ const SignUpPopup = () => {
                             By registering, I confirm that I accept the{" "}
                             <Link href="/terms-and-conditions" passHref legacyBehavior>
                               <a
+                                target="_blank"
                                 className="basecolor"
                                 style={{ textDecoration: "underline" }}
                                 onClick={(e) => e.stopPropagation()} // prevents toggling checkbox when clicking link
@@ -232,6 +233,7 @@ const SignUpPopup = () => {
                             <Link href="/privacy" passHref legacyBehavior>
                               <a
                                 className="basecolor"
+                                target="_blank"
                                 style={{ textDecoration: "underline" }}
                                 onClick={(e) => e.stopPropagation()}
                               >

@@ -260,8 +260,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                       <img
                         src={`${
                           isSticky | IsActive || isMessage
-                            ? "/images/chat-history-icon.svg"
-                            : "/images/chat-history-icon-white.svg"
+                            ? "/images/chat-history-icon-black-v2.svg"
+                            : "/images/chat-history-icon-white-v2.svg"
                         }`}
                         alt="Chat History Icon"
                       />

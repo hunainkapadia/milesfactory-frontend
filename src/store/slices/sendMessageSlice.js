@@ -51,6 +51,8 @@ const sendMessageSlice = createSlice({
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
+      console.log("action_history", action);
+      
       state.SearchHistorySend = action.payload;
     },
     setThreadUUIDsend: (state, action) => {

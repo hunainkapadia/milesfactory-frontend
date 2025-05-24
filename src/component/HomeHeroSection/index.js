@@ -42,7 +42,7 @@ const HomeHeroSection = () => {
             {/* //////////////////////// Chat Message end ////////////////////////*/}
           </Box>
           {!isMessage.length ? (
-            <Footer id={"HomeSection2"} forHomeHero LearnMore={"Travel smarter"} />
+            <Footer id={"HomeSection3"} forHomeHero LearnMore={"Travel smarter"} />
           ) : (
             ""
           )}
