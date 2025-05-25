@@ -158,7 +158,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               display={"flex"}
                               className=" basecolor1 semibold f12"
                             >
-                              <span>Flight details</span>
+                              <span>See details</span>
                               <i className="fa-angle-right fa fas"></i>{" "}
                             </Box>
                           </Box>
@@ -219,6 +219,20 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               flex={1}
                               className={TripStyles.flightDurationBox}
                             >
+                              
+                              <Typography className={" gray f12"}>
+                                {slice.duration}
+                              </Typography>
+                              {/* Dotted Line */}
+                              <Box className={TripStyles.divider} py={0.5}>
+                                <img
+                                  src={
+                                    slice.segments?.length === 1
+                                      ? "/images/direct-plan-icon.svg"
+                                      : "/images/stop-plan-icon.svg"
+                                  }
+                                />
+                              </Box>
                               <Typography
                                 className={
                                   TripStyles.flightDuration + " semibold"
@@ -234,19 +248,6 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                                     {slice.segments.length - 1 > 1 ? "s" : ""}
                                   </>
                                 )}
-                              </Typography>
-                              {/* Dotted Line */}
-                              <Box className={TripStyles.divider} py={0.5}>
-                                <img
-                                  src={
-                                    slice.segments?.length === 1
-                                      ? "/images/direct-plan-icon.svg"
-                                      : "/images/stop-plan-icon.svg"
-                                  }
-                                />
-                              </Box>
-                              <Typography className={" gray f12"}>
-                                {slice.duration}
                               </Typography>
                             </Box>
 
@@ -421,7 +422,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                     >
                       <Box>
                         <Typography className="f12  bold">
-                          Extra luggage
+                          Extra baggage
                         </Typography>
                         <Typography className="f12 gray">
                           {(() => {

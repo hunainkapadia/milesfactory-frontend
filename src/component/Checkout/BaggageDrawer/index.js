@@ -134,39 +134,41 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       transitionDuration={300}
     >
       <Box className={styles.BaggageDrawerSection} width={480}>
-        <Box className={styles.BaggageDrawerBody}>
-          <Grid
-            container
-            className={styles.checkoutDrowerHeder}
-            px={3}
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Grid item xs={12}>
               <Box
+                component={"header"}
+                className={styles.checkoutDrowerHeder}
+                pt={3}
+                pb={2}
+                px={3}
                 display="flex"
                 justifyContent="space-between"
-                alignItems="center"
-                pt={3}
+                flexDirection={"column"}
+                gap={3}
               >
-                <Box>
-                  <h3 className={`${styles.title} regular mb-0`}>Baggage</h3>
-                  <Typography className="f14">
-                    Choose extra bags for each traveller
-                  </Typography>
+                <Box
+                  component={"section"}
+                  gap={1}
+                  alignItems="center"
+                  display="flex"
+                  className={" bold basecolor1 btn-link cursor-pointer"}
+                  onClick={HandlecloseDrawer}
+                >
+                  <i className={`fa fa-arrow-left fas`}></i>{" "}
+                  <Box component={"span"}>Back to Mylz Chat</Box>
                 </Box>
                 <Box
-                  onClick={HandlecloseDrawer}
-                  className="cursor-pointer basecolor"
+                  component={"section"}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems={"center"}
                 >
-                  <i className="fa fa-close fas"></i>
+                  <Box>
+                    <h3 className="regular mb-0">Extra baggage</h3>
+                  </Box>
                 </Box>
               </Box>
-            </Grid>
-          </Grid>
-
-          <Box px={3} py={2}>
+        <Box className={styles.BaggageDrawerBody}>
+          <Box px={3} >
             <Tabs
               value={tabValue}
               onChange={handleTabChange}
@@ -266,13 +268,11 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                           baggageOptions[matchingPassengerId];
                         console.log(
                           "passengerData_cehcked",
-                          passengerData?.initial_checked_bag
-                            ?.service_amount
+                          passengerData?.initial_checked_bag?.service_amount
                         );
                         console.log(
                           "passengerData_carry",
-                          passengerData?.initial_carry_on_bag
-                            ?.service_amount
+                          passengerData?.initial_carry_on_bag?.service_amount
                         );
 
                         checkedBagOptions =
@@ -508,7 +508,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
         <BaggageDrawerFooter
           newCount={totalBaggageCount}
-          totalInitialBaggagePrice = {totalInitialBaggagePrice.toFixed(2)}
+          totalInitialBaggagePrice={totalInitialBaggagePrice.toFixed(2)}
           HandlecloseDrawer={HandlecloseDrawer}
           getFlightDetails={getFlightDetail}
         />

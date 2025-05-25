@@ -55,7 +55,7 @@
 
         {/* Footer Content */}
         <Box
-          className={styles.checkoutDrowerHeder}
+        
           py={2}
           
           display="flex"
@@ -133,7 +133,7 @@
               >
                 <button
                   className={
-                    styles.selectFlightBtn + " btn btn-primary btn-md btn-round"
+                    styles.selectFlightBtn + " btn btn-primary btn-sm btn-round"
                   }
                   onClick={handleBookFlight}
                 >

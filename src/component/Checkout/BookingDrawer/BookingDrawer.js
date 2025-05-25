@@ -8,8 +8,7 @@ import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 const BookingDrawer = ({ getFlightDetail }) => {
-  
-  console.log("getFlightDetail", getFlightDetail)
+  console.log("getFlightDetail", getFlightDetail);
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
@@ -32,12 +31,44 @@ const BookingDrawer = ({ getFlightDetail }) => {
     >
       <Box className={styles.checkoutDrower + " white-bg"} width={480}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
+          <Box
+            component={"header"}
+            className={styles.checkoutDrowerHeder}
+            py={3}
+            px={3}
+            display="flex"
+            justifyContent="space-between"
+            flexDirection={"column"}
+            gap={3}
+          >
+            <Box
+              component={"section"}
+              gap={1}
+              alignItems="center"
+              display="flex"
+              className={" bold basecolor1 btn-link cursor-pointer"}
+              onClick={HandlecloseDrawer}
+            >
+              <i className={`fa fa-arrow-left fas`}></i>{" "}
+              <Box component={"span"}>Back to Mylz Chat</Box>
+            </Box>
+            <Box
+              component={"section"}
+              display="flex"
+              justifyContent="space-between"
+              alignItems={"center"}
+            >
+              <h3 className="regular mb-0">See details</h3>
+            </Box>
+            <Box>
+              <Divider />
+            </Box>
+          </Box>
           <Box className={styles.checkoutDrowerBody}>
             {/* Header Section */}
             <Grid
               container
-              className={styles.checkoutDrowerHeder}
-              py={3}
+              
               px={3}
               display="flex"
               alignItems="center"
@@ -77,17 +108,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
                       <Typography className={"f14 gray"}>{"Return"}</Typography>
                     )}
                   </Box>
-                  <Box
-                    onClick={HandlecloseDrawer}
-                    className=" cursor-pointer basecolor"
-                  >
-                    <i className="fa fa-close fas"></i>
-                  </Box>
                 </Box>
               </Grid>
             </Grid>
 
-            <Box className={styles.detailsSection} px={3} >
+            <Box className={styles.detailsSection} px={3}>
               <>
                 {getFlightDetail?.slices.map((slice, index) => (
                   <>
@@ -115,8 +140,8 @@ const BookingDrawer = ({ getFlightDetail }) => {
           </Box>
         </Box>
       </Box>
-              {/* Footer Section */}
-              <BookingDrawerFooter getFlightDetails={getFlightDetail} />
+      {/* Footer Section */}
+      <BookingDrawerFooter getFlightDetails={getFlightDetail} />
     </Drawer>
   );
 };
