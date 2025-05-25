@@ -17,6 +17,7 @@ import PaymentSuccess from "../../Checkout/PaymentSuccess";
 import PriceSummary from "../../Checkout/PriceSummary";
 import PollingMessage from "../PollingMessage/PollingMessage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
+import { loadNextFlightResultsPage } from "@/src/store/slices/sendMessageSlice";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const AiMessage = ({ aiMessage }) => {
 
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
   const getAllFlightGetApi = useSelector(
     (state) => state?.getMessages?.allFlightSearchResults
@@ -55,10 +57,21 @@ const AiMessage = ({ aiMessage }) => {
   const seeAllResultHandle = () => {
     setShowAllFlight((prev) => !prev);
   };
-  const moreflightsHandle =()=> {
-    console.log("aiMessage_more", aiMessage?.ai?.next_page_number);
-    
-  }
+  const moreflightsHandle = () => {
+    const nextPage = aiMessage?.ai?.next_page_number;
+
+    if (!nextPage) {
+      console.warn("No next page available.");
+      return;
+    }
+
+    setIsFetchingMore(true);
+    dispatch(loadNextFlightResultsPage(nextPage)).finally(() => {
+      setIsFetchingMore(false);
+    });
+  };
+
+
   console.log("GetViewPassengers", GetViewPassengers.length > 0);
   console.log("filledPassenger", filledPassenger);
 
@@ -179,21 +192,45 @@ const AiMessage = ({ aiMessage }) => {
           {/* Toggle button */}
           {!GetViewPassengers.length > 0 ? (
             <>
-            
-              <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }}>
-                <Box
-                  sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                  gap={2}
-                  alignItems="center"
-                  display="flex"
-                  className="bold"
-                >
-                  <span>Show more flights</span>
-                  <i className="fa fa-caret-right fas" />
+              <Box
+                component={"section"}
+                display={"flex"}
+                justifyContent={"space-between"}
+              >
+                
+                <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
+                  <Link href={"#"} className="text-decoration-none">
+                    <Box
+                      sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+                      gap={2}
+                      alignItems="center"
+                      display="flex"
+                      className="bold"
+                    >
+                      <i
+                        className={`fa ${
+                          showAllFlight ? "fa-caret-up" : "fa-caret-down"
+                        } fas`}
+                      ></i>{" "}
+                      <span>
+                        {showAllFlight
+                          ? "Hide all flight options"
+                          : "Show all flight options"}
+                        {`${
+                          getAllFlightGetApi?.count
+                            ? " (" + getAllFlightGetApi?.count + ")"
+                            : ""
+                        }`}
+                        {`${
+                          allFlightSearcCount?.count
+                            ? " (" + allFlightSearcCount?.count + ")"
+                            : ""
+                        }`}
+                      </span>
+                    </Box>
+                  </Link>
                 </Box>
-              </Box>
-              <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
-                <Link href={"#"} className="text-decoration-none">
+                <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }} >
                   <Box
                     sx={{ my: { lg: 2, md: 2, xs: 0 } }}
                     gap={2}
@@ -201,28 +238,10 @@ const AiMessage = ({ aiMessage }) => {
                     display="flex"
                     className="bold"
                   >
-                    <i
-                      className={`fa ${
-                        showAllFlight ? "fa-caret-up" : "fa-caret-down"
-                      } fas`}
-                    ></i>{" "}
-                    <span>
-                      {showAllFlight
-                        ? "Hide all flight options"
-                        : "Show all flight options"}
-                      {`${
-                        getAllFlightGetApi?.count
-                          ? " (" + getAllFlightGetApi?.count + ")"
-                          : ""
-                      }`}
-                      {`${
-                        allFlightSearcCount?.count
-                          ? " (" + allFlightSearcCount?.count + ")"
-                          : ""
-                      }`}
-                    </span>
+                    <span>Show more flights</span>
+                    <i className="fa fa-caret-right fas" />
                   </Box>
-                </Link>
+                </Box>
               </Box>
             </>
           ) : (
@@ -238,7 +257,7 @@ const AiMessage = ({ aiMessage }) => {
           aiMessage?.ai?.newThread ||
           aiMessage?.ai?.deleteThread ? (
             <>
-              <Box className={searchResultStyles.AiMessage + " aaa"}>
+              <Box className={" aaa"}>
                 {aiMessage?.ai?.isPolling?.status && (
                   <>
                     {console.log(

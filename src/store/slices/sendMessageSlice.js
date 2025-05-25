@@ -8,7 +8,7 @@ const sendMessageSlice = createSlice({
   initialState: {
     messages: [],
     isLoading: false,
-    AllFlightPostApi: null, // Store all flight search results here
+    AllFlightPostApi: null,
     SearchHistorySend: null,
     ThreadUUIDsend: null,
     TopOfferUrlSend: null,
@@ -23,7 +23,6 @@ const sendMessageSlice = createSlice({
     setCreatethread: (state, action) => {
       state.Createthread = action.payload;
     },
-    // when ic complete true previus flight update
     setClearflight(state) {
       state.messages = state.messages.filter(
         (msg) =>
@@ -34,33 +33,33 @@ const sendMessageSlice = createSlice({
       state.pollingComplete = action.payload;
     },
     setisPolling: (state, action) => {
-      console.log("action111", action);
-
       state.isPolling = action.payload;
     },
-    setTopOfferUrlSend: (state, action) => {
+    setAllOfferUrlSend: (state, action) => {
       state.TopOfferUrlSend = action.payload;
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
+      console.log("action_next", action);
+
+      if (!action.payload) {
+        console.warn("setMessage received undefined payload", action);
+        return;
+      }
       state.messages.push(action.payload);
     },
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
-      console.log("action_history", action);
-      
       state.SearchHistorySend = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
       state.ThreadUUIDsend = action.payload;
       if (action.payload) {
         sessionStorage.setItem("chat_thread_uuid", action.payload);
-      } else {
-        // sessionStorage.removeItem("chat_thread_uuid");
       }
     },
     setClearChat: (state) => {
@@ -72,15 +71,11 @@ const sendMessageSlice = createSlice({
 });
 
 export const createThread = () => (dispatch) => {
-  console.log("thread_uuid");
-
   api
     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((thread_res) => {
       const uuid = thread_res.data.uuid;
-      console.log("thread_response", uuid);
       sessionStorage.setItem("chat_thread_uuid", uuid);
-
       dispatch(setThreadUUIDsend(uuid));
     })
     .catch((err) => {
@@ -96,7 +91,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-    console.log("threadUUIdUrl", threadUUIdUrl);
 
     api
       .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
@@ -105,16 +99,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_id = response.run_id;
         const run_status = response.run_status;
 
-        console.log("run_status111 ", run_status);
-
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-          
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
-          console.log("gdata_00", gdata);
+
           dispatch(setpollingComplete(false));
-          
           dispatch(
             setMessage({
               ai: {
@@ -125,20 +115,15 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               },
             })
           );
-          const pollUntilComplete = () => {
-            return new Promise((resolve, reject) => {
+
+          const pollUntilComplete = () =>
+            new Promise((resolve, reject) => {
               const interval = setInterval(() => {
                 api
                   .get(runStatusUrl)
                   .then((resRun) => {
                     const runData = resRun.data;
-                    console.log("runData.run_status", runData);
-
-                    // checking is function true before dufful flight
-
                     if (runData.run_status === "completed") {
-                      console.log(runData.run_status);
-
                       clearInterval(interval);
                       resolve(runData);
                     }
@@ -149,13 +134,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   });
               }, 1000);
             });
-          };
 
-          // Wait for polling before continuing
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
-              console.log(" Polling complete:", response);
               dispatch(setpollingComplete(true));
               handleFinalResponse(response);
             })
@@ -163,7 +145,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               console.error(" Polling failed:", error);
             });
         } else {
-          // If no polling needed, use immediate response
           handleFinalResponse(response);
         }
       })
@@ -172,16 +153,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         dispatch(setLoading(false));
       });
 
-    //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
-      // flight result [start]
       if (response?.is_function) {
-        const allFlightSearchApi =
-          response?.response?.results?.view_all_flight_result_api?.url;
+        const allFlightSearchApi = response?.response?.results?.view_all_flight_result_api?.url;
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
-          dispatch(setTopOfferUrlSend(getallFlightId));
-
+          dispatch(setAllOfferUrlSend(allFlightSearchApi));
+          
           const historyUrl = `/api/v1/search/${getallFlightId}/history`;
           let hasShownInitialMessage = false;
 
@@ -190,22 +168,16 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .get(allFlightSearchApi)
               .then((flightRes) => {
                 const isComplete = flightRes?.data?.is_complete;
-                console.log("flightRes", flightRes);
-
-                console.log(
-                  " Final refreshed flightRes is_complete:",
-                  isComplete
-                );
+                console.log("flightRes_page1", flightRes);
+                
 
                 if (isComplete === true) {
-                  console.log("Replacing with real flight results");
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
                     })
                   );
                 } else {
-                  console.log("Still not complete after polling");
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -225,42 +197,29 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(historyUrl)
                 .then((history_res) => {
                   const isComplete = history_res?.data?.search?.is_complete;
-                  console.log(" Polling: is_complete =", isComplete);
                   dispatch(setSearchHistorySend(history_res.data.search));
 
                   if (isComplete === true) {
                     clearInterval(interval);
-                    // First fetch the new data
                     api
                       .get(allFlightSearchApi)
                       .then((flightRes) => {
                         const realFlightData = flightRes.data;
-
-                        // First clear placeholders
+                        console.log("realFlightData", realFlightData);
+                        
                         dispatch(setClearflight());
-
-                        // Then add final results
-                        dispatch(
-                          setMessage({
-                            ai: realFlightData,
-                          })
-                        );
+                        dispatch(setMessage({ ai: realFlightData }));
                       })
                       .catch((err) => {
                         console.error("Error fetching final results", err);
                       });
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
-                    showRealResults(); // fetch and display the final results
-                    console.log("Not complete — showing placeholder once");
-                    // alert(
-                    //   "Showing placeholder flight result while search continues..."
-                    // );
-
+                    showRealResults();
                     dispatch(
                       setMessage({
                         ai: { response: response?.response },
-                        type: "flight_placeholder", //if check clear
+                        type: "flight_placeholder",
                       })
                     );
                   }
@@ -272,19 +231,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             }, 1000);
           };
 
-          // Start polling now
           pollHistoryUntilComplete();
         }
-
-        // flight result [end]
       } else {
-        // checking is function true before dufful flight
-        if (response?.run_status == "completed") {
-          // dispatch(setisPolling({
-          //   status: false,
-          //   argument: null,
-          // }));
-        }
         dispatch(
           setMessage({
             ai: { response: response?.response },
@@ -294,11 +243,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     };
   };
 
-  //  Check if thread UUID already exists
   if (ThreadUUIDsendState) {
     sendToThread(ThreadUUIDsendState);
   } else {
-    // Only create a new thread if one doesn't exist
     api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res) => {
       const uuid = thread_res.data.uuid;
       dispatch(setThreadUUIDsend(uuid));
@@ -306,14 +253,39 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     });
   }
 };
-// close send messge
 
-// create thread api call
+export const loadNextFlightResultsPage = (page) => (dispatch, getState) => {
+  const allOfferUrl = getState().sendMessage?.TopOfferUrlSend;
+
+  if (!allOfferUrl) {
+    console.warn("No TopOfferUrlSend found.");
+    return Promise.resolve(); // Still returns a Promise
+  }
+
+  const nextPageUrl = `${allOfferUrl}?page=${page}`;
+  console.log("nextPageUrl", nextPageUrl);
+
+  dispatch(setLoading(true));
+
+  return api.get(nextPageUrl)
+    .then((res) => {
+      console.log("nextPage_res", res);
+
+      const flightData = res.data;
+      dispatch(setMessage({ ai: flightData }));
+    })
+    .catch((err) => {
+      console.error("Error loading next flight results", err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
+
+
+
 export const createThreadAndRedirect = (router) => (dispatch, getState) => {
   const getuser = getState()?.base?.currentUser?.user;
-
-  console.log("getuser_chat", getuser);
-  
   api
     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((res) => {
@@ -323,13 +295,10 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
         dispatch(
           setMessage({
             ai: {
-              newThread: `Hello ${getuser?.first_name ?? "there"} ${
-                getuser?.last_name ?? ""
-              }, I'm Mylz. How can I help you?`,
+              newThread: `Hello ${getuser?.first_name ?? "there"} ${getuser?.last_name ?? ""}, I'm Mylz. How can I help you?`,
             },
           })
         );
-
         router.push(`/chat/${uuid}`);
       }
     })
@@ -338,84 +307,63 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
     });
 };
 
-// for chat page header plus  icon
-export const deleteAndCreateThread =
-  (followUpMessage = null) =>
-  (dispatch, getState) => {
-    const getuser = getState()?.base?.currentUser?.user;
-    console.log("getuser_0", getuser);
-    const uuid = sessionStorage.getItem("chat_thread_uuid");
-    if (!uuid) return;
+export const deleteAndCreateThread = (followUpMessage = null) => (dispatch, getState) => {
+  const getuser = getState()?.base?.currentUser?.user;
+  const uuid = sessionStorage.getItem("chat_thread_uuid");
+  if (!uuid) return;
 
-    const url = `/api/v1/chat/thread/${uuid}/delete`;
-    api
-      .delete(url)
-      .then((res) => {
-        if (res) {
-          // Clear previous chat history/messages in Redux store
-          dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
+  const url = `/api/v1/chat/thread/${uuid}/delete`;
+  api
+    .delete(url)
+    .then(() => {
+      dispatch(setClearChat());
+      sessionStorage.removeItem("chat_thread_uuid");
 
-          sessionStorage.removeItem("chat_thread_uuid");
+      api
+        .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+        .then((newThreadRes) => {
+          const newUuid = newThreadRes.data.uuid;
+          if (newUuid) {
+            dispatch(setThreadUUIDsend(newUuid));
+            sessionStorage.setItem("chat_thread_uuid", newUuid);
+            dispatch(
+              setMessage({
+                ai: {
+                  deleteThread: `Hello ${getuser?.first_name ?? "there"} ${getuser?.last_name ?? ""}, I'm Mylz. How can I help you?`,
+                },
+              })
+            );
+            if (followUpMessage) {
+              dispatch(sendMessage(followUpMessage));
+            }
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to create new thread", err);
+        });
+    })
+    .catch((err) => {
+      console.error("Error deleting thread", err?.response?.data?.error);
+    });
+};
 
-          api
-            .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
-            .then((newThreadRes) => {
-              const newUuid = newThreadRes.data.uuid;
-              if (newUuid) {
-                dispatch(setThreadUUIDsend(newUuid));
-                sessionStorage.setItem("chat_thread_uuid", newUuid);
-                
-                
-                // Dispatch the welcome message (deleteThread message)
+export const OnlydeleteChatThread = () => (dispatch) => {
+  const uuid = sessionStorage.getItem("chat_thread_uuid");
+  if (!uuid) return;
 
-                dispatch(
-                  setMessage({
-                    ai: {
-                      deleteThread: `Hello ${getuser?.first_name ?? "there"} ${
-                        getuser?.last_name ?? ""
-                      }, I'm Mylz. How can I help you?`,
-                    },
-                  })
-                );
+  const url = `/api/v1/chat/thread/${uuid}/delete`;
+  api
+    .delete(url)
+    .then(() => {
+      dispatch(setClearChat());
+      sessionStorage.removeItem("chat_thread_uuid");
+    })
+    .catch((err) => {
+      console.error("Error deleting thread", err?.response?.data?.error);
+    });
+};
 
-                if (followUpMessage) {
-                  dispatch(sendMessage(followUpMessage)); // Send the follow-up message if exists.
-                }
-              }
-            })
-            .catch((err) => {
-              console.error("Failed to create new thread", err);
-            });
-        }
-      })
-      .catch((err) => {
-        console.error("Error deleting thread", err?.response?.data?.error);
-      });
-  };
-
-export const OnlydeleteChatThread =
-  (followUpMessage = null) =>
-  (dispatch, getState) => {
-    const uuid = sessionStorage.getItem("chat_thread_uuid");
-    if (!uuid) return;
-
-    const url = `/api/v1/chat/thread/${uuid}/delete`;
-    api
-      .delete(url)
-      .then((res) => {
-        if (res) {
-          // Clear previous chat history/messages in Redux store
-          dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
-          sessionStorage.removeItem("chat_thread_uuid");
-        }
-      })
-      .catch((err) => {
-        console.error("Error deleting thread", err?.response?.data?.error);
-      });
-  };
-
-// for delete thread
-
+// Export actions
 export const {
   setLoading,
   setMessage,
@@ -423,10 +371,11 @@ export const {
   setSearchHistorySend,
   setThreadUUIDsend,
   setClearChat,
-  setTopOfferUrlSend,
+  setAllOfferUrlSend,
   setisPolling,
   setpollingComplete,
   setCreatethread,
   setClearflight,
 } = sendMessageSlice.actions;
+
 export default sendMessageSlice.reducer;
