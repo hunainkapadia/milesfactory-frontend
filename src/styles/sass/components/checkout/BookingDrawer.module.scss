@@ -235,6 +235,11 @@
 @include for-mobile-large-screen {
    
    .checkoutDrower {
+      .checkoutDrowerHeder {
+         padding: 22px 24px 0;
+         gap: 16px;
+         margin-bottom: 16px;
+      }
       width: 100%;
       >div {
          width: 100%;

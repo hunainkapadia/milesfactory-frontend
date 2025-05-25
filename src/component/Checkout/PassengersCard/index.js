@@ -63,7 +63,7 @@ const PassengersCard = ({
         alignItems={"center"}
         justifyContent={"flex-end"}
       >
-        <Typography className=" f14 bold mb-0 basecolor1 cursor-pointer">
+        <Typography className=" f12 bold mb-0 basecolor1 cursor-pointer">
           {isFilled ? "Change" : "Add"}
         </Typography>
       </Box>

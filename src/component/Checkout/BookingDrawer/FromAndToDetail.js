@@ -12,8 +12,6 @@ const FromAndToDetail = ({
 }) => {
   const [flightDetailToggle, setflightDetailToggle] = useState({});
 
-  
-  
   const toggleBaggage = (index) => {
     setflightDetailToggle((prev) => ({
       ...prev,
@@ -21,9 +19,8 @@ const FromAndToDetail = ({
     }));
   };
   const flightDetail = !flightDetailToggle[flightType];
-  
+
   console.log("sliceLength11", sliceLength);
-  
 
   function getStopDetails(getdata) {
     let stops = 0;
@@ -41,7 +38,7 @@ const FromAndToDetail = ({
       : "";
   }
 
-  const firstSegment = getdata?.segments?.[0]; // 1st segment khi to barcelona 
+  const firstSegment = getdata?.segments?.[0]; // 1st segment khi to barcelona
   const lastSegment = getdata?.segments?.[getdata?.segments?.length - 1]; // last segment bacelona to karachi
 
   return (
@@ -74,12 +71,12 @@ const FromAndToDetail = ({
                 <Box gap={2} alignItems="center" display="flex">
                   {flightDetail ? (
                     <>
-                      <span>Flight details</span>
+                      <span>See details</span>
                       <i className="fa-angle-down fa fas"></i>
                     </>
                   ) : (
                     <>
-                      <span>Flight details</span>
+                      <span>See details</span>
                       <i className="basecolor1 fa-angle-up fa fas"></i>
                     </>
                   )}
@@ -158,14 +155,17 @@ const FromAndToDetail = ({
                         gap={1}
                       >
                         <Box className={styles.Col1}>
-                          <Typography className="f14 mb-0">
+                          <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }} className=" mb-0">
                             {firstSegment?.duration}
                           </Typography>
                         </Box>
                         <Box className={styles.Col2 + " col2-b"}>
                           {getdata.segments.length > 1 ? (
                             <>
-                              <Typography className="f14 f12m red">
+                              <Typography
+                                sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                                className=" red"
+                              >
                                 {getStopDetails(getdata)}
                               </Typography>
                             </>
@@ -173,12 +173,12 @@ const FromAndToDetail = ({
                             <>
                               {getdata.segments.map((segment) => (
                                 <div key={segment.id}>
-                                  <Typography className="f14 mb-0">
+                                  <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.operating_carrier?.iata_code}-
                                     {segment.operating_carrier_flight_number}{" "}
                                     {segment.marketing_carrier?.name}
                                   </Typography>
-                                  <Typography>
+                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment?.passengers?.[0]?.cabin_class
                                       ? segment.passengers[0].cabin_class
                                           .charAt(0)
@@ -334,7 +334,7 @@ const FromAndToDetail = ({
                             gap={1}
                           >
                             <Box className={styles.Col1}>
-                              <Typography className="f14 mb-0">
+                              <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }} className=" mb-0">
                                 {segment?.duration}
                               </Typography>
                             </Box>
@@ -464,30 +464,38 @@ const FromAndToDetail = ({
                   </Typography>
                 </Box>
               )}
-              {uniqueBaggages.map((baggage, index) => (
-                <Box
-                  key={index}
-                  display="flex"
-                  gap={2}
-                  alignItems="center"
-                  mb={1}
-                  className={styles.normalOption}
-                >
-                  <Box className={styles.BaggageIcon}>
-                    <img
-                      width={14}
-                      src={
-                        baggage?.type === "checked"
-                          ? "/images/checkout/checked-bagg.svg"
-                          : "/images/checkout/carryon-bagg.svg"
-                      }
-                    />
+              {console.log("uniqueBaggages", uniqueBaggages)}
+              {[...uniqueBaggages]
+                .sort((a, b) => {
+                  // Make "carry-on" come before "checked"
+                  if (a.type === "carry_on" && b.type === "checked") return -1;
+                  if (a.type === "checked" && b.type === "carry_on") return 1;
+                  return 0;
+                })
+                .map((baggage, index) => (
+                  <Box
+                    key={index}
+                    display="flex"
+                    gap={2}
+                    alignItems="center"
+                    mb={1}
+                    className={styles.normalOption}
+                  >
+                    <Box className={styles.BaggageIcon}>
+                      <img
+                        width={14}
+                        src={
+                          baggage?.type === "checked"
+                            ? "/images/checkout/checked-bagg.svg"
+                            : "/images/checkout/carryon-bagg.svg"
+                        }
+                      />
+                    </Box>
+                    <Typography className="f12">
+                      {baggage.quantity} {baggage.formatted_type}
+                    </Typography>
                   </Box>
-                  <Typography className="f12">
-                    {baggage.quantity}x {baggage.formatted_type}
-                  </Typography>
-                </Box>
-              ))}
+                ))}
             </Box>
           );
         })()}
