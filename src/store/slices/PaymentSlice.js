@@ -58,16 +58,18 @@ export const PaymentForm = () => (dispatch, getState) => {
 };
 export const fetchOrderDetails = (orderId) => (dispatch) => {
   console.log("payment_response_0", orderId);
-  return api
-    .get(`/api/v1/order/${orderId}/details`)
-    .then((response) => {
-      console.log("payment_response", response);
-      
-      dispatch(setPaymentData(response.data));
-    })
-    .catch((error) => {
-      console.error("Failed to fetch order details:", error);
-    });
+  setTimeout(() => {
+    api
+      .get(`/api/v1/order/${orderId}/details`)
+      .then((response) => {
+        console.log("payment_response", response);
+
+        dispatch(setPaymentData(response.data));
+      })
+      .catch((error) => {
+        console.error("Failed to fetch order details:", error);
+      });
+  }, 1000);
 };
 
 // Export actions
