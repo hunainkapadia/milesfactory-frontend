@@ -27,7 +27,6 @@ const sendMessageSlice = createSlice({
   reducers: {
     setnextPageNo: (state, action)=> {
       console.log("action_nextpage", action);
-      
       state.nextPageNo = action.payload
     },
     setAppendFlights: (state, action) => {
@@ -439,7 +438,7 @@ export const OnlydeleteChatThread =
 
 export const loadNextFlights = () => (dispatch, getState) => {
     const getpageNo = getState()?.sendMessage?.nextPageNo;
-    console.log(getpageNo);
+    console.log("getpageNo", getpageNo);
     
 
 
