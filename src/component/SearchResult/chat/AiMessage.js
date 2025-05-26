@@ -17,9 +17,14 @@ import PaymentSuccess from "../../Checkout/PaymentSuccess";
 import PriceSummary from "../../Checkout/PriceSummary";
 import PollingMessage from "../PollingMessage/PollingMessage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
+import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState();
+  console.log("currentPage", currentPage);
+  
+
 
   console.log("aiMessage_00", aiMessage);
 
@@ -58,10 +63,13 @@ const AiMessage = ({ aiMessage }) => {
   console.log("GetViewPassengers", GetViewPassengers.length > 0);
   console.log("filledPassenger", filledPassenger);
 
-  const displayedGetFlights = showAllFlight
-    ? aiMessage?.ai?.offers
-    : aiMessage?.ai?.offers?.slice(0, 3);
 
+  const getNextFlight = useSelector((state)=> state.sendMessage?.appendFlights?.ai)
+  console.log("getNextFlight", getNextFlight);
+  
+const displayedGetFlights = showAllFlight
+  ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
+  : aiMessage?.ai?.offers?.slice(0, 3);
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
@@ -92,8 +100,13 @@ const AiMessage = ({ aiMessage }) => {
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
-  // const IsServices = useSelector((state)=> state.booking.singleFlightData.available_services)
-  // console.log("singleflight111", singleflight);
+  
+  const moreflightsHandle = () => {
+    const nextPage = getNextFlight?.next_page_number;
+    dispatch(loadNextFlights(nextPage));
+    setCurrentPage(nextPage);
+  };
+
 
   return (
     <Box
@@ -209,6 +222,18 @@ const AiMessage = ({ aiMessage }) => {
           ) : (
             ""
           )}
+          <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }}>
+  <Box
+    sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+    gap={2}
+    alignItems="center"
+    display="flex"
+    className="bold"
+  >
+    <span>Show more flights</span>
+    <i className="fa fa-caret-right fas" />
+  </Box>
+</Box>
         </>
       ) : (
         // Default AI response

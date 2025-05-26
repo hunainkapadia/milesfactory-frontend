@@ -18,8 +18,19 @@ const sendMessageSlice = createSlice({
     },
     pollingComplete: false,
     Createthread: null,
+    AllOfferUrl: "",
+    NextMessage: "",
+    appendFlights: [],
+
   },
   reducers: {
+    setAppendFlights: (state, action) => {
+      state.appendFlights = action.payload
+      console.log("action_000", action?.payload?.ai?.next_page_number);
+    },
+    setNextMessage: (state, action) => {
+      state.NextMessage = action.payload;
+    },
     setCreatethread: (state, action) => {
       state.Createthread = action.payload;
     },
@@ -41,6 +52,9 @@ const sendMessageSlice = createSlice({
     setTopOfferUrlSend: (state, action) => {
       state.TopOfferUrlSend = action.payload;
     },
+    setAllOfferUrl: (state, action) => {
+      state.AllOfferUrl = action.payload;
+    },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
@@ -52,7 +66,7 @@ const sendMessageSlice = createSlice({
     },
     setSearchHistorySend: (state, action) => {
       console.log("action_history", action);
-      
+
       state.SearchHistorySend = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
@@ -181,7 +195,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(getallFlightId));
-
+          dispatch(setAllOfferUrl(allFlightSearchApi));
+          
           const historyUrl = `/api/v1/search/${getallFlightId}/history`;
           let hasShownInitialMessage = false;
 
@@ -416,6 +431,42 @@ export const OnlydeleteChatThread =
 
 // for delete thread
 
+export const loadNextFlights = (nextPage) => (dispatch, getState) => {
+    const nextUrl = getState().sendMessage;
+  console.log("nextUrl:", nextUrl);
+
+
+
+  const allOfferUrl = getState().sendMessage?.AllOfferUrl;
+  console.log("allOfferUrl", allOfferUrl);
+
+  const nextPageUrl = `${allOfferUrl}?page=${nextPage}`;
+  console.log("nextPageUrl", nextPageUrl);
+  console.log("nextPage", nextPage);
+
+  // dispatch(setLoading(true));
+
+  // console.log("nextPageUrl", nextPageUrl);
+  api
+    .get(nextPageUrl)
+    .then((res) => {
+      const flightData = res.data;
+      console.log("flightData", flightData);
+      dispatch(
+        setAppendFlights({
+          ai: flightData,
+        })
+      );
+    })
+    .catch((err) => {
+      console.error("Error loading next flight results", err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
+
+
 export const {
   setLoading,
   setMessage,
@@ -428,5 +479,8 @@ export const {
   setpollingComplete,
   setCreatethread,
   setClearflight,
+  setAllOfferUrl,
+  setNextMessage,
+  setAppendFlights
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
