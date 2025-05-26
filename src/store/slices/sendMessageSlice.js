@@ -18,8 +18,13 @@ const sendMessageSlice = createSlice({
     },
     pollingComplete: false,
     Createthread: null,
+    NextMessageSend: [],
   },
   reducers: {
+    setNextMessageSend(state, action) {
+      // Replace this with append logic
+      state.NextMessageSend = action.payload;
+    },
     setCreatethread: (state, action) => {
       state.Createthread = action.payload;
     },
@@ -254,33 +259,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   }
 };
 
-export const loadNextFlightResultsPage = (page) => (dispatch, getState) => {
-  const allOfferUrl = getState().sendMessage?.TopOfferUrlSend;
-
-  if (!allOfferUrl) {
-    console.warn("No TopOfferUrlSend found.");
-    return Promise.resolve(); // Still returns a Promise
-  }
-
-  const nextPageUrl = `${allOfferUrl}?page=${page}`;
-  console.log("nextPageUrl", nextPageUrl);
-
-  dispatch(setLoading(true));
-
-  return api.get(nextPageUrl)
-    .then((res) => {
-      console.log("nextPage_res", res);
-
-      const flightData = res.data;
-      dispatch(setMessage({ ai: flightData }));
-    })
-    .catch((err) => {
-      console.error("Error loading next flight results", err);
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
-};
 
 
 
@@ -363,6 +341,49 @@ export const OnlydeleteChatThread = () => (dispatch) => {
     });
 };
 
+// 
+export const loadNextFlightResultsSend = (page) => (dispatch, getState) => {
+  alert("asasas")
+  const state = getState();
+  const allOfferUrl = state.sendMessage?.TopOfferUrlSend;
+  const alreadyLoaded = state.sendMessage?.NextMessage?.loadedPages?.includes(page);
+
+  if (!allOfferUrl) {
+    console.warn("No TopOfferUrlSend found.");
+    return Promise.resolve();
+  }
+
+  if (alreadyLoaded) {
+    console.warn(`Page ${page} already loaded.`);
+    return Promise.resolve();
+  }
+
+  const nextPageUrl = `${allOfferUrl}?page=${page}`;
+  dispatch(setLoading(true));
+
+  return api
+    .get(nextPageUrl)
+    .then((res) => {
+      const newFlightData = res.data;
+
+      dispatch(
+        setNextMessageSend({
+          offers: newFlightData?.offers || [],
+          next_page_number: newFlightData?.next_page_number,
+          page, // ⚠️ Add current page to track loaded pages
+        })
+      );
+    })
+    .catch((err) => {
+      console.error("Error loading next flight results", err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
+
+// 
+
 // Export actions
 export const {
   setLoading,
@@ -376,6 +397,7 @@ export const {
   setpollingComplete,
   setCreatethread,
   setClearflight,
+  setNextMessageSend
 } = sendMessageSlice.actions;
 
 export default sendMessageSlice.reducer;

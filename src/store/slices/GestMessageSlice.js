@@ -11,30 +11,40 @@ const initialState = {
   refreshSearch: "",
   SearchHistoryGet: null,
   topOfferUrl: null,
+  NextMessage: [],
 };
 
 const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    setTopOfferUrl: (state, action)=> {
+    setNextMessage(state, action) {
+  if (!state.NextMessage || !Array.isArray(state.NextMessage.offers)) {
+    state.NextMessage = { offers: [], next_page_number: null };
+  }
+
+  state.NextMessage.offers = [
+    ...state.NextMessage.offers,
+    ...(action.payload.offers || []),
+  ];
+  state.NextMessage.next_page_number = action.payload.next_page_number;
+},
+    setTopOfferUrl: (state, action) => {
       state.topOfferUrl = action.payload;
     },
-    setSearchHistoryGet: (state, action)=> { 
-      
+    setSearchHistoryGet: (state, action) => {
       state.SearchHistory = action.payload;
     },
-    setRefreshSearch: (state, action)=> {
+    setRefreshSearch: (state, action) => {
       state.refreshSearch = action.payload;
     },
     setMessage: (state, action) => {
       console.log("actiontest", action);
-      
+
       state.messages.push(action.payload);
     },
     setAllFlightGetApi: (state, action) => {
       console.log("setAllFlightGetApi_action", action);
-      
       state.allFlightSearchResults = action.payload;
     },
     setIsLoading: (state, action) => {
@@ -50,18 +60,16 @@ const GetMessagesSlice = createSlice({
 });
 
 export const fetchMessages = () => (dispatch) => {
-
-  
   dispatch(setIsLoading(true));
   const localUUID = sessionStorage.getItem("chat_thread_uuid");
-  
-  const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${localUUID}`
-  
+
+  const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${localUUID}`;
+
   api
-  .get(threadUrl)
-  .then((response) => {
-    console.log("test12", response);
-    
+    .get(threadUrl)
+    .then((response) => {
+      console.log("test12", response);
+
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
@@ -70,8 +78,6 @@ export const fetchMessages = () => (dispatch) => {
         // is function true start search result flow
         console.log("allFlightSearchApi", item);
         if (item?.is_function) {
-          
-          
           // const topFlightSearchApi =
           // item?.response?.results?.view_top_flight_result_api?.url;
           // if (topFlightSearchApi) {
@@ -92,39 +98,35 @@ export const fetchMessages = () => (dispatch) => {
           //     });
           // }
 
-          
-          
-          
           const allFlightSearchApi =
-          item?.response?.results?.view_all_flight_result_api?.url;
-          
-          if (allFlightSearchApi) {
-            
-            
-            // flight history [start]
-            const getallFlightId = allFlightSearchApi.split('/').pop();
-            dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
-            
-            
-             const historyUrl = `/api/v1/search/${getallFlightId}/history`;
-             api.get(historyUrl).then((history_res)=> {
-              //  console.log("historyUrl", history_res.data.search);
-               dispatch(setSearchHistoryGet(history_res.data.search))
-             }).catch((error)=> {
-              console.log("error", error);
-              
+            item?.response?.results?.view_all_flight_result_api?.url;
 
-             })
-             // flight history [end]
+          if (allFlightSearchApi) {
+            console.log("allFlightSearchApi", allFlightSearchApi);
+            dispatch(setAllFlightGetApi(allFlightSearchApi));
+
+            // flight history [start]
+            const getallFlightId = allFlightSearchApi.split("/").pop();
+            dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
+
+            const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+            api
+              .get(historyUrl)
+              .then((history_res) => {
+                //  console.log("historyUrl", history_res.data.search);
+                dispatch(setSearchHistoryGet(history_res.data.search));
+              })
+              .catch((error) => {
+                console.log("error", error);
+              });
+            // flight history [end]
             //  dispatch(
             //    setMessage({ user: item.message, ai: { response: item?.response } })
             //  );
-            
-            console.log("allFlightSearch11", allFlightSearchApi);
+
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                // dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
                 dispatch(
                   setMessage({
                     user: item.message,
@@ -150,7 +152,7 @@ export const fetchMessages = () => (dispatch) => {
     })
     .catch((error) => {
       console.log("thread_error", error);
-      
+
       dispatch(setError("Error fetching messages"));
     })
     .finally(() => {
@@ -159,37 +161,80 @@ export const fetchMessages = () => (dispatch) => {
 };
 export const RefreshHandle = () => (dispatch, getState) => {
   const state = getState();
-  const uuid = state?.getMessages?.SearchHistory?.uuid
+  const uuid = state?.getMessages?.SearchHistory?.uuid;
   console.log("state_0", uuid);
   const threadUUID = sessionStorage.getItem("chat_thread_uuid");
 
   console.log("threadUUID_0", threadUUID);
 
-  
-// {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
+  // {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
   // const url = `api/v1/search/<str:flight_search_uuid>/refresh/<str:chat_thread_uuid></str:chat_thread_uuid>`
-  const expireURL =  `/api/v1/search/${uuid}/refresh/${threadUUID}`
+  const expireURL = `/api/v1/search/${uuid}/refresh/${threadUUID}`;
 
   console.log("expireURL", expireURL);
-  
 
-  api.post(expireURL).then((res)=> {
-    console.log("expire_res", res)
-    dispatch(setRefreshSearch())
-  }).catch((error)=> {
-    console.log("error", error);
+  api
+    .post(expireURL)
+    .then((res) => {
+      console.log("expire_res", res);
+      dispatch(setRefreshSearch());
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
+};
+
+export const loadNextFlightResultsforGet =
+  (page) => async (dispatch, getState) => {
+    const state = getState();
+    const allOfferUrl = state.getMessages?.allFlightSearchResults;
+    const alreadyLoaded =
+    state.getMessages?.NextMessage?.loadedPages?.includes(page);
     
-  })
-}
+    if (!allOfferUrl) {
+      console.warn("No allFlightSearchResults URL found.");
+      return;
+    }
+    
+    if (alreadyLoaded) {
+      console.warn(`Page ${page} already loaded.`);
+      return;
+    }
+    
+    const nextPageUrl = `${allOfferUrl}?page=${page}`;
+    dispatch(setIsLoading(true));
+
+    return api
+      .get(nextPageUrl)
+      .then((response) => {
+        const data = response.data;
+        dispatch(
+          setNextMessage({
+            offers: data?.offers || [],
+            next_page_number: data?.next_page_number,
+            page,
+          })
+        );
+      })
+      .catch((err) => {
+        console.error("Error loading next flight results", err);
+        dispatch(setError("Failed to load more flights."));
+      })
+      .finally(() => {
+        dispatch(setIsLoading(false));
+      });
+  };
+
 
 export const {
   setMessage,
   setIsLoading,
   setError,
-  setAllFlightGetApi,
   setFlightExpire,
   setRefreshSearch,
   setSearchHistoryGet,
   setTopOfferUrl,
+  setAllFlightGetApi,
+  setNextMessage,
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;
