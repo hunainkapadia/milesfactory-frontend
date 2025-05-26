@@ -21,9 +21,15 @@ const sendMessageSlice = createSlice({
     AllOfferUrl: "",
     NextMessage: "",
     appendFlights: [],
+    nextPageNo:1,
 
   },
   reducers: {
+    setnextPageNo: (state, action)=> {
+      console.log("action_nextpage", action);
+      
+      state.nextPageNo = action.payload
+    },
     setAppendFlights: (state, action) => {
       state.appendFlights = action.payload
       console.log("action_000", action?.payload?.ai?.next_page_number);
@@ -431,19 +437,17 @@ export const OnlydeleteChatThread =
 
 // for delete thread
 
-export const loadNextFlights = (nextPage) => (dispatch, getState) => {
-    const nextUrl = getState().sendMessage;
-  console.log("nextUrl:", nextUrl);
-
+export const loadNextFlights = () => (dispatch, getState) => {
+    const getpageNo = getState()?.sendMessage?.nextPageNo;
+    console.log(getpageNo);
+    
 
 
   const allOfferUrl = getState().sendMessage?.AllOfferUrl;
   console.log("allOfferUrl", allOfferUrl);
 
-  const nextPageUrl = `${allOfferUrl}?page=${nextPage}`;
+  const nextPageUrl = `${allOfferUrl}?page=${getpageNo}`;
   console.log("nextPageUrl", nextPageUrl);
-  console.log("nextPage", nextPage);
-
   // dispatch(setLoading(true));
 
   // console.log("nextPageUrl", nextPageUrl);
@@ -451,7 +455,8 @@ export const loadNextFlights = (nextPage) => (dispatch, getState) => {
     .get(nextPageUrl)
     .then((res) => {
       const flightData = res.data;
-      console.log("flightData", flightData);
+      console.log("flightData", flightData?.next_page_number);
+      dispatch(setnextPageNo(flightData?.next_page_number))
       dispatch(
         setAppendFlights({
           ai: flightData,
@@ -481,6 +486,7 @@ export const {
   setClearflight,
   setAllOfferUrl,
   setNextMessage,
-  setAppendFlights
+  setAppendFlights,
+  setnextPageNo,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

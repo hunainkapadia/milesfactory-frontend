@@ -102,7 +102,9 @@ const displayedGetFlights = showAllFlight
 
   
   const moreflightsHandle = () => {
-    const nextPage = getNextFlight?.next_page_number;
+    const nextPage = aiMessage?.ai?.next_page_number;
+    console.log("aiMessage_next", nextPage);
+    
     dispatch(loadNextFlights(nextPage));
     setCurrentPage(nextPage);
   };
