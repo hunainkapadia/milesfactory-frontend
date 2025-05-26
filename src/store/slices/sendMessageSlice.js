@@ -21,7 +21,7 @@ const sendMessageSlice = createSlice({
     AllOfferUrl: "",
     NextMessage: "",
     appendFlights: [],
-    nextPageNo:1,
+    nextPageNo:2,
 
   },
   reducers: {
@@ -31,7 +31,19 @@ const sendMessageSlice = createSlice({
     },
     setAppendFlights: (state, action) => {
       state.appendFlights = action.payload
-      console.log("action_000", action?.payload?.ai?.next_page_number);
+      console.log("action_000", action?.payload?.ai);
+      // const { count, has_next, is_complete, next_page_number, offers } = action.payload
+      // console.log("state_next", state.appendFlights);
+      // if (state.appendFlights) {
+      //   const updatedObj = {
+      //     ...action.payload,
+      //     offers: [...state.appendFlights.offers, ...action.payload.offers],
+      //   };
+      //   state.appendFlights = updatedObj;
+      // } else {
+      //   state.appendFlights = action.payload
+      // }
+
     },
     setNextMessage: (state, action) => {
       state.NextMessage = action.payload;
