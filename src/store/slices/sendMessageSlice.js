@@ -26,16 +26,24 @@ const sendMessageSlice = createSlice({
   },
   reducers: {
     setAppendFlights: (state, action) => {
-      if (!state.appendFlights || !state.appendFlights.ai) {
-        state.appendFlights = action.payload;
-        return;
-      }
+  const { ai, nextPageNo } = action.payload;
 
-      // Append new offers to existing ones
-      const existingOffers = state.appendFlights.ai.offers || [];
-      const newOffers = action.payload.ai?.offers || [];
+  // If first time loading flights
+  if (!state.appendFlights.ai || !state.appendFlights.ai.offers) {
+    state.appendFlights.ai = ai;
+  } else {
+    const existingOffers = state.appendFlights.ai.offers || [];
+    const newOffers = ai?.offers || [];
 
-      state.appendFlights.ai.offers = [...existingOffers, ...newOffers];
+    // Append offers
+    state.appendFlights.ai.offers = [...existingOffers, ...newOffers];
+  }
+
+  // Always update page number from API response or passed payload
+  if (nextPageNo) {
+    state.appendFlights.nextPageNo = nextPageNo;
+  }
+
       // const { count, has_next, is_complete, next_page_number, offers } = action.payload
       // console.log("state_next", state.appendFlights);
       // if (state.appendFlights) {
