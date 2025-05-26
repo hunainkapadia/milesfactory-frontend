@@ -68,8 +68,12 @@ const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control wh
   console.log("getNextFlight", getNextFlight);
 
   const displayedGetFlights = showAllFlight
-    ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
-    : aiMessage?.ai?.offers?.slice(0, 3);
+  ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
+  : aiMessage?.ai?.offers?.slice(0, 3);
+
+  console.log("Total Offers:", displayedGetFlights?.length);
+console.log("Original Offers:", aiMessage?.ai?.offers?.length);
+console.log("Appended Offers:", getNextFlight?.offers?.length);
 
     console.log("displayedGetFlights", displayedGetFlights);
     

@@ -19,19 +19,23 @@ const sendMessageSlice = createSlice({
     pollingComplete: false,
     Createthread: null,
     AllOfferUrl: "",
-    NextMessage: "",
-    appendFlights: [],
-    nextPageNo:2,
-
+    appendFlights: {
+      nextPageNo: 2,
+      ai: "",
+    },
   },
   reducers: {
-    setnextPageNo: (state, action)=> {
-      console.log("action_nextpage", action);
-      state.nextPageNo = action.payload
-    },
     setAppendFlights: (state, action) => {
-      state.appendFlights = action.payload
-      console.log("action_000", action?.payload?.ai);
+      if (!state.appendFlights || !state.appendFlights.ai) {
+        state.appendFlights = action.payload;
+        return;
+      }
+
+      // Append new offers to existing ones
+      const existingOffers = state.appendFlights.ai.offers || [];
+      const newOffers = action.payload.ai?.offers || [];
+
+      state.appendFlights.ai.offers = [...existingOffers, ...newOffers];
       // const { count, has_next, is_complete, next_page_number, offers } = action.payload
       // console.log("state_next", state.appendFlights);
       // if (state.appendFlights) {
@@ -43,7 +47,6 @@ const sendMessageSlice = createSlice({
       // } else {
       //   state.appendFlights = action.payload
       // }
-
     },
     setNextMessage: (state, action) => {
       state.NextMessage = action.payload;
@@ -449,8 +452,9 @@ export const OnlydeleteChatThread =
 // for delete thread
 
 export const loadNextFlights = () => (dispatch, getState) => {
-    const getpageNo = getState()?.sendMessage?.nextPageNo;
-    console.log("getpageNo", getpageNo);
+    const getpageNo = getState()?.sendMessage?.appendFlights?.nextPageNo;
+    const getpageNo2 = getState()?.sendMessage;
+    console.log("getpageNo", getpageNo2);
     
 
 
@@ -466,11 +470,11 @@ export const loadNextFlights = () => (dispatch, getState) => {
     .get(nextPageUrl)
     .then((res) => {
       const flightData = res.data;
-      console.log("flightData", flightData?.next_page_number);
-      dispatch(setnextPageNo(flightData?.next_page_number))
+      console.log("flightDat", flightData);
       dispatch(
         setAppendFlights({
           ai: flightData,
+          nextPageNo: flightData?.next_page_number,
         })
       );
     })
