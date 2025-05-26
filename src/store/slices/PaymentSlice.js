@@ -69,7 +69,7 @@ export const fetchOrderDetails = (orderId) => (dispatch) => {
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
       });
-  }, 1000);
+  }, 2000);
 };
 
 // Export actions
