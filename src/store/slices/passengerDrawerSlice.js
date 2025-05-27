@@ -156,8 +156,18 @@ export const validatePassengerForm = (params) => (dispatch) => {
   const passportNumberRegex = /^[A-Za-z0-9]+$/;
 
   if (!params.gender) errors.gender = "Gender is required.";
-  
-  
+  if (!params.given_name) {
+    errors.given_name = "First Name is required.";
+  } else if (!nameRegex.test(params.given_name)) {
+    errors.given_name = "First Name must contain only letters.";
+  }
+
+  if (!params.family_name) {
+    errors.family_name = "Last Name is required.";
+  } else if (!nameRegex.test(params.family_name)) {
+    errors.family_name = "Last Name must contain only letters.";
+  }
+
   if (!params.born_on) errors.born_on = "Date of Birth is required.";
   if (!params.passport_number) {
     errors.passport_number = "Passport Number is required.";
