@@ -25,24 +25,27 @@ const sendMessageSlice = createSlice({
     },
   },
   reducers: {
+    setThreadUuid: (state, action) => {
+      state.threadUuid = action.payload;
+    },
     setAppendFlights: (state, action) => {
-  const { ai, nextPageNo } = action.payload;
+      const { ai, nextPageNo } = action.payload;
 
-  // If first time loading flights
-  if (!state.appendFlights.ai || !state.appendFlights.ai.offers) {
-    state.appendFlights.ai = ai;
-  } else {
-    const existingOffers = state.appendFlights.ai.offers || [];
-    const newOffers = ai?.offers || [];
+      // If first time loading flights
+      if (!state.appendFlights.ai || !state.appendFlights.ai.offers) {
+        state.appendFlights.ai = ai;
+      } else {
+        const existingOffers = state.appendFlights.ai.offers || [];
+        const newOffers = ai?.offers || [];
 
-    // Append offers
-    state.appendFlights.ai.offers = [...existingOffers, ...newOffers];
-  }
+        // Append offers
+        state.appendFlights.ai.offers = [...existingOffers, ...newOffers];
+      }
 
-  // Always update page number from API response or passed payload
-  if (nextPageNo) {
-    state.appendFlights.nextPageNo = nextPageNo;
-  }
+      // Always update page number from API response or passed payload
+      if (nextPageNo) {
+        state.appendFlights.nextPageNo = nextPageNo;
+      }
 
       // const { count, has_next, is_complete, next_page_number, offers } = action.payload
       // console.log("state_next", state.appendFlights);
@@ -122,7 +125,7 @@ export const createThread = () => (dispatch) => {
       const uuid = thread_res.data.uuid;
       console.log("thread_response", uuid);
       sessionStorage.setItem("chat_thread_uuid", uuid);
-
+      dispatch(setThreadUuid(uuid))
       dispatch(setThreadUUIDsend(uuid));
     })
     .catch((err) => {
@@ -511,5 +514,6 @@ export const {
   setNextMessage,
   setAppendFlights,
   setnextPageNo,
+  setThreadUuid,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
