@@ -35,9 +35,9 @@ const Home = () => {
 
   
   
-  useEffect(() => {
-    dispatch(OnlydeleteChatThread());
-  }, [0]);
+  // useEffect(() => {
+  //   dispatch(OnlydeleteChatThread());
+  // }, [0]);
   
   // 1st creat thread befor befor message from home 
   useEffect(() => {
