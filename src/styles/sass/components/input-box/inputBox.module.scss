@@ -113,6 +113,11 @@
          display: flex;
          transform: translateY(0);
          opacity: 1;
+         position: absolute;
+         bottom: -56px;
+         width: 100%;
+         justify-content: center;
+         align-items: center;
          .Content {
             width: 756px;
             background-image: url("/images/input-sticky-bg.svg");

@@ -10,10 +10,16 @@ const PaymentSlice = createSlice({
     priceSummary: false,
     clientSessionId: "",
     client: "",
-    PaymentData: null,
     
+    isloading: false,
   },
   reducers: {
+    setPaymentStatus:(state, action)=> {
+      state.paymentStatus = action.payload
+    },
+    setIsloading: (state, action)=> {
+      state.isloading = action.payload
+    },
     setPaymentData: (state, action)=> {
       state.PaymentData = action.payload;
     },
@@ -58,18 +64,28 @@ export const PaymentForm = () => (dispatch, getState) => {
 };
 export const fetchOrderDetails = (orderId) => (dispatch) => {
   console.log("payment_response_0", orderId);
+  
+  dispatch(setPaymentStatus({is_complete: "no",}))
   setTimeout(() => {
     api
       .get(`/api/v1/order/${orderId}/details`)
       .then((response) => {
-        console.log("payment_response", response);
-
+        console.log("payment_response", response.data);
         dispatch(setPaymentData(response.data));
+        if (response?.data?.duffel_order?.payment_status) {
+          dispatch(
+            setPaymentStatus({
+              is_complete: "yes",
+              status: response?.data?.duffel_order?.payment_status,
+            })
+          );
+          setIsloading(false)
+        } 
       })
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
       });
-  }, 2000);
+  }, 5000);
 };
 
 // Export actions
@@ -82,6 +98,8 @@ export const {
   closeDrawer,
   setClient,
   setClientSecret,
-  setPaymentData
+  setPaymentData,
+  setIsloading,
+  setPaymentStatus
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

@@ -115,7 +115,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
       >
-        <Container>
+        <Container sx={{position:"relative"}}>
           <Box
             className={styles.Box}
             display={"flex"}
