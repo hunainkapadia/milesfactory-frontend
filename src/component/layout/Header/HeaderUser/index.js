@@ -93,6 +93,7 @@ const HeaderUser = ({
   }, [currentUser, dispatch]);
 
   const logoutHandle = () => {
+    alert("asas")
     dispatch(Logout())
   };
 
