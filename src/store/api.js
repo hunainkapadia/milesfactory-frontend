@@ -38,14 +38,22 @@ api.interceptors.request.use(async (config) => {
     if (!isRefreshing) {
       isRefreshing = true;
       try {
-        const response = await axios.post(`${API_BASE_URL}/api/v1/refresh/`, {
-          refresh: refreshToken,
-        });
+        const refreshPayload = { refresh: refreshToken };
+        const response = await axios.post(
+          `${API_BASE_URL}/api/v1/refresh/`,
+          refreshPayload
+        );
         const newAccessToken = response.data.access;
         const newRefreshToken = response.data.refresh;
 
+        // Always update access token
         Cookies.set("access_token", newAccessToken);
-        Cookies.set("refresh_token", newRefreshToken, { expires: 7 });
+
+        // Only update refresh token if a new one is returned and the current one is close to expiring
+        if (newRefreshToken && isTokenExpired(refreshToken, 24 * 60 * 60)) {
+          // Assuming isTokenExpired can take a second parameter to check for near expiry
+          Cookies.set("refresh_token", newRefreshToken, { expires: 7 });
+        }
 
         isRefreshing = false;
         processQueue(null, newAccessToken);
