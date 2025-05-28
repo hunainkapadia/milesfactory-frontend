@@ -29,8 +29,15 @@ const ChatByUUID = () => {
     useEffect(() => {
       console.log("Router object:", router);
     }, [router]);
-  
-    const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
+
+    const SearchHistoryGet = useSelector(
+      (state) => state.getMessages.SearchHistory
+    );
+    const SearchHistorySend = useSelector(
+      (state) => state.sendMessage?.SearchHistorySend
+    );
+    const SearchHistory = SearchHistorySend || SearchHistoryGet;
+
 
   return (
     <>
@@ -54,7 +61,7 @@ const ChatByUUID = () => {
                   lg={4}
                   sx={{ display: { xs: "none", md: "block", lg: "block" } }}
                 >
-                  {getselectedFlight ? (
+                  {SearchHistory ? (
                     <YourTripSidebar isMessage={isMessage} />
                   ) : (
                     " "

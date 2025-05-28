@@ -32,8 +32,8 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
     (state) => state.getMessages.messages.length || 0
   );
   const isMessage = sendMessages > 0 || getmessages > 0;
-  const uuid = useSelector((state) => state?.sendMessage?.ThreadUUIDsend);
-
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  
   useEffect(() => {
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
     console.log("storedUuid", storedUuid);
@@ -60,11 +60,17 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
     if (!userMessage.trim()) return;
     if (inputRef.current) inputRef.current.textContent = "";
 
+    if (!uuid) return null; // Skip rendering or logic
+
+// Only runs when uuid is defined
+  console.log("get_uuid", uuid);
+
+
     dispatch(sendMessage(userMessage));
     setUserMessage("");
     resetTranscript();
     setIsTyping(false);
-    router.push(`/chat/${getuuid}`);
+    router.push(`/chat/${uuid}`);
   };
 
   const handleVoiceInput = () => {

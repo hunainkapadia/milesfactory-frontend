@@ -210,15 +210,16 @@ const HeaderUser = ({
               <Box
                 className={`${styles.Login} cursor-pointer`}
                 sx={{
-                  display: { lg: "flex", md: "flex", xs: "flex" },
-                  justifyContent: {
-                    lg: "center",
-                    md: "center",
-                    xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
-                  },
-                }}
+  display: { lg: "flex", md: "flex", xs: "flex" },
+  justifyContent: {
+    lg: "center",
+    md: "center",
+    xs: "flex-start", // or conditionally change if needed
+  },
+  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
+}}
+
                 alignItems="center"
-                gap={2}
                 onClick={HandlePopup}
               >
                 <Box
@@ -237,15 +238,17 @@ const HeaderUser = ({
               <Box
                 className={`${styles.Login} cursor-pointer`}
                 sx={{
-                  display: { lg: "flex", md: "flex", xs: "flex" },
-                  justifyContent: {
-                    lg: "center",
-                    md: "center",
-                    xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
-                  },
-                }}
+  display: { lg: "flex", md: "flex", xs: "flex" },
+  justifyContent: {
+    lg: "center",
+    md: "center",
+    xs: "flex-start", // or conditionally change if needed
+  },
+  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
+}}
+
                 alignItems="center"
-                gap={2}
+                
                 onClick={HandlePopup}
               >
                 <Typography

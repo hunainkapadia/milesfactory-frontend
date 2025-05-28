@@ -115,7 +115,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
       >
-        <Container>
+        <Container sx={{position:"relative"}}>
           <Box
             className={styles.Box}
             display={"flex"}
@@ -145,10 +145,16 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
               <Box className={styles.Logo + " cursor-pointer"}>
                 <Box component="a" href="/">
                   <Box className="d-flex align-items-center">
-                    {isSticky || isMessage || IsActive ? (
-                      <img src="/images/logo-color2.svg" />
+                    {isChat && isMobile ? (
+                      <img src="/images/chat-logo.svg" />
                     ) : (
-                      <img src="/images/logo-white2.svg" />
+                      <>
+                        {isSticky || isMessage || IsActive ? (
+                          <img src="/images/logo-color2.svg" />
+                        ) : (
+                          <img src="/images/logo-white2.svg" />
+                        )}
+                      </>
                     )}
                   </Box>
                 </Box>
@@ -260,8 +266,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                       <img
                         src={`${
                           isSticky | IsActive || isMessage
-                            ? "/images/chat-history-icon.svg"
-                            : "/images/chat-history-icon-white.svg"
+                            ? "/images/chat-history-icon-black-v2.svg"
+                            : "/images/chat-history-icon-white-v2.svg"
                         }`}
                         alt="Chat History Icon"
                       />
@@ -310,6 +316,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
         isDrawerOpen={isDrawerOpen}
         toggleDrawer={toggleDrawer}
         MobileNavDrawer={MobileNavDrawer}
+        isChat={isChat}
       />
 
       <UserPopup />

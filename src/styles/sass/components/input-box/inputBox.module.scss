@@ -14,13 +14,13 @@
    background-position: bottom center;
    background-repeat: no-repeat;
    .SearchBoxContainer {
-      padding: 0 10px;
+      padding: 0;
    }
 }
 .SearchBoxSectionActive {
    .SearchBoxContainer {
       width: 100%;
-      padding: 0;
+      padding: 0 10px;
       .label {
          position: absolute;
          z-index: 3;
@@ -37,7 +37,7 @@
          @include border-radius(36px);
          background-color: $white;
          width: auto;
-         padding: 15px;
+         padding: 15px 15px 15px 0;
          &.active { width: 100%;@include display(flex);align-items: center;}
          
          .BoxButtons {
@@ -113,6 +113,11 @@
          display: flex;
          transform: translateY(0);
          opacity: 1;
+         position: absolute;
+         bottom: -56px;
+         width: 100%;
+         justify-content: center;
+         align-items: center;
          .Content {
             width: 756px;
             background-image: url("/images/input-sticky-bg.svg");
@@ -159,7 +164,7 @@
       .SearchForm {
          outline: none;
             min-height: 86px;
-            padding: 10px 45px 10px 16px;
+            padding: 10px 75px 10px 16px;
             background: #0B1729;
             border: 1px solid #F7F7F7;
             border-radius: 16px;
@@ -223,11 +228,7 @@
 
 
 @include for-mobile-large-screen {
-   .SearchBoxGrid {
-      .SearchBoxContainer {
-         padding: 0 5px;
-      }
-   }
+   
    .SearchBoxSection {
       &.HeaderInput {
          &.InputSticky {
@@ -245,10 +246,10 @@
    }
       
    .SearchBoxSectionActive {
-      .SearchBoxContainer {
+      .SearchBoxContainer {padding: 0;
          .SearchForm {
-            border-radius: 50px;
-            padding: 20px 55px 20px 15px !important;
+            border-radius: 30px 30px 0 0;
+            padding: 20px 55px 20px 15px ;
             height: inherit;
             min-height: 66px;
          }
@@ -260,10 +261,9 @@
 
 
    .SearchBoxGrid {
-      padding: 0 0 15px;
+      padding: 0 0 ;
    }
    .SearchBoxSectionActive {
-      padding: 0 8px;
       .SearchBox {
          
          .SearchButtonBox .BoxButtons {

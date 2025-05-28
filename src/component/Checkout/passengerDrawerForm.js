@@ -168,25 +168,42 @@ const PassengerDrawerForm = () => {
           }}
         >
           <Box className={styles.checkoutDrowerSection + " aa white-bg"}>
-            <Box px={3}>
+            <Box
+              px={3}
+              component={"header"}
+              className={styles.checkoutDrowerHeder}
+              py={3}
+              display="flex"
+              justifyContent="space-between"
+              flexDirection={"column"}
+              gap={3}
+            >
               <Box
-                className={styles.checkoutDrowerHeder}
-                py={3}
+                component={"section"}
+                gap={1}
+                alignItems="center"
+                display="flex"
+                className={" bold basecolor1 btn-link cursor-pointer"}
+                onClick={handleCloseDrawer}
+              >
+                <i className={`fa fa-arrow-left fas`}></i>{" "}
+                <Box component={"span"}>Back to Mylz Chat</Box>
+              </Box>
+              <Box
+                component={"section"}
                 display="flex"
                 justifyContent="space-between"
                 alignItems={"center"}
               >
                 <Box>
-                  <h3 className="regular mb-0">Add new traveller</h3>
-                  <Typography className="semibold">Adult</Typography>
-                </Box>
-                <Box className="cursor-pointer" onClick={handleCloseDrawer}>
-                  <i className="fa fa-close fas"></i>
+                  <h3 className="regular mb-0">Traveller details</h3>
                 </Box>
               </Box>
               <Divider />
+            </Box>
+            <Box px={3}>
               <Box
-                pt={2}
+                sx={{ pt: { lg: 2, md: 2 } }}
                 pb={4}
                 display="flex"
                 flexDirection="column"
@@ -239,7 +256,7 @@ const PassengerDrawerForm = () => {
                 {/* Name Fields */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">First Name</FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter First Name"
                     value={given_name}
@@ -255,7 +272,7 @@ const PassengerDrawerForm = () => {
 
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">Last Name</FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter Last Name"
                     value={family_name}
@@ -299,7 +316,7 @@ const PassengerDrawerForm = () => {
                   <FormLabel className="bold formLabel">
                     Passport Number
                   </FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter Passport Number"
                     value={passport_number}
@@ -343,7 +360,7 @@ const PassengerDrawerForm = () => {
                 {/* Email */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">Email</FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter Email Address"
                     type="email"
@@ -419,39 +436,39 @@ const PassengerDrawerForm = () => {
 
             {/* Footer */}
             <Box className={styles.passengerDrawerFooter}>
-                <Divider />
-                <Box py={1} px={3} display="flex" flexDirection="column">
+              <Divider />
+              <Box py={1} px={3} display="flex" flexDirection="column">
+                <Box
+                  display="flex"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  gap={3}
+                >
                   <Box
                     display="flex"
-                    justifyContent="flex-end"
                     alignItems="center"
-                    gap={3}
+                    gap={2}
+                    className="basecolor1 f14"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleCloseDrawer}
+                    disabled={isFormLoading} // Disable when loading
                   >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      gap={2}
-                      className="basecolor1 f14"
-                      style={{ cursor: "pointer" }}
-                      onClick={handleCloseDrawer}
-                      disabled={isFormLoading} // Disable when loading
-                    >
-                      <span>Close</span>
-                    </Box>
-
-                    <Button
-                      type="submit" // Important!
-                      className="btn btn-primary btn-md btn-round"
-                      onClick={SubmitPassenger}
-                      disabled={isFormLoading} // Disable when loading
-                      variant="contained"
-                      color="success"
-                    >
-                      {isFormLoading ? <ButtonLoading /> : <span>Continue</span>}
-                    </Button>
+                    <span>Cancel</span>
                   </Box>
+
+                  <Button
+                    type="submit" // Important!
+                    className="btn btn-primary chat-btn btn-round"
+                    onClick={SubmitPassenger}
+                    disabled={isFormLoading} // Disable when loading
+                    variant="contained"
+                    color="success"
+                  >
+                    {isFormLoading ? <ButtonLoading /> : <span>Save</span>}
+                  </Button>
                 </Box>
               </Box>
+            </Box>
           </Box>
         </form>
       </Box>

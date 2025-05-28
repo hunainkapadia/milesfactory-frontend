@@ -313,7 +313,7 @@ const Footer = ({
                     <Typography
                       sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                     >
-                      🔥 Over 1,300 trips planned by early users — and counting.
+                      🔥 Over 513 trips planned by early users — and counting.
                     </Typography>
                     <Typography
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}

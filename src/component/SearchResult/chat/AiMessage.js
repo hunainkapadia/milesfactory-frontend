@@ -17,9 +17,13 @@ import PaymentSuccess from "../../Checkout/PaymentSuccess";
 import PriceSummary from "../../Checkout/PriceSummary";
 import PollingMessage from "../PollingMessage/PollingMessage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
+import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
+  const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
+const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
+
 
   console.log("aiMessage_00", aiMessage);
 
@@ -58,10 +62,21 @@ const AiMessage = ({ aiMessage }) => {
   console.log("GetViewPassengers", GetViewPassengers.length > 0);
   console.log("filledPassenger", filledPassenger);
 
-  const displayedGetFlights = showAllFlight
-    ? aiMessage?.ai?.offers
-    : aiMessage?.ai?.offers?.slice(0, 3);
+  const getNextFlight = useSelector(
+    (state) => state.sendMessage?.appendFlights?.ai
+  );
+  console.log("getNextFlight", getNextFlight);
 
+  const displayedGetFlights = showAllFlight
+  ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
+  : aiMessage?.ai?.offers?.slice(0, 3);
+
+  console.log("Total Offers:", displayedGetFlights?.length);
+console.log("Original Offers:", aiMessage?.ai?.offers?.length);
+console.log("Appended Offers:", getNextFlight?.offers?.length);
+
+    console.log("displayedGetFlights", displayedGetFlights);
+    
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
@@ -82,6 +97,8 @@ const AiMessage = ({ aiMessage }) => {
   const aiboxRef = useRef(null); //  Add this ref
 
   // Add class when all flights are shown
+  console.log("showAllFlight", showAllFlight);
+  
   useEffect(() => {
     if (showAllFlight && aiboxRef.current) {
       aiboxRef.current.classList.add("showAllFlightActive"); //  Your custom class
@@ -92,8 +109,9 @@ const AiMessage = ({ aiMessage }) => {
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
-  // const IsServices = useSelector((state)=> state.booking.singleFlightData.available_services)
-  // console.log("singleflight111", singleflight);
+  const moreflightsHandle = () => {
+    dispatch(loadNextFlights());
+  };
 
   return (
     <Box
@@ -173,41 +191,45 @@ const AiMessage = ({ aiMessage }) => {
           </Box>
 
           {/* Toggle button */}
-          {!GetViewPassengers.length > 0 ? (
+
+          {!GetViewPassengers.length > 0 && !showAllFlight ? (
             <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
-              <Link href={"#"} className="text-decoration-none">
-                <Box
-                  sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                  gap={2}
-                  alignItems="center"
-                  display="flex"
-                  className="bold"
-                >
-                  <i
-                    className={`fa ${
-                      showAllFlight ? "fa-caret-up" : "fa-caret-down"
-                    } fas`}
-                  ></i>{" "}
-                  <span>
-                    {showAllFlight
-                      ? "Hide all flight options"
-                      : "Show all flight options"}
-                    {`${
-                      getAllFlightGetApi?.count
-                        ? " (" + getAllFlightGetApi?.count + ")"
-                        : ""
-                    }`}
-                    {`${
-                      allFlightSearcCount?.count
-                        ? " (" + allFlightSearcCount?.count + ")"
-                        : ""
-                    }`}
-                  </span>
-                </Box>
-              </Link>
+              <Box
+                sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+                gap={2}
+                alignItems="center"
+                display="flex"
+                className="bold"
+              >
+                <span>
+                  See more flights.
+                  {`${
+                    getAllFlightGetApi?.count
+                      ? " (" + getAllFlightGetApi?.count + ")"
+                      : ""
+                  }`}
+                  {`${
+                    allFlightSearcCount?.count
+                      ? " (" + allFlightSearcCount?.count + ")"
+                      : ""
+                  }`}
+                </span>
+                <i className="fa fa-caret-right fas" />
+              </Box>
             </Box>
           ) : (
-            ""
+          <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }}>
+            <Box
+              sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+              gap={2}
+              alignItems="center"
+              display="flex"
+              className="bold"
+            >
+              <span>See more flights..</span>
+              <i className="fa fa-caret-right fas" />
+            </Box>
+          </Box>
           )}
         </>
       ) : (

@@ -35,9 +35,9 @@ const Home = () => {
 
   
   
-  useEffect(() => {
-    dispatch(OnlydeleteChatThread());
-  }, [0]);
+  // useEffect(() => {
+  //   dispatch(OnlydeleteChatThread());
+  // }, [0]);
   
   // 1st creat thread befor befor message from home 
   useEffect(() => {
@@ -51,9 +51,9 @@ const Home = () => {
         <section id="fold1" className={styles.HomeBanner}>
           <HomeHeroSection />
         </section>
-        <HomeSection2 id={"HomeSection2"} />
         <HomeSection3 id={"HomeSection3"} />
         <HomeSection4 id={"HomeSection4"} />
+        <HomeSection2 id={"HomeSection2"} />
 
         <PoweredByglobal id={"PoweredByglobal"} />
         <Section4Reviews id={"Section4Reviews"} />
