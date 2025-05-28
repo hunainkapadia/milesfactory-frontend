@@ -73,8 +73,6 @@ api.interceptors.request.use(async (config) => {
             api.post("/api/v1/logout/", { refresh: refreshToken })
               .then((res) => {
                 console.log("logout_res", res);
-                dispatch(setLogoutUser(res.data));
-          
                 Cookies.remove("set-user");
                 Cookies.remove("access_token");
                 Cookies.remove("refresh_token");
