@@ -256,7 +256,7 @@ const PassengerDrawerForm = () => {
                 {/* Name Fields */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">First Name</FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter First Name"
                     value={given_name}
@@ -272,7 +272,7 @@ const PassengerDrawerForm = () => {
 
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">Last Name</FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter Last Name"
                     value={family_name}
@@ -316,7 +316,7 @@ const PassengerDrawerForm = () => {
                   <FormLabel className="bold formLabel">
                     Passport Number
                   </FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter Passport Number"
                     value={passport_number}
@@ -360,7 +360,7 @@ const PassengerDrawerForm = () => {
                 {/* Email */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">Email</FormLabel>
-                  <TextField
+                  <TextField className="formControl"
                     fullWidth
                     placeholder="Enter Email Address"
                     type="email"
