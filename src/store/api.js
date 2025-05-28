@@ -66,22 +66,10 @@ api.interceptors.request.use(async (config) => {
       } catch (error) {
         console.error("Token refresh failed:", error?.status);
         if (error?.status === 401) {
-          console.log("error_token", error);
+          
+        //   console.log("error_token", error);
           const refreshToken = Cookies.get("refresh_token"); // Correct method
-            console.log("refreshToken", refreshToken);
-          
-            api.post("/api/v1/logout/", { refresh: refreshToken })
-              .then((res) => {
-                console.log("logout_res", res);
-                Cookies.remove("set-user");
-                Cookies.remove("access_token");
-                Cookies.remove("refresh_token");
-              })
-              .catch((err) => {
-                console.error("Logout failed:", err.response?.data || err.message);
-              });
-
-          
+          console.log("refreshToken", refreshToken);
           
         }
         
