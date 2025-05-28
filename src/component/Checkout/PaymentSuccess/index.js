@@ -19,8 +19,8 @@ const PaymentSuccess = () => {
   const [selectedReason, setSelectedReason] = useState(false); // user-selected reason
   const [successReview, setsuccessReview] = useState(false);
   // stroll
-  const PaymentStatus = useSelector((state) => state?.payment?.PaymentData);
-  console.log("order detail", PaymentStatus);
+  const PaymentData = useSelector((state) => state?.payment?.PaymentData);
+  console.log("order detail", PaymentData);
 
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
 
@@ -52,6 +52,9 @@ const PaymentSuccess = () => {
 
     // Do something with rating + reason (like dispatch or API)
   };
+  const PaymentStatus = useSelector((state)=> state?.payment?.paymentStatus);
+  console.log("PaymentStatus_0", PaymentStatus?.is_complete);
+  
   return (
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}
@@ -59,9 +62,25 @@ const PaymentSuccess = () => {
         <Box className=" imggroup" mb={2}>
           <img src="/images/success-check.svg" />
         </Box>
+
+        {/* {console.log(
+          "PaymentStatus",
+          PaymentData?.duffel_order?.payment_status
+        )} */}
+
         <Box>
-        {console.log("duffel_order", PaymentStatus?.duffel_order)}
-          {!PaymentStatus?.duffel_order?.payment_status ? (
+          {/* {isloading ? (
+            <>
+              <Typography>Loading your order details...</Typography>
+            </>
+          ) : !PaymentData?.duffel_order?.payment_status ? ( */}
+
+          {PaymentStatus?.is_complete === "no" ? (
+            <>
+              <Typography>Please wait, confirming your order</Typography>
+            </>
+          ) : PaymentStatus?.is_complete === "yes" &&
+            !PaymentData?.duffel_order?.payment_status ? (
             <>
               <Typography>
                 We have received your payment but there is a problem with the
@@ -69,16 +88,21 @@ const PaymentSuccess = () => {
               </Typography>
             </>
           ) : (
+            ""
+          )}
+
+          {PaymentData?.duffel_order?.payment_status ? (
             <>
               <h4 className="regular">
                 Congratulations, you booked your flight!
               </h4>
               <Typography>
-                Your Mylz order ID is {PaymentStatus?.order?.id} with booking
-                reference number{" "}
-                {PaymentStatus?.duffel_order?.booking_reference}
+                Your Mylz order ID is {PaymentData?.order?.id} with booking
+                reference number {PaymentData?.duffel_order?.booking_reference}
               </Typography>
             </>
+          ) : (
+            ""
           )}
         </Box>
       </Box>

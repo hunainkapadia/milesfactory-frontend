@@ -18,8 +18,50 @@ const sendMessageSlice = createSlice({
     },
     pollingComplete: false,
     Createthread: null,
+    AllOfferUrl: "",
+    appendFlights: {
+      nextPageNo: 2,
+      ai: "",
+    },
   },
   reducers: {
+    setThreadUuid: (state, action) => {
+      state.threadUuid = action.payload;
+    },
+    setAppendFlights: (state, action) => {
+      const { ai, nextPageNo } = action.payload;
+
+      // If first time loading flights
+      if (!state.appendFlights.ai || !state.appendFlights.ai.offers) {
+        state.appendFlights.ai = ai;
+      } else {
+        const existingOffers = state.appendFlights.ai.offers || [];
+        const newOffers = ai?.offers || [];
+
+        // Append offers
+        state.appendFlights.ai.offers = [...existingOffers, ...newOffers];
+      }
+
+      // Always update page number from API response or passed payload
+      if (nextPageNo) {
+        state.appendFlights.nextPageNo = nextPageNo;
+      }
+
+      // const { count, has_next, is_complete, next_page_number, offers } = action.payload
+      // console.log("state_next", state.appendFlights);
+      // if (state.appendFlights) {
+      //   const updatedObj = {
+      //     ...action.payload,
+      //     offers: [...state.appendFlights.offers, ...action.payload.offers],
+      //   };
+      //   state.appendFlights = updatedObj;
+      // } else {
+      //   state.appendFlights = action.payload
+      // }
+    },
+    setNextMessage: (state, action) => {
+      state.NextMessage = action.payload;
+    },
     setCreatethread: (state, action) => {
       state.Createthread = action.payload;
     },
@@ -41,6 +83,9 @@ const sendMessageSlice = createSlice({
     setTopOfferUrlSend: (state, action) => {
       state.TopOfferUrlSend = action.payload;
     },
+    setAllOfferUrl: (state, action) => {
+      state.AllOfferUrl = action.payload;
+    },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
@@ -51,6 +96,8 @@ const sendMessageSlice = createSlice({
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
+      console.log("action_history", action);
+
       state.SearchHistorySend = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
@@ -78,7 +125,7 @@ export const createThread = () => (dispatch) => {
       const uuid = thread_res.data.uuid;
       console.log("thread_response", uuid);
       sessionStorage.setItem("chat_thread_uuid", uuid);
-
+      dispatch(setThreadUuid(uuid))
       dispatch(setThreadUUIDsend(uuid));
     })
     .catch((err) => {
@@ -179,7 +226,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(getallFlightId));
-
+          dispatch(setAllOfferUrl(allFlightSearchApi));
+          
           const historyUrl = `/api/v1/search/${getallFlightId}/history`;
           let hasShownInitialMessage = false;
 
@@ -308,8 +356,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 // create thread api call
 export const createThreadAndRedirect = (router) => (dispatch, getState) => {
-  let getuser = getState().base.currentUser;
+  const getuser = getState()?.base?.currentUser?.user;
 
+  console.log("getuser_chat", getuser);
+  
   api
     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((res) => {
@@ -338,8 +388,8 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
 export const deleteAndCreateThread =
   (followUpMessage = null) =>
   (dispatch, getState) => {
-    let getuser = getState().base.currentUser;
-
+    const getuser = getState()?.base?.currentUser?.user;
+    console.log("getuser_0", getuser);
     const uuid = sessionStorage.getItem("chat_thread_uuid");
     if (!uuid) return;
 
@@ -360,8 +410,10 @@ export const deleteAndCreateThread =
               if (newUuid) {
                 dispatch(setThreadUUIDsend(newUuid));
                 sessionStorage.setItem("chat_thread_uuid", newUuid);
-
+                
+                
                 // Dispatch the welcome message (deleteThread message)
+
                 dispatch(
                   setMessage({
                     ai: {
@@ -410,6 +462,42 @@ export const OnlydeleteChatThread =
 
 // for delete thread
 
+export const loadNextFlights = () => (dispatch, getState) => {
+    const getpageNo = getState()?.sendMessage?.appendFlights?.nextPageNo;
+    const getpageNo2 = getState()?.sendMessage;
+    console.log("getpageNo", getpageNo2);
+    
+
+
+  const allOfferUrl = getState().sendMessage?.AllOfferUrl;
+  console.log("allOfferUrl", allOfferUrl);
+
+  const nextPageUrl = `${allOfferUrl}?page=${getpageNo}`;
+  console.log("nextPageUrl", nextPageUrl);
+  // dispatch(setLoading(true));
+
+  // console.log("nextPageUrl", nextPageUrl);
+  api
+    .get(nextPageUrl)
+    .then((res) => {
+      const flightData = res.data;
+      console.log("flightDat", flightData);
+      dispatch(
+        setAppendFlights({
+          ai: flightData,
+          nextPageNo: flightData?.next_page_number,
+        })
+      );
+    })
+    .catch((err) => {
+      console.error("Error loading next flight results", err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
+
+
 export const {
   setLoading,
   setMessage,
@@ -422,5 +510,10 @@ export const {
   setpollingComplete,
   setCreatethread,
   setClearflight,
+  setAllOfferUrl,
+  setNextMessage,
+  setAppendFlights,
+  setnextPageNo,
+  setThreadUuid,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

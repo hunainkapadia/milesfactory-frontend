@@ -122,24 +122,24 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
                   <button
                     className={
                       styles.selectFlightBtn +
-                      " btn btn-primary btn-md sm btn-round"
+                      " btn btn-primary chat-btn btn-round"
                     }
                     onClick={handleRemoveBaggage}
                   >
                     <Box display="flex" gap={1}>
-                      <Box>Add to booking</Box>
+                      <Box>Save</Box>
                     </Box>
                   </button>
                 ) : (
                   <button
                     className={
                       styles.selectFlightBtn +
-                      " btn btn-primary btn-md sm btn-round"
+                      " btn btn-primary chat-btn btn-round"
                     }
                     onClick={handleAddBaggage}
                   >
                     <Box display="flex" gap={1}>
-                      <Box>Add to booking</Box>
+                      <Box>Save</Box>
                     </Box>
                   </button>
                 )}

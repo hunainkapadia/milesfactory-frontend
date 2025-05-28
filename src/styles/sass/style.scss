@@ -1101,7 +1101,7 @@ body {
 .btn-link {
   text-transform: none;
   font-family: $primary-font;
-  font-size: $bfsize - 2;
+  font-size: 12px;
   text-align: center;
   outline: none;
   text-decoration: none;
@@ -1157,6 +1157,11 @@ body {
       color: $basecolor1;
     }
     &:hover {background-color: $white;}
+}
+.btn-link {
+  &:hover {
+    color: #009EA0 !important;
+  }
 }
 .btn {
   text-transform: none;
@@ -1223,6 +1228,11 @@ body {
       border-color: $basecolor2;
       color: $white;
     }
+  }
+  &.chat-btn {padding: 10px 50px 10px;
+    font-size: 12px;
+    font-weight: $bold;
+    height: 40px;
   }
   &.btn-sm {
     font-size: $bfsize-xs;
@@ -2152,10 +2162,11 @@ html {
     width: 100%;
   }
   
+  
   .btn {
     &.btn-md {
       &.sm {padding: 10px 20px;}
-      padding: 14px 50px 10px;
+      padding: 10px 50px 10px;
     }
 
     &.btn-primary {

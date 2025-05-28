@@ -97,6 +97,9 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
 
+  const HandlePopup = () => {
+      dispatch(setisUserPopup(true));
+    };
   const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   
@@ -112,7 +115,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
       >
-        <Container>
+        <Container sx={{position:"relative"}}>
           <Box
             className={styles.Box}
             display={"flex"}
@@ -142,10 +145,16 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
               <Box className={styles.Logo + " cursor-pointer"}>
                 <Box component="a" href="/">
                   <Box className="d-flex align-items-center">
-                    {isSticky || isMessage || IsActive ? (
-                      <img src="/images/logo-color2.svg" />
+                    {isChat && isMobile ? (
+                      <img src="/images/chat-logo.svg" />
                     ) : (
-                      <img src="/images/logo-white2.svg" />
+                      <>
+                        {isSticky || isMessage || IsActive ? (
+                          <img src="/images/logo-color2.svg" />
+                        ) : (
+                          <img src="/images/logo-white2.svg" />
+                        )}
+                      </>
                     )}
                   </Box>
                 </Box>
@@ -190,54 +199,84 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                 ""
               )}
 
-              <Box
-                className=" cursor-pointer"
-                alignItems={"center"}
-                sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-              >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  height={24}
-                  // Optional
-                  className={styles.ChatIcon + " imggroup"}
-                  onClick={"handleThreadDrawer"}
-                >
-                  <img width={24}
-                    src={`${
-                      isSticky | IsActive || isMessage
-                        ? "/images/book-trip-icon.svg"
-                        : "/images/book-trip-icon-white.svg"
-                    }`}
-                    alt="book trip"
-                  />
-                </Box>
-              </Box>
-              <Box
-                className=" cursor-pointer"
-                alignItems={"center"}
-                sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-              >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  height={48}
-                  // Optional
-                  className={styles.ChatIcon + " imggroup"}
-                  onClick={handleThreadDrawer}
-                >
-                  <img
-                    src={`${
-                      isSticky | IsActive || isMessage
-                        ? "/images/chat-history-icon.svg"
-                        : "/images/chat-history-icon-white.svg"
-                    }`}
-                    alt="Chat History Icon"
-                  />
-                </Box>
-              </Box>
+              {isChat && !isMobile ? (
+                <>
+                  <Box
+                    className=" cursor-pointer"
+                    onClick={HandleNewThread}
+                    display={"flex"}
+                    alignItems={"center"}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={48}
+                      className={styles.ChatIcon + " imggroup"}
+                    >
+                      <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                ""
+              )}
+
+              {currentUser ? (
+                <>
+                  <Box
+                    className=" cursor-pointer"
+                    alignItems={"center"}
+                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={24}
+                      // Optional
+                      className={styles.ChatIcon + " imggroup"}
+                      onClick={"handleThreadDrawer"}
+                    >
+                      <img
+                        width={24}
+                        src={`${
+                          isSticky | IsActive || isMessage
+                            ? "/images/book-trip-icon.svg"
+                            : "/images/book-trip-icon-white.svg"
+                        }`}
+                        alt="book trip"
+                      />
+                    </Box>
+                  </Box>
+                  <Box
+                    className=" cursor-pointer"
+                    alignItems={"center"}
+                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height={48}
+                      // Optional
+                      className={styles.ChatIcon + " imggroup"}
+                      onClick={handleThreadDrawer}
+                    >
+                      <img
+                        src={`${
+                          isSticky | IsActive || isMessage
+                            ? "/images/chat-history-icon-black-v2.svg"
+                            : "/images/chat-history-icon-white-v2.svg"
+                        }`}
+                        alt="Chat History Icon"
+                      />
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                ""
+              )}
               {isMessage ? (
                 <></>
               ) : (
@@ -252,7 +291,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                     justifyContent="center"
                     gap={1}
                     component="button"
-                    onClick={currentUser ? HandleBookThread : "HandlePopup"}
+                    onClick={currentUser ? HandleBookThread : HandlePopup}
                   >
                     <Box>Book a trip</Box>
                   </Box>
@@ -277,6 +316,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
         isDrawerOpen={isDrawerOpen}
         toggleDrawer={toggleDrawer}
         MobileNavDrawer={MobileNavDrawer}
+        isChat={isChat}
       />
 
       <UserPopup />

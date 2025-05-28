@@ -36,7 +36,7 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
                 fontSize: { xs: "12px", md: "16px" },
               }}
             >
-              <span>Flight details</span>
+              <span>See details</span>
               <i className="fa-angle-right fa fas"></i>{" "}
             </Box>
           </Box>

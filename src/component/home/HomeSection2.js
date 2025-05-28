@@ -9,7 +9,7 @@ const HomeSection2 = (props) => {
       position={"relative"}
       id={props.id}
       className={styles.HomeBanner}
-      style={{ backgroundImage: "url('/images/section-2-bg.png')" }}
+      style={{ backgroundImage: "url('/images/mylz-diff-bg.png')" }}
     >
       <section>
         <Container>
@@ -28,21 +28,24 @@ const HomeSection2 = (props) => {
                   sx={{
                     width: {
                       xs: "100%", // Extra small screens
-                      sm: "47%", // Small screens
-                      lg: "47%", // Large screens
+                      sm: "68.7%", // Small screenss
+                      lg: "68.7%", // Large screens
                     },
                   }}
                 >
-                  <h2 className="white align-center">Plan less. Go further.</h2>
+                  <h2 className="white align-center">
+                    Plan, remix, and share.
+                  </h2>
                   <Typography
                     className="align-center white"
                     sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                   >
-                    No more endless tabs, hidden fees, or confusing options.
-                    Just tell Mylz your trip idea and get the smartest routes
-                    instantly, at direct prices.
+                    Mylz trips aren’t static — they grow as they’re shared,
+                    evolving with every remix. What starts as one traveller’s
+                    journey quickly becomes inspiration for the next, creating a
+                    living loop of discovery and action.
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     className="align-center white"
                     sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                   >
@@ -57,7 +60,7 @@ const HomeSection2 = (props) => {
                       sx={{ display: { xs: "block", sm: "none" } }}
                     />
                     idea and get the best routes at direct prices.
-                  </Typography>
+                  </Typography> */}
                 </Box>
               </Box>
             </Box>
@@ -69,15 +72,26 @@ const HomeSection2 = (props) => {
                 >
                   <Box>
                     <h5 className="white mb-5" color="white" variant="h5">
-                      Chat your trip
+                      Explore real trips
                     </h5>
-                    <Typography className="f14" color="white" sx={{display:{lg:"block", md:"block", xs:"none"}}}>
-                      Forget filters and forms. Type your plan like “weekend in
-                      Porto under £200” and Mylz gets to work. Mylz understands
-                      your goals.
+                    <Typography
+                      className="f14"
+                      color="white"
+                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    >
+                      See what others are booking – from weekend escapes to
+                      multi-city travels.
                     </Typography>
-                    <Typography className="f14" color="white" sx={{display:{lg:"none", md:"none", xs:"block"}}}>
-                      Forget filters and forms. Type your plan like “weekend in Porto”  and Mylz gets to work.
+                    <Typography
+                      className="f14"
+                      color="white"
+                      sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                    >
+                      See what others are booking – from<Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />weekend escapes to
+                      multi-city travels.
                     </Typography>
                   </Box>
                 </Card>
@@ -90,15 +104,26 @@ const HomeSection2 = (props) => {
                 >
                   <Box>
                     <h5 className="white mb-5" color="white" variant="h5">
-                      Get smart options
+                      Remix with one tap
                     </h5>
-                    <Typography className="f14" color="white" sx={{display:{lg:"block", md:"block", xs:"none"}}}>
-                      Mylz checks every route across flights, trains, and more –
-                      comparing time, price, and flexibility to plan your trip
-                      in seconds.
+                    <Typography
+                      className="f14"
+                      color="white"
+                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    >
+                      Found a trip you like? Tweak the dates, change the city –
+                      and it's now yours.
                     </Typography>
-                    <Typography className="f14" color="white" sx={{display:{lg:"none", md:"none", xs:"block"}}}>
-                      Mylz compares flights, trains, and more  to build the best travel route in seconds. 
+                    <Typography
+                      className="f14"
+                      color="white"
+                      sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                    >
+                      Found a trip you like? Tweak the dates,<Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />change the city –
+                      and it's now yours.
                     </Typography>
                   </Box>
                 </Card>
@@ -111,15 +136,25 @@ const HomeSection2 = (props) => {
                 >
                   <Box>
                     <h5 className="white mb-5" color="white" variant="h5">
-                      Book it in one tap
+                      Share anywhere
                     </h5>
-                    <Typography className="f14" color="white" sx={{display:{lg:"block", md:"block", xs:"none"}}}>
-                      See something you like? Book instantly. Always at the real
-                      price with no markups or redirects. No unnecessary
-                      upsells.
+                    <Typography
+                      className="f14"
+                      color="white"
+                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    >
+                      Instantly and easily share your trip page with friends,
+                      group chats, or social media.
                     </Typography>
-                    <Typography className="f14" color="white" sx={{display:{lg:"none", md:"none", xs:"block"}}}>
-                      See something you like? Book instantly at  real prices with no markups or redirects. 
+                    <Typography
+                      className="f14"
+                      color="white"
+                      sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                    >
+                      Instantly and easily share your trip page<Box
+                      component="br"
+                      sx={{ display: { xs: "block", sm: "none" } }}
+                    />with friends, group chats, or social media. 
                     </Typography>
                   </Box>
                 </Card>
@@ -131,21 +166,20 @@ const HomeSection2 = (props) => {
               spacing={{ xs: 2, md: 4 }}
             >
               <Link
-                href={"#HomeSection3"}
+                href={"#PoweredByglobal"}
                 className={styles.footerBtn + " white text-decoration-none"}
               >
                 <Typography
                   className="align-center white"
                   sx={{ display: { xs: "none", lg: "block", md: "block" } }}
                 >
-                  ✅ No markups. No redirects. Book at the real price in
-                  seconds.
+                  🌍 Get inspired by real trips. Remix what you like, skip the planning.
                 </Typography>
                 <Typography
                   className="align-center white"
                   sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                 >
-                  ✅ No markups. Real price in seconds.
+                  🌍 Get inspired. Skip the planning.
                 </Typography>
               </Link>
             </Box>
@@ -154,8 +188,8 @@ const HomeSection2 = (props) => {
       </section>
       <Footer
         forDark
-        LearnMore={"Real trips. Reals savings."}
-        id={"HomeSection3"}
+        LearnMore={"Trusted by our global travel partners"}
+        id={"PoweredByglobal"}
       />
     </Box>
   );

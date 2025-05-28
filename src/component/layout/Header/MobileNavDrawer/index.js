@@ -7,10 +7,12 @@ import Navbar from "../Navbar";
 import HeaderUser from "../HeaderUser";
 import { setFeedbackDialog, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "@/src/store/slices/Auth/SignupSlice";
+import { logoutUser, setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
 import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
+import { createThreadAndRedirect, deleteAndCreateThread } from "@/src/store/slices/sendMessageSlice";
+import { useRouter } from "next/router";
 
-const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
+const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
   const HandleBookTrip = () => {
     // Your booking logic here
     console.log("Book a trip clicked");
@@ -28,6 +30,18 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
     dispatch(setFeedbackDialog(true));
   };
 
+  const HandlePopup = () => {
+    dispatch(setisUserPopup(true));
+  };
+    const router = useRouter();
+
+    const HandleBookThread = () => {
+      dispatch(createThreadAndRedirect(router));
+    };
+    const HandleNewThread = () => {
+      toggleDrawer(); // Close the drawer before creating a new thread
+      dispatch(deleteAndCreateThread());
+    };
   return (
     <>
       {/* Trigger button (optional) */}
@@ -77,6 +91,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
               <HeaderUser formobileDrawer={"formobileDrawer"} />
 
               {/*  */}
+
               {currentUser ? (
                 <>
                   <Box
@@ -144,6 +159,49 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                       Search history
                     </Typography>
                   </Box>
+                  {/* new search */}
+                </>
+              ) : (
+                <></>
+              )}
+              {isChat ? (
+                <>
+                  <Box
+                    className={`${styles.Login} cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                    }}
+                    alignItems="center"
+                    gap={2}
+                    onClick={HandleNewThread}
+                  >
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    >
+                      <img width={20} src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                    </Box>
+                    <Typography
+                      className="bold f16"
+                      sx={{
+                        display: {
+                          lg: "block",
+                          md: "block",
+                        },
+                      }}
+                    >
+                      New search
+                    </Typography>
+                  </Box>
+                </>
+              ) : (
+                ""
+              )}
+
+              {currentUser ? (
+                <>
                   <Box
                     className={`${styles.Login} cursor-pointer`}
                     sx={{
@@ -176,25 +234,29 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer }) => {
                   </Box>
                 </>
               ) : (
-                <></>
+                ""
               )}
             </Box>
-
             <Box py={3}>
               <Divider />
             </Box>
-
-            <Box display="flex">
-              <Box
-                onClick={HandleBookTrip}
-                className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
-              >
-                Book a trip
-              </Box>
-            </Box>
-            <Box py={3}>
-              <Divider />
-            </Box>
+            {!isChat ? (
+              <>
+                <Box display="flex">
+                  <Box
+                    onClick={currentUser ? HandleBookThread : HandlePopup}
+                    className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
+                  >
+                    Book a trip
+                  </Box>
+                </Box>
+                <Box py={3}>
+                  <Divider />
+                </Box>
+              </>
+            ) : (
+              ""
+            )}
             <Box
               component={"section"}
               sx={{

@@ -6,8 +6,6 @@ import Image from "next/image";
 
 const YourTripSidebar = ({isMessage}) => {
    const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
-   console.log("getselectedFlight", getselectedFlight);
-   
    
    const paymentSuccess = useSelector(
      (state) => state.payment.PaymentFormSuccess

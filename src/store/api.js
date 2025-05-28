@@ -33,25 +33,19 @@ api.interceptors.request.use(async (config) => {
   }
 
   if (accessToken && isTokenExpired(accessToken)) {
-    console.log("Attempting to refresh token...");
+    console.log("Access token expired. Refreshing...");
 
     if (!isRefreshing) {
       isRefreshing = true;
-
       try {
-        console.log("refreshToken_0", refreshToken);
         const response = await axios.post(`${API_BASE_URL}/api/v1/refresh/`, {
-          
           refresh: refreshToken,
         });
-
         const newAccessToken = response.data.access;
         const newRefreshToken = response.data.refresh;
-        console.log("tokens_0", newRefreshToken, newRefreshToken);
-        
 
         Cookies.set("access_token", newAccessToken);
-        Cookies.set("refresh_token", newRefreshToken);
+        Cookies.set("refresh_token", newRefreshToken, { expires: 7 });
 
         isRefreshing = false;
         processQueue(null, newAccessToken);
@@ -59,8 +53,7 @@ api.interceptors.request.use(async (config) => {
         config.headers.Authorization = `Bearer ${newAccessToken}`;
         return config;
       } catch (error) {
-        console.log("refresh_error", error?.response?.data?.code);
-        
+        console.error("Token refresh failed:", error);
         isRefreshing = false;
         processQueue(error, null);
         return Promise.reject(error);
@@ -80,6 +73,7 @@ api.interceptors.request.use(async (config) => {
 
   return config;
 });
+
 
 api.interceptors.response.use(
   (response) => {
