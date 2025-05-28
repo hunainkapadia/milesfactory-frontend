@@ -48,6 +48,16 @@ const LoginPopup = ({}) => {
   const handleLoginPopupClose = () => {
     dispatch(setLoginPopup(false)); // for close login popup
   };
+  useEffect(() => {
+  if (isuserLogin) {
+    // Clear the form fields
+    setEmail("");
+    setPassword("");
+    // Optional: close the login popup
+    dispatch(setLoginPopup(false));
+  }
+}, [isuserLogin]);
+  // for button enable when all fields fill
   const isFormValid =
   email &&
   password

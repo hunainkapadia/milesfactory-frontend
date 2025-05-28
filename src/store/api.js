@@ -61,7 +61,11 @@ api.interceptors.request.use(async (config) => {
         config.headers.Authorization = `Bearer ${newAccessToken}`;
         return config;
       } catch (error) {
-        console.error("Token refresh failed:", error);
+        console.error("Token refresh failed:", error?.status);
+        if (error?.status === 401) {
+          
+        }
+        
         isRefreshing = false;
         processQueue(error, null);
         return Promise.reject(error);

@@ -11,6 +11,7 @@ const initialState = {
   LoginPopup: false,
   LoginCloseDrawer: false,
   IsUser: null,
+  LogoutUser: null,
 };
 
 const loginSlice = createSlice({
@@ -31,12 +32,9 @@ const loginSlice = createSlice({
     setLoginError: (state, action) => {
       state.LoginError = action.payload;
     },
-    logoutUser: (state) => {
+    setLogoutUser: (state) => {
       state.loginUser = null; //
-      Cookies.remove("set-user");
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
-
+      state.setLogoutUser = state.action;
     },
     setisLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -172,12 +170,30 @@ export const googleLoginUser = (code) => (dispatch) => {
     });
 };
 
+export const Logout = () => (dispatch) => {
+  const refreshToken = Cookies.get("refresh_token"); // Correct method
+  console.log("refreshToken", refreshToken);
+
+  api.post("/api/v1/logout/", { refresh: refreshToken })
+    .then((res) => {
+      console.log("logout_res", res);
+      dispatch(setLogoutUser(res.data));
+
+      Cookies.remove("set-user");
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+    })
+    .catch((err) => {
+      console.error("Logout failed:", err.response?.data || err.message);
+    });
+};
+
 export const {
   setLoginPopup,
   setLoginCloseDrawer,
   LogincloseDrawer,
   setLoginUser,
-  logoutUser,
+  setLogoutUser,
   setLoginError,
   setisLoading,
   setIsUser,

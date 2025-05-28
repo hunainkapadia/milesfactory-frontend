@@ -10,11 +10,10 @@ import {
 } from "@mui/material";
 import {
   setIsSignupUser,
-  logoutUser,
   setisUserPopup,
 } from "@/src/store/slices/Auth/SignupSlice"; // adjust import paths based on your store structure
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-import { setIsUser, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
+import { Logout, setIsUser, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
 import { setCurrentUser } from "@/src/store/slices/Base/baseSlice";
 // import isMessage, isSticky, IsActive, HandlePopup as needed
 
@@ -94,7 +93,7 @@ const HeaderUser = ({
   }, [currentUser, dispatch]);
 
   const logoutHandle = () => {
-    dispatch(logoutUser());
+    dispatch(Logout())
   };
 
   const HandlePopup = () => {
