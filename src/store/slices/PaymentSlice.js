@@ -80,7 +80,14 @@ export const fetchOrderDetails = (orderId) => (dispatch) => {
             })
           );
           setIsloading(false)
-        } 
+        } else {
+          dispatch(
+            setPaymentStatus({
+              is_complete: "yes",
+              status: "payment_failed",
+            })
+          );
+        }
       })
       .catch((error) => {
         console.error("Failed to fetch order details:", error);

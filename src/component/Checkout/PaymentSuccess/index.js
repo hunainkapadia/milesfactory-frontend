@@ -20,7 +20,7 @@ const PaymentSuccess = () => {
   const [successReview, setsuccessReview] = useState(false);
   // stroll
   const PaymentData = useSelector((state) => state?.payment?.PaymentData);
-  console.log("order detail", PaymentData);
+  console.log("order detail", PaymentData?.duffel_order?.payment_status);
 
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
 
@@ -53,16 +53,12 @@ const PaymentSuccess = () => {
     // Do something with rating + reason (like dispatch or API)
   };
   const PaymentStatus = useSelector((state)=> state?.payment?.paymentStatus);
-  console.log("PaymentStatus_0", PaymentStatus?.is_complete);
+  console.log("PaymentStatus_0", PaymentStatus);
   
   return (
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}
       <Box mb={3}>
-        <Box className=" imggroup" mb={2}>
-          <img src="/images/success-check.svg" />
-        </Box>
-
         {/* {console.log(
           "PaymentStatus",
           PaymentData?.duffel_order?.payment_status
@@ -80,19 +76,19 @@ const PaymentSuccess = () => {
               <Typography>Please wait, confirming your order</Typography>
             </>
           ) : PaymentStatus?.is_complete === "yes" &&
-            !PaymentData?.duffel_order?.payment_status ? (
+            PaymentStatus?.status === "payment_failed" ? (
             <>
               <Typography>
                 We have received your payment but there is a problem with the
                 order. We will check and get back to you
               </Typography>
             </>
-          ) : (
-            ""
-          )}
-
-          {PaymentData?.duffel_order?.payment_status ? (
+          ) : PaymentStatus?.is_complete === "yes" &&
+            PaymentData?.duffel_order?.payment_status ? (
             <>
+              <Box className=" imggroup" mb={2}>
+                <img src="/images/success-check.svg" />
+              </Box>
               <h4 className="regular">
                 Congratulations, you booked your flight!
               </h4>
@@ -100,6 +96,41 @@ const PaymentSuccess = () => {
                 Your Mylz order ID is {PaymentData?.order?.id} with booking
                 reference number {PaymentData?.duffel_order?.booking_reference}
               </Typography>
+              <Box mb={3}>
+                <Typography>
+                  <Typography>
+                    You and the other passengers have received a booking
+                    confirmation. Install the Mylz app to monitor your flight
+                    and any potential disruption.
+                  </Typography>
+                </Typography>
+                <Typography variant="body1">
+                  How was your booking experience?
+                </Typography>
+                <Typography variant="body1">
+                  Your answer is anonymous. We use it to improve our product.
+                </Typography>
+                {/* Interactive Rating */}
+                <Rating
+                  name="feedback-rating"
+                  value={rating}
+                  onChange={(event, newValue) => {
+                    setRating(newValue);
+                  }}
+                  sx={{
+                    mt: 2,
+                    fontSize: "30px",
+                    "& .MuiRating-iconFilled": {
+                      color: "#00C4CC", // selected star color
+                    },
+                    "& .MuiRating-iconHover": {
+                      color: "#00C4CC", // hover color
+                    },
+                  }}
+                />
+
+                {/* Show this only after a star is clicked */}
+              </Box>
             </>
           ) : (
             ""
@@ -108,41 +139,6 @@ const PaymentSuccess = () => {
       </Box>
 
       {/*  Static Rating */}
-      <Box mb={3}>
-        <Typography>
-          <Typography>
-            You and the other passengers have received a booking confirmation.
-            Install the Mylz app to monitor your flight and any potential
-            disruption.
-          </Typography>
-        </Typography>
-        <Typography variant="body1">
-          How was your booking experience?
-        </Typography>
-        <Typography variant="body1">
-          Your answer is anonymous. We use it to improve our product.
-        </Typography>
-        {/* Interactive Rating */}
-        <Rating
-          name="feedback-rating"
-          value={rating}
-          onChange={(event, newValue) => {
-            setRating(newValue);
-          }}
-          sx={{
-            mt: 2,
-            fontSize: "30px",
-            "& .MuiRating-iconFilled": {
-              color: "#00C4CC", // selected star color
-            },
-            "& .MuiRating-iconHover": {
-              color: "#00C4CC", // hover color
-            },
-          }}
-        />
-
-        {/* Show this only after a star is clicked */}
-      </Box>
       {console.log("successReview22", rating)}
 
       {rating !== null && rating <= 4 && !successReview ? (
