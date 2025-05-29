@@ -172,7 +172,11 @@
 
  
  
+ .Dropdown.formobileDrawer {
+         
+   }
  @include for-mobile-large-screen () {
+   
    .FooterForDark {
       z-index: 4;
    }
@@ -187,6 +191,9 @@
     }
    
     .Header {
+      .Dropdown.forHader .Login {
+        flex-direction: row;
+      }
       .Box {
          height: 54px;
       }
@@ -197,13 +204,16 @@
          }
       }
       &.isMessage {
+         .leftCol .Logo {
+            width: 94px;
+         }
          .HeaderRightCol {gap: 0 24px;}
          .userName {
             display: none;
          }
       }
       .leftCol .Logo {
-         // width: 53px;
+         width: 53px;
       }
       .HeaderRightCol {gap: 0;
          .ChatIcons {gap: 0 24px;

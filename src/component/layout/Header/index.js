@@ -190,7 +190,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
               {/* show for home desk and mobiel chat for dektop only  */}
               {isHome || (isChat && !isMobile) ? (
                 <HeaderUser
-                  forhHader={"forhHader"}
+                  forHader={"forHader"}
                   isSticky={isSticky}
                   IsActive={IsActive}
                   isMessage={isMessage}

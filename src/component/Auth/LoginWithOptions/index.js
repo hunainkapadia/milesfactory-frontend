@@ -20,7 +20,13 @@ const LoginWithOptions = ({ options }) => {
 
   return (
     <>
-      <Box className={styles.SignupOptions}>
+      <Box
+        className={styles.SignupOptions}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        flexDirection={"column"}
+      >
         <Box
           className={
             styles.SignupOption +
