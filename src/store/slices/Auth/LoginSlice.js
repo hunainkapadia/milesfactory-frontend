@@ -182,6 +182,8 @@ export const Logout = () => (dispatch) => {
       Cookies.remove("set-user");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
+      window.location.reload();
+
     })
     .catch((err) => {
       console.error("Logout failed:", err.response?.data || err.message);

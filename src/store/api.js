@@ -53,8 +53,7 @@ api.interceptors.request.use(async (config) => {
         Cookies.set("access_token", newAccessToken);
 
         // Only update refresh token if a new one is returned and the current one is close to expiring
-        if (newRefreshToken && isTokenExpired(refreshToken, 24 * 60 * 60)) {
-          // Assuming isTokenExpired can take a second parameter to check for near expiry
+        if (newRefreshToken) {
           Cookies.set("refresh_token", newRefreshToken, { expires: 7 });
         }
 
