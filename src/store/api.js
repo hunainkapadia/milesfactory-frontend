@@ -61,17 +61,30 @@ api.interceptors.request.use(async (config) => {
         isRefreshing = false;
         processQueue(null, newAccessToken);
 
-        config.headers.Authorization = `Bearer ${newAccessToken}`;
+        config.headers.Authorization = `Bearer${newAccessToken}`;
         return config;
       } catch (error) {
         console.error("Token refresh failed:", error?.status);
-        if (error?.status === 401) {
-          
-        //   console.log("error_token", error);
-          const refreshToken = Cookies.get("refresh_token"); // Correct method
-          console.log("refreshToken", refreshToken);
-          
-        }
+        if (error?.response?.status === 401) {
+  try {
+    const refreshToken = Cookies.get("refresh_token");
+    await axios.post(`${API_BASE_URL}/api/v1/logout/`, { refresh: refreshToken }, { withCredentials: true });
+
+    // Clear cookies
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+
+    // Dispatch logout action
+    store.dispatch(Logout());
+
+    // Optionally redirect (uncomment if using Next.js router)
+    // window.location.href = "/login";
+  } catch (logoutError) {
+    console.error("Logout API call failed", logoutError);
+  }
+}
+
+
         
         isRefreshing = false;
         processQueue(error, null);
