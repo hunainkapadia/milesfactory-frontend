@@ -11,15 +11,15 @@ const Section5App = (props) => {
             className={`${styles.AppSectionContainer} + ""`}
             position={"relative"}
           >
-            <Grid container spacing={3}>
+            <Grid container >
               <Grid item xs={12} md>
               <Box className={styles.AppSectionRight}>
                 <Box display={"none"}
                   sx={{
                     paddingTop: {
                       xs: 0,
-                      md: 7,
-                      lg: 7,
+                      md: 0,
+                      lg: 0,
                     },
                     textAlign: {
                       xs: "center",
@@ -36,7 +36,7 @@ const Section5App = (props) => {
                   }}
                   display={"flex"}
                 >
-                  <Box mb={3}>
+                  <Box >
                     <h1 className="basecolor-dark h1-lg mb-0">
                       Travel with Mylz!
                     </h1>
@@ -95,7 +95,7 @@ const Section5App = (props) => {
               >
                 <Box
                   className={styles.MobileDevice}
-                  sx={{ mt: { xs: 4, md: 0, lg: 0 } }}
+                  
                 >
                   <img src="/images/mobile-device-v2.svg" />
                 </Box>
