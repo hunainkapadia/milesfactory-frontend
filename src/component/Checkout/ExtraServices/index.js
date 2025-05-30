@@ -43,7 +43,13 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
               {getServicesdata?.family_name || ""}
             </Typography>
             <Typography textTransform="capitalize" className="f12 gray">
-              {getServicesdata?.type}
+              {getServicesdata?.type === "infant_without_seat"
+                  ? "Infants"
+                  : getServicesdata?.type === "child"
+                  ? "Child"
+                  : getServicesdata?.type === "adult"
+                  ? "Adult"
+                  : getServicesdata?.type}
             </Typography>
           </Box>
         </Box>

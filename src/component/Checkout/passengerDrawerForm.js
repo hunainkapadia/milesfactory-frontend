@@ -62,6 +62,65 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.captainSuccess
   );
   const twelveYearsAgo = dayjs().subtract(12, "year");
+  
+  
+
+  // get passenger type for validation
+  const PassengerType = useSelector((state)=> state.passengerDrawer.PassengerType)
+  console.log("get_PassengerType", PassengerType);
+
+  // Define ranges
+  const today = dayjs();
+
+  // Ranges
+  const maxAdultDate = today.subtract(12, "year"); // Adult: must be before this
+  const minChildDate = today.subtract(12, "year").add(1, "day");
+  const maxChildDate = today.subtract(2, "year");
+  const minInfantDate = today.subtract(2, "year").add(1, "day");
+
+  // Dynamic min/max based on passenger type
+  let minDate = dayjs("1900-01-01");
+  let maxDate = today;
+
+  if (PassengerType === "adult") {
+    maxDate = maxAdultDate;
+  } else if (PassengerType === "child") {
+    minDate = minChildDate;
+    maxDate = maxChildDate;
+  } else if (PassengerType === "infant_without_seat") {
+    minDate = minInfantDate;
+    maxDate = today;
+  }
+
+  // Validate age and dispatch error
+  useEffect(() => {
+    if (born_on && PassengerType) {
+      const age = dayjs().diff(dayjs(born_on), "year");
+      console.log("pass_age", age);
+
+      if (PassengerType === "adult" && age < 12) {
+        dispatch(setPassengerFormError({ born_on: "Adult must be at least 12 years old" }));
+      } else if (PassengerType === "child" && (age < 2 || age >= 12)) {
+        dispatch(setPassengerFormError({ born_on: "Child passenger must be less than 12 and at least 2 years old" }));
+      } else if (PassengerType === "infant_without_seat" && age >= 2) {
+        dispatch(setPassengerFormError({ born_on: "Baby passenger must be less than 2 years old" }));
+      } else {
+        dispatch(setPassengerFormError({ born_on: "" })); // clear error
+      }
+    }
+  }, [born_on, PassengerType, dispatch]);
+
+  // Optional: Clear invalid date when switching type
+  useEffect(() => {
+    if (!born_on) return;
+
+    const dob = dayjs(born_on);
+    if (dob.isBefore(minDate) || dob.isAfter(maxDate)) {
+      setborn_on(""); // reset if date is out of range
+    }
+  }, [PassengerType]);
+
+
 
   useEffect(() => {
     dispatch(NationalitData());
@@ -292,20 +351,22 @@ const PassengerDrawerForm = () => {
                     Date of Birth
                   </FormLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      className="formControl Calendar"
-                      value={born_on ? dayjs(born_on) : null}
-                      onChange={(newValue) =>
-                        setborn_on(
-                          newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-                        )
-                      }
-                      maxDate={twelveYearsAgo}
-                      format="DD/MM/YYYY"
-                      openTo="year"
-                      views={["year", "month", "day"]}
-                    />
-                  </LocalizationProvider>
+  <DatePicker
+    className="formControl Calendar"
+    value={born_on ? dayjs(born_on) : null}
+    onChange={(newValue) =>
+      setborn_on(
+        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+      )
+    }
+    minDate={minDate}
+    maxDate={maxDate}
+    format="DD/MM/YYYY"
+    openTo="year"
+    views={["year", "month", "day"]}
+  />
+</LocalizationProvider>
+
                   <Typography className="error" color="red">
                     {formError?.born_on || bornOnError?.born_on}
                   </Typography>

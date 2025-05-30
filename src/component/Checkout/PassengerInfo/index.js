@@ -9,6 +9,7 @@ import {
   setCaptainSuccess,
   setFormSuccess,
   setOpenPassengerDrawer,
+  setPassengerType,
   setPassengerUUID,
   setPassengerUUIDfill,
 } from "@/src/store/slices/passengerDrawerSlice";
@@ -27,12 +28,14 @@ const PassengerInfo = ({ getdata }) => {
     setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
   };
 
-  const handlePassengerClick = (uuid, isFilled) => {
+  const handlePassengerClick = (uuid, isFilled, type) => {
     console.log("uuid111", isFilled);
+    console.log("pass_type", uuid, isFilled, type);
     
     if (!isFilled) {
       
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
+      dispatch(setPassengerType(type))
       dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
       dispatch(setOpenPassengerDrawer()); // open drawer
     }
@@ -94,7 +97,7 @@ const PassengerInfo = ({ getdata }) => {
                   isMainPassenger={index === 0}
                   isFilled={isFilled}
                   onClickCard={() =>
-                    handlePassengerClick(passenger.uuid, isFilled)
+                    handlePassengerClick(passenger.uuid, isFilled, passenger.type)
                   }
                 />
               </Grid>

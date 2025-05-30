@@ -22,8 +22,12 @@ const passengerDrawerSlice = createSlice({
     OpenPassengerDrawer: false,
     PassengerFormError: null,
     isFormLoading: false,
+    PassengerType: null
   },
   reducers: {
+    setPassengerType: (state, action)=> {
+      state.PassengerType = action.payload
+    },
     setCaptainSuccess: (state, action) => {
       state.captainSuccess = action.payload;
     },
@@ -100,6 +104,9 @@ export const PassengerForm = () => (dispatch, getState) => {
   const offerIdGet = states?.getMessages.topOfferUrl;
   const offerIdSend = states?.sendMessage?.TopOfferUrlSend;
   const finalOfferId = offerIdSend || offerIdGet;
+  const Passtype = getState();
+  console.log("Passtype", Passtype);
+  
 
   if (!finalOfferId) return;
 
@@ -200,6 +207,8 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
+  console.log("passengerUuid", passengerUuid);
+  
 
   let captainSuccess = false;
   let formSuccess = false;
@@ -278,6 +287,7 @@ export const {
   setIsFormLoading,
   setCaptainSuccess,
   setFormSuccess,
+  setPassengerType
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;
