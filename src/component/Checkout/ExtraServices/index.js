@@ -44,12 +44,12 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
             </Typography>
             <Typography textTransform="capitalize" className="f12 gray">
               {getServicesdata?.type === "infant_without_seat"
-                  ? "Infants"
-                  : getServicesdata?.type === "child"
-                  ? "Child"
-                  : getServicesdata?.type === "adult"
-                  ? "Adult"
-                  : getServicesdata?.type}
+                ? "Infants"
+                : getServicesdata?.type === "child"
+                ? "Child"
+                : getServicesdata?.type === "adult"
+                ? "Adult"
+                : getServicesdata?.type}
             </Typography>
           </Box>
         </Box>
@@ -91,11 +91,17 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                 (baggage) => baggage.direction === "Return baggage"
               );
 
-              const renderBaggageSection = (title, baggages, directionIndex) => {
+              const renderBaggageSection = (
+                title,
+                baggages,
+                directionIndex
+              ) => {
                 const slice = selectedFlight?.slices?.[directionIndex];
                 const segmentIds = slice?.segments?.map((s) => s.id) || [];
 
-                {/* Check available services from segment IDs */}
+                {
+                  /* Check available services from segment IDs */
+                }
                 const matchingServices =
                   singleflight?.available_services?.filter((service) =>
                     service.segment_ids?.some((id) => segmentIds.includes(id))
@@ -115,10 +121,13 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                       >
                         {title}
                       </Typography>
-                      {matchingServices.length > 0 && (
+                      {getServicesdata?.type === "infant_without_seat" &&
+                      matchingServices.length > 0 ? (
+                        <></>
+                      ) : (
                         <Box
                           className="btn-link basecolor1"
-                          onClick={() => handleBaggageDrawer(segmentIds)} // Pass the segment IDs here
+                          onClick={() => handleBaggageDrawer(segmentIds)}
                         >
                           <Box textAlign="right" className="basecolor1" gap={2}>
                             <div>Add</div>
@@ -152,50 +161,56 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                           Handbag/laptop bag
                         </Typography>
                       </Box>
-
-                      {baggages.map((baggage, index) => (
-                        <Box
-                          key={`${baggage.type}-${baggage.formatted_type}-${index}`}
-                          className={styles.BaggageCol}
-                          width="100%"
-                          display="flex"
-                          gap={1}
-                          flexDirection="column"
-                        >
-                          <Box display="flex" gap={1} alignItems="center">
-                            <Box>
-                              <img
-                                src={
-                                  baggage.type === "personal"
-                                    ? "/images/checkout/personal-items.svg"
-                                    : baggage.type === "carry_on"
-                                    ? "/images/checkout/carryon-bagg.svg"
-                                    : baggage.type === "checked"
-                                    ? "/images/checkout/checked-bagg.svg"
-                                    : "/images/checkout/default-bagg.svg"
-                                }
-                                alt={baggage.type}
-                              />
-                            </Box>
-                            <Typography
-                              className={styles.baggageTotal + " f14 gray"}
+                      {/* only show infant */}
+                      {getServicesdata?.type === "infant_without_seat" ? (
+                        ""
+                      ) : (
+                        <>
+                          {baggages.map((baggage, index) => (
+                            <Box
+                              key={`${baggage.type}-${baggage.formatted_type}-${index}`}
+                              className={styles.BaggageCol}
+                              width="100%"
+                              display="flex"
+                              gap={1}
+                              flexDirection="column"
                             >
-                              {baggage.quantity} x
-                            </Typography>
-                          </Box>
-                          <Typography
-                            className={styles.baggageLabel + " f11 gray"}
-                          >
-                            {baggage.type === "personal"
-                              ? "Handbag/laptop bag"
-                              : baggage.type === "carry_on"
-                              ? "Carry-on bags"
-                              : baggage.type === "checked"
-                              ? "Checked bags"
-                              : "Other bags"}
-                          </Typography>
-                        </Box>
-                      ))}
+                              <Box display="flex" gap={1} alignItems="center">
+                                <Box>
+                                  <img
+                                    src={
+                                      baggage.type === "personal"
+                                        ? "/images/checkout/personal-items.svg"
+                                        : baggage.type === "carry_on"
+                                        ? "/images/checkout/carryon-bagg.svg"
+                                        : baggage.type === "checked"
+                                        ? "/images/checkout/checked-bagg.svg"
+                                        : "/images/checkout/default-bagg.svg"
+                                    }
+                                    alt={baggage.type}
+                                  />
+                                </Box>
+                                <Typography
+                                  className={styles.baggageTotal + " f14 gray"}
+                                >
+                                  {baggage.quantity} x
+                                </Typography>
+                              </Box>
+                              <Typography
+                                className={styles.baggageLabel + " f11 gray"}
+                              >
+                                {baggage.type === "personal"
+                                  ? "Handbag/laptop bag"
+                                  : baggage.type === "carry_on"
+                                  ? "Carry-on bags"
+                                  : baggage.type === "checked"
+                                  ? "Checked bags"
+                                  : "Other bags"}
+                              </Typography>
+                            </Box>
+                          ))}
+                        </>
+                      )}
                     </Box>
                   </Box>
                 );
@@ -204,7 +219,11 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
               return (
                 <Box>
                   {outboundBaggages.length > 0 &&
-                    renderBaggageSection("Outbound baggage", outboundBaggages, 0)}
+                    renderBaggageSection(
+                      "Outbound baggage",
+                      outboundBaggages,
+                      0
+                    )}
                   {returnBaggages.length > 0 &&
                     renderBaggageSection("Return baggage", returnBaggages, 1)}
                 </Box>
