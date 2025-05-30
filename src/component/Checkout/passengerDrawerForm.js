@@ -199,7 +199,9 @@ const PassengerDrawerForm = () => {
       region,
     };
     dispatch(PassengerFormSubmit(params));
+    console.log("params_age", params);
   };
+  
 
   const passportError = formError?.non_field_errors?.find(
     (error) => error?.passport_expire_date
