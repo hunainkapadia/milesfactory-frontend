@@ -76,11 +76,8 @@ api.interceptors.request.use(async (config) => {
             const storedRefreshToken = Cookies.get("refresh_token");
 
             // Optionally call logout API
-            await axios.post(
-              `${API_BASE_URL}/api/v1/logout/`,
-              { refresh: storedRefreshToken },
-              { withCredentials: true }
-            );
+            
+            // logout
           } catch (logoutError) {
             console.error("Logout API call failed", logoutError);
           }
