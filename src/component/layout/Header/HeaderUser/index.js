@@ -23,7 +23,7 @@ const HeaderUser = ({
   isMessage,
   MobileNavDrawer,
   formobileDrawer,
-  forhHader,
+  forHader,
 }) => {
   const dispatch = useDispatch();
 
@@ -107,7 +107,12 @@ const HeaderUser = ({
     <>
       {currentUser?.user ? (
         <>
-          <Box className={styles.Dropdown} position={"relative"}>
+          <Box
+            className={`${styles.Dropdown} ${
+              formobileDrawer ? styles.formobileDrawer : styles.forHader
+            }`}
+            position={"relative"}
+          >
             <Box
               className={styles.Login}
               display="flex"
@@ -131,7 +136,7 @@ const HeaderUser = ({
               }}
               gap={2}
             >
-              <Typography className={`${styles.userName} f14 bold`}>
+              <Typography className={`${styles.userName} bold`}>
                 {!isMessage || !isSticky || !IsActive ? (
                   <>
                     {currentUser?.user?.first_name.charAt(0).toUpperCase()}.
@@ -165,7 +170,7 @@ const HeaderUser = ({
                 </Avatar>
               </Box>
             </Box>
-            {forhHader ? (
+            {forHader ? (
               <Box className={styles.DropdownItems}>
                 <Box
                   display="flex"
@@ -209,15 +214,14 @@ const HeaderUser = ({
               <Box
                 className={`${styles.Login} cursor-pointer`}
                 sx={{
-  display: { lg: "flex", md: "flex", xs: "flex" },
-  justifyContent: {
-    lg: "center",
-    md: "center",
-    xs: "flex-start", // or conditionally change if needed
-  },
-  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
-}}
-
+                  display: { lg: "flex", md: "flex", xs: "flex" },
+                  justifyContent: {
+                    lg: "center",
+                    md: "center",
+                    xs: "flex-start", // or conditionally change if needed
+                  },
+                  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
+                }}
                 alignItems="center"
                 onClick={HandlePopup}
               >
@@ -227,7 +231,10 @@ const HeaderUser = ({
                   display="flex"
                   sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                 >
-                  <img src={"/images/user-icon-gray.svg"} alt="User Icon" />
+                  <img
+                    src={"/images/user-icon-darkgray.svg"}
+                    alt="User Icon"
+                  />
                 </Box>
                 <Typography className="bold f16">Sign in</Typography>
               </Box>
@@ -237,17 +244,15 @@ const HeaderUser = ({
               <Box
                 className={`${styles.Login} cursor-pointer`}
                 sx={{
-  display: { lg: "flex", md: "flex", xs: "flex" },
-  justifyContent: {
-    lg: "center",
-    md: "center",
-    xs: "flex-start", // or conditionally change if needed
-  },
-  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
-}}
-
+                  display: { lg: "flex", md: "flex", xs: "flex" },
+                  justifyContent: {
+                    lg: "center",
+                    md: "center",
+                    xs: "flex-start", // or conditionally change if needed
+                  },
+                  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
+                }}
                 alignItems="center"
-                
                 onClick={HandlePopup}
               >
                 <Typography

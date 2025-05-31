@@ -2148,6 +2148,12 @@ html {
   }
 }
 @include for-mobile-large-screen {
+  
+
+  .btn.btn-border.black-border {
+      width: 250px;
+      height: 35px;
+  }
   .modalDialog .MuiDialog-container {
     align-items: flex-end;
   }

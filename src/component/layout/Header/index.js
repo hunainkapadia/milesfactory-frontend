@@ -190,7 +190,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
               {/* show for home desk and mobiel chat for dektop only  */}
               {isHome || (isChat && !isMobile) ? (
                 <HeaderUser
-                  forhHader={"forhHader"}
+                  forHader={"forHader"}
                   isSticky={isSticky}
                   IsActive={IsActive}
                   isMessage={isMessage}
@@ -211,7 +211,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
-                      height={48}
+                      height={24}
                       className={styles.ChatIcon + " imggroup"}
                     >
                       <img src="/images/chat-new-icon.svg" alt="Chat Icon" />

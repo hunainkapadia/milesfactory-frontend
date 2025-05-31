@@ -52,7 +52,11 @@
     position: absolute;
   }
   .AppSectionRight {
-    padding: 60px 0 178px;
+    height: 408px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
 }
 
@@ -225,13 +229,14 @@
     }
   }
   .AppSection {
-    padding: 40px 0 50px;
+    padding: 167px 0 50px;
     background: linear-gradient(to bottom, $basecolor1-sky 75%, $white 50%);
     .MobileDevice {
       position: relative;
     }
     .AppSectionRight {
-      padding: 60px 0 0;
+      height: auto;
+      padding: 0px 0 100px;
     }
     .appLogos {gap: 17px;
       .appLogo {width: 248px;
@@ -259,7 +264,7 @@
   }
   
   .HomeBanner {
-    height: auto;
+    height: 812px;
     .HeroSection {
       padding: 20vh 0 10vh;
       position: relative;
@@ -284,7 +289,7 @@
 
   .mainHeroSection.HeroSection {
     height: 98vh;
-    padding: 25vh 0 16vh;
+    padding: 110px 0 16vh;
 
     .Box .Content .ContentIn {
       padding-bottom: 26px;

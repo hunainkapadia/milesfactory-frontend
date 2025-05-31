@@ -46,38 +46,30 @@ const Footer = ({
               sx={{
                 justifyContent: { xs: "center", lg: "left", md: "left" },
                 pb: { lg: 7, md: 7, xs: 3 },
+                gap:{lg:6, md:6, xs: 2.3}
               }}
-              gap={6}
+              
             >
               <Box
                 display={"flex"}
-                alignItems={"flex-start"}
+                alignItems={"center"}
                 justifyContent={"center"}
                 flexDirection={"column"}
+                className="imggroup"
+                sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
               >
-                <Box
-                  className="imggroup"
-                  sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}
-                  mb={0.5}
-                >
-                  <img src="/images/trust-pilot-v2.svg" />
-                </Box>
-                <Typography className="bold black">
-                  4.4/5 - Excellent
-                </Typography>
+                
+                <img src="/images/trust-pilot-v2.svg" />
               </Box>
               <Box
                 display={"flex"}
                 alignItems={"flex-start"}
                 justifyContent={"center"}
                 flexDirection={"column"}
+                className="imggroup"
+                sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
               >
-                <Box
-                  className="imggroup"
-                  sx={{ height: { lg: "100%", md: "100%", xs: "70%" } }}
-                >
-                  <img src="/images/google-review-v2.svg" />
-                </Box>
+                <img src="/images/google-review-v2.svg" />
               </Box>
             </Box>
             {/*  */}

@@ -60,16 +60,15 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
     if (!userMessage.trim()) return;
     if (inputRef.current) inputRef.current.textContent = "";
 
-    if (!uuid) return null; // Skip rendering or logic
-
-// Only runs when uuid is defined
-  console.log("get_uuid", uuid);
-
-
+    
     dispatch(sendMessage(userMessage));
     setUserMessage("");
     resetTranscript();
     setIsTyping(false);
+    if (!uuid) return null; // Skip rendering or logic
+
+  // Only runs when uuid is defined
+    console.log("get_uuid", uuid);
     router.push(`/chat/${uuid}`);
   };
 

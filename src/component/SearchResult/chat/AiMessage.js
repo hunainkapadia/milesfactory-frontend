@@ -202,7 +202,7 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
                 className="bold"
               >
                 <span>
-                  See more flights.
+                  See more flights
                   {`${
                     getAllFlightGetApi?.count
                       ? " (" + getAllFlightGetApi?.count + ")"
@@ -226,7 +226,7 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
               display="flex"
               className="bold"
             >
-              <span>See more flights..</span>
+              <span>See more flights</span>
               <i className="fa fa-caret-right fas" />
             </Box>
           </Box>
