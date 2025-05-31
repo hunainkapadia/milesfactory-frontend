@@ -20,6 +20,7 @@ const PriceSummary = ({ getdata }) => {
   };
 
   const priceSummaryHandle = () => {
+    // call captain api
     dispatch(setpriceSummary(true));
   };
   const priceSummary = useSelector((state) => state.payment.priceSummary);

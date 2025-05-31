@@ -72,8 +72,9 @@ export const SignUpUser = (params) => (dispatch) => {
     .post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
       
+      console.log("signup_res_out", res);
       if (res.status === 201) {
-        console.log("signup_res", res?.data?.data);
+        console.log("signup_res_in", res);
         
         dispatch(
           setLoginUser({ user: { user: res?.data }, status: res.status })

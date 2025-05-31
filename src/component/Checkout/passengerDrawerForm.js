@@ -18,7 +18,9 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import { useDispatch, useSelector } from "react-redux";
 import {
   NationalitData,
+  passengerCaptain,
   PassengerFormSubmit,
+  passengerPofile,
   setClosePassengerDrawer,
   setPassengerFormError,
 } from "@/src/store/slices/passengerDrawerSlice";
@@ -43,12 +45,19 @@ const PassengerDrawerForm = () => {
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
+
+  // pass profile
+  const GetpassProfile = useSelector(
+    (state) => state.passengerDrawer.passProfile
+  );
   const PassengersUuID = useSelector(
     (state) => state.passengerDrawer.PassengerUUID
   );
+  console.log("PassengersUuID", PassengersUuID);
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
+
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
   );
@@ -62,11 +71,11 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.captainSuccess
   );
   const twelveYearsAgo = dayjs().subtract(12, "year");
-  
-  
 
   // get passenger type for validation
-  const PassengerType = useSelector((state)=> state.passengerDrawer.PassengerType)
+  const PassengerType = useSelector(
+    (state) => state.passengerDrawer.PassengerType
+  );
   console.log("get_PassengerType", PassengerType);
 
   // Define ranges
@@ -99,11 +108,24 @@ const PassengerDrawerForm = () => {
       console.log("pass_age", age);
 
       if (PassengerType === "adult" && age < 12) {
-        dispatch(setPassengerFormError({ born_on: "Adult must be at least 12 years old" }));
+        dispatch(
+          setPassengerFormError({
+            born_on: "Adult must be at least 12 years old",
+          })
+        );
       } else if (PassengerType === "child" && (age < 2 || age >= 12)) {
-        dispatch(setPassengerFormError({ born_on: "Child passenger must be less than 12 and at least 2 years old" }));
+        dispatch(
+          setPassengerFormError({
+            born_on:
+              "Child passenger must be less than 12 and at least 2 years old",
+          })
+        );
       } else if (PassengerType === "infant_without_seat" && age >= 2) {
-        dispatch(setPassengerFormError({ born_on: "Baby passenger must be less than 2 years old" }));
+        dispatch(
+          setPassengerFormError({
+            born_on: "Baby passenger must be less than 2 years old",
+          })
+        );
       } else {
         dispatch(setPassengerFormError({ born_on: "" })); // clear error
       }
@@ -120,8 +142,6 @@ const PassengerDrawerForm = () => {
     }
   }, [PassengerType]);
 
-
-
   useEffect(() => {
     dispatch(NationalitData());
   }, [dispatch]);
@@ -132,13 +152,15 @@ const PassengerDrawerForm = () => {
     }
   }, [captainSuccess, formSuccess, dispatch]);
 
-
   // Load form data or reset on drawer open
+
   useEffect(() => {
     if (isPassengerDrawerOpen) {
-      const passengerData = GetViewPassengers?.find(
-        (p) => p?.uuid === PassengersUuID
-      );
+      const passengerData = GetpassProfile?.find((p) => {
+        console.log("puuid_0", p?.uuid, PassengersUuID);
+        // return p?.uuid === yourTargetUUID; // replace with your actual comparison
+      });
+      console.log("passengerData_00", PassengersUuID);
 
       if (passengerData) {
         setgender(passengerData.gender || "");
@@ -200,8 +222,21 @@ const PassengerDrawerForm = () => {
     };
     dispatch(PassengerFormSubmit(params));
     console.log("params_age", params);
+
+    // for captain 1st passenger data
+    console.log("GetpassProfile", GetpassProfile);
+
+    const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+    console.log("Is first passenger:", isFirstPassenger);
+    
+    // If this is the first passenger, also submit as captain
+    if (isFirstPassenger) {
+      dispatch(passengerCaptain(params));
+      console.log("GetViewPassengers", PassengersUuID);
+      console.log("Is first passenger:", isFirstPassenger);
+    }
+    dispatch(passengerPofile(params));
   };
-  
 
   const passportError = formError?.non_field_errors?.find(
     (error) => error?.passport_expire_date
@@ -317,7 +352,8 @@ const PassengerDrawerForm = () => {
                 {/* Name Fields */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">First Name</FormLabel>
-                  <TextField className="formControl"
+                  <TextField
+                    className="formControl"
                     fullWidth
                     placeholder="Enter First Name"
                     value={given_name}
@@ -333,7 +369,8 @@ const PassengerDrawerForm = () => {
 
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">Last Name</FormLabel>
-                  <TextField className="formControl"
+                  <TextField
+                    className="formControl"
                     fullWidth
                     placeholder="Enter Last Name"
                     value={family_name}
@@ -353,21 +390,21 @@ const PassengerDrawerForm = () => {
                     Date of Birth
                   </FormLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DatePicker
-    className="formControl Calendar"
-    value={born_on ? dayjs(born_on) : null}
-    onChange={(newValue) =>
-      setborn_on(
-        newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-      )
-    }
-    minDate={minDate}
-    maxDate={maxDate}
-    format="DD/MM/YYYY"
-    openTo="year"
-    views={["year", "month", "day"]}
-  />
-</LocalizationProvider>
+                    <DatePicker
+                      className="formControl Calendar"
+                      value={born_on ? dayjs(born_on) : null}
+                      onChange={(newValue) =>
+                        setborn_on(
+                          newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+                        )
+                      }
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      format="DD/MM/YYYY"
+                      openTo="year"
+                      views={["year", "month", "day"]}
+                    />
+                  </LocalizationProvider>
 
                   <Typography className="error" color="red">
                     {formError?.born_on || bornOnError?.born_on}
@@ -379,7 +416,8 @@ const PassengerDrawerForm = () => {
                   <FormLabel className="bold formLabel">
                     Passport Number
                   </FormLabel>
-                  <TextField className="formControl"
+                  <TextField
+                    className="formControl"
                     fullWidth
                     placeholder="Enter Passport Number"
                     value={passport_number}
@@ -423,7 +461,8 @@ const PassengerDrawerForm = () => {
                 {/* Email */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">Email</FormLabel>
-                  <TextField className="formControl"
+                  <TextField
+                    className="formControl"
                     fullWidth
                     placeholder="Enter Email Address"
                     type="email"

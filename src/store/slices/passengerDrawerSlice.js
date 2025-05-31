@@ -22,9 +22,13 @@ const passengerDrawerSlice = createSlice({
     OpenPassengerDrawer: false,
     PassengerFormError: null,
     isFormLoading: false,
-    PassengerType: null
+    PassengerType: null,
+    passProfile: null,
   },
   reducers: {
+    setPassProfile: (state, action)=> {
+      state.passProfile = action.payload;
+    },
     setPassengerType: (state, action)=> {
       state.PassengerType = action.payload
     },
@@ -139,15 +143,6 @@ export const ViewPassengers = () => (dispatch, getState) => {
     .get(viewPassengerUrl)
     .then((response) => {
       console.log("response000", response?.data);
-
-      api
-        .get(`/api/v1/user/passenger/profiles`)
-        .then((pass_profile_res) => {
-          console.log("pass_profile_res", pass_profile_res);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
       dispatch(setViewPassengers(response?.data || []));
       dispatch(setisLoading(false))
     })
@@ -155,6 +150,7 @@ export const ViewPassengers = () => (dispatch, getState) => {
       console.error("fetchViewPassengers error", error);
     });
 };
+
 
 export const validatePassengerForm = (params) => (dispatch) => {
   let errors = {};
@@ -196,7 +192,8 @@ export const validatePassengerForm = (params) => (dispatch) => {
 };
 
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
-  console.log("params__0", params);
+  console.log("[0] Called PassengerFormSubmit");
+  console.log("[1] Params:", params);
 
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return;
@@ -207,11 +204,61 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
-  console.log("passengerUuid", passengerUuid);
-  
 
-  let captainSuccess = false;
-  let formSuccess = false;
+  const captainParams = {
+    email: params.email,
+    phone_number: params.phone_number,
+    region: params.region,
+  };
+  console.log("captainParams", captainParams);
+  
+  console.log("[2] Submitting Passenger API:", SubmitUrl);
+
+  api
+    .post(SubmitUrl, params)
+    .then((formResponse) => {
+
+      const formData = formResponse.data;
+      dispatch(setPassFormData(formData));
+      dispatch(markPassengerAsFilled(passengerUuid));
+
+      console.log("passenger_respone", formData);
+      const state = getState();
+      const allPassengers = state.passengerDrawer?.ViewPassengers || [];
+      const filledPassengerUuids =
+        state.passengerDrawer?.filledPassengerUUIDs || [];
+
+      const nextPassenger = allPassengers.find(
+        (p) => !filledPassengerUuids.includes(p.uuid)
+      );
+
+      if (nextPassenger) {
+        dispatch(setPassengerUUID(nextPassenger.uuid));
+      }
+
+      setTimeout(() => {
+        dispatch(ViewPassengers());
+      }, 500);
+
+      dispatch(setClosePassengerDrawer());
+      
+    })
+    .catch((error) => {
+      console.log("[X] Error occurred", error);
+      const responseErrors = error.response?.data || {};
+      dispatch(setPassengerFormError(responseErrors));
+      dispatch(setOpenPassengerDrawer(true));
+    })
+    .finally(() => {
+      console.log("[✔] Finished");
+      dispatch(setIsFormLoading(false));
+    });
+};
+
+export const passengerCaptain = (params) => (dispatch, getState) => {
+  alert("captain_working");
+  const state = getState();
+  const orderUuid = state.passengerDrawer?.OrderUuid;
 
   const captainParams = {
     email: params.email,
@@ -219,54 +266,33 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
     region: params.region,
   };
 
+  console.log("pass_captain_params", captainParams);
+
+  setTimeout(() => {
+    api
+      .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
+      .then((cap_res) => {
+        console.log("captain_res", cap_res);
+      })
+      .catch((err) => {
+        console.error("captain_api_error", err);
+      });
+  }, 4000);
+};
+
+
+export const passengerPofile = () => (dispatch) => {
   api
-    .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
-    .then(() => {
-      captainSuccess = true;
-      return api.post(SubmitUrl, params);
-    })
-    .then((formResponse) => {
-      console.log("formResponse", formResponse);
-      const formData = formResponse.data;
-
-      dispatch(setPassFormData(formData));
-      dispatch(markPassengerAsFilled(passengerUuid));
-      formSuccess = true;
-
-      if (captainSuccess && formSuccess) {
-        const state = getState();
-        const allPassengers = state.passengerDrawer?.ViewPassengers || [];
-        const filledPassengerUuids =
-          state.passengerDrawer?.filledPassengerUUIDs || [];
-
-        const nextPassenger = allPassengers.find(
-          (p) => !filledPassengerUuids.includes(p.uuid)
-        );
-
-        console.log("Next Passenger:", nextPassenger);
-
-        if (nextPassenger) {
-          dispatch(setPassengerUUID(nextPassenger.uuid));
-        }
-
-        // Add delay before fetching updated passengers
-        setTimeout(() => {
-          dispatch(ViewPassengers());
-        }, 500);
-
-        dispatch(setClosePassengerDrawer());
-      }
+    .get(`/api/v1/user/passenger/profiles`)
+    .then((profile_res) => {
+      console.log("pass_profile_res", profile_res.data);
+      dispatch(setPassProfile(profile_res.data))
     })
     .catch((error) => {
-      console.log("error", error);
-      const responseErrors = error.response?.data || {};
-      dispatch(setPassengerFormError(responseErrors));
-      dispatch(setOpenPassengerDrawer(true));
-    })
-    .finally(() => {
-      dispatch(setIsFormLoading(false));
+      console.error(error);
     });
 };
+
 
 export const {
   setLoading,
@@ -287,7 +313,8 @@ export const {
   setIsFormLoading,
   setCaptainSuccess,
   setFormSuccess,
-  setPassengerType
+  setPassengerType,
+  setPassProfile
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

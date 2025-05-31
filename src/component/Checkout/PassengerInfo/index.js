@@ -6,6 +6,7 @@ import Link from "next/link";
 import PassengersCard from "../PassengersCard";
 import {
   PassengerForm,
+  passengerPofile,
   setCaptainSuccess,
   setFormSuccess,
   setOpenPassengerDrawer,
@@ -33,6 +34,7 @@ const PassengerInfo = ({ getdata }) => {
     console.log("pass_type", uuid, isFilled, type);
     
     if (!isFilled) {
+      dispatch(passengerPofile())
       
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(setPassengerType(type))
