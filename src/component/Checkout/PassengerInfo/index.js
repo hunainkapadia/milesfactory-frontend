@@ -33,14 +33,15 @@ const PassengerInfo = ({ getdata }) => {
   const handlePassengerToggle = (uuid) => {
     setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
   };
+  const passengerPofile = useSelector(
+    (state) => state?.passengerDrawer?.passProfile
+  );
 
   const handlePassengerClick = (uuid, isFilled, type) => {
     console.log("uuid111", isFilled);
     console.log("pass_type", uuid, isFilled, type);
 
-    if (!isFilled) {
-      dispatch(passengerPofile());
-
+    if (!isFilled  ) {
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(setPassengerType(type));
       dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
@@ -93,12 +94,11 @@ const PassengerInfo = ({ getdata }) => {
 
   console.log("getdata_0000", getdata.length);
 
-  const passengerPofile = useSelector(
-    (state) => state?.passengerDrawer?.passProfile
-  );
+  
   console.log("passengerPofile", passengerPofile);
 
   const handleProfilePassClick = ()=> {
+    dispatch(passengerPofile());
     dispatch(setPassProfileDrawer(true))
   }
 
