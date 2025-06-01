@@ -265,7 +265,7 @@ const AiMessage = ({ aiMessage }) => {
                     />
                   </>
                 )}
-                {console.log("aiMessage_test", aiMessage?.ai?.response)}
+                
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(

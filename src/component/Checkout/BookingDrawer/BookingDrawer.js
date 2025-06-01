@@ -58,7 +58,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
               justifyContent="space-between"
               alignItems={"center"}
             >
-              <h3 className="regular mb-0">See details</h3>
+              <h3 className="regular mb-0">Flight details</h3>
             </Box>
             <Box>
               <Divider />

@@ -76,7 +76,7 @@ const FromAndToDetail = ({
                     </>
                   ) : (
                     <>
-                      <span>See details</span>
+                      <span>Hide details</span>
                       <i className="basecolor1 fa-angle-up fa fas"></i>
                     </>
                   )}
@@ -249,7 +249,7 @@ const FromAndToDetail = ({
             {getdata?.segments?.length > 1 && (
               <Box
                 className={
-                  styles.multiSegmentDetails + " fromAndToBodyNosegment"
+                  styles.multiSegmentDetails + " fromAndToBodyNosegment seeDetail"
                 }
               >
                 {getdata?.segments?.map((segment, index) => (
@@ -339,32 +339,23 @@ const FromAndToDetail = ({
                               </Typography>
                             </Box>
                             <Box className={styles.Col2 + " col2-e"}>
-                              {getdata.segments.length > 1 ? (
-                                <>
-                                  <Typography
-                                    className="Direct Flight
-
-"
-                                  >
-                                    {getStopDetails(getdata)}
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <Typography className={"f14 mb-0"}>
-                                    {segment.operating_carrier.iata_code}-
+                            {console.log("segment_detail", segment)}
+                              <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    {segment.operating_carrier?.iata_code}-
                                     {segment.operating_carrier_flight_number}{" "}
-                                    {segment.marketing_carrier.name}
+                                    {segment.marketing_carrier?.name}
                                   </Typography>
-                                  <Typography>
-                                    {segment.passengers.map((getPassengers) => (
-                                      <React.Fragment key={getPassengers.id}>
-                                        {getPassengers?.cabin_class}
-                                      </React.Fragment>
-                                    ))}
+                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    {segment?.passengers?.[0]?.cabin_class
+                                      ? segment.passengers[0].cabin_class
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                        segment.passengers[0].cabin_class.slice(
+                                          1
+                                        )
+                                      : "No Cabin Info"}
                                   </Typography>
-                                </>
-                              )}
+                                
                             </Box>
                             <Box className={styles.Col3}>
                               <Box className={styles.airlineLogo + " imggroup"}>
