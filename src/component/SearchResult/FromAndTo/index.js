@@ -224,7 +224,7 @@ const FromAndTo = ({ offerData }) => {
                         .toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
-                          hour12: true,
+                          hour12: false,
                         })
                         .replace(/ AM| PM/, "")}
                     </Typography>
@@ -272,7 +272,7 @@ const FromAndTo = ({ offerData }) => {
                         .toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
-                          hour12: true,
+                          hour12: false,
                         })
                         .replace(/ AM| PM/, "")}
                     </Typography>

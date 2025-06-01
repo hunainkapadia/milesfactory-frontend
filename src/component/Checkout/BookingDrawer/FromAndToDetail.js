@@ -122,6 +122,7 @@ const FromAndToDetail = ({
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: false,
                             })}
                           </h5>
                         </Box>
@@ -214,6 +215,7 @@ const FromAndToDetail = ({
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: false,
                             })}
                           </h5>
                         </Box>
@@ -301,6 +303,7 @@ const FromAndToDetail = ({
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </h5>
                             </Box>
@@ -378,6 +381,7 @@ const FromAndToDetail = ({
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </h5>
                             </Box>
