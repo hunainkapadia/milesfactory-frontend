@@ -1,21 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import PassengersCard from "../PassengersCard";
 import {
+  passengerCaptain,
   PassengerForm,
   passengerPofile,
+  setAllPassengerFill,
   setCaptainSuccess,
   setFormSuccess,
   setOpenPassengerDrawer,
   setPassengerType,
   setPassengerUUID,
   setPassengerUUIDfill,
+  setPassProfile,
+  setPassProfileDrawer,
 } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
 import { setpriceSummary } from "@/src/store/slices/PaymentSlice";
+import ProfilePassengerCard from "../PassengersCard/ProfilePassengerCard";
 
 const PassengerInfo = ({ getdata }) => {
   const dispatch = useDispatch();
@@ -32,12 +37,12 @@ const PassengerInfo = ({ getdata }) => {
   const handlePassengerClick = (uuid, isFilled, type) => {
     console.log("uuid111", isFilled);
     console.log("pass_type", uuid, isFilled, type);
-    
+
     if (!isFilled) {
-      dispatch(passengerPofile())
-      
+      dispatch(passengerPofile());
+
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
-      dispatch(setPassengerType(type))
+      dispatch(setPassengerType(type));
       dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
       dispatch(setOpenPassengerDrawer()); // open drawer
     }
@@ -65,16 +70,37 @@ const PassengerInfo = ({ getdata }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
-  const IsServices = useSelector((state)=> state?.booking?.singleFlightData?.available_services);
-  console.log("IsServices", IsServices);
+  const IsServices = useSelector(
+    (state) => state?.booking?.singleFlightData?.available_services
+  );
+  console.log("IsServices", !IsServices?.length);
 
   if (!IsServices?.length) {
     dispatch(setpriceSummary(true));
   }
   const istLoading = useSelector((state) => state?.passengerDrawer?.isLoading);
   console.log("istLoading_pass", istLoading);
-  
-  
+
+  // for captain
+  useEffect(() => {
+    if (filledPassengerUUIDs?.length === getdata?.length) {
+      dispatch(passengerCaptain()); /// for get  fill pasenger boolean
+      dispatch(setAllPassengerFill(true));
+    } else {
+      dispatch(setAllPassengerFill(false));
+    }
+  }, [filledPassengerUUIDs, getdata, dispatch]);
+
+  console.log("getdata_0000", getdata.length);
+
+  const passengerPofile = useSelector(
+    (state) => state?.passengerDrawer?.passProfile
+  );
+  console.log("passengerPofile", passengerPofile);
+
+  const handleProfilePassClick = ()=> {
+    dispatch(setPassProfileDrawer(true))
+  }
 
   return (
     <>
@@ -84,31 +110,63 @@ const PassengerInfo = ({ getdata }) => {
         </Typography>
       </Box>
       <Box variant="outlined" className={searchResultStyles.PassengersSection}>
-        <Grid container spacing={2}>
-          {getdata?.map((passenger, index) => {
-            console.log("passenger__0", passenger);
-            const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-            console.log("isFilled", isFilled);
+        {/* profile fill passenger */}
+        {passengerPofile?.length > 0 ? (
+          <>
+            <Grid container spacing={2}>
+              {passengerPofile?.map((passenger, index) => {
+                console.log("passenger__1", passenger);
+                return (
+                  <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
+                    <ProfilePassengerCard
+                      ispassProfile={passenger}
+                      onClickPrifilePass={() =>
+                        handleProfilePassClick(
+                          passenger.uuid,
+                          passenger.type
+                        )
+                      }
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid container spacing={2}>
+              {getdata?.map((passenger, index) => {
+                console.log("passenger__0", passenger);
+                const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+                console.log("isFilled", isFilled);
 
-            return (
-              <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
-                <PassengersCard
-                  totalPass={index + 1}
-                  getdata={passenger}
-                  passDetail={isFilled ? passenger : ""}
-                  isMainPassenger={index === 0}
-                  isFilled={isFilled}
-                  onClickCard={() =>
-                    handlePassengerClick(passenger.uuid, isFilled, passenger.type)
-                  }
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
+                return (
+                  <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
+                    <PassengersCard
+                      totalPass={index + 1}
+                      getdata={passenger}
+                      passDetail={isFilled ? passenger : ""}
+                      isMainPassenger={index === 0}
+                      isFilled={isFilled}
+                      onClickCard={() =>
+                        handlePassengerClick(
+                          passenger.uuid,
+                          isFilled,
+                          passenger.type
+                        )
+                      }
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </>
+        )}
+        {/*  */}
       </Box>
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
+
       {IsServices?.length > 0 &&
         filledPassengerUUIDs.length === getdata.length && (
           <>
@@ -127,7 +185,12 @@ const PassengerInfo = ({ getdata }) => {
                 spacing={2}
                 className={searchResultStyles.ExtraServicesGrid}
               >
-                {console.log("getdata_00", getdata, "filledPassengerUUIDs", filledPassengerUUIDs)}
+                {console.log(
+                  "getdata_00",
+                  getdata,
+                  "filledPassengerUUIDs",
+                  filledPassengerUUIDs
+                )}
                 {getdata
                   ?.filter((passenger) =>
                     filledPassengerUUIDs.includes(passenger.uuid)

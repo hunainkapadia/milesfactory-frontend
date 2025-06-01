@@ -21,6 +21,7 @@ import {
   passengerCaptain,
   PassengerFormSubmit,
   passengerPofile,
+  setCaptainParams,
   setClosePassengerDrawer,
   setPassengerFormError,
 } from "@/src/store/slices/passengerDrawerSlice";
@@ -146,6 +147,11 @@ const PassengerDrawerForm = () => {
     dispatch(NationalitData());
   }, [dispatch]);
 
+  console.log("GetpassProfile", GetpassProfile);
+
+  useEffect(() => {
+    dispatch(passengerPofile()); // pasenger profile call api
+  }, []); //
   useEffect(() => {
     if (captainSuccess && formSuccess) {
       dispatch(setClosePassengerDrawer());
@@ -154,15 +160,30 @@ const PassengerDrawerForm = () => {
 
   // Load form data or reset on drawer open
 
-  useEffect(() => {
-    if (isPassengerDrawerOpen) {
-      const passengerData = GetpassProfile?.find((p) => {
-        console.log("puuid_0", p?.uuid, PassengersUuID);
-        // return p?.uuid === yourTargetUUID; // replace with your actual comparison
-      });
-      console.log("passengerData_00", PassengersUuID);
+  console.log("given_name", given_name);
+  
+ useEffect(() => {
+  if (isPassengerDrawerOpen) {
+    const timer = setTimeout(() => {
+      console.log("GetpassProfile:", GetpassProfile);
+      console.log("PassengersUuID:", PassengersUuID);
+      const passengerlength = GetViewPassengers;
+      console.log("passengerlength", passengerlength);
+      
 
-      if (passengerData) {
+      if (GetpassProfile?.length && PassengersUuID) {
+        const passengerData = GetpassProfile.find(
+          (p) => p.uuid === PassengersUuID
+        );
+
+        if (!passengerData) {
+          console.warn("⚠️ Passenger UUID not found in profile list");
+          return;
+        }
+        console.log("passengerData", passengerData);
+        
+
+        // Fill state with matched passenger data
         setgender(passengerData.gender || "");
         setgiven_name(passengerData.given_name || "");
         setfamily_name(passengerData.family_name || "");
@@ -172,36 +193,40 @@ const PassengerDrawerForm = () => {
         setphone(passengerData.phone_number || "");
         setemail(passengerData.email || "");
         setRegion(passengerData.phone_number || "");
-        // Match nationality by ID
+
         const matchedNationality = countries.find(
-          (c) => c.id === passengerData?.nationality?.id
+          (c) => c.id === passengerData.nationality?.id
         );
         setNationality(matchedNationality || null);
-      } else {
-        // Reset form for new passenger
-        setgender("");
-        setgiven_name("");
-        setfamily_name("");
-        setborn_on("");
-        setpassport_number("");
-        setpassport_expire_date("");
-        setNationality(null);
-        setphone("");
-        setemail("");
-        setRegion("");
-
-        // Set default if no data provided
       }
+    }, 3000);
 
-      dispatch(setPassengerFormError(null));
-    }
-  }, [
-    isPassengerDrawerOpen,
-    GetViewPassengers,
-    PassengersUuID,
-    countries,
-    dispatch,
-  ]);
+    // Clear timeout if drawer closes early
+    return () => clearTimeout(timer);
+  } else {
+    // Reset form
+    setgender("");
+    setgiven_name("");
+    setfamily_name("");
+    setborn_on("");
+    setpassport_number("");
+    setpassport_expire_date("");
+    setNationality(null);
+    setphone("");
+    setemail("");
+    setRegion("");
+  }
+
+  dispatch(setPassengerFormError(null));
+}, [
+  isPassengerDrawerOpen,
+  GetpassProfile,
+  PassengersUuID,
+  countries,
+  dispatch,
+]);
+
+
 
   const handleCloseDrawer = () => {
     dispatch(setClosePassengerDrawer());
@@ -224,18 +249,17 @@ const PassengerDrawerForm = () => {
     console.log("params_age", params);
 
     // for captain 1st passenger data
-    console.log("GetpassProfile", GetpassProfile);
 
     const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
     console.log("Is first passenger:", isFirstPassenger);
-    
+
     // If this is the first passenger, also submit as captain
     if (isFirstPassenger) {
-      dispatch(passengerCaptain(params));
-      console.log("GetViewPassengers", PassengersUuID);
-      console.log("Is first passenger:", isFirstPassenger);
+      console.log("params_pass", params);
+      dispatch(setCaptainParams(params));
+      dispatch(passengerCaptain()); // for captain api passenger sending params
     }
-    dispatch(passengerPofile(params));
+    dispatch(passengerCaptain()); // for captain api passenger call from redux
   };
 
   const passportError = formError?.non_field_errors?.find(
@@ -244,6 +268,12 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
+
+  // if all passenger file logic
+  const AllPassengerFill = useSelector(
+    (state) => state.passengerDrawer.allPassengerFill
+  );
+  console.log("AllPassengerFill", AllPassengerFill);
 
   return (
     <Drawer

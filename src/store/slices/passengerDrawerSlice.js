@@ -24,8 +24,24 @@ const passengerDrawerSlice = createSlice({
     isFormLoading: false,
     PassengerType: null,
     passProfile: null,
+    allPassengerFill:false,
+    captainParams: null,
+    passProfileDrawer: false
   },
   reducers: {
+    setPassProfileDrawer: (state, action)=> {
+      state.passProfileDrawer = action.payload;
+    },
+    setCaptainParams: (state, action)=> {
+      console.log("captain_action_param", action);
+      
+      state.captainParams = action.payload
+    },
+    setAllPassengerFill: (state, action)=> {
+      console.log("all_pass_action", action);
+      
+      state.allPassengerFill = action.payload
+    },
     setPassProfile: (state, action)=> {
       state.passProfile = action.payload;
     },
@@ -194,23 +210,29 @@ export const validatePassengerForm = (params) => (dispatch) => {
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   console.log("[0] Called PassengerFormSubmit");
   console.log("[1] Params:", params);
-
+  
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return;
-
+  
   dispatch(setIsFormLoading(true));
-
+  
   const state = getState();
+  // ///////////////
+  const GetViewPassengers = state?.passengerDrawer?.ViewPassengers;
+  
+  const filledPassengerUUIDs = state.passengerDrawer.filledPassengerUUIDs;
+
+console.log("GetViewPassengers_0", GetViewPassengers);
+console.log("filledPassengerUUIDs_0", filledPassengerUUIDs);
+
+
+  if (filledPassengerUUIDs.length === GetViewPassengers.length) {
+    dispatch(setAllPassengerFill(true));
+  }
+  // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
-
-  const captainParams = {
-    email: params.email,
-    phone_number: params.phone_number,
-    region: params.region,
-  };
-  console.log("captainParams", captainParams);
   
   console.log("[2] Submitting Passenger API:", SubmitUrl);
 
@@ -256,28 +278,36 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
 };
 
 export const passengerCaptain = (params) => (dispatch, getState) => {
-  alert("captain_working");
+  
+  
   const state = getState();
+  const captainParams = state.passengerDrawer?.captainParams;
   const orderUuid = state.passengerDrawer?.OrderUuid;
+  const getFillPass = state.passengerDrawer.allPassengerFill;
+  console.log("getFillPass", getFillPass);
 
-  const captainParams = {
-    email: params.email,
-    phone_number: params.phone_number,
-    region: params.region,
-  };
+  console.log("captainParams", captainParams);
+  
 
-  console.log("pass_captain_params", captainParams);
+  
+  if (getFillPass) {
+    console.log("pass_captain_params", captainParams);
+  
+    setTimeout(() => {
+      api
+        .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
+        .then((cap_res) => {
+          alert("captain_working after 2 sec");
+          console.log("captain_res", cap_res);
+        })
+        .catch((err) => {
+          console.error("captain_api_error", err);
+        });
+    }, 2000);
+  }
+  
 
-  setTimeout(() => {
-    api
-      .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
-      .then((cap_res) => {
-        console.log("captain_res", cap_res);
-      })
-      .catch((err) => {
-        console.error("captain_api_error", err);
-      });
-  }, 4000);
+
 };
 
 
@@ -292,6 +322,11 @@ export const passengerPofile = () => (dispatch) => {
       console.error(error);
     });
 };
+
+export const PassengerProfileDrawer = ()=> ()=> {
+
+}
+
 
 
 export const {
@@ -314,7 +349,10 @@ export const {
   setCaptainSuccess,
   setFormSuccess,
   setPassengerType,
-  setPassProfile
+  setPassProfile,
+  setAllPassengerFill,
+  setCaptainParams,
+  setPassProfileDrawer
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;
