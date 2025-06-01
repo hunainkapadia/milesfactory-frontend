@@ -118,7 +118,7 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
             </Box>
           </Box>
           {isOpen && (
-            <Box pt={4} sx={{ px: { lg: 6, md: 6, xs: 3 } }} width="100%">
+            <Box pt={4} sx={{ pl: { lg: 6, md: 6, xs: 3 } }} width="100%">
               <Grid container rowSpacing={2}>
                 <Grid item xs={6}>
                   <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">First name</Typography>
