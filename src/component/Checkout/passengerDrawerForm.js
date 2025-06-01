@@ -17,10 +17,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getPassPofile,
   NationalitData,
   passengerCaptain,
   PassengerFormSubmit,
-  passengerPofile,
   setCaptainParams,
   setClosePassengerDrawer,
   setPassengerFormError,
@@ -48,7 +48,7 @@ const PassengerDrawerForm = () => {
   );
 
   // pass profile
-  const GetpassProfile = useSelector(
+  const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
   const PassengersUuID = useSelector(
@@ -147,10 +147,10 @@ const PassengerDrawerForm = () => {
     dispatch(NationalitData());
   }, [dispatch]);
 
-  console.log("GetpassProfile", GetpassProfile);
+  console.log("passengerPofile", passengerPofile);
 
   useEffect(() => {
-    dispatch(passengerPofile()); // pasenger profile call api
+    dispatch(getPassPofile()); // pasenger profile call api
   }, []); //
   useEffect(() => {
     if (captainSuccess && formSuccess) {
@@ -162,49 +162,42 @@ const PassengerDrawerForm = () => {
 
   console.log("given_name", given_name);
   
- useEffect(() => {
+  useEffect(() => {
   if (isPassengerDrawerOpen) {
-    const timer = setTimeout(() => {
-      console.log("GetpassProfile:", GetpassProfile);
+    setTimeout(() => {
+      console.log("passengerPofile:", passengerPofile);
       console.log("PassengersUuID:", PassengersUuID);
-      const passengerlength = GetViewPassengers;
-      console.log("passengerlength", passengerlength);
-      
 
-      if (GetpassProfile?.length && PassengersUuID) {
-        const passengerData = GetpassProfile.find(
-          (p) => p.uuid === PassengersUuID
+      if (passengerPofile?.length && PassengersUuID) {
+        const filtered = passengerPofile.filter(
+          (getpassenger) => getpassenger.uuid === PassengersUuID
         );
 
-        if (!passengerData) {
-          console.warn("⚠️ Passenger UUID not found in profile list");
-          return;
+        const passengerData = filtered[0];
+
+        console.log("Filtered Passenger Data:", passengerData);
+
+        if (passengerData) {
+          setgender(passengerData.gender || "");
+          setgiven_name(passengerData.given_name || "");
+          setfamily_name(passengerData.family_name || "");
+          setborn_on(passengerData.born_on || "");
+          setpassport_number(passengerData.passport_number || "");
+          setpassport_expire_date(passengerData.passport_expire_date || "");
+          setphone(passengerData.phone_number || "");
+          setemail(passengerData.email || "");
+          setRegion(passengerData.phone_number || "");
+
+          // ✅ Nationality matched here
+          const matchedNationality = countries.find(
+            (c) => c.id === passengerData.nationality?.id
+          );
+          setNationality(matchedNationality || null);
         }
-        console.log("passengerData", passengerData);
-        
-
-        // Fill state with matched passenger data
-        setgender(passengerData.gender || "");
-        setgiven_name(passengerData.given_name || "");
-        setfamily_name(passengerData.family_name || "");
-        setborn_on(passengerData.born_on || "");
-        setpassport_number(passengerData.passport_number || "");
-        setpassport_expire_date(passengerData.passport_expire_date || "");
-        setphone(passengerData.phone_number || "");
-        setemail(passengerData.email || "");
-        setRegion(passengerData.phone_number || "");
-
-        const matchedNationality = countries.find(
-          (c) => c.id === passengerData.nationality?.id
-        );
-        setNationality(matchedNationality || null);
       }
     }, 3000);
-
-    // Clear timeout if drawer closes early
-    return () => clearTimeout(timer);
   } else {
-    // Reset form
+    // Reset form when drawer is closed
     setgender("");
     setgiven_name("");
     setfamily_name("");
@@ -220,12 +213,11 @@ const PassengerDrawerForm = () => {
   dispatch(setPassengerFormError(null));
 }, [
   isPassengerDrawerOpen,
-  GetpassProfile,
+  GetViewPassengers,
   PassengersUuID,
   countries,
   dispatch,
 ]);
-
 
 
   const handleCloseDrawer = () => {

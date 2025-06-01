@@ -311,7 +311,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
 };
 
 
-export const passengerPofile = () => (dispatch) => {
+export const getPassPofile = () => (dispatch) => {
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {

@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import PassengersCard from "../PassengersCard";
 import {
+  getPassPofile,
   passengerCaptain,
   PassengerForm,
-  passengerPofile,
   setAllPassengerFill,
   setCaptainSuccess,
   setFormSuccess,
@@ -98,7 +98,7 @@ const PassengerInfo = ({ getdata }) => {
   console.log("passengerPofile", passengerPofile);
 
   const handleProfilePassClick = ()=> {
-    dispatch(passengerPofile());
+    dispatch(getPassPofile()); // call passenger profile
     dispatch(setPassProfileDrawer(true))
   }
 
