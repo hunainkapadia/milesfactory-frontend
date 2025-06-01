@@ -113,6 +113,11 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
     dispatch(loadNextFlights());
   };
 
+  function convertMarkdownToHtml(text) {
+  // Convert **bold** to <strong>bold</strong>
+  return text.replace(/\*\*(.*?)\*\*/g, "<span class='exbold'>$1</span>");
+}
+
   return (
     <Box
       ref={aiboxRef}
@@ -253,17 +258,20 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
                     />
                   </>
                 )}
+                {console.log("aiMessage_test", aiMessage?.ai?.response)}
                 <Typography
-                  dangerouslySetInnerHTML={{
-                    __html: formatTextToHtmlList(
-                      sanitizeResponse(
-                        aiMessage?.ai?.response ||
-                          aiMessage?.ai?.newThread ||
-                          aiMessage?.ai?.deleteThread
-                      )
-                    ),
-                  }}
-                />
+  dangerouslySetInnerHTML={{
+    __html: formatTextToHtmlList(
+      convertMarkdownToHtml(
+        sanitizeResponse(
+          aiMessage?.ai?.response ||
+            aiMessage?.ai?.newThread ||
+            aiMessage?.ai?.deleteThread
+        )
+      )
+    ),
+  }}
+/>
               </Box>
             </>
           ) : (
