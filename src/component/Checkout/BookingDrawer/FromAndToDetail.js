@@ -177,13 +177,16 @@ const FromAndToDetail = ({
                                   <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.marketing_carrier?.iata_code}-
                                     {segment.marketing_carrier_flight_number}{" "}
-                                   
+                                    {segment.marketing_carrier?.name}
                                   </Typography>
                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.passengers[0].cabin_class_marketing_name}
                                   </Typography>
                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.aircraft?.name}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    Operated by {segment.operating_carrier?.name}
                                   </Typography>
                                 </div>
                               ))}
@@ -349,11 +352,14 @@ const FromAndToDetail = ({
                                   </Typography>
                                    <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.aircraft?.name}
-                                  </Typography>  
+                                  </Typography>
+                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    Operated by {segment.operating_carrier?.name}
+                                  </Typography>    
                             </Box>
                             <Box className={styles.Col3}>
                               <Box className={styles.airlineLogo + " imggroup"}>
-                                <img src={logo} alt="Airline logo" />
+                                <img src={segment.marketing_carrier?.logo_symbol_url} alt="Airline logo" />
                               </Box>
                             </Box>
                           </Box>
