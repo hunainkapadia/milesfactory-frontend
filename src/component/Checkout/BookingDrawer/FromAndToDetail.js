@@ -122,6 +122,7 @@ const FromAndToDetail = ({
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: false,
                             })}
                           </h5>
                         </Box>
@@ -174,19 +175,15 @@ const FromAndToDetail = ({
                               {getdata.segments.map((segment) => (
                                 <div key={segment.id}>
                                   <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment.operating_carrier?.iata_code}-
-                                    {segment.operating_carrier_flight_number}{" "}
-                                    {segment.marketing_carrier?.name}
+                                    {segment.marketing_carrier?.iata_code}-
+                                    {segment.marketing_carrier_flight_number}{" "}
+                                   
                                   </Typography>
                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment?.passengers?.[0]?.cabin_class
-                                      ? segment.passengers[0].cabin_class
-                                          .charAt(0)
-                                          .toUpperCase() +
-                                        segment.passengers[0].cabin_class.slice(
-                                          1
-                                        )
-                                      : "No Cabin Info"}
+                                    {segment.passengers[0].cabin_class_marketing_name}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    {segment.aircraft?.name}
                                   </Typography>
                                 </div>
                               ))}
@@ -214,6 +211,7 @@ const FromAndToDetail = ({
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: false,
                             })}
                           </h5>
                         </Box>
@@ -301,6 +299,7 @@ const FromAndToDetail = ({
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </h5>
                             </Box>
@@ -341,21 +340,16 @@ const FromAndToDetail = ({
                             <Box className={styles.Col2 + " col2-e"}>
                             {console.log("segment_detail", segment)}
                               <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment.operating_carrier?.iata_code}-
-                                    {segment.operating_carrier_flight_number}{" "}
+                                    {segment.marketing_carrier?.iata_code}-
+                                    {segment.marketing_carrier_flight_number}{" "}
                                     {segment.marketing_carrier?.name}
                                   </Typography>
                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment?.passengers?.[0]?.cabin_class
-                                      ? segment.passengers[0].cabin_class
-                                          .charAt(0)
-                                          .toUpperCase() +
-                                        segment.passengers[0].cabin_class.slice(
-                                          1
-                                        )
-                                      : "No Cabin Info"}
+                                    {segment.passengers[0].cabin_class_marketing_name}
                                   </Typography>
-                                
+                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    {segment.aircraft?.name}
+                                  </Typography>  
                             </Box>
                             <Box className={styles.Col3}>
                               <Box className={styles.airlineLogo + " imggroup"}>
@@ -378,6 +372,7 @@ const FromAndToDetail = ({
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </h5>
                             </Box>

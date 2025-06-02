@@ -201,6 +201,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </Typography>
                               <Typography
@@ -274,6 +275,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                                   {
                                     hour: "2-digit",
                                     minute: "2-digit",
+                                    hour12: false,
                                   }
                                 )}
                               </Typography>
