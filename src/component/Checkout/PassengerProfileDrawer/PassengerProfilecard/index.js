@@ -4,7 +4,7 @@ import { Box, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 // Example Props (you should pass these from parent)
 
-const PassengerProfilecard = ({ getdata, handleCardClick }) => {
+const PassengerProfilecard = ({ getdata, onClickCard }) => {
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
 
@@ -19,8 +19,6 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
     <>
       <Box px={3} pb={2}>
         <Box
-          id={getdata.uuid}
-          onClick={handleCardClick}
           className={`${styles.passengersCard} ${styles.passengerProfileCard}`}
           display={"flex"}
           flexDirection={"column"}
@@ -28,7 +26,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
           py={2}
         >
           <Box width={"100%"} display={"flex"} justifyContent={"space-between"}>
-            <Box display={"flex"} sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}>
+            <Box
+              id={getdata.uuid}
+              onClick={onClickCard}
+              display={"flex"}
+              sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}
+            >
               <FormControlLabel
                 value={getdata.name}
                 control={
@@ -121,7 +124,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
             <Box pt={4} sx={{ pl: { lg: 6, md: 6, xs: 3 } }} width="100%">
               <Grid container rowSpacing={2}>
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">First name</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    First name
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
@@ -130,7 +138,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">Last name</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    Last name
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
@@ -140,7 +153,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">Date of birth</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    Date of birth
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
@@ -149,7 +167,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">Nationality</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    Nationality
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
@@ -159,7 +182,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">Passport number</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    Passport number
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
@@ -168,7 +196,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">Passport expiry date</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    Passport expiry date
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
@@ -178,7 +211,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">Email</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    Email
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
@@ -187,7 +225,12 @@ const PassengerProfilecard = ({ getdata, handleCardClick }) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{fontSize:{lg:14, md:14, xs:12}}} className="mb-0 bold darkgray">Phone number</Typography>
+                  <Typography
+                    sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                    className="mb-0 bold darkgray"
+                  >
+                    Phone number
+                  </Typography>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"

@@ -26,9 +26,13 @@ const passengerDrawerSlice = createSlice({
     passProfile: null,
     allPassengerFill:false,
     captainParams: null,
-    passProfileDrawer: false
+    passProfileDrawer: false,
+    selectedProfilePass: null,
   },
   reducers: {
+    setSelectedProfilePass: (state, action)=> {
+      state.selectedProfilePass = action.payload
+    },
     setPassProfileDrawer: (state, action)=> {
       state.passProfileDrawer = action.payload;
     },
@@ -222,8 +226,8 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   
   const filledPassengerUUIDs = state.passengerDrawer.filledPassengerUUIDs;
 
-console.log("GetViewPassengers_0", GetViewPassengers);
-console.log("filledPassengerUUIDs_0", filledPassengerUUIDs);
+  console.log("GetViewPassengers_0", GetViewPassengers);
+  console.log("filledPassengerUUIDs_0", filledPassengerUUIDs);
 
 
   if (filledPassengerUUIDs.length === GetViewPassengers.length) {
@@ -352,7 +356,8 @@ export const {
   setPassProfile,
   setAllPassengerFill,
   setCaptainParams,
-  setPassProfileDrawer
+  setPassProfileDrawer,
+  setSelectedProfilePass
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

@@ -74,12 +74,8 @@ api.interceptors.request.use(async (config) => {
         if (error?.response?.status === 401 || error?.response?.status === 403) {
           try {
             const storedRefreshToken = Cookies.get("refresh_token");
-            window.location.href = "/";
-
 
             // Optionally call logout API
-            console.log();
-            
             
             // logout
           } catch (logoutError) {

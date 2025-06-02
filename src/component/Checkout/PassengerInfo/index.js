@@ -37,15 +37,23 @@ const PassengerInfo = ({ getdata }) => {
     (state) => state?.passengerDrawer?.passProfile
   );
 
+  // if passenger profile or not handle
   const handlePassengerClick = (uuid, isFilled, type) => {
-    console.log("uuid111", isFilled);
-    console.log("pass_type", uuid, isFilled, type);
-
-    if (!isFilled  ) {
+    if (passengerPofile?.length > 0) {
+      dispatch(getPassPofile()); // call passenger profile
+      dispatch(setPassProfileDrawer(true));
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(setPassengerType(type));
-      dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
-      dispatch(setOpenPassengerDrawer()); // open drawer
+    } else {
+      console.log("uuid111", isFilled);
+      console.log("pass_type", uuid, isFilled, type);
+
+      if (!isFilled) {
+        dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
+        dispatch(setPassengerType(type));
+        dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
+        dispatch(setOpenPassengerDrawer()); // open drawer
+      }
     }
   };
 
@@ -97,10 +105,7 @@ const PassengerInfo = ({ getdata }) => {
   
   console.log("passengerPofile", passengerPofile);
 
-  const handleProfilePassClick = ()=> {
-    dispatch(getPassPofile()); // call passenger profile
-    dispatch(setPassProfileDrawer(true))
-  }
+  
 
   return (
     <>
@@ -111,57 +116,33 @@ const PassengerInfo = ({ getdata }) => {
       </Box>
       <Box variant="outlined" className={searchResultStyles.PassengersSection}>
         {/* profile fill passenger */}
-        {passengerPofile?.length > 0 ? (
-          <>
-            <Grid container spacing={2}>
-              {passengerPofile?.map((passenger, index) => {
-                console.log("passenger__1", passenger);
-                return (
-                  <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
-                    <ProfilePassengerCard
-                      ispassProfile={passenger}
-                      onClickPrifilePass={() =>
-                        handleProfilePassClick(
-                          passenger.uuid,
-                          passenger.type
-                        )
-                      }
-                    />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </>
-        ) : (
-          <>
-            <Grid container spacing={2}>
-              {getdata?.map((passenger, index) => {
-                console.log("passenger__0", passenger);
-                const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-                console.log("isFilled", isFilled);
 
-                return (
-                  <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
-                    <PassengersCard
-                      totalPass={index + 1}
-                      getdata={passenger}
-                      passDetail={isFilled ? passenger : ""}
-                      isMainPassenger={index === 0}
-                      isFilled={isFilled}
-                      onClickCard={() =>
-                        handlePassengerClick(
-                          passenger.uuid,
-                          isFilled,
-                          passenger.type
-                        )
-                      }
-                    />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </>
-        )}
+        <Grid container spacing={2}>
+          {getdata?.map((passenger, index) => {
+            console.log("passenger__0", passenger);
+            const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+            console.log("isFilled", isFilled);
+
+            return (
+              <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
+                <PassengersCard
+                  totalPass={index + 1}
+                  getdata={passenger}
+                  passDetail={isFilled ? passenger : ""}
+                  isMainPassenger={index === 0}
+                  isFilled={isFilled}
+                  onClickCard={() =>
+                    handlePassengerClick(
+                      passenger.uuid,
+                      isFilled,
+                      passenger.type
+                    )
+                  }
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
         {/*  */}
       </Box>
       {/* ////////////////////////////////////////////// */}

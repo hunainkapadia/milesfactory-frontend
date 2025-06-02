@@ -42,12 +42,18 @@ const PassengerDrawerForm = () => {
   const [region, setRegion] = useState("");
   const [nationality, setNationality] = useState(null);
 
+
   const countries = useSelector((state) => state.passengerDrawer.countries);
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
 
   // pass profile
+  const selectedpassengerPofile =  useSelector(
+    (state) => state.passengerDrawer.selectedProfilePass
+  )
+  console.log("selectedpassengerPofile", selectedpassengerPofile?.uuid);
+  
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
@@ -55,6 +61,7 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerUUID
   );
   console.log("PassengersUuID", PassengersUuID);
+
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
@@ -169,13 +176,13 @@ const PassengerDrawerForm = () => {
       console.log("PassengersUuID:", PassengersUuID);
 
       if (passengerPofile?.length && PassengersUuID) {
-        const filtered = passengerPofile.filter(
-          (getpassenger) => getpassenger.uuid === PassengersUuID
+        
+        const passengerData = passengerPofile.find(
+          (getProfilepassenger) => getProfilepassenger.uuid === selectedpassengerPofile?.uuid
         );
 
-        const passengerData = filtered[0];
 
-        console.log("Filtered Passenger Data:", passengerData);
+        console.log("passengerData_0:", passengerData);
 
         if (passengerData) {
           setgender(passengerData.gender || "");
@@ -195,7 +202,7 @@ const PassengerDrawerForm = () => {
           setNationality(matchedNationality || null);
         }
       }
-    }, 3000);
+    }, 500);
   } else {
     // Reset form when drawer is closed
     setgender("");

@@ -26,7 +26,7 @@ import PaymentCard from "../PaymentCard";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { setPassProfileDrawer } from "@/src/store/slices/passengerDrawerSlice";
+import { PassengerForm, setOpenPassengerDrawer, setPassengerType, setPassengerUUID, setPassProfileDrawer, setSelectedProfilePass } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
@@ -43,6 +43,13 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const handleCloseDrawer = () => {
     dispatch(setPassProfileDrawer(false));
   };
+  const handleCardClick =(passenger)=> {
+    dispatch(setSelectedProfilePass(passenger));
+    console.log("passenger_uuid", passenger);
+
+    dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
+    dispatch(setOpenPassengerDrawer()); // open drawer
+  }
   return (
     <Drawer
       anchor="right"
