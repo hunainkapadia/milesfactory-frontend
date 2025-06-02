@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import SearchCard from "../SearchCard";
 import Link from "next/link";
@@ -22,11 +22,17 @@ import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
+  const [showAll, setShowAll] = useState(false); // Track if we've shown all slice data
+
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
+  const isMobile = useMediaQuery("(max-width:767px)");
 
   console.log("aiMessage_00", aiMessage);
 
   const [showAllFlight, setShowAllFlight] = useState(false);
+
+const [paginationStarted, setPaginationStarted] = useState(false); // Track if we've started pagination
+
   const messagesEndRef = useRef(null);
 
   const getAllFlightGetApi = useSelector(
@@ -55,9 +61,7 @@ const AiMessage = ({ aiMessage }) => {
     }
   }, [GetViewPassengers]);
 
-  const seeAllResultHandle = () => {
-    setShowAllFlight((prev) => !prev);
-  };
+  
   console.log("GetViewPassengers", GetViewPassengers.length > 0);
   console.log("filledPassenger", filledPassenger);
 
@@ -68,7 +72,9 @@ const AiMessage = ({ aiMessage }) => {
 
   const displayedGetFlights = showAllFlight
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
-    : aiMessage?.ai?.offers?.slice(0, 3);
+    : isMobile
+    ? aiMessage?.ai?.offers // Show all offers on mobile
+    : aiMessage?.ai?.offers?.slice(0, 3); // Show only 3 on desktop
 
   console.log("Total Offers:", displayedGetFlights?.length);
   console.log("Original Offers:", aiMessage?.ai?.offers?.length);
@@ -109,8 +115,20 @@ const AiMessage = ({ aiMessage }) => {
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
   const moreflightsHandle = () => {
+    if (!showAll) {
+      // First click on desktop: show all initial offers
+      setShowAllFlight(true);
+      setShowAll(true);
+    } else {
+      // Second click on desktop: load next page
+      dispatch(loadNextFlights());
+    }
+};
+  const moreflightsMobileHandle = () => {
     dispatch(loadNextFlights());
+
   };
+
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";
@@ -203,46 +221,40 @@ const AiMessage = ({ aiMessage }) => {
           </Box>
 
           {/* Toggle button */}
+          {/* moreflightsMobileHandle */}
+          <Box
+            sx={{ display: { xs: 'block', md: 'none' } }}
+            onClick={moreflightsMobileHandle}
+            style={{ cursor: "pointer" }}
+          >
+            <Box
+              sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+              gap={2}
+              alignItems="center"
+              display="flex"
+              className="bold"
+            >
+              <span>See more flights m</span>
+              <i className="fa fa-caret-right fas" />
+            </Box>
+          </Box>
 
-          {!GetViewPassengers.length > 0 && !showAllFlight ? (
-            <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
-              <Box
-                sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                gap={2}
-                alignItems="center"
-                display="flex"
-                className="bold"
-              >
-                <span>
-                  See more flights
-                  {`${
-                    getAllFlightGetApi?.count
-                      ? " (" + getAllFlightGetApi?.count + ")"
-                      : ""
-                  }`}
-                  {`${
-                    allFlightSearcCount?.count
-                      ? " (" + allFlightSearcCount?.count + ")"
-                      : ""
-                  }`}
-                </span>
-                <i className="fa fa-caret-right fas" />
-              </Box>
+          <Box
+            sx={{ display: { xs: 'none', md: 'block' } }}
+            onClick={moreflightsHandle}
+            style={{ cursor: "pointer" }}
+          >
+            <Box
+               
+              gap={2}
+              alignItems="center"
+              display="flex"
+              className="bold"
+            >
+              <span>See more flights</span>
+              <i className="fa fa-caret-right fas" />
             </Box>
-          ) : (
-            <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }}>
-              <Box
-                sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                gap={2}
-                alignItems="center"
-                display="flex"
-                className="bold"
-              >
-                <span>See more flights</span>
-                <i className="fa fa-caret-right fas" />
-              </Box>
-            </Box>
-          )}
+          </Box>
         </>
       ) : (
         // Default AI response
@@ -265,7 +277,7 @@ const AiMessage = ({ aiMessage }) => {
                     />
                   </>
                 )}
-                
+
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(
