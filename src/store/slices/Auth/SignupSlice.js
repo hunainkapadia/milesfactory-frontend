@@ -92,7 +92,7 @@ export const SignUpUser = (params) => (dispatch) => {
         setTimeout(() => {
           // Auto login after signup
           dispatch(loginUser({ username: params.email, password: params.password }));
-        }, 2000);
+        }, 500);
       }
     })
     .catch((error) => {
