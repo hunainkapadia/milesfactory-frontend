@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
 import { API_ENDPOINTS } from "../../api/apiEndpoints";
 import Cookies from "js-cookie";
-import { setLoginUser } from "./LoginSlice";
+import { loginUser, setLoginUser } from "./LoginSlice";
 // import { setLoginPopup } from "./LoginSlice";
 
 const initialState = {
@@ -67,19 +67,13 @@ const signupSlice = createSlice({
 
 // **Thunk for signing up a user**
 export const SignUpUser = (params) => (dispatch) => {
-  dispatch(setIstLoading(true))
-   api
-    .post(API_ENDPOINTS.AUTH.SIGNUP, params)
+  dispatch(setIstLoading(true));
+  
+  api.post(API_ENDPOINTS.AUTH.SIGNUP, params)
     .then((res) => {
-      
-      console.log("signup_res_out", res);
       if (res.status === 201) {
         console.log("signup_res_in", res);
         
-        dispatch(
-          setLoginUser({ user: { user: res?.data }, status: res.status })
-        );
-        dispatch(setSignupPopup(false));
         // Store user info in cookies
         Cookies.set(
           "set-user",
@@ -91,16 +85,24 @@ export const SignUpUser = (params) => (dispatch) => {
           }),
           { expires: 7 }
         );
+
+        dispatch(setSignupPopup(false));
+
+        // 2-second delay before auto login
+        setTimeout(() => {
+          // Auto login after signup
+          dispatch(loginUser({ username: params.email, password: params.password }));
+        }, 2000);
       }
     })
     .catch((error) => {
-       const errors = error?.response?.data.errors || {};
-       dispatch(setFirstNameError(errors.first_name?.[0] || ""));
-       dispatch(setLastNameError(errors.last_name?.[0] || ""));
-       dispatch(setEmailError(errors.email?.[0] || ""));
-       dispatch(setPasswordError(errors.password?.[0] || ""));
-      })
-      .finally(() => {
+      const errors = error?.response?.data.errors || {};
+      dispatch(setFirstNameError(errors.first_name?.[0] || ""));
+      dispatch(setLastNameError(errors.last_name?.[0] || ""));
+      dispatch(setEmailError(errors.email?.[0] || ""));
+      dispatch(setPasswordError(errors.password?.[0] || ""));
+    })
+    .finally(() => {
       dispatch(setIstLoading(false));
     });
 };
