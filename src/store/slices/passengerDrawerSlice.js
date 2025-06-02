@@ -265,7 +265,6 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       setTimeout(() => {
         dispatch(ViewPassengers());
       }, 500);
-      alert("asas")
       dispatch(setClosePassengerDrawer());
       
     })
