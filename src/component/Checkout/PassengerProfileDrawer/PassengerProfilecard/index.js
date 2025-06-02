@@ -5,6 +5,7 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 // Example Props (you should pass these from parent)
 
 const PassengerProfilecard = ({ getdata, onClickCard }) => {
+  
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
 

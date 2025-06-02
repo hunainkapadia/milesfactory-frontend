@@ -33,6 +33,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const isPassengerProfileDrawer = useSelector(
     (state) => state.passengerDrawer.passProfileDrawer
   );
+  
   console.log("isPassengerProfileDrawer", isPassengerProfileDrawer);
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
@@ -50,6 +51,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
     dispatch(setOpenPassengerDrawer()); // open drawer
   }
+  const getFillPass = useSelector((state )=> state.passengerDrawer.allPassengerFill);
+  
   return (
     <Drawer
       anchor="right"
@@ -116,8 +119,9 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                     alignItems={"center"}
                     p={3}
                     gap={2}
-                    
-                    className={styles.addtravellerBtn + " basecolor1 cursor-pointer"}
+                    className={
+                      styles.addtravellerBtn + " basecolor1 cursor-pointer"
+                    }
                   >
                     <i className="fa fa-plus"></i>
                     <Typography>Add new traveller</Typography>
@@ -130,39 +134,39 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           </Box>
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>
-                        <Divider />
-                        <Box py={1} px={3} display="flex" flexDirection="column">
-                          <Box
-                            display="flex"
-                            justifyContent="flex-end"
-                            alignItems="center"
-                            gap={3}
-                          >
-                            <Box
-                              display="flex"
-                              alignItems="center"
-                              gap={2}
-                              className="basecolor1 f14"
-                              style={{ cursor: "pointer" }}
-                              onClick={"handleCloseDrawer"}
-                              disabled={"isFormLoading"} // Disable when loading
-                            >
-                              <span>Close</span>
-                            </Box>
-          
-                            <Button
-                              type="submit" // Important!
-                              className="btn btn-primary chat-btn btn-round"
-                              onClick={"SubmitPassenger"}
-                              disabled={"isFormLoading"} // Disable when loading
-                              variant="contained"
-                              color="success"
-                            >
-                              <span>Continue</span>
-                            </Button>
-                          </Box>
-                        </Box>
-                      </Box>
+            <Divider />
+            <Box py={1} px={3} display="flex" flexDirection="column">
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                gap={3}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={2}
+                  className="basecolor1 f14"
+                  style={{ cursor: "pointer" }}
+                  onClick={handleCloseDrawer}
+                  disabled={"isFormLoading"} // Disable when loading
+                >
+                  <span>Close</span>
+                </Box>
+
+                <Button
+                  type="submit"
+                  className="btn btn-primary chat-btn btn-round"
+                  onClick={getFillPass ? handleCloseDrawer : "" } // Remove quotes
+                  disabled={!getFillPass} // Disable when false, enable when true
+                  variant="contained"
+                  color="success"
+                >
+                  <span>Continue</span>
+                </Button>
+              </Box>
+            </Box>
+          </Box>
           {/* footer */}
         </Box>
       </Box>
