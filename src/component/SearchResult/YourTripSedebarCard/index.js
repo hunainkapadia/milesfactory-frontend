@@ -59,6 +59,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   const validPassengers = GetViewPassengers?.filter(
     (p) => p.given_name && p.family_name
   );
+  const totalTravelers = (SearchHistory.adults || 0) + (SearchHistory.children || 0) + (SearchHistory.infants || 0);
+
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -100,8 +102,9 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
               )}
             </Typography>
             <Typography className=" gray mb-0 f12">
+
               {SearchHistory.flight_type == "round-trip" ? "Return" : "One way"}
-              , {SearchHistory.adults}{" "}
+              , {totalTravelers}{" "}
               {offerData?.passengers?.length > 1 ? "Travellers" : "Traveller"}
             </Typography>
           </Box>

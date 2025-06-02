@@ -488,44 +488,48 @@ const PassengerDrawerForm = () => {
                 </Box>
 
                 {/* Email */}
-                <Box className="formGroup">
-                  <FormLabel className="bold formLabel">Email</FormLabel>
-                  <TextField
-                    className="formControl"
-                    fullWidth
-                    placeholder="Enter Email Address"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setemail(e.target.value)}
-                    margin="normal"
-                  />
-                  {formError?.email?.[0] && (
-                    <Typography className="error" color="red">
-                      {formError.email[0]}
-                    </Typography>
-                  )}
-                </Box>
+                {PassengerType === "adult" && (
+                  <>
+                    <Box className="formGroup">
+                      <FormLabel className="bold formLabel">Email</FormLabel>
+                      <TextField
+                        className="formControl"
+                        fullWidth
+                        placeholder="Enter Email Address"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setemail(e.target.value)}
+                        margin="normal"
+                      />
+                      {formError?.email?.[0] && (
+                        <Typography className="error" color="red">
+                          {formError.email[0]}
+                        </Typography>
+                      )}
+                    </Box>
 
-                {/* Phone */}
-                <Box className="formGroup">
-                  <FormLabel className="bold formLabel">Phone number</FormLabel>
-                  <PhoneInput
-                    country={"us"}
-                    value={phone}
-                    onChange={(value, country) => {
-                      setphone(value);
-                      setRegion(country.countryCode?.toUpperCase());
-                    }}
-                    inputStyle={{ width: "100%" }}
-                    specialLabel=""
-                    enableSearch
-                  />
-                  {formError?.phone_number?.[0] && (
-                    <Typography className="error" color="red">
-                      {formError.phone_number[0]}
-                    </Typography>
-                  )}
-                </Box>
+                    {/* Phone */}
+                    <Box className="formGroup">
+                      <FormLabel className="bold formLabel">Phone number</FormLabel>
+                      <PhoneInput
+                        country={"us"}
+                        value={phone}
+                        onChange={(value, country) => {
+                          setphone(value);
+                          setRegion(country.countryCode?.toUpperCase());
+                        }}
+                        inputStyle={{ width: "100%" }}
+                        specialLabel=""
+                        enableSearch
+                      />
+                      {formError?.phone_number?.[0] && (
+                        <Typography className="error" color="red">
+                          {formError.phone_number[0]}
+                        </Typography>
+                      )}
+                    </Box>
+                  </>
+                )}
 
                 {/* Nationality */}
                 <Box className="formGroup">
