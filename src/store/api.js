@@ -29,34 +29,41 @@ api.interceptors.request.use(async (config) => {
   const accessToken = Cookies.get("access_token");
   const refreshToken = Cookies.get("refresh_token");
 
-  // Valid access token — use it
+  console.log("Access Token:", accessToken);
+  console.log("Refresh Token:", refreshToken);
+
   if (accessToken && !isTokenExpired(accessToken)) {
     config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
   }
 
-  // Access token is expired — try refreshing
   if (accessToken && isTokenExpired(accessToken)) {
     console.log("Access token expired. Refreshing...");
+
+    if (!refreshToken) {
+      console.warn("No refresh token available. Logging out...");
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+      store.dispatch(Logout());
+      return Promise.reject("No refresh token found");
+    }
 
     if (!isRefreshing) {
       isRefreshing = true;
 
       try {
-        const refreshPayload = { refresh: refreshToken };
-
         const response = await axios.post(
           `${API_BASE_URL}/api/v1/refresh/`,
-          refreshPayload
+          { refresh: refreshToken },
+          { withCredentials: true }
         );
 
         const newAccessToken = response.data.access;
         const newRefreshToken = response.data.refresh;
 
-        // Update access token
-        Cookies.set("access_token", newAccessToken);
+        console.log("New tokens received:", response.data);
 
-        // Optionally update refresh token
+        Cookies.set("access_token", newAccessToken);
         if (newRefreshToken) {
           Cookies.set("refresh_token", newRefreshToken, { expires: 7 });
         }
@@ -68,28 +75,12 @@ api.interceptors.request.use(async (config) => {
         return config;
 
       } catch (error) {
-        console.error("Token refresh failed:", error?.response?.status);
+        console.error("🔴 Token refresh failed:", error?.response?.status);
+        console.log("🔴 Refresh error:", error?.response?.data);
 
-        // If refresh token is blacklisted or expired
-        if (error?.response?.status === 401 || error?.response?.status === 403) {
-          try {
-            const storedRefreshToken = Cookies.get("refresh_token");
-
-            // Optionally call logout API
-            
-            // logout
-          } catch (logoutError) {
-            console.error("Logout API call failed", logoutError);
-          }
-
-          // Clear cookies and logout
-          Cookies.remove("access_token");
-          Cookies.remove("refresh_token");
-          store.dispatch(Logout());
-
-          // Optional redirect
-          // window.location.href = "/login";
-        }
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+        store.dispatch(Logout());
 
         isRefreshing = false;
         processQueue(error, null);
@@ -97,7 +88,6 @@ api.interceptors.request.use(async (config) => {
       }
     }
 
-    // Queue requests while refreshing
     return new Promise((resolve, reject) => {
       failedQueue.push({
         resolve: (token) => {
@@ -112,7 +102,6 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Optional: Save session ID if available in response headers
 api.interceptors.response.use(
   (response) => {
     const sessionId = response.headers["x-session-id"];

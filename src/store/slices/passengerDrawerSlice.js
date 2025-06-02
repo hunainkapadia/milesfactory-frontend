@@ -301,7 +301,6 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
       api
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
-          alert("captain_working after 2 sec");
           console.log("captain_res", cap_res);
         })
         .catch((err) => {
