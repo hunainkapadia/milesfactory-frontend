@@ -296,6 +296,14 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
   
   if (getFillPass) {
     console.log("pass_captain_params", captainParams);
+
+    const getParams = {
+      email: captainParams.email,
+      phone_number: captainParams.phone_number,
+      region: captainParams.region,
+    };
+    console.log("getParams", getParams);
+    
   
     setTimeout(() => {
       api
