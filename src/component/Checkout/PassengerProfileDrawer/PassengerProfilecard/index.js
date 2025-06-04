@@ -65,9 +65,9 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                       className="basecolor f12 capitalize-first-letter"
                     >
                       {getdata.type === "infant_without_seat"
-                        ? "Infants - under 2 years old"
+                        ? "Infants"
                         : getdata.type === "child"
-                        ? "Child Between 2 and 17 years old"
+                        ? "Child"
                         : getdata.type === "adult"
                         ? "Adult - 18 years and older"
                         : getdata.type}

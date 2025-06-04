@@ -96,7 +96,7 @@ const PassengerDrawerForm = () => {
   const minInfantDate = today.subtract(2, "year").add(1, "day");
 
   // Dynamic min/max based on passenger type
-  let minDate = dayjs("1900-01-01");
+  let minDate = dayjs("1930-01-01");
   let maxDate = today;
 
   if (PassengerType === "adult") {
@@ -115,20 +115,20 @@ const PassengerDrawerForm = () => {
       const age = dayjs().diff(dayjs(born_on), "year");
       console.log("pass_age", age);
 
-      if (PassengerType === "adult" && age < 12) {
+      if (PassengerType === "adult" && age < 18) {
         dispatch(
           setPassengerFormError({
-            born_on: "Adult must be at least 12 years old",
+            born_on: "Adult must be at least 18 years old",
           })
         );
-      } else if (PassengerType === "child" && (age < 2 || age >= 12)) {
+      } else if (PassengerType === "child" && (age < 2 || age > 17)) {
         dispatch(
           setPassengerFormError({
             born_on:
               "Child passenger must be less than 12 and at least 2 years old",
           })
         );
-      } else if (PassengerType === "infant_without_seat" && age >= 2) {
+      } else if (PassengerType === "infant_without_seat" && age > 2) {
         dispatch(
           setPassengerFormError({
             born_on: "Baby passenger must be less than 2 years old",

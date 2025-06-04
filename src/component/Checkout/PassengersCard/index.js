@@ -37,11 +37,11 @@ const PassengersCard = ({
                 className={" gray f12 capitalize-first-letter"}
               >
                 {getdata.type === "infant_without_seat"
-                  ? "Infants - under 2 years old"
+                  ? "Infants"
                   : getdata.type === "child"
-                  ? "Child Between 2 and 11 years old"
+                  ? "Child"
                   : getdata.type === "adult"
-                  ? "Adult - 12 years and older"
+                  ? "Adult - 18 years and older"
                   : getdata.type}
               </Typography>
             </>

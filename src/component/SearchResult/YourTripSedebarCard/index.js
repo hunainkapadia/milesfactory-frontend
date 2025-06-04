@@ -105,7 +105,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
 
               {SearchHistory.flight_type == "round-trip" ? "Return" : "One way"}
               , {totalTravelers}{" "}
-              {offerData?.passengers?.length > 1 ? "Travellers" : "Traveller"}
+              {totalTravelers ? "Travellers" : "Traveller"}
             </Typography>
           </Box>
         </Box>
