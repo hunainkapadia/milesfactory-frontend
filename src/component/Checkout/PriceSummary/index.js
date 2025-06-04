@@ -33,15 +33,24 @@ const PriceSummary = ({ getdata }) => {
   }, [priceSummary]);
 
   // get flight
-  const flightDetail = useSelector((state) => state.booking.flightDetail);
+  
+  const orderDetail = useSelector((state) => state.payment.PaymentData.order.selected_offer);
+  console.log("orderDetail_new", orderDetail);
 
-  const passengers = flightDetail.slices?.[0]?.segments?.[0]?.passengers || [];
+  const orderDetailOld = useSelector((state) => state.booking.flightDetail);
 
-  const personQuantity = flightDetail?.passengers.length;
+  console.log("orderDetailOld", orderDetailOld);
+  
+  
+  
+
+  const passengers = orderDetail.slices?.[0]?.segments?.[0]?.passengers || [];
+
+  const personQuantity = orderDetail?.passengers.length;
   const Passengers =
-    Number(flightDetail?.per_passenger_amount) * personQuantity;
-  const WithtaxAmount = Number(flightDetail?.tax_amount) + Passengers;
-  const totalAmount = Math.round(flightDetail?.base_amount) + Math.round(flightDetail?.tax_amount) + Math.round(flightDetail?.markup_amount);
+    Number(orderDetail?.per_passenger_amount) * personQuantity;
+  const WithtaxAmount = Number(orderDetail?.tax_amount) + Passengers;
+  const totalAmount = Math.round(orderDetail?.base_amount) + Math.round(orderDetail?.tax_amount) + Math.round(orderDetail?.markup_amount);
 
   const paymentSuccess = useSelector((state) => state.payment.PaymentFormSuccess);
   return (
@@ -80,10 +89,10 @@ const PriceSummary = ({ getdata }) => {
                 gap={4}
               >
                 <Box>
-                  {flightDetail.slices?.[0]?.origin.iata_code} -{" "}
-                  {flightDetail.slices?.at(0)?.destination.iata_code}, Return /{" "}
+                  {orderDetail.slices?.[0]?.origin.iata_code} -{" "}
+                  {orderDetail.slices?.at(0)?.destination.iata_code}, Return /{" "}
                   {Object.entries(
-                    flightDetail.passengers?.reduce((acc, passenger) => {
+                    orderDetail.passengers?.reduce((acc, passenger) => {
                       acc[passenger.type] = (acc[passenger.type] || 0) + 1;
                       return acc;
                     }, {})
@@ -94,10 +103,10 @@ const PriceSummary = ({ getdata }) => {
                   ))}
                 </Box>
                 <Box>
-                  {console.log("getpassengertype", flightDetail)}
-                  {currencySymbols[flightDetail?.tax_currency] ||
-                    flightDetail?.tax_currency}
-                  {Math.round(flightDetail?.base_amount)}
+                  {console.log("getpassengertype", orderDetail)}
+                  {currencySymbols[orderDetail?.tax_currency] ||
+                    orderDetail?.tax_currency}
+                  {Math.round(orderDetail?.base_amount)}
                 </Box>
               </Box>
 
@@ -110,10 +119,10 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Taxes, fees & surcharges</Box>
                 <Box>
-                  {flightDetail.tax_currency === "GBP"
+                  {orderDetail.tax_currency === "GBP"
                     ? "£"
-                    : flightDetail.tax_currency}
-                  {Math.round(flightDetail.tax_amount)}
+                    : orderDetail.tax_currency}
+                  {Math.round(orderDetail.tax_amount)}
                 </Box>
               </Box>
               {/* <Box
@@ -135,7 +144,7 @@ const PriceSummary = ({ getdata }) => {
                   {(() => {
                     const baggageMap = new Map();
 
-                    flightDetail?.slices.forEach((slice, sliceIndex) => {
+                    orderDetail?.slices.forEach((slice, sliceIndex) => {
                       slice?.segments?.forEach((segment) => {
                         segment?.passengers?.forEach((passenger) => {
                           passenger?.baggages?.forEach((baggage) => {
@@ -152,7 +161,7 @@ const PriceSummary = ({ getdata }) => {
 
                     return (
                       <span>
-                        {flightDetail?.slices.map((slice, sliceIndex) => {
+                        {orderDetail?.slices.map((slice, sliceIndex) => {
                           const sliceLabel =
                             sliceIndex === 0 ? "Outbound" : "Return";
                           const baggageSummary = uniqueBaggages
@@ -168,7 +177,7 @@ const PriceSummary = ({ getdata }) => {
                               <strong>{sliceLabel}:</strong>{" "}
                               {baggageSummary || "No baggage info"}
                               {sliceIndex === 0 &&
-                              flightDetail?.slices.length > 1
+                              orderDetail?.slices.length > 1
                                 ? " / "
                                 : ""}
                             </span>
@@ -188,10 +197,10 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Admin Fee</Box>
                 <Box>
-                  {flightDetail.tax_currency === "GBP"
+                  {orderDetail.tax_currency === "GBP"
                     ? "£"
-                    : flightDetail.tax_currency}
-                  {Math.round(flightDetail.markup_amount)}
+                    : orderDetail.tax_currency}
+                  {Math.round(orderDetail.markup_amount)}
                 </Box>
               </Box>
               <Box
@@ -202,9 +211,9 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Total price</Box>
                 <Box className="mb-0 ">
-                  {console.log("flightDetail111", flightDetail)}
-                  {currencySymbols[flightDetail?.tax_currency] ||
-                  flightDetail?.tax_currency}
+                  {console.log("orderDetail111", orderDetail)}
+                  {currencySymbols[orderDetail?.tax_currency] ||
+                  orderDetail?.tax_currency}
                 {totalAmount}
                 </Box>
               </Box>

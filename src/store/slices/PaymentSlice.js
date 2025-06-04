@@ -10,7 +10,7 @@ const PaymentSlice = createSlice({
     priceSummary: false,
     clientSessionId: "",
     client: "",
-    
+    PaymentData: null,
     isloading: false,
   },
   reducers: {
@@ -62,13 +62,19 @@ export const PaymentForm = () => (dispatch, getState) => {
   
   
 };
-export const fetchOrderDetails = (orderId) => (dispatch) => {
+export const fetchOrderDetails = (orderId) => (dispatch, getState) => {
+
+  const state = getState();
+  const orderUUID = state.passengerDrawer.OrderUuid;
+  console.log("orderUUID_0", state);
+  
+  
   console.log("payment_response_0", orderId);
   
   dispatch(setPaymentStatus({is_complete: "no",}))
   setTimeout(() => {
     api
-      .get(`/api/v1/order/${orderId}/details`)
+      .get(`/api/v1/order/${orderUUID}/details`)
       .then((response) => {
         console.log("payment_response", response.data);
         dispatch(setPaymentData(response.data));

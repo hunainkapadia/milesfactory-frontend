@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
 import api from "../api";
 import { setCloseDrawer } from "./BookingflightSlice";
+import { fetchOrderDetails } from "./PaymentSlice";
 
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
@@ -309,6 +310,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
           console.log("captain_res", cap_res);
+          dispatch(fetchOrderDetails())
         })
         .catch((err) => {
           console.error("captain_api_error", err);
