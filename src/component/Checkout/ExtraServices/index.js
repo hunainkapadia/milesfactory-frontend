@@ -19,7 +19,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
     console.log("segmentIds", segmentIds);
     dispatch(baggage());
     dispatch(setSegmentId(segmentIds));
-    dispatch(setBaggageDrawer(true));
+    dispatch(setBaggageDrawer(true)); //for open drawer
   };
 
   const singleflight = useSelector((state) => state.booking.singleFlightData);

@@ -102,6 +102,8 @@
   padding: 20vh 0 12vh;
   
   &.mainHeroSection {
+    padding: 20vh 0 12vh;
+
     height:100vh ;
     .Box {
       .Content {
@@ -142,6 +144,7 @@
         width: 100%;
       .Content2In {
         // width: 42%;
+        h2 {margin-bottom: 0;}
         &.ContentFullWidth {
           width: 100%;
         }
@@ -289,7 +292,7 @@
 
   .mainHeroSection.HeroSection {
     height: 98vh;
-    padding: 110px 0 16vh;
+    padding: 164px 0 26vh;
 
     .Box .Content .ContentIn {
       padding-bottom: 26px;
