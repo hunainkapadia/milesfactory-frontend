@@ -90,8 +90,8 @@ const PassengerDrawerForm = () => {
   const today = dayjs();
 
   // Ranges
-  const maxAdultDate = today.subtract(12, "year"); // Adult: must be before this
-  const minChildDate = today.subtract(12, "year").add(1, "day");
+  const maxAdultDate = today.subtract(18, "year"); // Adult: must be before this
+  const minChildDate = today.subtract(17, "year").add(1, "day");
   const maxChildDate = today.subtract(2, "year");
   const minInfantDate = today.subtract(2, "year").add(1, "day");
 

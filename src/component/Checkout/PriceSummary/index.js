@@ -179,6 +179,20 @@ const PriceSummary = ({ getdata }) => {
                   })()}
                 </Box>
               </Box> */}
+              {/* Additional baggage row */}
+              <Box
+                className={styles.PriceRow + " f12"}
+                display="flex"
+                justifyContent="space-between"
+                gap={4}
+              >
+                <Box>Additional Baggage Fee</Box>
+                <Box>
+                   {currencySymbols[flightDetail?.tax_currency] ||
+                    flightDetail?.tax_currency}
+                  {Math.round(flightDetail.amount_calculations?.baggages_total_amount_plus_markup)}
+                </Box>
+              </Box>
               {/* Markup row */}
               <Box
                 className={styles.PriceRow + " f12"}

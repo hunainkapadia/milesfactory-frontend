@@ -67,9 +67,9 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                       {getdata.type === "infant_without_seat"
                         ? "Infants - under 2 years old"
                         : getdata.type === "child"
-                        ? "Child Between 2 and 11 years old"
+                        ? "Child Between 2 and 17 years old"
                         : getdata.type === "adult"
-                        ? "Adult - 12 years and older"
+                        ? "Adult - 18 years and older"
                         : getdata.type}
                     </Typography>
                   </>
