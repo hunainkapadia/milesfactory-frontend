@@ -34,17 +34,13 @@ const PriceSummary = ({ getdata }) => {
 
   // get flight
   
-  const orderDetail = useSelector((state) => state.payment.PaymentData.order.selected_offer);
-  console.log("orderDetail_new", orderDetail);
+  const orderDetail = useSelector((state) => state?.payment?.PaymentData?.order?.selected_offer); //from order api
 
-  const orderDetailOld = useSelector((state) => state.booking.flightDetail);
-
-  console.log("orderDetailOld", orderDetailOld);
-  
+  // const orderDetailOld = useSelector((state) => state.booking.orderDetail); //from flight
   
   
 
-  const passengers = orderDetail.slices?.[0]?.segments?.[0]?.passengers || [];
+  const passengers = orderDetail?.slices?.[0]?.segments?.[0]?.passengers || [];
 
   const personQuantity = orderDetail?.passengers.length;
   const Passengers =
@@ -89,10 +85,10 @@ const PriceSummary = ({ getdata }) => {
                 gap={4}
               >
                 <Box>
-                  {orderDetail.slices?.[0]?.origin.iata_code} -{" "}
-                  {orderDetail.slices?.at(0)?.destination.iata_code}, Return /{" "}
+                  {orderDetail?.slices?.[0]?.origin.iata_code} -{" "}
+                  {orderDetail?.slices?.at(0)?.destination.iata_code}, Return /{" "}
                   {Object.entries(
-                    orderDetail.passengers?.reduce((acc, passenger) => {
+                    (orderDetail?.passengers || []).reduce((acc, passenger) => {
                       acc[passenger.type] = (acc[passenger.type] || 0) + 1;
                       return acc;
                     }, {})
@@ -119,10 +115,10 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Taxes, fees & surcharges</Box>
                 <Box>
-                  {orderDetail.tax_currency === "GBP"
+                  {orderDetail?.tax_currency === "GBP"
                     ? "£"
-                    : orderDetail.tax_currency}
-                  {Math.round(orderDetail.tax_amount)}
+                    : orderDetail?.tax_currency}
+                  {Math.round(orderDetail?.tax_amount)}
                 </Box>
               </Box>
               {/* <Box
@@ -197,9 +193,12 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Additional Baggage Fee</Box>
                 <Box>
-                   {currencySymbols[flightDetail?.tax_currency] ||
-                    flightDetail?.tax_currency}
-                  {Math.round(flightDetail.amount_calculations?.baggages_total_amount_plus_markup)}
+                  {currencySymbols[orderDetail?.tax_currency] ||
+                    orderDetail?.tax_currency}
+                  {Math.round(
+                    orderDetail?.amount_calculations
+                      ?.baggages_total_amount_plus_markup
+                  )}
                 </Box>
               </Box>
               {/* Markup row */}
@@ -211,10 +210,14 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Admin Fee</Box>
                 <Box>
-                  {orderDetail.tax_currency === "GBP"
-                    ? "£"
-                    : orderDetail.tax_currency}
-                  {Math.round(orderDetail.markup_amount)}
+                  {orderDetail?.markup_amount != null && (
+                    <>
+                      {orderDetail.tax_currency === "GBP"
+                        ? "£"
+                        : orderDetail.tax_currency}
+                      {Math.round(orderDetail.markup_amount)}
+                    </>
+                  )}
                 </Box>
               </Box>
               <Box
@@ -227,8 +230,8 @@ const PriceSummary = ({ getdata }) => {
                 <Box className="mb-0 ">
                   {console.log("orderDetail111", orderDetail)}
                   {currencySymbols[orderDetail?.tax_currency] ||
-                  orderDetail?.tax_currency}
-                {totalAmount}
+                    orderDetail?.tax_currency}
+                  {totalAmount}
                 </Box>
               </Box>
             </Box>

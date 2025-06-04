@@ -310,7 +310,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
           console.log("captain_res", cap_res);
-          dispatch(fetchOrderDetails())
+          dispatch(fetchOrderDetails()); // for order detail api call 
         })
         .catch((err) => {
           console.error("captain_api_error", err);

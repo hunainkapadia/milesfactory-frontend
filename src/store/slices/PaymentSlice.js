@@ -10,7 +10,6 @@ const PaymentSlice = createSlice({
     priceSummary: false,
     clientSessionId: "",
     client: "",
-    PaymentData: null,
     isloading: false,
   },
   reducers: {
@@ -66,9 +65,6 @@ export const fetchOrderDetails = (orderId) => (dispatch, getState) => {
 
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
-  console.log("orderUUID_0", state);
-  
-  
   console.log("payment_response_0", orderId);
   
   dispatch(setPaymentStatus({is_complete: "no",}))
@@ -98,7 +94,7 @@ export const fetchOrderDetails = (orderId) => (dispatch, getState) => {
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
       });
-  }, 5000);
+  }, 3000);
 };
 
 // Export actions
