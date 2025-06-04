@@ -14,6 +14,8 @@ import BaggageDrawerFooter from "./BaggageDrawerFooter";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  addBaggage,
+  removeBaggage,
   setAddSelectedBaggage,
   setBaggageDrawer,
 } from "@/src/store/slices/BaggageSlice";
@@ -67,11 +69,13 @@ const BaggageDrawer = ({ getFlightDetail }) => {
           [uuid]: newCount,
         },
       };
+
     });
-
+    
     console.log("selectedBaggageUUIDs", selectedBaggageUUIDs);
-
+    
     dispatch(setAddSelectedBaggage(uuid));
+    dispatch(addBaggage()); //
   };
 
   const handleDecrement = (uuid, passengerId) => {
@@ -87,6 +91,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
         },
       };
     });
+    dispatch(removeBaggage());
   };
 
   const totalBaggageCount = Object.values(baggageCount).reduce(
