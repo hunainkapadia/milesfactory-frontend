@@ -125,7 +125,7 @@ const AiMessage = ({ aiMessage }) => {
     return result;
   }
   
-const orderDetail = useSelector((state) => state?.payment?.PaymentData?.order?.selected_offer); //from order api
+const orderDetail = useSelector((state) => state?.payment?.OrderConfirm?.order?.selected_offer); //from order api
   return (
     <Box
       ref={aiboxRef}
