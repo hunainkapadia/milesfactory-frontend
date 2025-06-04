@@ -69,11 +69,10 @@ const BaggageDrawer = ({ getFlightDetail }) => {
           [uuid]: newCount,
         },
       };
-
     });
-    
+
     console.log("selectedBaggageUUIDs", selectedBaggageUUIDs);
-    
+
     dispatch(setAddSelectedBaggage(uuid));
     dispatch(addBaggage()); //
   };
@@ -110,8 +109,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   // respons baggage add data
   const baggageAddData = useSelector((state) => state.bagage.baggageAddData);
   console.log("baggageAddData", baggageAddData?.request_type);
-// Check if baggageOptions is an array before filtering
-  
+  // Check if baggageOptions is an array before filtering
 
   // calculate totalInitialBaggagePrice [start]
   let totalInitialBaggagePrice = 0;
@@ -127,8 +125,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       totalInitialBaggagePrice += checkedAmount + carryOnAmount;
     }
   });
-// calculate totalInitialBaggagePrice [end]
-  
+  // calculate totalInitialBaggagePrice [end]
 
   return (
     <Drawer
@@ -139,41 +136,41 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       transitionDuration={300}
     >
       <Box className={styles.BaggageDrawerSection} width={480}>
-              <Box
-                component={"header"}
-                className={styles.checkoutDrowerHeder}
-                pt={3}
-                pb={2}
-                px={3}
-                display="flex"
-                justifyContent="space-between"
-                flexDirection={"column"}
-                gap={3}
-              >
-                <Box
-                  component={"section"}
-                  gap={1}
-                  alignItems="center"
-                  display="flex"
-                  className={" bold basecolor1 btn-link cursor-pointer"}
-                  onClick={HandlecloseDrawer}
-                >
-                  <i className={`fa fa-arrow-left fas`}></i>{" "}
-                  <Box component={"span"}>Back to Mylz Chat</Box>
-                </Box>
-                <Box
-                  component={"section"}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems={"center"}
-                >
-                  <Box>
-                    <h3 className="regular mb-0">Extra baggage</h3>
-                  </Box>
-                </Box>
-              </Box>
+        <Box
+          component={"header"}
+          className={styles.checkoutDrowerHeder}
+          pt={3}
+          pb={2}
+          px={3}
+          display="flex"
+          justifyContent="space-between"
+          flexDirection={"column"}
+          gap={3}
+        >
+          <Box
+            component={"section"}
+            gap={1}
+            alignItems="center"
+            display="flex"
+            className={" bold basecolor1 btn-link cursor-pointer"}
+            onClick={HandlecloseDrawer}
+          >
+            <i className={`fa fa-arrow-left fas`}></i>{" "}
+            <Box component={"span"}>Back to Mylz Chat</Box>
+          </Box>
+          <Box
+            component={"section"}
+            display="flex"
+            justifyContent="space-between"
+            alignItems={"center"}
+          >
+            <Box>
+              <h3 className="regular mb-0">Extra baggage</h3>
+            </Box>
+          </Box>
+        </Box>
         <Box className={styles.BaggageDrawerBody}>
-          <Box px={3} >
+          <Box px={3}>
             <Tabs
               value={tabValue}
               onChange={handleTabChange}
@@ -294,11 +291,11 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                       return (
                         <>
                           <Box
-                            className={styles.Passenger}
+                            className={styles.Passenger + " passengers"}
                             key={passenger?.uuid}
                           >
                             <Box>
-                              <Typography className="bold">
+                              <Typography className="bold passengerName">
                                 {`${passenger.title} ${passenger.given_name} ${passenger.family_name}`}
                               </Typography>
                             </Box>

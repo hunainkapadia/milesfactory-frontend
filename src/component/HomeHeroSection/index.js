@@ -28,7 +28,6 @@ const HomeHeroSection = () => {
             isMessage.length ? styles.Active : ""
           }`}
           display="flex"
-          alignItems="center"
           justifyContent="center"
         >
           <Box className={styles.Box}>
