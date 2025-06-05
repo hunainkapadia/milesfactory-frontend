@@ -36,7 +36,6 @@ const PriceSummary = ({ getdata }) => {
   
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const orderDetail = flightOrder?.order?.selected_offer;
-  console.log("orderDetail_0", flightOrder?.amount_calculations);
   
 
   // const orderDetailOld = useSelector((state) => state.booking.orderDetail); //from flight

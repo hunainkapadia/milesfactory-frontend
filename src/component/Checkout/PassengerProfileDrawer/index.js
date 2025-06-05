@@ -38,7 +38,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-  console.log("passengerPofile", passengerPofile);
+  const selectedType = useSelector(
+    (state) => state.passengerDrawer?.PassengerType
+  );
+    
+  console.log("passengerPofile_0", passengerPofile);
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -52,6 +56,13 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setOpenPassengerDrawer()); // open drawer
   }
   const getFillPass = useSelector((state )=> state.passengerDrawer.allPassengerFill);
+
+  // add passenger [start]
+
+  const handleAddPassenger =()=> {
+    dispatch(setOpenPassengerDrawer()); // open drawer
+    dispatch(setPassengerUUID(null));
+  }
   
   return (
     <Drawer
@@ -101,36 +112,14 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           </Box>
           {/*  */}
           <Box component={"section"}>
-            {passengerPofile?.length > 0 ? (
-              <>
-                {passengerPofile.map((passenger, index) => {
-                  console.log("passenger__1", passenger);
-                  return (
-                    <PassengerProfilecard
-                      getdata={passenger}
-                      onClickCard={() => handleCardClick(passenger)}
-                    />
-                  );
-                })}
-                <Box px={3} pb={2}>
-                  <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    p={3}
-                    gap={2}
-                    className={
-                      styles.addtravellerBtn + " basecolor1 cursor-pointer"
-                    }
-                  >
-                    <i className="fa fa-plus"></i>
-                    <Typography>Add new traveller</Typography>
-                  </Box>
-                </Box>
-              </>
-            ) : (
-              <Typography>No passengers found.</Typography>
-            )}
+            {passengerPofile?.filter((passenger) => passenger?.type === selectedType)
+              .map((passenger, index) => (
+                <PassengerProfilecard
+                  key={passenger?.uuid || index}
+                  getdata={passenger}
+                  onClickCard={() => handleCardClick(passenger)}
+                />
+              ))}
           </Box>
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>
@@ -157,7 +146,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 <Button
                   type="submit"
                   className="btn btn-primary chat-btn btn-round"
-                  onClick={getFillPass ? handleCloseDrawer : "" } // Remove quotes
+                  onClick={getFillPass ? handleCloseDrawer : ""} // Remove quotes
                   disabled={!getFillPass} // Disable when false, enable when true
                   variant="contained"
                   color="success"

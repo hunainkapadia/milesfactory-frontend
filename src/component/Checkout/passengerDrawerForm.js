@@ -52,7 +52,8 @@ const PassengerDrawerForm = () => {
   const selectedpassengerPofile =  useSelector(
     (state) => state.passengerDrawer.selectedProfilePass
   )
-  console.log("selectedpassengerPofile", selectedpassengerPofile?.uuid);
+  console.log("selectedpassengerPofile", selectedpassengerPofile);
+  console.log("GetViewPassengers", GetViewPassengers);
   
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
@@ -195,7 +196,7 @@ const PassengerDrawerForm = () => {
           setemail(passengerData.email || "");
           setRegion(passengerData.phone_number || "");
 
-          // ✅ Nationality matched here
+          // Nationality matched here
           const matchedNationality = countries.find(
             (c) => c.id === passengerData.nationality?.id
           );
@@ -344,7 +345,11 @@ const PassengerDrawerForm = () => {
                   />
                 </Box>
                 <Box>
-                  <h4>New traveller</h4>
+                  {given_name || family_name ? (
+                    <h3>{`${given_name ?? ""} ${family_name ?? ""}`.trim()}</h3>
+                  ) : (
+                    <h4>New traveller</h4>
+                  )}
                 </Box>
               </Box>
 
@@ -510,7 +515,9 @@ const PassengerDrawerForm = () => {
 
                     {/* Phone */}
                     <Box className="formGroup">
-                      <FormLabel className="bold formLabel">Phone number</FormLabel>
+                      <FormLabel className="bold formLabel">
+                        Phone number
+                      </FormLabel>
                       <PhoneInput
                         country={"us"}
                         value={phone}

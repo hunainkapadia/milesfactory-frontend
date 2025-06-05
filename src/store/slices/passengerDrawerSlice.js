@@ -267,6 +267,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
         dispatch(ViewPassengers());
       }, 500);
       dispatch(setClosePassengerDrawer());
+      dispatch(setPassProfileDrawer(false)); //close profile drawer
       
     })
     .catch((error) => {
@@ -274,6 +275,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       const responseErrors = error.response?.data || {};
       dispatch(setPassengerFormError(responseErrors));
       dispatch(setOpenPassengerDrawer(true));
+      
     })
     .finally(() => {
       console.log("[✔] Finished");
