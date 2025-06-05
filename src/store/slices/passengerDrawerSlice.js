@@ -315,12 +315,12 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
           console.log("captain_res", cap_res);
-          dispatch(OrderConfirm()); // for order detail api call 
+          dispatch(OrderConfirm()); // for order detail API call
         })
         .catch((err) => {
           console.error("captain_api_error", err);
         });
-    }, 2000);
+    }, 3000);
   }
   
 

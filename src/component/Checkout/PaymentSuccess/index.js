@@ -92,11 +92,13 @@ const PaymentSuccess = () => {
               <h4 className="regular">
                 Congratulations, you booked your flight!
               </h4>
-              <Typography>
-                Your Mylz order ID is {PaymentData?.order?.id} with booking
-                reference number {PaymentData?.duffel_order?.booking_reference}
-              </Typography>
-              <Box mb={3}>
+              {/* for desktop */}
+              <Box display={{ lg: "block", md: "block", xs: "none" }}>
+                <Typography>
+                  Your Mylz order ID is {PaymentData?.order?.id} with booking
+                  reference number{" "}
+                  {PaymentData?.duffel_order?.booking_reference}
+                </Typography>
                 <Typography>
                   <Typography>
                     You and the other passengers have received a booking
@@ -110,6 +112,23 @@ const PaymentSuccess = () => {
                 <Typography variant="body1">
                   Your answer is anonymous. We use it to improve our product.
                 </Typography>
+              </Box>
+              {/* for mobile */}
+              <Box display={{ lg: "none", md: "none", xs: "block" }}>
+                <Typography>
+                  You aa and the other passengers have received a booking
+                  confirmation - your booking reference is{" "}
+                  {PaymentData?.duffel_order?.booking_reference}. Use it to view
+                  and manage your booking directly on the airline's website or
+                </Typography>
+                <Typography variant="body1">
+                  How was your booking experience?
+                </Typography>
+                <Typography variant="body1">
+                  Your answer is anonymous. We use it to improve our product.
+                </Typography>
+              </Box>
+              <Box mb={3}>
                 {/* Interactive Rating */}
                 <Rating
                   name="feedback-rating"

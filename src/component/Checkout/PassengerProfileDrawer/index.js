@@ -26,14 +26,21 @@ import PaymentCard from "../PaymentCard";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { PassengerForm, setOpenPassengerDrawer, setPassengerType, setPassengerUUID, setPassProfileDrawer, setSelectedProfilePass } from "@/src/store/slices/passengerDrawerSlice";
+import {
+  PassengerForm,
+  setOpenPassengerDrawer,
+  setPassengerType,
+  setPassengerUUID,
+  setPassProfileDrawer,
+  setSelectedProfilePass,
+} from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const isPassengerProfileDrawer = useSelector(
     (state) => state.passengerDrawer.passProfileDrawer
   );
-  
+
   console.log("isPassengerProfileDrawer", isPassengerProfileDrawer);
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
@@ -41,33 +48,31 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
-  const selectedPassIndex = useSelector(
-    (state) => state.passengerDrawer.PassengerIndex
-  );
-  
-  
-    
+
+  console.log("passengerPofile_0", passengerPofile);
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
     dispatch(setPassProfileDrawer(false));
   };
-  const handleCardClick =(passenger)=> {
+  const handleCardClick = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
     console.log("passenger_uuid", passenger);
 
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
     dispatch(setOpenPassengerDrawer()); // open drawer
-  }
-  const getFillPass = useSelector((state )=> state.passengerDrawer.allPassengerFill);
+  };
+  const getFillPass = useSelector(
+    (state) => state.passengerDrawer.allPassengerFill
+  );
 
   // add passenger [start]
 
-  const handleAddPassenger =()=> {
+  const handleAddPassenger = () => {
     dispatch(setOpenPassengerDrawer()); // open drawer
     dispatch(setPassengerUUID(null));
-  }
-  
+  };
+
   return (
     <Drawer
       anchor="right"
@@ -117,7 +122,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           {/*  */}
           <Box component={"section"}>
             {passengerPofile
-              ?.filter((_, index) => index === selectedPassIndex)
+              ?.filter((passenger) => passenger?.type === selectedType)
               .map((passenger, index) => (
                 <PassengerProfilecard
                   key={passenger?.uuid || index}
@@ -126,21 +131,20 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 />
               ))}
           </Box>
+          {/*  */}
           <Box px={3} pb={2} onClick={handleAddPassenger}>
-                  <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    p={3}
-                    gap={2}
-                    className={
-                      styles.addtravellerBtn + " basecolor1 cursor-pointer"
-                    }
-                  >
-                    <i className="fa fa-plus"></i>
-                    <Typography>Add new traveller</Typography>
-                  </Box>
-                </Box>
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              p={3}
+              gap={2}
+              className={styles.addtravellerBtn + " basecolor1 cursor-pointer"}
+            >
+              <i className="fa fa-plus"></i>
+              <Typography>Add new traveller</Typography>
+            </Box>
+          </Box>
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>
             <Divider />
