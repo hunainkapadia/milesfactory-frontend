@@ -117,15 +117,14 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           {/*  */}
           <Box component={"section"}>
             {passengerPofile
-  ?.filter((_, index) => index === selectedPassIndex)
-  .map((passenger, index) => (
-    <PassengerProfilecard
-      key={passenger?.uuid || index}
-      getdata={passenger}
-      onClickCard={() => handleCardClick(passenger)}
-    />
-))}
-
+              ?.filter((_, index) => index === selectedPassIndex)
+              .map((passenger, index) => (
+                <PassengerProfilecard
+                  key={passenger?.uuid || index}
+                  getdata={passenger}
+                  onClickCard={() => handleCardClick(passenger)}
+                />
+              ))}
           </Box>
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>

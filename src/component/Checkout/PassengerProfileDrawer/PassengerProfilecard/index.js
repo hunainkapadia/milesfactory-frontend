@@ -61,7 +61,7 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     </Typography>
                     <Typography
                       sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
-                      textTransform={"capitalize"}
+                      textTransform={"uppercase"}
                       className="basecolor f12 capitalize-first-letter"
                     >
                       {getdata.type === "infant_without_seat"
@@ -78,6 +78,7 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     <Typography
                       sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                       className="bold mb-0"
+                      textTransform={"capitalize"}
                       mb={1}
                     >
                       {getdata?.given_name} {getdata?.family_name}
