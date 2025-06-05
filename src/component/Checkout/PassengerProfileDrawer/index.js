@@ -41,8 +41,12 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
+  const selectedPassIndex = useSelector(
+    (state) => state.passengerDrawer.PassengerIndex
+  );
+  
+  
     
-  console.log("passengerPofile_0", passengerPofile);
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -112,14 +116,16 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           </Box>
           {/*  */}
           <Box component={"section"}>
-            {passengerPofile?.filter((passenger) => passenger?.type === selectedType)
-              .map((passenger, index) => (
-                <PassengerProfilecard
-                  key={passenger?.uuid || index}
-                  getdata={passenger}
-                  onClickCard={() => handleCardClick(passenger)}
-                />
-              ))}
+            {passengerPofile
+  ?.filter((_, index) => index === selectedPassIndex)
+  .map((passenger, index) => (
+    <PassengerProfilecard
+      key={passenger?.uuid || index}
+      getdata={passenger}
+      onClickCard={() => handleCardClick(passenger)}
+    />
+))}
+
           </Box>
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>

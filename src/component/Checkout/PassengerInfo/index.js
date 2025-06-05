@@ -12,6 +12,8 @@ import {
   setCaptainSuccess,
   setFormSuccess,
   setOpenPassengerDrawer,
+  setPassengerIndex,
+  setPassengerName,
   setPassengerType,
   setPassengerUUID,
   setPassengerUUIDfill,
@@ -38,19 +40,23 @@ const PassengerInfo = ({ getdata }) => {
   );
 
   // if passenger profile or not handle
-  const handlePassengerClick = (uuid, isFilled, type) => {
+  const handlePassengerClick = (uuid, isFilled, passenger, index) => {
+    console.log("passenger_index", index);
+    
     if (passengerPofile?.length > 0) {
       dispatch(getPassPofile()); // call passenger profile
       dispatch(setPassProfileDrawer(true));
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
-      dispatch(setPassengerType(type));
+      dispatch(setPassengerType(passenger?.type));
+      dispatch(setPassengerIndex(index)); // pasenger profile getting from index
     } else {
       console.log("uuid111", isFilled);
-      console.log("pass_type", uuid, isFilled, type);
+      console.log("pass_type", passenger);
 
       if (!isFilled) {
         dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
-        dispatch(setPassengerType(type));
+        dispatch(setPassengerType(passenger?.type));
+        dispatch(setPassengerIndex(index)); // pasenger profile getting from index
         dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
         dispatch(setOpenPassengerDrawer()); // open drawer
       }
@@ -135,7 +141,8 @@ const PassengerInfo = ({ getdata }) => {
                     handlePassengerClick(
                       passenger.uuid,
                       isFilled,
-                      passenger.type
+                      passenger,
+                      index
                     )
                   }
                 />
