@@ -34,8 +34,8 @@ const PriceSummary = ({ getdata }) => {
 
   // get flight
   
-  const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-  const orderDetail = flightOrder?.order?.selected_offer;
+  const orderDetail = useSelector((state) => state?.payment?.OrderConfirm?.order?.selected_offer); //from order api
+  console.log("orderDetail_0", orderDetail);
   
 
   // const orderDetailOld = useSelector((state) => state.booking.orderDetail); //from flight
@@ -198,7 +198,8 @@ const PriceSummary = ({ getdata }) => {
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
                   {Math.round(
-                    flightOrder?.amount_calculations?.baggages_total_amount_plus_markup
+                    orderDetail?.amount_calculations
+                      ?.baggages_total_amount_plus_markup
                   )}
                 </Box>
               </Box>
@@ -232,7 +233,8 @@ const PriceSummary = ({ getdata }) => {
                   {console.log("orderDetail111", orderDetail)}
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
-                  {totalAmount}
+                  {orderDetail?.amount_calculations
+                      ?.total_amount_plus_markup_and_all_services}
                 </Box>
               </Box>
             </Box>
