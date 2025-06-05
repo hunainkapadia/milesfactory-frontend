@@ -126,6 +126,21 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 />
               ))}
           </Box>
+          <Box px={3} pb={2} onClick={handleAddPassenger}>
+                  <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    p={3}
+                    gap={2}
+                    className={
+                      styles.addtravellerBtn + " basecolor1 cursor-pointer"
+                    }
+                  >
+                    <i className="fa fa-plus"></i>
+                    <Typography>Add new traveller</Typography>
+                  </Box>
+                </Box>
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>
             <Divider />

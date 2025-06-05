@@ -47,7 +47,7 @@ const PassengersCard = ({
             </>
           ) : (
             <>
-              <Typography className="f14 bold mb-0" mb={1}>
+              <Typography className="f14 bold mb-0" mb={1} textTransform={"capitalize"}>
                 {getdata?.given_name} {getdata?.family_name}
               </Typography>
               <Typography
