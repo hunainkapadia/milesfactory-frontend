@@ -65,7 +65,7 @@
       background-color: $white;
       transition: all 0.3s ease-in-out;
       .Login {
-         color: $basecolor;
+         color: $basecolor-dark;
       }
       .Logo img {
          display: block;
@@ -73,7 +73,7 @@
 
       .navItems {
          .navItem {
-            color: $basecolor;
+            color: $basecolor-dark;
             &:hover {
                color: $basecolor1;
             }
@@ -89,11 +89,11 @@
       
       .Box {
          .Login {
-            color: $basecolor;
+            color: $basecolor-dark;
             
          }
          .navItems .navItem {
-            color: $basecolor;
+            color: $basecolor-dark;
             &:hover {
                color: $basecolor1;
             }
@@ -139,7 +139,7 @@
    }
 }
  .FooterForLight  {position: relative;z-index: 1;
-   padding: 20px 0;
+   padding: 0px 0;
    .FooterBox {
       border-top: solid 1px $lightgray2;
       .FooterBoxRight {
@@ -172,7 +172,11 @@
 
  
  
+ .Dropdown.formobileDrawer {
+         
+   }
  @include for-mobile-large-screen () {
+   
    .FooterForDark {
       z-index: 4;
    }
@@ -187,6 +191,9 @@
     }
    
     .Header {
+      .Dropdown.forHader .Login {
+        flex-direction: row;
+      }
       .Box {
          height: 54px;
       }
@@ -197,13 +204,16 @@
          }
       }
       &.isMessage {
+         .leftCol .Logo {
+            width: 94px;
+         }
          .HeaderRightCol {gap: 0 24px;}
          .userName {
             display: none;
          }
       }
       .leftCol .Logo {
-         // width: 53px;
+         width: 53px;
       }
       .HeaderRightCol {gap: 0;
          .ChatIcons {gap: 0 24px;

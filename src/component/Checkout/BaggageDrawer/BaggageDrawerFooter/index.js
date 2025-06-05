@@ -112,7 +112,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
               </Box>
 
               {/* Select Flight Button */}
-              <Box
+              {/* <Box
                 display="flex"
                 alignItems="center"
                 gap={2}
@@ -127,7 +127,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
                     onClick={handleRemoveBaggage}
                   >
                     <Box display="flex" gap={1}>
-                      <Box>Save</Box>
+                      <Box>Save 1</Box>
                     </Box>
                   </button>
                 ) : (
@@ -139,11 +139,11 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
                     onClick={handleAddBaggage}
                   >
                     <Box display="flex" gap={1}>
-                      <Box>Save</Box>
+                      <Box>Save 2</Box>
                     </Box>
                   </button>
                 )}
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </Box>

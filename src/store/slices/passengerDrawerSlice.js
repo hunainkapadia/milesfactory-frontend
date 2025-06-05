@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
 import api from "../api";
 import { setCloseDrawer } from "./BookingflightSlice";
+import { fetchOrderDetails, OrderConfirm } from "./PaymentSlice";
 
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
@@ -22,8 +23,39 @@ const passengerDrawerSlice = createSlice({
     OpenPassengerDrawer: false,
     PassengerFormError: null,
     isFormLoading: false,
+    PassengerType: null,
+    passProfile: null,
+    allPassengerFill:false,
+    captainParams: null,
+    passProfileDrawer: false,
+    selectedProfilePass: null,
   },
   reducers: {
+    setSelectedProfilePass: (state, action)=> {
+      state.selectedProfilePass = action.payload
+    },
+    setPassProfileDrawer: (state, action)=> {
+      state.passProfileDrawer = action.payload;
+    },
+    setCaptainParams: (state, action)=> {
+      console.log("captain_action_param", action);
+      
+      state.captainParams = action.payload
+    },
+    setAllPassengerFill: (state, action)=> {
+      console.log("all_pass_action", action);
+      
+      state.allPassengerFill = action.payload
+    },
+    setPassProfile: (state, action)=> {
+      state.passProfile = action.payload;
+    },
+    setPassengerType: (state, action)=> {
+      state.PassengerType = action.payload
+    },
+    setPassengerIndex: (state, action)=> {
+      state.PassengerIndex = action.payload
+    },
     setCaptainSuccess: (state, action) => {
       state.captainSuccess = action.payload;
     },
@@ -100,6 +132,9 @@ export const PassengerForm = () => (dispatch, getState) => {
   const offerIdGet = states?.getMessages.topOfferUrl;
   const offerIdSend = states?.sendMessage?.TopOfferUrlSend;
   const finalOfferId = offerIdSend || offerIdGet;
+  const Passtype = getState();
+  console.log("Passtype", Passtype);
+  
 
   if (!finalOfferId) return;
 
@@ -132,15 +167,6 @@ export const ViewPassengers = () => (dispatch, getState) => {
     .get(viewPassengerUrl)
     .then((response) => {
       console.log("response000", response?.data);
-
-      api
-        .get(`/api/v1/user/passenger/profiles`)
-        .then((pass_profile_res) => {
-          console.log("pass_profile_res", pass_profile_res);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
       dispatch(setViewPassengers(response?.data || []));
       dispatch(setisLoading(false))
     })
@@ -148,6 +174,7 @@ export const ViewPassengers = () => (dispatch, getState) => {
       console.error("fetchViewPassengers error", error);
     });
 };
+
 
 export const validatePassengerForm = (params) => (dispatch) => {
   let errors = {};
@@ -189,75 +216,135 @@ export const validatePassengerForm = (params) => (dispatch) => {
 };
 
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
-  console.log("params__0", params);
-
+  console.log("[0] Called PassengerFormSubmit");
+  console.log("[1] Params:", params);
+  
   const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return;
-
+  
   dispatch(setIsFormLoading(true));
-
+  
   const state = getState();
+  // ///////////////
+  const GetViewPassengers = state?.passengerDrawer?.ViewPassengers;
+  
+  const filledPassengerUUIDs = state.passengerDrawer.filledPassengerUUIDs;
+
+  console.log("GetViewPassengers_0", GetViewPassengers);
+  console.log("filledPassengerUUIDs_0", filledPassengerUUIDs);
+
+
+  if (filledPassengerUUIDs.length === GetViewPassengers.length) {
+    dispatch(setAllPassengerFill(true));
+  }
+  // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
-
-  let captainSuccess = false;
-  let formSuccess = false;
-
-  const captainParams = {
-    email: params.email,
-    phone_number: params.phone_number,
-    region: params.region,
-  };
+  
+  console.log("[2] Submitting Passenger API:", SubmitUrl);
 
   api
-    .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
-    .then(() => {
-      captainSuccess = true;
-      return api.post(SubmitUrl, params);
-    })
+    .post(SubmitUrl, params)
     .then((formResponse) => {
-      console.log("formResponse", formResponse);
-      const formData = formResponse.data;
 
+      const formData = formResponse.data;
       dispatch(setPassFormData(formData));
       dispatch(markPassengerAsFilled(passengerUuid));
-      formSuccess = true;
 
-      if (captainSuccess && formSuccess) {
-        const state = getState();
-        const allPassengers = state.passengerDrawer?.ViewPassengers || [];
-        const filledPassengerUuids =
-          state.passengerDrawer?.filledPassengerUUIDs || [];
+      console.log("passenger_respone", formData);
+      const state = getState();
+      const allPassengers = state.passengerDrawer?.ViewPassengers || [];
+      const filledPassengerUuids =
+        state.passengerDrawer?.filledPassengerUUIDs || [];
 
-        const nextPassenger = allPassengers.find(
-          (p) => !filledPassengerUuids.includes(p.uuid)
-        );
+      const nextPassenger = allPassengers.find(
+        (p) => !filledPassengerUuids.includes(p.uuid)
+      );
 
-        console.log("Next Passenger:", nextPassenger);
-
-        if (nextPassenger) {
-          dispatch(setPassengerUUID(nextPassenger.uuid));
-        }
-
-        // Add delay before fetching updated passengers
-        setTimeout(() => {
-          dispatch(ViewPassengers());
-        }, 500);
-
-        dispatch(setClosePassengerDrawer());
+      if (nextPassenger) {
+        dispatch(setPassengerUUID(nextPassenger.uuid));
       }
+
+      setTimeout(() => {
+        dispatch(ViewPassengers());
+      }, 500);
+      dispatch(setClosePassengerDrawer());
+      dispatch(setPassProfileDrawer(false)); //close profile drawer
+      
     })
     .catch((error) => {
-      console.log("error", error);
+      console.log("[X] Error occurred", error);
       const responseErrors = error.response?.data || {};
       dispatch(setPassengerFormError(responseErrors));
       dispatch(setOpenPassengerDrawer(true));
+      
     })
     .finally(() => {
+      console.log("[✔] Finished");
       dispatch(setIsFormLoading(false));
     });
 };
+
+export const passengerCaptain = (params) => (dispatch, getState) => {
+  
+  
+  const state = getState();
+  const captainParams = state.passengerDrawer?.captainParams;
+  const orderUuid = state.passengerDrawer?.OrderUuid;
+  const getFillPass = state.passengerDrawer.allPassengerFill;
+  console.log("getFillPass", getFillPass);
+
+  console.log("captainParams", captainParams);
+  
+
+  
+  if (getFillPass) {
+    console.log("pass_captain_params", captainParams);
+
+    const getParams = {
+      email: captainParams.email,
+      phone_number: captainParams.phone_number,
+      region: captainParams.region,
+    };
+    console.log("getParams", getParams);
+    
+  
+    setTimeout(() => {
+      api
+        .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
+        .then((cap_res) => {
+          console.log("captain_res", cap_res);
+          dispatch(OrderConfirm()); // for order detail API call
+        })
+        .catch((err) => {
+          console.error("captain_api_error", err);
+        });
+    }, 3000);
+  }
+  
+
+
+};
+
+
+export const getPassPofile = () => (dispatch) => {
+  api
+    .get(`/api/v1/user/passenger/profiles`)
+    .then((profile_res) => {
+      console.log("pass_profile_res", profile_res.data);
+      dispatch(setPassProfile(profile_res.data))
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+export const PassengerProfileDrawer = ()=> ()=> {
+
+}
+
+
 
 export const {
   setLoading,
@@ -278,6 +365,13 @@ export const {
   setIsFormLoading,
   setCaptainSuccess,
   setFormSuccess,
+  setPassengerType,
+  setPassProfile,
+  setAllPassengerFill,
+  setCaptainParams,
+  setPassProfileDrawer,
+  setSelectedProfilePass,
+  setPassengerIndex
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

@@ -10,7 +10,6 @@ const PaymentSlice = createSlice({
     priceSummary: false,
     clientSessionId: "",
     client: "",
-    
     isloading: false,
   },
   reducers: {
@@ -19,6 +18,9 @@ const PaymentSlice = createSlice({
     },
     setIsloading: (state, action)=> {
       state.isloading = action.payload
+    },
+    setOrderConfirm: (state, action)=> {
+      state.OrderConfirm = action.payload;
     },
     setPaymentData: (state, action)=> {
       state.PaymentData = action.payload;
@@ -62,13 +64,16 @@ export const PaymentForm = () => (dispatch, getState) => {
   
   
 };
-export const fetchOrderDetails = (orderId) => (dispatch) => {
+export const fetchOrderDetails = (orderId) => (dispatch, getState) => {
+
+  const state = getState();
+  const orderUUID = state.passengerDrawer.OrderUuid;
   console.log("payment_response_0", orderId);
   
   dispatch(setPaymentStatus({is_complete: "no",}))
   setTimeout(() => {
     api
-      .get(`/api/v1/order/${orderId}/details`)
+      .get(`/api/v1/order/${orderUUID}/details`)
       .then((response) => {
         console.log("payment_response", response.data);
         dispatch(setPaymentData(response.data));
@@ -80,12 +85,39 @@ export const fetchOrderDetails = (orderId) => (dispatch) => {
             })
           );
           setIsloading(false)
-        } 
+        } else {
+          dispatch(
+            setPaymentStatus({
+              is_complete: "yes",
+              status: "payment_failed",
+            })
+          );
+        }
       })
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
       });
-  }, 5000);
+  }, 3000);
+};
+
+export const OrderConfirm = (orderId) => (dispatch, getState) => {
+
+  const state = getState();
+  const orderUUID = state.passengerDrawer.OrderUuid;
+  console.log("payment_response_0", orderId);
+  
+  dispatch(setPaymentStatus({is_complete: "no",}))
+  setTimeout(() => {
+    api
+      .get(`/api/v1/order/${orderUUID}/details`)
+      .then((response) => {
+        console.log("payment_response", response.data);
+        dispatch(setOrderConfirm(response.data));
+      })
+      .catch((error) => {
+        console.error("Failed to fetch order details:", error);
+      });
+  }, 2000);
 };
 
 // Export actions
@@ -100,6 +132,7 @@ export const {
   setClientSecret,
   setPaymentData,
   setIsloading,
-  setPaymentStatus
+  setPaymentStatus,
+  setOrderConfirm
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

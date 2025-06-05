@@ -8,7 +8,7 @@ const PoweredByglobal = (props) => {
     <Box
       id={props.id}
       className={styles.PoweredByglobal + " "}
-      sx={{ pt: { lg: 20, md: 20, xs: 8 }, backgroundColor: "#69707B" }}
+      sx={{ pt: { lg: 20, md: 20, xs: "167px" }, backgroundColor: "#69707B", height:{lg: "auto", md:"auto", xs:"840px"} }}
       pb={8}
       position={"relative"}
     >
@@ -19,7 +19,7 @@ const PoweredByglobal = (props) => {
             display={"flex"}
             justifyContent={"center"}
           >
-            <Box className={``} sx={{ mb: { lg: 6, md: 6, xs: 3 } }}>
+            <Box className={``} sx={{ mb: { lg: 6, md: 6, xs: 0 } }}>
               <h2 className=" semibold white align-center mb-0">
                 Trusted by our <Box
                       component="br"
@@ -46,7 +46,7 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box mb={4} className="white">
+                <Box sx={{mb:{lg: 4, md:4, xs: 0}}} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -57,7 +57,7 @@ const PoweredByglobal = (props) => {
 
                   <Typography className="f12">Global airlines</Typography>
                 </Box>
-                <Box>
+                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
                   <img src="/images/global-airline-v3.svg" />
                 </Box>
               </Box>
@@ -69,7 +69,7 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box mb={4} className="white">
+                <Box sx={{mb:{lg: 4, md:4, xs: 0}}} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -81,7 +81,7 @@ const PoweredByglobal = (props) => {
                     Trains, coaches, and buses
                   </Typography>
                 </Box>
-                <Box>
+                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
                   <img src="/images/train-coatches.bussesn-v3.svg" />
                 </Box>
               </Box>
@@ -93,7 +93,7 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box mb={4} className="white">
+                <Box sx={{mb:{lg: 4, md:4, xs: 0}}} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -103,7 +103,7 @@ const PoweredByglobal = (props) => {
                   </Typography>
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>
-                <Box>
+                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
                   <img src="/images/hotel-stays-v3.svg" />
                 </Box>
               </Box>

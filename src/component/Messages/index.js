@@ -33,6 +33,7 @@ import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
 import Link from "next/link";
 import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
 import BaggageDrawer from "../Checkout/BaggageDrawer";
+import PassengerProfileDrawer from "../Checkout/PassengerProfileDrawer";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -128,6 +129,7 @@ const Messages = () => {
 
               <BookingDrawer getFlightDetail={flightDetail} />
               <PassengerDrawerForm />
+              <PassengerProfileDrawer/>
               <BaggageDrawer getFlightDetail={flightDetail} />
             </Box>
           </Box>

@@ -59,6 +59,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
   const validPassengers = GetViewPassengers?.filter(
     (p) => p.given_name && p.family_name
   );
+  const totalTravelers = (SearchHistory.adults || 0) + (SearchHistory.children || 0) + (SearchHistory.infants || 0);
+
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -100,9 +102,10 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
               )}
             </Typography>
             <Typography className=" gray mb-0 f12">
+
               {SearchHistory.flight_type == "round-trip" ? "Return" : "One way"}
-              , {SearchHistory.adults}{" "}
-              {offerData?.passengers?.length > 1 ? "Travellers" : "Traveller"}
+              , {totalTravelers}{" "}
+              {totalTravelers ? "Travellers" : "Traveller"}
             </Typography>
           </Box>
         </Box>
@@ -201,6 +204,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </Typography>
                               <Typography
@@ -274,6 +278,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                                   {
                                     hour: "2-digit",
                                     minute: "2-digit",
+                                    hour12: false,
                                   }
                                 )}
                               </Typography>

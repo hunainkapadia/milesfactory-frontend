@@ -17,8 +17,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getPassPofile,
   NationalitData,
+  passengerCaptain,
   PassengerFormSubmit,
+  setCaptainParams,
   setClosePassengerDrawer,
   setPassengerFormError,
 } from "@/src/store/slices/passengerDrawerSlice";
@@ -39,16 +42,31 @@ const PassengerDrawerForm = () => {
   const [region, setRegion] = useState("");
   const [nationality, setNationality] = useState(null);
 
+
   const countries = useSelector((state) => state.passengerDrawer.countries);
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
+
+  // pass profile
+  const selectedpassengerPofile =  useSelector(
+    (state) => state.passengerDrawer.selectedProfilePass
+  )
+  console.log("selectedpassengerPofile", selectedpassengerPofile);
+  console.log("GetViewPassengers", GetViewPassengers);
+  
+  const passengerPofile = useSelector(
+    (state) => state.passengerDrawer.passProfile
+  );
   const PassengersUuID = useSelector(
     (state) => state.passengerDrawer.PassengerUUID
   );
+  console.log("PassengersUuID", PassengersUuID);
+
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
+
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
   );
@@ -63,64 +81,152 @@ const PassengerDrawerForm = () => {
   );
   const twelveYearsAgo = dayjs().subtract(12, "year");
 
+  // get passenger type for validation
+  const PassengerType = useSelector(
+    (state) => state.passengerDrawer.PassengerType
+  );
+  console.log("get_PassengerType", PassengerType);
+
+  // Define ranges
+  const today = dayjs();
+
+  // Ranges
+  const maxAdultDate = today.subtract(18, "year"); // Adult: must be before this
+  const minChildDate = today.subtract(17, "year").add(1, "day");
+  const maxChildDate = today.subtract(2, "year");
+  const minInfantDate = today.subtract(2, "year").add(1, "day");
+
+  // Dynamic min/max based on passenger type
+  let minDate = dayjs("1930-01-01");
+  let maxDate = today;
+
+  if (PassengerType === "adult") {
+    maxDate = maxAdultDate;
+  } else if (PassengerType === "child") {
+    minDate = minChildDate;
+    maxDate = maxChildDate;
+  } else if (PassengerType === "infant_without_seat") {
+    minDate = minInfantDate;
+    maxDate = today;
+  }
+
+  // Validate age and dispatch error
+  useEffect(() => {
+    if (born_on && PassengerType) {
+      const age = dayjs().diff(dayjs(born_on), "year");
+      console.log("pass_age", age);
+
+      if (PassengerType === "adult" && age < 18) {
+        dispatch(
+          setPassengerFormError({
+            born_on: "Adult must be at least 18 years old",
+          })
+        );
+      } else if (PassengerType === "child" && (age < 2 || age > 17)) {
+        dispatch(
+          setPassengerFormError({
+            born_on:
+              "Child passenger must be less than 12 and at least 2 years old",
+          })
+        );
+      } else if (PassengerType === "infant_without_seat" && age > 2) {
+        dispatch(
+          setPassengerFormError({
+            born_on: "Baby passenger must be less than 2 years old",
+          })
+        );
+      } else {
+        dispatch(setPassengerFormError({ born_on: "" })); // clear error
+      }
+    }
+  }, [born_on, PassengerType, dispatch]);
+
+  // Optional: Clear invalid date when switching type
+  useEffect(() => {
+    if (!born_on) return;
+
+    const dob = dayjs(born_on);
+    if (dob.isBefore(minDate) || dob.isAfter(maxDate)) {
+      setborn_on(""); // reset if date is out of range
+    }
+  }, [PassengerType]);
+
   useEffect(() => {
     dispatch(NationalitData());
   }, [dispatch]);
 
+  console.log("passengerPofile", passengerPofile);
+
+  useEffect(() => {
+    dispatch(getPassPofile()); // pasenger profile call api
+  }, []); //
   useEffect(() => {
     if (captainSuccess && formSuccess) {
       dispatch(setClosePassengerDrawer());
     }
   }, [captainSuccess, formSuccess, dispatch]);
 
-
   // Load form data or reset on drawer open
+
+  console.log("given_name", given_name);
+  
   useEffect(() => {
-    if (isPassengerDrawerOpen) {
-      const passengerData = GetViewPassengers?.find(
-        (p) => p?.uuid === PassengersUuID
-      );
+  if (isPassengerDrawerOpen) {
+    setTimeout(() => {
+      console.log("passengerPofile:", passengerPofile);
+      console.log("PassengersUuID:", PassengersUuID);
 
-      if (passengerData) {
-        setgender(passengerData.gender || "");
-        setgiven_name(passengerData.given_name || "");
-        setfamily_name(passengerData.family_name || "");
-        setborn_on(passengerData.born_on || "");
-        setpassport_number(passengerData.passport_number || "");
-        setpassport_expire_date(passengerData.passport_expire_date || "");
-        setphone(passengerData.phone_number || "");
-        setemail(passengerData.email || "");
-        setRegion(passengerData.phone_number || "");
-        // Match nationality by ID
-        const matchedNationality = countries.find(
-          (c) => c.id === passengerData?.nationality?.id
+      if (passengerPofile?.length && PassengersUuID) {
+        
+        const passengerData = passengerPofile.find(
+          (getProfilepassenger) => getProfilepassenger.uuid === selectedpassengerPofile?.uuid
         );
-        setNationality(matchedNationality || null);
-      } else {
-        // Reset form for new passenger
-        setgender("");
-        setgiven_name("");
-        setfamily_name("");
-        setborn_on("");
-        setpassport_number("");
-        setpassport_expire_date("");
-        setNationality(null);
-        setphone("");
-        setemail("");
-        setRegion("");
 
-        // Set default if no data provided
+
+        console.log("passengerData_0:", passengerData);
+
+        if (passengerData) {
+          setgender(passengerData.gender || "");
+          setgiven_name(passengerData.given_name || "");
+          setfamily_name(passengerData.family_name || "");
+          setborn_on(passengerData.born_on || "");
+          setpassport_number(passengerData.passport_number || "");
+          setpassport_expire_date(passengerData.passport_expire_date || "");
+          setphone(passengerData.phone_number || "");
+          setemail(passengerData.email || "");
+          setRegion(passengerData.phone_number || "");
+
+          // Nationality matched here
+          const matchedNationality = countries.find(
+            (c) => c.id === passengerData.nationality?.id
+          );
+          setNationality(matchedNationality || null);
+        }
       }
+    }, 500);
+  } else {
+    // Reset form when drawer is closed
+    setgender("");
+    setgiven_name("");
+    setfamily_name("");
+    setborn_on("");
+    setpassport_number("");
+    setpassport_expire_date("");
+    setNationality(null);
+    setphone("");
+    setemail("");
+    setRegion("");
+  }
 
-      dispatch(setPassengerFormError(null));
-    }
-  }, [
-    isPassengerDrawerOpen,
-    GetViewPassengers,
-    PassengersUuID,
-    countries,
-    dispatch,
-  ]);
+  dispatch(setPassengerFormError(null));
+}, [
+  isPassengerDrawerOpen,
+  GetViewPassengers,
+  PassengersUuID,
+  countries,
+  dispatch,
+]);
+
 
   const handleCloseDrawer = () => {
     dispatch(setClosePassengerDrawer());
@@ -140,6 +246,20 @@ const PassengerDrawerForm = () => {
       region,
     };
     dispatch(PassengerFormSubmit(params));
+    console.log("params_age", params);
+
+    // for captain 1st passenger data
+
+    const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+    console.log("Is first passenger:", isFirstPassenger);
+
+    // If this is the first passenger, also submit as captain
+    if (isFirstPassenger) {
+      console.log("params_pass", params);
+      dispatch(setCaptainParams(params));
+      dispatch(passengerCaptain()); // for captain api passenger sending params
+    }
+    dispatch(passengerCaptain()); // for captain api passenger call from redux
   };
 
   const passportError = formError?.non_field_errors?.find(
@@ -148,6 +268,12 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
+
+  // if all passenger file logic
+  const AllPassengerFill = useSelector(
+    (state) => state.passengerDrawer.allPassengerFill
+  );
+  console.log("AllPassengerFill", AllPassengerFill);
 
   return (
     <Drawer
@@ -219,7 +345,11 @@ const PassengerDrawerForm = () => {
                   />
                 </Box>
                 <Box>
-                  <h4>New traveller</h4>
+                  {given_name || family_name ? (
+                    <Typography className="h3" component={"h3"} textTransform={"capitalize"}>{`${given_name ?? ""} ${family_name ?? ""}`.trim()}</Typography>
+                  ) : (
+                    <h4>New traveller</h4>
+                  )}
                 </Box>
               </Box>
 
@@ -256,7 +386,8 @@ const PassengerDrawerForm = () => {
                 {/* Name Fields */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">First Name</FormLabel>
-                  <TextField className="formControl"
+                  <TextField
+                    className="formControl"
                     fullWidth
                     placeholder="Enter First Name"
                     value={given_name}
@@ -272,7 +403,8 @@ const PassengerDrawerForm = () => {
 
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">Last Name</FormLabel>
-                  <TextField className="formControl"
+                  <TextField
+                    className="formControl"
                     fullWidth
                     placeholder="Enter Last Name"
                     value={family_name}
@@ -300,12 +432,14 @@ const PassengerDrawerForm = () => {
                           newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
                         )
                       }
-                      maxDate={twelveYearsAgo}
+                      minDate={minDate}
+                      maxDate={maxDate}
                       format="DD/MM/YYYY"
                       openTo="year"
                       views={["year", "month", "day"]}
                     />
                   </LocalizationProvider>
+
                   <Typography className="error" color="red">
                     {formError?.born_on || bornOnError?.born_on}
                   </Typography>
@@ -316,7 +450,8 @@ const PassengerDrawerForm = () => {
                   <FormLabel className="bold formLabel">
                     Passport Number
                   </FormLabel>
-                  <TextField className="formControl"
+                  <TextField
+                    className="formControl"
                     fullWidth
                     placeholder="Enter Passport Number"
                     value={passport_number}
@@ -358,43 +493,50 @@ const PassengerDrawerForm = () => {
                 </Box>
 
                 {/* Email */}
-                <Box className="formGroup">
-                  <FormLabel className="bold formLabel">Email</FormLabel>
-                  <TextField className="formControl"
-                    fullWidth
-                    placeholder="Enter Email Address"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setemail(e.target.value)}
-                    margin="normal"
-                  />
-                  {formError?.email?.[0] && (
-                    <Typography className="error" color="red">
-                      {formError.email[0]}
-                    </Typography>
-                  )}
-                </Box>
+                {PassengerType === "adult" && (
+                  <>
+                    <Box className="formGroup">
+                      <FormLabel className="bold formLabel">Email</FormLabel>
+                      <TextField
+                        className="formControl"
+                        fullWidth
+                        placeholder="Enter Email Address"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setemail(e.target.value)}
+                        margin="normal"
+                      />
+                      {formError?.email?.[0] && (
+                        <Typography className="error" color="red">
+                          {formError.email[0]}
+                        </Typography>
+                      )}
+                    </Box>
 
-                {/* Phone */}
-                <Box className="formGroup">
-                  <FormLabel className="bold formLabel">Phone number</FormLabel>
-                  <PhoneInput
-                    country={"us"}
-                    value={phone}
-                    onChange={(value, country) => {
-                      setphone(value);
-                      setRegion(country.countryCode?.toUpperCase());
-                    }}
-                    inputStyle={{ width: "100%" }}
-                    specialLabel=""
-                    enableSearch
-                  />
-                  {formError?.phone_number?.[0] && (
-                    <Typography className="error" color="red">
-                      {formError.phone_number[0]}
-                    </Typography>
-                  )}
-                </Box>
+                    {/* Phone */}
+                    <Box className="formGroup">
+                      <FormLabel className="bold formLabel">
+                        Phone number
+                      </FormLabel>
+                      <PhoneInput
+                        country={"us"}
+                        value={phone}
+                        onChange={(value, country) => {
+                          setphone(value);
+                          setRegion(country.countryCode?.toUpperCase());
+                        }}
+                        inputStyle={{ width: "100%" }}
+                        specialLabel=""
+                        enableSearch
+                      />
+                      {formError?.phone_number?.[0] && (
+                        <Typography className="error" color="red">
+                          {formError.phone_number[0]}
+                        </Typography>
+                      )}
+                    </Box>
+                  </>
+                )}
 
                 {/* Nationality */}
                 <Box className="formGroup">

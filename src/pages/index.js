@@ -56,7 +56,7 @@ const Home = () => {
         <HomeSection2 id={"HomeSection2"} />
 
         <PoweredByglobal id={"PoweredByglobal"} />
-        <Section4Reviews id={"Section4Reviews"} />
+        {/* <Section4Reviews id={"Section4Reviews"} /> */}
         <Section5App id={"Section5App"} />
         <Footer forLight />
         {/* for home section */}

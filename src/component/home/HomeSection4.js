@@ -33,9 +33,11 @@ const HomeSection4 = (props) => {
                     },
                   }}
                 >
-                  <h2 className="white align-center">
-                    Smarter with every trip.
-                  </h2>
+                  <Box>
+                    <h2 className="white align-center">
+                      Smarter with every trip.
+                    </h2>
+                  </Box>
                   <Typography
                     className="align-center white"
                     sx={{ display: { lg: "block", md: "block", xs: "none" } }}
@@ -45,14 +47,7 @@ const HomeSection4 = (props) => {
                     your style. An AI that adapts to you - not the other way
                     around.
                   </Typography>
-                  <Typography
-                    className="align-center white"
-                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
-                  >
-                    The more you use Mylz, the smarter it gets - learning your
-                    preferences, saving your time, and tailoring each journey to
-                    your style.
-                  </Typography>
+                  
                 </Box>
               </Box>
             </Box>

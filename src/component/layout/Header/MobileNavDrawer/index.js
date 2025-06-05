@@ -11,6 +11,7 @@ import { logoutUser, setisUserPopup } from "@/src/store/slices/Auth/SignupSlice"
 import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
 import { createThreadAndRedirect, deleteAndCreateThread } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
+import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 
 const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
   const HandleBookTrip = () => {
@@ -23,7 +24,8 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
   const logoutHandle = () => {
-    dispatch(logoutUser());
+    dispatch(Logout());
+    toggleDrawer();
   };
   const currentUser = useSelector((state) => state.base?.currentUser);
   const feedbackHandle = () => {

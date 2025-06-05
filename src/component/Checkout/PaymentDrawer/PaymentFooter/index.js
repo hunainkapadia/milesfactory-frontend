@@ -21,7 +21,7 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
   const handleCloseDrawer =()=> {
     dispatch(setIsDrawer(false))
   }
-  const flightDetail = useSelector((state) => state.booking.flightDetail);
+  const flightDetail = useSelector((state) => state.payment.PaymentData.order.selected_offer);
 
   return (
     <>

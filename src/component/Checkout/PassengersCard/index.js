@@ -10,9 +10,8 @@ const PassengersCard = ({
   onToggle,
   isFilled,
   onClickCard,
-  passDetail
+  passDetail,
 }) => {
-  
   return (
     <Box
       id={getdata.uuid}
@@ -37,19 +36,33 @@ const PassengersCard = ({
                 textTransform={"capitalize"}
                 className={" gray f12 capitalize-first-letter"}
               >
-                {getdata.type}
+                {getdata.type === "infant_without_seat"
+                  ? "Infants"
+                  : getdata.type === "child"
+                  ? "Child"
+                  : getdata.type === "adult"
+                  ? "Adult - 18 years and older"
+                  : getdata.type}
               </Typography>
             </>
           ) : (
             <>
-              <Typography className="f14 bold mb-0" mb={1}>
+              <Typography className="f14 bold mb-0" mb={1} textTransform={"capitalize"}>
                 {getdata?.given_name} {getdata?.family_name}
               </Typography>
               <Typography
                 textTransform={"capitalize"}
                 className={" gray f12 capitalize-first-letter"}
               >
-                {getdata.type}
+                
+
+                {getdata.type === "infant_without_seat"
+                  ? "Infants"
+                  : getdata.type === "child"
+                  ? "Child"
+                  : getdata.type === "adult"
+                  ? "Adult"
+                  : getdata.type}
               </Typography>
             </>
           )}

@@ -25,7 +25,7 @@ const PollingMessage = ({ PollingData }) => {
               {PollingData?.infants > 0 && `, ${PollingData.infants} infant(s)`}
             </li>
             <li style={{ marginBottom: "0.5rem" }}>
-              Cabin: {PollingData?.cabin_class} class
+              Cabin: {PollingData?.cabin_class}
             </li>
             <li style={{ marginBottom: "0.5rem" }}>
               Trip type: {PollingData?.flight_type}

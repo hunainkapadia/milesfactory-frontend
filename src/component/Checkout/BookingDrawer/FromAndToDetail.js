@@ -76,7 +76,7 @@ const FromAndToDetail = ({
                     </>
                   ) : (
                     <>
-                      <span>See details</span>
+                      <span>Hide details</span>
                       <i className="basecolor1 fa-angle-up fa fas"></i>
                     </>
                   )}
@@ -122,6 +122,7 @@ const FromAndToDetail = ({
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: false,
                             })}
                           </h5>
                         </Box>
@@ -174,19 +175,15 @@ const FromAndToDetail = ({
                               {getdata.segments.map((segment) => (
                                 <div key={segment.id}>
                                   <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment.operating_carrier?.iata_code}-
-                                    {segment.operating_carrier_flight_number}{" "}
+                                    {segment.marketing_carrier?.iata_code}-
+                                    {segment.marketing_carrier_flight_number}{" "}
                                     {segment.marketing_carrier?.name}
                                   </Typography>
                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment?.passengers?.[0]?.cabin_class
-                                      ? segment.passengers[0].cabin_class
-                                          .charAt(0)
-                                          .toUpperCase() +
-                                        segment.passengers[0].cabin_class.slice(
-                                          1
-                                        )
-                                      : "No Cabin Info"}
+                                    {segment.aircraft?.name}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    Operated by {segment.operating_carrier?.name}
                                   </Typography>
                                 </div>
                               ))}
@@ -214,6 +211,7 @@ const FromAndToDetail = ({
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: false,
                             })}
                           </h5>
                         </Box>
@@ -249,7 +247,7 @@ const FromAndToDetail = ({
             {getdata?.segments?.length > 1 && (
               <Box
                 className={
-                  styles.multiSegmentDetails + " fromAndToBodyNosegment"
+                  styles.multiSegmentDetails + " fromAndToBodyNosegment seeDetail"
                 }
               >
                 {getdata?.segments?.map((segment, index) => (
@@ -301,6 +299,7 @@ const FromAndToDetail = ({
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </h5>
                             </Box>
@@ -339,36 +338,22 @@ const FromAndToDetail = ({
                               </Typography>
                             </Box>
                             <Box className={styles.Col2 + " col2-e"}>
-                              {getdata.segments.length > 1 ? (
-                                <>
-                                  <Typography
-                                    className="Direct Flight
-
-"
-                                  >
-                                    {getStopDetails(getdata)}
+                            {console.log("segment_detail", segment)}
+                              <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    {segment.marketing_carrier?.iata_code}-
+                                    {segment.marketing_carrier_flight_number}{" "}
+                                    {segment.marketing_carrier?.name}
                                   </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <Typography className={"f14 mb-0"}>
-                                    {segment.operating_carrier.iata_code}-
-                                    {segment.operating_carrier_flight_number}{" "}
-                                    {segment.marketing_carrier.name}
+                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    {segment.aircraft?.name}
                                   </Typography>
-                                  <Typography>
-                                    {segment.passengers.map((getPassengers) => (
-                                      <React.Fragment key={getPassengers.id}>
-                                        {getPassengers?.cabin_class}
-                                      </React.Fragment>
-                                    ))}
-                                  </Typography>
-                                </>
-                              )}
+                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                    Operated by {segment.operating_carrier?.name}
+                                  </Typography>    
                             </Box>
                             <Box className={styles.Col3}>
                               <Box className={styles.airlineLogo + " imggroup"}>
-                                <img src={logo} alt="Airline logo" />
+                                <img src={segment.marketing_carrier?.logo_symbol_url} alt="Airline logo" />
                               </Box>
                             </Box>
                           </Box>
@@ -387,6 +372,7 @@ const FromAndToDetail = ({
                                 ).toLocaleTimeString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  hour12: false,
                                 })}
                               </h5>
                             </Box>

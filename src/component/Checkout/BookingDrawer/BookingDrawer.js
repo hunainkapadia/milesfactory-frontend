@@ -58,7 +58,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
               justifyContent="space-between"
               alignItems={"center"}
             >
-              <h3 className="regular mb-0">See details</h3>
+              <h3 className="regular mb-0">Flight details</h3>
             </Box>
             <Box>
               <Divider />
@@ -102,10 +102,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     {console.log("22222", getFlightDetail?.slices)}
                     {getFlightDetail?.slices?.length <= 1 ? (
                       <Typography className={"f14 gray"}>
-                        {"One way"}
+                        {"One way"},{" "}{getFlightDetail?.slices[0]?.segments[0]?.passengers[0].cabin_class_marketing_name}
                       </Typography>
                     ) : (
-                      <Typography className={"f14 gray"}>{"Return"}</Typography>
+                      <Typography className={"f14 gray"}>{"Return"}, {" "}{getFlightDetail?.slices[0]?.segments[0]?.passengers[0].cabin_class_marketing_name}</Typography>
                     )}
                   </Box>
                 </Box>
@@ -120,7 +120,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                       key={index} // Always add a unique key when mapping
                       sliceLength={getFlightDetail?.slices.length}
                       getdata={slice}
-                      logo={getFlightDetail?.owner?.logo_symbol_url}
+                      logo={getFlightDetail?.slices[0]?.segments[0]?.marketing_carrier?.logo_symbol_url}
                       flightType={index === 0 ? "Outbound" : "Return"}
                       SearchHistoryGet={searchHistory}
                     />

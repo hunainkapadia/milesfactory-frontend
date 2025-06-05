@@ -22,8 +22,7 @@ import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
-const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
-
+  const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
 
   console.log("aiMessage_00", aiMessage);
 
@@ -68,15 +67,15 @@ const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control wh
   console.log("getNextFlight", getNextFlight);
 
   const displayedGetFlights = showAllFlight
-  ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
-  : aiMessage?.ai?.offers?.slice(0, 3);
+    ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
+    : aiMessage?.ai?.offers?.slice(0, 3);
 
   console.log("Total Offers:", displayedGetFlights?.length);
-console.log("Original Offers:", aiMessage?.ai?.offers?.length);
-console.log("Appended Offers:", getNextFlight?.offers?.length);
+  console.log("Original Offers:", aiMessage?.ai?.offers?.length);
+  console.log("Appended Offers:", getNextFlight?.offers?.length);
 
-    console.log("displayedGetFlights", displayedGetFlights);
-    
+  console.log("displayedGetFlights", displayedGetFlights);
+
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
@@ -98,7 +97,7 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
 
   // Add class when all flights are shown
   console.log("showAllFlight", showAllFlight);
-  
+
   useEffect(() => {
     if (showAllFlight && aiboxRef.current) {
       aiboxRef.current.classList.add("showAllFlightActive"); //  Your custom class
@@ -113,6 +112,20 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
     dispatch(loadNextFlights());
   };
 
+  function convertMarkdownToHtml(text) {
+    if (!text) return "";
+    // 1. Convert **bold** to span with class
+    let result = text.replace(
+      /\*\*(.*?)\*\*/g,
+      "<span class='exbold'>$1</span>"
+    );
+    // 2. Remove leading "- " before text on each line
+    result = result.replace(/^- /gm, "");
+
+    return result;
+  }
+  
+const orderDetail = useSelector((state) => state?.payment?.OrderConfirm?.order?.selected_offer); //from order api
   return (
     <Box
       ref={aiboxRef}
@@ -149,7 +162,15 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
               {Array.isArray(filledPassenger) &&
                 filledPassenger.length === GetViewPassengers.length && (
                   <>
-                    <PriceSummary />
+                    {orderDetail ? (
+                      <PriceSummary />
+                    ) : (
+                      <>
+                        <Box my={3}>
+                          <LoadingArea />
+                        </Box>
+                      </>
+                    )}
                     <PaymentDrawer />
                     <PaymentAddCard />
                     {paymentSuccess && <PaymentSuccess />}
@@ -202,7 +223,7 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
                 className="bold"
               >
                 <span>
-                  See more flights.
+                  See more flights
                   {`${
                     getAllFlightGetApi?.count
                       ? " (" + getAllFlightGetApi?.count + ")"
@@ -218,18 +239,18 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
               </Box>
             </Box>
           ) : (
-          <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }}>
-            <Box
-              sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-              gap={2}
-              alignItems="center"
-              display="flex"
-              className="bold"
-            >
-              <span>See more flights..</span>
-              <i className="fa fa-caret-right fas" />
+            <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }}>
+              <Box
+                sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+                gap={2}
+                alignItems="center"
+                display="flex"
+                className="bold"
+              >
+                <span>See more flights</span>
+                <i className="fa fa-caret-right fas" />
+              </Box>
             </Box>
-          </Box>
           )}
         </>
       ) : (
@@ -253,13 +274,16 @@ console.log("Appended Offers:", getNextFlight?.offers?.length);
                     />
                   </>
                 )}
+
                 <Typography
                   dangerouslySetInnerHTML={{
                     __html: formatTextToHtmlList(
-                      sanitizeResponse(
-                        aiMessage?.ai?.response ||
-                          aiMessage?.ai?.newThread ||
-                          aiMessage?.ai?.deleteThread
+                      convertMarkdownToHtml(
+                        sanitizeResponse(
+                          aiMessage?.ai?.response ||
+                            aiMessage?.ai?.newThread ||
+                            aiMessage?.ai?.deleteThread
+                        )
                       )
                     ),
                   }}

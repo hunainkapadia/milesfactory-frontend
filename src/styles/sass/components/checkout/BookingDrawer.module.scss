@@ -18,12 +18,22 @@
    border-radius: 16px;
    box-shadow: none;
    padding: 0 24px;
-   height: 85px;
+   min-height: 85px;
    display: flex;
    justify-content: space-between;
    align-items: center;
    cursor: pointer;
    .baggageLabel {}
+   &.passengerProfileCard {
+      justify-content: center;
+      min-height: auto;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      &.isFilled {
+         border-color: $basecolor1;
+      }
+   
+   }
    &.ExtraServices {
       min-height: 90px;
       height: auto;
@@ -49,6 +59,14 @@
    display: block;
 }
 
+.addtravellerBtn {
+   padding: 0px 24px 0px 0px;
+   height: 79px;
+   background: #FFFFFF;
+   border: 1px dashed #E6EAEB;
+   border-radius: 8px;
+
+}
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
       padding: 0;
@@ -253,6 +271,9 @@
       padding-right: 20px !important;
     }
    .passengersCard {
+      &.passengerProfileCard {
+         padding: 18px 15px;
+      }
       &.ExtraServices {
          margin-bottom: 0;
       }

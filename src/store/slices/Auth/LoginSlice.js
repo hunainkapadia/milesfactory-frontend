@@ -11,6 +11,7 @@ const initialState = {
   LoginPopup: false,
   LoginCloseDrawer: false,
   IsUser: null,
+  LogoutUser: null,
 };
 
 const loginSlice = createSlice({
@@ -31,12 +32,9 @@ const loginSlice = createSlice({
     setLoginError: (state, action) => {
       state.LoginError = action.payload;
     },
-    logoutUser: (state) => {
+    setLogoutUser: (state) => {
       state.loginUser = null; //
-      Cookies.remove("set-user");
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
-
+      state.setLogoutUser = state.action;
     },
     setisLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -73,21 +71,12 @@ export const loginUser = (params) => (dispatch) => {
             first_name : first_name,
             last_name: last_name,
           }),
-          { expires: 7 }
         );
 
         // 3. Store tokens in separate cookies (optional: set secure attributes)
-        Cookies.set("access_token", access, {
-          expires: 1,
-          secure: true,
-          sameSite: "Strict",
-        });
+        Cookies.set("access_token", access);
 
-        Cookies.set("refresh_token", refresh, {
-          expires: 7,
-          secure: true,
-          sameSite: "Strict",
-        });
+        Cookies.set("refresh_token", refresh);
       }
     })
     .catch((error) => {
@@ -117,8 +106,8 @@ export const refreshToken = (rejectWithValue) => (dispatch) => {
   return api
     .post(API_ENDPOINTS.AUTH.REFRESH_TOKEN, { refresh })
     .then((response) => {
-      Cookies.set("access_token", response.data.access, { expires: 7 });
-      Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
+      Cookies.set("access_token", response.data.access);
+      Cookies.set("refresh_token", response.data.refresh);
       return response.data.access; // Return new access token
     })
     .catch((error) =>
@@ -158,12 +147,11 @@ export const googleLoginUser = (code) => (dispatch) => {
             first_name : res.data.user.first_name,
             last_name: res.data.user.last_name,
           }),
-          { expires: 7 }
         );
 
         // 3. Store tokens in separate cookies (optional: with shorter expiration)
-        Cookies.set("access_token", access, { expires: 1 }); // expires in 1 day
-        Cookies.set("refresh_token", refresh, { expires: 7 }); // expires in 7 days
+        Cookies.set("access_token", access); // expires in 1 day
+        Cookies.set("refresh_token", refresh); // expires in 7 days
       } else {
         console.error("Login failed", res);
       }
@@ -182,12 +170,32 @@ export const googleLoginUser = (code) => (dispatch) => {
     });
 };
 
+export const Logout = () => (dispatch) => {
+  const refreshToken = Cookies.get("refresh_token"); // Correct method
+  console.log("refreshToken", refreshToken);
+
+  api.post("/api/v1/logout/", { refresh: refreshToken })
+    .then((res) => {
+      console.log("logout_res", res);
+      dispatch(setLogoutUser(res.data));
+
+      Cookies.remove("set-user");
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+      window.location.reload();
+
+    })
+    .catch((err) => {
+      console.error("Logout failed:", err.response?.data || err.message);
+    });
+};
+
 export const {
   setLoginPopup,
   setLoginCloseDrawer,
   LogincloseDrawer,
   setLoginUser,
-  logoutUser,
+  setLogoutUser,
   setLoginError,
   setisLoading,
   setIsUser,
