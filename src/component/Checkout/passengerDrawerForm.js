@@ -346,7 +346,7 @@ const PassengerDrawerForm = () => {
                 </Box>
                 <Box>
                   {given_name || family_name ? (
-                    <h3>{`${given_name ?? ""} ${family_name ?? ""}`.trim()}</h3>
+                    <Typography className="h3" component={"h3"} textTransform={"capitalize"}>{`${given_name ?? ""} ${family_name ?? ""}`.trim()}</Typography>
                   ) : (
                     <h4>New traveller</h4>
                   )}
