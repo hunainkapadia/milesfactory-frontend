@@ -89,11 +89,12 @@ const PaymentSuccess = () => {
               <Box className=" imggroup" mb={2}>
                 <img src="/images/success-check.svg" />
               </Box>
-              <h4 className="regular">
-                Congratulations, you booked your flight!
-              </h4>
+              
               {/* for desktop */}
               <Box display={{ lg: "block", md: "block", xs: "none" }}>
+                <Typography component={"h2"} lineHeight={2} className="" fontSize={24}>
+                  Congratulations, you booked your flight!
+                </Typography>
                 <Typography>
                   Your Mylz order ID is {PaymentData?.order?.id} with booking
                   reference number{" "}
@@ -115,18 +116,27 @@ const PaymentSuccess = () => {
               </Box>
               {/* for mobile */}
               <Box display={{ lg: "none", md: "none", xs: "block" }}>
+                <Typography component={"h2"} lineHeight={2} className="" fontSize={24}>
+                  Congratulations,
+                </Typography>
+                <Typography component={"h2"} lineHeight={2} className="" fontSize={24}>
+                  you booked your flight!
+                </Typography>
                 <Typography>
-                  You aa and the other passengers have received a booking
+                  You and the other passengers have received a booking
                   confirmation - your booking reference is{" "}
                   {PaymentData?.duffel_order?.booking_reference}. Use it to view
-                  and manage your booking directly on the airline's website or
+                  and manage your booking directly on the airline’s website or
+                  app.
                 </Typography>
-                <Typography variant="body1">
-                  How was your booking experience?
-                </Typography>
-                <Typography variant="body1">
-                  Your answer is anonymous. We use it to improve our product.
-                </Typography>
+                <Box mt={"40px"}>
+                  <Typography variant="body1">
+                    How was your booking experience?
+                  </Typography>
+                  <Typography variant="body1">
+                    Your answer is anonymous.
+                  </Typography>
+                </Box>
               </Box>
               <Box mb={3}>
                 {/* Interactive Rating */}
