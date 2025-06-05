@@ -277,7 +277,7 @@ const HeaderUser = ({
                   <img
                     src={
                       isMessage || isSticky || IsActive
-                        ? "/images/user-icon-gray.svg"
+                        ? "/images/user-icon-darkgray.svg"
                         : "/images/user-icon-white.svg"
                     }
                     alt="User Icon"
