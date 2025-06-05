@@ -8,7 +8,7 @@ const PoweredByglobal = (props) => {
     <Box
       id={props.id}
       className={styles.PoweredByglobal + " "}
-      sx={{ pt: { lg: 20, md: 20, xs: "167px" }, backgroundColor: "#69707B", height:{xs:"840px"} }}
+      sx={{ pt: { lg: 20, md: 20, xs: "167px" }, backgroundColor: "#69707B", height:{lg: "auto", md:"auto", xs:"840px"} }}
       pb={8}
       position={"relative"}
     >
@@ -57,7 +57,7 @@ const PoweredByglobal = (props) => {
 
                   <Typography className="f12">Global airlines</Typography>
                 </Box>
-                <Box sx={{width: {xs:50}}}>
+                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
                   <img src="/images/global-airline-v3.svg" />
                 </Box>
               </Box>
@@ -81,7 +81,7 @@ const PoweredByglobal = (props) => {
                     Trains, coaches, and buses
                   </Typography>
                 </Box>
-                <Box sx={{width: {xs:50}}}>
+                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
                   <img src="/images/train-coatches.bussesn-v3.svg" />
                 </Box>
               </Box>
@@ -103,7 +103,7 @@ const PoweredByglobal = (props) => {
                   </Typography>
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>
-                <Box sx={{width: {xs:50}}}>
+                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
                   <img src="/images/hotel-stays-v3.svg" />
                 </Box>
               </Box>
