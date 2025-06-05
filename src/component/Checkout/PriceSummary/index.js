@@ -188,21 +188,25 @@ const PriceSummary = ({ getdata }) => {
                 </Box>
               </Box> */}
               {/* Additional baggage row */}
-              <Box
-                className={styles.PriceRow + " f12"}
-                display="flex"
-                justifyContent="space-between"
-                gap={4}
-              >
-                <Box>Additional Baggage Fee</Box>
-                <Box>
-                  {currencySymbols[orderDetail?.tax_currency] ||
-                    orderDetail?.tax_currency}
-                  {Math.round(
-                    flightOrder?.amount_calculations?.baggages_total_amount_plus_markup
-                  )}
-                </Box>
-              </Box>
+              {flightOrder?.amount_calculations?.baggages_total_amount_plus_markup > 0 && (
+  <Box
+    className={styles.PriceRow + " f12"}
+    display="flex"
+    justifyContent="space-between"
+    gap={4}
+  >
+    <Box>Additional Baggage Fee</Box>
+    <Box>
+      {currencySymbols[orderDetail?.tax_currency] ||
+        orderDetail?.tax_currency}
+      {Math.round(
+        flightOrder?.amount_calculations
+          ?.baggages_total_amount_plus_markup
+      )}
+    </Box>
+  </Box>
+)}
+
               {/* Markup row */}
               <Box
                 className={styles.PriceRow + " f12"}
