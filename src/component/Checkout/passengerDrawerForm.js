@@ -96,66 +96,74 @@ const PassengerDrawerForm = () => {
   // Ranges
 
 // Define static ranges
-const maxAdultDate = today.subtract(18, "year");
-const minChildDate = today.subtract(12, "year").add(1, "day");
-const maxChildDate = today.subtract(2, "year");
-const minInfantDate = today.subtract(2, "year").add(1, "day");
-
 // Defaults
 let minDate = dayjs("1930-01-01");
 let maxDate = today;
 
-// Apply dynamic logic based on PassengerType and PassengerAge
 if (PassengerType === "adult") {
-  // Adults: born before maxAdultDate (at least 18 years old)
+  // Adults: must be at least 18 years old
   minDate = dayjs("1930-01-01");
-  maxDate = maxAdultDate;
-} else if (PassengerType === "infant_without_seat" || (PassengerAge !== undefined && PassengerAge < 2)) {
-  // Infant: younger than 2 years
-  minDate = minInfantDate;
+  maxDate = today.subtract(18, "year");
+} else if (
+  PassengerType === "infant_without_seat" ||
+  (PassengerAge !== undefined && PassengerAge < 2)
+) {
+  // Infants: under 2 years
   maxDate = today;
-} else if (PassengerType === "child" || (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 12)) {
-  // Child: between 2 and 12 years
-  minDate = minChildDate;
-  maxDate = maxChildDate;
+  minDate = today.subtract(PassengerAge, "year");
+} else if (
+  PassengerType === "child" ||
+  (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
+) {
+  // Child: dynamic age range
+  maxDate = today.subtract(PassengerAge, "year");
+  minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
 } else {
-  // fallback: treat as adult if no valid PassengerType or age
+  // fallback: adult
   minDate = dayjs("1930-01-01");
-  maxDate = maxAdultDate;
+  maxDate = today.subtract(18, "year");
 }
 
-  // Validate age and dispatch error
-  useEffect(() => {
+
+ useEffect(() => {
   if (born_on && PassengerAge !== undefined) {
     const age = dayjs().diff(dayjs(born_on), "year");
     console.log("calculated_age", age);
     console.log("PassengerAge from Redux", PassengerAge);
 
-    // Determine dynamic type from PassengerAge
+    // Determine dynamic type from PassengerAge (you can tweak upper limits here)
     let detectedType = "adult";
     if (PassengerAge < 2) {
       detectedType = "infant";
-    } else if (PassengerAge < 12) {
+    } else if (PassengerAge >= 2 && PassengerAge < 18) {
       detectedType = "child";
     }
 
-    // Validation
-    if (detectedType === "adult" && age < 12) {
+    // Validation thresholds (can adjust as per your logic)
+    const infantMaxAge = 2;
+    const childMinAge = 2;
+    const childMaxAge = 18; // or 12 if you want stricter limits
+    const adultMinAge = 18;
+
+    if (detectedType === "adult" && age < adultMinAge) {
       dispatch(
         setPassengerFormError({
-          born_on: "Passenger must be at least 12 years old to be considered an adult",
+          born_on: `Passenger must be at least ${adultMinAge} years old to be considered an adult`,
         })
       );
-    } else if (detectedType === "child" && (age < 2 || age >= 12)) {
+    } else if (
+      detectedType === "child" &&
+      (age < childMinAge || age >= childMaxAge)
+    ) {
       dispatch(
         setPassengerFormError({
-          born_on: "Child passenger must be at least 2 and less than 12 years old",
+          born_on: `Child passenger must be at least ${childMinAge} and less than ${childMaxAge} years old`,
         })
       );
-    } else if (detectedType === "infant" && age >= 2) {
+    } else if (detectedType === "infant" && age >= infantMaxAge) {
       dispatch(
         setPassengerFormError({
-          born_on: "Infant must be younger than 2 years",
+          born_on: `Infant must be younger than ${infantMaxAge} years`,
         })
       );
     } else {
@@ -163,6 +171,8 @@ if (PassengerType === "adult") {
     }
   }
 }, [born_on, PassengerAge, dispatch]);
+
+
 
   // Optional: Clear invalid date when switching type
   useEffect(() => {
