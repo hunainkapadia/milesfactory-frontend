@@ -270,7 +270,6 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
         dispatch(ViewPassengers());
       }, 500);
       dispatch(setClosePassengerDrawer());
-      dispatch(setPassProfileDrawer(false)); //close profile drawer
       
     })
     .catch((error) => {
