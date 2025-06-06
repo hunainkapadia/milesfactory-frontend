@@ -96,16 +96,10 @@ const PaymentSuccess = () => {
                   Congratulations, you booked your flight!
                 </Typography>
                 <Typography>
-                  Your Mylz order ID is {PaymentData?.order?.id} with booking
-                  reference number{" "}
-                  {PaymentData?.duffel_order?.booking_reference}
-                </Typography>
-                <Typography>
-                  <Typography>
-                    You and the other passengers have received a booking
-                    confirmation. Install the Mylz app to monitor your flight
-                    and any potential disruption.
-                  </Typography>
+                  You and the other passengers have received a booking confirmation 
+                  – your booking reference is {PaymentData?.duffel_order?.booking_reference}.  
+                  Use it to view and manage your booking directly on the airline’s website or app, 
+                  or to share with anyone who needs it.
                 </Typography>
                 <Typography variant="body1">
                   How was your booking experience?
