@@ -111,7 +111,9 @@ const ContactDialog = () => {
                       variant="body1"
                       mt={1}
                     >
-                      Tell us what issue you<br />have and we will reach out!
+                      Tell us what issue you
+                      <br />
+                      have and we will reach out!
                     </Typography>
 
                     {currentUser ? (
@@ -131,14 +133,20 @@ const ContactDialog = () => {
                   </Box>
 
                   <Box component="form" noValidate autoComplete="off">
+                  
+                    <Box className=" formGroup">
                     <TextField
+                        className="formControl"
                       fullWidth
                       placeholder="Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       sx={{ mb: 2 }}
                     />
+                    </Box>
+                    <Box className=" formGroup">
                     <TextField
+                        className="formControl"
                       fullWidth
                       placeholder="Email"
                       type="email"
@@ -146,7 +154,10 @@ const ContactDialog = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       sx={{ mb: 2 }}
                     />
+                    </Box>
+                    <Box className=" formGroup">
                     <TextField
+                        className="formControl"
                       fullWidth
                       select
                       label="Select topic"
@@ -165,12 +176,27 @@ const ContactDialog = () => {
                       <MenuItem value="" disabled sx={{ color: "#9e9e9e" }}>
                         Select topic
                       </MenuItem>
-                      <MenuItem value="booking">Booking Issue</MenuItem>
-                      <MenuItem value="payment">Payment Problem</MenuItem>
+                      <MenuItem value="booking"> Booking issue</MenuItem>
+                      <MenuItem value="payment">
+                        Change or cancel my trip
+                      </MenuItem>
+                      <MenuItem value="payment">
+                        I didn't receive a confirmation
+                      </MenuItem>
+                      <MenuItem value="payment">
+                        Payment or refund issue
+                      </MenuItem>
+                      <MenuItem value="payment">
+                        Flight, rail or baggage problem
+                      </MenuItem>
+                      <MenuItem value="payment">Something else</MenuItem>
                       <MenuItem value="other">Other</MenuItem>
                     </TextField>
+                    </Box>
 
+                    <Box className=" formGroup">
                     <TextField
+                        className="formControl description"
                       fullWidth
                       multiline
                       rows={4}
@@ -179,6 +205,7 @@ const ContactDialog = () => {
                       onChange={(e) => setDescription(e.target.value)}
                       sx={{ mb: 3 }}
                     />
+                    </Box>
                     <Box display="flex" justifyContent="flex-end">
                       <Button
                         variant="contained"
