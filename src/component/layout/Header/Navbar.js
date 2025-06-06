@@ -3,7 +3,7 @@ import { Box, } from "@mui/material";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/baseLayout.module.scss"; // Import SCSS file
 import { useDispatch } from "react-redux";
-import { feedBack, setFeedbackDialog } from "@/src/store/slices/Base/baseSlice";
+import { feedBack, setContactDialog, setFeedbackDialog } from "@/src/store/slices/Base/baseSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -11,6 +11,9 @@ const Navbar = () => {
   const feedbackHandle = () => {
     dispatch(setFeedbackDialog(true));
   };
+  const contactHandle=()=> {
+    dispatch(setContactDialog(true))
+  }
 
   return (
     <Box position="static" className={styles.navbar}>
@@ -29,7 +32,7 @@ const Navbar = () => {
           alignItems: { xs: "flex-start", lg: "center", md: "center" },
         }}
       >
-        <Box component={Link} href="#" className={styles.navItem}>
+        <Box onClick={contactHandle}  className={styles.navItem + " cursor-pointer"}>
           Contact support
         </Box>
         <Box onClick={feedbackHandle} className={styles.navItem + " cursor-pointer"}>

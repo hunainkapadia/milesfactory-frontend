@@ -50,6 +50,7 @@ import MobileNavDrawer from "./MobileNavDrawer";
 import HeaderUser from "./HeaderUser";
 import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
+import ContactDialog from "../ContactDialog";
 
 const Header = ({ isMessage, IsActive, isHome, isChat }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -326,6 +327,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
       <RegisterPopup />
       <SignUpPopup />
       <Feedback />
+      <ContactDialog />
     </>
   );
 };

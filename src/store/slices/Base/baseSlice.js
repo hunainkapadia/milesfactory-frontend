@@ -7,12 +7,19 @@ const initialState = {
   ThreadData: null,
   currentUser: "",
   feedbackDialog: false,
+  contactDialog: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setContactData:(state, action) => {
+      state.contactData = action.payload
+    },
+    setContactDialog: (state, action)=> {
+      state.contactDialog = action.payload;
+    },
     setFeedbackDialog: (state,action)=> {
       state.feedbackDialog = action.payload;
     },
@@ -52,6 +59,23 @@ export const thread = () => (dispatch, getState) => {
   })
 };
 
+export const handleSubmitContact = (params) => (dispatch, getState) => {
+  console.log("contact_params", params);
+  
+  api.post("/api/v1/contact-us", params).then((res)=> {
+    console.log("contact_res", res)
+    dispatch(setContactData(res));
+  }).catch((error)=> {
+    console.log(error);
+    
+  }).finally(()=> {
+    console.log();
+    
+  })
+};
+
+
+
 
 export const {
   setSectionActive,
@@ -59,6 +83,8 @@ export const {
   setThreadData,
   setCurrentUser,
   setFeedbackDialog,
+  setContactDialog,
+  setContactData,
 } = baseSlice.actions;
 
 export default baseSlice.reducer;
