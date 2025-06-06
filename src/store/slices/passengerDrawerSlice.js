@@ -53,6 +53,9 @@ const passengerDrawerSlice = createSlice({
     setPassengerType: (state, action)=> {
       state.PassengerType = action.payload
     },
+    setPassengerAge: (state, action)=> {
+      state.PassengerAge = action.payload
+    },
     setPassengerIndex: (state, action)=> {
       state.PassengerIndex = action.payload
     },
@@ -144,6 +147,7 @@ export const PassengerForm = () => (dispatch, getState) => {
   api.post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
+      
       dispatch(setOrderUuid(OrderUUId));
       if (OrderUUId) {
         dispatch(ViewPassengers());
@@ -240,7 +244,11 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
+  
+  console.log("SubmitUrl", passengerUuid);
+  
   const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
+
   
   console.log("[2] Submitting Passenger API:", SubmitUrl);
 
@@ -322,16 +330,17 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
     }, 3000);
   }
   
-
-
 };
 
 
-export const getPassPofile = () => (dispatch) => {
+export const getPassPofile = () => (dispatch, getState) => {
+  
+  
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
       console.log("pass_profile_res", profile_res.data);
+      dispatch(ViewPassengers());
       dispatch(setPassProfile(profile_res.data))
     })
     .catch((error) => {
@@ -340,6 +349,7 @@ export const getPassPofile = () => (dispatch) => {
 };
 
 export const PassengerProfileDrawer = ()=> ()=> {
+  
 
 }
 
@@ -365,6 +375,7 @@ export const {
   setCaptainSuccess,
   setFormSuccess,
   setPassengerType,
+  setPassengerAge,
   setPassProfile,
   setAllPassengerFill,
   setCaptainParams,

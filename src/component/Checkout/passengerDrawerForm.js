@@ -85,61 +85,84 @@ const PassengerDrawerForm = () => {
   const PassengerType = useSelector(
     (state) => state.passengerDrawer.PassengerType
   );
-  console.log("get_PassengerType", PassengerType);
+  const PassengerAge = useSelector(
+    (state) => state.passengerDrawer.PassengerAge
+  );
+  console.log("PassengerAge", PassengerAge);
+  
 
   // Define ranges
   const today = dayjs();
-
   // Ranges
-  const maxAdultDate = today.subtract(18, "year"); // Adult: must be before this
-  const minChildDate = today.subtract(17, "year").add(1, "day");
-  const maxChildDate = today.subtract(2, "year");
-  const minInfantDate = today.subtract(2, "year").add(1, "day");
 
-  // Dynamic min/max based on passenger type
-  let minDate = dayjs("1930-01-01");
-  let maxDate = today;
+// Define static ranges
+const maxAdultDate = today.subtract(18, "year");
+const minChildDate = today.subtract(12, "year").add(1, "day");
+const maxChildDate = today.subtract(2, "year");
+const minInfantDate = today.subtract(2, "year").add(1, "day");
 
-  if (PassengerType === "adult") {
-    maxDate = maxAdultDate;
-  } else if (PassengerType === "child") {
-    minDate = minChildDate;
-    maxDate = maxChildDate;
-  } else if (PassengerType === "infant_without_seat") {
-    minDate = minInfantDate;
-    maxDate = today;
-  }
+// Defaults
+let minDate = dayjs("1930-01-01");
+let maxDate = today;
+
+// Apply dynamic logic based on PassengerType and PassengerAge
+if (PassengerType === "adult") {
+  // Adults: born before maxAdultDate (at least 18 years old)
+  minDate = dayjs("1930-01-01");
+  maxDate = maxAdultDate;
+} else if (PassengerType === "infant_without_seat" || (PassengerAge !== undefined && PassengerAge < 2)) {
+  // Infant: younger than 2 years
+  minDate = minInfantDate;
+  maxDate = today;
+} else if (PassengerType === "child" || (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 12)) {
+  // Child: between 2 and 12 years
+  minDate = minChildDate;
+  maxDate = maxChildDate;
+} else {
+  // fallback: treat as adult if no valid PassengerType or age
+  minDate = dayjs("1930-01-01");
+  maxDate = maxAdultDate;
+}
 
   // Validate age and dispatch error
   useEffect(() => {
-    if (born_on && PassengerType) {
-      const age = dayjs().diff(dayjs(born_on), "year");
-      console.log("pass_age", age);
+  if (born_on && PassengerAge !== undefined) {
+    const age = dayjs().diff(dayjs(born_on), "year");
+    console.log("calculated_age", age);
+    console.log("PassengerAge from Redux", PassengerAge);
 
-      if (PassengerType === "adult" && age < 18) {
-        dispatch(
-          setPassengerFormError({
-            born_on: "Adult must be at least 18 years old",
-          })
-        );
-      } else if (PassengerType === "child" && (age < 2 || age > 17)) {
-        dispatch(
-          setPassengerFormError({
-            born_on:
-              "Child passenger must be less than 12 and at least 2 years old",
-          })
-        );
-      } else if (PassengerType === "infant_without_seat" && age > 2) {
-        dispatch(
-          setPassengerFormError({
-            born_on: "Baby passenger must be less than 2 years old",
-          })
-        );
-      } else {
-        dispatch(setPassengerFormError({ born_on: "" })); // clear error
-      }
+    // Determine dynamic type from PassengerAge
+    let detectedType = "adult";
+    if (PassengerAge < 2) {
+      detectedType = "infant";
+    } else if (PassengerAge < 12) {
+      detectedType = "child";
     }
-  }, [born_on, PassengerType, dispatch]);
+
+    // Validation
+    if (detectedType === "adult" && age < 12) {
+      dispatch(
+        setPassengerFormError({
+          born_on: "Passenger must be at least 12 years old to be considered an adult",
+        })
+      );
+    } else if (detectedType === "child" && (age < 2 || age >= 12)) {
+      dispatch(
+        setPassengerFormError({
+          born_on: "Child passenger must be at least 2 and less than 12 years old",
+        })
+      );
+    } else if (detectedType === "infant" && age >= 2) {
+      dispatch(
+        setPassengerFormError({
+          born_on: "Infant must be younger than 2 years",
+        })
+      );
+    } else {
+      dispatch(setPassengerFormError({ born_on: "" })); // Clear error
+    }
+  }
+}, [born_on, PassengerAge, dispatch]);
 
   // Optional: Clear invalid date when switching type
   useEffect(() => {

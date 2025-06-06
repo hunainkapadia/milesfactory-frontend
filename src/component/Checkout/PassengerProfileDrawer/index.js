@@ -33,6 +33,7 @@ import {
   setPassengerUUID,
   setPassProfileDrawer,
   setSelectedProfilePass,
+  ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
 
@@ -68,9 +69,15 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   // add passenger [start]
 
+  const passengerUuid = useSelector((state) => state.passengerDrawer?.PassengerUUID); 
+  
+console.log("passengerUuid_Addnew", passengerUuid);
+
   const handleAddPassenger = () => {
     dispatch(setOpenPassengerDrawer()); // open drawer
-    dispatch(setPassengerUUID(null));
+    dispatch(ViewPassengers())
+    dispatch(setPassengerUUID(passengerUuid));
+    dispatch(PassengerForm())
   };
 
   return (
