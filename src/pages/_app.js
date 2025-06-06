@@ -34,6 +34,20 @@ export default function App({ Component, pageProps }) {
                 rel="stylesheet"
               />
               <link rel="icon" href="/images/favicon_mylz_v2.svg" />
+
+              {/* Google Analytics */}
+              <script async src="https://www.googletagmanager.com/gtag/js?id=G-0MNTS4RLHH"></script>
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-0MNTS4RLHH');
+                  `,
+                }}
+              />
+              {/* Google Analytics */}
               
             </Head>
             <AppWrapper Component={Component} pageProps={pageProps} />
