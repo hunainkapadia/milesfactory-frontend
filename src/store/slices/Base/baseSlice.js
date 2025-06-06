@@ -14,6 +14,12 @@ const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setRatingSumbitRequest: (state, action)=> {
+      state.RatingSumbitRequest = action.payload
+    },
+     submitFeedback: (state, action) => {
+      state.reviews.push(action.payload); // Save feedback to store
+    },
     setContactData:(state, action) => {
       state.contactData = action.payload
     },
@@ -75,6 +81,23 @@ export const handleSubmitContact = (params) => (dispatch, getState) => {
 };
 
 
+export const RatingSubmit = (params) => (dispatch, getState) => {
+  console.log("rating_params", params);
+  api
+    .post("/api/v1/rating", params)
+    .then((res) => {
+      console.log("rating_res", res);
+      dispatch(setRatingSumbitRequest(res.data)); // store response if needed
+    })
+    .catch((error) => {
+      console.error("rating error", error);
+    })
+    .finally(() => {
+      console.log("Rating submit finished");
+    });
+};
+
+
 
 
 export const {
@@ -85,6 +108,7 @@ export const {
   setFeedbackDialog,
   setContactDialog,
   setContactData,
+  setRatingSumbitRequest
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

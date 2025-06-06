@@ -12,7 +12,8 @@ import useScrollToRef from "@/src/hooks/useScrollToRef";
 import styles from "@/src/styles/sass/components/checkout/Payment.module.scss";
 import { registerScrollFunction } from "@/src/utils/scrollManager";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setRatingSumbitRequest } from "@/src/store/slices/Base/baseSlice";
 
 const PaymentSuccess = () => {
   const [rating, setRating] = useState(null); // user-selected rating
@@ -44,14 +45,22 @@ const PaymentSuccess = () => {
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
   };
-  const handleSubmit = () => {
-    if (rating !== null && !successReview) {
-      setsuccessReview(true);
-    } else {
-    }
+  const dispatch = useDispatch();
 
-    // Do something with rating + reason (like dispatch or API)
+  const handleSubmit = () => {
+    
+    
+    if (rating !== null && !successReview) {
+      dispatch(
+        RatingSubmit({
+          rating: rating,
+          reason: selectedReason || null,
+        })
+      );
+      setsuccessReview(true);
+    }
   };
+
   const PaymentStatus = useSelector((state)=> state?.payment?.paymentStatus);
   console.log("PaymentStatus_0", PaymentStatus);
   
@@ -190,7 +199,7 @@ const PaymentSuccess = () => {
       ) : (
         ""
       )}
-      {successReview ? (
+      {!successReview ? (
         <>
           <Box mt={4}>
             <h3 className="regular f25">

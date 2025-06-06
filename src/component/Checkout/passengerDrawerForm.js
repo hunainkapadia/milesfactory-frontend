@@ -126,23 +126,22 @@ if (PassengerType === "adult") {
 
 
  useEffect(() => {
-  if (born_on && PassengerAge !== undefined) {
+  if (born_on) {
     const age = dayjs().diff(dayjs(born_on), "year");
     console.log("calculated_age", age);
-    console.log("PassengerAge from Redux", PassengerAge);
 
-    // Determine dynamic type from PassengerAge (you can tweak upper limits here)
+    // Determine type based on actual birth date
     let detectedType = "adult";
-    if (PassengerAge < 2) {
+    if (age < 2) {
       detectedType = "infant";
-    } else if (PassengerAge >= 2 && PassengerAge < 18) {
+    } else if (age >= 2 && age < 18) {
       detectedType = "child";
     }
 
-    // Validation thresholds (can adjust as per your logic)
+    // Validation logic (if needed)
     const infantMaxAge = 2;
     const childMinAge = 2;
-    const childMaxAge = 18; // or 12 if you want stricter limits
+    const childMaxAge = 18;
     const adultMinAge = 18;
 
     if (detectedType === "adult" && age < adultMinAge) {
@@ -167,10 +166,11 @@ if (PassengerType === "adult") {
         })
       );
     } else {
-      dispatch(setPassengerFormError({ born_on: "" })); // Clear error
+      dispatch(setPassengerFormError({ born_on: "" })); // ✅ Clear error
     }
   }
-}, [born_on, PassengerAge, dispatch]);
+}, [born_on, dispatch]);
+
 
 
 
