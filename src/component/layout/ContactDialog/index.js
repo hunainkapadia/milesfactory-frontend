@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -44,11 +44,16 @@ const ContactDialog = () => {
     dispatch(handleSubmitContact(params)); // This is the Redux action
 
     // Optionally reset form
-    setName("");
-    setEmail("");
-    setTopic("");
-    setDescription("");
-  };
+   };
+   useEffect(()=> {
+      if (contactSuccess) {
+         setName("");
+         setEmail("");
+         setTopic("");
+         setDescription("");
+      }
+
+   })
   const currentUser = useSelector((state) => state.base?.currentUser);
   const logoutHandle = () => {
     dispatch(Logout());
