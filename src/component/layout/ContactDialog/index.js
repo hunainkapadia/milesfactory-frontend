@@ -234,7 +234,7 @@ const ContactDialog = () => {
                   <Box mb={2}>
                     <Box
                       component={"h4"}
-                      mb={1}
+                      mb={2}
                       display={"flex"}
                       gap={1}
                       alignItems={"center"}
