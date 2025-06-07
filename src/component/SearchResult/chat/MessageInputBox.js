@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IconButton, Box } from "@mui/material";
+import { IconButton, Box, Button } from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import MicAnimation from "../ChatInput/MicAnimation";
 import { useDispatch, useSelector } from "react-redux";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import LabelAnimation from "../../home/LabelAnimation";
-import { sendMessage } from "@/src/store/slices/sendMessageSlice";
+import { deleteAndCreateThread, sendMessage } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
 
 // Import react-speech-recognition hooks
@@ -90,6 +90,12 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
     messagesEndRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // check  polling true and start new chat
+  const pollingComplete = useSelector((state)=> state.sendMessage.pollingComplete);
+const HandleNewThread = () => {
+    dispatch(deleteAndCreateThread());
+  };
+
 
   return (
     <Box
@@ -118,6 +124,8 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
               <i className="fa fa-arrow-down"></i>
             </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
+            {!pollingComplete ? (
+              <>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (
                   <LabelAnimation />
@@ -191,6 +199,13 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
                   </Box>
                 </Box>
               </Box>
+
+              </>
+            ): (
+              <Box onClick={HandleNewThread} className="btn btn-basecolor1 btn-border  btn-sm cursor-pointer">
+                Start new chat
+              </Box>
+            )}
 
               {!isMessageHome && !isSticky && (
                 <>
