@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IconButton, Box } from "@mui/material";
+import { IconButton, Box, Button } from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import MicAnimation from "../ChatInput/MicAnimation";
 import { useDispatch, useSelector } from "react-redux";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import LabelAnimation from "../../home/LabelAnimation";
-import { sendMessage } from "@/src/store/slices/sendMessageSlice";
+import { deleteAndCreateThread, sendMessage } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
 
 // Import react-speech-recognition hooks
@@ -90,6 +90,12 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
     messagesEndRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // check  polling true and start new chat
+  const pollingComplete = useSelector((state)=> state.sendMessage.pollingComplete);
+const HandleNewThread = () => {
+    dispatch(deleteAndCreateThread());
+  };
+
 
   return (
     <Box
@@ -118,6 +124,8 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
               <i className="fa fa-arrow-down"></i>
             </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
+            {!pollingComplete ? (
+              <>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (
                   <LabelAnimation />
@@ -191,6 +199,86 @@ const MessageInputBox = ({ isMessageHome, isSticky, HeaderInput, messagesEndRef 
                   </Box>
                 </Box>
               </Box>
+
+              </>
+            ): (
+               <>
+              <Box className={inputStyles.SearchBoxIn} position={"relative"}>
+                {!isMessageHome && !userMessage.trim() && !listening ? (
+                  <LabelAnimation />
+                ) : null}
+
+                <div
+                  ref={inputRef}
+                  contentEditable={true}
+                  suppressContentEditableWarning
+                  role="textbox"
+                  placeholder="Ask anything about your trip"
+                  className={inputStyles.SearchForm + " SearchForm 222"}
+                  onInput={(e) => {
+                    const value = e.currentTarget.textContent.trim();
+                    setUserMessage(value);
+                    setIsTyping(value.length > 0);
+                    // If user edits manually, reset transcript so react-speech-recognition does not override
+                    resetTranscript();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      if (isLoading) return;
+                      e.preventDefault();
+                      handleSearch();
+                      e.currentTarget.textContent = "";
+                      setIsTyping(false);
+                      resetTranscript();
+                    }
+                  }}
+                  style={{ textAlign: "left" }}
+                ></div>
+
+                
+
+                <Box className={`${inputStyles.SearchButtonBox} ${listening ? inputStyles.active : ""}`}>
+                  <Box width={"100%"}>
+                    {listening ? <MicAnimation active={listening} /> : null}
+                  </Box>
+                  <Box className={inputStyles.BoxButtons}>
+                    <IconButton
+                      className={inputStyles.MicButton}
+                      onClick={handleVoiceInput}
+                      disabled={isLoading}
+                    >
+                      <i
+                        className={`fa ${
+                          listening ? "fa-check" : "fa-microphone"
+                        }`}
+                      ></i>
+                    </IconButton>
+
+                    {listening ? (
+                      <IconButton
+                        className={inputStyles.MicButton}
+                        onClick={handleVoiceInput}
+                        disabled={isLoading}
+                      >
+                        <i className="fa fa-close"></i>
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        className={`${inputStyles.SearchButton} ${
+                          isLoading ? inputStyles.Disabled : ""
+                        }`}
+                        onClick={handleSearch}
+                        disabled={isLoading}
+                      >
+                        <i className="fa fa-arrow-right"></i>
+                      </IconButton>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+
+              </>
+            )}
 
               {!isMessageHome && !isSticky && (
                 <>

@@ -2,21 +2,22 @@ import Header from "@/src/component/layout/Header";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
-import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
+import { fetchMessages, setGetMessageUUID } from "@/src/store/slices/GestMessageSlice";
 import { useRouter } from "next/router";
 import { Box, Container, Grid } from "@mui/material";
 import Messages from "@/src/component/Messages";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
+import { setThreadUuid } from "@/src/store/slices/sendMessageSlice";
 
 const ChatByUUID = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { uuid } = router.query;
+  const { uuid } = router?.query;
 
-  console.log("uuid_chat", uuid);
+  console.log("uuid_chat", router.query);
   
 
   // Access your Redux messages
@@ -27,8 +28,12 @@ const ChatByUUID = () => {
 
   // Fetch messages using the UUID from URL
     useEffect(() => {
-      console.log("Router object:", router);
-    }, [router]);
+  if (!uuid) return; // Skip if uuid is undefined
+
+  console.log("Router object2:", uuid);
+  dispatch(setGetMessageUUID(router.query));
+  dispatch(fetchMessages());
+}, [uuid]);
 
     const SearchHistoryGet = useSelector(
       (state) => state.getMessages.SearchHistory

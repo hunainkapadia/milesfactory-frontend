@@ -12,6 +12,7 @@ import {
   setCaptainSuccess,
   setFormSuccess,
   setOpenPassengerDrawer,
+  setPassengerAge,
   setPassengerType,
   setPassengerUUID,
   setPassengerUUIDfill,
@@ -38,19 +39,21 @@ const PassengerInfo = ({ getdata }) => {
   );
 
   // if passenger profile or not handle
-  const handlePassengerClick = (uuid, isFilled, type) => {
+  const handlePassengerClick = (uuid, isFilled, type, age) => {
     if (passengerPofile?.length > 0) {
       dispatch(getPassPofile()); // call passenger profile
       dispatch(setPassProfileDrawer(true));
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(setPassengerType(type));
+      dispatch(setPassengerAge(age));
     } else {
       console.log("uuid111", isFilled);
       console.log("pass_type", uuid, isFilled, type);
-
+      dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       if (!isFilled) {
         dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
         dispatch(setPassengerType(type));
+        dispatch(setPassengerAge(age));
         dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
         dispatch(setOpenPassengerDrawer()); // open drawer
       }
@@ -111,7 +114,7 @@ const PassengerInfo = ({ getdata }) => {
     <>
       <Box py={2}>
         <Typography fontWeight={"semibold"}>
-          Ready to fly? Let’s add traveller details.
+          Ready to fly? Let's add traveller details.
         </Typography>
       </Box>
       <Box variant="outlined" className={searchResultStyles.PassengersSection}>
@@ -135,7 +138,8 @@ const PassengerInfo = ({ getdata }) => {
                     handlePassengerClick(
                       passenger.uuid,
                       isFilled,
-                      passenger.type
+                      passenger.type,
+                      passenger.age
                     )
                   }
                 />

@@ -17,6 +17,9 @@ const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    setGetMessageUUID: (state, action)=> {
+      state.getMessageUUID = action.payload;
+    },
     setTopOfferUrl: (state, action)=> {
       state.topOfferUrl = action.payload;
     },
@@ -49,18 +52,22 @@ const GetMessagesSlice = createSlice({
   },
 });
 
-export const fetchMessages = () => (dispatch) => {
-
+export const fetchMessages = () => (dispatch, getState) => {
+  const state = getState();
+  const uuid =  state?.getMessages?.getMessageUUID?.uuid
+  
   
   dispatch(setIsLoading(true));
   const localUUID = sessionStorage.getItem("chat_thread_uuid");
   
-  const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${localUUID}`
+  
+  const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${uuid}`
+  console.log("state_getmess", uuid);
   
   api
   .get(threadUrl)
   .then((response) => {
-    console.log("test12", response);
+    console.log("get_test12", response);
     
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
@@ -191,5 +198,6 @@ export const {
   setRefreshSearch,
   setSearchHistoryGet,
   setTopOfferUrl,
+  setGetMessageUUID
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

@@ -56,7 +56,9 @@ const AiMessage = ({ aiMessage }) => {
   }, [GetViewPassengers]);
 
   const seeAllResultHandle = () => {
-    setShowAllFlight((prev) => !prev);
+    if (!showAllFlight) {
+      setShowAllFlight(true); // only enable showing all flights once
+    }
   };
   console.log("GetViewPassengers", GetViewPassengers.length > 0);
   console.log("filledPassenger", filledPassenger);
@@ -68,7 +70,7 @@ const AiMessage = ({ aiMessage }) => {
 
   const displayedGetFlights = showAllFlight
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
-    : aiMessage?.ai?.offers?.slice(0, 3);
+    : aiMessage?.ai?.offers;
 
   console.log("Total Offers:", displayedGetFlights?.length);
   console.log("Original Offers:", aiMessage?.ai?.offers?.length);
@@ -98,13 +100,7 @@ const AiMessage = ({ aiMessage }) => {
   // Add class when all flights are shown
   console.log("showAllFlight", showAllFlight);
 
-  useEffect(() => {
-    if (showAllFlight && aiboxRef.current) {
-      aiboxRef.current.classList.add("showAllFlightActive"); //  Your custom class
-    } else if (!showAllFlight && aiboxRef.current) {
-      aiboxRef.current.classList.remove("showAllFlightActive"); //  Remove when hidden
-    }
-  }, [showAllFlight]);
+
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
@@ -213,45 +209,24 @@ const orderDetail = useSelector((state) => state?.payment?.OrderConfirm?.order?.
 
           {/* Toggle button */}
 
-          {!GetViewPassengers.length > 0 && !showAllFlight ? (
-            <Box onClick={seeAllResultHandle} style={{ cursor: "pointer" }}>
-              <Box
-                sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                gap={2}
-                alignItems="center"
-                display="flex"
-                className="bold"
-              >
-                <span>
-                  See more flights
-                  {`${
-                    getAllFlightGetApi?.count
-                      ? " (" + getAllFlightGetApi?.count + ")"
-                      : ""
-                  }`}
-                  {`${
-                    allFlightSearcCount?.count
-                      ? " (" + allFlightSearcCount?.count + ")"
-                      : ""
-                  }`}
-                </span>
-                <i className="fa fa-caret-right fas" />
-              </Box>
+          <Box
+            onClick={() => {
+              seeAllResultHandle(); // First show all flights
+              moreflightsHandle(); // Then dispatch to load more flights
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <Box
+              sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+              gap={2}
+              alignItems="center"
+              display="flex"
+              className="bold"
+            >
+              <span>See more flights</span>
+              <i className="fa fa-caret-right fas" />
             </Box>
-          ) : (
-            <Box onClick={moreflightsHandle} style={{ cursor: "pointer" }}>
-              <Box
-                sx={{ my: { lg: 2, md: 2, xs: 0 } }}
-                gap={2}
-                alignItems="center"
-                display="flex"
-                className="bold"
-              >
-                <span>See more flights</span>
-                <i className="fa fa-caret-right fas" />
-              </Box>
-            </Box>
-          )}
+          </Box>
         </>
       ) : (
         // Default AI response

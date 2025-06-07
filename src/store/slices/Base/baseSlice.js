@@ -7,12 +7,25 @@ const initialState = {
   ThreadData: null,
   currentUser: "",
   feedbackDialog: false,
+  contactDialog: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setRatingSumbitRequest: (state, action)=> {
+      state.RatingSumbitRequest = action.payload
+    },
+     submitFeedback: (state, action) => {
+      state.reviews.push(action.payload); // Save feedback to store
+    },
+    setContactData:(state, action) => {
+      state.contactData = action.payload
+    },
+    setContactDialog: (state, action)=> {
+      state.contactDialog = action.payload;
+    },
     setFeedbackDialog: (state,action)=> {
       state.feedbackDialog = action.payload;
     },
@@ -52,6 +65,41 @@ export const thread = () => (dispatch, getState) => {
   })
 };
 
+export const handleSubmitContact = (params) => (dispatch, getState) => {
+  console.log("contact_params", params);
+  
+  api.post("/api/v1/contact-us", params).then((res)=> {
+    console.log("contact_res", res)
+    dispatch(setContactData(res));
+  }).catch((error)=> {
+    console.log(error);
+    
+  }).finally(()=> {
+    console.log();
+    
+  })
+};
+
+
+export const RatingSubmit = (params) => (dispatch, getState) => {
+  console.log("rating_params", params);
+  api
+    .post("/api/v1/rating", params)
+    .then((res) => {
+      console.log("rating_res", res);
+      dispatch(setRatingSumbitRequest(res.data)); // store response if needed
+    })
+    .catch((error) => {
+      console.error("rating error", error);
+    })
+    .finally(() => {
+      console.log("Rating submit finished");
+    });
+};
+
+
+
+
 
 export const {
   setSectionActive,
@@ -59,6 +107,9 @@ export const {
   setThreadData,
   setCurrentUser,
   setFeedbackDialog,
+  setContactDialog,
+  setContactData,
+  setRatingSumbitRequest
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

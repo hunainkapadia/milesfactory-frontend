@@ -23,6 +23,8 @@ const HomeHeroSection = () => {
   return (
     <>
       <section>
+
+      aaa
         <Box
           className={`${styles.HeroSection} ${styles.mainHeroSection} ${
             isMessage.length ? styles.Active : ""
@@ -33,6 +35,7 @@ const HomeHeroSection = () => {
           <Box className={styles.Box}>
             {!isMessage.length && <HerosectionContent />}
             {/* ////////////////////////// Search Box start ////////////////////////// */}
+              
             <Container>
               <MessageInputBox />
             </Container>

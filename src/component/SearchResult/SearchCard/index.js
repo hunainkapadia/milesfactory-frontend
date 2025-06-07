@@ -94,6 +94,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   };
 
   {console.log("hideSelectButton", hideSelectButton)}
+  {console.log("offerData", offerData)}
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -211,14 +212,15 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}
-                         {Math.round(offerData?.total_amount)}
+                        {Math.round(offerData?.per_passenger_amount)}
                       </h4>
-
-                      <Typography className=" f12 gray">
-                        {currencySymbols[offerData?.tax_currency] ||
-                          offerData?.tax_currency}
-                        {Math.round(offerData?.per_passenger_amount)} per person
+                      
+                      {personQuantity > 1 && (
+                      <Typography className="f12 gray">
+                        {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency}
+                        {Math.round(offerData?.total_amount)} total
                       </Typography>
+                      )}
                     </Box>
                     {/* main select handle */}
                     {/* {!isselected ? (

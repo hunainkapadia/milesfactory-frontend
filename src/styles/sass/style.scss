@@ -933,6 +933,10 @@ body {
   border: solid 0px $bluedark2;
   fieldset { border-color: $bluedark2;}
 }
+.formControl.description .MuiInputBase-root {
+  min-height: 80px;
+  padding-top: 50px;
+}
 
 
 /* Optional: Adjust input padding if needed */

@@ -5,7 +5,7 @@ import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import { useState } from "react";
 import Navbar from "../Navbar";
 import HeaderUser from "../HeaderUser";
-import { setFeedbackDialog, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
+import { setContactDialog, setFeedbackDialog, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
 import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
@@ -44,6 +44,9 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
       toggleDrawer(); // Close the drawer before creating a new thread
       dispatch(deleteAndCreateThread());
     };
+    const contactHandle=()=> {
+      dispatch(setContactDialog(true))
+    }
   return (
     <>
       {/* Trigger button (optional) */}
@@ -272,7 +275,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
               <Box
                 display="flex"
                 alignItems="center"
-                // onClick={handleCurrencyClick}
+                onClick={contactHandle}
                 sx={{ cursor: "pointer", gap: 0 }}
                 className={`basecolor1-dark2`}
               >

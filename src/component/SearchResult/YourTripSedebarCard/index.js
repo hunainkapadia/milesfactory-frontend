@@ -105,7 +105,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
 
               {SearchHistory.flight_type == "round-trip" ? "Return" : "One way"}
               , {totalTravelers}{" "}
-              {totalTravelers ? "Travellers" : "Traveller"}
+              {totalTravelers > 1 ? "Travellers" : "Traveller"}
             </Typography>
           </Box>
         </Box>
@@ -427,7 +427,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                     >
                       <Box>
                         <Typography className="f12  bold">
-                          Extra baggage
+                          Included Baggage
                         </Typography>
                         <Typography className="f12 gray">
                           {(() => {
@@ -501,12 +501,12 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                 <h4 className="exbold mb-0">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}
-                  {Math.round(offerData?.total_amount)}
+                  {Math.round(offerData?.per_passenger_amount)}
                 </h4>
                 <Typography className="gray f12">
                   {currencySymbols[offerData?.tax_currency] ||
                     offerData?.tax_currency}
-                  {Math.round(offerData?.per_passenger_amount)} per person
+                  {Math.round(offerData?.total_amount)} total
                 </Typography>
               </Box>
             </Box>
