@@ -189,23 +189,23 @@ const PriceSummary = ({ getdata }) => {
               </Box> */}
               {/* Additional baggage row */}
               {flightOrder?.amount_calculations?.baggages_total_amount_plus_markup > 0 && (
-  <Box
-    className={styles.PriceRow + " f12"}
-    display="flex"
-    justifyContent="space-between"
-    gap={4}
-  >
-    <Box>Additional Baggage Fee</Box>
-    <Box>
-      {currencySymbols[orderDetail?.tax_currency] ||
-        orderDetail?.tax_currency}
-      {Math.round(
-        flightOrder?.amount_calculations
-          ?.baggages_total_amount_plus_markup
-      )}
-    </Box>
-  </Box>
-)}
+                  <Box
+                    className={styles.PriceRow + " f12"}
+                    display="flex"
+                    justifyContent="space-between"
+                    gap={4}
+                  >
+                    <Box>Additional Baggage Fee</Box>
+                    <Box>
+                      {currencySymbols[orderDetail?.tax_currency] ||
+                        orderDetail?.tax_currency}
+                      {Math.round(
+                        flightOrder?.amount_calculations
+                          ?.baggages_total_amount_plus_markup
+                      )}
+                    </Box>
+                  </Box>
+                )}
 
               {/* Markup row */}
               <Box
@@ -237,7 +237,8 @@ const PriceSummary = ({ getdata }) => {
                   {console.log("orderDetail111", orderDetail)}
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
-                  {totalAmount}
+                  {flightOrder?.amount_calculations
+                          ?.total_amount_plus_markup_and_all_services}
                 </Box>
               </Box>
             </Box>
