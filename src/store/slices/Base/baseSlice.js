@@ -14,6 +14,9 @@ const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setInviteSuccess : (state, action)=> {
+      state.InviteSuccess = action.payload
+    },
     setRatingSumbitRequest: (state, action)=> {
       state.RatingSumbitRequest = action.payload
     },
@@ -97,6 +100,22 @@ export const RatingSubmit = (params) => (dispatch, getState) => {
     });
 };
 
+export const InviteSubmit = (params) => (dispatch, getState) => {
+  console.log("invite_params", params);
+  api
+    .post("/api/v1/invite", params)
+    .then((res) => {
+      console.log("invite_res", res);
+      dispatch(setInviteSuccess(res.data)); // store response if needed
+    })
+    .catch((error) => {
+      console.error("rating error", error);
+    })
+    .finally(() => {
+      console.log("Rating submit finished");
+    });
+};
+
 
 
 
@@ -109,7 +128,8 @@ export const {
   setFeedbackDialog,
   setContactDialog,
   setContactData,
-  setRatingSumbitRequest
+  setRatingSumbitRequest,
+  setInviteSuccess
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

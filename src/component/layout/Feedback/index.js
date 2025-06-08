@@ -117,7 +117,7 @@ const Feedback = () => {
                 <Box mt={2}>
                   <Typography>
                     <img src="/images/hand-emoji.svg" alt="hand" />{" "}
-                    <img src="/images/hand-emoji.svg" alt="hand" /> We’ve sent the emails.{" "}
+                    <img src="/images/hand-emoji.svg" alt="hand" />We've aaa sent the emails.{" "}
                     <Link href="#" className="text-decuration-none">
                       Invite more friends
                     </Link>

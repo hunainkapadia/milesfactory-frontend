@@ -14,6 +14,7 @@ import { registerScrollFunction } from "@/src/utils/scrollManager";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  InviteSubmit,
   RatingSubmit,
   setRatingSumbitRequest,
 } from "@/src/store/slices/Base/baseSlice";
@@ -22,6 +23,7 @@ const PaymentSuccess = () => {
   const [rating, setRating] = useState(false); // user-selected rating
   const [selectedReason, setSelectedReason] = useState(false); // user-selected reason
   const [successReview, setsuccessReview] = useState(true);
+  const [email, setEmail] = useState(""); // from false to empty string
   // stroll
   const PaymentData = useSelector((state) => state?.payment?.PaymentData);
   console.log("order detail", PaymentData?.order?.uuid);
@@ -54,7 +56,10 @@ const PaymentSuccess = () => {
   const ratingSuccess = useSelector(
     (state) => state?.base?.RatingSumbitRequest
   );
-  console.log("selectedReason", selectedReason);
+  const inviteSuccess = useSelector(
+    (state) => state?.base?.InviteSuccess
+  );
+  console.log("inviteSuccess", inviteSuccess);
 
   const handleSubmit = () => {
     if (rating !== null) {
@@ -69,6 +74,16 @@ const PaymentSuccess = () => {
 
       dispatch(RatingSubmit(payload));
     }
+  };
+
+  // for invite
+  const handleInvite = () => {
+    alert("asas")
+    const payload = {
+      emails: email,
+      flight_order: PaymentData?.order?.uuid,
+    };
+    dispatch(InviteSubmit(payload));
   };
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
@@ -198,7 +213,6 @@ const PaymentSuccess = () => {
       </Box>
 
       {/*  Static Rating */}
-      
 
       {!ratingSuccess ? (
         <>
@@ -225,46 +239,79 @@ const PaymentSuccess = () => {
             </>
           ) : rating && rating > 4 ? (
             <>
-              <Box mt={4}>
-                <h3 className="regular f25">
-                  <span>Please help us spread </span>{" "}
-                  <img src="/images/heart-emoji.svg" alt="heart" />
-                </h3>
-                <Typography>
-                  Invite friends around to travel with Mylz.
-                </Typography>
-              </Box>
-              <Box mt={2}>
-                <Typography>
-                  <img src="/images/hand-emoji.svg" alt="hand" />{" "}
-                  <img src="/images/hand-emoji.svg" alt="hand" /> We’ve sent the
-                  emails.
-                  <Link href="#" className="text-decuration-none">
-                    {" "}
-                    Invite more friends
-                  </Link>
-                </Typography>
-              </Box>
-              <Box className={styles.InviteBox} display="flex" gap={1} pt={2}>
-                <Box className="formGroup">
-                  <TextField
-                    className={`${styles.formControl} formControl`}
-                    fullWidth
-                    placeholder="Emails, comma separated"
-                    margin="normal"
-                  />
-                </Box>
-                <Button
-                  className="btn btn-primary btn-sm btn-round"
-                  variant="contained"
-                  color="success"
-                  type="submit"
-                >
-                  Invite
-                </Button>
-              </Box>
+              {!inviteSuccess ? (
+                <>
+                  <Box>
+                    <Box mt={4}>
+                      <h3 className="regular f25">
+                        <span>Please help us spread </span>{" "}
+                        <img src="/images/heart-emoji.svg" alt="heart" />
+                      </h3>
+                      <Typography>
+                        Invite friends around to travel with Mylz.
+                      </Typography>
+                    </Box>
+                    <Box mt={2}>
+                      <Typography>
+                        <img src="/images/hand-emoji.svg" alt="hand" />{" "}
+                        <img src="/images/hand-emoji.svg" alt="hand" /> We've
+                        sent the emails.
+                        <Link href="#" className="text-decuration-none">
+                          {" "}
+                          Invite more friends
+                        </Link>
+                      </Typography>
+                    </Box>
+                    <Box
+                      className={styles.InviteBox}
+                      display="flex"
+                      gap={1}
+                      pt={2}
+                    >
+                      <Box className="formGroup">
+                        <TextField
+                          className={`${styles.formControl} formControl`}
+                          fullWidth
+                          placeholder="Emails, comma separated"
+                          margin="normal"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </Box>
+                      <Button
+                        className="btn btn-primary btn-sm btn-round"
+                        variant="contained"
+                        color="success"
+                        type="submit"
+                        onClick={handleInvite}
+                      >
+                        Invite
+                      </Button>
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <Box mt={4}>
+                    <h3 className="regular f25">
+                      <span>Thank you for inviting your friends! </span>
+                      <img src="/images/heart-emoji.svg" alt="heart" />
+                    </h3>
+                    <Typography>
+                      We've successfully sent your invitation — you're helping
+                      others discover great travel experiences!
+                    </Typography>
+                    <Typography>
+                      Before you go, leave a quick review. Your feedback helps
+                      us improve and makes travel better for everyone. 💙
+                    </Typography>
+                  </Box>
+                </>
+              )}
             </>
-          ): ""}
+          ) : (
+            ""
+          )}
 
           {/* Submit Button */}
           {rating ? (
@@ -287,7 +334,7 @@ const PaymentSuccess = () => {
       ) : (
         <>
           <Box>
-            <Typography variant="h6">Thank you for your feedback!</Typography>
+            <h3 className="regular f25">Thank you for your feedback!</h3>
             <Typography variant="body1">
               We really appreciate you taking the time to rate your experience.
             </Typography>
