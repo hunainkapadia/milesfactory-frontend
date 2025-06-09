@@ -112,6 +112,7 @@ console.log("checkPolling", messages || FlightExpire);
 
   
   const HandleNewThread = () => {
+    alert("test")
     dispatch(deleteAndCreateThread());
   };
 

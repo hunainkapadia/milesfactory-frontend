@@ -98,11 +98,8 @@ const Messages = () => {
   console.log("FlightExpire111", FlightExpire);
 
   const refreshHandle = () => {
-    alert("Asas")
     dispatch(RefreshHandle());
     dispatch(setRefreshSearch());
-
-    // dispatch(deleteAndCreateThread());
   };
 
   return (
