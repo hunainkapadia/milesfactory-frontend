@@ -182,9 +182,11 @@ const FromAndToDetail = ({
                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.aircraft?.name}
                                   </Typography>
-                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    Operated by {segment.operating_carrier?.name}
-                                  </Typography>
+                                 {segment.marketing_carrier?.name !== segment.operating_carrier?.name ? (
+                                    <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                      Operated by {segment.operating_carrier?.name}
+                                    </Typography>
+                                  ) : null}
                                 </div>
                               ))}
                             </>
@@ -347,9 +349,11 @@ const FromAndToDetail = ({
                                    <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.aircraft?.name}
                                   </Typography>
-                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    Operated by {segment.operating_carrier?.name}
-                                  </Typography>    
+                                 {segment.marketing_carrier?.name !== segment.operating_carrier?.name ? (
+                                    <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                      Operated by {segment.operating_carrier?.name}
+                                    </Typography>
+                                  ) : null}   
                             </Box>
                             <Box className={styles.Col3}>
                               <Box className={styles.airlineLogo + " imggroup"}>
