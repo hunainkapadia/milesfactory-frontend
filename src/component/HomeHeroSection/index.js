@@ -23,8 +23,6 @@ const HomeHeroSection = () => {
   return (
     <>
       <section>
-
-      aaa
         <Box
           className={`${styles.HeroSection} ${styles.mainHeroSection} ${
             isMessage.length ? styles.Active : ""

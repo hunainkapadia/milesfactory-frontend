@@ -27,7 +27,9 @@ const PaymentSuccess = () => {
   // stroll
   const PaymentData = useSelector((state) => state?.payment?.PaymentData);
   console.log("order detail", PaymentData?.order?.uuid);
-  {console.log("successReview3", rating)}
+  {
+    console.log("successReview3", rating);
+  }
 
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
 
@@ -49,16 +51,25 @@ const PaymentSuccess = () => {
   ];
 
   const handleReasonSelect = (reason) => {
-    setSelectedReason(reason);
-  };
+  setSelectedReason(reason);
+
+  if (rating && rating <= 4) {
+    const payload = {
+      rating: rating,
+      flight_order: PaymentData.order.uuid,
+      review: reason,
+    };
+
+    dispatch(RatingSubmit(payload));
+  }
+};
+
   const dispatch = useDispatch();
 
   const ratingSuccess = useSelector(
     (state) => state?.base?.RatingSumbitRequest
   );
-  const inviteSuccess = useSelector(
-    (state) => state?.base?.InviteSuccess
-  );
+  const inviteSuccess = useSelector((state) => state?.base?.InviteSuccess);
   console.log("inviteSuccess", inviteSuccess);
 
   const handleSubmit = () => {
@@ -75,10 +86,32 @@ const PaymentSuccess = () => {
       dispatch(RatingSubmit(payload));
     }
   };
+  const handleRatingChange = (event, newValue) => {
+  setRating(newValue);
+
+  if (newValue === 5) {
+    const payload = {
+      rating: 5,
+      flight_order: PaymentData.order.uuid,
+    };
+    dispatch(RatingSubmit(payload));
+  }
+
+  // Reset selectedReason when changing rating
+  if (newValue < 5) {
+    setSelectedReason(null);
+  }
+  console.log("newValue", newValue);
+  
+};
+
+console.log("rating_new", rating);
+
+
+  // rating [end]
 
   // for invite
   const handleInvite = () => {
-    alert("asas")
     const payload = {
       emails: email,
       flight_order: PaymentData?.order?.uuid,
@@ -137,7 +170,7 @@ const PaymentSuccess = () => {
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation – your booking reference is{" "}
-                  {PaymentData?.duffel_order?.booking_reference}. Use it to view
+                  <Typography component={"span"} className="exbold">{PaymentData?.duffel_order?.booking_reference}</Typography>. Use it to view
                   and manage your booking directly on the airline’s website or
                   app, or to share with anyone who needs it.
                 </Typography>
@@ -168,6 +201,7 @@ const PaymentSuccess = () => {
                   app.
                 </Typography>
               </Box>
+
               {!ratingSuccess ? (
                 <>
                   <Box mt={"40px"}>
@@ -184,61 +218,66 @@ const PaymentSuccess = () => {
                     <Rating
                       name="feedback-rating"
                       value={rating}
-                      onChange={(event, newValue) => {
-                        setRating(newValue);
-                      }}
+                      onChange={handleRatingChange}
                       sx={{
                         mt: 2,
                         fontSize: "30px",
                         "& .MuiRating-iconFilled": {
-                          color: "#00C4CC", // selected star color
+                          color: "#00C4CC",
                         },
                         "& .MuiRating-iconHover": {
-                          color: "#00C4CC", // hover color
+                          color: "#00C4CC",
                         },
                       }}
                     />
-
                     {/* Show this only after a star is clicked */}
                   </Box>
+                  {rating && rating <= 4 ? (
+                    <>
+                      {/* Static Reason Selection */}
+                      <Typography variant="body1" sx={{ mt: 3, mb: 2 }}>
+                        What was the main reason?
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        flexWrap="wrap"
+                        gap={1}
+                        sx={{ mb: 2 }}
+                      >
+                        {reasons.map((reason, index) => (
+                          <Chip
+                            key={index}
+                            label={reason}
+                            onClick={() => handleReasonSelect(reason)}
+                            sx={{
+                              bgcolor:
+                                selectedReason === reason ? "#00C4CC" : "#fff",
+                              color:
+                                selectedReason === reason ? "#fff" : "#69707B",
+                              cursor: "pointer",
+                            }}
+                          />
+                        ))}
+                      </Stack>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </>
               ) : (
-                ""
+                <>
+                  <Box pt={3}>
+                    <h3 className="regular f25 mb-0">
+                      Thank you for your feedback!
+                    </h3>
+                    <Typography variant="body1">
+                      We really appreciate you taking the time to rate your
+                      experience.
+                    </Typography>
+                  </Box>
+                </>
               )}
-            </>
-          ) : (
-            ""
-          )}
-        </Box>
-      </Box>
 
-      {/*  Static Rating */}
-
-      {!ratingSuccess ? (
-        <>
-          {rating && rating <= 4 ? (
-            <>
-              {/* Static Reason Selection */}
-              <Typography variant="body1" sx={{ mt: 3, mb: 2 }}>
-                What was the main reason?
-              </Typography>
-              <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mb: 2 }}>
-                {reasons.map((reason, index) => (
-                  <Chip
-                    key={index}
-                    label={reason}
-                    onClick={() => handleReasonSelect(reason)}
-                    sx={{
-                      bgcolor: selectedReason === reason ? "#00C4CC" : "#fff",
-                      color: selectedReason === reason ? "#fff" : "#69707B",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
-              </Stack>
-            </>
-          ) : rating && rating > 4 ? (
-            <>
               {!inviteSuccess ? (
                 <>
                   <Box>
@@ -312,35 +351,10 @@ const PaymentSuccess = () => {
           ) : (
             ""
           )}
+        </Box>
+      </Box>
 
-          {/* Submit Button */}
-          {rating ? (
-            <Box mt={4} display="flex" justifyContent="flex-end">
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                disabled={rating <= 4 && !selectedReason} // Disable only if low rating and no reason
-                className={`btn btn-sm btn-round btn-primary ${
-                  rating <= 4 && !selectedReason
-                    ? "btn-disabled"
-                    : "btn-primary"
-                }`}
-              >
-                Send
-              </Button>
-            </Box>
-          ) : null}
-        </>
-      ) : (
-        <>
-          <Box>
-            <h3 className="regular f25">Thank you for your feedback!</h3>
-            <Typography variant="body1">
-              We really appreciate you taking the time to rate your experience.
-            </Typography>
-          </Box>
-        </>
-      )}
+      {/*  Static Rating */}
 
       {/* Static Reason Selection */}
 
