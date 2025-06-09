@@ -22,6 +22,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
   const handleThreadDrawer = () => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
+    toggleDrawer();
   };
   const logoutHandle = () => {
     dispatch(Logout());
