@@ -99,6 +99,8 @@ const MessageInputBox = ({
   };
 
   // check  polling true and start new chat
+  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+    console.log("FlightExpire222", FlightExpire);
   const messages = useSelector((state) => state.sendMessage.messages);
 
 // Find message with ai.offers
@@ -106,6 +108,8 @@ const checkPolling = messages.find(
   (msg) => msg.ai && msg.ai.offers
 );
 const isPolling = checkPolling?.ai?.is_complete;
+console.log("checkPolling", messages || FlightExpire);
+
   
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
@@ -138,7 +142,7 @@ const isPolling = checkPolling?.ai?.is_complete;
               <i className="fa fa-arrow-down"></i>
             </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
-              {!isPolling ? (
+              {!isPolling && !FlightExpire ? (
                 <>
                   <Box
                     className={inputStyles.SearchBoxIn}
