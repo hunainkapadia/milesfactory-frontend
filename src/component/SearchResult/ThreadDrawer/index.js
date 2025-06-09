@@ -119,10 +119,11 @@ const ThreadDrawer = () => {
 
   const router = useRouter();
   const HandleGetThread = (threaduuid) => {
-    if (threaduuid) {
-      router.push(`/chat/${threaduuid}`);
-    }
-  };
+  // dispatch(setThreadDrawer(false));
+  if (threaduuid) {
+    router.replace(`/chat/${threaduuid}?reload=${Date.now()}`);
+  }
+};
 
   return (
     <Drawer
