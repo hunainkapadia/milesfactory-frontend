@@ -11,11 +11,15 @@ import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.s
 import { useDispatch, useSelector } from "react-redux";
 import { setThreadDrawer } from "@/src/store/slices/Base/baseSlice";
 import Link from "next/link";
+import api from "@/src/store/api";
 
 const ThreadDrawer = () => {
   const dispatch = useDispatch();
   const ThreadDrawerOpen = useSelector((state) => state.base.ThreadDrawer);
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
+
+  console.log("ThreadData", ThreadData);
+  
 
   const HandlecloseDrawer = () => {
     dispatch(setThreadDrawer(false));
@@ -125,6 +129,9 @@ const ThreadDrawer = () => {
   const theme = useTheme();
   // Check if the screen size is "small" or below (mobile)
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const API_BASE_URL = 'https://demo.milesfactory.com/';
+  
   return (
     <Drawer
       anchor={isMobile ? "left" : "right"}
@@ -202,11 +209,16 @@ const ThreadDrawer = () => {
                     {groupLabels[groupKey]}
                   </Typography>
                   {records.map((item, i) => (
-                    <Box key={i} pb={2}>
-                      <Typography className="f12">
-                        {formatDate(item.created_date)}
-                      </Typography>
-                    </Box>
+                    <>
+                      {console.log("thread_item", item.uuid)}
+                      <Link className="text-decuration-none" href={`${API_BASE_URL}/chat/${item.uuid}`} key={i} passHref>
+                        <Box  sx={{ textDecoration: 'none' }} pb={2}>
+                          <Typography className="f12">
+                            {formatDate(item.created_date)}
+                          </Typography>
+                        </Box>
+                      </Link>
+                    </>
                   ))}
                 </Box>
               );

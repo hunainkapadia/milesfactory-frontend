@@ -90,7 +90,7 @@ useEffect(() => {
       .catch((error) => {
         console.error("Session status check failed:", error);
       });
-  }, 3000);
+  }, 5000);
 
   return () => clearInterval(interval);
 }, [sessionId]);

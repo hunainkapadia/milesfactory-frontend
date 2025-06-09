@@ -143,8 +143,6 @@ console.log("checkPolling", messages || FlightExpire);
               <i className="fa fa-arrow-down"></i>
             </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
-              {!isPolling && !FlightExpire ? (
-                <>
                   <Box
                     className={inputStyles.SearchBoxIn}
                     position={"relative"}
@@ -223,6 +221,8 @@ console.log("checkPolling", messages || FlightExpire);
                       </Box>
                     </Box>
                   </Box>
+              {/* {!isPolling && !FlightExpire ? (
+                <>
                 </>
               ) : (
                 <Box
@@ -231,7 +231,7 @@ console.log("checkPolling", messages || FlightExpire);
                 >
                   Start new chat
                 </Box>
-              )}
+              )} */}
 
               {!isMessageHome && !isSticky && (
                 <>
