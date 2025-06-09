@@ -88,41 +88,45 @@ const PassengerDrawerForm = () => {
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
-  console.log("PassengerAge", PassengerAge);
-  
 
-  // Define ranges
-  const today = dayjs();
-  // Ranges
+const getData = useSelector((state) => state.sendMessage.SearchHistorySend);
 
-// Define static ranges
-// Defaults
+// 1. Base date is flight date (departure or return), fallback to today
+let baseDate = dayjs();
+if (getData?.flight_type === "one-way" && getData?.departure_date) {
+  baseDate = dayjs(getData.departure_date);
+} else if (getData?.flight_type === "round-trip" && getData?.return) {
+  baseDate = dayjs(getData.return);
+}
+
+// 2. Set default min/max
 let minDate = dayjs("1930-01-01");
-let maxDate = today;
+let maxDate = baseDate;
 
-if (PassengerType === "adult") {
-  // Adults: must be at least 18 years old
-  minDate = dayjs("1930-01-01");
-  maxDate = today.subtract(18, "year");
-} else if (
+// 3. Apply logic only for infants and children
+if (
   PassengerType === "infant_without_seat" ||
   (PassengerAge !== undefined && PassengerAge < 2)
 ) {
-  // Infants: under 2 years
-  maxDate = today;
-  minDate = today.subtract(PassengerAge, "year");
+  // 👶 Infant (under 2)
+  maxDate = baseDate;
+  minDate = baseDate.subtract(PassengerAge, "year");
 } else if (
   PassengerType === "child" ||
   (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
 ) {
-  // Child: dynamic age range
-  maxDate = today.subtract(PassengerAge, "year");
-  minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-} else {
-  // fallback: adult
-  minDate = dayjs("1930-01-01");
-  maxDate = today.subtract(18, "year");
+  // 🧒 Child (2-17)
+  maxDate = baseDate.subtract(PassengerAge, "year");
+  minDate = baseDate.subtract(PassengerAge + 1, "year").add(1, "day");
 }
+
+// For adults, minDate and maxDate remain default or can be added like:
+if (PassengerType === "adult") {
+  minDate = dayjs("1930-01-01");
+  maxDate = baseDate.subtract(18, "year");
+}
+
+// 
 
 
  useEffect(() => {

@@ -108,7 +108,7 @@ const checkPolling = messages.find(
   (msg) => msg.ai && msg.ai.offers
 );
 const isPolling = checkPolling?.ai?.is_complete;
-console.log("checkPolling", messages || FlightExpire);
+console.log("checkPolling");
 
   
   const HandleNewThread = () => {
