@@ -12,14 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setThreadDrawer } from "@/src/store/slices/Base/baseSlice";
 import Link from "next/link";
 import api from "@/src/store/api";
+import { useRouter } from "next/router";
 
 const ThreadDrawer = () => {
   const dispatch = useDispatch();
   const ThreadDrawerOpen = useSelector((state) => state.base.ThreadDrawer);
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
 
-  console.log("ThreadData", ThreadData);
-  
 
   const HandlecloseDrawer = () => {
     dispatch(setThreadDrawer(false));
@@ -53,9 +52,7 @@ const ThreadDrawer = () => {
       older: [],
     };
 
-    console.log("Start of Today:", startOfToday);
-    console.log("Start of Yesterday:", startOfYesterday);
-
+    
     data.forEach((item) => {
       const itemDate = new Date(item.created_date);
 
@@ -69,17 +66,7 @@ const ThreadDrawer = () => {
         localDate.getDate()
       );
 
-      console.log(
-        "Item:",
-        item.name || "-",
-        "UTC:",
-        itemDate,
-        "Local:",
-        localDate,
-        "→",
-        itemDay
-      );
-
+      
       if (itemDay.getTime() === startOfToday.getTime()) {
         console.log("→ Grouped as Today");
         group.today.push(item);
@@ -130,8 +117,13 @@ const ThreadDrawer = () => {
   // Check if the screen size is "small" or below (mobile)
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const API_BASE_URL = 'https://demo.milesfactory.com/';
-  
+  const router = useRouter();
+  const HandleGetThread = (threaduuid) => {
+    if (threaduuid) {
+      router.push(`/chat/${threaduuid}`);
+    }
+  };
+
   return (
     <Drawer
       anchor={isMobile ? "left" : "right"}
@@ -147,7 +139,7 @@ const ThreadDrawer = () => {
         <Box
           component={"header"}
           alignItems={"center"}
-          sx={{display: {lg:"none", md: "none", xs:"flex"}}}
+          sx={{ display: { lg: "none", md: "none", xs: "flex" } }}
           gap={2}
           px={2}
           pt={1}
@@ -178,7 +170,7 @@ const ThreadDrawer = () => {
             px={3}
             alignItems="center"
             justifyContent="space-between"
-            sx={{display:{lg:"flex", md: "flex", xs: "none"}}}
+            sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
           >
             <Grid item xs={12}>
               <Box
@@ -210,14 +202,18 @@ const ThreadDrawer = () => {
                   </Typography>
                   {records.map((item, i) => (
                     <>
-                      {console.log("thread_item", item.uuid)}
-                      <Link className="text-decuration-none" href={`${API_BASE_URL}/chat/${item.uuid}`} key={i} passHref>
-                        <Box  sx={{ textDecoration: 'none' }} pb={2}>
-                          <Typography className="f12">
-                            {formatDate(item.created_date)}
-                          </Typography>
-                        </Box>
-                      </Link>
+
+                      <Box
+                        key={item.uuid}
+                        onClick={() => HandleGetThread(item.uuid)}
+                        className={"cursor-pointer"}
+                        sx={{ textDecoration: "none" }}
+                        pb={2}
+                      >
+                        <Typography className="f12">
+                          {formatDate(item.created_date)}
+                        </Typography>
+                      </Box>
                     </>
                   ))}
                 </Box>
