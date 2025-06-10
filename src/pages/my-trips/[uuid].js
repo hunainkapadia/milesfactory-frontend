@@ -47,7 +47,7 @@ const TripDetailPage = () => {
       (1000 * 60 * 60 * 24)
   );
 
-  console.log("offer_0", offer?.slices[0]?.segments[0].destination?.city_name);
+  console.log("offer_0", tripDetail?.amount_calculations);
   return (
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
@@ -267,7 +267,7 @@ const TripDetailPage = () => {
               <Divider sx={{ my: 2 }} />
               {/* Traveler */}
               <Box mb={2}>
-                <Typography variant="subtitle2">TRAVELERS</Typography>
+                <Typography variant="subtitle2">Travelers</Typography>
                 <Typography>
                   {tripDetail?.passengers[0]?.given_name}{" "}
                   {tripDetail?.passengers[0]?.family_name} -{" "}
@@ -309,9 +309,7 @@ const TripDetailPage = () => {
                   Cancel this flight up until departure (penalty of 50 USD).
                 </Typography>
                 <Button
-                  variant="outlined"
-                  color="success"
-                  size="small"
+                  className="btn btn-primary btn-border btn-sm  btn-rounded"
                   sx={{ mt: 1 }}
                 >
                   Cancel my booking
