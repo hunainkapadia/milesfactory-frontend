@@ -230,6 +230,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                     alignItems={"center"}
                     sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
                   >
+                <Link href={"/my-trips"}>
                     <Box
                       display="flex"
                       alignItems="center"
@@ -237,7 +238,6 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                       height={24}
                       // Optional
                       className={styles.ChatIcon + " imggroup"}
-                      onClick={"handleThreadDrawer"}
                     >
                       <img
                         width={24}
@@ -249,12 +249,15 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                         alt="book trip"
                       />
                     </Box>
+                </Link>
                   </Box>
                   <Box
                     className=" cursor-pointer"
                     alignItems={"center"}
                     sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
                   >
+                  <Link href={"/my-trips"}>
+
                     <Box
                       display="flex"
                       alignItems="center"
@@ -262,7 +265,6 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                       height={48}
                       // Optional
                       className={styles.ChatIcon + " imggroup"}
-                      onClick={handleThreadDrawer}
                     >
                       <img
                         src={`${
@@ -273,6 +275,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                         alt="Chat History Icon"
                       />
                     </Box>
+                  </Link>
                   </Box>
                 </>
               ) : (

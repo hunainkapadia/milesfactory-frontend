@@ -113,19 +113,19 @@ const TripDetailHandle = (uuid) => {
         </Typography>
 
         {/* Actions */}
-        <Box display="flex" gap={1} justifyContent="space-between">
+        <Box display="flex" gap={1} justifyContent="center">
           <Button onClick={()=>TripDetailHandle(tripData?.uuid)}
             className="btn btn-primary btn-round btn-sm btn-border basecolor1 f11"
             sx={{ width: "100%" }}
           >
             View trip
           </Button>
-          <Button
+          {/* <Button
             className="btn btn-primary btn-round btn-sm btn-border basecolor1 f11"
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", whiteSpace:"nowrap" }}
           >
             Add to this trip
-          </Button>
+          </Button> */}
         </Box>
       </Box>
     </Card>

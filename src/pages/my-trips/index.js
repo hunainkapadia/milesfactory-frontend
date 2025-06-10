@@ -13,7 +13,9 @@ const MyTrips = () => {
      dispatch(MyTripSlice());
    }, [0]);
    
+   const isLoading = useSelector((state) => state?.base);
    const TripData = useSelector((state) => state?.base?.TripData);
+
    const UPcommingTrip = TripData?.upcoming_trips ?? [];
    const pastTrips = TripData?.past_trips ?? [];
 

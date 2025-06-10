@@ -1,4 +1,4 @@
-// styles/TripCard.module.scss
+@import "../../_variables.scss";
 
 .TripBody::before {
    content: "";
@@ -12,6 +12,158 @@
    background-size: cover;
    background-position: center;
 }
+
+
+
+
+
+.Tripdetail {
+   padding-bottom: 0 !important;
+}
+.TripSection {
+   
+      .TripSectionBody {
+         overflow-y: auto;
+         height: 100%;
+         border: solid 2px red;
+
+         .DetailsSection {
+            padding: 0 24px 144px;
+            .fromAndToBodyBottom {
+               margin-bottom: 24px;
+            }
+            >div:last-child {
+               .fromAndToRowdivider {
+                  display: none;
+               }
+            }
+            .rowExtraInfo {
+               margin-top: 30px;
+               display: flex;
+               justify-content: space-between;
+               font-size: 0.85rem;
+               color: gray;
+            }
+            .fromAndToContainer {
+               border-bottom: none;
+               &.isBaggage {
+                  border-bottom: solid 1px $lightgray2;
+                  margin-bottom: 24px;
+               }
+            }
+            .fromAndToBody {padding-bottom: 0;
+               
+               &.isBaggage {
+                  
+                  .fromAndToBodyTop {
+                  }
+               }
+               .fromAndToBodyTop {
+                  // border-bottom: solid 1px $lightgray2;
+                  // margin-bottom: 24px;
+                  // padding-bottom: 0;
+               }
+            }
+            .FromandToHeader {
+               padding: 0 0 24px ;
+            }
+            .fromAndToRow {
+               position: relative;
+               padding: 0 0 24px ;
+               .Col1, .Col2, .Col3 {
+                  width: 30%;
+                  &.Col3 {
+                     display: flex;
+                     justify-content: flex-end;
+                  }
+                  .Country {
+                     font-size: $f14;
+                  }
+                  .Dates {font-size: $f12;}
+               }
+               
+               .fromAndToRowIn {
+                  &::before {
+                     top: 8px;
+                     content: "";
+                     position: absolute;
+                     width: 1px;
+                     z-index: 1;
+                     left: 4px;
+                     bottom: 11px;
+                     border-left: 1px dashed $lightgray2;
+                  }
+               }
+
+               .flightDurationRow {
+                  padding: 0 30px;
+               }
+
+               .FromRow {
+                  position: relative;
+                  padding: 0 30px;
+
+                  &::before {
+                     top: 6px;
+                     content: "";
+                     position: absolute;
+                     background-color: $lightgray2;
+                     border-width: 2px;
+                     border-radius: 9999px;
+                     width: 9px;
+                     height: 9px;
+                     z-index: 2;
+                     left: 0;
+                  }
+               }
+
+               .flightDurationRow {
+                  padding: 0 30px;
+               }
+               .ToRow {
+                  position: relative;
+                  padding: 0 30px;
+
+                  &::before {
+                     bottom: 6px;
+                     content: "";
+                     position: absolute;
+                     background-color: $lightgray2;
+                     border-width: 2px;
+                     border-radius: 9999px;
+                     width: 9px;
+                     height: 9px;
+                     z-index: 2;
+                     left: 0;
+                  }
+               }
+
+            }
+         }
+
+      }
+
+      
+   }
+   .checkoutDrowerFooter {
+      filter: drop-shadow(0px -1px 4px rgba(12, 12, 13, 0.05));
+      z-index: 3;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      position: absolute;
+      background-color: $white;
+      
+   }
+.LayoverSection {
+   margin-bottom: 24px;
+   background-color: #69707B1A;
+   color: $basecolor;
+}
+   // checkoutDrower section end
+
+
+
 .tripCard {
    transition: transform 0.2s ease, box-shadow 0.2s ease;
    padding: 24px 16px;
