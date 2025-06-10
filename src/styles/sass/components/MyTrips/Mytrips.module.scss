@@ -1,0 +1,28 @@
+// styles/TripCard.module.scss
+
+.TripBody::before {
+   content: "";
+   z-index: -1;
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background-image: url("/images/light-bg-trip.png");
+   background-size: cover;
+   background-position: center;
+}
+.tripCard {
+   transition: transform 0.2s ease, box-shadow 0.2s ease;
+   padding: 24px 16px;
+   height: 319px;
+   background: #FFFFFF;
+   border: 1px solid #E6EEEE;
+   border-radius: 16px;
+
+
+   &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+   }
+}
