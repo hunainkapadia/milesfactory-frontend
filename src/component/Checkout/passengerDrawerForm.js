@@ -61,11 +61,11 @@ const PassengerDrawerForm = () => {
   const PassengersUuID = useSelector(
     (state) => state.passengerDrawer.PassengerUUID
   );
-  console.log("PassengersUuID", PassengersUuID);
-
+  
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
+  console.log("formError", formError);
 
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
@@ -278,6 +278,8 @@ if (PassengerType === "adult") {
       nationality: nationality?.id || "",
       region,
     };
+
+    // validation 
     dispatch(PassengerFormSubmit(params));
     console.log("params_age", params);
 
@@ -290,9 +292,9 @@ if (PassengerType === "adult") {
     if (isFirstPassenger) {
       console.log("params_pass", params);
       dispatch(setCaptainParams(params));
-      dispatch(passengerCaptain()); // for captain api passenger sending params
+      // dispatch(passengerCaptain(params)); // for captain api passenger sending params
     }
-    dispatch(passengerCaptain()); // for captain api passenger call from redux
+    dispatch(passengerCaptain(params)); // for captain api passenger call from redux
   };
 
   const passportError = formError?.non_field_errors?.find(
@@ -539,9 +541,9 @@ if (PassengerType === "adult") {
                         onChange={(e) => setemail(e.target.value)}
                         margin="normal"
                       />
-                      {formError?.email?.[0] && (
+                      {formError?.email && (
                         <Typography className="error" color="red">
-                          {formError.email[0]}
+                          {formError.email}
                         </Typography>
                       )}
                     </Box>
@@ -562,9 +564,9 @@ if (PassengerType === "adult") {
                         specialLabel=""
                         enableSearch
                       />
-                      {formError?.phone_number?.[0] && (
+                      {formError?.phone_number && (
                         <Typography className="error" color="red">
-                          {formError.phone_number[0]}
+                          {formError.phone_number}
                         </Typography>
                       )}
                     </Box>

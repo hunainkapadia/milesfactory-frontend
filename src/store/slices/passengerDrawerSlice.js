@@ -186,6 +186,10 @@ export const validatePassengerForm = (params) => (dispatch) => {
   const nameRegex = /^[A-Za-z\s'-]+$/;
   const passportNumberRegex = /^[A-Za-z0-9]+$/;
 
+   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isValidPhone = (phone) => phone?.length >= 8;
+
+
   if (!params.gender) errors.gender = "Gender is required.";
   if (!params.given_name) {
     errors.given_name = "First Name is required.";
@@ -209,11 +213,28 @@ export const validatePassengerForm = (params) => (dispatch) => {
   if (!params.passport_expire_date)
     errors.passport_expire_date = "Passport Expiry Date is required.";
   if (!params.nationality) errors.nationality = "Nationality is required.";
+  // ✅ Email validation
+ // ✅ Email validation
+if (!params.email) {
+  errors.email = "Email is required.";
+} else if (!emailRegex.test(params.email)) {
+  errors.email = "Invalid email format.";
+}
 
+// ✅ Phone validation
+if (!params.phone_number) {
+  errors.phone_number = "Phone number is required.";
+} else if (!isValidPhone(params.phone_number)) {
+  errors.phone_number = "Invalid phone number.";
+}
+  
   if (Object.keys(errors).length > 0) {
+    console.log("errors_00", errors);
+    
     dispatch(setPassengerFormError(errors));
     return false;
   }
+
 
   dispatch(setPassengerFormError(null));
   return true;
@@ -222,8 +243,10 @@ export const validatePassengerForm = (params) => (dispatch) => {
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   console.log("[0] Called PassengerFormSubmit");
   console.log("[1] Params:", params);
+  console.log("isValid", validatePassengerForm);
   
-  const isValid = dispatch(validatePassengerForm(params));
+  const isValid = validatePassengerForm(params)(dispatch);
+  
   if (!isValid) return;
   
   dispatch(setIsFormLoading(true));
@@ -281,7 +304,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
       
     })
     .catch((error) => {
-      console.log("[X] Error occurred", error);
+      console.log("pass_form_error", error);
       const responseErrors = error.response?.data || {};
       dispatch(setPassengerFormError(responseErrors));
       dispatch(setOpenPassengerDrawer(true));
@@ -294,7 +317,6 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
 };
 
 export const passengerCaptain = (params) => (dispatch, getState) => {
-  
   
   const state = getState();
   const captainParams = state.passengerDrawer?.captainParams;
