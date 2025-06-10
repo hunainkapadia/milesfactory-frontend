@@ -6,6 +6,7 @@ import {
   Drawer,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +19,6 @@ const ThreadDrawer = () => {
   const dispatch = useDispatch();
   const ThreadDrawerOpen = useSelector((state) => state.base.ThreadDrawer);
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
-
 
   const HandlecloseDrawer = () => {
     dispatch(setThreadDrawer(false));
@@ -52,7 +52,6 @@ const ThreadDrawer = () => {
       older: [],
     };
 
-    
     data.forEach((item) => {
       const itemDate = new Date(item.created_date);
 
@@ -66,7 +65,6 @@ const ThreadDrawer = () => {
         localDate.getDate()
       );
 
-      
       if (itemDay.getTime() === startOfToday.getTime()) {
         console.log("→ Grouped as Today");
         group.today.push(item);
@@ -118,12 +116,14 @@ const ThreadDrawer = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const router = useRouter();
-  const HandleGetThread = (threaduuid) => {
-  dispatch(setThreadDrawer(false));
-  if (threaduuid) {
-    router.replace(`/chat/${threaduuid}?reload=${Date.now()}`);
-  }
-};
+  const HandleSingleThread = (threaduuid) => {
+    dispatch(setThreadDrawer(false));
+    if (threaduuid) {
+      router.replace(`/chat/${threaduuid}?reload=${Date.now()}`);
+    }
+  };
+  const isloading = useSelector((state) => state.base.isloading);
+  console.log("isloading_thread", isloading);
 
   return (
     <Drawer
@@ -191,37 +191,49 @@ const ThreadDrawer = () => {
           </Grid>
 
           {/* Display grouped records */}
-          <Box px={3}>
-            {Object.keys(groupedRecords).map((groupKey) => {
-              const records = groupedRecords[groupKey];
-              if (records.length === 0) return null;
+          {isloading ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+              py={10}
+            >
+              <CircularProgress color="primary" />
+            </Box>
+          ) : (
+            <Box px={3}>
+              {Object.keys(groupedRecords).map((groupKey) => {
+                const records = groupedRecords[groupKey];
+                if (records.length === 0) return null;
 
-              return (
-                <Box key={groupKey} pb={3}>
-                  <Typography className="f12 exbold" pb={2}>
-                    {groupLabels[groupKey]}
-                  </Typography>
-                  {records.map((item, i) => (
-                    <>
-
-                      <Box
-                        key={item.uuid}
-                        onClick={() => HandleGetThread(item.uuid)}
-                        className={"cursor-pointer"}
-                        sx={{ textDecoration: "none" }}
-                        pb={2}
-                      >
-                        <Typography className="f12">
-                          {formatDate(item.created_date)}
-                        </Typography>
-                      </Box>
-                    </>
-                  ))}
-                </Box>
-              );
-            })}
-          </Box>
+                return (
+                  <Box key={groupKey} pb={3}>
+                    <Typography className="f12 exbold" pb={2}>
+                      {groupLabels[groupKey]}
+                    </Typography>
+                    {records.map((item, i) => (
+                      <>
+                        <Box
+                          key={item.uuid}
+                          onClick={() => HandleSingleThread(item.uuid)}
+                          className={"cursor-pointer"}
+                          sx={{ textDecoration: "none" }}
+                          pb={2}
+                        >
+                          <Typography className="f12">
+                            {formatDate(item.created_date)}
+                          </Typography>
+                        </Box>
+                      </>
+                    ))}
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
         </Box>
+        {/* body */}
       </Box>
     </Drawer>
   );

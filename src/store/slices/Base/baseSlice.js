@@ -8,12 +8,16 @@ const initialState = {
   currentUser: "",
   feedbackDialog: false,
   contactDialog: false,
+  isloading: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    seIsloading: (state, action)=> {
+      state.isloading = action.payload;
+    },
     setInviteSuccess : (state, action)=> {
       state.InviteSuccess = action.payload
     },
@@ -42,6 +46,12 @@ const baseSlice = createSlice({
       
       state.ThreadData = action.payload
     },
+    setTripData:(state, action)=> {
+      state.TripData = action.payload
+    },
+    setTripDetailData:(state, action)=> {
+      state.TripDetailData = action.payload
+    },
     setThreadDrawer: (state, action)=> {
       console.log("handleThreadDrawer", action);
       
@@ -57,8 +67,11 @@ export const feedBack=()=> {
   
 }
 export const thread = () => (dispatch, getState) => {
+  
+  dispatch(seIsloading(true))
   api.get("/api/v1/chat/thread/all").then((res)=> {
     dispatch(setThreadData(res.data))
+    dispatch(seIsloading(false))
   }).catch((error)=> {
     console.log(error);
     
@@ -116,6 +129,42 @@ export const InviteSubmit = (params) => (dispatch, getState) => {
     });
 };
 
+// my trips
+export const MyTripSlice = () => (dispatch, getState) => {
+  
+  dispatch(seIsloading(true))
+  api.get("/api/v1/my/trips").then((res)=> {
+    dispatch(setTripData(res.data))
+    dispatch(seIsloading(false))
+  }).catch((error)=> {
+    console.log(error);
+    
+  }).finally(()=> {
+    console.log();
+    
+  })
+};
+
+
+// baseSlice.js or wherever you define your thunks
+export const TripDetailSlice = (uuid) => (dispatch, getState) => {
+  dispatch(seIsloading(true));
+
+  api
+    .get(`api/v1/my/trip/${uuid}/details`)
+    .then((res) => {
+      console.log("trip_res", res);
+      
+      dispatch(setTripDetailData(res.data));
+    })
+    .catch((error) => {
+      console.log("Trip detail fetch error:", error);
+    })
+    .finally(() => {
+      dispatch(seIsloading(false));
+    });
+};
+
 
 
 
@@ -129,7 +178,10 @@ export const {
   setContactDialog,
   setContactData,
   setRatingSumbitRequest,
-  setInviteSuccess
+  setInviteSuccess,
+  seIsloading,
+  setTripData,
+  setTripDetailData
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

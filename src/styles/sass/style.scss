@@ -460,6 +460,9 @@ label,
 .css-1tlcqt-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0;
 }
+.main-body {
+  padding-top: 60px;
+}
 .MainDrower {
   .MuiDrawer-paper {
     overflow-y: inherit;
@@ -1239,6 +1242,7 @@ body {
     height: 40px;
   }
   &.btn-sm {
+    line-height: 1.3;
     font-size: $bfsize-xs;
     padding: 0px 20px;
     font-weight: $bold;
