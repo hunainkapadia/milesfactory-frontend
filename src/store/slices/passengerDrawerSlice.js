@@ -180,7 +180,11 @@ export const ViewPassengers = () => (dispatch, getState) => {
 };
 
 
-export const validatePassengerForm = (params) => (dispatch) => {
+export const validatePassengerForm = (params) => (dispatch, getState) => {
+  const state = getState();
+  // ///////////////
+  const PassengerType = state?.passengerDrawer?.PassengerType;
+  
   let errors = {};
 
   const nameRegex = /^[A-Za-z\s'-]+$/;
@@ -213,24 +217,19 @@ export const validatePassengerForm = (params) => (dispatch) => {
   if (!params.passport_expire_date)
     errors.passport_expire_date = "Passport Expiry Date is required.";
   if (!params.nationality) errors.nationality = "Nationality is required.";
-  // ✅ Email validation
- // ✅ Email validation
-if (!params.email) {
-  errors.email = "Email is required.";
-} else if (!emailRegex.test(params.email)) {
-  errors.email = "Invalid email format.";
-}
 
-// ✅ Phone validation
-if (!params.phone_number) {
-  errors.phone_number = "Phone number is required.";
-} else if (!isValidPhone(params.phone_number)) {
-  errors.phone_number = "Invalid phone number.";
-}
-  
+  if (PassengerType === "adult") {
+    //  Email validation
+    if (!params.email && !emailRegex.test(params.email)) {
+      errors.email = "Invalid email format.";
+    }
+
+    //  Phone validation
+    if (!params.phone_number && !isValidPhone(params.phone_number)) {
+      errors.phone_number = "Invalid phone number.";
+    }
+  }
   if (Object.keys(errors).length > 0) {
-    console.log("errors_00", errors);
-    
     dispatch(setPassengerFormError(errors));
     return false;
   }
@@ -243,10 +242,8 @@ if (!params.phone_number) {
 export const PassengerFormSubmit = (params) => (dispatch, getState) => {
   console.log("[0] Called PassengerFormSubmit");
   console.log("[1] Params:", params);
-  console.log("isValid", validatePassengerForm);
   
-  const isValid = validatePassengerForm(params)(dispatch);
-  
+  const isValid = dispatch(validatePassengerForm(params));
   if (!isValid) return;
   
   dispatch(setIsFormLoading(true));
@@ -317,6 +314,7 @@ export const PassengerFormSubmit = (params) => (dispatch, getState) => {
 };
 
 export const passengerCaptain = (params) => (dispatch, getState) => {
+  
   
   const state = getState();
   const captainParams = state.passengerDrawer?.captainParams;
