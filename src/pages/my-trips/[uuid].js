@@ -42,24 +42,23 @@ const TripDetailPage = () => {
   // Extract useful data
   const offer = tripDetail?.order?.selected_offer;
 
-  
   const daysLeft = Math.ceil(
-     (new Date(offer?.slices[0]?.segments[0]?.departing_at) - new Date()) / (1000 * 60 * 60 * 24)
-   );
-   
-   console.log(
-     "offer_0",
-     offer?.slices[0]?.segments[0].destination?.city_name
-   );
+    (new Date(offer?.slices[0]?.segments[0]?.departing_at) - new Date()) /
+      (1000 * 60 * 60 * 24)
+  );
+
+  console.log("offer_0", offer?.slices[0]?.segments[0].destination?.city_name);
   return (
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
         <Header isMessage="isMessage" isChat="isChat" />
-        <Box sx={{ backgroundColor: "#e6f5ee", minHeight: "100vh" }}>
+        <Box sx={{ backgroundColor: "#e6f5ee" }} py={6}>
           {/* Hero section */}
           <Box
+          component={"header"}
+          pb={4}
             sx={{
-              height: "280px",
+               
               backgroundImage: "url('/plane-wing.jpg')", // put image in /public
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -72,22 +71,24 @@ const TripDetailPage = () => {
             }}
           >
             <Typography variant="h6">
-               Hi, {tripDetail?.passengers[0]?.given_name}{" "}
-               {tripDetail?.passengers[0]?.family_name}
+              Hi, {tripDetail?.passengers[0]?.given_name}{" "}
+              {tripDetail?.passengers[0]?.family_name}
             </Typography>
             <Typography variant="h4" fontWeight="bold">
-              In {daysLeft} days, {offer?.slices[0]?.segments[0].destination?.city_name} is yours.
+              In {daysLeft} days,{" "}
+              {offer?.slices[0]?.segments[0].destination?.city_name} is yours.
             </Typography>
           </Box>
           {/* Trip Detail Card */}
           <Container maxWidth="sm">
-            <Paper elevation={3} sx={{ mt: -10, p: 3, borderRadius: 3 }}>
+            <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
               <Typography fontWeight={600} gutterBottom>
                 Everything is in order
               </Typography>
               <Typography variant="body2" gutterBottom>
-                There's nothing to do except waiting {daysLeft} days before takeoff.
-                Booking reference (PNR): <span className="exbold">ABC123</span>
+                There's nothing to do except waiting {daysLeft} days before
+                takeoff. Booking reference (PNR):{" "}
+                <span className="exbold">ABC123</span>
               </Typography>
               <Divider sx={{ my: 2 }} />
               {/* Flights */}
@@ -108,7 +109,7 @@ const TripDetailPage = () => {
                       display="flex"
                       justifyContent="space-between"
                       flexDirection={"column"}
-                      gap={3}
+                      gap={0}
                     >
                       <Box
                         component={"section"}
@@ -317,7 +318,7 @@ const TripDetailPage = () => {
                 </Button>
               </Box>
               {/* Bottom buttons */}
-              <Box display="flex" justifyContent="space-between" mt={3}>
+              {/* <Box display="flex" justifyContent="space-between" mt={3}>
                 <Button size="small" variant="outlined">
                   Cancel
                 </Button>
@@ -327,7 +328,7 @@ const TripDetailPage = () => {
                 <Button size="small" variant="contained" color="success">
                   Update
                 </Button>
-              </Box>
+              </Box> */}
             </Paper>
           </Container>
         </Box>

@@ -38,8 +38,9 @@ const TripDetailHandle = (uuid) => {
   
 
   const TripDetail = useSelector((state) => state?.base?.TripDetailData?.order);
+  
 
-  console.log("TripDetail", TripDetail);
+  console.log("TripDetail", offer?.slice);
   
 
   return (
@@ -84,6 +85,7 @@ const TripDetailHandle = (uuid) => {
         </Box>
 
         {/* Route & Dates */}
+        
         <Box>
           <Typography fontWeight="bold">{route}</Typography>
           <Typography className="f12" fontWeight="bold">
