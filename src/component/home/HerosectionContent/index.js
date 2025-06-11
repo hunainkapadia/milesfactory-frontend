@@ -31,8 +31,7 @@ const HerosectionContent = () => {
                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                color="white"
              >
-               No more juggling tab or comparing markups.<br/>Mylz finds the fastest
-               trips across flights,<br/>trains and more – always at direct prices.
+               Mylz AI finds you the cheapest flight<br/>prices with full airline protection.
              </Typography>
            </Box>
          </Box>
