@@ -178,7 +178,7 @@ const PoweredByglobal = (props) => {
       <Box sx={{ display: { xs: "block", lg: "none", md: "none" } }}>
         <Footer
           forDark
-          LearnMore={"What travellers say"}
+          LearnMore={"Travel with Mylz"}
           id={"Section4Reviews"}
         />
       </Box>

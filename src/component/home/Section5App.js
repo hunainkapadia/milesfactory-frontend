@@ -31,10 +31,12 @@ const Section5App = (props) => {
                       justifyContent: {
                         xs: "center",
                         sm: "center",
-                        lg: "flex-start",
-                        md: "flex-start",
+                        lg: "center",
+                        md: "center",
                       },
+                      
                     }}
+                    width={"100%"}
                   >
                     <Box>
                       <Typography

@@ -314,7 +314,7 @@ const Footer = ({
                     textAlign={"center"}
                   >
                     <Box
-                      sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+                      sx={{ display: { xs: "", lg: "block", md: "block" } }}
                     >
                       <i className="fa-arrow-down fa fas"></i>{" "}
                     </Box>
