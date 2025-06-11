@@ -42,11 +42,7 @@ const InviteEmailDialog = () => {
     }
   }, [inviteEmailSuccess]); // Add dependency to avoid infinite loop
 
-  const currentUser = useSelector((state) => state.base?.currentUser);
-  const logoutHandle = () => {
-    dispatch(Logout());
-  };
-
+  
   const handleSubmitInviteEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

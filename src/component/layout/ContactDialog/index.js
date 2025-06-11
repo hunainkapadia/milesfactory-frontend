@@ -168,10 +168,10 @@ const [descriptionError, setDescriptionError] = useState("");
                       <br />
                       have and we will reach out!
                     </Typography>
-
+                    {console.log("currentUser", currentUser?.user?.first_name)}
                     {currentUser ? (
                       <Typography variant="body1" mt={1}>
-                        Signed in as L. Abella. Not you?{" "}
+                        Signed in as <Typography component={"span"} textTransform={"capitalize"}>{currentUser?.user?.first_name.charAt(0).toUpperCase()}. {" "} {currentUser?.user?.last_name}</Typography>. Not you?{" "}
                         <Typography
                           component={"span"}
                           onClick={logoutHandle}
