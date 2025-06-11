@@ -31,8 +31,8 @@ const Section5App = (props) => {
                       justifyContent: {
                         xs: "center",
                         sm: "center",
-                        lg: "center",
-                        md: "center",
+                        lg: "flex-start",
+                        md: "flex-start",
                       },
                       
                     }}
