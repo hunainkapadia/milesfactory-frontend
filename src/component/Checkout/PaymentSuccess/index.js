@@ -311,7 +311,7 @@ const inviteMoreEmailHandle=()=> {
                         <img src="/images/hand-emoji.svg" alt="hand" />{" "}
                         <img src="/images/hand-emoji.svg" alt="hand" /> We've
                         sent the emails.
-                        <Box onClick={()=>inviteMoreEmailHandle()} className="text-decuration-none cursor-pointer basecolor1">
+                        <Box component={"span"} onClick={()=>inviteMoreEmailHandle()} className="text-decuration-none cursor-pointer basecolor1">
                           {" "}
                           Invite more friends
                         </Box>

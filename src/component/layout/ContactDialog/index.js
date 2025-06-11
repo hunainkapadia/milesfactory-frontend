@@ -30,10 +30,58 @@ const ContactDialog = () => {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
 
+  // error
+  const [nameError, setNameError] = useState("");
+const [emailError, setEmailError] = useState("");
+const [topicError, setTopicError] = useState("");
+const [descriptionError, setDescriptionError] = useState("");
+
   const ContactDialogClose = () => {
     dispatch(setContactDialog(false));
   };
   const handleSubmitContactForm = () => {
+    // validation logic
+      let valid = true;
+
+  // Name validation
+  if (!name.trim()) {
+    setNameError("Name is required");
+    valid = false;
+  } else {
+    setNameError("");
+  }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email.trim()) {
+    setEmailError("Email is required");
+    valid = false;
+  } else if (!emailRegex.test(email)) {
+    setEmailError("Enter a valid email");
+    valid = false;
+  } else {
+    setEmailError("");
+  }
+
+  // Topic validation
+  if (!topic) {
+    setTopicError("Please select a topic");
+    valid = false;
+  } else {
+    setTopicError("");
+  }
+
+  // Description validation
+  if (!description.trim()) {
+    setDescriptionError("Description is required");
+    valid = false;
+  } else {
+    setDescriptionError("");
+  }
+
+  // Submit if valid
+  if (!valid) return;
+
     const params = {
       name: name,
       email: email,
@@ -141,6 +189,8 @@ const ContactDialog = () => {
                   
                     <Box className=" formGroup">
                     <TextField
+                      error={!!nameError}
+                      helperText={nameError}
                         className="formControl"
                       fullWidth
                       placeholder="Name"
@@ -151,6 +201,8 @@ const ContactDialog = () => {
                     </Box>
                     <Box className=" formGroup">
                     <TextField
+                      error={!!emailError}
+                      helperText={emailError}
                         className="formControl"
                       fullWidth
                       placeholder="Email"
@@ -162,6 +214,8 @@ const ContactDialog = () => {
                     </Box>
                     <Box className=" formGroup">
                     <TextField
+                      error={!!topicError}
+                      helperText={topicError}
                         className="formControl"
                       fullWidth
                       select
@@ -201,6 +255,8 @@ const ContactDialog = () => {
 
                     <Box className=" formGroup">
                     <TextField
+                      error={!!descriptionError}
+                      helperText={descriptionError}
                         className="formControl description"
                       fullWidth
                       multiline
