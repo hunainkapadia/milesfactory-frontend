@@ -11,8 +11,8 @@ const TripCard = ({ tripData }) => {
   const slice = offer?.slices[0];
   const segment = slice?.segments[0];
 
-  const origin = segment?.origin?.iata_code;
-  const destination = segment?.destination?.iata_code;
+  const origin = segment?.origin?.city_name;
+  const destination = segment?.destination?.city_name;
   const departure = segment?.departing_at;
   const arrival = segment?.arriving_at;
 
@@ -40,7 +40,7 @@ const TripDetailHandle = (uuid) => {
   const TripDetail = useSelector((state) => state?.base?.TripDetailData?.order);
   
 
-  console.log("TripDetail", offer?.slice);
+  console.log("TripDetail_0", offer);
   
 
   return (
@@ -87,8 +87,8 @@ const TripDetailHandle = (uuid) => {
         {/* Route & Dates */}
         
         <Box>
-          <Typography fontWeight="bold">{route}</Typography>
-          <Typography className="f12" fontWeight="bold">
+          <Typography className="bold">{route}</Typography>
+          <Typography className="f12 bold">
             {date} | {passengers}
           </Typography>
         </Box>

@@ -53,6 +53,9 @@ const Messages = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
+  console.log("getmessages", getmessages);
+  console.log("sendMessages", sendMessages);
+  
   useEffect(() => {
     dispatch(fetchMessages());
   }, []);
@@ -108,6 +111,7 @@ const Messages = () => {
         <section>
           <Box className={searchResultStyles.messageContent}>
             <Box className={searchResultStyles.messageContentIn}>
+                {console.log("msg_00", messages)}
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}

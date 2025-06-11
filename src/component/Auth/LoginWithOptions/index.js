@@ -4,7 +4,7 @@ import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { googleLoginUser } from "@/src/store/slices/Auth/LoginSlice";
+import { googleLoginUser, LoginWithFacebook } from "@/src/store/slices/Auth/LoginSlice";
 
 const LoginWithOptions = ({ options }) => {
   const dispatch = useDispatch();
@@ -17,6 +17,14 @@ const LoginWithOptions = ({ options }) => {
     onError: () => console.log("Google Login Failed"),
     flow: "auth-code",
   });
+  const FbloginHandle = () => {
+    const facebookAppId = "YOUR_FACEBOOK_APP_ID";
+    const redirectUri = "https://yourdomain.com/api/auth/facebook/callback"; // your backend API endpoint
+    const facebookAuthUrl = `https://www.facebook.com/v17.0/dialog/oauth?client_id=${facebookAppId}&redirect_uri=${redirectUri}&response_type=code&scope=email,public_profile`;
+
+    window.location.href = facebookAuthUrl;
+    dispatch(LoginWithFacebook())
+  };
 
   return (
     <>
@@ -73,6 +81,7 @@ const LoginWithOptions = ({ options }) => {
             styles.SignupOption +
             " btn btn-sm btn-border black-border btn-round"
           }
+          onClick={() => FbloginHandle()}
         >
           <i className="f20 fa-brands fa-facebook"></i>
           <Typography fontWeight={"bold"}>{options} Facebook</Typography>

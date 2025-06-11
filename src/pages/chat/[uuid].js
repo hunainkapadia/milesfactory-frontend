@@ -15,18 +15,13 @@ import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
 import { setThreadUuid } from "@/src/store/slices/sendMessageSlice";
 
 const ChatByUUID = () => {
-    const router = useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const { uuid } = router.query;
 
-  useEffect(() => {
-    if (typeof uuid === "string" && uuid.trim() !== "") {
-      console.log("uuid_chat_00", uuid);
-      dispatch(setGetMessageUUID(uuid));
-    }
-    dispatch(fetchMessages());
-  }, [uuid, dispatch]);
+  
+  
   console.log("uuid_chat", router.query);
 
   // Access your Redux messages
@@ -35,7 +30,7 @@ const ChatByUUID = () => {
   const isMessage = [...getMessages, ...sendMessages];
 
   // Fetch messages using the UUID from URL
-  
+
   const SearchHistoryGet = useSelector(
     (state) => state.getMessages.SearchHistory
   );
@@ -44,6 +39,17 @@ const ChatByUUID = () => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
+  
+  useEffect(() => {
+    if (typeof uuid === "string" && uuid.trim() !== "") {
+      console.log("uuid_chat_00", uuid);
+      dispatch(setGetMessageUUID(uuid));
+    }
+    if (!sendMessages.length > 0) {
+      dispatch(fetchMessages());
+    }
+  }, [uuid, dispatch]);
+  
   return (
     <>
       <main>

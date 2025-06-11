@@ -223,15 +223,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       if (response?.is_function) {
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
-        const flightUUID =
-          response?.response?.results?.view_all_flight_result_api?.uuid;
-        
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(getallFlightId));
           dispatch(setAllOfferUrl(allFlightSearchApi));
           
-          const historyUrl = `/api/v1/search/${flightUUID}/history`;
+          const historyUrl = `/api/v1/search/${getallFlightId}/history`;
           let hasShownInitialMessage = false;
 
           const showRealResults = () => {
@@ -477,7 +474,7 @@ export const loadNextFlights = () => (dispatch, getState) => {
 
   const nextPageUrl = `${allOfferUrl}?page=${getpageNo}`;
   console.log("nextPageUrl", nextPageUrl);
-  // dispatch(setLoading(true));
+  dispatch(setLoading(true));
 
   // console.log("nextPageUrl", nextPageUrl);
   api
