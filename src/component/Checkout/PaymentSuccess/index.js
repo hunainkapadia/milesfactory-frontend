@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   InviteSubmit,
   RatingSubmit,
+  setInviteEmailDialog,
   setRatingSumbitRequest,
 } from "@/src/store/slices/Base/baseSlice";
 
@@ -24,6 +25,7 @@ const PaymentSuccess = () => {
   const [selectedReason, setSelectedReason] = useState(false); // user-selected reason
   const [successReview, setsuccessReview] = useState(true);
   const [email, setEmail] = useState(""); // from false to empty string
+  const [emailError, setEmailError] = useState("");
   // stroll
   const PaymentData = useSelector((state) => state?.payment?.PaymentData);
   console.log("order detail", PaymentData?.order?.uuid);
@@ -112,6 +114,17 @@ console.log("rating_new", rating);
 
   // for invite
   const handleInvite = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("Enter a valid email address");
+      return;
+    } else {
+      setEmailError("");
+    }
     const payload = {
       emails: email,
       flight_order: PaymentData?.order?.uuid,
@@ -121,7 +134,10 @@ console.log("rating_new", rating);
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   console.log("PaymentStatus_0", PaymentStatus);
-
+const inviteMoreEmailHandle=()=> {
+  alert("Asas")
+    dispatch(setInviteEmailDialog(true))
+  }
   return (
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}
@@ -295,10 +311,10 @@ console.log("rating_new", rating);
                         <img src="/images/hand-emoji.svg" alt="hand" />{" "}
                         <img src="/images/hand-emoji.svg" alt="hand" /> We've
                         sent the emails.
-                        <Link href="#" className="text-decuration-none">
+                        <Box onClick={()=>inviteMoreEmailHandle()} className="text-decuration-none cursor-pointer basecolor1">
                           {" "}
                           Invite more friends
-                        </Link>
+                        </Box>
                       </Typography>
                     </Box>
                     <Box
@@ -315,6 +331,8 @@ console.log("rating_new", rating);
                           margin="normal"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
+                          error={!!emailError}
+                          helperText={emailError}
                         />
                       </Box>
                       <Button
