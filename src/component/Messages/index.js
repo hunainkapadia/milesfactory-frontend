@@ -141,7 +141,7 @@ const Messages = () => {
       ) : (
         <></>
       )}
-      {FlightExpire ? (
+      {/* {FlightExpire ? (
         <>
           <section>
             <Box className={searchResultStyles.messageContent}>
@@ -164,7 +164,7 @@ const Messages = () => {
         </>
       ) : (
         ""
-      )}
+      )} */}
 
       {/* //////////////////////// Chat Messages end ////////////////////////*/}
     </>
