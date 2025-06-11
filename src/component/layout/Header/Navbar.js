@@ -38,10 +38,10 @@ const Navbar = () => {
         <Box onClick={contactHandle}  className={styles.navItem + " cursor-pointer"}>
           Contact support
         </Box>
-        <Box onClick={feedbackHandle} className={styles.navItem + " cursor-pointer"}>
+        <Box onClick={inviteEmailHandle} className={styles.navItem + " cursor-pointer"}>
             Share Mylz with friends
         </Box>
-        <Box onClick={inviteEmailHandle} className={styles.navItem + " cursor-pointer"}>
+        <Box  className={styles.navItem + " cursor-pointer"}>
             Explore community trips
         </Box>
       </Box>
