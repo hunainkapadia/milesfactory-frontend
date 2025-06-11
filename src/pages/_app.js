@@ -17,6 +17,18 @@ import { useRouter } from "next/router";
 
 // Define a Custom Theme with the New Font
 const theme = createTheme({
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        maxWidthLg: {
+          maxWidth: "1140px", // Set lg container to 1140px
+          '@media (min-width: 1200px)': {
+            maxWidth: "1140px",
+          },
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: "'Open Sans', sans-serif", // Change to your preferred font
   },

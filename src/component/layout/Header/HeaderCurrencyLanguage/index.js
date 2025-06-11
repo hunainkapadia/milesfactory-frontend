@@ -72,7 +72,6 @@ const HeaderCurrencyLanguage = ({
     <>
       {formobileDrawer ? (
         <>
-
           {/* Language Dropdown */}
           <Box
             display="flex"
@@ -81,14 +80,16 @@ const HeaderCurrencyLanguage = ({
             sx={{ cursor: "pointer" }}
             className={`basecolor1-dark2`}
           >
-            <Box width={32}>
-              <img
-                src={selectedLanguage.flag}
-                alt={selectedLanguage.code.toUpperCase()}
-                className={styles.flagIcon}
-              />
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <Box width={20}>
+                <img
+                  src={selectedLanguage.flag}
+                  alt={selectedLanguage.code.toUpperCase()}
+                  className={styles.flagIcon}
+                />
+              </Box>
+              <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             </Box>
-            <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             <Typography pl={2} variant="body2">
               {selectedLanguage.name}
             </Typography>
@@ -123,12 +124,14 @@ const HeaderCurrencyLanguage = ({
             sx={{ cursor: "pointer", gap: 0 }}
             className={`basecolor1-dark2`}
           >
-            <Box width={32}>
-              <Typography fontSize={20} variant="body2" px={0.5}>
-                {selectedCurrency.icon}
-              </Typography>
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <Box width={20}>
+                <Typography fontSize={20} variant="body2" px={0.5}>
+                  {selectedCurrency.icon}
+                </Typography>
+              </Box>
+              <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             </Box>
-            <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             <Typography pl={2} variant="body2">
               {selectedCurrency.name}
             </Typography>
@@ -148,8 +151,6 @@ const HeaderCurrencyLanguage = ({
               </MenuItem>
             ))}
           </Menu>
-
-         
 
           {/* Currency Dropdown */}
         </>
@@ -209,14 +210,19 @@ const HeaderCurrencyLanguage = ({
                 : " white "
             }`}
           >
-            <img
-              src={selectedLanguage.flag}
-              alt={selectedLanguage.code.toUpperCase()}
-              className={styles.flagIcon}
-            />
+            <Box
+              className={styles.flagIcon + " imaggroup"}
+              width={20}
+              borderRadius={100}
+            >
+              <img
+                src={selectedLanguage.flag}
+                alt={selectedLanguage.code.toUpperCase()}
+              />
+            </Box>
             <FontAwesomeIcon
               icon={faChevronDown}
-              style={{ marginLeft: 6, fontSize: 12 }}
+              style={{ marginLeft: 6, fontSize: 8 }}
             />
           </Box>
 

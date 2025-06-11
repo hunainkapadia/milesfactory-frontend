@@ -23,7 +23,7 @@ const Navbar = () => {
       <Box
         className={styles.navItems}
         display={"flex"}
-        gap={3}
+        
         Give
         feedback
         sx={{
@@ -36,7 +36,10 @@ const Navbar = () => {
           Contact support
         </Box>
         <Box onClick={feedbackHandle} className={styles.navItem + " cursor-pointer"}>
-            💬 Share an idea or feedback
+            Share Mylz with friends
+        </Box>
+        <Box onClick={feedbackHandle} className={styles.navItem + " cursor-pointer"}>
+            Explore community trips
         </Box>
       </Box>
     </Box>
