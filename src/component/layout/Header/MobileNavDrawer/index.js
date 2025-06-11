@@ -5,11 +5,23 @@ import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import { useState } from "react";
 import Navbar from "../Navbar";
 import HeaderUser from "../HeaderUser";
-import { setContactDialog, setFeedbackDialog, setThreadDrawer, thread } from "@/src/store/slices/Base/baseSlice";
+import {
+  setContactDialog,
+  setFeedbackDialog,
+  setInviteEmailDialog,
+  setThreadDrawer,
+  thread,
+} from "@/src/store/slices/Base/baseSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
+import {
+  logoutUser,
+  setisUserPopup,
+} from "@/src/store/slices/Auth/SignupSlice";
 import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
-import { createThreadAndRedirect, deleteAndCreateThread } from "@/src/store/slices/sendMessageSlice";
+import {
+  createThreadAndRedirect,
+  deleteAndCreateThread,
+} from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
 import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 
@@ -35,18 +47,21 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
   const HandlePopup = () => {
     dispatch(setisUserPopup(true));
   };
-    const router = useRouter();
+  const router = useRouter();
 
-    const HandleBookThread = () => {
-      dispatch(createThreadAndRedirect(router));
-    };
-    const HandleNewThread = () => {
-      toggleDrawer(); // Close the drawer before creating a new thread
-      dispatch(deleteAndCreateThread());
-    };
-    const contactHandle=()=> {
-      dispatch(setContactDialog(true))
-    }
+  const HandleBookThread = () => {
+    dispatch(createThreadAndRedirect(router));
+  };
+  const HandleNewThread = () => {
+    toggleDrawer(); // Close the drawer before creating a new thread
+    dispatch(deleteAndCreateThread());
+  };
+  const contactHandle = () => {
+    dispatch(setContactDialog(true));
+  };
+  const inviteEmailHandle = () => {
+    dispatch(setInviteEmailDialog(true));
+  };
   return (
     <>
       {/* Trigger button (optional) */}
@@ -186,7 +201,11 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                       display="flex"
                       sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                     >
-                      <img width={20} src="/images/chat-new-icon.svg" alt="Chat Icon" />
+                      <img
+                        width={20}
+                        src="/images/chat-new-icon.svg"
+                        alt="Chat Icon"
+                      />
                     </Box>
                     <Typography
                       className="bold f16"
@@ -291,6 +310,15 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                 <Typography variant="body2">
                   Share an idea or give us feedback
                 </Typography>
+              </Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                onClick={inviteEmailHandle}
+                sx={{ cursor: "pointer", gap: 0 }}
+                className={`basecolor1-dark2`}
+              >
+                <Typography variant="body2">Explore community trips</Typography>
               </Box>
             </Box>
             {/*  */}

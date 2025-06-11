@@ -9,12 +9,16 @@ const initialState = {
   feedbackDialog: false,
   contactDialog: false,
   isloading: false,
+  InviteEmailDialog: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    resetInviteSuccess: (state) => {
+      state.InviteSuccess = false;
+    },
     seIsloading: (state, action)=> {
       state.isloading = action.payload;
     },
@@ -26,6 +30,9 @@ const baseSlice = createSlice({
     },
      submitFeedback: (state, action) => {
       state.reviews.push(action.payload); // Save feedback to store
+    },
+    setInviteEmailDialog:(state, action) => {
+      state.InviteEmailDialog = action.payload
     },
     setContactData:(state, action) => {
       state.contactData = action.payload
@@ -129,6 +136,23 @@ export const InviteSubmit = (params) => (dispatch, getState) => {
     });
 };
 
+export const InviteDialogSubmit = (params) => (dispatch, getState) => {
+  console.log("invite_params", params);
+  api
+    .post("/api/v1/invite", params)
+    .then((res) => {
+      console.log("invite_res", res);
+      dispatch(setInviteSuccess(res.data)); // store response if needed
+      // dispatch(setInviteEmailDialog(false))
+    })
+    .catch((error) => {
+      console.error("rating error", error);
+    })
+    .finally(() => {
+      console.log("Rating submit finished");
+    });
+};
+
 // my trips
 export const MyTripSlice = () => (dispatch, getState) => {
   
@@ -181,7 +205,9 @@ export const {
   setInviteSuccess,
   seIsloading,
   setTripData,
-  setTripDetailData
+  setTripDetailData,
+  setInviteEmailDialog,
+  resetInviteSuccess
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

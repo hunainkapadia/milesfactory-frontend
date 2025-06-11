@@ -51,6 +51,7 @@ import HeaderUser from "./HeaderUser";
 import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import ContactDialog from "../ContactDialog";
+import InviteEmailDialog from "../InviteEmailDialog";
 
 const Header = ({ isMessage, IsActive, isHome, isChat }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -332,6 +333,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
       <SignUpPopup />
       <Feedback />
       <ContactDialog />
+      <InviteEmailDialog />
     </>
   );
 };
