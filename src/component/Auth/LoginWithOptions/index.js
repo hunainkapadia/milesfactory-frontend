@@ -35,7 +35,7 @@ const LoginWithOptions = ({ options }) => {
         alignItems={"center"}
         flexDirection={"column"}
       >
-        <Box
+        {/* <Box
           className={
             styles.SignupOption +
             " btn btn-sm btn-border black-border btn-round"
@@ -50,7 +50,7 @@ const LoginWithOptions = ({ options }) => {
         >
           <i className="f20 fa-brands fa-apple"></i>
           <Typography fontWeight={"bold"}>{options} Apple ID</Typography>
-        </Box>
+        </Box> */}
         <Box
           display={"flex"}
           alignItems={"center"}
@@ -69,7 +69,7 @@ const LoginWithOptions = ({ options }) => {
           <Typography fontWeight={"bold"}>{options} Google</Typography>
         </Box>
 
-        <Box
+        {/* <Box
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
@@ -85,7 +85,7 @@ const LoginWithOptions = ({ options }) => {
         >
           <i className="f20 fa-brands fa-facebook"></i>
           <Typography fontWeight={"bold"}>{options} Facebook</Typography>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         className={styles.orDivider}
