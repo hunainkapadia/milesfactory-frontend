@@ -6,22 +6,6 @@
    width: 20px;
    height: 20px;
    border-radius: 100px;
-   overflow: hidden;
-   
-    display: flex
-;
-    justify-content: center;
-    align-items: center;
-   img {
-      object-fit: cover;
-      border-radius: 2px;
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
-      display: inline-block;
-      vertical-align: middle;
-      height: 100%;
-      
-    max-width: inherit;
-   }
 }
 
 .Header {

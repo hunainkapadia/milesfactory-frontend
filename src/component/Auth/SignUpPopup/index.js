@@ -13,6 +13,7 @@ import {
   Dialog,
   IconButton,
   DialogContent,
+  InputAdornment,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +33,8 @@ const SignUpPopup = () => {
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
+
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [emailUpdate, setEmailUpdate] = useState(false);
 
@@ -156,20 +159,36 @@ const SignUpPopup = () => {
                     {emailError}
                   </Typography>
 
-                  <Box className=" formGroup mb-0">
+                  <Box className="formGroup mb-0">
                     <TextField
                       className="formControl"
                       fullWidth
                       placeholder="Enter Password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       margin="normal"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <img src="/images/eye-active.svg" />
+                              ) : (
+                                <img src="/images/eye-deactive.svg" />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
+                    <Typography className="error" color="red">
+                      {passwordError}
+                    </Typography>
                   </Box>
-                  <Typography className="error" color="red">
-                    {passwordError}
-                  </Typography>
                   {/* <Alert severity="error" sx={{ mt: 2 }}></Alert> */}
 
                   <Box>
@@ -219,7 +238,11 @@ const SignUpPopup = () => {
                             sx={{ cursor: "pointer" }}
                           >
                             By registering, I confirm that I accept the{" "}
-                            <Link href="/terms-and-conditions" passHref legacyBehavior>
+                            <Link
+                              href="/terms-and-conditions"
+                              passHref
+                              legacyBehavior
+                            >
                               <a
                                 target="_blank"
                                 className="basecolor"
@@ -241,7 +264,11 @@ const SignUpPopup = () => {
                               </a>
                             </Link>{" "}
                             and{" "}
-                            <Link href="/sanctions-compliance" passHref legacyBehavior>
+                            <Link
+                              href="/sanctions-compliance"
+                              passHref
+                              legacyBehavior
+                            >
                               <a
                                 className="basecolor"
                                 target="_blank"
@@ -270,13 +297,11 @@ const SignUpPopup = () => {
                         color="success"
                         disabled={isLoading} // Disable when loading
                         width={"100%"}
-                        
                         type="submit" // Important!
                         className="btn btn-primary btn-md btn-round" // Important!
                         sx={{
                           width: { xs: "100%", lg: "100%", md: "100%" },
-                          opacity: `${isFormValid ? "100%" : "50%"}`
-
+                          opacity: `${isFormValid ? "100%" : "50%"}`,
                         }}
                       >
                         {isLoading ? (

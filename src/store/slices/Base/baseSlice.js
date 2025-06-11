@@ -94,6 +94,10 @@ export const handleSubmitContact = (params) => (dispatch, getState) => {
   api.post("/api/v1/contact-us", params).then((res)=> {
     console.log("contact_res", res)
     dispatch(setContactData(res));
+    setTimeout(() => {
+      dispatch(setContactDialog(false));
+      
+    }, 5000);
   }).catch((error)=> {
     console.log(error);
     
