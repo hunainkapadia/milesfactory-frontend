@@ -8,7 +8,7 @@ import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 const SanctionsPolicy = () => {
   return (
     <main>
-      <Header />
+      <Header isUser />
       <section id="fold1" className={styles.HomeBanner}>
         <HerosectionSm heading={"Sanctions Compliance"} />
       </section>

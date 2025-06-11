@@ -53,7 +53,7 @@ import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import ContactDialog from "../ContactDialog";
 import InviteEmailDialog from "../InviteEmailDialog";
 
-const Header = ({ isMessage, IsActive, isHome, isChat }) => {
+const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
@@ -193,7 +193,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
               />
               {/*  */}
               {/* show for home desk and mobiel chat for dektop only  */}
-              {isHome || (isChat && !isMobile) ? (
+              {isUser || isHome || (isChat && !isMobile) ? (
                 <HeaderUser
                   forHader={"forHader"}
                   isSticky={isSticky}

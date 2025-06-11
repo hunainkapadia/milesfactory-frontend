@@ -8,7 +8,7 @@ import HerosectionSm from "@/src/component/layout/HerosectionSm";
 const PrivacyPolicy = () => {
   return (
     <main>
-      <Header />
+      <Header isUser />
       <section id="fold1" className={styles.HomeBanner}>
         <HerosectionSm heading={"Privacy"} />
       </section>
