@@ -63,19 +63,19 @@ const HomeSection3 = (props) => {
                     color="white"
                   >
                     Forget filters and forms. Type your plan like “weekend in
-                    Porto under £200” and Mylz gets to work. Mylz understands
-                    your goals.
+                    Porto” and Mylz gets to work.
                   </Typography>
                   <Typography
                     className="f14"
                     color="white"
                     sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                   >
-                    Forget filters and forms. Type your plan like<Box
+                    Forget filters and forms. Type your plan like
+                    <Box
                       component="br"
                       sx={{ display: { xs: "block", sm: "none" } }}
-                    />“weekend in
-                    Porto” and Mylz gets to work.
+                    />
+                    “weekend in Porto” and Mylz gets to work.
                   </Typography>
                 </Box>
               </Card>
@@ -95,20 +95,19 @@ const HomeSection3 = (props) => {
                     className="f14"
                     color="white"
                   >
-                    Mylz checks every route across flights, trains, and more –
-                    comparing time, price, and flexibility to plan your trip in
-                    seconds.
+                    Mylz compares flights, trains, and more to build the best travel routes in seconds.
                   </Typography>
                   <Typography
                     className="f14"
                     color="white"
                     sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                   >
-                    Mylz compares flights, trains, and more<Box
+                    Mylz compares flights, trains, and more
+                    <Box
                       component="br"
                       sx={{ display: { xs: "block", sm: "none" } }}
-                    />to build the best
-                    travel route in seconds.
+                    />
+                    to build the best travel route in seconds.
                   </Typography>
                 </Box>
               </Card>
@@ -128,19 +127,20 @@ const HomeSection3 = (props) => {
                     className="f14"
                     color="white"
                   >
-                    See something you like? Book instantly. Always at the real
-                    price with no markups or redirects. No unnecessary upsells.
+                    See something you like? Book instantly at real price with no
+                    markups or redirects.
                   </Typography>
                   <Typography
                     className="f14"
                     color="white"
                     sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                   >
-                    See something you like? Book instantly <Box
+                    See something you like? Book instantly{" "}
+                    <Box
                       component="br"
                       sx={{ display: { xs: "block", sm: "none" } }}
-                    />at real prices with
-                    no markups or redirects.
+                    />
+                    at real prices with no markups or redirects.
                   </Typography>
                 </Box>
               </Card>

@@ -20,8 +20,8 @@ const Footer = ({
               display={"flex"}
               sx={{
                 justifyContent: {
-                  lg: "flex-end",
-                  md: "flex-end",
+                  lg: "center",
+                  md: "center",
                   xs: "center",
                 },
               }}
@@ -70,6 +70,17 @@ const Footer = ({
                 sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
               >
                 <img src="/images/google-review-v2.svg" />
+              </Box>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+                className="imggroup"
+                sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
+              >
+                
+                <img src="/images/trust-pilot-v2.svg" />
               </Box>
             </Box>
             {/*  */}
@@ -242,8 +253,8 @@ const Footer = ({
               display={"flex"}
               sx={{
                 justifyContent: {
-                  lg: "flex-end",
-                  md: "flex-end",
+                  lg: "center",
+                  md: "center",
                   xs: "center",
                 },
               }}
@@ -305,12 +316,12 @@ const Footer = ({
                     <Typography
                       sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                     >
-                      🔥 Over 513 trips planned by early users — and counting.
+                      Plan less. Go further.
                     </Typography>
                     <Typography
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                     >
-                      🔥 Over 1,300 trips planned by early users.
+                      Plan less. Go further.
                     </Typography>
                   </Box>
                 </Link>

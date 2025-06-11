@@ -14,7 +14,7 @@ const Section5App = (props) => {
             <Grid container >
               <Grid item xs={12} md>
               <Box className={styles.AppSectionRight}>
-                <Box display={"none"}
+                <Box display={"flex"}
                   sx={{
                     paddingTop: {
                       xs: 0,
@@ -34,11 +34,11 @@ const Section5App = (props) => {
                       md: "flex-start",
                     },
                   }}
-                  display={"flex"}
+                  
                 >
                   <Box >
                     <h1 className="basecolor-dark h1-lg mb-0">
-                      Travel with Mylz!
+                      AI-powered. Traveller-owned. Travel with Mylz!
                     </h1>
                   </Box>
                 </Box>
