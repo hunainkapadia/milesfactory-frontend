@@ -4,8 +4,79 @@
 
 // @import 'variables';
 @import "../sass/_variables.scss";
+// tags [star]
 
+// tags
 
+.paymentInviteBox {
+  .ReactTags__tags {
+    width: 270px;
+  }
+}
+.ReactTags__tags {
+  
+  background-color: $white;
+  position: relative;
+  padding: 6px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  min-height: 50px;
+    border-radius: 8px;
+    align-items: center; // to vertically center text
+    
+      border: 1px solid $bluedark2;
+}
+
+.ReactTags__tagInput {
+  flex: 1;
+}
+
+.ReactTags__tagInput input {
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 16px;
+  min-width: 120px;
+}
+
+.ReactTags__selected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ReactTags__tag {
+  background: $lightgray;
+  color: $darkgray;
+
+  padding: 4px 10px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.ReactTags__remove {
+  
+    margin-left: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background: $basecolor;
+    border: none;
+    border-radius: 100px;
+    height: 15px;
+    width: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    svg {
+    margin-left: 3px;}
+}
+
+// tags [end]
 .ui.text.container,
 body {
   white-space: normal;
@@ -2595,7 +2666,19 @@ html {
 }
 
 @include for-mobile-large-screen {
-
+  .paymentInviteBox {width: 100%;
+    
+    form {width: 100%;gap: 10px !important;
+    flex-direction: column;
+    > div {width: 100%;}
+  }
+    .ReactTags__tags {width: 100%;
+      
+    }
+    .col-right  {
+      justify-content: center;
+    }
+  }
 
   .btn.btn-border.black-border {
     width: 250px;
@@ -2687,3 +2770,5 @@ html {
     margin-bottom: 30px;
   }
 }
+
+

@@ -19,6 +19,7 @@ import {
   setInviteEmailDialog,
   setRatingSumbitRequest,
 } from "@/src/store/slices/Base/baseSlice";
+import InviteEmailForm from "../../layout/InviteEmailForm";
 
 const PaymentSuccess = () => {
   const [rating, setRating] = useState(false); // user-selected rating
@@ -135,7 +136,6 @@ console.log("rating_new", rating);
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   console.log("PaymentStatus_0", PaymentStatus);
 const inviteMoreEmailHandle=()=> {
-  alert("Asas")
     dispatch(setInviteEmailDialog(true))
   }
   return (
@@ -318,32 +318,13 @@ const inviteMoreEmailHandle=()=> {
                       </Typography>
                     </Box>
                     <Box
-                      className={styles.InviteBox}
+                      className={styles.InviteBox + " paymentInviteBox"}
                       display="flex"
                       gap={1}
                       pt={2}
                     >
-                      <Box className="formGroup">
-                        <TextField
-                          className={`${styles.formControl} formControl`}
-                          fullWidth
-                          placeholder="Emails, comma separated"
-                          margin="normal"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          error={!!emailError}
-                          helperText={emailError}
-                        />
-                      </Box>
-                      <Button
-                        className="btn btn-primary btn-sm btn-round"
-                        variant="contained"
-                        color="success"
-                        type="submit"
-                        onClick={handleInvite}
-                      >
-                        Invite
-                      </Button>
+                    <InviteEmailForm flight_order={PaymentData.order.uuid} />
+                    
                     </Box>
                   </Box>
                 </>
