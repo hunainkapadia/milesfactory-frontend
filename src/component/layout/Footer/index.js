@@ -46,6 +46,7 @@ const Footer = ({
               <>
                 <Box
                   display={"flex"}
+                  alignItems={"center"}
                   sx={{
                     justifyContent: { xs: "center", lg: "left", md: "left" },
                     pb: { lg: 7, md: 7, xs: 3 },
