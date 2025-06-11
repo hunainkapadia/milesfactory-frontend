@@ -150,7 +150,7 @@ const SanctionsPolicy = () => {
         </Container>
       </Box>
 
-      <Footer forLight />
+      <Footer partnerLogos forLight />
     </main>
   );
 };

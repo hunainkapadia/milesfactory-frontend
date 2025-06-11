@@ -40,15 +40,18 @@ const ChatByUUID = () => {
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
   
-  useEffect(() => {
+    useEffect(() => {
+    if (!router.isReady) return; // Wait for router to be ready
+
     if (typeof uuid === "string" && uuid.trim() !== "") {
-      console.log("uuid_chat_00", uuid);
+      console.log("uuid_chat", uuid);
       dispatch(setGetMessageUUID(uuid));
     }
-    if (!sendMessages.length > 0) {
+
+    if (sendMessages.length === 0) {
       dispatch(fetchMessages());
     }
-  }, [uuid, dispatch]);
+  }, [router.isReady, uuid, dispatch]);
   
   return (
     <>

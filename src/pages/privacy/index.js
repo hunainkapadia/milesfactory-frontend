@@ -246,7 +246,7 @@ const PrivacyPolicy = () => {
           </Box>
         </Container>
       </Box>
-      <Footer forLight />
+      <Footer partnerLogos forLight />
     </main>
   );
 };

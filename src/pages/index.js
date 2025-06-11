@@ -7,7 +7,6 @@ import Section5App from "../component/home/Section5App";
 import PoweredByglobal from "../component/home/PoweredByglobal";
 import { useRouter } from "next/router";
 import HomeHeroSection from "../component/HomeHeroSection";
-import { fetchMessages } from "../store/slices/GestMessageSlice";
 import Footer from "../component/layout/Footer";
 import {
   createThread,

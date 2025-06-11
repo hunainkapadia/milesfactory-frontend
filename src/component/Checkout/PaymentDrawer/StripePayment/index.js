@@ -75,6 +75,8 @@ useEffect(() => {
       .then((response) => {
         const data = response.data;
         if (data.status === "complete") {
+          console.log("data_email", data.customer_email);
+          
           setCustomerEmail(data.customer_email);
           // setPaymentComplete(true);
           dispatch(setPaymentFormSuccess(true));

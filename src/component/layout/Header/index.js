@@ -124,7 +124,6 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
             alignItems={"center"}
             
           >
-            <Box display={"flex"} gap={"52px"} alignItems={"center"}>
               <Box
                 color="white"
                 className={styles.leftCol}
@@ -174,11 +173,10 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
               >
                 <Navbar />
               </Box>
-            </Box>
 
             <Box
               display={"flex"}
-              sx={{ gap: { lg: 3, md: 3, xs: 0 } }}
+              sx={{ gap: { lg: 3, md: 2, xs: 0 } }}
               className={styles.HeaderRightCol}
             >
               {/* Mobile Loader */}

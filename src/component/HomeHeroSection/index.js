@@ -1,7 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import Footer from "../layout/Footer";
 import HerosectionContent from "../home/HerosectionContent";

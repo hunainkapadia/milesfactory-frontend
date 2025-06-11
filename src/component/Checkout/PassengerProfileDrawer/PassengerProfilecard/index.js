@@ -208,7 +208,7 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
                   >
-                    {getdata.nationality?.passport_expire_date}
+                    {getdata.passport_expire_date}
                   </Typography>
                 </Grid>
 

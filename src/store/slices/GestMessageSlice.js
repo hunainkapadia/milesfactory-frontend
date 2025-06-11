@@ -64,7 +64,7 @@ export const fetchMessages = () => (dispatch, getState) => {
   
   
   const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${uuid}`
-  console.log("state_getmess", uuid);
+  console.log("state_getmess", threadUrl);
   
   api
   .get(threadUrl)

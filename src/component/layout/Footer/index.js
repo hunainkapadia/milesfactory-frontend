@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 const Footer = ({
+  partnerLogos,
   forHomeHero,
   forReview,
   forLight,
@@ -41,48 +42,51 @@ const Footer = ({
       ) : forLight ? (
         <footer className={styles.FooterForLight}>
           <Container>
-            <Box
-              display={"flex"}
-              sx={{
-                justifyContent: { xs: "center", lg: "left", md: "left" },
-                pb: { lg: 7, md: 7, xs: 3 },
-                gap:{lg:6, md:6, xs: 2.3}
-              }}
-              
-            >
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-                className="imggroup"
-                sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
-              >
-                
-                <img src="/images/trust-pilot-v2.svg" />
-              </Box>
-              <Box
-                display={"flex"}
-                alignItems={"flex-start"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-                className="imggroup"
-                sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
-              >
-                <img src="/images/google-review-v2.svg" />
-              </Box>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-                className="imggroup"
-                sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
-              >
-                
-                <img src="/images/trust-pilot-v2.svg" />
-              </Box>
-            </Box>
+            {!partnerLogos ? (
+              <>
+                <Box
+                  display={"flex"}
+                  sx={{
+                    justifyContent: { xs: "center", lg: "left", md: "left" },
+                    pb: { lg: 7, md: 7, xs: 3 },
+                    gap: { lg: 6, md: 6, xs: 2.3 },
+                  }}
+                >
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    flexDirection={"column"}
+                    className="imggroup"
+                    sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
+                  >
+                    <img src="/images/trust-pilot-v2.svg" />
+                  </Box>
+                  <Box
+                    display={"flex"}
+                    alignItems={"flex-start"}
+                    justifyContent={"center"}
+                    flexDirection={"column"}
+                    className="imggroup"
+                    sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
+                  >
+                    <img src="/images/google-review-v2.svg" />
+                  </Box>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    flexDirection={"column"}
+                    className="imggroup"
+                    sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
+                  >
+                    <img src="/images/iat_logo.svg" />
+                  </Box>
+                </Box>
+              </>
+            ) : (
+              ""
+            )}
             {/*  */}
             <Box
               className={styles.FooterBox + ""}

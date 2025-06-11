@@ -56,10 +56,7 @@ const Messages = () => {
   console.log("getmessages", getmessages);
   console.log("sendMessages", sendMessages);
   
-  useEffect(() => {
-    dispatch(fetchMessages());
-  }, []);
-
+  
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
 
