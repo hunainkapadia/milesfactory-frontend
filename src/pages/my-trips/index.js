@@ -5,6 +5,9 @@ import { Container, Grid, Typography, Button, Box } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/src/styles/sass/components/MyTrips/Mytrips.module.scss";
+import { setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
+import { createThread, createThreadAndRedirect } from "@/src/store/slices/sendMessageSlice";
+import { useRouter } from "next/router";
 
 const MyTrips = () => {
    const dispatch = useDispatch();
@@ -20,6 +23,21 @@ const MyTrips = () => {
    const pastTrips = TripData?.past_trips ?? [];
 
    console.log("TripData", TripData);
+   
+   // book trip 
+   // currentUser ? HandleBookThread : HandlePopup}
+   useEffect(() => {
+       dispatch(createThread());
+     }, [dispatch]);
+   const router = useRouter();
+   const HandlePopup = () => {
+     dispatch(setisUserPopup(true));
+   };
+   const HandleBookThread = () => {
+     dispatch(createThreadAndRedirect(router));
+   };
+   
+   const currentUser = useSelector((state) => state.base?.currentUser);
    
    
    return (
@@ -52,7 +70,8 @@ const MyTrips = () => {
                <h3 className="mb-0">My booked trips</h3>
              </Box>
 
-             <Button
+             <Button 
+               onClick={currentUser ? HandleBookThread : HandlePopup}
                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                className="btn btn-primary btn-round btn-primary btn-sm"
              >
