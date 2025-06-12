@@ -18,12 +18,13 @@ const PollingMessage = ({ PollingData }) => {
         <Box pt={2}>
           <ul className="no-list">
             <li style={{ marginBottom: "0.5rem" }}>
-              Passengers: {PollingData?.adults}{" "}
-              {PollingData?.adults === 1 ? "adult" : "adults"}
-              {PollingData?.children > 0 &&
-                `, ${PollingData.children} child(ren)`}
-              {PollingData?.infants > 0 && `, ${PollingData.infants} infant(s)`}
-            </li>
+  Passengers: {PollingData?.adults}{" "}
+  {PollingData?.adults === 1 ? "adult" : "adults"}
+  {PollingData?.children?.length > 0 &&
+    `, ${PollingData.children.length} child(ren)`}
+  {PollingData?.infants > 0 && `, ${PollingData.infants} infant(s)`}
+</li>
+
             <li style={{ marginBottom: "0.5rem" }}>
               Cabin: {PollingData?.cabin_class}
             </li>

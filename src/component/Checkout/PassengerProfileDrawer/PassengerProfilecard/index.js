@@ -165,7 +165,14 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
                   >
-                    {getdata.born_on}
+                  {new Date(getdata.born_on).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -208,7 +215,14 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
                   >
-                    {getdata.passport_expire_date}
+                    {new Date(getdata.passport_expire_date).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
                   </Typography>
                 </Grid>
 

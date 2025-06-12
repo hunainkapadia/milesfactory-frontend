@@ -220,8 +220,10 @@ export const validatePassengerForm = (params) => (dispatch, getState) => {
 
   if (PassengerType === "adult") {
     //  Email validation
-    if (!params.email && !emailRegex.test(params.email)) {
-      errors.email = "Invalid email format.";
+    if (!params.email) {
+      errors.email = "Email is required";
+    } else if (!emailRegex.test(params.email)) {
+      errors.email = "Invalid email format";
     }
 
     //  Phone validation
