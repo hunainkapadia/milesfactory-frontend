@@ -61,7 +61,7 @@ const TripDetailHandle = (uuid) => {
           >
             {tripData.order_status === "confirmed" ? "Confirmed" : "Pending"}
           </Box>
-          <Box display={"flex"} alignItems={"center"} gap={0.5}>
+          {/* <Box display={"flex"} alignItems={"center"} gap={0.5}>
             <svg
               width="14"
               height="16"
@@ -81,7 +81,7 @@ const TripDetailHandle = (uuid) => {
             >
               Share this trip
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
 
         {/* Route & Dates */}
