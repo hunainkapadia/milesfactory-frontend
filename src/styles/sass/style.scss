@@ -10,7 +10,7 @@
 
 .paymentInviteBox {
   .ReactTags__tags {
-    width: 270px;
+    width: 350px;
   }
 }
 .ReactTags__tags {
@@ -33,18 +33,21 @@
   flex: 1;
 }
 
-.ReactTags__tagInput input {
-  border: none;
-  outline: none;
-  padding: 8px;
-  font-size: 16px;
-  min-width: 120px;
+.ReactTags__tagInput {min-width: 100%;
+  input {
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+    min-width: 100%;
+  }
 }
 
 .ReactTags__selected {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  width: 100%;
 }
 
 .ReactTags__tag {
@@ -2668,7 +2671,7 @@ html {
 @include for-mobile-large-screen {
   .paymentInviteBox {width: 100%;
     
-    form {width: 100%;gap: 10px !important;
+    form {width: 100%;
     flex-direction: column;
     > div {width: 100%;}
   }
