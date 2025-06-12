@@ -180,3 +180,32 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
    }
 }
+
+
+
+.inactiveTab {
+         margin-right: 4px;
+         min-height: 38px;
+         display: flex;
+         flex-direction: row;
+         justify-content: center;
+         align-items: center;
+         padding: 10px 20px;
+         background: $lightgray3;
+         border-width: 1px 1px 0px 1px;
+         border-style: solid;
+         border-color: #E6EEEE;
+         border-radius: 8px 8px 0px 0px;
+
+         transition: all 0.2s ease;
+         text-transform: capitalize;
+         p {
+          font-size: $f12;
+          font-weight: $semibold;
+         }
+      }
+      .activeTab {
+         background-color: rgba(255, 255, 255, 0.6);
+         color: $basecolor;
+
+       }
