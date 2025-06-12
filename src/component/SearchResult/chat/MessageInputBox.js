@@ -252,27 +252,49 @@ console.log("checkPolling", messages || FlightExpire);
                   <Box
                     sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
                     className={styles.ChatBullets}
+                    textAlign={"center"}
+                    justifyContent={"center"}
                     flexWrap={"wrap"}
+                    fontSize={14}
                   >
                     <Box
-                      className={`${styles.ChatBullet1} ${styles.ChatBullet} br-12`}
+                      className={`${styles.ChatBullet} `}
                     >
-                      Surprise me with a foodie weekend
+                      ✅ Lowest price guaranteed
                     </Box>
                     <Box
-                      className={`${styles.ChatBullet2} ${styles.ChatBullet} br-12`}
+                      className={` ${styles.ChatBullet} `}
                     >
-                      Book Paris for 2 from Friday to Sunday, departing 6pm
+                      🛡️ Airline-direct booking and protection
                     </Box>
                     <Box
-                      className={`${styles.ChatBullet3} ${styles.ChatBullet} br-12`}
+                      className={`${styles.ChatBullet} `}
                     >
-                      I want a 3-day sunny getaway from London under £300
+                      🔒 Privacy-safe
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
+                    className={styles.ChatBullets}
+                    textAlign={"center"}
+                    justifyContent={"center"}
+                    flexWrap={"wrap"}
+                    fontSize={12}
+                  >
+                    <Box
+                      className={`${styles.ChatBullet} `}
+                    >
+                      ✅ Best price
                     </Box>
                     <Box
-                      className={`${styles.ChatBullet4} ${styles.ChatBullet} br-12`}
+                      className={` ${styles.ChatBullet} `}
                     >
-                      Plan a solo adventure to Spain
+                      🛡️ Airline-protected
+                    </Box>
+                    <Box
+                      className={`${styles.ChatBullet} `}
+                    >
+                      🔒 Privacy-safe
                     </Box>
                   </Box>
                 </>

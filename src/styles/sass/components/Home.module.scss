@@ -2,28 +2,20 @@
 
 
 .ChatBullets {
-  gap:7px 12px;
-  padding-top: 20px;
+  gap:7px 10px;
+  padding-top: 18px;
+  text-align: center;
   .ChatBullet {
-    background-color: rgba(#0B1729, 0.5);
-    padding: 7px 10px;
-    font-size: 14px;
+    padding-right: 10px;
+    
     color: #D3D3D3;
-    border: 1px solid rgba(246, 246, 246, 0.3);
     line-height: 1.2;
-    &.ChatBullet1 {
-      width: auto;
-    }
-    &.ChatBullet2 {
-      width: auto;
-    }
-    &.ChatBullet3 {
-      padding: 7px 5px;
-    }
-    &.ChatBullet4 {
-      padding: 7px 29px;
-    }
+    border-right: solid 1px $white;
+    &:last-child {
+      border-right: none;
+      padding-right: 0;
 
+    }
   }
 }
 .HomeBannerReview {
@@ -219,6 +211,13 @@
 }
 
 @media only screen and (max-width: 767px) {
+  .ChatBullets {
+    gap: 6px;
+    .ChatBullet {
+      padding-right: 6px;
+    }
+  }
+
   
   
   .HomeBannerReview {
