@@ -100,8 +100,6 @@ const AiMessage = ({ aiMessage }) => {
   // Add class when all flights are shown
   console.log("showAllFlight", showAllFlight);
 
-
-
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
   const moreflightsHandle = () => {
@@ -120,8 +118,14 @@ const AiMessage = ({ aiMessage }) => {
 
     return result;
   }
-  
-const orderDetail = useSelector((state) => state?.payment?.OrderConfirm?.order?.selected_offer); //from order api
+
+  const getuser = useSelector((state) => state.base?.currentUser?.user);
+
+  console.log("getuser_chat2", getuser);
+
+  const orderDetail = useSelector(
+    (state) => state?.payment?.OrderConfirm?.order?.selected_offer
+  ); //from order api
   return (
     <Box
       ref={aiboxRef}
@@ -232,7 +236,6 @@ const orderDetail = useSelector((state) => state?.payment?.OrderConfirm?.order?.
         // Default AI response
         <>
           {/* {console.log("aiMessage111", aiMessage?.ai)} */}
-          {console.log("ai_test111", aiMessage?.ai?.newThread)}
           {!aiMessage?.ai?.response?.results ||
           aiMessage?.ai?.newThread ||
           aiMessage?.ai?.deleteThread ? (
@@ -250,19 +253,49 @@ const orderDetail = useSelector((state) => state?.payment?.OrderConfirm?.order?.
                   </>
                 )}
 
-                <Typography
-                  dangerouslySetInnerHTML={{
-                    __html: formatTextToHtmlList(
-                      convertMarkdownToHtml(
-                        sanitizeResponse(
-                          aiMessage?.ai?.response ||
-                            aiMessage?.ai?.newThread ||
-                            aiMessage?.ai?.deleteThread
-                        )
-                      )
-                    ),
-                  }}
-                />
+                {console.log("aiMessage_newThread", aiMessage?.ai?.newThread)}
+                <>
+                  {aiMessage?.ai?.response ? (
+                    <Typography
+                      component="div"
+                      variant="body1"
+                      dangerouslySetInnerHTML={{
+                        __html: formatTextToHtmlList(
+                          convertMarkdownToHtml(
+                            sanitizeResponse(aiMessage.ai.response)
+                          )
+                        ),
+                      }}
+                    />
+                  ) : aiMessage?.ai?.newThread ? (
+                    <Typography component="div" variant="body1">
+                      Hello{" "}
+                      <Typography component="span" textTransform="capitalize">
+                        {getuser?.first_name ?? "there"}
+                      </Typography>{" "}
+                      <Typography component="span" textTransform="capitalize">
+                        {getuser?.last_name ?? ""}
+                      </Typography>
+                      , I'm{" "}
+                      <Typography component="span" textTransform="capitalize">
+                        Mylz
+                      </Typography>
+                      . How can I help you?
+                    </Typography>
+                  ) : aiMessage?.ai?.deleteThread ? (
+                    <Typography
+                      component="div"
+                      variant="body1"
+                      dangerouslySetInnerHTML={{
+                        __html: formatTextToHtmlList(
+                          convertMarkdownToHtml(
+                            sanitizeResponse(aiMessage.ai.deleteThread)
+                          )
+                        ),
+                      }}
+                    />
+                  ) : null}
+                </>
               </Box>
             </>
           ) : (

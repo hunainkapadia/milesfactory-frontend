@@ -369,9 +369,7 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
         dispatch(
           setMessage({
             ai: {
-              newThread: `Hello ${getuser?.first_name ?? "there"} ${
-                getuser?.last_name ?? ""
-              }, I'm Mylz. How can I help you?`,
+              newThread: true
             },
           })
         );
