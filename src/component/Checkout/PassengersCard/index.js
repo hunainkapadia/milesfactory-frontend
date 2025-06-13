@@ -1,6 +1,5 @@
 import { Box, Card, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
-import dayjs from "dayjs";
 
 const PassengersCard = ({
   passName,
@@ -14,12 +13,7 @@ const PassengersCard = ({
   passDetail,
 }) => {
   console.log("pass_getdata", getdata?.age);
-  const birthDate = dayjs(getdata.born_on);
-  const now = dayjs();
-
-  const years = now.diff(birthDate, "year");
-  const months = now.diff(birthDate.add(years, "year"), "month");
-
+  
   return (
     <Box
       id={getdata.uuid}
@@ -42,47 +36,44 @@ const PassengersCard = ({
               </Typography>
               <Typography
                 
-                className={"gray f12 "}
+                className={" gray f12 "}
               >
                 {getdata.type === "infant_without_seat" ? (
                   <>
                     Infants{" "}
                     <Typography
-                      component="span"
                       className="f12 red"
+                      component="span"
+                      
                       display="inline"
                     >
-                      {years} year{years !== 1 ? "s" : ""}
-                      {months > 0
-                        ? ` ${months} month${months !== 1 ? "s" : ""}`
-                        : ""}
+                      {getdata?.age} year
                     </Typography>
                   </>
                 ) : getdata.type === "child" ? (
                   <>
                     Child{" "}
                     <Typography
-                      component="span"
                       className="f12 red"
+                      component="span"
+                      
                       display="inline"
                     >
-                      {years} year{years !== 1 ? "s" : ""}
-                      {months > 0
-                        ? ` ${months} month${months !== 1 ? "s" : ""}`
-                        : ""}
+                      {getdata?.age} year
                     </Typography>
                   </>
                 ) : getdata.type === "adult" ? (
                   <>
-                    Adult{" "}
+                    Adult {" "}
                     <Typography
-                      component="span"
                       className="f12 red"
+                      component="span"
+                      
                       display="inline"
                     >
                       18 years and older
                     </Typography>
-                  </>
+                    </>
                 ) : (
                   getdata.type
                 )}
@@ -93,13 +84,13 @@ const PassengersCard = ({
               <Typography
                 className="f14 bold mb-0"
                 mb={1}
-                textTransform={"capitalize"}
+                
               >
                 {getdata?.given_name} {getdata?.family_name}
               </Typography>
               <Typography
-                textTransform={"capitalize"}
-                className={" gray f12 capitalize-first-letter"}
+                
+                className={" gray f12 "}
               >
                 {getdata.type === "infant_without_seat"
                   ? "Infants"
