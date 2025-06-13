@@ -230,7 +230,6 @@ const PassengerDrawerForm = () => {
     }
 
     // Child age validation
-    // Child checks
     if (PassengerType === "child" && PassengerAge >= 2 && PassengerAge < 18) {
       if (!born_on || !dayjs(born_on).isValid()) {
         errors.born_on = "Date of birth is required and must be valid.";

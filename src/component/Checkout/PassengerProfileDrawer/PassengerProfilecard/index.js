@@ -4,7 +4,7 @@ import { Box, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 // Example Props (you should pass these from parent)
 
-const PassengerProfilecard = ({ getdata, onClickCard }) => {
+const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
   
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
@@ -20,7 +20,7 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
     <>
       <Box px={3} pb={2}>
         <Box
-          className={`${styles.passengersCard} ${styles.passengerProfileCard}`}
+          className={`${styles.passengersCard} ${styles.passengerProfileCard} ${passFilled ? styles.isFilled : ""} }`}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"space-between"}
@@ -37,7 +37,8 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                 value={getdata.name}
                 control={
                   <Radio
-                    checked={selectedValue === getdata.name}
+                  
+                    checked={passFilled}
                     onChange={(e) => setSelectedValue(e.target.value)}
                     className="customRadio"
                     sx={{ p: 0, m: 0 }} // Zero padding & margin using MUI's sx prop
