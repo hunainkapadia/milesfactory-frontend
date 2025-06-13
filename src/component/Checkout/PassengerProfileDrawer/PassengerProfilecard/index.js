@@ -133,7 +133,7 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
                           <Typography
                             component="span"
                             display="inline"
-                            className="f12 red"
+                            className="f12 "
                           >
                             18 years and older
                           </Typography>

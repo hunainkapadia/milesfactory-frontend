@@ -66,7 +66,7 @@ const PassengersCard = ({
                   <>
                     Adult {" "}
                     <Typography
-                      className="f12 red"
+                      className="f12"
                       component="span"
                       
                       display="inline"
