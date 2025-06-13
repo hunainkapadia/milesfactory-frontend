@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Box, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
 
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import dayjs from "dayjs";
 // Example Props (you should pass these from parent)
 
 const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
-  
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
 
@@ -16,11 +16,23 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
     // e.stopPropagation(); // Prevent card click
     setisOpen((prev) => !prev);
   };
+
+  const birthDate = dayjs(getdata.born_on);
+  const now = dayjs();
+
+  const years = now.diff(birthDate, "year");
+  const months = now.diff(birthDate.add(years, "year"), "month");
+
+  console.log(`${years} years ${months} months`);
+  console.log("getdata_profile", `${years} years ${months} months`);
+
   return (
     <>
       <Box px={3} pb={2}>
         <Box
-          className={`${styles.passengersCard} ${styles.passengerProfileCard} ${passFilled ? styles.isFilled : ""} }`}
+          className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
+            passFilled ? styles.isFilled : ""
+          } }`}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"space-between"}
@@ -37,7 +49,6 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
                 value={getdata.name}
                 control={
                   <Radio
-                  
                     checked={passFilled}
                     onChange={(e) => setSelectedValue(e.target.value)}
                     className="customRadio"
@@ -86,16 +97,50 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
                     </Typography>
                     <Typography
                       sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
-                      textTransform={"capitalize"}
-                      className="basecolor f12 capitalize-first-letter"
+                      className="basecolor f12 "
                     >
-                      {getdata.type === "infant_without_seat"
-                        ? "Infants"
-                        : getdata.type === "child"
-                        ? "Child"
-                        : getdata.type === "adult"
-                        ? "Adult"
-                        : getdata.type}
+                      {getdata.type === "infant_without_seat" ? (
+                        <>
+                          Infants{" "}
+                          <Typography
+                            component="span"
+                            display="inline"
+                            className="f12 red"
+                          >
+                            {years} year{years !== 1 ? "s" : ""}{" "}
+                            {months > 0
+                              ? `${months} month${months !== 1 ? "s" : ""}`
+                              : ""}
+                          </Typography>
+                        </>
+                      ) : getdata.type === "child" ? (
+                        <>
+                          Child{" "}
+                          <Typography
+                            component="span"
+                            display="inline"
+                            className="f12 red"
+                          >
+                            {years} year{years !== 1 ? "s" : ""}{" "}
+                            {months > 0
+                              ? `${months} month${months !== 1 ? "s" : ""}`
+                              : ""}
+                          </Typography>
+                        </>
+                      ) : getdata.type === "adult" ? (
+                        <>
+                          Adult{" "}
+                          <Typography
+                            component="span"
+                            display="inline"
+                            className="f12 red"
+                          >
+                            18 years and older
+                          </Typography>
+                        </>
+                      ) : (
+                        getdata.type
+                      )}
                     </Typography>
                   </>
                 )}
@@ -166,14 +211,11 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
                   >
-                  {new Date(getdata.born_on).toLocaleDateString(
-                      "en-GB",
-                      {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      }
-                    )}
+                    {new Date(getdata.born_on).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
