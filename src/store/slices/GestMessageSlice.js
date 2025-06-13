@@ -106,6 +106,9 @@ export const fetchMessages = () => (dispatch, getState) => {
           
           const allFlightSearchApi =
           item?.response?.results?.view_all_flight_result_api?.url;
+
+          const allFlightSearchUuid =
+          item?.response?.results?.view_all_flight_result_api?.uuid;
           
           if (allFlightSearchApi) {
             
@@ -115,7 +118,7 @@ export const fetchMessages = () => (dispatch, getState) => {
             dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
             
             
-             const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+             const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
              api.get(historyUrl).then((history_res)=> {
               //  console.log("historyUrl", history_res.data.search);
                dispatch(setSearchHistoryGet(history_res.data.search))
