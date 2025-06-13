@@ -84,6 +84,9 @@ const PassengerDrawerForm = () => {
   const PassengerType = useSelector(
     (state) => state.passengerDrawer.PassengerType
   );
+
+  console.log("PassengerType_test", PassengerType);
+  
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
@@ -216,35 +219,34 @@ const PassengerDrawerForm = () => {
       errors.passport_expire_date = "Passport expiry date is required.";
 
     // Email/Phone for adults
-    if (PassengerType === "adult") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!email.trim()) {
-        errors.email = "Email is required.";
-      } else if (!emailRegex.test(email)) {
-        errors.email = "Invalid email format.";
-      }
+ if (PassengerType === "adult") {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (!phone.trim()) {
-        errors.phone_number = "Phone number is required.";
-      }
+    if (!email.trim()) {
+      errors.email = "Email is required.";
+    } else if (!emailRegex.test(email)) {
+      errors.email = "Invalid email format.";
     }
 
-    // Child age validation
-    if (PassengerType === "child" && PassengerAge >= 2 && PassengerAge < 18) {
-      if (!born_on || !dayjs(born_on).isValid()) {
-        errors.born_on = "Date of birth is required and must be valid.";
-      } else {
-        const dob = dayjs(born_on);
-        const min = today.subtract(PassengerAge + 1, "year").add(1, "day");
-        const max = today.subtract(PassengerAge, "year");
+    if (!phone.trim()) {
+      errors.phone_number = "Phone number is required.";
+    }
+  }
 
-        if (dob.isBefore(min) || dob.isAfter(max)) {
-          errors.born_on = `Child DOB must be between ${min.format(
-            "DD MMM YYYY"
-          )} and ${max.format("DD MMM YYYY")}.`;
-        }
+  // Child DOB validation
+  if (PassengerType === "child") {
+    if (!born_on || !dayjs(born_on).isValid()) {
+      errors.born_on = "Date of birth is required and must be valid.";
+    } else {
+      const dob = dayjs(born_on);
+      const min = dayjs().subtract(12, "year"); // max 12 years old
+      const max = dayjs().subtract(2, "year");  // min 2 years old
+
+      if (dob.isBefore(min) || dob.isAfter(max)) {
+        errors.born_on = `Child must be between 2 and 12 years old.`;
       }
     }
+  }
 
     if (!nationality) {
       errors.nationality = "Nationality is required.";

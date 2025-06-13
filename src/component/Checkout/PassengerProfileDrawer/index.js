@@ -142,7 +142,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
               ?.filter((passenger) => passenger?.type === selectedType)
               .map((passenger, index) => {
                 
-                const isPassFilled = passenger?.type === FilledPassFormData?.type;
+                const isPassFilled = passenger?.passport_number === FilledPassFormData?.passport_number;
+                console.log("passenger_test", passenger?.passport_number)
+                console.log("FilledPassFormData", FilledPassFormData?.passport_number)
+                console.log("isPassFilled_test", isPassFilled)
+                
                 return (
                   <PassengerProfilecard
                     key={passenger?.uuid || index}
