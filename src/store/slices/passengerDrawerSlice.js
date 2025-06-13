@@ -3,6 +3,7 @@ import { API_ENDPOINTS } from "../api/apiEndpoints";
 import api from "../api";
 import { setCloseDrawer } from "./BookingflightSlice";
 import { fetchOrderDetails, OrderConfirm } from "./PaymentSlice";
+import dayjs from "dayjs";
 
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
@@ -180,74 +181,7 @@ export const ViewPassengers = () => (dispatch, getState) => {
 };
 
 
-export const validatePassengerForm = (params) => (dispatch, getState) => {
-  const state = getState();
-  // ///////////////
-  const PassengerType = state?.passengerDrawer?.PassengerType;
-  
-  let errors = {};
-
-  const nameRegex = /^[A-Za-z\s'-]+$/;
-  const passportNumberRegex = /^[A-Za-z0-9]+$/;
-
-   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const isValidPhone = (phone) => phone?.length >= 8;
-
-
-  if (!params.gender) errors.gender = "Gender is required.";
-  if (!params.given_name) {
-    errors.given_name = "First Name is required.";
-  } else if (!nameRegex.test(params.given_name)) {
-    errors.given_name = "First Name must contain only letters.";
-  }
-
-  if (!params.family_name) {
-    errors.family_name = "Last Name is required.";
-  } else if (!nameRegex.test(params.family_name)) {
-    errors.family_name = "Last Name must contain only letters.";
-  }
-
-  if (!params.born_on) errors.born_on = "Date of Birth is required.";
-  if (!params.passport_number) {
-    errors.passport_number = "Passport Number is required.";
-  } else if (!passportNumberRegex.test(params.passport_number)) {
-    errors.passport_number = "Passport Number must be alphanumeric.";
-  }
-
-  if (!params.passport_expire_date)
-    errors.passport_expire_date = "Passport Expiry Date is required.";
-  if (!params.nationality) errors.nationality = "Nationality is required.";
-
-  if (PassengerType === "adult") {
-    //  Email validation
-    if (!params.email) {
-      errors.email = "Email is required";
-    } else if (!emailRegex.test(params.email)) {
-      errors.email = "Invalid email format";
-    }
-
-    //  Phone validation
-    if (!params.phone_number && !isValidPhone(params.phone_number)) {
-      errors.phone_number = "Invalid phone number.";
-    }
-  }
-  if (Object.keys(errors).length > 0) {
-    dispatch(setPassengerFormError(errors));
-    return false;
-  }
-
-
-  dispatch(setPassengerFormError(null));
-  return true;
-};
-
-export const PassengerFormSubmit = (params) => (dispatch, getState) => {
-  console.log("[0] Called PassengerFormSubmit");
-  console.log("[1] Params:", params);
-  
-  const isValid = dispatch(validatePassengerForm(params));
-  if (!isValid) return;
-  
+export const PassengerFormSubmit = (params) => async (dispatch, getState) => {  
   dispatch(setIsFormLoading(true));
   
   const state = getState();

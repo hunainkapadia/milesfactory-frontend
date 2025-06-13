@@ -42,26 +42,25 @@ const PassengerDrawerForm = () => {
   const [region, setRegion] = useState("");
   const [nationality, setNationality] = useState(null);
 
-
   const countries = useSelector((state) => state.passengerDrawer.countries);
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
 
   // pass profile
-  const selectedpassengerPofile =  useSelector(
+  const selectedpassengerPofile = useSelector(
     (state) => state.passengerDrawer.selectedProfilePass
-  )
+  );
   console.log("selectedpassengerPofile", selectedpassengerPofile);
   console.log("GetViewPassengers", GetViewPassengers);
-  
+
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
   const PassengersUuID = useSelector(
     (state) => state.passengerDrawer.PassengerUUID
   );
-  
+
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
@@ -89,100 +88,6 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerAge
   );
   console.log("PassengerAge", PassengerAge);
-  
-
-  // Define ranges
-  const today = dayjs();
-  // Ranges
-
-// Define static ranges
-// Defaults
-let minDate = dayjs("1930-01-01");
-let maxDate = today;
-
-if (PassengerType === "adult") {
-  // Adults: must be at least 18 years old
-  minDate = dayjs("1930-01-01");
-  maxDate = today.subtract(18, "year");
-} else if (
-  PassengerType === "infant_without_seat" ||
-  (PassengerAge !== undefined && PassengerAge < 2)
-) {
-  // Infants: under 2 years
-  maxDate = today;
-  minDate = today.subtract(PassengerAge, "year");
-} else if (
-  PassengerType === "child" ||
-  (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
-) {
-  // Child: dynamic age range
-  maxDate = today.subtract(PassengerAge, "year");
-  minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-} else {
-  // fallback: adult
-  minDate = dayjs("1930-01-01");
-  maxDate = today.subtract(18, "year");
-}
-
-
- useEffect(() => {
-  if (born_on) {
-    const age = dayjs().diff(dayjs(born_on), "year");
-    console.log("calculated_age", age);
-
-    // Determine type based on actual birth date
-    let detectedType = "adult";
-    if (age < 2) {
-      detectedType = "infant";
-    } else if (age >= 2 && age < 18) {
-      detectedType = "child";
-    }
-
-    // Validation logic (if needed)
-    const infantMaxAge = 2;
-    const childMinAge = 2;
-    const childMaxAge = 18;
-    const adultMinAge = 18;
-
-    if (detectedType === "adult" && age < adultMinAge) {
-      dispatch(
-        setPassengerFormError({
-          born_on: `Passenger must be at least ${adultMinAge} years old to be considered an adult`,
-        })
-      );
-    } else if (
-      detectedType === "child" &&
-      (age < childMinAge || age >= childMaxAge)
-    ) {
-      dispatch(
-        setPassengerFormError({
-          born_on: `Child passenger must be at least ${childMinAge} and less than ${childMaxAge} years old`,
-        })
-      );
-    } else if (detectedType === "infant" && age >= infantMaxAge) {
-      dispatch(
-        setPassengerFormError({
-          born_on: `Infant must be younger than ${infantMaxAge} years`,
-        })
-      );
-    } else {
-      dispatch(setPassengerFormError({ born_on: "" })); // ✅ Clear error
-    }
-  }
-}, [born_on, dispatch]);
-
-
-
-
-  // Optional: Clear invalid date when switching type
-  useEffect(() => {
-    if (!born_on) return;
-
-    const dob = dayjs(born_on);
-    if (dob.isBefore(minDate) || dob.isAfter(maxDate)) {
-      setborn_on(""); // reset if date is out of range
-    }
-  }, [PassengerType]);
 
   useEffect(() => {
     dispatch(NationalitData());
@@ -202,70 +107,155 @@ if (PassengerType === "adult") {
   // Load form data or reset on drawer open
 
   console.log("given_name", given_name);
-  
+
   useEffect(() => {
-  if (isPassengerDrawerOpen) {
-    setTimeout(() => {
-      console.log("passengerPofile:", passengerPofile);
-      console.log("PassengersUuID:", PassengersUuID);
+    if (isPassengerDrawerOpen) {
+      setTimeout(() => {
+        console.log("passengerPofile:", passengerPofile);
+        console.log("PassengersUuID:", PassengersUuID);
 
-      if (passengerPofile?.length && PassengersUuID) {
-        
-        const passengerData = passengerPofile.find(
-          (getProfilepassenger) => getProfilepassenger.uuid === selectedpassengerPofile?.uuid
-        );
-
-
-        console.log("passengerData_0:", passengerData);
-
-        if (passengerData) {
-          setgender(passengerData.gender || "");
-          setgiven_name(passengerData.given_name || "");
-          setfamily_name(passengerData.family_name || "");
-          setborn_on(passengerData.born_on || "");
-          setpassport_number(passengerData.passport_number || "");
-          setpassport_expire_date(passengerData.passport_expire_date || "");
-          setphone(passengerData.phone_number || "");
-          setemail(passengerData.email || "");
-          setRegion(passengerData.phone_number || "");
-
-          // Nationality matched here
-          const matchedNationality = countries.find(
-            (c) => c.id === passengerData.nationality?.id
+        if (passengerPofile?.length && PassengersUuID) {
+          const passengerData = passengerPofile.find(
+            (getProfilepassenger) =>
+              getProfilepassenger.uuid === selectedpassengerPofile?.uuid
           );
-          setNationality(matchedNationality || null);
+
+          console.log("passengerData_0:", passengerData);
+
+          if (passengerData) {
+            setgender(passengerData.gender || "");
+            setgiven_name(passengerData.given_name || "");
+            setfamily_name(passengerData.family_name || "");
+            setborn_on(passengerData.born_on || "");
+            setpassport_number(passengerData.passport_number || "");
+            setpassport_expire_date(passengerData.passport_expire_date || "");
+            setphone(passengerData.phone_number || "");
+            setemail(passengerData.email || "");
+            setRegion(passengerData.phone_number || "");
+
+            // Nationality matched here
+            const matchedNationality = countries.find(
+              (c) => c.id === passengerData.nationality?.id
+            );
+            setNationality(matchedNationality || null);
+          }
         }
-      }
-    }, 500);
-  } else {
-    // Reset form when drawer is closed
-    setgender("");
-    setgiven_name("");
-    setfamily_name("");
-    setborn_on("");
-    setpassport_number("");
-    setpassport_expire_date("");
-    setNationality(null);
-    setphone("");
-    setemail("");
-    setRegion("");
-  }
+      }, 500);
+    } else {
+      // Reset form when drawer is closed
+      setgender("");
+      setgiven_name("");
+      setfamily_name("");
+      setborn_on("");
+      setpassport_number("");
+      setpassport_expire_date("");
+      setNationality(null);
+      setphone("");
+      setemail("");
+      setRegion("");
+    }
 
-  dispatch(setPassengerFormError(null));
-}, [
-  isPassengerDrawerOpen,
-  GetViewPassengers,
-  PassengersUuID,
-  countries,
-  dispatch,
-]);
-
+    dispatch(setPassengerFormError(null));
+  }, [
+    isPassengerDrawerOpen,
+    GetViewPassengers,
+    PassengersUuID,
+    countries,
+    dispatch,
+  ]);
 
   const handleCloseDrawer = () => {
     dispatch(setClosePassengerDrawer());
   };
 
+  // Define ranges
+  const today = dayjs();
+  // Ranges
+
+  // Define static ranges
+  // Defaults
+  let minDate = dayjs("1930-01-01");
+  let maxDate = today;
+
+  if (PassengerType === "adult") {
+    // Adults: must be at least 18 years old
+    minDate = dayjs("1930-01-01");
+    maxDate = today.subtract(18, "year");
+  } else if (
+    PassengerType === "infant_without_seat" ||
+    (PassengerAge !== undefined && PassengerAge < 2)
+  ) {
+    // Infants: under 2 years
+    maxDate = today;
+    minDate = today.subtract(PassengerAge, "year");
+  } else if (
+    PassengerType === "child" ||
+    (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
+  ) {
+    console.log();
+    // Child: dynamic age range
+    maxDate = today.subtract(PassengerAge, "year");
+    minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
+  } else {
+    // fallback: adult
+    minDate = dayjs("1930-01-01");
+    maxDate = today.subtract(18, "year");
+  }
+  // ...previous imports remain the same
+
   const SubmitPassenger = () => {
+    const errors = {};
+
+    // Basic required fields
+    if (!gender) errors.gender = "Gender is required.";
+    if (!given_name.trim()) errors.given_name = "First name is required.";
+    if (!family_name.trim()) errors.family_name = "Last name is required.";
+    if (!passport_number.trim())
+      errors.passport_number = "Passport number is required.";
+    if (!passport_expire_date)
+      errors.passport_expire_date = "Passport expiry date is required.";
+
+    // Email/Phone for adults
+    if (PassengerType === "adult") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.trim()) {
+        errors.email = "Email is required.";
+      } else if (!emailRegex.test(email)) {
+        errors.email = "Invalid email format.";
+      }
+
+      if (!phone.trim()) {
+        errors.phone_number = "Phone number is required.";
+      }
+    }
+
+    // Child age validation
+    // Child checks
+    if (PassengerType === "child" && PassengerAge >= 2 && PassengerAge < 18) {
+      if (!born_on || !dayjs(born_on).isValid()) {
+        errors.born_on = "Date of birth is required and must be valid.";
+      } else {
+        const dob = dayjs(born_on);
+        const min = today.subtract(PassengerAge + 1, "year").add(1, "day");
+        const max = today.subtract(PassengerAge, "year");
+
+        if (dob.isBefore(min) || dob.isAfter(max)) {
+          errors.born_on = `Child DOB must be between ${min.format(
+            "DD MMM YYYY"
+          )} and ${max.format("DD MMM YYYY")}.`;
+        }
+      }
+    }
+
+    if (!nationality) {
+      errors.nationality = "Nationality is required.";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      dispatch(setPassengerFormError(errors));
+      return;
+    }
+
     const params = {
       gender,
       given_name,
@@ -279,22 +269,14 @@ if (PassengerType === "adult") {
       region,
     };
 
-    // validation 
     dispatch(PassengerFormSubmit(params));
-    console.log("params_age", params);
-
-    // for captain 1st passenger data
 
     const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
-    console.log("Is first passenger:", isFirstPassenger);
-
-    // If this is the first passenger, also submit as captain
     if (isFirstPassenger) {
-      console.log("params_pass", params);
       dispatch(setCaptainParams(params));
-      // dispatch(passengerCaptain(params)); // for captain api passenger sending params
     }
-    dispatch(passengerCaptain(params)); // for captain api passenger call from redux
+
+    dispatch(passengerCaptain(params));
   };
 
   const passportError = formError?.non_field_errors?.find(
@@ -381,7 +363,13 @@ if (PassengerType === "adult") {
                 </Box>
                 <Box>
                   {given_name || family_name ? (
-                    <Typography className="h3" component={"h3"} textTransform={"capitalize"}>{`${given_name ?? ""} ${family_name ?? ""}`.trim()}</Typography>
+                    <Typography
+                      className="h3"
+                      component={"h3"}
+                      textTransform={"capitalize"}
+                    >
+                      {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
+                    </Typography>
                   ) : (
                     <h4>New traveller</h4>
                   )}
@@ -636,7 +624,6 @@ if (PassengerType === "adult") {
                   <Button
                     type="submit" // Important!
                     className="btn btn-primary chat-btn btn-round"
-                    onClick={SubmitPassenger}
                     disabled={isFormLoading} // Disable when loading
                     variant="contained"
                     color="success"
