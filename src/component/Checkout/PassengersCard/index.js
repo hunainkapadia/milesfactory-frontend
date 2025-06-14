@@ -47,8 +47,8 @@ const PassengersCard = ({
                       
                       display="inline"
                     >
-                      {getdata?.age} year
-                    </Typography>
+                      {getdata?.age}
+                    </Typography> year
                   </>
                 ) : getdata.type === "child" ? (
                   <>
@@ -59,8 +59,8 @@ const PassengersCard = ({
                       
                       display="inline"
                     >
-                      {getdata?.age} year
-                    </Typography>
+                      {getdata?.age} 
+                    </Typography> year
                   </>
                 ) : getdata.type === "adult" ? (
                   <>

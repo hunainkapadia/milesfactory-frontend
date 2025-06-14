@@ -107,11 +107,11 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
                             display="inline"
                             className="f12 red"
                           >
-                            {years} year{years !== 1 ? "s" : ""}{" "}
+                            {years}
+                          </Typography> year {years !== 1 ? "s" : ""}{" "}
                             {months > 0
                               ? `${months} month${months !== 1 ? "s" : ""}`
                               : ""}
-                          </Typography>
                         </>
                       ) : getdata.type === "child" ? (
                         <>
@@ -121,11 +121,11 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
                             display="inline"
                             className="f12 red"
                           >
-                            {years} year{years !== 1 ? "s" : ""}{" "}
+                            {years}
+                          </Typography> year{years !== 1 ? "s" : ""}{" "}
                             {months > 0
                               ? `${months} month${months !== 1 ? "s" : ""}`
                               : ""}
-                          </Typography>
                         </>
                       ) : getdata.type === "adult" ? (
                         <>
