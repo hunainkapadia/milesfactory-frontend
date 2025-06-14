@@ -39,6 +39,7 @@ const baseSlice = createSlice({
     },
     setContactDialog: (state, action)=> {
       state.contactDialog = action.payload;
+      state.contactData = null;
     },
     setFeedbackDialog: (state,action)=> {
       state.feedbackDialog = action.payload;
@@ -95,8 +96,7 @@ export const handleSubmitContact = (params) => (dispatch, getState) => {
     console.log("contact_res", res)
     dispatch(setContactData(res));
     setTimeout(() => {
-      dispatch(setContactDialog(false));
-      
+      dispatch(setContactDialog(false));      
     }, 5000);
   }).catch((error)=> {
     console.log(error);
