@@ -11,12 +11,10 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const InviteEmailForm = ({flight_order}) => {
-
-   console.log("flight_order_0", flight_order);
-   
+const InviteEmailForm = ({ flight_order }) => {
   const dispatch = useDispatch();
   const [tags, setTags] = useState([]);
+  const [inputText, setInputText] = useState(""); // Track unsubmitted input
   const [emailError, setEmailError] = useState("");
 
   const handleDelete = (i) => {
@@ -34,30 +32,47 @@ const InviteEmailForm = ({flight_order}) => {
   };
 
   const handleSubmitInviteEmail = () => {
-    if (tags.length === 0) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const trimmedInput = inputText.trim();
+
+    // If inputText is a valid email, add it first
+    if (trimmedInput && emailRegex.test(trimmedInput)) {
+      setTags([...tags, { id: trimmedInput, text: trimmedInput }]);
+      setInputText(""); // Clear after adding
+    }
+
+    // After possible addition, check total valid emails
+    const finalTags = [...tags];
+    if (trimmedInput && emailRegex.test(trimmedInput)) {
+      finalTags.push({ id: trimmedInput, text: trimmedInput });
+    }
+
+    if (finalTags.length === 0) {
       setEmailError("Please add at least one valid email");
       return;
     }
 
-    const emailList = tags.map((tag) => tag.text);
+    const emailList = finalTags.map((tag) => tag.text);
     const payload = {
       emails: emailList.join(", "),
       flight_order: flight_order,
     };
 
     dispatch(InviteDialogSubmit(payload));
+    setEmailError(""); // clear error on success
   };
 
   return (
     <Box component="form" noValidate autoComplete="off">
-      <Box className="col-left"  sx={{ mb: 2 }}>
+      <Box className="col-left" sx={{ mb: 2 }}>
         <ReactTags
           tags={tags}
           delimiters={delimiters}
           handleDelete={handleDelete}
           handleAddition={handleAddition}
-          placeholder="Type an email and press enter or comma"
+          handleInputChange={(text) => setInputText(text)} // Track input
           inputFieldPosition="inline"
+          placeholder="Type an email and press enter or comma"
           autocomplete
         />
         {emailError && (
