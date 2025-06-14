@@ -239,6 +239,7 @@ const ContactDialog = () => {
                           "& label.Mui-focused": {
                             color: "#9e9e9e", // focused label color
                           },
+                          textAlign:"left"
                         }}
                       >
                         <MenuItem value="" disabled sx={{ color: "#9e9e9e" }}>
