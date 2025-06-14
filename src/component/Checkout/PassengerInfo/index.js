@@ -13,6 +13,7 @@ import {
   setFormSuccess,
   setOpenPassengerDrawer,
   setPassengerAge,
+  setPassengerPassport,
   setPassengerType,
   setPassengerUUID,
   setPassengerUUIDfill,
@@ -39,13 +40,14 @@ const PassengerInfo = ({ getdata }) => {
   );
 
   // if passenger profile or not handle
-  const handlePassengerClick = (uuid, isFilled, type, age) => {
+  const handlePassengerClick = (uuid, isFilled, type, age, passportNumber) => {
     if (passengerPofile?.length > 0) {
       dispatch(getPassPofile()); // call passenger profile
       dispatch(setPassProfileDrawer(true));
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(setPassengerType(type));
       dispatch(setPassengerAge(age));
+      dispatch(setPassengerPassport(passportNumber))
     } else {
       console.log("uuid111", isFilled);
       console.log("pass_type", uuid, isFilled, type);
@@ -54,6 +56,7 @@ const PassengerInfo = ({ getdata }) => {
         dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
         dispatch(setPassengerType(type));
         dispatch(setPassengerAge(age));
+        dispatch(setPassengerPassport(passportNumber))
         dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
         dispatch(setOpenPassengerDrawer()); // open drawer
       }
@@ -128,6 +131,8 @@ const PassengerInfo = ({ getdata }) => {
 
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
+
+              {console.log("passenger_00", passenger)}
                 <PassengersCard
                   totalPass={index + 1}
                   getdata={passenger}
@@ -139,7 +144,8 @@ const PassengerInfo = ({ getdata }) => {
                       passenger.uuid,
                       isFilled,
                       passenger.type,
-                      passenger.age
+                      passenger.age,
+                      passenger.passport_number,
                     )
                   }
                 />

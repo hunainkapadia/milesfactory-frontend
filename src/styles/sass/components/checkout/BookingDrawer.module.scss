@@ -46,7 +46,7 @@
 
    &.isFilled, &.Active {
       &.isFilled {
-         pointer-events: none;
+         // pointer-events: none;
       }
       // border: solid $basecolor1 1px !important;
    }
