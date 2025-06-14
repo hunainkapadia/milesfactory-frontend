@@ -35,31 +35,37 @@ const InviteEmailForm = ({ flight_order }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const trimmedInput = inputText.trim();
 
-    // If inputText is a valid email, add it first
+    let updatedTags = [...tags];
+
+    // Add last valid typed email if not already in tags
     if (trimmedInput && emailRegex.test(trimmedInput)) {
-      setTags([...tags, { id: trimmedInput, text: trimmedInput }]);
-      setInputText(""); // Clear after adding
+      const alreadyExists = updatedTags.some(
+        (tag) => tag.text.toLowerCase() === trimmedInput.toLowerCase()
+      );
+
+      if (!alreadyExists) {
+        updatedTags.push({ id: trimmedInput, text: trimmedInput });
+      }
     }
 
-    // After possible addition, check total valid emails
-    const finalTags = [...tags];
-    if (trimmedInput && emailRegex.test(trimmedInput)) {
-      finalTags.push({ id: trimmedInput, text: trimmedInput });
-    }
-
-    if (finalTags.length === 0) {
+    // If still no valid emails
+    if (updatedTags.length === 0) {
       setEmailError("Please add at least one valid email");
       return;
     }
 
-    const emailList = finalTags.map((tag) => tag.text);
+    const emailList = updatedTags.map((tag) => tag.text);
     const payload = {
       emails: emailList.join(", "),
       flight_order: flight_order,
     };
 
     dispatch(InviteDialogSubmit(payload));
-    setEmailError(""); // clear error on success
+
+    // ✅ Reset state
+    setTags([]);
+    setInputText("");
+    setEmailError("");
   };
 
   return (
