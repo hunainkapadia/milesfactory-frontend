@@ -37,6 +37,7 @@
     "react-redux": "^9.2.0",
     "react-speech-recognition": "^4.0.1",
     "react-tag-input": "^6.10.6",
+    "reactjs-social-login": "^2.6.3",
     "sass": "^1.83.4"
   },
   "devDependencies": {

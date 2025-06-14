@@ -112,7 +112,7 @@ const FbloginHandle = () => {
           <Typography fontWeight={"bold"}>{options} Google</Typography>
         </Box>
 
-        <Box
+        {/* <Box
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
@@ -128,7 +128,7 @@ const FbloginHandle = () => {
         >
           <i className="f20 fa-brands fa-facebook"></i>
           <Typography fontWeight={"bold"}>{options} Facebook</Typography>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         className={styles.orDivider}
