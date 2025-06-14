@@ -303,18 +303,18 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
               <Box
                 display="flex"
                 alignItems="center"
-                onClick={feedbackHandle}
+                onClick={inviteEmailHandle}
                 sx={{ cursor: "pointer", gap: 0 }}
                 className={`basecolor1-dark2`}
               >
                 <Typography variant="body2">
-                  Share an idea or give us feedback
+                  Share Mylz with friends
                 </Typography>
               </Box>
               <Box
                 display="flex"
                 alignItems="center"
-                onClick={inviteEmailHandle}
+                
                 sx={{ cursor: "pointer", gap: 0 }}
                 className={`basecolor1-dark2`}
               >

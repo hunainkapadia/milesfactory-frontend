@@ -147,34 +147,34 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             {/* if passport_number  equal and show selected profile */}
 
             {passengerPofile
-  ?.filter((passenger) => {
-    if (
-      selectedType === "child" ||
-      selectedType === "infant_without_seat"
-    ) {
-      return (
-        passenger?.type === "child" ||
-        passenger?.type === "infant_without_seat"
-      );
-    }
-    return passenger?.type === selectedType;
-  })
-  .map((passenger, index) => {
-    const isPassFilled =
-      passenger?.passport_number === FilledPassFormData?.passport_number;
+              ?.filter((passenger) => {
+                if (
+                  selectedType === "child" ||
+                  selectedType === "infant_without_seat"
+                ) {
+                  return (
+                    passenger?.type === "child" ||
+                    passenger?.type === "infant_without_seat"
+                  );
+                }
+                return passenger?.type === selectedType;
+              })
+              .map((passenger, index) => {
+                const isPassFilled =
+                  passenger?.passport_number ===
+                  FilledPassFormData?.passport_number;
 
-    return (
-      <PassengerProfilecard
-        key={passenger?.uuid || index}
-        getdata={passenger}
-        onClickCard={() => handleCardClick(passenger)}
-        passFilled={isPassFilled}
-      />
-    );
-  })}
+                return (
+                  <PassengerProfilecard
+                    key={passenger?.uuid || index}
+                    getdata={passenger}
+                    onClickCard={() => handleCardClick(passenger)}
+                    passFilled={isPassFilled}
+                  />
+                );
+              })}
 
-
-            <hr />
+            
 
             {/*  */}
             <Box px={3} pb={2} onClick={handleAddPassenger}>

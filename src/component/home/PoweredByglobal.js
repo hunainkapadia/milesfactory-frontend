@@ -179,7 +179,7 @@ const PoweredByglobal = (props) => {
         <Footer
           forDark
           LearnMore={"Travel with Mylz"}
-          id={"Section4Reviews"}
+          id={"Section5App"}
         />
       </Box>
     </Box>
