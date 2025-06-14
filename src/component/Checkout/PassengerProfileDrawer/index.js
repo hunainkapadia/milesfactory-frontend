@@ -49,6 +49,9 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
+
+  console.log("selectedType", selectedType);
+
   const selectedPassport = useSelector(
     (state) => state?.passengerDrawer?.PassengerPassport
   );
@@ -142,58 +145,34 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           <Box component={"section"} pb={10}>
             {/* passport */}
             {/* if passport_number  equal and show selected profile */}
-            {selectedPassport ? (
-              <>
-                {passengerPofile
-                  ?.filter(
-                    (passenger) =>
-                      passenger?.passport_number === selectedPassport
-                  )
-                  .map((passenger, index) => {
-                    const isPassFilled =
-                      passenger?.passport_number ===
-                      FilledPassFormData?.passport_number;
 
-                    return (
-                      <PassengerProfilecard
-                        key={passenger?.uuid || index}
-                        getdata={passenger}
-                        onClickCard={() => handleCardClick(passenger)}
-                        passFilled={isPassFilled}
-                      />
-                    );
-                  })}
-              </>
-            ) : (
-            /* if is not passport_number type same equal  */
-              
-              <>
-                {passengerPofile
-                  ?.filter((passenger) => {
-                    const isSameType = passenger?.type === selectedType;
-                    const isNotFilled =
-                      !FilledPassFormData?.passport_number ||
-                      passenger?.passport_number !==
-                        FilledPassFormData?.passport_number;
+            {passengerPofile
+  ?.filter((passenger) => {
+    if (
+      selectedType === "child" ||
+      selectedType === "infant_without_seat"
+    ) {
+      return (
+        passenger?.type === "child" ||
+        passenger?.type === "infant_without_seat"
+      );
+    }
+    return passenger?.type === selectedType;
+  })
+  .map((passenger, index) => {
+    const isPassFilled =
+      passenger?.passport_number === FilledPassFormData?.passport_number;
 
-                    return isSameType && isNotFilled;
-                  })
-                  .map((passenger, index) => {
-                    const isPassFilled =
-                      passenger?.passport_number ===
-                      FilledPassFormData?.passport_number;
+    return (
+      <PassengerProfilecard
+        key={passenger?.uuid || index}
+        getdata={passenger}
+        onClickCard={() => handleCardClick(passenger)}
+        passFilled={isPassFilled}
+      />
+    );
+  })}
 
-                    return (
-                      <PassengerProfilecard
-                        key={passenger?.uuid || index}
-                        getdata={passenger}
-                        onClickCard={() => handleCardClick(passenger)}
-                        passFilled={isPassFilled}
-                      />
-                    );
-                  })}
-              </>
-            )}
 
             <hr />
 

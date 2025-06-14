@@ -108,7 +108,7 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
                             className="f12 red"
                           >
                             {years}
-                          </Typography> year {years !== 1 ? "s" : ""}{" "}
+                          </Typography> year{years !== 1 ? "s" : ""}{" "}
                         </>
                       ) : getdata.type === "child" ? (
                         <>

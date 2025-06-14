@@ -86,7 +86,7 @@ const PassengerDrawerForm = () => {
   );
 
   console.log("PassengerType_test", PassengerType);
-  
+
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
@@ -188,9 +188,17 @@ const PassengerDrawerForm = () => {
     PassengerType === "infant_without_seat" ||
     (PassengerAge !== undefined && PassengerAge < 2)
   ) {
-    // Infants: under 2 years
+    // Set min/max for date picker
     maxDate = today;
-    minDate = today.subtract(PassengerAge, "year");
+    minDate = today.subtract(PassengerAge || 1, "year");
+
+    // ✅ Validate that age is < 2 years
+    if (born_on) {
+      const age = dayjs().diff(dayjs(born_on), "year");
+      if (age >= 2) {
+        errors.born_on = "Infant must be under 2 years old.";
+      }
+    }
   } else if (
     PassengerType === "child" ||
     (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
@@ -324,8 +332,8 @@ const PassengerDrawerForm = () => {
     }
 
     dispatch(passengerCaptain(params));
+    dispatch(getPassPofile());
   };
-
 
   const passportError = formError?.non_field_errors?.find(
     (error) => error?.passport_expire_date

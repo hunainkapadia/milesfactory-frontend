@@ -235,6 +235,7 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
 
       setTimeout(() => {
         dispatch(ViewPassengers());
+        dispatch(getPassPofile())
       }, 500);
       dispatch(setClosePassengerDrawer());
       
