@@ -1168,6 +1168,10 @@ body {
 
   .formGroup {
     margin-bottom: 22px;
+    label.MuiInputLabel-formControl {
+        color: #8C8C7A !important;
+        top: -3px;
+      }
 
     .formLabel {}
   }
