@@ -4,7 +4,11 @@ import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { googleLoginUser, LoginWithFacebook } from "@/src/store/slices/Auth/LoginSlice";
+import {
+  googleLoginUser,
+  LoginWithFacebook,
+} from "@/src/store/slices/Auth/LoginSlice";
+import { useEffect } from "react";
 
 const LoginWithOptions = ({ options }) => {
   const dispatch = useDispatch();
@@ -17,14 +21,53 @@ const LoginWithOptions = ({ options }) => {
     onError: () => console.log("Google Login Failed"),
     flow: "auth-code",
   });
-  const FbloginHandle = () => {
-    const facebookAppId = "YOUR_FACEBOOK_APP_ID";
-    const redirectUri = "https://yourdomain.com/api/auth/facebook/callback"; // your backend API endpoint
-    const facebookAuthUrl = `https://www.facebook.com/v17.0/dialog/oauth?client_id=${facebookAppId}&redirect_uri=${redirectUri}&response_type=code&scope=email,public_profile`;
 
-    window.location.href = facebookAuthUrl;
-    dispatch(LoginWithFacebook())
+  // 
+  useEffect(() => {
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: "1735155623879865",
+      cookie: true,
+      xfbml: true,
+      version: "v22.0",
+    });
   };
+
+  (function (d, s, id) {
+    const fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    const js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    js.async = true;
+    js.defer = true;
+    js.crossOrigin = "anonymous";
+    fjs.parentNode.insertBefore(js, fjs);
+  })(document, "script", "facebook-jssdk");
+}, []);
+
+
+
+const FbloginHandle = () => {
+  if (typeof window.FB === "undefined") {
+    console.error("Facebook SDK not loaded yet");
+    return;
+  }
+
+  window.FB.login(
+    (response) => {
+      if (response.authResponse) {
+        const accessToken = response.authResponse.accessToken;
+        dispatch(LoginWithFacebook(accessToken));
+      } else {
+        console.log("User cancelled Facebook login or did not authorize.");
+      }
+    },
+    { scope: "email,public_profile" }
+  );
+};
+
+
 
   return (
     <>
@@ -69,7 +112,7 @@ const LoginWithOptions = ({ options }) => {
           <Typography fontWeight={"bold"}>{options} Google</Typography>
         </Box>
 
-        {/* <Box
+        <Box
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
@@ -85,7 +128,7 @@ const LoginWithOptions = ({ options }) => {
         >
           <i className="f20 fa-brands fa-facebook"></i>
           <Typography fontWeight={"bold"}>{options} Facebook</Typography>
-        </Box> */}
+        </Box>
       </Box>
       <Box
         className={styles.orDivider}

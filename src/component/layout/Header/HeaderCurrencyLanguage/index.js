@@ -79,7 +79,7 @@ const HeaderCurrencyLanguage = ({
             alignItems="center"
             // onClick={handleLangClick}
             sx={{ cursor: "pointer" }}
-            className={`basecolor1-dark2`}
+            className={`${styles.CurrencyItem} basecolor1-dark2`}
           >
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <Box className={styles.flagIcon} width={20} sx={{
@@ -118,12 +118,12 @@ const HeaderCurrencyLanguage = ({
             ))}
           </Menu>
           {/* currency start */}
-          <Box
+          <Box 
             display="flex"
             alignItems="center"
             // onClick={handleCurrencyClick}
             sx={{ cursor: "pointer", gap: 0 }}
-            className={`basecolor1-dark2`}
+            className={`${styles.CurrencyItem} basecolor1-dark2`}
           >
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <Box width={20}>

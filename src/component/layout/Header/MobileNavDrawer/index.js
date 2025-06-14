@@ -114,14 +114,16 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
 
               {currentUser ? (
                 <>
-                  <Box
-                    className={`${styles.Login} cursor-pointer`}
+                <Link href="/my-trips" className="text-decuration-none"
+                >
+                  <Box 
+                    className={`${styles.Login} darkgray cursor-pointer`}
                     sx={{
                       display: { lg: "flex", md: "flex", xs: "flex" },
+                      textDecoration: "none",
                     }}
                     alignItems="center"
                     gap={2}
-                    onClick={handleThreadDrawer}
                   >
                     <Box
                       className="imggroup"
@@ -146,6 +148,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                       My booked trips
                     </Typography>
                   </Box>
+                  </Link>
 
                   <Box
                     className={`${styles.Login} cursor-pointer`}

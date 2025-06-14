@@ -178,6 +178,19 @@
    .FooterForDark {
       z-index: 4;
    }
+   .formobileDrawer {
+      .userName {
+         font-weight: $bold;
+         font-size: 16px !important;
+      }
+   }
+   .CurrencyItem p {
+      font-size: 16px;
+      font-weight: 600;
+   }
+   .MobileNav a {
+      display: block;
+   }
     .HeaderDrawer {
       .navItems {
          a {

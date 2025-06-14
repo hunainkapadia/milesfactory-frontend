@@ -20,10 +20,6 @@ const ChatByUUID = () => {
 
   const { uuid } = router.query;
 
-  
-  
-  console.log("uuid_chat", router.query);
-
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
@@ -39,10 +35,8 @@ const ChatByUUID = () => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  
-    useEffect(() => {
+  useEffect(() => {
     if (!router.isReady) return; // Wait for router to be ready
-
     if (typeof uuid === "string" && uuid.trim() !== "") {
       console.log("uuid_chat", uuid);
       dispatch(setGetMessageUUID(uuid));
@@ -52,7 +46,7 @@ const ChatByUUID = () => {
       dispatch(fetchMessages());
     }
   }, [router.isReady, uuid, dispatch]);
-  
+
   return (
     <>
       <main>
@@ -62,7 +56,7 @@ const ChatByUUID = () => {
             styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
           }
         >
-          <Header isMessage={isMessage} isChat={"isChat"} />
+          <Header isMessage={isMessage} isChat />
           <Box className={styles.Box}>
             <Container className={styles.Container}>
               <Grid container sx={{ width: "100%", margin: 0 }}>
