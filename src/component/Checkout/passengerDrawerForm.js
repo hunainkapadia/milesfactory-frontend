@@ -179,144 +179,132 @@ const PassengerDrawerForm = () => {
   let minDate = dayjs("1930-01-01");
   let maxDate = today;
 
+  const validateChildDOB = (dob, age) => {
+    maxDate = today.subtract(age, "year");
+    minDate = today.subtract(age + 1, "year").add(1, "day");
+  };
+  
   if (PassengerType === "adult") {
     // Adults: must be at least 18 years old
     minDate = dayjs("1930-01-01");
     maxDate = today.subtract(18, "year");
-  } else if (
-  PassengerType === "infant_without_seat" ||
-  (PassengerAge !== undefined && PassengerAge < 2)
-) {
-  // Infants: must be under 2 years
-  maxDate = today;
-  minDate = today.subtract(PassengerAge || 2, "year");
-} else if (
-    PassengerType === "child" ||
-    (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
-  ) {
-    console.log();
-    // Child: dynamic age range
-    maxDate = today.subtract(PassengerAge, "year");
-    minDate = today.subtract(PassengerAge, "year").add(1, "day");
+  } else if (PassengerType === "infant_without_seat") {
+    // Infants: must be under 2 years
+    maxDate = today;
+    minDate = today.subtract(PassengerAge || 2, "year");
+  } else if (PassengerType === "child") {
+    validateChildDOB(born_on, PassengerAge);
   } else {
     // fallback: adult
-    minDate = dayjs("1930-01-01");
-    maxDate = today.subtract(18, "year");
+    // minDate = dayjs("1930-01-01");
+    // maxDate = today.subtract(18, "year");
   }
   // ...previous imports remain the same
 
   const SubmitPassenger = () => {
-    const errors = {};
-    const today = dayjs();
+  const errors = {};
 
-    const nameRegex = /^[A-Za-z\s'-]+$/;
-    const passportNumberRegex = /^[A-Za-z0-9]+$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const nameRegex = /^[A-Za-z\s'-]+$/;
+  const passportNumberRegex = /^[A-Za-z0-9]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // --- Gender ---
-    if (!gender) errors.gender = "Gender is required.";
+  // --- Reusable DOB Validators ---
+  
 
-    // --- First Name ---
-    if (!given_name?.trim()) {
-      errors.given_name = "First name is required.";
-    } else if (!nameRegex.test(given_name)) {
-      errors.given_name = "First name must contain only letters.";
+
+
+  // --- Gender ---
+  if (!gender) errors.gender = "Gender is required.";
+
+  // --- First Name ---
+  if (!given_name?.trim()) {
+    errors.given_name = "First name is required.";
+  } else if (!nameRegex.test(given_name)) {
+    errors.given_name = "First name must contain only letters.";
+  }
+
+  // --- Last Name ---
+  if (!family_name?.trim()) {
+    errors.family_name = "Last name is required.";
+  } else if (!nameRegex.test(family_name)) {
+    errors.family_name = "Last name must contain only letters.";
+  }
+
+  // --- DOB ---
+  if (!born_on || !dayjs(born_on).isValid()) {
+    // errors.born_on = "Date of birth is required and must be valid.";
+  }
+
+  // --- Passport Info ---
+  if (!passport_number?.trim()) {
+    errors.passport_number = "Passport number is required.";
+  } else if (!passportNumberRegex.test(passport_number)) {
+    errors.passport_number = "Passport number must be alphanumeric.";
+  }
+
+  if (!passport_expire_date) {
+    errors.passport_expire_date = "Passport expiry date is required.";
+  }
+
+  // --- Nationality ---
+  if (!nationality) {
+    errors.nationality = "Nationality is required.";
+  }
+
+  // --- Email & Phone (adults only) ---
+  if (PassengerType === "adult") {
+    if (!email?.trim()) {
+      errors.email = "Email is required.";
+    } else if (!emailRegex.test(email)) {
+      errors.email = "Invalid email format.";
     }
 
-    // --- Last Name ---
-    if (!family_name?.trim()) {
-      errors.family_name = "Last name is required.";
-    } else if (!nameRegex.test(family_name)) {
-      errors.family_name = "Last name must contain only letters.";
+    if (!phone?.trim()) {
+      errors.phone_number = "Phone number is required.";
     }
+  }
 
-    // --- DOB (common base check) ---
-    if (!born_on || !dayjs(born_on).isValid()) {
-      errors.born_on = "Date of birth is required and must be valid.";
-    }
+  // --- Child DOB Validation ---
+  if (PassengerType === "child") {
+    validateChildDOB(born_on, PassengerAge);
+  }
 
-    // --- Passport Info ---
-    if (!passport_number?.trim()) {
-      errors.passport_number = "Passport number is required.";
-    } else if (!passportNumberRegex.test(passport_number)) {
-      errors.passport_number = "Passport number must be alphanumeric.";
-    }
+  // --- Infant DOB Validation ---
+  if (PassengerType === "infant_without_seat") {
+    validateInfantDOB(born_on, PassengerAge);
+  }
 
-    if (!passport_expire_date) {
-      errors.passport_expire_date = "Passport expiry date is required.";
-    }
+  // --- Handle Errors ---
+  if (Object.keys(errors).length > 0) {
+    dispatch(setPassengerFormError(errors));
+    return;
+  }
 
-    // --- Nationality ---
-    if (!nationality) {
-      errors.nationality = "Nationality is required.";
-    }
-
-    // --- Email & Phone (adults only) ---
-    if (PassengerType === "adult") {
-      if (!email?.trim()) {
-        errors.email = "Email is required.";
-      } else if (!emailRegex.test(email)) {
-        errors.email = "Invalid email format.";
-      }
-
-      if (!phone?.trim()) {
-        errors.phone_number = "Phone number is required.";
-      }
-    }
-
-    // --- Child DOB Validation ---
-    if (PassengerType === "child") {
-      const dob = dayjs(born_on);
-      const childMinAge = 2;
-      const childMaxAge = 12;
-      const max = today.subtract(childMinAge, "year"); // latest acceptable
-      const min = today.subtract(childMaxAge, "year"); // oldest acceptable
-
-      if (dob.isBefore(min) || dob.isAfter(max)) {
-        errors.born_on = `Child passenger must be at least ${childMinAge} and less than ${childMaxAge} years old`;
-      }
-    }
-
-    // --- Infant DOB Validation ---
-    if (PassengerType === "infant_without_seat") {
-      const dob = dayjs(born_on);
-      const max = today;
-      const min = today.subtract(2, "year");
-
-      if (dob.isBefore(min) || dob.isAfter(max)) {
-      }
-    }
-
-    // --- Handle Errors ---
-    if (Object.keys(errors).length > 0) {
-      dispatch(setPassengerFormError(errors));
-      return;
-    }
-
-    // --- Submit Form ---
-    const params = {
-      gender,
-      given_name,
-      family_name,
-      born_on,
-      passport_number,
-      passport_expire_date,
-      phone_number: phone,
-      email,
-      nationality: nationality?.id || "",
-      region,
-    };
-
-    dispatch(PassengerFormSubmit(params));
-
-    const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
-    if (isFirstPassenger) {
-      dispatch(setCaptainParams(params));
-    }
-
-    dispatch(passengerCaptain(params));
-    dispatch(getPassPofile());
+  // --- Submit Form ---
+  const params = {
+    gender,
+    given_name,
+    family_name,
+    born_on,
+    passport_number,
+    passport_expire_date,
+    phone_number: phone,
+    email,
+    nationality: nationality?.id || "",
+    region,
   };
+
+  dispatch(PassengerFormSubmit(params));
+
+  const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+  if (isFirstPassenger) {
+    dispatch(setCaptainParams(params));
+  }
+
+  dispatch(passengerCaptain(params));
+  dispatch(getPassPofile());
+};
+
 
   const passportError = formError?.non_field_errors?.find(
     (error) => error?.passport_expire_date
