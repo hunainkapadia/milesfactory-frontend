@@ -69,16 +69,15 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   const handleCardClick = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
+    
     const birthDate = dayjs(passenger.born_on);
     const now = dayjs();
     const age = now.diff(birthDate, "year");
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
-
-
+    dispatch(setOpenPassengerDrawer(age)); // open drawer
 
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
-    dispatch(setOpenPassengerDrawer(age)); // open drawer
   };
   const getFillPass = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
@@ -180,8 +179,6 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   />
                 );
               })}
-
-            
 
             {/*  */}
             <Box px={3} pb={2} onClick={handleAddPassenger}>

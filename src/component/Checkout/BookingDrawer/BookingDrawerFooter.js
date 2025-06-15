@@ -24,6 +24,9 @@
 
     const PassengerData = useSelector((state) => state.passengerDrawer);
     
+    const orderSuccess = useSelector(
+      (state) => state?.payment?.OrderConfirm
+    ); //from order api
     const handleBookFlight = () => {
       dispatch(setisLoading())
       dispatch(setCloseDrawer()); //dispatch close
@@ -131,19 +134,23 @@
                 gap={2}
                 className="basecolor1"
               >
-                <button
-                  className={
-                    styles.selectFlightBtn + " btn btn-primary btn-sm btn-round"
-                  }
-                  onClick={handleBookFlight}
-                >
-                  <Box display="flex" gap={1}>
-                    <Box
-                    >
-                      Select flight
+              {!orderSuccess ? ( 
+                <>
+                  <button
+                    className={
+                      styles.selectFlightBtn + " btn btn-primary btn-sm btn-round"
+                    }
+                    onClick={handleBookFlight}
+                  >
+                    <Box display="flex" gap={1}>
+                      <Box
+                      >
+                        Select flight
+                      </Box>
                     </Box>
-                  </Box>
-                </button>
+                  </button>
+                </>
+              ): ""}
               </Box>
             </Box>
           </Box>
