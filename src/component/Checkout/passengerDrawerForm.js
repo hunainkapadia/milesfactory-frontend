@@ -182,6 +182,13 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(age, "year");
     minDate = today.subtract(age + 1, "year").add(1, "day");
     console.log("age_age_test", age);
+    console.log("maxDate_test", maxDate);
+    console.log("minDate_test", minDate);
+  };
+  const validateInfantDOB = (dob, age) => {
+    maxDate = today.subtract(age, "year");
+    minDate = today.subtract(age + 1, "year").add(1, "day");
+    console.log("age_age_test", age);
 
     console.log("maxDate_test", maxDate);
     console.log("minDate_test", minDate);
@@ -195,11 +202,14 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(18, "year");
   }
   if (PassengerType === "infant_without_seat") {
-    validateChildDOB(born_on, PassengerAge);
+    console.log("born_on_0", born_on);
+    validateInfantDOB(born_on, PassengerAge);
   }
   if (PassengerType === "child") {
-  validateChildDOB(born_on, PassengerAge);
-} else {
+    console.log("born_on_1", born_on);
+
+    validateChildDOB(born_on, PassengerAge);
+  } else {
     // fallback: adult
     // minDate = dayjs("1930-01-01");
     // maxDate = today.subtract(18, "year");

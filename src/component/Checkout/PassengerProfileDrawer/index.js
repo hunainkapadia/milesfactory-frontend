@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 import {
   PassengerForm,
   setOpenPassengerDrawer,
+  setPassengerAge,
   setPassengerType,
   setPassengerUUID,
   setPassProfileDrawer,
@@ -68,11 +69,16 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   const handleCardClick = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
+    const birthDate = dayjs(passenger.born_on);
+    const now = dayjs();
+    const age = now.diff(birthDate, "year");
     dispatch(setPassengerType(passenger.type));
-    console.log("passenger_uuid", passenger);
+    dispatch(setPassengerAge(age));
+
+
 
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
-    dispatch(setOpenPassengerDrawer()); // open drawer
+    dispatch(setOpenPassengerDrawer(age)); // open drawer
   };
   const getFillPass = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
