@@ -277,7 +277,7 @@ const PassengerDrawerForm = () => {
 
   // --- Infant DOB Validation ---
   if (PassengerType === "infant_without_seat") {
-    validateInfantDOB(born_on, PassengerAge);
+    validateChildDOB(born_on, PassengerAge);
   }
 
   // --- Handle Errors ---
