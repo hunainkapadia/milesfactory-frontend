@@ -177,28 +177,32 @@ const PassengerDrawerForm = () => {
   // Define static ranges
   // Defaults
   let minDate = dayjs("1930-01-01");
-  let maxDate = today;
+  let maxDate = dayjs();
+
 
   const validateChildDOB = (dob, age) => {
+    
     maxDate = today.subtract(age, "year");
     minDate = today.subtract(age + 1, "year").add(1, "day");
+    console.log("age_age_test", age);
+    
+    console.log("maxDate_test", maxDate);
+    console.log("minDate_test", minDate);
+    
+    
   };
   // child dat 
   // infant age 
-   const validateInfantDOB = (dob, age) => {
-    alert("infant")
-     maxDate = today.subtract(age, "year");
-      minDate = today.subtract(age + 1, "year").add(1, "day");
-   };
-
-  
+   
   if (PassengerType === "adult") {
     // Adults: must be at least 18 years old
     minDate = dayjs("1930-01-01");
     maxDate = today.subtract(18, "year");
-  } else if (PassengerType === "infant_without_seat") {
+  } 
+  if (PassengerType === "infant_without_seat") {
     validateChildDOB(born_on, PassengerAge);
-  } else if (PassengerType === "child") {
+  } 
+  if (PassengerType === "child") {
     validateChildDOB(born_on, PassengerAge);
   } else {
     // fallback: adult
@@ -277,6 +281,7 @@ const PassengerDrawerForm = () => {
 
   // --- Infant DOB Validation ---
   if (PassengerType === "infant_without_seat") {
+    
     validateChildDOB(born_on, PassengerAge);
   }
 
