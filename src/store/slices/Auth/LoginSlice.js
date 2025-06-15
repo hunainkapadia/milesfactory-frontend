@@ -170,6 +170,48 @@ export const googleLoginUser = (code) => (dispatch) => {
     });
 };
 
+// facebook login
+export const LoginWithFacebook = (access_token) => (dispatch) => {
+  dispatch(setisLoading(true));
+
+  api
+    .post("/api/auth/facebook/", { access_token }) // Your backend endpoint
+    .then((res) => {
+      const { user, access, refresh } = res.data;
+
+      dispatch(
+        setLoginUser({
+          user: res.data,
+          status: res.status,
+          userPopup: false,
+        })
+      );
+
+      Cookies.set(
+        "set-user",
+        JSON.stringify({
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+        })
+      );
+
+      Cookies.set("access_token", access);
+      Cookies.set("refresh_token", refresh);
+    })
+    .catch((error) => {
+      dispatch(
+        setLoginError({
+          other: error?.response?.data?.detail || "Facebook login failed",
+        })
+      );
+    })
+    .finally(() => {
+      dispatch(setisLoading(false));
+    });
+};
+
+
 export const Logout = () => (dispatch) => {
   const refreshToken = Cookies.get("refresh_token"); // Correct method
   console.log("refreshToken", refreshToken);

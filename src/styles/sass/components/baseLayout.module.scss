@@ -3,14 +3,9 @@
 
 
 .flagIcon {
-   width: 24px;
-   height: 16px;
-   object-fit: cover;
-   margin-right: 8px;
-   border-radius: 2px;
-   box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
-   display: inline-block;
-   vertical-align: middle;
+   width: 20px;
+   height: 20px;
+   border-radius: 100px;
 }
 
 .Header {
@@ -59,6 +54,9 @@
             i { display: flex;}
          }
       }
+   }
+   .leftCol .Logo {
+      width: 62px;
    }
    &.Sticky {
       height: 60px;
@@ -115,7 +113,7 @@
          color: $white;
          text-decoration: none;
          font-size: 14px;
-         padding: 20px 20px;
+         padding: 20px 24px 20px 0;
          font-weight: $bold;
          
          
@@ -179,6 +177,19 @@
    
    .FooterForDark {
       z-index: 4;
+   }
+   .formobileDrawer {
+      .userName {
+         font-weight: $bold;
+         font-size: 16px !important;
+      }
+   }
+   .CurrencyItem p {
+      font-size: 16px;
+      font-weight: 600;
+   }
+   .MobileNav a {
+      display: block;
    }
     .HeaderDrawer {
       .navItems {

@@ -3,7 +3,7 @@ import { Box, } from "@mui/material";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/baseLayout.module.scss"; // Import SCSS file
 import { useDispatch } from "react-redux";
-import { feedBack, setContactDialog, setFeedbackDialog } from "@/src/store/slices/Base/baseSlice";
+import { feedBack, setContactDialog, setFeedbackDialog, setInviteEmailDialog } from "@/src/store/slices/Base/baseSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -14,6 +14,9 @@ const Navbar = () => {
   const contactHandle=()=> {
     dispatch(setContactDialog(true))
   }
+  const inviteEmailHandle=()=> {
+    dispatch(setInviteEmailDialog(true))
+  }
 
   return (
     <Box position="static" className={styles.navbar}>
@@ -23,7 +26,7 @@ const Navbar = () => {
       <Box
         className={styles.navItems}
         display={"flex"}
-        gap={3}
+        
         Give
         feedback
         sx={{
@@ -35,8 +38,11 @@ const Navbar = () => {
         <Box onClick={contactHandle}  className={styles.navItem + " cursor-pointer"}>
           Contact support
         </Box>
-        <Box onClick={feedbackHandle} className={styles.navItem + " cursor-pointer"}>
-            💬 Share an idea or feedback
+        <Box onClick={inviteEmailHandle} className={styles.navItem + " cursor-pointer"}>
+            Share Mylz with friends
+        </Box>
+        <Box  className={styles.navItem + " cursor-pointer"}>
+            Explore community trips
         </Box>
       </Box>
     </Box>

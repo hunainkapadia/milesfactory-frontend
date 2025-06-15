@@ -136,7 +136,7 @@ const HeaderUser = ({
               }}
               gap={2}
             >
-              <Typography className={`${styles.userName} bold`}>
+              <Typography className={`${styles.userName} f14 bold`}>
                 {!isMessage || !isSticky || !IsActive ? (
                   <>
                     {currentUser?.user?.first_name.charAt(0).toUpperCase()}.

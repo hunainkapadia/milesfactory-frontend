@@ -14,7 +14,7 @@ const HerosectionContent = () => {
            <Box
              sx={{ px: { xs: 0, md: 2, lg: 2 }, pb: { lg: 3, md: 3, xs: 1 } }}
            >
-             <h1 className="h1-lg test-222">
+             <h1 className="h1-lg test-444">
                Stop the endless tabs.
                <br />
                Book trips in seconds.
@@ -31,8 +31,7 @@ const HerosectionContent = () => {
                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                color="white"
              >
-               No more juggling tab or comparing markups.<br/>Mylz finds the fastest
-               trips across flights,<br/>trains and more – always at direct prices.
+               Mylz AI finds you the cheapest flight<br/>prices with full airline protection.
              </Typography>
            </Box>
          </Box>

@@ -97,7 +97,7 @@ export const fetchOrderDetails = (orderId) => (dispatch, getState) => {
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
       });
-  }, 3000);
+  }, 10000);
 };
 
 export const OrderConfirm = (orderId) => (dispatch, getState) => {
@@ -117,7 +117,7 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
       });
-  }, 2000);
+  }, 10000);
 };
 
 // Export actions

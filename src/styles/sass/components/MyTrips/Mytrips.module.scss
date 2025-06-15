@@ -1,121 +1,35 @@
-@import "../../variables";
+@import "../../_variables.scss";
 
-.BaggageBox:not(:last-child) {
-   margin-bottom: 24px;
+.TripBody::before {
+   content: "";
+   z-index: -1;
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background-image: url("/images/light-bg-trip.png");
+   background-size: cover;
+   background-position: center;
 }
-.BaggageRow {
-   .BaggageCol {
-      margin-right: 10px;
-      padding-right: 10px;
-   }
+
+
+
+
+
+.Tripdetail {
+   padding-bottom: 0 !important;
+   padding-left: 0 !important;
+   padding-right: 0 !important;
 }
-.BaggageCol:not(:last-child) {
-   border-right: solid 1px $lightgray3;
-}
-.passengersCard {
-   background: #FFFFFF;
-   border: 1px solid #E6EEEE;
-   border-radius: 16px;
-   box-shadow: none;
-   padding: 0 24px;
-   min-height: 85px;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   cursor: pointer;
-   .baggageLabel {}
-   &.passengerProfileCard {
-      justify-content: center;
-      min-height: auto;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      &.isFilled {
-         border-color: $basecolor1;
-      }
+.TripSection {
    
-   }
-   &.ExtraServices {
-      min-height: 90px;
-      height: auto;
-      margin-bottom: 24px;
-      display: flex;
-      padding: 24px;
-      flex-direction: column;
-      align-items: flex-start;
-   }
-
-   &.isFilled, &.Active {
-      &.isFilled {
-         // pointer-events: none;
-      }
-      // border: solid $basecolor1 1px !important;
-   }
-   &.Notactive {}
-}
-.Drawer .DrawerIn {
-   width: 480px;
-}
-.Outbound {
-   display: block;
-}
-
-.addtravellerBtn {
-   padding: 0px 24px 0px 0px;
-   height: 79px;
-   background: #FFFFFF;
-   border: 1px dashed #E6EAEB;
-   border-radius: 8px;
-
-}
-.checkoutDrower, .checkoutDrower2 {
-   &.checkoutDrower {
-      padding: 0;
-      flex: 1;
-      overflow-y: auto;
-      .checkoutDrowerSection {
-         background-color: #fff;
-         overflow-y: auto;
-      }
-   }
-   &.checkoutDrower2 {
-      width: 480px;
-   }
-   .onewayReturn {
-      font-size: 12px;
-      font-weight: $bold;
-      padding: 4px 8px;
-      line-height: 1.6;
-      gap: 8px;
-      display: flex;
-      @include border-radius(8px);
-      background: $black;
-      color: $white;
-      
-   }
-   
-
-   .airlineLogo {
-      @include display(flex);
-      @include justify-content(center);
-      @include align-items(center);
-      @include scale(40px, 40px);
-      @include border-radius(100px);
-     background: $white;
-     border: 1px solid $lightgray3;
-     img {
-       width: 80%;
-       height: auto;
-     }
-    }
-
-   .checkoutDrowerSection {
-      
-
-      .checkoutDrowerBody {
+      .TripSectionBody {
          overflow-y: auto;
          height: 100%;
+         border: solid 2px red;
 
-         .detailsSection {
+         .DetailsSection {
             padding: 0 24px 144px;
             .fromAndToBodyBottom {
                margin-bottom: 24px;
@@ -169,6 +83,7 @@
                   }
                   .Dates {font-size: $f12;}
                }
+               
                .fromAndToRowIn {
                   &::before {
                      top: 8px;
@@ -249,69 +164,48 @@
 }
    // checkoutDrower section end
 
-}
-@include for-mobile-large-screen {
-   
-   .checkoutDrower {
-      .checkoutDrowerHeder {
-         padding: 22px 24px 0;
-         gap: 16px;
-         margin-bottom: 16px;
-      }
-      width: 100%;
-      >div {
-         width: 100%;
-      }
-      &.checkoutDrower .checkoutDrower {width: 100%;}
 
+
+.tripCard {
+   transition: transform 0.2s ease, box-shadow 0.2s ease;
+   padding: 24px 16px;
+   height: 319px;
+   background: #FFFFFF;
+   border: 1px solid #E6EEEE;
+   border-radius: 16px;
+
+
+   &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
    }
-   
-   .selectFlightBtn {
-      padding-left: 20px !important;
-      padding-right: 20px !important;
-    }
-   .passengersCard {
-      &.passengerProfileCard {
-         padding: 18px 15px;
-      }
-      &.ExtraServices {
-         margin-bottom: 0;
-      }
-   }
-   .Drawer {
-         >div {
-            width: 100%;
-         }
-   
-         .DrawerIn {
-            width: 100%;
-         }
-      }
-   .checkoutDrower {width: 100%;
-      .checkoutDrower {width: 100%;}
-      padding: 0;
-      .checkoutDrowerSection {
-         height: 100%;
-         width: 100%;
-         border: 0;
-         top: inherit;
-         @include border-radius(0);
-         .checkoutDrowerBody .detailsSection {
-            padding: 0 24px 150px;
-         }
-      }
-   }
-      .title {font-size: 16px;}
 }
 
-// payment
-.PriceSection .PriceRow:not(:last-child)  {
-   border-bottom: solid 1px $lightgray3;
-   padding: 10px 0px;
-   margin: 10px 0;
-}
 
-/* In your CSS file or style block */
-.capitalizeFirstLetter::first-letter {
-   text-transform: uppercase;
- }
+
+.inactiveTab {
+         margin-right: 4px;
+         min-height: 38px;
+         display: flex;
+         flex-direction: row;
+         justify-content: center;
+         align-items: center;
+         padding: 10px 20px;
+         background: $lightgray3;
+         border-width: 1px 1px 0px 1px;
+         border-style: solid;
+         border-color: #E6EEEE;
+         border-radius: 8px 8px 0px 0px;
+
+         transition: all 0.2s ease;
+         text-transform: capitalize;
+         p {
+          font-size: $f12;
+          font-weight: $semibold;
+         }
+      }
+      .activeTab {
+         background-color: rgba(255, 255, 255, 0.6);
+         color: $basecolor;
+
+       }

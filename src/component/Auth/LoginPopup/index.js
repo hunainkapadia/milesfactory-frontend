@@ -9,6 +9,7 @@ import {
   Dialog,
   IconButton,
   DialogContent,
+  InputAdornment,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
@@ -16,18 +17,23 @@ import { loginUser, setLoginPopup } from "@/src/store/slices/Auth/LoginSlice";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
 import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
-import { setRegisterPopup, setSignupPopup } from "@/src/store/slices/Auth/SignupSlice";
+import {
+  setRegisterPopup,
+  setSignupPopup,
+} from "@/src/store/slices/Auth/SignupSlice";
 
 const LoginPopup = ({}) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const LoginError = useSelector((state) => state.login.LoginError);
   /// isform submit redirect to home
   const isFormSupmit = useSelector((state) => state.login.loginUser);
   const router = useRouter();
-  
+
   const handleLogin = () => {
     const params = { username: email, password: password };
     dispatch(loginUser(params));
@@ -38,8 +44,6 @@ const LoginPopup = ({}) => {
   );
   // get user from cookie with redux for redirect to home
 
-  
-
   const HandleSignup = () => {
     dispatch(setLoginPopup(false));
     dispatch(setRegisterPopup(true));
@@ -49,18 +53,16 @@ const LoginPopup = ({}) => {
     dispatch(setLoginPopup(false)); // for close login popup
   };
   useEffect(() => {
-  if (isuserLogin) {
-    // Clear the form fields
-    setEmail("");
-    setPassword("");
-    // Optional: close the login popup
-    dispatch(setLoginPopup(false));
-  }
-}, [isuserLogin]);
+    if (isuserLogin) {
+      // Clear the form fields
+      setEmail("");
+      setPassword("");
+      // Optional: close the login popup
+      dispatch(setLoginPopup(false));
+    }
+  }, [isuserLogin]);
   // for button enable when all fields fill
-  const isFormValid =
-  email &&
-  password
+  const isFormValid = email && password;
   return (
     <Dialog
       open={isLoginPopup}
@@ -120,35 +122,46 @@ const LoginPopup = ({}) => {
                         onChange={(e) => setEmail(e.target.value)}
                         margin="normal"
                       />
+                      <Typography className="error" color="red">
+                        {LoginError.email}
+                      </Typography>
                     </Box>
-                    <Typography className="error" color="red">
-                      {LoginError.email}
-                    </Typography>
 
-                    <Box className=" formGroup mb-0" mb={0}>
-                      {/* <FormLabel className=" formLabel">Password</FormLabel> */}
+                    <Box className="formGroup mb-0" mb={0}>
                       <TextField
-                        className=" formControl"
+                        className="formControl"
                         fullWidth
                         placeholder="Enter Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         margin="normal"
                         InputProps={{
                           sx: {
-                            height: 50, // or any height you want
+                            height: 50,
                             borderRadius: "16px",
                           },
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() => setShowPassword((prev) => !prev)}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <img src="/images/eye-active.svg" />
+                                ) : (
+                                  <img src="/images/eye-deactive.svg" />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
                         }}
                       />
-                    </Box>
                     <Typography className="error" color="red">
                       {LoginError.password}
                     </Typography>
-                    <Typography className="error" color="red">
-                      {LoginError.other}
-                    </Typography>
+                    </Box>
+                    
                   </Box>
                 </Box>
                 <Box component={"section"}>
@@ -158,10 +171,9 @@ const LoginPopup = ({}) => {
                       type="submit" // Important!
                       className="btn btn-primary btn-md btn-round"
                       sx={{
-                          width: { xs: "100%", lg: "100%", md: "100%" },
-                          opacity: `${isFormValid ? "100%" : "50%"}`
-
-                        }}
+                        width: { xs: "100%", lg: "100%", md: "100%" },
+                        opacity: `${isFormValid ? "100%" : "50%"}`,
+                      }}
                       onClick={handleLogin}
                       variant="contained"
                       color="success"

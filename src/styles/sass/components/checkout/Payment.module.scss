@@ -1,6 +1,14 @@
 @import "../../variables";
 
 .InviteBox {
+  form {display: flex;
+    align-items: center;
+    gap: 20px;
+    >div {
+      margin-bottom: 0;
+      
+    }
+  }
   .formControl > div {height: 40px !important; width: 240px; font-size: 12px;@include border-radius(8px); }
 }
 
@@ -49,3 +57,11 @@
      line-height: 1.5;
    }
  }
+
+ @include for-mobile-large-screen () {
+  
+  .InviteBox {
+    form {
+    }
+  }
+}

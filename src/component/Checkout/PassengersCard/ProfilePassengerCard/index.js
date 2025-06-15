@@ -2,6 +2,8 @@ import { Box, Card, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 
 const ProfilePassengerCard = ({ ispassProfile, onClickPrifilePass }) => {
+  console.log("ispassProfile", ispassProfile);
+  
   return (
     <Box
       id={ispassProfile.uuid}

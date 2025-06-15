@@ -14,18 +14,25 @@ import { registerScrollFunction } from "@/src/utils/scrollManager";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  InviteSubmit,
   RatingSubmit,
+  setInviteEmailDialog,
   setRatingSumbitRequest,
 } from "@/src/store/slices/Base/baseSlice";
+import InviteEmailForm from "../../layout/InviteEmailForm";
 
 const PaymentSuccess = () => {
   const [rating, setRating] = useState(false); // user-selected rating
   const [selectedReason, setSelectedReason] = useState(false); // user-selected reason
   const [successReview, setsuccessReview] = useState(true);
+  const [email, setEmail] = useState(""); // from false to empty string
+  const [emailError, setEmailError] = useState("");
   // stroll
   const PaymentData = useSelector((state) => state?.payment?.PaymentData);
   console.log("order detail", PaymentData?.order?.uuid);
-  {console.log("successReview3", rating)}
+  {
+    console.log("successReview3", rating);
+  }
 
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
 
@@ -47,14 +54,26 @@ const PaymentSuccess = () => {
   ];
 
   const handleReasonSelect = (reason) => {
-    setSelectedReason(reason);
-  };
+  setSelectedReason(reason);
+
+  if (rating && rating <= 4) {
+    const payload = {
+      rating: rating,
+      flight_order: PaymentData.order.uuid,
+      review: reason,
+    };
+
+    dispatch(RatingSubmit(payload));
+  }
+};
+
   const dispatch = useDispatch();
 
   const ratingSuccess = useSelector(
     (state) => state?.base?.RatingSumbitRequest
   );
-  console.log("selectedReason", selectedReason);
+  const inviteSuccess = useSelector((state) => state?.base?.InviteSuccess);
+  console.log("inviteSuccess", inviteSuccess);
 
   const handleSubmit = () => {
     if (rating !== null) {
@@ -70,10 +89,55 @@ const PaymentSuccess = () => {
       dispatch(RatingSubmit(payload));
     }
   };
+  const handleRatingChange = (event, newValue) => {
+  setRating(newValue);
+
+  if (newValue === 5) {
+    const payload = {
+      rating: 5,
+      flight_order: PaymentData.order.uuid,
+    };
+    dispatch(RatingSubmit(payload));
+  }
+
+  // Reset selectedReason when changing rating
+  if (newValue < 5) {
+    setSelectedReason(null);
+  }
+  console.log("newValue", newValue);
+  
+};
+
+console.log("rating_new", rating);
+
+
+  // rating [end]
+
+  // for invite
+  const handleInvite = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("Enter a valid email address");
+      return;
+    } else {
+      setEmailError("");
+    }
+    const payload = {
+      emails: email,
+      flight_order: PaymentData?.order?.uuid,
+    };
+    dispatch(InviteSubmit(payload));
+  };
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   console.log("PaymentStatus_0", PaymentStatus);
-
+const inviteMoreEmailHandle=()=> {
+    dispatch(setInviteEmailDialog(true))
+  }
   return (
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}
@@ -122,7 +186,7 @@ const PaymentSuccess = () => {
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation – your booking reference is{" "}
-                  {PaymentData?.duffel_order?.booking_reference}. Use it to view
+                  <Typography component={"span"} className="exbold">{PaymentData?.duffel_order?.booking_reference}</Typography>. Use it to view
                   and manage your booking directly on the airline’s website or
                   app, or to share with anyone who needs it.
                 </Typography>
@@ -153,6 +217,7 @@ const PaymentSuccess = () => {
                   app.
                 </Typography>
               </Box>
+
               {!ratingSuccess ? (
                 <>
                   <Box mt={"40px"}>
@@ -169,26 +234,117 @@ const PaymentSuccess = () => {
                     <Rating
                       name="feedback-rating"
                       value={rating}
-                      onChange={(event, newValue) => {
-                        setRating(newValue);
-                      }}
+                      onChange={handleRatingChange}
                       sx={{
                         mt: 2,
                         fontSize: "30px",
                         "& .MuiRating-iconFilled": {
-                          color: "#00C4CC", // selected star color
+                          color: "#00C4CC",
                         },
                         "& .MuiRating-iconHover": {
-                          color: "#00C4CC", // hover color
+                          color: "#00C4CC",
                         },
                       }}
                     />
-
                     {/* Show this only after a star is clicked */}
+                  </Box>
+                  {rating && rating <= 4 ? (
+                    <>
+                      {/* Static Reason Selection */}
+                      <Typography variant="body1" sx={{ mt: 3, mb: 2 }}>
+                        What was the main reason?
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        flexWrap="wrap"
+                        gap={1}
+                        sx={{ mb: 2 }}
+                      >
+                        {reasons.map((reason, index) => (
+                          <Chip
+                            key={index}
+                            label={reason}
+                            onClick={() => handleReasonSelect(reason)}
+                            sx={{
+                              bgcolor:
+                                selectedReason === reason ? "#00C4CC" : "#fff",
+                              color:
+                                selectedReason === reason ? "#fff" : "#69707B",
+                              cursor: "pointer",
+                            }}
+                          />
+                        ))}
+                      </Stack>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </>
+              ) : (
+                <>
+                  <Box pt={3}>
+                    <h3 className="regular f25 mb-0">
+                      Thank you for your feedback!
+                    </h3>
+                    <Typography variant="body1">
+                      We really appreciate you taking the time to rate your
+                      experience.
+                    </Typography>
+                  </Box>
+                </>
+              )}
+
+              {!inviteSuccess ? (
+                <>
+                  <Box>
+                    <Box mt={4}>
+                      <h3 className="regular f25">
+                        <span>Please help us spread </span>{" "}
+                        <img src="/images/heart-emoji.svg" alt="heart" />
+                      </h3>
+                      <Typography>
+                        Invite friends around to travel with Mylz.
+                      </Typography>
+                    </Box>
+                    <Box mt={2}>
+                      <Typography>
+                        <img src="/images/hand-emoji.svg" alt="hand" />{" "}
+                        <img src="/images/hand-emoji.svg" alt="hand" /> We've
+                        sent the emails.
+                        <Box component={"span"} onClick={()=>inviteMoreEmailHandle()} className="text-decuration-none cursor-pointer basecolor1">
+                          {" "}
+                          Invite more friends
+                        </Box>
+                      </Typography>
+                    </Box>
+                    <Box
+                      className={styles.InviteBox + " paymentInviteBox"}
+                      display="flex"
+                      gap={1}
+                      pt={2}
+                    >
+                    <InviteEmailForm flight_order={PaymentData.order.uuid} />
+                    
+                    </Box>
                   </Box>
                 </>
               ) : (
-                ""
+                <>
+                  <Box mt={4}>
+                    <h3 className="regular f25">
+                      <span>Thank you for inviting your friends! </span>
+                      <img src="/images/heart-emoji.svg" alt="heart" />
+                    </h3>
+                    <Typography>
+                      We've successfully sent your invitation — you're helping
+                      others discover great travel experiences!
+                    </Typography>
+                    <Typography>
+                      Before you go, leave a quick review. Your feedback helps
+                      us improve and makes travel better for everyone. 💙
+                    </Typography>
+                  </Box>
+                </>
               )}
             </>
           ) : (
@@ -198,102 +354,6 @@ const PaymentSuccess = () => {
       </Box>
 
       {/*  Static Rating */}
-      
-
-      {!ratingSuccess ? (
-        <>
-          {rating && rating <= 4 ? (
-            <>
-              {/* Static Reason Selection */}
-              <Typography variant="body1" sx={{ mt: 3, mb: 2 }}>
-                What was the main reason?
-              </Typography>
-              <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mb: 2 }}>
-                {reasons.map((reason, index) => (
-                  <Chip
-                    key={index}
-                    label={reason}
-                    onClick={() => handleReasonSelect(reason)}
-                    sx={{
-                      bgcolor: selectedReason === reason ? "#00C4CC" : "#fff",
-                      color: selectedReason === reason ? "#fff" : "#69707B",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
-              </Stack>
-            </>
-          ) : rating && rating > 4 ? (
-            <>
-              <Box mt={4}>
-                <h3 className="regular f25">
-                  <span>Please help us spread </span>{" "}
-                  <img src="/images/heart-emoji.svg" alt="heart" />
-                </h3>
-                <Typography>
-                  Invite friends around to travel with Mylz.
-                </Typography>
-              </Box>
-              <Box mt={2}>
-                <Typography>
-                  <img src="/images/hand-emoji.svg" alt="hand" />{" "}
-                  <img src="/images/hand-emoji.svg" alt="hand" /> We’ve sent the
-                  emails.
-                  <Link href="#" className="text-decuration-none">
-                    {" "}
-                    Invite more friends
-                  </Link>
-                </Typography>
-              </Box>
-              <Box className={styles.InviteBox} display="flex" gap={1} pt={2}>
-                <Box className="formGroup">
-                  <TextField
-                    className={`${styles.formControl} formControl`}
-                    fullWidth
-                    placeholder="Emails, comma separated"
-                    margin="normal"
-                  />
-                </Box>
-                <Button
-                  className="btn btn-primary btn-sm btn-round"
-                  variant="contained"
-                  color="success"
-                  type="submit"
-                >
-                  Invite
-                </Button>
-              </Box>
-            </>
-          ): ""}
-
-          {/* Submit Button */}
-          {rating ? (
-            <Box mt={4} display="flex" justifyContent="flex-end">
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                disabled={rating <= 4 && !selectedReason} // Disable only if low rating and no reason
-                className={`btn btn-sm btn-round btn-primary ${
-                  rating <= 4 && !selectedReason
-                    ? "btn-disabled"
-                    : "btn-primary"
-                }`}
-              >
-                Send
-              </Button>
-            </Box>
-          ) : null}
-        </>
-      ) : (
-        <>
-          <Box>
-            <Typography variant="h6">Thank you for your feedback!</Typography>
-            <Typography variant="body1">
-              We really appreciate you taking the time to rate your experience.
-            </Typography>
-          </Box>
-        </>
-      )}
 
       {/* Static Reason Selection */}
 

@@ -20,10 +20,16 @@ const PollingMessage = ({ PollingData }) => {
             <li style={{ marginBottom: "0.5rem" }}>
               Passengers: {PollingData?.adults}{" "}
               {PollingData?.adults === 1 ? "adult" : "adults"}
-              {PollingData?.children > 0 &&
-                `, ${PollingData.children} child(ren)`}
-              {PollingData?.infants > 0 && `, ${PollingData.infants} infant(s)`}
+              {PollingData?.children?.length > 0 &&
+                `, ${PollingData.children.length} ${
+                  PollingData.children.length === 1 ? "child" : "children"
+                }`}
+              {PollingData?.infants > 0 &&
+                `, ${PollingData.infants} ${
+                  PollingData.infants === 1 ? "infant" : "infants"
+                }`}
             </li>
+
             <li style={{ marginBottom: "0.5rem" }}>
               Cabin: {PollingData?.cabin_class}
             </li>

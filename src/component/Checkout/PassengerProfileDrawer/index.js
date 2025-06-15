@@ -50,14 +50,25 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer?.PassengerType
   );
 
-  console.log("passengerPofile_0", passengerPofile);
+  console.log("selectedType", selectedType);
+
+  const selectedPassport = useSelector(
+    (state) => state?.passengerDrawer?.PassengerPassport
+  );
+  console.log("selectedPassport", selectedPassport);
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
     dispatch(setPassProfileDrawer(false));
   };
+  const FilledPassFormData = useSelector(
+    (state) => state?.passengerDrawer?.PassFormData
+  );
+  // get filled pasenger form data from submit from to redux
+
   const handleCardClick = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
+    dispatch(setPassengerType(passenger.type));
     console.log("passenger_uuid", passenger);
 
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
@@ -66,18 +77,23 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const getFillPass = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
+  const getFillPass2 = useSelector((state) => state.passengerDrawer);
+
+  console.log("getFillPass", getFillPass);
 
   // add passenger [start]
 
-  const passengerUuid = useSelector((state) => state.passengerDrawer?.PassengerUUID); 
-  
-console.log("passengerUuid_Addnew", passengerUuid);
+  const passengerUuid = useSelector(
+    (state) => state.passengerDrawer?.PassengerUUID
+  );
+
+  console.log("passengerUuid_Addnew", passengerUuid);
 
   const handleAddPassenger = () => {
     dispatch(setOpenPassengerDrawer()); // open drawer
-    dispatch(ViewPassengers())
+    dispatch(ViewPassengers());
     dispatch(setPassengerUUID(passengerUuid));
-    dispatch(PassengerForm())
+    dispatch(PassengerForm());
   };
 
   return (
@@ -127,29 +143,55 @@ console.log("passengerUuid_Addnew", passengerUuid);
             <Divider />
           </Box>
           {/*  */}
-          <Box component={"section"}>
+          <Box component={"section"} pb={10}>
+            {/* passport */}
+            {/* if passport_number  equal and show selected profile */}
+
             {passengerPofile
-              ?.filter((passenger) => passenger?.type === selectedType)
-              .map((passenger, index) => (
-                <PassengerProfilecard
-                  key={passenger?.uuid || index}
-                  getdata={passenger}
-                  onClickCard={() => handleCardClick(passenger)}
-                />
-              ))}
-          </Box>
-          {/*  */}
-          <Box px={3} pb={2} onClick={handleAddPassenger}>
-            <Box
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              p={3}
-              gap={2}
-              className={styles.addtravellerBtn + " basecolor1 cursor-pointer"}
-            >
-              <i className="fa fa-plus"></i>
-              <Typography>Add new traveller</Typography>
+              ?.filter((passenger) => {
+                if (
+                  selectedType === "child" ||
+                  selectedType === "infant_without_seat"
+                ) {
+                  return (
+                    passenger?.type === "child" ||
+                    passenger?.type === "infant_without_seat"
+                  );
+                }
+                return passenger?.type === selectedType;
+              })
+              .map((passenger, index) => {
+                const isPassFilled =
+                  passenger?.passport_number ===
+                  FilledPassFormData?.passport_number;
+
+                return (
+                  <PassengerProfilecard
+                    key={passenger?.uuid || index}
+                    getdata={passenger}
+                    onClickCard={() => handleCardClick(passenger)}
+                    passFilled={isPassFilled}
+                  />
+                );
+              })}
+
+            
+
+            {/*  */}
+            <Box px={3} pb={2} onClick={handleAddPassenger}>
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                p={3}
+                gap={2}
+                className={
+                  styles.addtravellerBtn + " basecolor1 cursor-pointer"
+                }
+              >
+                <i className="fa fa-plus"></i>
+                <Typography>Add new traveller</Typography>
+              </Box>
             </Box>
           </Box>
           {/* footer [start] */}

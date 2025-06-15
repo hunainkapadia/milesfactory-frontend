@@ -9,17 +9,18 @@ import { useDispatch } from "react-redux";
 
 // Language list with flags
 const languageList = [
-  { code: "en", name: "English", flag: "https://flagcdn.com/w40/gb.png" },
-  { code: "fr", name: "French", flag: "https://flagcdn.com/w40/fr.png" },
-  { code: "de", name: "German", flag: "https://flagcdn.com/w40/de.png" },
-  { code: "es", name: "Spanish", flag: "https://flagcdn.com/w40/es.png" },
-  { code: "it", name: "Italian", flag: "https://flagcdn.com/w40/it.png" },
-  { code: "cn", name: "Chinese", flag: "https://flagcdn.com/w40/cn.png" },
-  { code: "ar", name: "Arabic", flag: "https://flagcdn.com/w40/ae.png" },
-  { code: "hi", name: "Hindi", flag: "https://flagcdn.com/w40/in.png" },
-  { code: "jp", name: "Japanese", flag: "https://flagcdn.com/w40/jp.png" },
-  { code: "ru", name: "Russian", flag: "https://flagcdn.com/w40/ru.png" },
+  { code: "en", name: "English", flag: "https://flagcdn.com/w80/gb.png" },
+  { code: "fr", name: "French", flag: "https://flagcdn.com/w80/fr.png" },
+  { code: "de", name: "German", flag: "https://flagcdn.com/w80/de.png" },
+  { code: "es", name: "Spanish", flag: "https://flagcdn.com/w80/es.png" },
+  { code: "it", name: "Italian", flag: "https://flagcdn.com/w80/it.png" },
+  { code: "cn", name: "Chinese", flag: "https://flagcdn.com/w80/cn.png" },
+  { code: "ar", name: "Arabic", flag: "https://flagcdn.com/w80/ae.png" },
+  { code: "hi", name: "Hindi", flag: "https://flagcdn.com/w80/in.png" },
+  { code: "jp", name: "Japanese", flag: "https://flagcdn.com/w80/jp.png" },
+  { code: "ru", name: "Russian", flag: "https://flagcdn.com/w80/ru.png" },
 ];
+
 
 // Currency list
 const currencyList = [
@@ -72,23 +73,24 @@ const HeaderCurrencyLanguage = ({
     <>
       {formobileDrawer ? (
         <>
-
           {/* Language Dropdown */}
           <Box
             display="flex"
             alignItems="center"
             // onClick={handleLangClick}
             sx={{ cursor: "pointer" }}
-            className={`basecolor1-dark2`}
+            className={`${styles.CurrencyItem} basecolor1-dark2`}
           >
-            <Box width={32}>
-              <img
-                src={selectedLanguage.flag}
-                alt={selectedLanguage.code.toUpperCase()}
-                className={styles.flagIcon}
-              />
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <Box className={styles.flagIcon} width={20} sx={{
+                backgroundImage: `url(${selectedLanguage.flag})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}>
+                
+              </Box>
+              <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             </Box>
-            <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             <Typography pl={2} variant="body2">
               {selectedLanguage.name}
             </Typography>
@@ -116,19 +118,21 @@ const HeaderCurrencyLanguage = ({
             ))}
           </Menu>
           {/* currency start */}
-          <Box
+          <Box 
             display="flex"
             alignItems="center"
             // onClick={handleCurrencyClick}
             sx={{ cursor: "pointer", gap: 0 }}
-            className={`basecolor1-dark2`}
+            className={`${styles.CurrencyItem} basecolor1-dark2`}
           >
-            <Box width={32}>
-              <Typography fontSize={20} variant="body2" px={0.5}>
-                {selectedCurrency.icon}
-              </Typography>
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <Box width={20}>
+                <Typography fontSize={20} variant="body2" px={0.5}>
+                  {selectedCurrency.icon}
+                </Typography>
+              </Box>
+              <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             </Box>
-            <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             <Typography pl={2} variant="body2">
               {selectedCurrency.name}
             </Typography>
@@ -148,8 +152,6 @@ const HeaderCurrencyLanguage = ({
               </MenuItem>
             ))}
           </Menu>
-
-         
 
           {/* Currency Dropdown */}
         </>
@@ -209,14 +211,20 @@ const HeaderCurrencyLanguage = ({
                 : " white "
             }`}
           >
-            <img
-              src={selectedLanguage.flag}
-              alt={selectedLanguage.code.toUpperCase()}
-              className={styles.flagIcon}
-            />
+            <Box
+              className={styles.flagIcon + " imaggroup"}
+              width={20}
+              borderRadius={100}
+              sx={{
+                backgroundImage: `url(${selectedLanguage.flag})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+            </Box>
             <FontAwesomeIcon
               icon={faChevronDown}
-              style={{ marginLeft: 6, fontSize: 12 }}
+              style={{ marginLeft: 6, fontSize: 8 }}
             />
           </Box>
 

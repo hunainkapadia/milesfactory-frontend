@@ -126,7 +126,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     />
                   </>
                 ))}
-                <Box display={"flex"} gap={2} alignItems={"center"}>
+                <Box display={"flex"} gap={2} alignItems={"center"} mb={3}>
                   <img width={14} src="/images/leave-icon.svg" />
                   <Typography className={styles.normalOption + " f12 gray"}>
                     <span>
@@ -135,6 +135,28 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     </span>
                   </Typography>
                 </Box>
+                <Box display={"flex"} gap={2} alignItems={"center"}>
+                    <Typography variant="p" className="gray f12" pb={2}>
+                    {getFlightDetail?.conditions?.change_before_departure?.allowed === true && getFlightDetail?.conditions?.change_before_departure?.penalty_amount > 0 && 
+                      `You can change your flight before departure for ${getFlightDetail?.conditions?.change_before_departure?.penalty_currency} ${" "} ${getFlightDetail?.conditions?.change_before_departure?.penalty_amount}`
+                    }
+
+                    {getFlightDetail?.conditions?.change_before_departure?.allowed === true && getFlightDetail?.conditions?.change_before_departure?.penalty_amount == 0 && 
+                      `You can change your flight before departure without any extra cost`
+                    }
+                  </Typography>
+                </Box>
+                <Box display={"flex"} gap={2} alignItems={"center"}>
+                  <Typography variant="p" className="gray f12" pb={2}>
+                    {getFlightDetail?.conditions?.refund_before_departure?.allowed === true && getFlightDetail?.conditions?.refund_before_departure?.penalty_amount > 0 &&
+                      `You can refund your flight before departure for ${getFlightDetail?.conditions?.refund_before_departure?.penalty_currency} ${" "} ${getFlightDetail?.conditions?.refund_before_departure?.penalty_amount}`
+                    }
+
+                    {getFlightDetail?.conditions?.refund_before_departure?.allowed === true && getFlightDetail?.conditions?.refund_before_departure?.penalty_amount == 0 &&
+                      `You can refund your flight before departure without any extra cost`
+                    }
+                </Typography>
+                </Box>    
               </>
             </Box>
           </Box>

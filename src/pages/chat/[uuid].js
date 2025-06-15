@@ -2,7 +2,10 @@ import Header from "@/src/component/layout/Header";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
-import { fetchMessages, setGetMessageUUID } from "@/src/store/slices/GestMessageSlice";
+import {
+  fetchMessages,
+  setGetMessageUUID,
+} from "@/src/store/slices/GestMessageSlice";
 import { useRouter } from "next/router";
 import { Box, Container, Grid } from "@mui/material";
 import Messages from "@/src/component/Messages";
@@ -15,34 +18,34 @@ const ChatByUUID = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { uuid } = router?.query;
-
-  console.log("uuid_chat", router.query);
-  
+  const { uuid } = router.query;
 
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
-  
 
   // Fetch messages using the UUID from URL
-    useEffect(() => {
-  if (!uuid) return; // Skip if uuid is undefined
 
-  console.log("Router object2:", uuid);
-  dispatch(setGetMessageUUID(router.query));
-  dispatch(fetchMessages());
-}, [uuid]);
+  const SearchHistoryGet = useSelector(
+    (state) => state.getMessages.SearchHistory
+  );
+  const SearchHistorySend = useSelector(
+    (state) => state.sendMessage?.SearchHistorySend
+  );
+  const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-    const SearchHistoryGet = useSelector(
-      (state) => state.getMessages.SearchHistory
-    );
-    const SearchHistorySend = useSelector(
-      (state) => state.sendMessage?.SearchHistorySend
-    );
-    const SearchHistory = SearchHistorySend || SearchHistoryGet;
+  useEffect(() => {
+    if (!router.isReady) return; // Wait for router to be ready
+    if (typeof uuid === "string" && uuid.trim() !== "") {
+      console.log("uuid_chat", uuid);
+      dispatch(setGetMessageUUID(uuid));
+    }
 
+    if (sendMessages.length === 0) {
+      dispatch(fetchMessages());
+    }
+  }, [router.isReady, uuid, dispatch]);
 
   return (
     <>
@@ -53,7 +56,7 @@ const ChatByUUID = () => {
             styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
           }
         >
-          <Header isMessage={isMessage} isChat={"isChat"} />
+          <Header isMessage={isMessage} isChat />
           <Box className={styles.Box}>
             <Container className={styles.Container}>
               <Grid container sx={{ width: "100%", margin: 0 }}>

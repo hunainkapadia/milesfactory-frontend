@@ -51,8 +51,9 @@ import HeaderUser from "./HeaderUser";
 import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import ContactDialog from "../ContactDialog";
+import InviteEmailDialog from "../InviteEmailDialog";
 
-const Header = ({ isMessage, IsActive, isHome, isChat }) => {
+const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
@@ -99,11 +100,11 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
   };
 
   const HandlePopup = () => {
-      dispatch(setisUserPopup(true));
-    };
+    dispatch(setisUserPopup(true));
+  };
   const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-  
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+
   return (
     <>
       <Head></Head>
@@ -116,64 +117,67 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
       >
-        <Container sx={{position:"relative"}}>
+        <Container sx={{ position: "relative" }}>
           <Box
             className={styles.Box}
             display={"flex"}
             justifyContent={"space-between"}
             alignItems={"center"}
+            
           >
-            <Box
-              color="white"
-              className={styles.leftCol}
-              display={"flex"}
-              alignItems={"center"}
-              gap={2}
-            >
               <Box
-                sx={{ display: { xs: "block", md: "none", lg: "none" } }}
-                fontSize={"24px"}
+                color="white"
+                className={styles.leftCol}
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
               >
-                <i
-                  onClick={toggleDrawer}
-                  className={`fa fa-bars ${
-                    isSticky | IsActive || isMessage ? " basecolor " : " white"
-                  }`}
-                  aria-hidden="true"
-                ></i>
-              </Box>
+                <Box
+                  sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                  fontSize={"24px"}
+                >
+                  <i
+                    onClick={toggleDrawer}
+                    className={`fa fa-bars ${
+                      isSticky | IsActive || isMessage
+                        ? " basecolor "
+                        : " white"
+                    }`}
+                    aria-hidden="true"
+                  ></i>
+                </Box>
 
-              <Box className={styles.Logo + " cursor-pointer"}>
-                <Box component="a" href="/">
-                  <Box className="d-flex align-items-center">
-                    {isChat && isMobile ? (
-                      <img src="/images/chat-logo.svg" />
-                    ) : (
-                      <>
-                        {isSticky || isMessage || IsActive ? (
-                          <img src="/images/logo-color2.svg" />
-                        ) : (
-                          <img src="/images/logo-white2.svg" />
-                        )}
-                      </>
-                    )}
+                <Box className={styles.Logo + " cursor-pointer"}>
+                  <Box component="a" href="/">
+                    <Box className="d-flex align-items-center">
+                      {isChat && isMobile ? (
+                        <img src="/images/chat-logo.svg" />
+                      ) : (
+                        <>
+                          {isSticky || isMessage || IsActive ? (
+                            <img src="/images/logo-color2.svg" />
+                          ) : (
+                            <img src="/images/logo-white2.svg" />
+                          )}
+                        </>
+                      )}
+                    </Box>
                   </Box>
                 </Box>
               </Box>
-            </Box>
 
-            <Box
-              sx={{
-                display: { xs: "none", md: "block" },
-                pl: { xs: 8, lg: 0, md: 0 },
-              }}
-            >
-              <Navbar />
-            </Box>
+              <Box
+                sx={{
+                  display: { xs: "none", md: "block" },
+                  pl: { xs: 8, lg: 0, md: 0 },
+                }}
+              >
+                <Navbar />
+              </Box>
 
             <Box
               display={"flex"}
-              sx={{ gap: { lg: 3, md: 3, xs: 0 } }}
+              sx={{ gap: { lg: 3, md: 2, xs: 0 } }}
               className={styles.HeaderRightCol}
             >
               {/* Mobile Loader */}
@@ -189,7 +193,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
               />
               {/*  */}
               {/* show for home desk and mobiel chat for dektop only  */}
-              {isHome || (isChat && !isMobile) ? (
+              {isUser || isHome || (isChat && !isMobile) ? (
                 <HeaderUser
                   forHader={"forHader"}
                   isSticky={isSticky}
@@ -230,25 +234,26 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                     alignItems={"center"}
                     sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
                   >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height={24}
-                      // Optional
-                      className={styles.ChatIcon + " imggroup"}
-                      onClick={"handleThreadDrawer"}
-                    >
-                      <img
-                        width={24}
-                        src={`${
-                          isSticky | IsActive || isMessage
-                            ? "/images/book-trip-icon.svg"
-                            : "/images/book-trip-icon-white.svg"
-                        }`}
-                        alt="book trip"
-                      />
-                    </Box>
+                    <Link href={"/my-trips"}>
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        height={24}
+                        // Optional
+                        className={styles.ChatIcon + " imggroup"}
+                      >
+                        <img
+                          width={24}
+                          src={`${
+                            isSticky | IsActive || isMessage
+                              ? "/images/book-trip-icon.svg"
+                              : "/images/book-trip-icon-white.svg"
+                          }`}
+                          alt="book trip"
+                        />
+                      </Box>
+                    </Link>
                   </Box>
                   <Box
                     className=" cursor-pointer"
@@ -264,15 +269,15 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
                       className={styles.ChatIcon + " imggroup"}
                       onClick={handleThreadDrawer}
                     >
-                      <img
-                        src={`${
-                          isSticky | IsActive || isMessage
-                            ? "/images/chat-history-icon-black-v3.svg"
-                            : "/images/chat-history-icon-white-v2.svg"
-                        }`}
-                        alt="Chat History Icon"
-                      />
-                    </Box>
+                        <img
+                          src={`${
+                            isSticky | IsActive || isMessage
+                              ? "/images/chat-history-icon-black-v3.svg"
+                              : "/images/chat-history-icon-white-v2.svg"
+                          }`}
+                          alt="Chat History Icon"
+                        />
+                      </Box>
                   </Box>
                 </>
               ) : (
@@ -328,6 +333,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat }) => {
       <SignUpPopup />
       <Feedback />
       <ContactDialog />
+      <InviteEmailDialog />
     </>
   );
 };

@@ -18,6 +18,8 @@ const GetMessagesSlice = createSlice({
   initialState,
   reducers: {
     setGetMessageUUID: (state, action)=> {
+      console.log("action_000", action);
+      
       state.getMessageUUID = action.payload;
     },
     setTopOfferUrl: (state, action)=> {
@@ -54,7 +56,7 @@ const GetMessagesSlice = createSlice({
 
 export const fetchMessages = () => (dispatch, getState) => {
   const state = getState();
-  const uuid =  state?.getMessages?.getMessageUUID?.uuid
+  const uuid =  state?.getMessages?.getMessageUUID
   
   
   dispatch(setIsLoading(true));
@@ -62,7 +64,7 @@ export const fetchMessages = () => (dispatch, getState) => {
   
   
   const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${uuid}`
-  console.log("state_getmess", uuid);
+  console.log("state_getmess", threadUrl);
   
   api
   .get(threadUrl)
@@ -104,6 +106,9 @@ export const fetchMessages = () => (dispatch, getState) => {
           
           const allFlightSearchApi =
           item?.response?.results?.view_all_flight_result_api?.url;
+
+          const allFlightSearchUuid =
+          item?.response?.results?.view_all_flight_result_api?.uuid;
           
           if (allFlightSearchApi) {
             
@@ -113,7 +118,7 @@ export const fetchMessages = () => (dispatch, getState) => {
             dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
             
             
-             const historyUrl = `/api/v1/search/${getallFlightId}/history`;
+             const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
              api.get(historyUrl).then((history_res)=> {
               //  console.log("historyUrl", history_res.data.search);
                dispatch(setSearchHistoryGet(history_res.data.search))
@@ -169,9 +174,7 @@ export const RefreshHandle = () => (dispatch, getState) => {
   const uuid = state?.getMessages?.SearchHistory?.uuid
   console.log("state_0", uuid);
   const threadUUID = sessionStorage.getItem("chat_thread_uuid");
-
   console.log("threadUUID_0", threadUUID);
-
   
 // {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
   // const url = `api/v1/search/<str:flight_search_uuid>/refresh/<str:chat_thread_uuid></str:chat_thread_uuid>`

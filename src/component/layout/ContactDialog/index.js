@@ -16,6 +16,7 @@ import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import Link from "next/link";
 import {
   handleSubmitContact,
+  setContactData,
   setContactDialog,
 } from "@/src/store/slices/Base/baseSlice";
 
@@ -30,10 +31,58 @@ const ContactDialog = () => {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
 
+  // error
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [topicError, setTopicError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+
   const ContactDialogClose = () => {
     dispatch(setContactDialog(false));
   };
   const handleSubmitContactForm = () => {
+    // validation logic
+    let valid = true;
+
+    // Name validation
+    if (!name.trim()) {
+      setNameError("Name is required");
+      valid = false;
+    } else {
+      setNameError("");
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) {
+      setEmailError("Email is required");
+      valid = false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("Enter a valid email");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    // Topic validation
+    if (!topic) {
+      setTopicError("Please select a topic");
+      valid = false;
+    } else {
+      setTopicError("");
+    }
+
+    // Description validation
+    if (!description.trim()) {
+      setDescriptionError("Description is required");
+      valid = false;
+    } else {
+      setDescriptionError("");
+    }
+
+    // Submit if valid
+    if (!valid) return;
+
     const params = {
       name: name,
       email: email,
@@ -44,16 +93,15 @@ const ContactDialog = () => {
     dispatch(handleSubmitContact(params)); // This is the Redux action
 
     // Optionally reset form
-   };
-   useEffect(()=> {
-      if (contactSuccess) {
-         setName("");
-         setEmail("");
-         setTopic("");
-         setDescription("");
-      }
-
-   })
+  };
+  useEffect(() => {
+    if (contactSuccess) {
+      setName("");
+      setEmail("");
+      setTopic("");
+      setDescription("");
+    }
+  });
   const currentUser = useSelector((state) => state.base?.currentUser);
   const logoutHandle = () => {
     dispatch(Logout());
@@ -120,10 +168,20 @@ const ContactDialog = () => {
                       <br />
                       have and we will reach out!
                     </Typography>
-
+                    {console.log("currentUser", currentUser?.user?.first_name)}
                     {currentUser ? (
                       <Typography variant="body1" mt={1}>
-                        Signed in as L. Abella. Not you?{" "}
+                        Signed in as{" "}
+                        <Typography
+                          component={"span"}
+                          textTransform={"capitalize"}
+                        >
+                          {currentUser?.user?.first_name
+                            .charAt(0)
+                            .toUpperCase()}
+                          . {currentUser?.user?.last_name}
+                        </Typography>
+                        . Not you?{" "}
                         <Typography
                           component={"span"}
                           onClick={logoutHandle}
@@ -138,78 +196,88 @@ const ContactDialog = () => {
                   </Box>
 
                   <Box component="form" noValidate autoComplete="off">
-                  
                     <Box className=" formGroup">
-                    <TextField
+                      <TextField
+                        error={!!nameError}
+                        helperText={nameError}
                         className="formControl"
-                      fullWidth
-                      placeholder="Name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      sx={{ mb: 2 }}
-                    />
+                        fullWidth
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        sx={{ mb: 2 }}
+                      />
                     </Box>
                     <Box className=" formGroup">
-                    <TextField
+                      <TextField
+                        error={!!emailError}
+                        helperText={emailError}
                         className="formControl"
-                      fullWidth
-                      placeholder="Email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      sx={{ mb: 2 }}
-                    />
+                        fullWidth
+                        placeholder="Email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        sx={{ mb: 2 }}
+                      />
                     </Box>
-                    <Box className=" formGroup">
-                    <TextField
+                    <Box className="formGroup">
+                      <TextField
+                        error={!!topicError}
+                        helperText={topicError}
                         className="formControl"
-                      fullWidth
-                      select
-                      label="Select topic"
-                      value={topic}
-                      onChange={(e) => setTopic(e.target.value)}
-                      sx={{
-                        mb: 2,
-                        "& label": {
-                          color: "#9e9e9e", // normal label color (light gray)
-                        },
-                        "& label.Mui-focused": {
-                          color: "#9e9e9e", // label color when focused
-                        },
-                      }}
-                    >
-                      <MenuItem value="" disabled sx={{ color: "#9e9e9e" }}>
-                        Select topic
-                      </MenuItem>
-                      <MenuItem value="booking"> Booking issue</MenuItem>
-                      <MenuItem value="payment">
-                        Change or cancel my trip
-                      </MenuItem>
-                      <MenuItem value="payment">
-                        I didn't receive a confirmation
-                      </MenuItem>
-                      <MenuItem value="payment">
-                        Payment or refund issue
-                      </MenuItem>
-                      <MenuItem value="payment">
-                        Flight, rail or baggage problem
-                      </MenuItem>
-                      <MenuItem value="payment">Something else</MenuItem>
-                      <MenuItem value="other">Other</MenuItem>
-                    </TextField>
+                        fullWidth
+                        select
+                        label="Select topic"
+                        value={topic}
+                        onChange={(e) => setTopic(e.target.value)}
+                        sx={{
+                          mb: 2,
+                          "& label": {
+                            color: "#9e9e9e", // normal label color
+                          },
+                          "& label.Mui-focused": {
+                            color: "#9e9e9e", // focused label color
+                          },
+                          textAlign:"left"
+                        }}
+                      >
+                        <MenuItem value="" disabled sx={{ color: "#9e9e9e" }}>
+                          Select topic
+                        </MenuItem>
+                        <MenuItem value="Booking issue">Booking issue</MenuItem>
+                        <MenuItem value="Change or cancel my trip">
+                          Change or cancel my trip
+                        </MenuItem>
+                        <MenuItem value="I didn't receive a confirmation">
+                          I didn't receive a confirmation
+                        </MenuItem>
+                        <MenuItem value="Payment or refund issue">
+                          Payment or refund issue
+                        </MenuItem>
+                        <MenuItem value="Flight, rail or baggage problem">
+                          Flight, rail or baggage problem
+                        </MenuItem>
+                        <MenuItem value="Something else">
+                          Something else
+                        </MenuItem>
+                        <MenuItem value="Other">Other</MenuItem>
+                      </TextField>
                     </Box>
 
                     <Box className=" formGroup">
-                    <TextField
+                      <TextField
+                        error={!!descriptionError}
+                        helperText={descriptionError}
                         className="formControl description"
-                      fullWidth
-                      multiline
-                      rows={4}
-                      placeholder="Describe the issue you are facing"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      sx={{ mb: 3 }}
-                    />
+                        fullWidth
+                        multiline
+                        rows={4}
+                        placeholder="Describe the issue you are facing"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        sx={{ mb: 3 }}
+                      />
                     </Box>
                     <Box display="flex" justifyContent="flex-end">
                       <Button

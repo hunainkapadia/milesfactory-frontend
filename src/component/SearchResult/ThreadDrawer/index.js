@@ -6,11 +6,14 @@ import {
   Drawer,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BaggageDrower.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setThreadDrawer } from "@/src/store/slices/Base/baseSlice";
 import Link from "next/link";
+import api from "@/src/store/api";
+import { useRouter } from "next/router";
 
 const ThreadDrawer = () => {
   const dispatch = useDispatch();
@@ -49,9 +52,6 @@ const ThreadDrawer = () => {
       older: [],
     };
 
-    console.log("Start of Today:", startOfToday);
-    console.log("Start of Yesterday:", startOfYesterday);
-
     data.forEach((item) => {
       const itemDate = new Date(item.created_date);
 
@@ -63,17 +63,6 @@ const ThreadDrawer = () => {
         localDate.getFullYear(),
         localDate.getMonth(),
         localDate.getDate()
-      );
-
-      console.log(
-        "Item:",
-        item.name || "-",
-        "UTC:",
-        itemDate,
-        "Local:",
-        localDate,
-        "→",
-        itemDay
       );
 
       if (itemDay.getTime() === startOfToday.getTime()) {
@@ -125,6 +114,17 @@ const ThreadDrawer = () => {
   const theme = useTheme();
   // Check if the screen size is "small" or below (mobile)
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const router = useRouter();
+  const HandleSingleThread = (threaduuid) => {
+    dispatch(setThreadDrawer(false));
+    if (threaduuid) {
+      router.replace(`/chat/${threaduuid}?reload=${Date.now()}`);
+    }
+  };
+  const isloading = useSelector((state) => state.base.isloading);
+  console.log("isloading_thread", isloading);
+
   return (
     <Drawer
       anchor={isMobile ? "left" : "right"}
@@ -140,7 +140,7 @@ const ThreadDrawer = () => {
         <Box
           component={"header"}
           alignItems={"center"}
-          sx={{display: {lg:"none", md: "none", xs:"flex"}}}
+          sx={{ display: { lg: "none", md: "none", xs: "flex" } }}
           gap={2}
           px={2}
           pt={1}
@@ -171,7 +171,7 @@ const ThreadDrawer = () => {
             px={3}
             alignItems="center"
             justifyContent="space-between"
-            sx={{display:{lg:"flex", md: "flex", xs: "none"}}}
+            sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
           >
             <Grid item xs={12}>
               <Box
@@ -191,28 +191,49 @@ const ThreadDrawer = () => {
           </Grid>
 
           {/* Display grouped records */}
-          <Box px={3}>
-            {Object.keys(groupedRecords).map((groupKey) => {
-              const records = groupedRecords[groupKey];
-              if (records.length === 0) return null;
+          {isloading ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+              py={10}
+            >
+              <CircularProgress color="primary" />
+            </Box>
+          ) : (
+            <Box px={3}>
+              {Object.keys(groupedRecords).map((groupKey) => {
+                const records = groupedRecords[groupKey];
+                if (records.length === 0) return null;
 
-              return (
-                <Box key={groupKey} pb={3}>
-                  <Typography className="f12 exbold" pb={2}>
-                    {groupLabels[groupKey]}
-                  </Typography>
-                  {records.map((item, i) => (
-                    <Box key={i} pb={2}>
-                      <Typography className="f12">
-                        {formatDate(item.created_date)}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              );
-            })}
-          </Box>
+                return (
+                  <Box key={groupKey} pb={3}>
+                    <Typography className="f12 exbold" pb={2}>
+                      {groupLabels[groupKey]}
+                    </Typography>
+                    {records.map((item, i) => (
+                      <>
+                        <Box
+                          key={item.uuid}
+                          onClick={() => HandleSingleThread(item.uuid)}
+                          className={"cursor-pointer"}
+                          sx={{ textDecoration: "none" }}
+                          pb={2}
+                        >
+                          <Typography className="f12">
+                            {formatDate(item.created_date)}
+                          </Typography>
+                        </Box>
+                      </>
+                    ))}
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
         </Box>
+        {/* body */}
       </Box>
     </Drawer>
   );

@@ -17,6 +17,18 @@ import { useRouter } from "next/router";
 
 // Define a Custom Theme with the New Font
 const theme = createTheme({
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        maxWidthLg: {
+          maxWidth: "1140px", // Set lg container to 1140px
+          '@media (min-width: 1200px)': {
+            maxWidth: "1140px",
+          },
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: "'Open Sans', sans-serif", // Change to your preferred font
   },
@@ -48,12 +60,12 @@ export default function App({ Component, pageProps }) {
           <ThemeProvider theme={theme}>
             <CssBaseline /> {/* Ensures global styles apply */}
             <Head>
-              <title>Mylz</title> {/* Default title */}
+              <title>Mylz | Stop the endless tabs. Book trips in seconds.</title> {/* Default title */}
               <link
                 href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
                 rel="stylesheet"
               />
-              <link rel="icon" href="/images/favicon_mylz_v2.svg" />
+              <link rel="icon" href="/images/favicon_mylz_big.svg" />
 
               {/* Google Analytics */}
               <script

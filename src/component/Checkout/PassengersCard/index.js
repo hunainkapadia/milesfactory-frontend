@@ -12,6 +12,8 @@ const PassengersCard = ({
   onClickCard,
   passDetail,
 }) => {
+  console.log("pass_getdata", getdata?.age);
+
   return (
     <Box
       id={getdata.uuid}
@@ -32,37 +34,82 @@ const PassengersCard = ({
               <Typography className="f14 bold mb-0" mb={1}>
                 Traveller {totalPass}
               </Typography>
-              <Typography
-                textTransform={"capitalize"}
-                className={" gray f12 capitalize-first-letter"}
-              >
-                {getdata.type === "infant_without_seat"
-                  ? "Infants"
-                  : getdata.type === "child"
-                  ? "Child"
-                  : getdata.type === "adult"
-                  ? "Adult - 18 years and older"
-                  : getdata.type}
+              <Typography className={" gray f12 "}>
+                {getdata.type === "infant_without_seat" ? (
+                  <>
+                    Infants{" "}
+                    <Typography
+                      className="f12 red"
+                      component="span"
+                      display="inline"
+                    >
+                      {getdata?.age}
+                    </Typography>{" "}
+                    year
+                  </>
+                ) : getdata.type === "child" ? (
+                  <>
+                    Child{" "}
+                    <Typography
+                      className="f12 red"
+                      component="span"
+                      display="inline"
+                    >
+                      {getdata?.age}
+                    </Typography>{" "}
+                    year
+                  </>
+                ) : getdata.type === "adult" ? (
+                  <>
+                    Adult{" "}
+                    <Typography
+                      className="f12"
+                      component="span"
+                      display="inline"
+                    >
+                      18 years and older
+                    </Typography>
+                  </>
+                ) : (
+                  getdata.type
+                )}
               </Typography>
             </>
           ) : (
             <>
-              <Typography className="f14 bold mb-0" mb={1} textTransform={"capitalize"}>
+              <Typography className="f14 bold mb-0" mb={1}>
                 {getdata?.given_name} {getdata?.family_name}
               </Typography>
-              <Typography
-                textTransform={"capitalize"}
-                className={" gray f12 capitalize-first-letter"}
-              >
-                
-
-                {getdata.type === "infant_without_seat"
-                  ? "Infants"
-                  : getdata.type === "child"
-                  ? "Child"
-                  : getdata.type === "adult"
-                  ? "Adult"
-                  : getdata.type}
+              <Typography className={" gray f12 "}>
+                {getdata.type === "infant_without_seat" ? (
+                  <>
+                    Infants{" "}
+                    <Typography
+                      className="f12 red"
+                      component="span"
+                      display="inline"
+                    >
+                      {getdata?.age}
+                    </Typography>{" "}
+                    year
+                  </>
+                ) : getdata.type === "child" ? (
+                  <>
+                    Child{" "}
+                    <Typography
+                      className="f12 red"
+                      component="span"
+                      display="inline"
+                    >
+                      {getdata?.age}
+                    </Typography>{" "}
+                    year
+                  </>
+                ) : getdata.type === "adult" ? (
+                  "Adult"
+                ) : (
+                  getdata.type
+                )}
               </Typography>
             </>
           )}

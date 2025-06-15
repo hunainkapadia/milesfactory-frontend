@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Box, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
 
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import dayjs from "dayjs";
 // Example Props (you should pass these from parent)
 
-const PassengerProfilecard = ({ getdata, onClickCard }) => {
+const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
+
+  console.log("profiel_pass_getdata", getdata );
   
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
@@ -16,11 +19,23 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
     // e.stopPropagation(); // Prevent card click
     setisOpen((prev) => !prev);
   };
+
+  const birthDate = dayjs(getdata.born_on);
+  const now = dayjs();
+
+  const years = now.diff(birthDate, "year");
+  const months = now.diff(birthDate.add(years, "year"), "month");
+
+  console.log(`${years} years ${months} months`);
+  console.log("getdata_profile", `${years} years ${months} months`);
+
   return (
     <>
       <Box px={3} pb={2}>
         <Box
-          className={`${styles.passengersCard} ${styles.passengerProfileCard}`}
+          className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
+            passFilled ? styles.isFilled : ""
+          } }`}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"space-between"}
@@ -37,7 +52,7 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                 value={getdata.name}
                 control={
                   <Radio
-                    checked={selectedValue === getdata.name}
+                    checked={passFilled}
                     onChange={(e) => setSelectedValue(e.target.value)}
                     className="customRadio"
                     sx={{ p: 0, m: 0 }} // Zero padding & margin using MUI's sx prop
@@ -85,16 +100,44 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     </Typography>
                     <Typography
                       sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
-                      textTransform={"capitalize"}
-                      className="basecolor f12 capitalize-first-letter"
+                      className="basecolor f12 "
                     >
-                      {getdata.type === "infant_without_seat"
-                        ? "Infants"
-                        : getdata.type === "child"
-                        ? "Child"
-                        : getdata.type === "adult"
-                        ? "Adult"
-                        : getdata.type}
+                      {getdata.type === "infant_without_seat" ? (
+                        <>
+                          Infants{" "}
+                          <Typography
+                            component="span"
+                            display="inline"
+                            className="f12 red"
+                          >
+                            {years}
+                          </Typography> year{years !== 1 ? "s" : ""}{" "}
+                        </>
+                      ) : getdata.type === "child" ? (
+                        <>
+                          Child{" "}
+                          <Typography
+                            component="span"
+                            display="inline"
+                            className="f12 red"
+                          >
+                            {years}
+                          </Typography> year{years !== 1 ? "s" : ""}{" "}
+                        </>
+                      ) : getdata.type === "adult" ? (
+                        <>
+                          Adult{" "}
+                          <Typography
+                            component="span"
+                            display="inline"
+                            className="f12 "
+                          >
+                            18 years and older
+                          </Typography>
+                        </>
+                      ) : (
+                        getdata.type
+                      )}
                     </Typography>
                   </>
                 )}
@@ -165,7 +208,11 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
                   >
-                    {getdata.born_on}
+                    {new Date(getdata.born_on).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -208,7 +255,14 @@ const PassengerProfilecard = ({ getdata, onClickCard }) => {
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="darkgray"
                   >
-                    {getdata.nationality?.passport_expire_date}
+                    {new Date(getdata.passport_expire_date).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
                   </Typography>
                 </Grid>
 
