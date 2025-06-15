@@ -48,16 +48,10 @@ const PassengerDrawerForm = () => {
   );
 
   // pass profile
-  const PassengerType = useSelector(
-    (state) => state.passengerDrawer.PassengerType
-  );
-
   const selectedpassengerPofile = useSelector(
     (state) => state.passengerDrawer.selectedProfilePass
   );
-  const type = selectedpassengerPofile?.type || PassengerType;
-  console.log("selectedpassengerPofile", selectedpassengerPofile.type);
-  console.log("PassengerType_test", PassengerType);
+  console.log("GetViewPassengers", GetViewPassengers);
 
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
@@ -86,8 +80,11 @@ const PassengerDrawerForm = () => {
   const twelveYearsAgo = dayjs().subtract(12, "year");
 
   // get passenger type for validation
-  
-  
+  const PassengerType = useSelector(
+    (state) => state.passengerDrawer.PassengerType
+  );
+
+  console.log("PassengerType_test", PassengerType);
 
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
@@ -182,35 +179,33 @@ const PassengerDrawerForm = () => {
   let minDate = dayjs("1930-01-01");
   let maxDate = today;
 
-  if (type === "adult") {
+  if (PassengerType === "adult") {
     // Adults: must be at least 18 years old
     minDate = dayjs("1930-01-01");
     maxDate = today.subtract(18, "year");
   } else if (
-    type === "infant_without_seat" ||
-    (PassengerAge !== undefined && PassengerAge < 2)
-  ) {
-    // Set min/max for date picker
-    maxDate = today;
-    minDate = today.subtract(PassengerAge || 1, "year");
-
-    //  Validate that age is < 2 years
-  } else if (
-    type === "child" ||
+  PassengerType === "infant_without_seat" ||
+  (PassengerAge !== undefined && PassengerAge < 2)
+) {
+  // Infants: must be under 2 years
+  maxDate = today;
+  minDate = today.subtract(PassengerAge || 2, "year");
+} else if (
+    PassengerType === "child" ||
     (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
   ) {
     console.log();
     // Child: dynamic age range
     maxDate = today.subtract(PassengerAge, "year");
-    minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
+    minDate = today.subtract(PassengerAge, "year").add(1, "day");
   } else {
     // fallback: adult
     minDate = dayjs("1930-01-01");
     maxDate = today.subtract(18, "year");
   }
   // ...previous imports remain the same
+
   const SubmitPassenger = () => {
-    
     const errors = {};
     const today = dayjs();
 
@@ -255,10 +250,9 @@ const PassengerDrawerForm = () => {
     if (!nationality) {
       errors.nationality = "Nationality is required.";
     }
-    
 
     // --- Email & Phone (adults only) ---
-    if (type === "adult") {
+    if (PassengerType === "adult") {
       if (!email?.trim()) {
         errors.email = "Email is required.";
       } else if (!emailRegex.test(email)) {
@@ -271,7 +265,7 @@ const PassengerDrawerForm = () => {
     }
 
     // --- Child DOB Validation ---
-    if (type === "child") {
+    if (PassengerType === "child") {
       const dob = dayjs(born_on);
       const childMinAge = 2;
       const childMaxAge = 12;
@@ -284,7 +278,7 @@ const PassengerDrawerForm = () => {
     }
 
     // --- Infant DOB Validation ---
-    if (type === "infant_without_seat") {
+    if (PassengerType === "infant_without_seat") {
       const dob = dayjs(born_on);
       const max = today;
       const min = today.subtract(2, "year");

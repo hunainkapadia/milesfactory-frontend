@@ -68,6 +68,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   const handleCardClick = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
+    dispatch(setPassengerType(passenger.type));
     console.log("passenger_uuid", passenger);
 
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)

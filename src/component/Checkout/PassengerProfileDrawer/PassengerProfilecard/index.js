@@ -6,6 +6,9 @@ import dayjs from "dayjs";
 // Example Props (you should pass these from parent)
 
 const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
+
+  console.log("profiel_pass_getdata", getdata );
+  
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
 
