@@ -48,11 +48,16 @@ const PassengerDrawerForm = () => {
   );
 
   // pass profile
+  const PassengerType = useSelector(
+    (state) => state.passengerDrawer.PassengerType
+  );
+
   const selectedpassengerPofile = useSelector(
     (state) => state.passengerDrawer.selectedProfilePass
   );
-  console.log("selectedpassengerPofile", selectedpassengerPofile);
-  console.log("GetViewPassengers", GetViewPassengers);
+  const type = selectedpassengerPofile?.type || PassengerType;
+  console.log("selectedpassengerPofile", selectedpassengerPofile.type);
+  console.log("PassengerType_test", PassengerType);
 
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
@@ -81,11 +86,8 @@ const PassengerDrawerForm = () => {
   const twelveYearsAgo = dayjs().subtract(12, "year");
 
   // get passenger type for validation
-  const PassengerType = useSelector(
-    (state) => state.passengerDrawer.PassengerType
-  );
-
-  console.log("PassengerType_test", PassengerType);
+  
+  
 
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
@@ -180,27 +182,21 @@ const PassengerDrawerForm = () => {
   let minDate = dayjs("1930-01-01");
   let maxDate = today;
 
-  if (PassengerType === "adult") {
+  if (type === "adult") {
     // Adults: must be at least 18 years old
     minDate = dayjs("1930-01-01");
     maxDate = today.subtract(18, "year");
   } else if (
-    PassengerType === "infant_without_seat" ||
+    type === "infant_without_seat" ||
     (PassengerAge !== undefined && PassengerAge < 2)
   ) {
     // Set min/max for date picker
     maxDate = today;
     minDate = today.subtract(PassengerAge || 1, "year");
 
-    // ✅ Validate that age is < 2 years
-    if (born_on) {
-      const age = dayjs().diff(dayjs(born_on), "year");
-      if (age >= 2) {
-        errors.born_on = "Infant must be under 2 years old.";
-      }
-    }
+    //  Validate that age is < 2 years
   } else if (
-    PassengerType === "child" ||
+    type === "child" ||
     (PassengerAge !== undefined && PassengerAge >= 2 && PassengerAge < 18)
   ) {
     console.log();
@@ -213,57 +209,56 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(18, "year");
   }
   // ...previous imports remain the same
-
   const SubmitPassenger = () => {
+    
     const errors = {};
+    const today = dayjs();
 
     const nameRegex = /^[A-Za-z\s'-]+$/;
     const passportNumberRegex = /^[A-Za-z0-9]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const today = dayjs();
-
-    // Gender
+    // --- Gender ---
     if (!gender) errors.gender = "Gender is required.";
 
-    // First Name
+    // --- First Name ---
     if (!given_name?.trim()) {
       errors.given_name = "First name is required.";
     } else if (!nameRegex.test(given_name)) {
       errors.given_name = "First name must contain only letters.";
     }
 
-    // Last Name
+    // --- Last Name ---
     if (!family_name?.trim()) {
       errors.family_name = "Last name is required.";
     } else if (!nameRegex.test(family_name)) {
       errors.family_name = "Last name must contain only letters.";
     }
 
-    // Date of Birth
-    if (!born_on) {
-      errors.born_on = "Date of birth is required.";
+    // --- DOB (common base check) ---
+    if (!born_on || !dayjs(born_on).isValid()) {
+      errors.born_on = "Date of birth is required and must be valid.";
     }
 
-    // Passport Number
+    // --- Passport Info ---
     if (!passport_number?.trim()) {
       errors.passport_number = "Passport number is required.";
     } else if (!passportNumberRegex.test(passport_number)) {
       errors.passport_number = "Passport number must be alphanumeric.";
     }
 
-    // Passport Expiry
     if (!passport_expire_date) {
       errors.passport_expire_date = "Passport expiry date is required.";
     }
 
-    // Nationality
+    // --- Nationality ---
     if (!nationality) {
       errors.nationality = "Nationality is required.";
     }
+    
 
-    // Email and Phone for adults
-    if (PassengerType === "adult") {
+    // --- Email & Phone (adults only) ---
+    if (type === "adult") {
       if (!email?.trim()) {
         errors.email = "Email is required.";
       } else if (!emailRegex.test(email)) {
@@ -275,42 +270,36 @@ const PassengerDrawerForm = () => {
       }
     }
 
-    // Child DOB validation (2–12 years)
-    if (PassengerType === "child") {
-      if (!born_on || !dayjs(born_on).isValid()) {
-        errors.born_on = "Date of birth is required and must be valid.";
-      } else {
-        const dob = dayjs(born_on);
-        const min = today.subtract(12, "year"); // max age
-        const max = today.subtract(2, "year"); // min age
+    // --- Child DOB Validation ---
+    if (type === "child") {
+      const dob = dayjs(born_on);
+      const childMinAge = 2;
+      const childMaxAge = 12;
+      const max = today.subtract(childMinAge, "year"); // latest acceptable
+      const min = today.subtract(childMaxAge, "year"); // oldest acceptable
 
-        if (dob.isBefore(min) || dob.isAfter(max)) {
-          errors.born_on = "Child must be between 2 and 12 years old.";
-        }
+      if (dob.isBefore(min) || dob.isAfter(max)) {
+        errors.born_on = `Child passenger must be at least ${childMinAge} and less than ${childMaxAge} years old`;
       }
     }
 
-    // Infant DOB validation (under 2 years)
-    if (PassengerType === "infant_without_seat") {
-      if (!born_on || !dayjs(born_on).isValid()) {
-        errors.born_on = "Date of birth is required and must be valid.";
-      } else {
-        const dob = dayjs(born_on);
-        const min = today.subtract(2, "year");
+    // --- Infant DOB Validation ---
+    if (type === "infant_without_seat") {
+      const dob = dayjs(born_on);
+      const max = today;
+      const min = today.subtract(2, "year");
 
-        if (dob.isBefore(min) || dob.isAfter(today)) {
-          errors.born_on = "Infant must be under 2 years old.";
-        }
+      if (dob.isBefore(min) || dob.isAfter(max)) {
       }
     }
 
-    // If any errors found
+    // --- Handle Errors ---
     if (Object.keys(errors).length > 0) {
       dispatch(setPassengerFormError(errors));
       return;
     }
 
-    // All good – prepare and submit
+    // --- Submit Form ---
     const params = {
       gender,
       given_name,
