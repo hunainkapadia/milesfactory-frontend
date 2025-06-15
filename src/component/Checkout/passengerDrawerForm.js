@@ -183,15 +183,21 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(age, "year");
     minDate = today.subtract(age + 1, "year").add(1, "day");
   };
+  // child dat 
+  // infant age 
+   const validateInfantDOB = (dob, age) => {
+    alert("infant")
+     maxDate = today.subtract(age, "year");
+      minDate = today.subtract(age + 1, "year").add(1, "day");
+   };
+
   
   if (PassengerType === "adult") {
     // Adults: must be at least 18 years old
     minDate = dayjs("1930-01-01");
     maxDate = today.subtract(18, "year");
   } else if (PassengerType === "infant_without_seat") {
-    // Infants: must be under 2 years
-    maxDate = today;
-    minDate = today.subtract(PassengerAge || 2, "year");
+    validateChildDOB(born_on, PassengerAge);
   } else if (PassengerType === "child") {
     validateChildDOB(born_on, PassengerAge);
   } else {
