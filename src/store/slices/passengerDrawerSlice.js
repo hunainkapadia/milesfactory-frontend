@@ -51,6 +51,9 @@ const passengerDrawerSlice = createSlice({
     setPassProfile: (state, action)=> {
       state.passProfile = action.payload;
     },
+    setSelectPassenger: (state, action)=> {
+      state.SelectPassenger = action.payload
+    },
     setPassengerType: (state, action)=> {
       state.PassengerType = action.payload
     },
@@ -342,7 +345,8 @@ export const {
   setPassProfileDrawer,
   setSelectedProfilePass,
   setPassengerIndex,
-  setPassengerPassport
+  setPassengerPassport,
+  setSelectPassenger
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

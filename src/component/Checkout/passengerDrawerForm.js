@@ -90,7 +90,11 @@ const PassengerDrawerForm = () => {
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
+
   console.log("PassengerAge", PassengerAge);
+  
+  // get select from whole pasenger detail card
+
 
   useEffect(() => {
     dispatch(NationalitData());
@@ -178,17 +182,22 @@ const PassengerDrawerForm = () => {
   let minDate = dayjs("1930-01-01");
   let maxDate = dayjs();
 
-  const validateChildDOB = (dob, age) => {
-    maxDate = today.subtract(age, "year");
-    minDate = today.subtract(age + 1, "year").add(1, "day");
-    console.log("age_age_test", age);
-    console.log("maxDate_test", maxDate);
-    console.log("minDate_test", minDate);
-  };
-  const validateInfantDOB = (dob, age) => {
-    maxDate = today.subtract(age, "year");
-    minDate = today.subtract(age + 1, "year").add(1, "day");
-    console.log("age_age_test", age);
+  const validateChildDOB = (dob, PassengerAge) => {
+  // Allow DOB between (PassengerAge + 1) and PassengerAge
+  const maxDate = today.subtract(PassengerAge, "year"); // Latest valid DOB
+  const minDate = today.subtract(PassengerAge + 1, "year").add(1, "day"); // Earliest valid DOB
+
+  console.log("PassengerAge (child):", PassengerAge);
+  console.log("Allowed DOB range:", minDate.format("YYYY-MM-DD"), "to", maxDate.format("YYYY-MM-DD"));
+
+  // Optional: validate if dob is within this range
+  const isValid = dayjs(dob).isBetween(minDate, maxDate, "day", "[]");
+  console.log("Is DOB valid?", isValid);
+};
+  const validateInfantDOB = (dob, PassengerAge) => {
+    maxDate = today.subtract(PassengerAge, "year");
+    minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
+    console.log("PassengerAge_PassengerAge_test", PassengerAge);
 
     console.log("maxDate_test", maxDate);
     console.log("minDate_test", minDate);

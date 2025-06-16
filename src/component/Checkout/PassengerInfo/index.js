@@ -19,10 +19,10 @@ import {
   setPassengerUUIDfill,
   setPassProfile,
   setPassProfileDrawer,
+  setSelectPassenger,
 } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
 import { setpriceSummary } from "@/src/store/slices/PaymentSlice";
-import ProfilePassengerCard from "../PassengersCard/ProfilePassengerCard";
 
 const PassengerInfo = ({ getdata }) => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const PassengerInfo = ({ getdata }) => {
   );
 
   // if passenger profile or not handle
-  const handlePassengerClick = (uuid, isFilled, type, age, passportNumber) => {
+  const handlePassengerClick = (uuid, isFilled, type, age, passportNumber, passenger) => {
     if (passengerPofile?.length > 0) {
       dispatch(getPassPofile()); // call passenger profile
       dispatch(setPassProfileDrawer(true));
@@ -48,6 +48,8 @@ const PassengerInfo = ({ getdata }) => {
       dispatch(setPassengerType(type));
       dispatch(setPassengerAge(age));
       dispatch(setPassengerPassport(passportNumber))
+      dispatch(setSelectPassenger(passenger))
+      
     } else {
       console.log("uuid111", isFilled);
       console.log("pass_type", uuid, isFilled, type);
@@ -146,6 +148,7 @@ const PassengerInfo = ({ getdata }) => {
                       passenger.type,
                       passenger.age,
                       passenger.passport_number,
+                      passenger, // while pasenger data
                     )
                   }
                 />

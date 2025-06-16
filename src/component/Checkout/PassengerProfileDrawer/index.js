@@ -53,11 +53,6 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   console.log("selectedType", selectedType);
 
-  const selectedPassport = useSelector(
-    (state) => state?.passengerDrawer?.PassengerPassport
-  );
-  console.log("selectedPassport", selectedPassport);
-
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
     dispatch(setPassProfileDrawer(false));
@@ -69,13 +64,13 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   const handleCardClick = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
-    
+
     const birthDate = dayjs(passenger.born_on);
     const now = dayjs();
     const age = now.diff(birthDate, "year");
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
-    dispatch(setOpenPassengerDrawer(age)); // open drawer
+    dispatch(setOpenPassengerDrawer()); // open drawer
 
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
   };
@@ -100,6 +95,12 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setPassengerUUID(passengerUuid));
     dispatch(PassengerForm());
   };
+
+
+    const selectPassenger = useSelector(
+      (state) => state?.passengerDrawer?.SelectPassenger
+    );
+    console.log("selectPassenger", selectPassenger);
 
   return (
     <Drawer
@@ -142,7 +143,17 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
               alignItems={"center"}
             >
               <Box>
-                <h3 className="regular mb-0">Traveller details</h3>
+                <h3 className="regular mb-0">
+                  Traveller details -{" "}
+                  <span className="capitalize">
+                    {selectPassenger?.type === "infant_without_seat" ? (
+                      <>Infants</>
+                    ) : (
+                      <>{selectPassenger?.type}</>
+                    )}
+                  </span>{" "}
+                  {selectPassenger?.age} year
+                </h3>
               </Box>
             </Box>
             <Divider />
