@@ -146,9 +146,9 @@ export const fetchMessages = () => (dispatch, getState) => {
                 console.log("allFlightSearchApi11", flightRes.data);
               })
               .catch((flighterror) => {
-                console.log("flighterror", flighterror?.response.data?.error);
+                
 
-                dispatch(setFlightExpire(flighterror?.response.data?.error));
+                dispatch(setFlightExpire(flighterror?.response?.data?.error));
               })
               .finally(() => {});
           }
