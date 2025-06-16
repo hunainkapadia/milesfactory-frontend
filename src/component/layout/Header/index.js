@@ -92,20 +92,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
   };
 
   // delete and create thread and show message chat clear
-
-  
-  
-  
   const HandleNewThread = () => {
-
-    setTimeout(() => {
-      const threaduuid = sessionStorage.getItem("chat_thread_uuid");
-      console.log("CreateNewThreadUUID000", threaduuid);
-      if (threaduuid) {
-          router.replace(`/chat/${threaduuid}`)
-        }
-    }, 1000);
-    
     dispatch(deleteAndCreateThread());
   };
   const handleThreadDrawer = () => {
