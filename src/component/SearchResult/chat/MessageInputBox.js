@@ -111,10 +111,10 @@ const isPolling = checkPolling?.ai?.is_complete;
 console.log("checkPolling", messages || FlightExpire);
 
   
-  const HandleNewThread = () => {
-    alert("test")
-    dispatch(deleteAndCreateThread());
-  };
+  // const HandleNewThread = () => {
+  //   alert("test")
+  //   dispatch(deleteAndCreateThread());
+  // };
 
   return (
     <Box

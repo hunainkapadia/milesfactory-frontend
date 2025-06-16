@@ -53,6 +53,13 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
     dispatch(createThreadAndRedirect(router));
   };
   const HandleNewThread = () => {
+    setTimeout(() => {
+      const threaduuid = sessionStorage.getItem("chat_thread_uuid");
+      console.log("CreateNewThreadUUID000", threaduuid);
+      if (threaduuid) {
+        router.replace(`/chat/${threaduuid}`);
+      }
+    }, 1000);
     toggleDrawer(); // Close the drawer before creating a new thread
     dispatch(deleteAndCreateThread());
   };
