@@ -39,12 +39,12 @@ const baggageSlice = createSlice({
       state.baggageError = action.payload;
     },
     setAddSelectedBaggage: (state, action) => {
-      console.log("uuid_action", action.payload);
+      
       state.addSelectedBaggage = action.payload
       
     },
     setBaggageOptions: (state, action) => {
-      console.log("action_22", action);
+      
       
       state.baggageOptions = action.payload;
 
@@ -90,7 +90,7 @@ export const baggage = (flightId) => (dispatch, getState) => {
   const state = getState();
 
   const OrderUuid = state?.passengerDrawer?.OrderUuid;
-  console.log("getState:", OrderUuid);
+  
 
   const url = `/api/v1/passenger/order/${OrderUuid}/baggage-options`;
   api.get(url).then((res) => {
@@ -107,18 +107,18 @@ export const addBaggage = () => (dispatch, getState) => {
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
 
   const addUrl = `/api/v1/passenger/baggage/${selectedBaggagesUUID}/add`;
-  console.log("state_uuid", addUrl);
+  
   api
     .post(addUrl)
     .then((res) => {
-      console.log("state_resss", res.data);
+      
       dispatch(setbaggageAddData(res.data));
       dispatch(baggage());
-      console.log("Baggage added:", res);
+      
       dispatch(OrderConfirm()); // for order detail API call
     })
     .catch((error) => {
-      console.log("add errr ", error.response.data);
+      
       dispatch(setbaggageAddData(error.response.data));
     });
 };
@@ -128,19 +128,19 @@ export const removeBaggage = () => (dispatch, getState) => {
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
 
   const removeUrl = `/api/v1/passenger/baggage/${selectedBaggagesUUID}/remove`;
-  console.log("state_uuid", removeUrl);
+  
 
   api
     .post(removeUrl)
     .then((res) => {
-      console.log("state_resss", res.data);
+      
       dispatch(setbaggageAddData(res.data)); // Update store with new baggage state
-      console.log("Baggage removed:", res);
+      
       dispatch(baggage());
       dispatch(OrderConfirm()); // for order detail API call
     })
     .catch((error) => {
-      console.log("remove err ", error.response?.data || error.message);
+      
       dispatch(setbaggageAddData(error.response?.data || { detail: "Error removing baggage" }));
     });
 };

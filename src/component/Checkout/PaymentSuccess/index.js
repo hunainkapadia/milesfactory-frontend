@@ -29,9 +29,9 @@ const PaymentSuccess = () => {
   const [emailError, setEmailError] = useState("");
   // stroll
   const PaymentData = useSelector((state) => state?.payment?.PaymentData);
-  console.log("order detail", PaymentData?.order?.uuid);
+  
   {
-    console.log("successReview3", rating);
+    
   }
 
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
@@ -73,7 +73,7 @@ const PaymentSuccess = () => {
     (state) => state?.base?.RatingSumbitRequest
   );
   const inviteSuccess = useSelector((state) => state?.base?.InviteSuccess);
-  console.log("inviteSuccess", inviteSuccess);
+  
 
   const handleSubmit = () => {
     if (rating !== null) {
@@ -104,11 +104,11 @@ const PaymentSuccess = () => {
   if (newValue < 5) {
     setSelectedReason(null);
   }
-  console.log("newValue", newValue);
+  
   
 };
 
-console.log("rating_new", rating);
+
 
 
   // rating [end]
@@ -134,7 +134,7 @@ console.log("rating_new", rating);
   };
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
-  console.log("PaymentStatus_0", PaymentStatus);
+  
 const inviteMoreEmailHandle=()=> {
     dispatch(setInviteEmailDialog(true))
   }

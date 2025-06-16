@@ -53,8 +53,8 @@ const Messages = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
-  console.log("getmessages", getmessages);
-  console.log("sendMessages", sendMessages);
+  
+  
   
   
   //  Combine stored messages (live chat) with fetched messages (history)
@@ -90,12 +90,12 @@ const Messages = () => {
 
   // for passenger form
 
-  console.log("isLoading111", isLoading);
+  
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
-  console.log("FlightExpire111", FlightExpire);
+  
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());
@@ -108,7 +108,7 @@ const Messages = () => {
         <section>
           <Box className={searchResultStyles.messageContent}>
             <Box className={searchResultStyles.messageContentIn}>
-                {console.log("msg_00", messages)}
+                
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}
@@ -124,7 +124,7 @@ const Messages = () => {
 
               {/*  */}
 
-              {console.log("hasFlightOffers", hasFlightOffers)}
+              
               {!hasFlightOffers ? <Box ref={messagesEndRef} /> : ""}
               {/* booking flow start */}
 

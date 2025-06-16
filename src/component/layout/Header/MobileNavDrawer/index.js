@@ -28,7 +28,7 @@ import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
   const HandleBookTrip = () => {
     // Your booking logic here
-    console.log("Book a trip clicked");
+    
   };
   const dispatch = useDispatch();
   const handleThreadDrawer = () => {
@@ -55,7 +55,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
   const HandleNewThread = () => {
     setTimeout(() => {
       const threaduuid = sessionStorage.getItem("chat_thread_uuid");
-      console.log("CreateNewThreadUUID000", threaduuid);
+      
       if (threaduuid) {
         router.replace(`/chat/${threaduuid}`);
       }

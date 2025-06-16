@@ -51,7 +51,6 @@ const PassengerDrawerForm = () => {
   const selectedpassengerPofile = useSelector(
     (state) => state.passengerDrawer.selectedProfilePass
   );
-  console.log("GetViewPassengers", GetViewPassengers);
 
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
@@ -64,7 +63,7 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerFormError
   );
 
-  console.log("formError_2", formError);
+  
 
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
@@ -85,13 +84,13 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerType
   );
 
-  console.log("PassengerType_test", PassengerType);
+  
 
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
 
-  console.log("PassengerAge", PassengerAge);
+  
   
   // get select from whole pasenger detail card
 
@@ -100,7 +99,7 @@ const PassengerDrawerForm = () => {
     dispatch(NationalitData());
   }, [dispatch]);
 
-  console.log("passengerPofile", passengerPofile);
+  
 
   useEffect(() => {
     dispatch(getPassPofile()); // pasenger profile call api
@@ -113,13 +112,13 @@ const PassengerDrawerForm = () => {
 
   // Load form data or reset on drawer open
 
-  console.log("given_name", given_name);
+  
 
   useEffect(() => {
     if (isPassengerDrawerOpen) {
       setTimeout(() => {
-        console.log("passengerPofile:", passengerPofile);
-        console.log("PassengersUuID:", PassengersUuID);
+        
+        
 
         if (passengerPofile?.length && PassengersUuID) {
           const passengerData = passengerPofile.find(
@@ -127,7 +126,7 @@ const PassengerDrawerForm = () => {
               getProfilepassenger.uuid === selectedpassengerPofile?.uuid
           );
 
-          console.log("passengerData_0:", passengerData);
+          
 
           if (passengerData) {
             setgender(passengerData.gender || "");
@@ -186,17 +185,17 @@ const PassengerDrawerForm = () => {
     
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    console.log("PassengerAge_PassengerAge_test", PassengerAge);
-    console.log("maxDate_test", maxDate);
-    console.log("minDate_test", minDate);
+    
+    
+    
   };
   const validateInfantDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    console.log("PassengerAge_PassengerAge_test", PassengerAge);
+    
 
-    console.log("maxDate_test", maxDate);
-    console.log("minDate_test", minDate);
+    
+    
   };
   // child dat
   // infant age
@@ -207,11 +206,11 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(18, "year");
   }
   if (PassengerType === "infant_without_seat") {
-    console.log("born_on_0", born_on);
+    
     validateInfantDOB(born_on, PassengerAge);
   }
   if (PassengerType === "child") {
-    console.log("born_on_1", born_on);
+    
 
     validateChildDOB(born_on, PassengerAge);
   } else {
@@ -328,14 +327,19 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
-  console.log("bornOnError", bornOnError);
+  
 
   // if all passenger file logic
   const AllPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  console.log("AllPassengerFill", AllPassengerFill);
+  
 
+  const selectPassenger = useSelector(
+        (state) => state?.passengerDrawer?.SelectPassenger
+      );
+      
+  
   return (
     <Drawer
       anchor="right"
@@ -383,7 +387,27 @@ const PassengerDrawerForm = () => {
                 alignItems={"center"}
               >
                 <Box>
-                  <h3 className="regular mb-0">Traveller details</h3>
+                  <h3 className="regular mb-0">
+                    Traveller details -{" "}
+                    <span className="capitalize">
+                      {selectPassenger?.type === "infant_without_seat" ? (
+                        <>
+                          Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
+                          {selectPassenger?.age}{" "}
+                          {selectPassenger?.age > 1 ? "years" : "year"}
+                        </>
+                      ) : selectPassenger?.type === "child" ? (
+                        <>
+                          Child {selectPassenger?.age}{" "}
+                          {selectPassenger?.age > 1 ? "years" : "year"}
+                        </>
+                      ) : (
+                        <>
+                          {selectPassenger?.type} 18+ years
+                        </>
+                      )}
+                    </span>{" "}
+                  </h3>
                 </Box>
               </Box>
               <Divider />

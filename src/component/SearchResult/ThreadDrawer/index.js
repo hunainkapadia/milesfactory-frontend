@@ -66,25 +66,25 @@ const ThreadDrawer = () => {
       );
 
       if (itemDay.getTime() === startOfToday.getTime()) {
-        console.log("→ Grouped as Today");
+        
         group.today.push(item);
       } else if (itemDay.getTime() === startOfYesterday.getTime()) {
-        console.log("→ Grouped as Yesterday");
+        
         group.yesterday.push(item);
       } else if (itemDay >= startOf7DaysAgo) {
-        console.log("→ Grouped as Last 7 Days");
+        
         group.last7Days.push(item);
       } else if (itemDay >= startOf30DaysAgo) {
-        console.log("→ Grouped as Last 30 Days");
+        
         group.last30Days.push(item);
       } else if (
         itemDay.getMonth() === lastMonth.getMonth() &&
         itemDay.getFullYear() === lastMonth.getFullYear()
       ) {
-        console.log("→ Grouped as Last Month");
+        
         group.lastMonth.push(item);
       } else {
-        console.log("→ Grouped as Older");
+        
         group.older.push(item);
       }
     });
@@ -123,7 +123,7 @@ const ThreadDrawer = () => {
     }
   };
   const isloading = useSelector((state) => state.base.isloading);
-  console.log("isloading_thread", isloading);
+  
 
   return (
     <Drawer

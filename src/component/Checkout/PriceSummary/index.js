@@ -36,7 +36,7 @@ const PriceSummary = ({ getdata }) => {
   
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const orderDetail = flightOrder?.order?.selected_offer;
-  console.log("orderDetail_0", flightOrder?.amount_calculations);
+  
   
 
   // const orderDetailOld = useSelector((state) => state.booking.orderDetail); //from flight
@@ -102,7 +102,7 @@ const PriceSummary = ({ getdata }) => {
                   ))}
                 </Box>
                 <Box>
-                  {console.log("getpassengertype", orderDetail)}
+                  
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
                   {Math.round(orderDetail?.base_amount)}
@@ -234,7 +234,7 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Total price</Box>
                 <Box className="mb-0 ">
-                  {console.log("orderDetail111", orderDetail)}
+                  
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
                   {flightOrder?.amount_calculations

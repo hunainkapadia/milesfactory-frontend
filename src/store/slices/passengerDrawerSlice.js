@@ -39,12 +39,12 @@ const passengerDrawerSlice = createSlice({
       state.passProfileDrawer = action.payload;
     },
     setCaptainParams: (state, action)=> {
-      console.log("captain_action_param", action);
+      
       
       state.captainParams = action.payload
     },
     setAllPassengerFill: (state, action)=> {
-      console.log("all_pass_action", action);
+      
       
       state.allPassengerFill = action.payload
     },
@@ -105,7 +105,7 @@ const passengerDrawerSlice = createSlice({
       state.PassengerData = action.payload;
     },
     setLoading: (state, action) => {
-      console.log("action_loading", action);
+      
       
 
       state.isLoading = action.payload;
@@ -143,7 +143,7 @@ export const PassengerForm = () => (dispatch, getState) => {
   const offerIdSend = states?.sendMessage?.TopOfferUrlSend;
   const finalOfferId = offerIdSend || offerIdGet;
   const Passtype = getState();
-  console.log("Passtype", Passtype);
+  
   
 
   if (!finalOfferId) return;
@@ -161,7 +161,7 @@ export const PassengerForm = () => (dispatch, getState) => {
       }
     })
     .catch((error) => {
-      console.log("booking_error", error);
+      
     });
 };
 
@@ -177,7 +177,7 @@ export const ViewPassengers = () => (dispatch, getState) => {
   api
     .get(viewPassengerUrl)
     .then((response) => {
-      console.log("response000", response?.data);
+      
       dispatch(setViewPassengers(response?.data || []));
       dispatch(setisLoading(false))
     })
@@ -196,8 +196,8 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
   
   const filledPassengerUUIDs = state.passengerDrawer.filledPassengerUUIDs;
 
-  console.log("GetViewPassengers_0", GetViewPassengers);
-  console.log("filledPassengerUUIDs_0", filledPassengerUUIDs);
+  
+  
 
 
   if (filledPassengerUUIDs.length === GetViewPassengers.length) {
@@ -207,12 +207,12 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   
-  console.log("SubmitUrl", passengerUuid);
+  
   
   const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
 
   
-  console.log("[2] Submitting Passenger API:", SubmitUrl);
+  
 
   api
     .post(SubmitUrl, params)
@@ -222,7 +222,7 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
       dispatch(setPassFormData(formData));
       dispatch(markPassengerAsFilled(passengerUuid));
 
-      console.log("passenger_respone", formData);
+      
       const state = getState();
       const allPassengers = state.passengerDrawer?.ViewPassengers || [];
       const filledPassengerUuids =
@@ -263,21 +263,16 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
   const captainParams = state.passengerDrawer?.captainParams;
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const getFillPass = state.passengerDrawer.allPassengerFill;
-  console.log("getFillPass", getFillPass);
-
-  console.log("captainParams", captainParams);
   
 
   
   if (getFillPass) {
-    console.log("pass_captain_params", captainParams);
-
+    
     const getParams = {
       email: captainParams.email,
       phone_number: captainParams.phone_number,
       region: captainParams.region,
     };
-    console.log("getParams", getParams);
     
   
     setTimeout(() => {

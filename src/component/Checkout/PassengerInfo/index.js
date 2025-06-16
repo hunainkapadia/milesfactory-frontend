@@ -61,6 +61,7 @@ const PassengerInfo = ({ getdata }) => {
         dispatch(setPassengerPassport(passportNumber))
         dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
         dispatch(setOpenPassengerDrawer()); // open drawer
+        dispatch(setSelectPassenger(passenger))
       }
     }
   };

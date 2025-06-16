@@ -7,7 +7,7 @@ import { currencySymbols } from "@/src/utils/utils";
 const MobileLoading = () => {
   const Slectedflight = useSelector((state) => state.booking.flightDetail);
   const SlectedflightLoading = useSelector((state) => state.booking);
-  console.log("SlectedflightLoading", SlectedflightLoading);
+  
   
    const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
   
@@ -28,7 +28,7 @@ const MobileLoading = () => {
         justifyContent={"center"}
       >
         {/* <Typography className="f14">YOUR TRIP</Typography> */}
-        {console.log("paymentSuccess", paymentSuccess)}
+        
 
         {paymentSuccess ? (
           <Box

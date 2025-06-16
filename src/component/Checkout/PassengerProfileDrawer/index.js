@@ -147,12 +147,21 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   Traveller details -{" "}
                   <span className="capitalize">
                     {selectPassenger?.type === "infant_without_seat" ? (
-                      <>Infants</>
+                      <>
+                        Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
+                        {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
+                    ) : selectPassenger?.type === "child" ? (
+                      <>
+                        Child {" "}
+                        {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
                     ) : (
-                      <>{selectPassenger?.type}</>
+                      <>{selectPassenger?.type} 18+ years</>
                     )}
                   </span>{" "}
-                  {selectPassenger?.age} year
                 </h3>
               </Box>
             </Box>

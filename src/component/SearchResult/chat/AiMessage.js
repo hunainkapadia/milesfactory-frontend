@@ -24,7 +24,7 @@ const AiMessage = ({ aiMessage }) => {
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
 
-  console.log("aiMessage_00", aiMessage);
+  
 
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
@@ -60,29 +60,29 @@ const AiMessage = ({ aiMessage }) => {
       setShowAllFlight(true); // only enable showing all flights once
     }
   };
-  console.log("GetViewPassengers", GetViewPassengers.length > 0);
-  console.log("filledPassenger", filledPassenger);
+  
+  
 
   const getNextFlight = useSelector(
     (state) => state.sendMessage?.appendFlights?.ai
   );
-  console.log("getNextFlight", getNextFlight);
+  
 
   const displayedGetFlights = showAllFlight
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
     : aiMessage?.ai?.offers;
 
-  console.log("Total Offers:", displayedGetFlights?.length);
-  console.log("Original Offers:", aiMessage?.ai?.offers?.length);
-  console.log("Appended Offers:", getNextFlight?.offers?.length);
+  
+  
+  
 
-  console.log("displayedGetFlights", displayedGetFlights);
+  
 
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
-  console.log("paymentSuccess", paymentSuccess);
+  
 
   useEffect(() => {
     if (paymentSuccess) {
@@ -98,7 +98,7 @@ const AiMessage = ({ aiMessage }) => {
   const aiboxRef = useRef(null); //  Add this ref
 
   // Add class when all flights are shown
-  console.log("showAllFlight", showAllFlight);
+  
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
@@ -121,7 +121,7 @@ const AiMessage = ({ aiMessage }) => {
 
   const getuser = useSelector((state) => state.base?.currentUser?.user);
 
-  console.log("getuser_chat2", getuser);
+  
 
   const orderDetail = useSelector(
     (state) => state?.payment?.OrderConfirm?.order?.selected_offer
@@ -238,7 +238,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         // Default AI response
         <>
-          {/* {console.log("aiMessage111", aiMessage?.ai)} */}
+          
           {!aiMessage?.ai?.response?.results ||
           aiMessage?.ai?.newThread ||
           aiMessage?.ai?.deleteThread ? (
@@ -246,17 +246,14 @@ const AiMessage = ({ aiMessage }) => {
               <Box className={searchResultStyles.AiMessage + " aaa"}>
                 {aiMessage?.ai?.isPolling?.status && (
                   <>
-                    {console.log(
-                      "displayedGetFlights_length",
-                      aiMessage?.ai?.isPolling
-                    )}
+                    
                     <PollingMessage
                       PollingData={aiMessage?.ai?.isPolling?.argument}
                     />
                   </>
                 )}
 
-                {console.log("aiMessage_newThread", aiMessage?.ai?.newThread)}
+                
                 <>
                   {aiMessage?.ai?.response ? (
                     <Typography

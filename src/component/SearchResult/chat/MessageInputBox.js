@@ -28,8 +28,8 @@ const MessageInputBox = ({
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
 
-  console.log("userMessage", userMessage);
-  console.log("isTyping", isTyping);
+  
+  
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,7 +45,7 @@ const MessageInputBox = ({
 
   useEffect(() => {
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
-    console.log("storedUuid", storedUuid);
+    
     setGetuuid(storedUuid);
   }, []);
 
@@ -76,7 +76,7 @@ const MessageInputBox = ({
     if (!uuid) return null; // Skip rendering or logic
 
     // Only runs when uuid is defined
-    console.log("get_uuid", uuid);
+    
     router.push(`/chat/${uuid}`);
   };
 
@@ -100,7 +100,7 @@ const MessageInputBox = ({
 
   // check  polling true and start new chat
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
-    console.log("FlightExpire222", FlightExpire);
+    
   const messages = useSelector((state) => state.sendMessage.messages);
 
 // Find message with ai.offers
@@ -108,7 +108,7 @@ const checkPolling = messages.find(
   (msg) => msg.ai && msg.ai.offers
 );
 const isPolling = checkPolling?.ai?.is_complete;
-console.log("checkPolling", messages || FlightExpire);
+
 
   
   // const HandleNewThread = () => {
