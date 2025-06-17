@@ -46,6 +46,8 @@ const AiMessage = ({ aiMessage }) => {
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  
+  
 
   useEffect(() => {
     if (GetViewPassengers.length > 0) {

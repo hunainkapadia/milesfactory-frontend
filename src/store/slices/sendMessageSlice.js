@@ -25,6 +25,9 @@ const sendMessageSlice = createSlice({
     },
   },
   reducers: {
+    setIsFunction: (state, action)=> {
+      state.IsFunction = action.payload;
+    },
     setThreadUuid: (state, action) => {
       state.threadUuid = action.payload;
     },
@@ -176,12 +179,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 api
                   .get(runStatusUrl)
                   .then((resRun) => {
+                    
                     const runData = resRun.data;
                     console.log("runData.run_status", runData);
-
+                    
                     // checking is function true before dufful flight
-
+                    
                     if (runData.run_status === "completed") {
+                      console.log("runData_run_status", runData.run_status);
                       console.log(runData.run_status);
 
                       clearInterval(interval);
@@ -220,7 +225,16 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       // flight result [start]
+      console.log("is_function_test", response?.is_function);
       if (response?.is_function) {
+        dispatch(setIsFunction({status: "true" }))
+      } else {
+        dispatch(setIsFunction({status: "false" }))
+
+      }
+      if (response?.is_function) {
+
+        
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         const allFlightSearchUuid =
@@ -254,6 +268,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   );
                 } else {
                   console.log("Still not complete after polling");
+                  
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -515,5 +530,6 @@ export const {
   setAppendFlights,
   setnextPageNo,
   setThreadUuid,
+  setIsFunction
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

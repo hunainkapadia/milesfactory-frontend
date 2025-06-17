@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IconButton, Box, Button } from "@mui/material";
+import { IconButton, Box, Button, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import MicAnimation from "../ChatInput/MicAnimation";
 import { useDispatch, useSelector } from "react-redux";
@@ -143,84 +143,81 @@ const isPolling = checkPolling?.ai?.is_complete;
               <i className="fa fa-arrow-down"></i>
             </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
-                  <Box
-                    className={inputStyles.SearchBoxIn}
-                    position={"relative"}
-                  >
-                    {!isMessageHome && !userMessage.trim() && !listening ? (
-                      <LabelAnimation />
-                    ) : null}
+              <Box className={inputStyles.SearchBoxIn} position={"relative"}>
+                {!isMessageHome && !userMessage.trim() && !listening ? (
+                  <LabelAnimation />
+                ) : null}
 
-                    <div
-                      ref={inputRef}
-                      contentEditable={true}
-                      suppressContentEditableWarning
-                      role="textbox"
-                      placeholder="Ask anything about your trip"
-                      className={inputStyles.SearchForm + " SearchForm 222"}
-                      onInput={(e) => {
-                        const value = e.currentTarget.textContent.trim();
-                        setUserMessage(value);
-                        setIsTyping(value.length > 0);
-                        // If user edits manually, reset transcript so react-speech-recognition does not override
-                        resetTranscript();
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          if (isLoading) return;
-                          e.preventDefault();
-                          handleSearch();
-                          e.currentTarget.textContent = "";
-                          setIsTyping(false);
-                          resetTranscript();
-                        }
-                      }}
-                      style={{ textAlign: "left" }}
-                    ></div>
+                <div
+                  ref={inputRef}
+                  contentEditable={true}
+                  suppressContentEditableWarning
+                  role="textbox"
+                  placeholder="Ask anything about your trip"
+                  className={inputStyles.SearchForm + " SearchForm 222"}
+                  onInput={(e) => {
+                    const value = e.currentTarget.textContent.trim();
+                    setUserMessage(value);
+                    setIsTyping(value.length > 0);
+                    // If user edits manually, reset transcript so react-speech-recognition does not override
+                    resetTranscript();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      if (isLoading) return;
+                      e.preventDefault();
+                      handleSearch();
+                      e.currentTarget.textContent = "";
+                      setIsTyping(false);
+                      resetTranscript();
+                    }
+                  }}
+                  style={{ textAlign: "left" }}
+                ></div>
 
-                    <Box
-                      className={`${inputStyles.SearchButtonBox} ${
-                        listening ? inputStyles.active : ""
-                      }`}
-                    >
-                      <Box width={"100%"}>
-                        {listening ? <MicAnimation active={listening} /> : null}
-                      </Box>
-                      <Box className={inputStyles.BoxButtons}>
-                        <IconButton
-                          className={inputStyles.MicButton}
-                          onClick={handleVoiceInput}
-                          disabled={isLoading}
-                        >
-                          <i
-                            className={`fa ${
-                              listening ? "fa-check" : "fa-microphone"
-                            }`}
-                          ></i>
-                        </IconButton>
-
-                        {listening ? (
-                          <IconButton
-                            className={inputStyles.MicButton}
-                            onClick={handleVoiceInput}
-                            disabled={isLoading}
-                          >
-                            <i className="fa fa-close"></i>
-                          </IconButton>
-                        ) : (
-                          <IconButton
-                            className={`${inputStyles.SearchButton} ${
-                              isLoading ? inputStyles.Disabled : ""
-                            }`}
-                            onClick={handleSearch}
-                            disabled={isLoading}
-                          >
-                            <i className="fa fa-arrow-right"></i>
-                          </IconButton>
-                        )}
-                      </Box>
-                    </Box>
+                <Box
+                  className={`${inputStyles.SearchButtonBox} ${
+                    listening ? inputStyles.active : ""
+                  }`}
+                >
+                  <Box width={"100%"}>
+                    {listening ? <MicAnimation active={listening} /> : null}
                   </Box>
+                  <Box className={inputStyles.BoxButtons}>
+                    <IconButton
+                      className={inputStyles.MicButton}
+                      onClick={handleVoiceInput}
+                      disabled={isLoading}
+                    >
+                      <i
+                        className={`fa ${
+                          listening ? "fa-check" : "fa-microphone"
+                        }`}
+                      ></i>
+                    </IconButton>
+
+                    {listening ? (
+                      <IconButton
+                        className={inputStyles.MicButton}
+                        onClick={handleVoiceInput}
+                        disabled={isLoading}
+                      >
+                        <i className="fa fa-close"></i>
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        className={`${inputStyles.SearchButton} ${
+                          isLoading ? inputStyles.Disabled : ""
+                        }`}
+                        onClick={handleSearch}
+                        disabled={isLoading}
+                      >
+                        <i className="fa fa-arrow-right"></i>
+                      </IconButton>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
               {/* {!isPolling && !FlightExpire ? (
                 <>
                 </>
@@ -257,19 +254,29 @@ const isPolling = checkPolling?.ai?.is_complete;
                     flexWrap={"wrap"}
                     fontSize={14}
                   >
-                    <Box
-                      className={`${styles.ChatBullet} `}
-                    >
+                    <Box className={`${styles.ChatBullet} `} display={"flex"}
+                      alignItems={"center"}>
                       ✅ Lowest price guaranteed
                     </Box>
                     <Box
+                      gap={1}
+                      display={"flex"}
+                      alignItems={"center"}
                       className={` ${styles.ChatBullet} `}
                     >
-                      🛡️ Airline-direct booking and protection
+                      <Box className="imggroup">
+                        <img
+                          src="/images/protection-text-icon.svg"
+                          alt="Protection Icon"
+                          width={15}
+                        />
+                      </Box>
+                      <Typography component={"span"}>
+                        Airline-direct booking and protection
+                      </Typography>
                     </Box>
-                    <Box
-                      className={`${styles.ChatBullet} `}
-                    >
+                    <Box className={`${styles.ChatBullet} `} display={"flex"}
+                      alignItems={"center"}>
                       🔒 Privacy-safe
                     </Box>
                   </Box>
@@ -281,19 +288,25 @@ const isPolling = checkPolling?.ai?.is_complete;
                     flexWrap={"wrap"}
                     fontSize={12}
                   >
+                    <Box className={`${styles.ChatBullet} `} display={"flex"}alignItems={"center"}>✅ Best price</Box>
                     <Box
-                      className={`${styles.ChatBullet} `}
-                    >
-                      ✅ Best price
-                    </Box>
-                    <Box
+                      gap={1}
+                      display={"flex"}
+                      alignItems={"center"}
                       className={` ${styles.ChatBullet} `}
                     >
-                      🛡️ Airline-protected
+                      <Box className="imggroup">
+                        <img
+                          src="/images/protection-text-icon.svg"
+                          alt="Protection Icon"
+                          width={15}
+                        />
+                      </Box>
+                      <Typography component={"span"} fontSize={12}>
+                        Airline-protected
+                      </Typography>
                     </Box>
-                    <Box
-                      className={`${styles.ChatBullet} `}
-                    >
+                    <Box className={`${styles.ChatBullet} `} display={"flex"}alignItems={"center"}>
                       🔒 Privacy-safe
                     </Box>
                   </Box>

@@ -22,10 +22,9 @@ const HerosectionContent = () => {
              <Typography
                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                color="white"
+               fontSize={20}
              >
-               No more juggling tabs or comparing markups. Mylz cuts through the
-               chaos to find the fastest trips across flights, trains, and more
-               at direct prices. Built for speed.
+               Mylz AI finds the cheapest flight prices with full airline protection.
              </Typography>
              <Typography
                sx={{ display: { lg: "none", md: "none", xs: "block" } }}

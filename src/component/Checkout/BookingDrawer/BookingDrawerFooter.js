@@ -21,12 +21,15 @@
       dispatch(setCloseDrawer()); // Pass an empty value to close the drawer
 
     };
-
-    const PassengerData = useSelector((state) => state.passengerDrawer);
     
     const orderSuccess = useSelector(
       (state) => state?.payment?.OrderConfirm
     ); //from order api
+    const passengerSelected = useSelector(
+      (state) => state?.sendMessage
+    );
+    console.log("passengerSelected", passengerSelected);
+    
     const handleBookFlight = () => {
       dispatch(setisLoading())
       dispatch(setCloseDrawer()); //dispatch close
@@ -49,21 +52,29 @@
     const Passengers = Number(getFlightDetails?.per_passenger_amount) * personQuantity;
     const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
     const totalAmount = Math.round(WithtaxAmount);
+
+
+    // for button show hide logic when normal message or flights
+    const isFunction_state = useSelector(
+      (state) => state?.sendMessage?.IsFunction?.status
+    );
+
+    const IsPassengerflow = useSelector(
+      (state) => state?.passengerDrawer?.IsPassengerflow
+    );
+    console.log("IsPassengerflow", IsPassengerflow);
+    console.log("isFunction_state", isFunction_state);
+    
     return (
-      <Box px={3} 
+      <Box
+        px={3}
         className={styles.checkoutDrowerFooter + " test11"}
         width={"100%"}
       >
         <Divider />
 
         {/* Footer Content */}
-        <Box
-        
-          py={2}
-          
-          display="flex"
-          flexDirection="column"
-        >
+        <Box py={2} display="flex" flexDirection="column">
           {/* TODO: This will become dynamic based on airline cancellation policy */}
           <Typography variant="p" className="gray f12" pb={2}>
             The airline policy will apply if you decide to cancel or modify your
@@ -78,34 +89,29 @@
             width={"100%"}
           >
             {/* Price Section */}
-            <Box
-              display={"flex"}
-              flexDirection="column"
-            >
+            <Box display={"flex"} flexDirection="column">
               <Box
                 className={styles.priceSection}
                 display="flex"
                 alignItems="center"
               >
-                <h4
-                  className={styles.price + " exbold mb-0 basecolor-dark"}
-                >
+                <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
                   <span>
-                  {currencySymbols[getFlightDetails?.tax_currency] ||
-                    getFlightDetails?.tax_currency}
-                  {Math.round(getFlightDetails?.per_passenger_amount)}
+                    {currencySymbols[getFlightDetails?.tax_currency] ||
+                      getFlightDetails?.tax_currency}
+                    {Math.round(getFlightDetails?.per_passenger_amount)}
                   </span>
                 </h4>
               </Box>
-               {personQuantity > 1 && (
-              <Box className={styles.totalPersonPrice}>
-                <Typography variant="p" className=" gray f12">
-                  {currencySymbols[getFlightDetails?.tax_currency] ||
+              {personQuantity > 1 && (
+                <Box className={styles.totalPersonPrice}>
+                  <Typography variant="p" className=" gray f12">
+                    {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
                     {Math.round(getFlightDetails?.total_amount)} total
-                </Typography>
-              </Box>
-                )}
+                  </Typography>
+                </Box>
+              )}
             </Box>
 
             {/* Actions Section */}
@@ -134,23 +140,38 @@
                 gap={2}
                 className="basecolor1"
               >
-              {!orderSuccess ? ( 
-                <>
-                  <button
-                    className={
-                      styles.selectFlightBtn + " btn btn-primary btn-sm btn-round"
-                    }
-                    onClick={handleBookFlight}
-                  >
-                    <Box display="flex" gap={1}>
-                      <Box
-                      >
-                        Select flight
+                {/* IsPassengerflow !== true */}
+                {isFunction_state !== true ? (
+                  <>
+                    <button
+                      className={
+                        styles.selectFlightBtn +
+                        " btn btn-primary btn-sm btn-round"
+                      }
+                      onClick={handleBookFlight}
+                    >
+                      <Box display="flex" gap={1}>
+                        <Box>Select flight</Box>
                       </Box>
-                    </Box>
-                  </button>
-                </>
-              ): ""}
+                    </button>
+                  </>
+                ) : isFunction_state !== true && IsPassengerflow !== true ? (
+                  <>
+                  </>
+                ) : (
+                  ""
+                )}
+                    <button
+                      className={
+                        styles.selectFlightBtn +
+                        " btn btn-primary btn-sm btn-round"
+                      }
+                      onClick={handleBookFlight}
+                    >
+                      <Box display="flex" gap={1}>
+                        <Box>Select flight</Box>
+                      </Box>
+                    </button>
               </Box>
             </Box>
           </Box>

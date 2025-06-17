@@ -30,8 +30,12 @@ const passengerDrawerSlice = createSlice({
     captainParams: null,
     passProfileDrawer: false,
     selectedProfilePass: null,
+    IsPassengerflow: false,
   },
   reducers: {
+    setIsPassengerflow: (state, action) => {
+      state.IsPassengerflow = action.payload;
+    },
     setSelectedProfilePass: (state, action)=> {
       state.selectedProfilePass = action.payload
     },
@@ -177,6 +181,8 @@ export const ViewPassengers = () => (dispatch, getState) => {
   api
     .get(viewPassengerUrl)
     .then((response) => {
+
+      dispatch(setIsPassengerflow(true));
       
       dispatch(setViewPassengers(response?.data || []));
       dispatch(setisLoading(false))
@@ -341,7 +347,8 @@ export const {
   setSelectedProfilePass,
   setPassengerIndex,
   setPassengerPassport,
-  setSelectPassenger
+  setSelectPassenger,
+  setIsPassengerflow
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

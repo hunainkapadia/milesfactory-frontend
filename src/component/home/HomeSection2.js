@@ -87,11 +87,12 @@ const HomeSection2 = (props) => {
                       color="white"
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                     >
-                      See what others are booking – from<Box
-                      component="br"
-                      sx={{ display: { xs: "block", sm: "none" } }}
-                    />weekend escapes to
-                      multi-city travels.
+                      See what others are booking – from
+                      <Box
+                        component="br"
+                        sx={{ display: { xs: "block", sm: "none" } }}
+                      />
+                      weekend escapes to multi-city travels.
                     </Typography>
                   </Box>
                 </Card>
@@ -119,11 +120,12 @@ const HomeSection2 = (props) => {
                       color="white"
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                     >
-                      Found a trip you like? Tweak the dates,<Box
-                      component="br"
-                      sx={{ display: { xs: "block", sm: "none" } }}
-                    />change the city –
-                      and it's now yours.
+                      Found a trip you like? Tweak the dates,
+                      <Box
+                        component="br"
+                        sx={{ display: { xs: "block", sm: "none" } }}
+                      />
+                      change the city – and it's now yours.
                     </Typography>
                   </Box>
                 </Card>
@@ -151,10 +153,12 @@ const HomeSection2 = (props) => {
                       color="white"
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                     >
-                      Instantly and easily share your trip page<Box
-                      component="br"
-                      sx={{ display: { xs: "block", sm: "none" } }}
-                    />with friends, group chats, or social media. 
+                      Instantly and easily share your trip page
+                      <Box
+                        component="br"
+                        sx={{ display: { xs: "block", sm: "none" } }}
+                      />
+                      with friends, group chats, or social media.
                     </Typography>
                   </Box>
                 </Card>
@@ -169,18 +173,35 @@ const HomeSection2 = (props) => {
                 href={"#PoweredByglobal"}
                 className={styles.footerBtn + " white text-decoration-none"}
               >
-                <Typography
-                  className="align-center white"
-                  sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+                <Box
+                  gap={1}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  className={` ${styles.ChatBullet} `}
                 >
-                  🌍 Get inspired by real trips. Remix what you like, skip the planning.
-                </Typography>
-                <Typography
-                  className="align-center white"
-                  sx={{ display: { lg: "none", md: "none", xs: "block" } }}
-                >
-                  🌍 Get inspired. Skip the planning.
-                </Typography>
+                  <Box className="imggroup">
+                    <img
+                      src="/images/world-map-icon.svg"
+                      alt="Protection Icon"
+                      width={18}
+                    />
+                  </Box>
+
+                  <Typography component={"span"}
+                    className="align-center white"
+                    sx={{ display: { xs: "none", lg: "block", md: "block" } }}
+                  >
+                    Get inspired by real trips. Remix what you like, skip the
+                    planning.
+                  </Typography>
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    Get inspired. Skip the planning.
+                  </Typography>
+                </Box>
               </Link>
             </Box>
           </Box>
