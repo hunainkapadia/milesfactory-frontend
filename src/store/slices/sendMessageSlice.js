@@ -241,7 +241,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           response?.response?.results?.view_all_flight_result_api?.uuid;
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
-          dispatch(setTopOfferUrlSend(getallFlightId));
+          dispatch(setTopOfferUrlSend(allFlightSearchUuid));
           dispatch(setAllOfferUrl(allFlightSearchApi));
           
           const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
@@ -297,6 +297,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     api
                       .get(allFlightSearchApi)
                       .then((flightRes) => {
+                        console.log("flightRes", flightRes);
+                        
                         const realFlightData = flightRes.data;
 
                         // First clear placeholders
