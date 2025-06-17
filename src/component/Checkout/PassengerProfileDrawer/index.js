@@ -47,6 +47,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
+  console.log("passengerPofile", passengerPofile);
+  
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
@@ -60,6 +62,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const FilledPassFormData = useSelector(
     (state) => state?.passengerDrawer?.PassFormData
   );
+  console.log("FilledPassFormData", FilledPassFormData);
+  
   // get filled pasenger form data from submit from to redux
 
   const handleCardClick = (passenger) => {
@@ -68,6 +72,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     const birthDate = dayjs(passenger.born_on);
     const now = dayjs();
     const age = now.diff(birthDate, "year");
+    
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
     dispatch(setOpenPassengerDrawer()); // open drawer
@@ -100,7 +105,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     const selectPassenger = useSelector(
       (state) => state?.passengerDrawer?.SelectPassenger
     );
-    console.log("selectPassenger", selectPassenger);
+    console.log("selectPassenger", selectPassenger?.age);
 
   return (
     <Drawer
@@ -172,8 +177,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             {/* passport */}
             {/* if passport_number  equal and show selected profile */}
 
-            {passengerPofile
-              ?.filter((passenger) => {
+            {/* ?.filter((passenger) => {
                 if (
                   selectedType === "child" ||
                   selectedType === "infant_without_seat"
@@ -184,18 +188,43 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   );
                 }
                 return passenger?.type === selectedType;
-              })
-              .map((passenger, index) => {
+              }) */}
+              
+            {passengerPofile?.map((passenger, index) => {
                 const isPassFilled =
                   passenger?.passport_number ===
                   FilledPassFormData?.passport_number;
+
+                  {/* if age is not uqual disable */}
+                  console.log("passenger_profile_age", passenger?.born_on);
+                  // Calculate age from born_on date
+                  const birthDate = dayjs(passenger?.born_on);
+                  const today = dayjs();
+                  const profilePassengerAge = today.diff(birthDate, "year");
+
+                  // Log for debugging
+                  console.log("profile_age__1:", profilePassengerAge);
+                  console.log("pass_age__1:", selectPassenger?.type);
+                  
+                  let ispassDisabled = false;
+
+if (selectPassenger?.type === "adult") {
+  // Disable if passenger is not adult
+  ispassDisabled = passenger?.type !== "adult";
+} else {
+  // For child or infant, disable if age or type doesn't match
+  ispassDisabled =
+    profilePassengerAge !== selectPassenger?.age ||
+    passenger?.type !== selectPassenger?.type;
+}
 
                 return (
                   <PassengerProfilecard
                     key={passenger?.uuid || index}
                     getdata={passenger}
                     onClickCard={() => handleCardClick(passenger)}
-                    passFilled={isPassFilled}
+                    // passFilled={isPassFilled}
+                    passDisabled={ispassDisabled}
                   />
                 );
               })}

@@ -41,9 +41,9 @@ const Navbar = () => {
         <Box onClick={inviteEmailHandle} className={styles.navItem + " cursor-pointer"}>
             Share Mylz with friends
         </Box>
-        <Box  className={styles.navItem + " cursor-pointer"}>
+        {/* <Box  className={styles.navItem + " cursor-pointer"}>
             Explore community trips
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

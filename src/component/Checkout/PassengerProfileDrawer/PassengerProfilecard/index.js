@@ -5,7 +5,7 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import dayjs from "dayjs";
 // Example Props (you should pass these from parent)
 
-const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
+const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }) => {
 
   console.log("profiel_pass_getdata", getdata );
   
@@ -32,10 +32,11 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled }) => {
   return (
     <>
       <Box px={3} pb={2}>
-        <Box
+        <Box 
           className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
-            passFilled ? styles.isFilled : ""
-          } }`}
+            passFilled ? styles.isFilled : "" 
+          } ${
+            passDisabled ? styles.passDisabled : "" }`}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"space-between"}

@@ -321,7 +321,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                   Share Mylz with friends
                 </Typography>
               </Box>
-              <Box
+              {/* <Box
                 display="flex"
                 alignItems="center"
                 
@@ -329,7 +329,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                 className={`basecolor1-dark2`}
               >
                 <Typography variant="body2">Explore community trips</Typography>
-              </Box>
+              </Box> */}
             </Box>
             {/*  */}
             {/*  */}
