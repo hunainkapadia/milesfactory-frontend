@@ -116,6 +116,9 @@ export const PaymentForm = () => (dispatch, getState) => {
     .then((response) => {
       const data = response.data;
       console.log("payment_data111", data);
+
+      console.log("payment_status", data.status);
+      
       
       if (data.status === "complete") {
         console.log("✅ Order complete!");
