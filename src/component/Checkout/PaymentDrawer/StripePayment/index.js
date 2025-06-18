@@ -50,6 +50,7 @@ const StripePayment = () => {
 
   useEffect(() => {
     setTimeout(() => {
+      alert("useeffect PaymentForm")
       dispatch(PaymentForm());
     }, 1000);
   }, []);

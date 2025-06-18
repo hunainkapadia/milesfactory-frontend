@@ -127,6 +127,7 @@ export const PaymentForm = () => (dispatch, getState) => {
 
       if (data.status === "complete") {
         alert("order complete", OrderConfirm)
+        setCustomerEmail(data.customer_email);
         dispatch(setPaymentFormSuccess(true));
         dispatch(setPaymentData(data));
         dispatch(setPaymentDrawer(false));
