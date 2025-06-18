@@ -85,7 +85,8 @@ export const PaymentSessionStart = () => (dispatch, getState) => {
       }
     )
     .then((response) => {
-      alert("create-checkout-session with orderuuid")
+      console.log("polling_test_res", response);
+      
 
       console.log("session_response", response);
 
@@ -106,29 +107,21 @@ export const PaymentSessionStart = () => (dispatch, getState) => {
 export const PaymentForm = () => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
-
-  // Correct sessionId access
   const sessionId = state.payment.PaymentSessionData?.sessionId;
-
-  console.log("PaymentForm_sessionId", state);
 
   if (!sessionId) {
     console.warn("PaymentForm: sessionId is missing");
     return;
   }
 
+  dispatch(setPaymentFormSuccess({is_complete: false}));
   api
     .get(`/api/v1/stripe/session-status?session_id=${sessionId}`)
     .then((response) => {
-      alert("session status with session id")
       const data = response.data;
-      console.log("payment_res", data);
-      console.log("payment_data_status", data.status);
-
       if (data.status === "complete") {
-        alert("order complete", OrderConfirm)
-        setCustomerEmail(data.customer_email);
-        dispatch(setPaymentFormSuccess(true));
+        console.log("✅ Order complete!");
+        dispatch(setPaymentFormSuccess({is_complete: true}));
         dispatch(setPaymentData(data));
         dispatch(setPaymentDrawer(false));
         dispatch(OrderConfirm(orderUUID));
@@ -140,13 +133,12 @@ export const PaymentForm = () => (dispatch, getState) => {
 };
 
 
+
 export const OrderConfirm = (orderId) => (dispatch, getState) => {
 
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
   console.log("payment_response_0", orderId);
-  
-  dispatch(setPaymentStatus({is_complete: "no",}))
   setTimeout(() => {
     api
       .get(`/api/v1/order/${orderUUID}/details`)

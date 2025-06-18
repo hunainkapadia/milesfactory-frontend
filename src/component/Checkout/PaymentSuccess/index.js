@@ -133,7 +133,11 @@ const PaymentSuccess = () => {
     dispatch(InviteSubmit(payload));
   };
 
-  const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
+  const PaymentStatus = useSelector((state) => state?.payment?.PaymentFormSuccess);
+
+  console.log("PaymentStatus", PaymentStatus);
+  
+  
   
 const inviteMoreEmailHandle=()=> {
     dispatch(setInviteEmailDialog(true))

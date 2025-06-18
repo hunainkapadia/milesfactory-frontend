@@ -48,12 +48,15 @@ const StripePayment = () => {
   
   console.log("sessionIdData", sessionId, "clientSecret:", clientSecret);
 
-  useEffect(() => {
-    setTimeout(() => {
-      alert("useeffect PaymentForm")
-      dispatch(PaymentForm());
-    }, 1000);
-  }, []);
+useEffect(() => {
+  if (!sessionId) return;
+  const interval = setInterval(() => {
+    dispatch(PaymentForm());
+  }, 1000); // poll every 1 second
+
+  return () => clearInterval(interval); // clean up on unmount
+}, [sessionId, dispatch]);
+
   
 
   const options = {
