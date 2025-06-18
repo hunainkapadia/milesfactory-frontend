@@ -15,6 +15,9 @@ const PaymentSlice = createSlice({
     PaymentSessionData: null,
   },
   reducers: {
+    setOrderData: (state, action)=> {
+      state.OrderData = action.payload;
+    },
     setPaymentStatus:(state, action)=> {
       state.paymentStatus = action.payload
     },
@@ -114,14 +117,16 @@ export const PaymentForm = () => (dispatch, getState) => {
     return;
   }
 
-  dispatch(setPaymentFormSuccess({is_complete: false}));
+  dispatch(setPaymentFormSuccess(false));
   api
     .get(`/api/v1/stripe/session-status?session_id=${sessionId}`)
     .then((response) => {
       const data = response.data;
+      console.log("payment_data111", data);
+      
       if (data.status === "complete") {
         console.log("✅ Order complete!");
-        dispatch(setPaymentFormSuccess({is_complete: true}));
+        dispatch(setPaymentFormSuccess(true));
         dispatch(setPaymentData(data));
         dispatch(setPaymentDrawer(false));
         dispatch(OrderConfirm(orderUUID));
@@ -139,10 +144,29 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
   console.log("payment_response_0", orderId);
+  dispatch(setPaymentStatus({is_complete: "no",}))
   setTimeout(() => {
     api
       .get(`/api/v1/order/${orderUUID}/details`)
       .then((response) => {
+
+        dispatch(setOrderData(response.data));
+        if (response?.data?.duffel_order?.payment_status) {
+          dispatch(
+            setPaymentStatus({
+              is_complete: "yes",
+              status: response?.data?.duffel_order?.payment_status,
+            })
+          );
+          setIsloading(false)
+        } else {
+          dispatch(
+            setPaymentStatus({
+              is_complete: "yes",
+              status: "payment_failed",
+            })
+          );
+        }
         console.log("payment_response", response.data);
         dispatch(setOrderConfirm(response.data));
       })
@@ -168,5 +192,6 @@ export const {
   setOrderConfirm,
   setPaymentSessionId,
   setPaymentSessionData,
+  setOrderData,
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

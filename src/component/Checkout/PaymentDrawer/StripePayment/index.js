@@ -11,7 +11,6 @@ import {
   PaymentForm,
   setPaymentData,
   setPaymentDrawer,
-  setPaymentFormSuccess,
 } from "@/src/store/slices/PaymentSlice";
 import api from "@/src/store/api";
 import LoadingArea from "@/src/component/LoadingArea";

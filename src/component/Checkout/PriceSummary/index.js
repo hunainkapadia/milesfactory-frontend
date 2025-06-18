@@ -54,6 +54,10 @@ const PriceSummary = ({ getdata }) => {
   const totalAmount = Math.round(orderDetail?.base_amount) + Math.round(orderDetail?.tax_amount) + Math.round(orderDetail?.markup_amount);
 
   const paymentSuccess = useSelector((state) => state.payment.PaymentFormSuccess);
+
+  console.log("paymentSuccess_test", paymentSuccess);
+  
+
   return (
     <>
       <Box py={2}>

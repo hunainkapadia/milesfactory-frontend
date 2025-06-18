@@ -28,16 +28,18 @@ const PaymentSuccess = () => {
   const [email, setEmail] = useState(""); // from false to empty string
   const [emailError, setEmailError] = useState("");
   // stroll
-  const PaymentData = useSelector((state) => state?.payment?.PaymentData);
   
-  {
-    
-  }
-
+  
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
-
+  
   const [scrollRef, scrollToRef] = useScrollToRef();
-
+  const orderData = useSelector((state) => state?.payment?.OrderData);
+  const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
+  
+  console.log("orderData_test", orderData);
+  console.log("PaymentStatus_0", PaymentStatus);
+  
+  
   useEffect(() => {
     registerScrollFunction(scrollToRef);
   }, []);
@@ -59,7 +61,7 @@ const PaymentSuccess = () => {
   if (rating && rating <= 4) {
     const payload = {
       rating: rating,
-      flight_order: PaymentData.order.uuid,
+      flight_order: orderData.order.uuid,
       review: reason,
     };
 
@@ -79,7 +81,7 @@ const PaymentSuccess = () => {
     if (rating !== null) {
       const payload = {
         rating: rating,
-        flight_order: PaymentData.order.uuid,
+        flight_order: orderData.order.uuid,
       };
 
       if (selectedReason) {
@@ -95,7 +97,7 @@ const PaymentSuccess = () => {
   if (newValue === 5) {
     const payload = {
       rating: 5,
-      flight_order: PaymentData.order.uuid,
+      flight_order: orderData.order.uuid,
     };
     dispatch(RatingSubmit(payload));
   }
@@ -128,16 +130,12 @@ const PaymentSuccess = () => {
     }
     const payload = {
       emails: email,
-      flight_order: PaymentData?.order?.uuid,
+      flight_order: orderData?.order?.uuid,
     };
     dispatch(InviteSubmit(payload));
   };
 
-  const PaymentStatus = useSelector((state) => state?.payment?.PaymentFormSuccess);
 
-  console.log("PaymentStatus", PaymentStatus);
-  
-  
   
 const inviteMoreEmailHandle=()=> {
     dispatch(setInviteEmailDialog(true))
@@ -148,7 +146,7 @@ const inviteMoreEmailHandle=()=> {
       <Box mb={3}>
         {/* {console.log(
           "PaymentStatus",
-          PaymentData?.duffel_order?.payment_status
+          orderData?.duffel_order?.payment_status
         )} */}
 
         <Box>
@@ -156,7 +154,7 @@ const inviteMoreEmailHandle=()=> {
             <>
               <Typography>Loading your order details...</Typography>
             </>
-          ) : !PaymentData?.duffel_order?.payment_status ? ( */}
+          ) : !orderData?.duffel_order?.payment_status ? ( */}
 
           {PaymentStatus?.is_complete === "no" ? (
             <>
@@ -171,7 +169,7 @@ const inviteMoreEmailHandle=()=> {
               </Typography>
             </>
           ) : PaymentStatus?.is_complete === "yes" &&
-            PaymentData?.duffel_order?.payment_status ? (
+            orderData?.duffel_order?.payment_status ? (
             <>
               <Box className=" imggroup" mb={2}>
                 <img src="/images/success-check.svg" />
@@ -190,7 +188,7 @@ const inviteMoreEmailHandle=()=> {
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation – your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">{PaymentData?.duffel_order?.booking_reference}</Typography>. Use it to view
+                  <Typography component={"span"} className="exbold">{orderData?.duffel_order?.booking_reference}</Typography>. Use it to view
                   and manage your booking directly on the airline’s website or
                   app, or to share with anyone who needs it.
                 </Typography>
@@ -216,7 +214,7 @@ const inviteMoreEmailHandle=()=> {
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation - your booking reference is{" "}
-                  {PaymentData?.duffel_order?.booking_reference}. Use it to view
+                  {orderData?.duffel_order?.booking_reference}. Use it to view
                   and manage your booking directly on the airline’s website or
                   app.
                 </Typography>
@@ -327,7 +325,7 @@ const inviteMoreEmailHandle=()=> {
                       gap={1}
                       pt={2}
                     >
-                    <InviteEmailForm flight_order={PaymentData.order.uuid} />
+                    <InviteEmailForm flight_order={orderData.order.uuid} />
                     
                     </Box>
                   </Box>
