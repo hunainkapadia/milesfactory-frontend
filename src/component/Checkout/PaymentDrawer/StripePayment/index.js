@@ -40,6 +40,7 @@ const StripePayment = () => {
   
 
   useEffect(() => {
+    
     if (!orderUUID) return;
 
     api.post(`/api/v1/stripe/create-checkout-session?order_uuid=${orderUUID}`,
@@ -71,35 +72,35 @@ useEffect(() => {
   if (!sessionId) return;
 
   const interval = setInterval(() => {
+    console.log("Polling session status...");
+
     api
       .get(`/api/v1/stripe/session-status?session_id=${sessionId}`)
       .then((response) => {
         const data = response.data;
         console.log("payment_res_data", data);
-        
+
         if (data.status === "complete") {
-          alert("complete", data.status)
-          
-          
+          alert("✅ Payment complete!");
+
           setCustomerEmail(data.customer_email);
-          // setPaymentComplete(true);
           dispatch(setPaymentFormSuccess(true));
           dispatch(setPaymentData(data));
           dispatch(setPaymentDrawer(false));
-          dispatch(PaymentForm(data.status))
-          
-          clearInterval(interval);
-          dispatch(fetchOrderDetails(orderUUID)); // Load full order info
+          dispatch(fetchOrderDetails(orderUUID));
 
+          clearInterval(interval); // ✅ Stop polling
         }
       })
       .catch((error) => {
         console.error("Session status check failed:", error);
       });
-  }, 10000);
+  }, 1000); // 🔁 1-second interval
 
+  // Cleanup on unmount
   return () => clearInterval(interval);
 }, [sessionId]);
+
 
 
   const options = {
