@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
 import api from "../api";
 import { setCloseDrawer } from "./BookingflightSlice";
-import { fetchOrderDetails, OrderConfirm } from "./PaymentSlice";
+import {OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
 
 const passengerDrawerSlice = createSlice({

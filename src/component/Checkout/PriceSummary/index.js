@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import {
+  PaymentSessionStart,
   setPaymentDrawer,
   setpriceSummary,
 } from "@/src/store/slices/PaymentSlice";
@@ -16,6 +17,7 @@ const PriceSummary = ({ getdata }) => {
 
   const dispatch = useDispatch();
   const handlePaymentDrawer = () => {
+    dispatch(PaymentSessionStart());
     dispatch(setPaymentDrawer(true));
   };
 

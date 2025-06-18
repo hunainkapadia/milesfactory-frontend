@@ -11,6 +11,8 @@ const PaymentSlice = createSlice({
     clientSessionId: "",
     client: "",
     isloading: false,
+    PaymentSessionId: null,
+    PaymentSessionData: null,
   },
   reducers: {
     setPaymentStatus:(state, action)=> {
@@ -48,57 +50,94 @@ const PaymentSlice = createSlice({
     },
     setPaymentFormSuccess: (state, action) => {
       console.log("PaymentFormSuccess", action.payload);
-      
       state.PaymentFormSuccess = action.payload;
     },
+    setPaymentSessionId: (state, action)=> {
+      console.log("sessionid_action", action);
+      state.PaymentSessionId = action.payload;
+    },
+    setPaymentSessionData: (state, action)=> {
+      console.log("session_data_action", action);
+      state.PaymentSessionData = action.payload;
+    }
   },
 });
 
-// 
-export const PaymentForm = () => (dispatch, getState) => {
-  const state = getState();
-  const payment = state.payment;
-  console.log("payment_state", payment);
-  
-  // Just simulate success after 1 second
-  
-  
-};
-export const fetchOrderDetails = (orderId) => (dispatch, getState) => {
 
+// ////////// payment start
+export const PaymentSessionStart = () => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
-  console.log("payment_response_0", orderId);
+
+  console.log("session_orderUUID", orderUUID);
   
-  dispatch(setPaymentStatus({is_complete: "no",}))
-  setTimeout(() => {
-    api
-      .get(`/api/v1/order/${orderUUID}/details`)
-      .then((response) => {
-        console.log("payment_response", response.data);
-        dispatch(setPaymentData(response.data));
-        if (response?.data?.duffel_order?.payment_status) {
-          dispatch(
-            setPaymentStatus({
-              is_complete: "yes",
-              status: response?.data?.duffel_order?.payment_status,
-            })
-          );
-          setIsloading(false)
-        } else {
-          dispatch(
-            setPaymentStatus({
-              is_complete: "yes",
-              status: "payment_failed",
-            })
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to fetch order details:", error);
-      });
-  }, 10000);
+
+  api
+    .post(
+      `/api/v1/stripe/create-checkout-session?order_uuid=${orderUUID}`,
+      {
+        frontend_url: window.location.origin,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      alert("create-checkout-session with orderuuid")
+
+      console.log("session_response", response);
+
+      const data = response.data;
+      setClientSecret(data.clientSecret);
+      dispatch(setPaymentSessionData(data));
+    })
+    .catch((error) => {
+      console.error("Checkout session error:", error);
+    })
+    .finally(() => {
+      setIsloading(false);
+    });
 };
+
+
+// payment foropen form 
+export const PaymentForm = () => (dispatch, getState) => {
+  const state = getState();
+  const orderUUID = state.passengerDrawer.OrderUuid;
+
+  // Correct sessionId access
+  const sessionId = state.payment.PaymentSessionData?.sessionId;
+
+  console.log("PaymentForm_sessionId", state);
+
+  if (!sessionId) {
+    console.warn("PaymentForm: sessionId is missing");
+    return;
+  }
+
+  api
+    .get(`/api/v1/stripe/session-status?session_id=${sessionId}`)
+    .then((response) => {
+      alert("session status with session id")
+      const data = response.data;
+      console.log("payment_res", data);
+      console.log("payment_data_status", data.status);
+
+      if (data.status === "complete") {
+        alert("order complete", OrderConfirm)
+        dispatch(setPaymentFormSuccess(true));
+        dispatch(setPaymentData(data));
+        dispatch(setPaymentDrawer(false));
+        dispatch(OrderConfirm(orderUUID));
+      }
+    })
+    .catch((error) => {
+      console.error("Session status check failed:", error);
+    });
+};
+
 
 export const OrderConfirm = (orderId) => (dispatch, getState) => {
 
@@ -133,6 +172,8 @@ export const {
   setPaymentData,
   setIsloading,
   setPaymentStatus,
-  setOrderConfirm
+  setOrderConfirm,
+  setPaymentSessionId,
+  setPaymentSessionData,
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;
