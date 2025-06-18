@@ -53,6 +53,7 @@ const StripePayment = () => {
         }
       )
       .then((response) => {
+        alert("session id")
         const data = response.data;
         setClientSecret(data.clientSecret);
         setSessionId(data.sessionId);
@@ -74,7 +75,10 @@ useEffect(() => {
       .get(`/api/v1/stripe/session-status?session_id=${sessionId}`)
       .then((response) => {
         const data = response.data;
+        console.log("payment_res_data", data);
+        
         if (data.status === "complete") {
+          alert("complete", data.status)
           
           
           setCustomerEmail(data.customer_email);
