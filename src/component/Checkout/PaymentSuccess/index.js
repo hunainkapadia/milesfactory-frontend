@@ -37,7 +37,9 @@ const PaymentSuccess = () => {
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const PaymentStatus2 = useSelector((state) => state?.payment);
 
-  console.log("PaymentStatus_00", PaymentStatus?.status );
+  console.log("orderStatus_00", orderData?.order?.payment_status);
+  console.log("PaymentStatus_00", PaymentStatus?.is_complete, PaymentStatus?.status);
+  
   
   
   
@@ -156,12 +158,12 @@ const inviteMoreEmailHandle=()=> {
           ) : !orderData?.duffel_order?.payment_status ? ( */}
 
           {PaymentStatus?.is_complete === "no" &&
-          PaymentStatus?.status === "payment_failed" ? (
+            PaymentStatus?.status === "pending" ? (
             <>
               <Typography>Please wait, confirming your order</Typography>
             </>
           ) : PaymentStatus?.is_complete === "yes" &&
-            PaymentStatus?.status === "success" ? (
+            PaymentStatus?.status === "payment_failed" ? (
             <>
               <Typography>
                 We have received your payment but there is a problem with the
@@ -169,7 +171,7 @@ const inviteMoreEmailHandle=()=> {
               </Typography>
             </>
           ) : PaymentStatus?.is_complete === "yes" &&
-            orderData?.duffel_order?.payment_status ? (
+            PaymentStatus?.status === "success" ? (
             <>
               <Box className=" imggroup" mb={2}>
                 <img src="/images/success-check.svg" />

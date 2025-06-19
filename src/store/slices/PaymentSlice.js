@@ -140,7 +140,7 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
   const orderUUID = state.passengerDrawer.OrderUuid;
 
   console.log("payment_response_0", orderId);
-  dispatch(setPaymentStatus({ is_complete: "no" }));
+  
 
   const pollingStartTime = Date.now();
   const POLLING_TIMEOUT = 30000; // ⏱️ Stop after 10 seconds
@@ -160,6 +160,10 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
       dispatch(setIsloading(false)); // Optional: depends on your state
       return;
     }
+    setPaymentStatus({
+      is_complete: "no",
+      status: "pending",
+    })
 
     api.get(`/api/v1/order/${orderUUID}/details`)
       .then((response) => {
@@ -169,12 +173,12 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
         dispatch(setOrderConfirm(response.data));
 
         console.log("order_status_0", response?.data?.order?.payment_status);
-
+        
         if (paymentStatus) {
           dispatch(
             setPaymentStatus({
               is_complete: "yes",
-              status: response?.data?.duffel_order?.payment_status,
+              status: "success",
             })
           );
           dispatch(setIsloading(false));
@@ -185,7 +189,7 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
             dispatch(
               setPaymentStatus({
                 is_complete: "yes",
-                status: response?.data?.order?.payment_status,
+                status: "payment_failed",
               })
             );
 
@@ -202,7 +206,7 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
           dispatch(
             setPaymentStatus({
               is_complete: "no",
-              status: "timeout",
+              status: "payment_failed",
             })
           );
           dispatch(setIsloading(false));
