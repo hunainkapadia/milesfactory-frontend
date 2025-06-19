@@ -38,7 +38,6 @@ const HeaderCurrencyLanguage = ({
   forHeader,
   formobileDrawer,
 }) => {
-  console.log("isSticky_0", isSticky);
 
   const dispatch = useDispatch();
   const [languageAnchor, setLanguageAnchor] = useState(null);

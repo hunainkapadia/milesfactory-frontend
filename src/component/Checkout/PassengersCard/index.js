@@ -12,7 +12,7 @@ const PassengersCard = ({
   onClickCard,
   passDetail,
 }) => {
-  console.log("pass_getdata_2", getdata);
+  
 
   return (
     <Box

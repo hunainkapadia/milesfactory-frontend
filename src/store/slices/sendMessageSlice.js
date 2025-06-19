@@ -180,9 +180,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(runStatusUrl)
                   .then((resRun) => {
                     
-                    const runData = resRun.data;
-                    console.log("runData.run_status", runData);
-                    
+                    const runData = resRun.data;                    
                     // checking is function true before dufful flight
                     
                     if (runData.run_status === "completed") {

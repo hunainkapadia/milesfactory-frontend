@@ -27,9 +27,7 @@
     ); //from order api
     const passengerSelected = useSelector(
       (state) => state?.sendMessage
-    );
-    console.log("passengerSelected", passengerSelected);
-    
+    );    
     const handleBookFlight = () => {
       dispatch(setisLoading())
       dispatch(setCloseDrawer()); //dispatch close
@@ -62,8 +60,8 @@
     const IsPassengerflow = useSelector(
       (state) => state?.passengerDrawer?.IsPassengerflow
     );
-    console.log("IsPassengerflow", IsPassengerflow);
-    console.log("isFunction_state", isFunction_state);
+    
+    
     
     return (
       <Box

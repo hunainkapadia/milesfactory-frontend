@@ -250,7 +250,6 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
       
     })
     .catch((error) => {
-      console.log("pass_form_error", error.response?.data);
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
       dispatch(setOpenPassengerDrawer(true));

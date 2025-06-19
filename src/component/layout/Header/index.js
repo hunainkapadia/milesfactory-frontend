@@ -185,7 +185,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
               <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
                 <MobileLoading />
               </Box>
-              {console.log("isSticky_1", isSticky)}
+              
               <HeaderCurrencyLanguage
                 forHeader={"forHeader"}
                 isSticky={isSticky}

@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }) => {
 
-  console.log("profiel_pass_getdata", getdata );
+  
   
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
@@ -26,8 +26,8 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
   const years = now.diff(birthDate, "year");
   const months = now.diff(birthDate.add(years, "year"), "month");
 
-  console.log(`${years} years ${months} months`);
-  console.log("getdata_profile", `${years} years ${months} months`);
+  
+  
 
   return (
     <>

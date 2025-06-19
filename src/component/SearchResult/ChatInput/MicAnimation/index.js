@@ -26,8 +26,6 @@ const MicAnimation = ({ active }) => {
       window.removeEventListener("resize", updateBarCount);
     };
   }, []);
-
-  console.log("barCount", barCount);
   
 
   useEffect(() => {

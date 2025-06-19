@@ -51,8 +51,8 @@ const PassengerInfo = ({ getdata }) => {
       dispatch(setSelectPassenger(passenger))
       
     } else {
-      console.log("uuid111", isFilled);
-      console.log("pass_type", uuid, isFilled, type);
+      
+      
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       if (!isFilled) {
         dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
@@ -91,13 +91,13 @@ const PassengerInfo = ({ getdata }) => {
   const IsServices = useSelector(
     (state) => state?.booking?.singleFlightData?.available_services
   );
-  console.log("IsServices", !IsServices?.length);
+  
 
   if (!IsServices?.length) {
     dispatch(setpriceSummary(true));
   }
   const istLoading = useSelector((state) => state?.passengerDrawer?.isLoading);
-  console.log("istLoading_pass", istLoading);
+  
 
   // for captain
   useEffect(() => {
@@ -109,10 +109,10 @@ const PassengerInfo = ({ getdata }) => {
     }
   }, [filledPassengerUUIDs, getdata, dispatch]);
 
-  console.log("getdata_0000", getdata.length);
+  
 
   
-  console.log("passengerPofile", passengerPofile);
+  
 
   
 
@@ -128,14 +128,14 @@ const PassengerInfo = ({ getdata }) => {
 
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
-            console.log("passenger__0", passenger);
+            
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-            console.log("isFilled", isFilled);
+            
 
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
 
-              {console.log("passenger_00", passenger)}
+              
                 <PassengersCard
                   totalPass={index + 1}
                   getdata={passenger}
@@ -180,12 +180,6 @@ const PassengerInfo = ({ getdata }) => {
                 spacing={2}
                 className={searchResultStyles.ExtraServicesGrid}
               >
-                {console.log(
-                  "getdata_00",
-                  getdata,
-                  "filledPassengerUUIDs",
-                  filledPassengerUUIDs
-                )}
                 {getdata
                   ?.filter((passenger) =>
                     filledPassengerUUIDs.includes(passenger.uuid)

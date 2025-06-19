@@ -37,16 +37,16 @@ const StripePayment = () => {
   const orderUUID = useSelector((state) => state.passengerDrawer.OrderUuid);
   const dispatch = useDispatch();
   
-  console.log("orderUUID_payment", orderUUID);
+  
   const loading = useSelector((state) => state.payment.isloading);
   
   const PaymentsessionData = useSelector((state) => state?.payment?.PaymentSessionData);
   const sessionId = PaymentsessionData?.sessionId;
   const clientSecret = PaymentsessionData?.clientSecret;
   
-  console.log("PaymentsessionData", PaymentsessionData);
   
-  console.log("sessionIdData", sessionId, "clientSecret:", clientSecret);
+  
+  
 
 useEffect(() => {
   if (!sessionId) return;

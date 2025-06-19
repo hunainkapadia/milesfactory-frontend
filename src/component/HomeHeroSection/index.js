@@ -17,7 +17,7 @@ const HomeHeroSection = () => {
   const dispatch = useDispatch();
 
   const threadUUID = useSelector((state) => state.sendMessage.ThreadUUIDsend);
-  console.log("threadUUIDget", threadUUID);
+  
 
   return (
     <>

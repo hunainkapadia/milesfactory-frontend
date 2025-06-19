@@ -9,7 +9,7 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
   const dispatch = useDispatch();
   const handlePay =()=> {
     if (agreeTerms) {
-      console.log("agreeTermsaaa", agreeTerms);
+      
       
     }
     triggerScroll();
@@ -48,7 +48,7 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
                 variant="h3"
                 className={styles.price + " h3 mb-0 basecolor-dark"}
               >
-                {console.log("flightDetail000", flightDetail)}
+                
                 {currencySymbols[flightDetail?.tax_currency] ||
                   flightDetail?.tax_currency}{" "}
                 {Math.round(flightDetail?.per_passenger_amount_plus_markup)}
@@ -82,7 +82,7 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
               gap={2}
               className="basecolor1"
             >
-              {console.log("agreeTerms11", agreeTerms, selectedCard)}
+              
               {/* <button
                 className={` btn btn-primary btn-md btn-round`}
                 onClick={handlePay}

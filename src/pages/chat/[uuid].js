@@ -38,7 +38,6 @@ const ChatByUUID = () => {
   useEffect(() => {
     if (!router.isReady) return; // Wait for router to be ready
     if (typeof uuid === "string" && uuid.trim() !== "") {
-      console.log("uuid_chat", uuid);
       dispatch(setGetMessageUUID(uuid));
     }
 

@@ -47,7 +47,6 @@ const TripDetailPage = () => {
       (1000 * 60 * 60 * 24)
   );
 
-  console.log("offer_0", tripDetail?.amount_calculations);
   return (
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
@@ -152,7 +151,7 @@ const TripDetailPage = () => {
                                   )
                                   .join(" - ")}
                               </Typography>
-                              {console.log("22222", offer?.slices)}
+                              
                               {offer?.slices?.length <= 1 ? (
                                 <Typography className={"f14 gray"}>
                                   {"One way"},{" "}

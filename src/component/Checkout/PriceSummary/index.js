@@ -57,7 +57,7 @@ const PriceSummary = ({ getdata }) => {
 
   const paymentSuccess = useSelector((state) => state.payment.PaymentFormSuccess);
 
-  console.log("paymentSuccess_test", paymentSuccess);
+  
   
 
   return (

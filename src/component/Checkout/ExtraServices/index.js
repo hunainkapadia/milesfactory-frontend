@@ -16,7 +16,6 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
   const dispatch = useDispatch();
 
   const handleBaggageDrawer = (segmentIds) => {
-    console.log("segmentIds", segmentIds);
     dispatch(baggage());
     dispatch(setSegmentId(segmentIds));
     dispatch(setBaggageDrawer(true)); //for open drawer

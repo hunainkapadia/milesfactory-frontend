@@ -43,17 +43,17 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer.passProfileDrawer
   );
 
-  console.log("isPassengerProfileDrawer", isPassengerProfileDrawer);
+  
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-  console.log("passengerPofile", passengerPofile);
+  
   
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
 
-  console.log("selectedType", selectedType);
+  
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -62,7 +62,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const FilledPassFormData = useSelector(
     (state) => state?.passengerDrawer?.PassFormData
   );
-  console.log("FilledPassFormData", FilledPassFormData);
+  
   
   // get filled pasenger form data from submit from to redux
 
@@ -84,7 +84,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   );
   const getFillPass2 = useSelector((state) => state.passengerDrawer);
 
-  console.log("getFillPass", getFillPass);
+  
 
   // add passenger [start]
 
@@ -92,7 +92,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer?.PassengerUUID
   );
 
-  console.log("passengerUuid_Addnew", passengerUuid);
+  
 
   const handleAddPassenger = () => {
     dispatch(setOpenPassengerDrawer()); // open drawer
@@ -105,7 +105,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     const selectPassenger = useSelector(
       (state) => state?.passengerDrawer?.SelectPassenger
     );
-    console.log("selectPassenger", selectPassenger?.age);
+    
 
   return (
     <Drawer
@@ -196,37 +196,37 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   FilledPassFormData?.passport_number;
 
                   {/* if age is not uqual disable */}
-                  console.log("passenger_profile_age", passenger?.born_on);
+                  
                   // Calculate age from born_on date
                   const birthDate = dayjs(passenger?.born_on);
                   const today = dayjs();
                   const profilePassengerAge = today.diff(birthDate, "year");
 
                   // Log for debugging
-                  console.log("profile_age__1:", profilePassengerAge);
-                  console.log("pass_age__1:", selectPassenger?.type);
                   
+                  
+
                   let ispassDisabled = false;
 
-if (selectPassenger?.type === "adult") {
-  // Disable if passenger is not adult
-  ispassDisabled = passenger?.type !== "adult";
-} else {
-  // For child or infant, disable if age or type doesn't match
-  ispassDisabled =
-    profilePassengerAge !== selectPassenger?.age ||
-    passenger?.type !== selectPassenger?.type;
-}
+                  if (selectPassenger?.type === "adult") {
+                    // Disable if passenger is not adult
+                    ispassDisabled = passenger?.type !== "adult";
+                  } else {
+                    // For child or infant, disable if age or type doesn't match
+                    ispassDisabled =
+                      profilePassengerAge !== selectPassenger?.age ||
+                      passenger?.type !== selectPassenger?.type;
+                  }
 
-                return (
-                  <PassengerProfilecard
-                    key={passenger?.uuid || index}
-                    getdata={passenger}
-                    onClickCard={() => handleCardClick(passenger)}
-                    // passFilled={isPassFilled}
-                    passDisabled={ispassDisabled}
-                  />
-                );
+                  return (
+                    <PassengerProfilecard
+                      key={passenger?.uuid || index}
+                      getdata={passenger}
+                      onClickCard={() => handleCardClick(passenger)}
+                      // passFilled={isPassFilled}
+                      passDisabled={ispassDisabled}
+                    />
+                  );
               })}
 
             {/*  */}

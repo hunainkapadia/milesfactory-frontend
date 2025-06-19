@@ -18,7 +18,7 @@ import { setFeedbackDialog } from "@/src/store/slices/Base/baseSlice";
 const Feedback = () => {
   const dispatch = useDispatch();
   const feedbackDialog = useSelector((state) => state?.base?.feedbackDialog);
-  console.log("feedbackDialog", feedbackDialog);
+  
   
 
   const [rating, setRating] = useState(null);
@@ -32,10 +32,7 @@ const Feedback = () => {
 
   const handleSubmit = () => {
     if (rating !== null) {
-      console.log("Submitted review:", {
-        rating,
-        feedbackText,
-      });
+      
       setSuccessReview(true);
     }
   };

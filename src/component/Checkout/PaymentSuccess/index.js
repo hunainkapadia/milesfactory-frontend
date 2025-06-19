@@ -36,8 +36,8 @@ const PaymentSuccess = () => {
   const orderData = useSelector((state) => state?.payment?.OrderData);
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   
-  console.log("orderData_test", orderData);
-  console.log("PaymentStatus_0", PaymentStatus);
+  
+  
   
   
   useEffect(() => {
@@ -144,10 +144,7 @@ const inviteMoreEmailHandle=()=> {
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}
       <Box mb={3}>
-        {/* {console.log(
-          "PaymentStatus",
-          orderData?.duffel_order?.payment_status
-        )} */}
+        
 
         <Box>
           {/* {isloading ? (

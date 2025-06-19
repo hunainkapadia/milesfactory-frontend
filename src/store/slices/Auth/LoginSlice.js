@@ -19,7 +19,7 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     setIsUser: (state, action) => {
-      console.log("user_action", action);
+      
       
       state.IsUser = action.payload;
     },
@@ -59,7 +59,7 @@ export const loginUser = (params) => (dispatch) => {
         dispatch(setLoginUser({ user: {user: res.data}, status: res.status }));
         dispatch(setLoginPopup(false));
 
-        console.log("res111", res);
+        
 
         const { username, first_name, last_name, access, refresh } = res.data;
 
@@ -135,7 +135,7 @@ export const googleLoginUser = (code) => (dispatch) => {
           })
         );
 
-        console.log("googleLogin_res", res.data);
+        
 
         // 2. Store user info (without tokens) in cookie
 
@@ -157,7 +157,7 @@ export const googleLoginUser = (code) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log("googleLogin", error);
+      
       const LoginError = {
         email: "",
         password: "",
@@ -214,11 +214,11 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
 export const Logout = () => (dispatch) => {
   const refreshToken = Cookies.get("refresh_token"); // Correct method
-  console.log("refreshToken", refreshToken);
+  
 
   api.post("/api/v1/logout/", { refresh: refreshToken })
     .then((res) => {
-      console.log("logout_res", res);
+      
       dispatch(setLogoutUser(res.data));
 
       Cookies.remove("set-user");
