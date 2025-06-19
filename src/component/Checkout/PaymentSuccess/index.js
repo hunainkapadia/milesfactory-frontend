@@ -147,8 +147,6 @@ const inviteMoreEmailHandle=()=> {
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}
       <Box mb={3}>
-        
-
         <Box>
           {/* {isloading ? (
             <>
@@ -156,7 +154,8 @@ const inviteMoreEmailHandle=()=> {
             </>
           ) : !orderData?.duffel_order?.payment_status ? ( */}
 
-          {PaymentStatus?.is_complete === "no" ? (
+          {PaymentStatus?.is_complete === "no" &&
+          PaymentStatus?.status === "payment_failed" ? (
             <>
               <Typography>Please wait, confirming your order</Typography>
             </>
@@ -188,9 +187,12 @@ const inviteMoreEmailHandle=()=> {
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation – your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">{orderData?.duffel_order?.booking_reference}</Typography>. Use it to view
-                  and manage your booking directly on the airline’s website or
-                  app, or to share with anyone who needs it.
+                  <Typography component={"span"} className="exbold">
+                    {orderData?.duffel_order?.booking_reference}
+                  </Typography>
+                  . Use it to view and manage your booking directly on the
+                  airline’s website or app, or to share with anyone who needs
+                  it.
                 </Typography>
               </Box>
               {/* for mobile */}
@@ -201,7 +203,8 @@ const inviteMoreEmailHandle=()=> {
                   className=""
                   fontSize={24}
                 >
-                  Congratulations,<br />
+                  Congratulations,
+                  <br />
                   you booked your flight!
                 </Typography>
                 <Typography
@@ -209,14 +212,15 @@ const inviteMoreEmailHandle=()=> {
                   lineHeight={1.5}
                   className=""
                   fontSize={24}
-                >
-                </Typography>
+                ></Typography>
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation - your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">{orderData?.duffel_order?.booking_reference}</Typography>. Use it to view
-                  and manage your booking directly on the airline’s website or
-                  app.
+                  <Typography component={"span"} className="exbold">
+                    {orderData?.duffel_order?.booking_reference}
+                  </Typography>
+                  . Use it to view and manage your booking directly on the
+                  airline’s website or app.
                 </Typography>
               </Box>
 
@@ -313,7 +317,11 @@ const inviteMoreEmailHandle=()=> {
                         <img src="/images/hand-emoji.svg" alt="hand" />{" "}
                         <img src="/images/hand-emoji.svg" alt="hand" /> We've
                         sent the emails.
-                        <Box component={"span"} onClick={()=>inviteMoreEmailHandle()} className="text-decuration-none cursor-pointer basecolor1">
+                        <Box
+                          component={"span"}
+                          onClick={() => inviteMoreEmailHandle()}
+                          className="text-decuration-none cursor-pointer basecolor1"
+                        >
                           {" "}
                           Invite more friends
                         </Box>
@@ -325,8 +333,7 @@ const inviteMoreEmailHandle=()=> {
                       gap={1}
                       pt={2}
                     >
-                    <InviteEmailForm flight_order={orderData.order.uuid} />
-                    
+                      <InviteEmailForm flight_order={orderData.order.uuid} />
                     </Box>
                   </Box>
                 </>
