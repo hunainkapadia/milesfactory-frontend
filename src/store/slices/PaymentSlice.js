@@ -151,6 +151,7 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
         dispatch(setOrderConfirm(response.data));
 
         console.log("order_status07", paymentStatus);
+        
 
         if (paymentStatus) {
           dispatch(
@@ -161,7 +162,7 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
           );
           setIsloading(false);
           console.log("payment_response", response.data);
-          return; // ✅ Stop polling
+          return; // Stop polling
         } else {
           dispatch(
             setPaymentStatus({
@@ -170,18 +171,18 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
             })
           );
           console.log("payment_response", response.data);
-          // 🔁 Continue polling after 1 second
+          //  Continue polling after 1 second
           setTimeout(pollPaymentStatus, 1000);
         }
       })
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
-        // 🔁 Retry after 1 second on error
+        //  Retry after 1 second on error
         setTimeout(pollPaymentStatus, 1000);
       });
   };
 
-  // 🔁 Start the first poll immediately
+  //  Start the first poll immediately
   pollPaymentStatus();
 };
 
