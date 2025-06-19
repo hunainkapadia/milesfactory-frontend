@@ -37,7 +37,7 @@ const PaymentSuccess = () => {
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const PaymentStatus2 = useSelector((state) => state?.payment);
 
-  console.log("PaymentStatus_00", PaymentStatus2);
+  console.log("PaymentStatus_00", PaymentStatus?.status );
   
   
   
@@ -161,7 +161,7 @@ const inviteMoreEmailHandle=()=> {
               <Typography>Please wait, confirming your order</Typography>
             </>
           ) : PaymentStatus?.is_complete === "yes" &&
-            PaymentStatus?.status === "payment_failed" ? (
+            PaymentStatus?.status === "success" ? (
             <>
               <Typography>
                 We have received your payment but there is a problem with the
