@@ -29,6 +29,8 @@ const PriceSummary = ({ getdata }) => {
   };
   const priceSummary = useSelector((state) => state.payment.priceSummary);
 
+console.log("priceSummary", priceSummary);
+
   // Step 2: useEffect to scroll when priceSummary becomes true
   useEffect(() => {
     if (priceSummary && priceSummaryRef.current) {
