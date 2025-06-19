@@ -154,8 +154,7 @@ const inviteMoreEmailHandle=()=> {
             </>
           ) : !orderData?.duffel_order?.payment_status ? ( */}
 
-          {PaymentStatus?.is_complete === "no" &&
-          PaymentStatus?.status === "payment_failed" ? (
+          {PaymentStatus?.is_complete === "no" ? (
             <>
               <Typography>Please wait, confirming your order</Typography>
             </>
