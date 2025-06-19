@@ -194,24 +194,24 @@ const inviteMoreEmailHandle=()=> {
               <Box display={{ lg: "none", md: "none", xs: "block" }}>
                 <Typography
                   component={"h2"}
-                  lineHeight={2}
+                  lineHeight={1.5}
                   className=""
                   fontSize={24}
                 >
-                  Congratulations,
+                  Congratulations,<br />
+                  you booked your flight!
                 </Typography>
                 <Typography
                   component={"h2"}
-                  lineHeight={2}
+                  lineHeight={1.5}
                   className=""
                   fontSize={24}
                 >
-                  you booked your flight!
                 </Typography>
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation - your booking reference is{" "}
-                  {orderData?.duffel_order?.booking_reference}. Use it to view
+                  <Typography component={"span"} className="exbold">{orderData?.duffel_order?.booking_reference}</Typography>. Use it to view
                   and manage your booking directly on the airline’s website or
                   app.
                 </Typography>
