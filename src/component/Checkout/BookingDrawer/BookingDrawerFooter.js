@@ -139,7 +139,7 @@
                 className="basecolor1"
               >
                 {/* IsPassengerflow !== true */}
-                {isFunction_state !== true ? (
+                {/* {isFunction_state !== true ? (
                   <>
                     <button
                       className={
@@ -158,7 +158,7 @@
                   </>
                 ) : (
                   ""
-                )}
+                )} */}
                     <button
                       className={
                         styles.selectFlightBtn +
