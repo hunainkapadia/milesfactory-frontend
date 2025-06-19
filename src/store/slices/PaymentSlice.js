@@ -151,12 +151,12 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
     // Stop polling after 10 seconds
     if (elapsed >= POLLING_TIMEOUT) {
       console.log("Stopped polling after 30 seconds");
-      dispatch(
-        setPaymentStatus({
-          is_complete: "yes",
-          status: "payment_failed",
-        })
-      );
+      // dispatch(
+      //   setPaymentStatus({
+      //     is_complete: "no",
+      //     status: "payment_failed",
+      //   })
+      // );
       dispatch(setIsloading(false)); // Optional: depends on your state
       return;
     }
@@ -182,22 +182,21 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
           return; // Stop polling on success
         } else {
           console.log("order_status_failed", response?.data);
+            dispatch(
+              setPaymentStatus({
+                is_complete: "yes",
+                status: "payment_failed",
+              })
+            );
 
-          dispatch(
-            setPaymentStatus({
-              is_complete: "no",
-              status: "payment_failed",
-            })
-          );
-
-          setTimeout(pollPaymentStatus, 1000); // Retry after 1 second
+          setTimeout(pollPaymentStatus, 2000); // Retry after 1 second
         }
       })
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
 
         if (Date.now() - pollingStartTime < POLLING_TIMEOUT) {
-          setTimeout(pollPaymentStatus, 1000); // Retry on error
+          setTimeout(pollPaymentStatus, 2000); // Retry on error
         } else {
           console.log("Stopped polling after 10 seconds (error case)");
           dispatch(

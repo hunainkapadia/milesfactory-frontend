@@ -35,6 +35,9 @@ const PaymentSuccess = () => {
   const [scrollRef, scrollToRef] = useScrollToRef();
   const orderData = useSelector((state) => state?.payment?.OrderData);
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
+
+  console.log("PaymentStatus_00", PaymentStatus);
+  
   
   
   

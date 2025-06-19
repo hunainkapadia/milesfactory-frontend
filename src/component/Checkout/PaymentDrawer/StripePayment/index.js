@@ -52,7 +52,7 @@ useEffect(() => {
   if (!sessionId) return;
   const interval = setInterval(() => {
     dispatch(PaymentForm()); // payment form interval dispatching widget 1 sectond
-  }, 1000); // poll every 1 second
+  }, 2000); // poll every 1 second
 
   return () => clearInterval(interval); // clean up on unmount
 }, [sessionId, dispatch]);
