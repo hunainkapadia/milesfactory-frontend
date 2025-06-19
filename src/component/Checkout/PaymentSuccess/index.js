@@ -160,7 +160,7 @@ const inviteMoreEmailHandle=()=> {
             <>
               <Typography>Please wait, confirming your order</Typography>
             </>
-          ) : PaymentStatus?.is_complete === "yes" &&
+          ) : orderData?.order?.payment_status === "success" && PaymentStatus?.is_complete === "yes" &&
             PaymentStatus?.status === "payment_failed" ? (
             <>
               <Typography>
