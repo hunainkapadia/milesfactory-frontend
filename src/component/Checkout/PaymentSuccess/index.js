@@ -35,8 +35,9 @@ const PaymentSuccess = () => {
   const [scrollRef, scrollToRef] = useScrollToRef();
   const orderData = useSelector((state) => state?.payment?.OrderData);
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
+  const PaymentStatus2 = useSelector((state) => state?.payment);
 
-  console.log("PaymentStatus_00", PaymentStatus);
+  console.log("PaymentStatus_00", PaymentStatus2);
   
   
   
@@ -154,7 +155,8 @@ const inviteMoreEmailHandle=()=> {
             </>
           ) : !orderData?.duffel_order?.payment_status ? ( */}
 
-          {PaymentStatus?.is_complete === "no" ? (
+          {PaymentStatus?.is_complete === "no" &&
+          PaymentStatus?.status === "payment_failed" ? (
             <>
               <Typography>Please wait, confirming your order</Typography>
             </>

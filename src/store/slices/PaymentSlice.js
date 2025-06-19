@@ -154,7 +154,7 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
       dispatch(
         setPaymentStatus({
           is_complete: "no",
-          
+          status: "payment_failed",
         })
       );
       dispatch(setIsloading(false)); // Optional: depends on your state
