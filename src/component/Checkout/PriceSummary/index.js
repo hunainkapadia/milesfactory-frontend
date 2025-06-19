@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import {
-  PaymentSessionStart,
   setPaymentDrawer,
   setpriceSummary,
 } from "@/src/store/slices/PaymentSlice";
@@ -16,11 +15,8 @@ const PriceSummary = ({ getdata }) => {
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
 
   const dispatch = useDispatch();
-
-  // payment data dispatching and open payment drawer
   const handlePaymentDrawer = () => {
-    dispatch(PaymentSessionStart()); /// starting payment session here
-    dispatch(setPaymentDrawer(true)); ///open drawer
+    dispatch(setPaymentDrawer(true));
   };
 
   const priceSummaryHandle = () => {
@@ -40,7 +36,7 @@ const PriceSummary = ({ getdata }) => {
   
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const orderDetail = flightOrder?.order?.selected_offer;
-  
+  console.log("orderDetail_0", flightOrder?.amount_calculations);
   
 
   // const orderDetailOld = useSelector((state) => state.booking.orderDetail); //from flight
@@ -56,10 +52,6 @@ const PriceSummary = ({ getdata }) => {
   const totalAmount = Math.round(orderDetail?.base_amount) + Math.round(orderDetail?.tax_amount) + Math.round(orderDetail?.markup_amount);
 
   const paymentSuccess = useSelector((state) => state.payment.PaymentFormSuccess);
-
-  console.log("paymentSuccess_test", paymentSuccess);
-  
-
   return (
     <>
       <Box py={2}>
@@ -110,7 +102,7 @@ const PriceSummary = ({ getdata }) => {
                   ))}
                 </Box>
                 <Box>
-                  
+                  {console.log("getpassengertype", orderDetail)}
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
                   {Math.round(orderDetail?.base_amount)}
@@ -242,7 +234,7 @@ const PriceSummary = ({ getdata }) => {
               >
                 <Box>Total price</Box>
                 <Box className="mb-0 ">
-                  
+                  {console.log("orderDetail111", orderDetail)}
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
                   {flightOrder?.amount_calculations
