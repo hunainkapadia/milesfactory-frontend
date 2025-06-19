@@ -136,43 +136,55 @@ export const PaymentForm = () => (dispatch, getState) => {
 
 
 export const OrderConfirm = (orderId) => (dispatch, getState) => {
-
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
+
   console.log("payment_response_0", orderId);
-  dispatch(setPaymentStatus({is_complete: "no",})) // flow after payment run
-  setTimeout(() => {
-    api
-      .get(`/api/v1/order/${orderUUID}/details`)
+  dispatch(setPaymentStatus({ is_complete: "no" }));
+
+  const pollPaymentStatus = () => {
+    api.get(`/api/v1/order/${orderUUID}/details`)
       .then((response) => {
+        const paymentStatus = response?.data?.duffel_order?.payment_status;
 
         dispatch(setOrderData(response.data));
-        // flow after payment run
-        if (response?.data?.duffel_order?.payment_status) {
+        dispatch(setOrderConfirm(response.data));
+
+        console.log("order_status07", paymentStatus);
+
+        if (paymentStatus) {
           dispatch(
             setPaymentStatus({
               is_complete: "yes",
-              status: response?.data?.duffel_order?.payment_status,
+              status: true,
             })
           );
-          setIsloading(false)
+          setIsloading(false);
+          console.log("payment_response", response.data);
+          return; // ✅ Stop polling
         } else {
-          // flow after payment run
           dispatch(
             setPaymentStatus({
-              is_complete: "yes",
+              is_complete: "no",
               status: "payment_failed",
             })
           );
+          console.log("payment_response", response.data);
+          // 🔁 Continue polling after 1 second
+          setTimeout(pollPaymentStatus, 1000);
         }
-        console.log("payment_response", response.data);
-        dispatch(setOrderConfirm(response.data));
       })
       .catch((error) => {
         console.error("Failed to fetch order details:", error);
+        // 🔁 Retry after 1 second on error
+        setTimeout(pollPaymentStatus, 1000);
       });
-  }, 10000);
+  };
+
+  // 🔁 Start the first poll immediately
+  pollPaymentStatus();
 };
+
 
 // Export actions
 export const {
