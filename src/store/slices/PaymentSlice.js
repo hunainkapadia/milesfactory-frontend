@@ -167,13 +167,13 @@ export const OrderConfirm = (orderId) => (dispatch, getState) => {
 
     api.get(`/api/v1/order/${orderUUID}/details`)
       .then((response) => {
-        const paymentStatus = response?.data?.duffel_order?.payment_status;
+        const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
 
         dispatch(setOrderData(response.data));
         dispatch(setOrderConfirm(response.data));
 
         console.log("order_status_0", response?.data?.order?.payment_status);
-        
+        // consition for checking if duffelr order found show congratz msg if not found error show
         if (paymentStatus) {
           dispatch(
             setPaymentStatus({
