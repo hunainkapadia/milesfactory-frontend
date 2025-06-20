@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
-import { OrderConfirm } from "./PaymentSlice";
+import { fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 
 const initialState = {
   flightDetail: null,
@@ -115,7 +115,7 @@ export const addBaggage = () => (dispatch, getState) => {
       dispatch(setbaggageAddData(res.data));
       dispatch(baggage());
       
-      dispatch(OrderConfirm()); // for order detail API call
+      dispatch(fetchOrderDetail()); // for order detail API call
     })
     .catch((error) => {
       
@@ -137,7 +137,7 @@ export const removeBaggage = () => (dispatch, getState) => {
       dispatch(setbaggageAddData(res.data)); // Update store with new baggage state
       
       dispatch(baggage());
-      dispatch(OrderConfirm()); // for order detail API call
+      dispatch(fetchOrderDetail()); // for order detail API call
     })
     .catch((error) => {
       

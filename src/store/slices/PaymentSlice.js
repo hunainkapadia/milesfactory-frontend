@@ -125,7 +125,7 @@ export const PaymentForm = () => (dispatch, getState) => {
         dispatch(setPaymentFormSuccess(true)); // payment status
         dispatch(setPaymentData(data)); // payment data dispating id secret
         dispatch(setPaymentDrawer(false));
-        dispatch(OrderConfirm(orderUUID));
+        dispatch(OrderSuccessPayment(orderUUID));
       }
     })
     .catch((error) => {
@@ -135,12 +135,56 @@ export const PaymentForm = () => (dispatch, getState) => {
 
 
 
-export const OrderConfirm = (orderId) => (dispatch, getState) => {
+export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
 
   console.log("payment_response_0", orderId);
-  
+
+  api
+    .get(`/api/v1/order/${orderUUID}/details`)
+    .then((response) => {
+      const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
+
+      dispatch(setOrderData(response.data));
+      dispatch(setOrderConfirm(response.data));
+
+      console.log("order_status_0", response?.data?.order?.payment_status);
+      // consition for checking if duffelr order found show congratz msg if not found error show
+      if (paymentStatus) {
+        dispatch(
+          setPaymentStatus({
+            is_complete: "yes",
+            status: "success",
+          })
+        );
+        dispatch(setIsloading(false));
+        console.log("payment_response", response.data);
+      } else {
+        console.log("order_status_failed", response?.data);
+        dispatch(
+          setPaymentStatus({
+            is_complete: "yes",
+            status: "payment_failed",
+          })
+        );
+      }
+    })
+    .catch((error) => {
+      console.error("Failed to fetch order details:", error);
+      dispatch(
+        setPaymentStatus({
+          is_complete: "no",
+          status: "payment_failed",
+        })
+      );
+      dispatch(setIsloading(false));
+    });
+};
+
+export const OrderSuccessPayment = (orderId) => (dispatch, getState) => {
+const state = getState();
+  const orderUUID = state.passengerDrawer.OrderUuid;
 
   const pollingStartTime = Date.now();
   const POLLING_TIMEOUT = 30000; // ⏱️ Stop after 10 seconds

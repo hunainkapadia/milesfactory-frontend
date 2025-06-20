@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
 import api from "../api";
 import { setCloseDrawer } from "./BookingflightSlice";
-import {OrderConfirm } from "./PaymentSlice";
+import {fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
 
 const passengerDrawerSlice = createSlice({
@@ -285,7 +285,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
           console.log("captain_res", cap_res);
-          dispatch(OrderConfirm()); // for order detail API call
+          dispatch(fetchOrderDetail()); // for order detail API call
         })
         .catch((err) => {
           console.error("captain_api_error", err);

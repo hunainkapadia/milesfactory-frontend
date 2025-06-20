@@ -170,8 +170,8 @@ const inviteMoreEmailHandle=()=> {
                 order. We will check and get back to you
               </Typography>
             </>
-          ) : PaymentStatus?.is_complete === "yes" &&
-            PaymentStatus?.status === "success" ? (
+          ) : PaymentStatus?.is_complete === "yes" && // when payment success if duffel order found
+            PaymentStatus?.status === "success" ? ( // when payment status success 
             <>
               <Box className=" imggroup" mb={2}>
                 <img src="/images/success-check.svg" />

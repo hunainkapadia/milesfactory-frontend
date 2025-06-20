@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import {
+  OrderSuccessPayment,
   PaymentSessionStart,
   setPaymentDrawer,
   setpriceSummary,
@@ -21,6 +22,7 @@ const PriceSummary = ({ getdata }) => {
   const handlePaymentDrawer = () => {
     dispatch(PaymentSessionStart()); /// starting payment session here
     dispatch(setPaymentDrawer(true)); ///open drawer
+    dispatch(OrderSuccessPayment())
   };
 
   const priceSummaryHandle = () => {
