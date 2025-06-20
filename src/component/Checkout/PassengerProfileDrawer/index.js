@@ -223,7 +223,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                       key={passenger?.uuid || index}
                       getdata={passenger}
                       onClickCard={() => handleCardClick(passenger)}
-                      // passFilled={isPassFilled}
+                      passFilled={isPassFilled}
                       passDisabled={ispassDisabled}
                     />
                   );
