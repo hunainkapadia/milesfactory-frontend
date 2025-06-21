@@ -37,8 +37,8 @@
          @include border-radius(36px);
          background-color: $white;
          width: auto;
-         padding: 15px 15px 15px 0;
-         &.active { width: 100%;@include display(flex);align-items: center;}
+         padding: 15px;
+         &.MicActive { width: 100%;@include display(flex);align-items: center;}
          
          .BoxButtons {
             height: 100%;
@@ -118,6 +118,7 @@
          width: 100%;
          justify-content: center;
          align-items: center;
+         .Micanimation {display: none;}
          .Content {
             width: 756px;
             background-image: url("/images/input-sticky-bg.svg");
@@ -134,7 +135,6 @@
             }
             .SearchButton {color: $white;}
             .SearchButtonBox {padding: 0;
-               width: auto;
                .BoxButtons {
                   padding: 10px 15px;
                   .MicButton {
@@ -178,24 +178,34 @@
       
    }
 }
+
 .SearchButtonBox {
-   width: auto;
    position: absolute;
    z-index: 1;
    bottom: 0;
    right: 0;
    display: flex;
+   width: 100%;
    align-items:flex-end;
-   padding: 15px;
+   padding: 0px 15px 15px;
    gap: 0 10px;
    height: auto;
-   &.active {
-      height: 100%;
-      z-index: 1;
-      background: #0B1729;
-      border: 1px solid #F7F7F7;
-      border-radius: 16px;
+   .InputSticky {
+      &.active {
+         height: 100%;
+         z-index: 1;
+         background: none;
+         border: none;
+         border-radius: 16px;
+      }
    }
+   &.MicActive {
+         height: 100%;
+         z-index: 1;
+         
+         border-radius: 16px;
+      }
+   
    .BoxButtons {
       display: flex;
       align-items: center;
@@ -225,6 +235,7 @@
       }
    }
 }
+
 
 
 @include for-mobile-large-screen {

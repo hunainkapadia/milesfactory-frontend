@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/src/styles/sass/components/input-box/MicAnimation.module.scss";
+import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
+
 
 const MicAnimation = ({ active }) => {
   const barsRef = useRef([]);
@@ -105,7 +107,7 @@ const MicAnimation = ({ active }) => {
   }, [active]);
 
   return (
-    <div className={styles.barContainer}>
+    <div className={`${styles.barContainer} ${inputStyles.Micanimation}`}>
       {Array.from({ length: barCount }).map((_, i) => (
         <div
           key={i}

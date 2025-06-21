@@ -177,7 +177,7 @@ const isPolling = checkPolling?.ai?.is_complete;
 
                 <Box
                   className={`${inputStyles.SearchButtonBox} ${
-                    listening ? inputStyles.active : ""
+                    listening ? inputStyles.MicActive : ""
                   }`}
                 >
                   <Box width={"100%"}>
@@ -230,88 +230,7 @@ const isPolling = checkPolling?.ai?.is_complete;
                 </Box>
               )} */}
 
-              {!isMessageHome && !isSticky && (
-                <>
-                  <Box
-                    display={"none"}
-                    gap={2}
-                    mt={2}
-                    justifyContent={"center"}
-                  >
-                    <Box>
-                      <img height={28} src="/images/app-google-play.svg" />
-                    </Box>
-                    <Box>
-                      <img height={28} src="/images/app-app-store.svg" />
-                    </Box>
-                  </Box>
-
-                  <Box
-                    sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
-                    className={styles.ChatBullets}
-                    textAlign={"center"}
-                    justifyContent={"center"}
-                    flexWrap={"wrap"}
-                    fontSize={14}
-                  >
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}
-                      alignItems={"center"}>
-                      ✅ Lowest price guaranteed
-                    </Box>
-                    <Box
-                      gap={1}
-                      display={"flex"}
-                      alignItems={"center"}
-                      className={` ${styles.ChatBullet} `}
-                    >
-                      <Box className="imggroup">
-                        <img
-                          src="/images/protection-text-icon.svg"
-                          alt="Protection Icon"
-                          width={15}
-                        />
-                      </Box>
-                      <Typography component={"span"}>
-                        Airline-direct booking and protection
-                      </Typography>
-                    </Box>
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}
-                      alignItems={"center"}>
-                      🔒 Privacy-safe
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
-                    className={styles.ChatBullets}
-                    textAlign={"center"}
-                    justifyContent={"center"}
-                    flexWrap={"wrap"}
-                    fontSize={12}
-                  >
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}alignItems={"center"}>✅ Best price</Box>
-                    <Box
-                      gap={1}
-                      display={"flex"}
-                      alignItems={"center"}
-                      className={` ${styles.ChatBullet} `}
-                    >
-                      <Box className="imggroup">
-                        <img
-                          src="/images/protection-text-icon.svg"
-                          alt="Protection Icon"
-                          width={15}
-                        />
-                      </Box>
-                      <Typography component={"span"} fontSize={12}>
-                        Airline-protected
-                      </Typography>
-                    </Box>
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}alignItems={"center"}>
-                      🔒 Privacy-safe
-                    </Box>
-                  </Box>
-                </>
-              )}
+              
             </Box>
           </Box>
         </Box>

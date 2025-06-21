@@ -5,14 +5,14 @@ const HerosectionContent = () => {
      <Container>
        <Box className={styles.Content}>
          <Box
-           className={styles.ContentIn}
+           className={`${styles.ContentIn} ${styles.ContentInSection1}`}
            textAlign={"center"}
            display={"flex"}
            justifyContent={"center"}
            flexDirection={"column"}
          >
            <Box
-             sx={{ px: { xs: 0, md: 2, lg: 2 }, pb: { lg: 3, md: 3, xs: 1 } }}
+             sx={{ px: { xs: 0, lg: 2 } }}
            >
              <h1 className="h1-lg test-444">
                Stop the endless tabs.
