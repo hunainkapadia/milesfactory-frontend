@@ -201,7 +201,7 @@
       }
     }
    
-    .Header {
+    .Header {position: sticky;
       .Dropdown.forHader .Login {
         flex-direction: row;
       }

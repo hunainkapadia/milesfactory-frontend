@@ -324,19 +324,20 @@
     }
   .SearchCardWrapper {
     display: grid;
-    width: auto;
-    margin-right: -20px;
+    width: 100%;
+    // margin-right: -20px;
     .SearchCardGrid {
-      padding-right: 20px;
-      scroll-snap-type: x mandatory;
-      display: flex;
-      overflow-x: auto;
-      gap: 8px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      margin-left: -5px;
-      padding-left: 16px;
+      // for horizontal scroll
+      // padding-right: 20px;
+      // scroll-snap-type: x mandatory;
+      // display: flex;
+      // overflow-x: auto;
+      // scroll-snap-type: x mandatory;
+      // -webkit-overflow-scrolling: touch;
+      // scrollbar-width: none;
+      // margin-left: -5px;
+      // padding-left: 16px;
+      // gap: 8px;
       .Box {
         border-top: solid 1px $lightgray3;
         padding-top: 16px;
@@ -344,9 +345,10 @@
       }
       
       .flightOfferCard {
-        scroll-snap-align: start;
-        scroll-snap-stop: always;   
-        min-width: 319px;
+        // for horizontal scroll
+        // scroll-snap-align: start;
+        // scroll-snap-stop: always;   
+        // min-width: 319px;
         &.Oneway {
           .CardRight .RightTopSection {margin-bottom: 8px;}
           .FromAndToRow  .rowExtraInfo {
@@ -412,7 +414,7 @@
 
     .messageContentIn {
       width: 100%;
-      padding: 0px 6px 100px;
+      padding: 0px 0px 100px;
 
       .Aibox {
         width: 100%;
