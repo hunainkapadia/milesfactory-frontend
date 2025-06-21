@@ -31,6 +31,7 @@ const passengerDrawerSlice = createSlice({
     passProfileDrawer: false,
     selectedProfilePass: null,
     IsPassengerflow: false,
+    CaptainCall: false,
   },
   reducers: {
     setIsPassengerflow: (state, action) => {
@@ -43,6 +44,8 @@ const passengerDrawerSlice = createSlice({
       state.passProfileDrawer = action.payload;
     },
     setCaptainParams: (state, action)=> {
+      console.log("setCaptainParams", action);
+      
       
       
       state.captainParams = action.payload
@@ -129,6 +132,9 @@ const passengerDrawerSlice = createSlice({
     setPassengerFormError: (state, action) => {
       state.PassengerFormError = action.payload;
     },
+    setCaptainCall:(state, action)=> {
+      state.CaptainCall = action.payload;
+    }
   },
 });
 
@@ -267,29 +273,48 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
   const state = getState();
   const captainParams = state.passengerDrawer?.captainParams;
   const orderUuid = state.passengerDrawer?.OrderUuid;
-  const getFillPass = state.passengerDrawer.allPassengerFill;
+  
+  const getFillPass = state?.passengerDrawer; //if all passenger fill
+  const FillprofielPass = state.passengerDrawer?.passProfile;
+
+  console.log("captainParams", captainParams);
+  console.log("FillprofielPass_11", FillprofielPass?.length > 0);
+  console.log("getFillPass_11", getFillPass);
+  
+  
   
 
-  
-  if (getFillPass) {
-    
+  const CaptainApi = () => {
+    api
+      .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
+      .then((cap_res) => {
+        console.log("captain_res", cap_res);
+        dispatch(fetchOrderDetail()); // for order detail API call
+        dispatch(setCaptainCall(true));
+      })
+      .catch((err) => {
+        console.error("captain_api_error", err);
+      });
+  };
+
+  // check if normal all pass filled
+  if (getFillPass && !FillprofielPass?.length > 0) {
+
     const getParams = {
       email: captainParams.email,
       phone_number: captainParams.phone_number,
       region: captainParams.region,
     };
-    
-  
+
     setTimeout(() => {
-      api
-        .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
-        .then((cap_res) => {
-          console.log("captain_res", cap_res);
-          dispatch(fetchOrderDetail()); // for order detail API call
-        })
-        .catch((err) => {
-          console.error("captain_api_error", err);
-        });
+      CaptainApi();
+    }, 3000);
+  // check else if profile all pass filled
+  } else if (getFillPass && FillprofielPass?.length > 0) {
+    dispatch(setPassProfileDrawer(false)); // profiel drawer close after all pasenger fill
+    alert("all pas profiel fill");
+    setTimeout(() => {
+      CaptainApi();
     }, 3000);
   }
   
@@ -347,7 +372,8 @@ export const {
   setPassengerIndex,
   setPassengerPassport,
   setSelectPassenger,
-  setIsPassengerflow
+  setIsPassengerflow,
+  setCaptainCall
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

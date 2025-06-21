@@ -102,7 +102,6 @@ const PassengerInfo = ({ getdata }) => {
   // for captain
   useEffect(() => {
     if (filledPassengerUUIDs?.length === getdata?.length) {
-      dispatch(passengerCaptain()); /// for get  fill pasenger boolean
       dispatch(setAllPassengerFill(true));
     } else {
       dispatch(setAllPassengerFill(false));
@@ -113,7 +112,23 @@ const PassengerInfo = ({ getdata }) => {
 
   
   
+  const getFillPass = useSelector(
+    (state) => state.passengerDrawer.CaptainCall
+  );
+  const FillprofielPass = useSelector(
+    (state) => state.passengerDrawer?.PassengerUUID
+  );
+  const Allpassfilled = !getFillPass || !FillprofielPass?.length;
 
+  console.log("FillprofielPass_test", getFillPass);
+  const CaptainParams = useSelector(
+    (state) => state.passengerDrawer?.captainParams
+  );
+
+  console.log("CaptainParams", FillprofielPass);
+  
+
+  
   
 
   return (
@@ -130,6 +145,7 @@ const PassengerInfo = ({ getdata }) => {
           {getdata?.map((passenger, index) => {
             
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+            /// this is filled 
             
 
             return (
@@ -162,8 +178,7 @@ const PassengerInfo = ({ getdata }) => {
       {/* ////////////////////////////////////////////// */}
       {/* ////////////////////////////////////////////// */}
 
-      {IsServices?.length > 0 &&
-        filledPassengerUUIDs.length === getdata.length && (
+      {getFillPass && (
           <>
             <Grid container spacing={2}>
               <Grid item xs={12}>

@@ -52,9 +52,19 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.selectedProfilePass
   );
 
+  // if all passenger file logic
+  const AllPassengerFill = useSelector(
+    (state) => state.passengerDrawer?.allPassengerFill
+  );
+  // if profile pasenger lenth there check
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
+  // mergge profile and all pasenger
+  const AllpasCaptainCall = AllPassengerFill && !passengerPofile?.length > 0;
+  console.log("AllpasCaptainCall", AllpasCaptainCall);
+  
+
   const PassengersUuID = useSelector(
     (state) => state.passengerDrawer.PassengerUUID
   );
@@ -62,8 +72,6 @@ const PassengerDrawerForm = () => {
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
-
-  
 
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
@@ -84,26 +92,17 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerType
   );
 
-  
-
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
 
-  
-  
   // get select from whole pasenger detail card
-
 
   useEffect(() => {
     dispatch(NationalitData());
   }, [dispatch]);
 
   
-
-  useEffect(() => {
-    dispatch(getPassPofile()); // pasenger profile call api
-  }, []); //
   useEffect(() => {
     if (captainSuccess && formSuccess) {
       dispatch(setClosePassengerDrawer());
@@ -112,21 +111,14 @@ const PassengerDrawerForm = () => {
 
   // Load form data or reset on drawer open
 
-  
-
   useEffect(() => {
     if (isPassengerDrawerOpen) {
       setTimeout(() => {
-        
-        
-
         if (passengerPofile?.length && PassengersUuID) {
           const passengerData = passengerPofile.find(
             (getProfilepassenger) =>
               getProfilepassenger.uuid === selectedpassengerPofile?.uuid
           );
-
-          
 
           if (passengerData) {
             setgender(passengerData.gender || "");
@@ -182,20 +174,12 @@ const PassengerDrawerForm = () => {
   let maxDate = dayjs();
 
   const validateChildDOB = (dob, PassengerAge) => {
-    
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    
-    
-    
   };
   const validateInfantDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    
-
-    
-    
   };
   // child dat
   // infant age
@@ -206,12 +190,9 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(18, "year");
   }
   if (PassengerType === "infant_without_seat") {
-    
     validateInfantDOB(born_on, PassengerAge);
   }
   if (PassengerType === "child") {
-    
-
     validateChildDOB(born_on, PassengerAge);
   } else {
     // fallback: adult
@@ -219,6 +200,17 @@ const PassengerDrawerForm = () => {
     // maxDate = today.subtract(18, "year");
   }
   // ...previous imports remain the same
+
+  // file pasenger and profile pas get
+
+  const FillprofielPass = useSelector(
+    (state) => state.passengerDrawer?.passProfile
+  );
+  // only for passenger condition
+
+  const getFillPass = useSelector((state) => state.passengerDrawer.CaptainCall);
+  console.log("FillprofielPass_01", getFillPass);
+  // const Allpassfilled = getFillPass === true || !FillprofielPass?.length;
 
   const SubmitPassenger = () => {
     const errors = {};
@@ -313,13 +305,26 @@ const PassengerDrawerForm = () => {
     dispatch(PassengerFormSubmit(params));
 
     const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+    console.log("first_params", params);
+
+    // for pushing 1st pasenger params for captain api
     if (isFirstPassenger) {
       dispatch(setCaptainParams(params));
+      if (AllpasCaptainCall) {
+        alert("test")
+        dispatch(passengerCaptain());
+      }
     }
+    // if (!getFillPass) {
+    //   alert("Allpassfilled")
+    //   dispatch(passengerCaptain());
+    // }
 
-    dispatch(passengerCaptain(params));
     dispatch(getPassPofile());
   };
+  const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+  console.log("isFirstPassenger", PassengersUuID);
+  
 
   const passportError = formError?.non_field_errors?.find(
     (error) => error?.passport_expire_date
@@ -327,19 +332,13 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
-  
-
-  // if all passenger file logic
-  const AllPassengerFill = useSelector(
-    (state) => state.passengerDrawer.allPassengerFill
-  );
-  
 
   const selectPassenger = useSelector(
-        (state) => state?.passengerDrawer?.SelectPassenger
-      );
-      
+    (state) => state?.passengerDrawer?.SelectPassenger
+  );
+  // without profile pass all pasenger fill and call captain api
   
+
   return (
     <Drawer
       anchor="right"
@@ -402,9 +401,7 @@ const PassengerDrawerForm = () => {
                           {selectPassenger?.age > 1 ? "years" : "year"}
                         </>
                       ) : (
-                        <>
-                          {selectPassenger?.type} 18+ years
-                        </>
+                        <>{selectPassenger?.type} 18+ years</>
                       )}
                     </span>{" "}
                   </h3>

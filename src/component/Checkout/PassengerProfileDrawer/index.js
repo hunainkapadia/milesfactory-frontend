@@ -27,6 +27,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import {
+  passengerCaptain,
   PassengerForm,
   setOpenPassengerDrawer,
   setPassengerAge,
@@ -105,6 +106,10 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     const selectPassenger = useSelector(
       (state) => state?.passengerDrawer?.SelectPassenger
     );
+    
+    const handleProfielpassenger =()=> {
+      dispatch(passengerCaptain());
+    }
     
 
   return (
@@ -271,7 +276,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 <Button
                   type="submit"
                   className="btn btn-primary chat-btn btn-round"
-                  onClick={getFillPass ? handleCloseDrawer : ""} // Remove quotes
+                  onClick={handleProfielpassenger} // Remove quotes
                   disabled={!getFillPass} // Disable when false, enable when true
                   variant="contained"
                   color="success"
