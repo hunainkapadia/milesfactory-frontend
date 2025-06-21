@@ -20,8 +20,6 @@ const FromAndToDetail = ({
   };
   const flightDetail = !flightDetailToggle[flightType];
 
-  console.log("sliceLength11", sliceLength);
-
   function getStopDetails(getdata) {
     let stops = 0;
     let stopAirports = [];
@@ -98,7 +96,6 @@ const FromAndToDetail = ({
             {/* from and to without stop detail  */}
             {firstSegment && lastSegment && (
               <Box className={styles.fromAndToBody + " fromAndToBodyNosegment"}>
-                {console.log("firstSegment11", firstSegment)}
                 <Box className={styles.fromAndToBodyTop}>
                   <Box className={styles.fromAndToRow}>
                     <Box
@@ -340,7 +337,6 @@ const FromAndToDetail = ({
                               </Typography>
                             </Box>
                             <Box className={styles.Col2 + " col2-e"}>
-                            {console.log("segment_detail", segment)}
                               <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
                                     {segment.marketing_carrier?.iata_code}-
                                     {segment.marketing_carrier_flight_number}{" "}
@@ -448,13 +444,11 @@ const FromAndToDetail = ({
                     <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
                   <Typography className="f12">
-                    {console.log("SearchHistoryGet")}
                     {SearchHistoryGet?.adults} adult
                     {SearchHistoryGet?.adults > 1 ? "s" : ""}
                   </Typography>
                 </Box>
               )}
-              {console.log("uniqueBaggages", uniqueBaggages)}
               {[...uniqueBaggages]
                 .sort((a, b) => {
                   // Make "carry-on" come before "checked"

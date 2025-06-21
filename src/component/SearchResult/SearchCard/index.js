@@ -92,9 +92,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     }
     dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
   };
-
-  {console.log("hideSelectButton", hideSelectButton)}
-  {console.log("offerData", offerData)}
   return (
     <>
       {/* Open drawer only for the selected flight */}

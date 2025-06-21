@@ -8,7 +8,7 @@ import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 const BookingDrawer = ({ getFlightDetail }) => {
-  console.log("getFlightDetail", getFlightDetail);
+  
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
@@ -99,7 +99,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                         )
                         .join(" - ")}
                     </Typography>
-                    {console.log("22222", getFlightDetail?.slices)}
+                    
                     {getFlightDetail?.slices?.length <= 1 ? (
                       <Typography className={"f14 gray"}>
                         {"One way"},{" "}{getFlightDetail?.slices[0]?.segments[0]?.passengers[0].cabin_class_marketing_name}

@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 import {
   PassengerForm,
   setOpenPassengerDrawer,
+  setPassengerAge,
   setPassengerType,
   setPassengerUUID,
   setPassProfileDrawer,
@@ -42,20 +43,17 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer.passProfileDrawer
   );
 
-  console.log("isPassengerProfileDrawer", isPassengerProfileDrawer);
+  
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
+  
+  
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
 
-  console.log("selectedType", selectedType);
-
-  const selectedPassport = useSelector(
-    (state) => state?.passengerDrawer?.PassengerPassport
-  );
-  console.log("selectedPassport", selectedPassport);
+  
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -64,22 +62,29 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const FilledPassFormData = useSelector(
     (state) => state?.passengerDrawer?.PassFormData
   );
+  
+  
   // get filled pasenger form data from submit from to redux
 
   const handleCardClick = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
+
+    const birthDate = dayjs(passenger.born_on);
+    const now = dayjs();
+    const age = now.diff(birthDate, "year");
+    
     dispatch(setPassengerType(passenger.type));
-    console.log("passenger_uuid", passenger);
+    dispatch(setPassengerAge(age));
+    dispatch(setOpenPassengerDrawer()); // open drawer
 
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
-    dispatch(setOpenPassengerDrawer()); // open drawer
   };
   const getFillPass = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
   const getFillPass2 = useSelector((state) => state.passengerDrawer);
 
-  console.log("getFillPass", getFillPass);
+  
 
   // add passenger [start]
 
@@ -87,7 +92,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer?.PassengerUUID
   );
 
-  console.log("passengerUuid_Addnew", passengerUuid);
+  
 
   const handleAddPassenger = () => {
     dispatch(setOpenPassengerDrawer()); // open drawer
@@ -95,6 +100,12 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setPassengerUUID(passengerUuid));
     dispatch(PassengerForm());
   };
+
+
+    const selectPassenger = useSelector(
+      (state) => state?.passengerDrawer?.SelectPassenger
+    );
+    
 
   return (
     <Drawer
@@ -137,7 +148,26 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
               alignItems={"center"}
             >
               <Box>
-                <h3 className="regular mb-0">Traveller details</h3>
+                <h3 className="regular mb-0">
+                  Traveller details -{" "}
+                  <span className="capitalize">
+                    {selectPassenger?.type === "infant_without_seat" ? (
+                      <>
+                        Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
+                        {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
+                    ) : selectPassenger?.type === "child" ? (
+                      <>
+                        Child {" "}
+                        {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
+                    ) : (
+                      <>{selectPassenger?.type} 18+ years</>
+                    )}
+                  </span>{" "}
+                </h3>
               </Box>
             </Box>
             <Divider />
@@ -147,8 +177,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             {/* passport */}
             {/* if passport_number  equal and show selected profile */}
 
-            {passengerPofile
-              ?.filter((passenger) => {
+            {/* ?.filter((passenger) => {
                 if (
                   selectedType === "child" ||
                   selectedType === "infant_without_seat"
@@ -159,23 +188,46 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   );
                 }
                 return passenger?.type === selectedType;
-              })
-              .map((passenger, index) => {
+              }) */}
+              
+            {passengerPofile?.map((passenger, index) => {
                 const isPassFilled =
                   passenger?.passport_number ===
                   FilledPassFormData?.passport_number;
 
-                return (
-                  <PassengerProfilecard
-                    key={passenger?.uuid || index}
-                    getdata={passenger}
-                    onClickCard={() => handleCardClick(passenger)}
-                    passFilled={isPassFilled}
-                  />
-                );
-              })}
+                  {/* if age is not uqual disable */}
+                  
+                  // Calculate age from born_on date
+                  const birthDate = dayjs(passenger?.born_on);
+                  const today = dayjs();
+                  const profilePassengerAge = today.diff(birthDate, "year");
 
-            
+                  // Log for debugging
+                  
+                  
+
+                  let ispassDisabled = false;
+
+                  if (selectPassenger?.type === "adult") {
+                    // Disable if passenger is not adult
+                    ispassDisabled = passenger?.type !== "adult";
+                  } else {
+                    // For child or infant, disable if age or type doesn't match
+                    ispassDisabled =
+                      profilePassengerAge !== selectPassenger?.age ||
+                      passenger?.type !== selectPassenger?.type;
+                  }
+
+                  return (
+                    <PassengerProfilecard
+                      key={passenger?.uuid || index}
+                      getdata={passenger}
+                      onClickCard={() => handleCardClick(passenger)}
+                      passFilled={isPassFilled}
+                      passDisabled={ispassDisabled}
+                    />
+                  );
+              })}
 
             {/*  */}
             <Box px={3} pb={2} onClick={handleAddPassenger}>

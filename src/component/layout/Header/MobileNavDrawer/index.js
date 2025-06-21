@@ -28,7 +28,7 @@ import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
   const HandleBookTrip = () => {
     // Your booking logic here
-    console.log("Book a trip clicked");
+    
   };
   const dispatch = useDispatch();
   const handleThreadDrawer = () => {
@@ -53,6 +53,13 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
     dispatch(createThreadAndRedirect(router));
   };
   const HandleNewThread = () => {
+    setTimeout(() => {
+      const threaduuid = sessionStorage.getItem("chat_thread_uuid");
+      
+      if (threaduuid) {
+        router.replace(`/chat/${threaduuid}`);
+      }
+    }, 1000);
     toggleDrawer(); // Close the drawer before creating a new thread
     dispatch(deleteAndCreateThread());
   };
@@ -314,7 +321,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                   Share Mylz with friends
                 </Typography>
               </Box>
-              <Box
+              {/* <Box
                 display="flex"
                 alignItems="center"
                 
@@ -322,7 +329,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                 className={`basecolor1-dark2`}
               >
                 <Typography variant="body2">Explore community trips</Typography>
-              </Box>
+              </Box> */}
             </Box>
             {/*  */}
             {/*  */}

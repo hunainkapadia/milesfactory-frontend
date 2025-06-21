@@ -40,7 +40,6 @@ const UserPopup = () => {
   };
   // popup  close when user login
   const getUser = useSelector((state) => state?.login?.loginUser?.userPopup);
-  console.log("getUser", getUser);
   useEffect(() => {
     if (getUser === false) {
       dispatch(setisUserPopup(false)); // Closes the dialog

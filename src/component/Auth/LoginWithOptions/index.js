@@ -14,7 +14,6 @@ const LoginWithOptions = ({ options }) => {
   // Google login handler
   const loginHandle = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      console.log("Google Token Response:", tokenResponse);
       dispatch(googleLoginUser(tokenResponse.code)); // Auth Code flow
     },
     onError: () => console.log("Google Login Failed"),

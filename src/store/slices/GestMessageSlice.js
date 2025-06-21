@@ -115,7 +115,7 @@ export const fetchMessages = () => (dispatch, getState) => {
             
             // flight history [start]
             const getallFlightId = allFlightSearchApi.split('/').pop();
-            dispatch(setTopOfferUrl(getallFlightId)); // for passenger flow id dispatch
+            dispatch(setTopOfferUrl(allFlightSearchUuid)); // for passenger flow id dispatch
             
             
              const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
@@ -146,9 +146,9 @@ export const fetchMessages = () => (dispatch, getState) => {
                 console.log("allFlightSearchApi11", flightRes.data);
               })
               .catch((flighterror) => {
-                console.log("flighterror", flighterror?.response.data?.error);
+                
 
-                dispatch(setFlightExpire(flighterror?.response.data?.error));
+                dispatch(setFlightExpire(flighterror?.response?.data?.error));
               })
               .finally(() => {});
           }

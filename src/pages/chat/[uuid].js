@@ -38,7 +38,6 @@ const ChatByUUID = () => {
   useEffect(() => {
     if (!router.isReady) return; // Wait for router to be ready
     if (typeof uuid === "string" && uuid.trim() !== "") {
-      console.log("uuid_chat", uuid);
       dispatch(setGetMessageUUID(uuid));
     }
 
@@ -59,8 +58,8 @@ const ChatByUUID = () => {
           <Header isMessage={isMessage} isChat />
           <Box className={styles.Box}>
             <Container className={styles.Container}>
-              <Grid container sx={{ width: "100%", margin: 0 }}>
-                <Grid item md={8} lg={8}>
+              <Grid container width={"100%"} sx={{  margin: 0 }}>
+                <Grid item md={8} lg={8} xs={12}>
                   <Messages />
                 </Grid>
                 <Grid

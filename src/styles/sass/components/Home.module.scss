@@ -104,6 +104,9 @@
 
         .ContentIn {
           width: $BoxContainerLg;
+          &.ContentInSection1 {
+            margin-bottom: 24px;
+          }
         }
       }
     }
@@ -293,7 +296,9 @@
     padding: 164px 0 26vh;
 
     .Box .Content .ContentIn {
-      padding-bottom: 26px;
+      &.ContentInSection1 {
+        margin-bottom:18px;
+      }
       width: $BoxContainerXs;
     }
 

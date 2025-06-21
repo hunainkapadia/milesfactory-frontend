@@ -40,13 +40,13 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     (state) => state?.booking?.flightDetail
   );
   const baggageOptions = useSelector((state) => state.bagage.baggageOptions);
-  console.log("baggageOptions", baggageOptions);
+  
 
   const HandlecloseDrawer = () => {
     dispatch(setBaggageDrawer(false));
   };
   const segmentId = useSelector((state) => state.bagage.SegmentId);
-  console.log("segmentId000", segmentId);
+  
 
   const handleIncrement = (uuid, passengerId) => {
     const currentCount = baggageCount[passengerId]?.[uuid] || 0;
@@ -55,10 +55,10 @@ const BaggageDrawer = ({ getFlightDetail }) => {
 
     const newCount = currentCount + 1;
 
-    console.log("Incremented Baggage:");
-    console.log("Passenger UUID:", passengerId);
-    console.log("Baggage UUID:", uuid, newCount);
-    console.log("currentCount:", currentCount);
+    
+    
+    
+    
 
     setBaggageCount((prev) => {
       const currentPassengerBaggage = prev[passengerId] || {};
@@ -71,7 +71,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       };
     });
 
-    console.log("selectedBaggageUUIDs", selectedBaggageUUIDs);
+    
 
     dispatch(setAddSelectedBaggage(uuid));
     dispatch(addBaggage()); //
@@ -104,11 +104,11 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     0
   );
 
-  console.log("totalBaggageCount", totalBaggageCount);
+  
 
   // respons baggage add data
   const baggageAddData = useSelector((state) => state.bagage.baggageAddData);
-  console.log("baggageAddData", baggageAddData?.request_type);
+  
   // Check if baggageOptions is an array before filtering
 
   // calculate totalInitialBaggagePrice [start]
@@ -255,10 +255,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                       const filteredPassengerIds = passengerIds.filter(
                         (id) => id === passengerUUID
                       );
-                      console.log(
-                        "Filtered Passenger IDs:",
-                        filteredPassengerIds
-                      );
+                      
 
                       // Initialize checkedBagOptions
                       let checkedBagOptions = [];
@@ -268,14 +265,8 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                         const matchingPassengerId = filteredPassengerIds[0];
                         const passengerData =
                           baggageOptions[matchingPassengerId];
-                        console.log(
-                          "passengerData_cehcked",
-                          passengerData?.initial_checked_bag?.service_amount
-                        );
-                        console.log(
-                          "passengerData_carry",
-                          passengerData?.initial_carry_on_bag?.service_amount
-                        );
+                        
+                        
 
                         checkedBagOptions =
                           passengerData?.checked_bag_options?.filter(
@@ -484,7 +475,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   </Box>
                 </>
               )}
-              {console.log("baggageError_0", baggageAddData?.error)}
+              
               <Box py={2}>
                 {baggageAddData?.request_type === "remove" ? (
                   <Alert severity="success" className="f12">

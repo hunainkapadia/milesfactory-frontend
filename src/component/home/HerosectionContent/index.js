@@ -5,14 +5,14 @@ const HerosectionContent = () => {
      <Container>
        <Box className={styles.Content}>
          <Box
-           className={styles.ContentIn}
+           className={`${styles.ContentIn} ${styles.ContentInSection1}`}
            textAlign={"center"}
            display={"flex"}
            justifyContent={"center"}
            flexDirection={"column"}
          >
            <Box
-             sx={{ px: { xs: 0, md: 2, lg: 2 }, pb: { lg: 3, md: 3, xs: 1 } }}
+             sx={{ px: { xs: 0, lg: 2 } }}
            >
              <h1 className="h1-lg test-444">
                Stop the endless tabs.
@@ -22,10 +22,9 @@ const HerosectionContent = () => {
              <Typography
                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                color="white"
+               fontSize={20}
              >
-               No more juggling tabs or comparing markups. Mylz cuts through the
-               chaos to find the fastest trips across flights, trains, and more
-               at direct prices. Built for speed.
+               Mylz AI finds the cheapest flight prices with full airline protection.
              </Typography>
              <Typography
                sx={{ display: { lg: "none", md: "none", xs: "block" } }}

@@ -28,16 +28,22 @@ const PaymentSuccess = () => {
   const [email, setEmail] = useState(""); // from false to empty string
   const [emailError, setEmailError] = useState("");
   // stroll
-  const PaymentData = useSelector((state) => state?.payment?.PaymentData);
-  console.log("order detail", PaymentData?.order?.uuid);
-  {
-    console.log("successReview3", rating);
-  }
-
+  
+  
   const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
-
+  
   const [scrollRef, scrollToRef] = useScrollToRef();
 
+  // getting order data refrens and other
+  const orderData = useSelector((state) => state?.payment?.OrderData);
+
+  // getting payment status
+  const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
+
+  console.log("orderStatus_00", orderData?.order?.payment_status);
+  console.log("PaymentStatus_00", PaymentStatus?.is_complete, PaymentStatus?.status);
+  
+  
   useEffect(() => {
     registerScrollFunction(scrollToRef);
   }, []);
@@ -59,7 +65,7 @@ const PaymentSuccess = () => {
   if (rating && rating <= 4) {
     const payload = {
       rating: rating,
-      flight_order: PaymentData.order.uuid,
+      flight_order: orderData.order.uuid,
       review: reason,
     };
 
@@ -73,13 +79,13 @@ const PaymentSuccess = () => {
     (state) => state?.base?.RatingSumbitRequest
   );
   const inviteSuccess = useSelector((state) => state?.base?.InviteSuccess);
-  console.log("inviteSuccess", inviteSuccess);
+  
 
   const handleSubmit = () => {
     if (rating !== null) {
       const payload = {
         rating: rating,
-        flight_order: PaymentData.order.uuid,
+        flight_order: orderData.order.uuid,
       };
 
       if (selectedReason) {
@@ -95,7 +101,7 @@ const PaymentSuccess = () => {
   if (newValue === 5) {
     const payload = {
       rating: 5,
-      flight_order: PaymentData.order.uuid,
+      flight_order: orderData.order.uuid,
     };
     dispatch(RatingSubmit(payload));
   }
@@ -104,11 +110,11 @@ const PaymentSuccess = () => {
   if (newValue < 5) {
     setSelectedReason(null);
   }
-  console.log("newValue", newValue);
+  
   
 };
 
-console.log("rating_new", rating);
+
 
 
   // rating [end]
@@ -128,13 +134,13 @@ console.log("rating_new", rating);
     }
     const payload = {
       emails: email,
-      flight_order: PaymentData?.order?.uuid,
+      flight_order: orderData?.order?.uuid,
     };
     dispatch(InviteSubmit(payload));
   };
 
-  const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
-  console.log("PaymentStatus_0", PaymentStatus);
+
+  
 const inviteMoreEmailHandle=()=> {
     dispatch(setInviteEmailDialog(true))
   }
@@ -142,32 +148,30 @@ const inviteMoreEmailHandle=()=> {
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}
       <Box mb={3}>
-        {/* {console.log(
-          "PaymentStatus",
-          PaymentData?.duffel_order?.payment_status
-        )} */}
-
         <Box>
           {/* {isloading ? (
             <>
               <Typography>Loading your order details...</Typography>
             </>
-          ) : !PaymentData?.duffel_order?.payment_status ? ( */}
+          ) : !orderData?.duffel_order?.payment_status ? ( */}
 
-          {PaymentStatus?.is_complete === "no" ? (
+          {orderData?.order?.payment_status === "pending" &&  // when pending run
+          PaymentStatus?.is_complete === "yes" && // when payment compllente pending run
+          PaymentStatus?.status === "payment_failed" ? (
             <>
               <Typography>Please wait, confirming your order</Typography>
             </>
-          ) : PaymentStatus?.is_complete === "yes" &&
-            PaymentStatus?.status === "payment_failed" ? (
+          ) : orderData?.order?.payment_status === "success" && // when payment success and status from api 
+            PaymentStatus?.is_complete === "yes" &&
+            PaymentStatus?.status === "payment_failed" ? ( // when payment faild if not duffel order
             <>
               <Typography>
                 We have received your payment but there is a problem with the
                 order. We will check and get back to you
               </Typography>
             </>
-          ) : PaymentStatus?.is_complete === "yes" &&
-            PaymentData?.duffel_order?.payment_status ? (
+          ) : PaymentStatus?.is_complete === "yes" && // when payment success if duffel order found
+            PaymentStatus?.status === "success" ? ( // when payment status success 
             <>
               <Box className=" imggroup" mb={2}>
                 <img src="/images/success-check.svg" />
@@ -186,35 +190,40 @@ const inviteMoreEmailHandle=()=> {
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation – your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">{PaymentData?.duffel_order?.booking_reference}</Typography>. Use it to view
-                  and manage your booking directly on the airline’s website or
-                  app, or to share with anyone who needs it.
+                  <Typography component={"span"} className="exbold">
+                    {orderData?.duffel_order?.booking_reference}
+                  </Typography>
+                  . Use it to view and manage your booking directly on the
+                  airline’s website or app, or to share with anyone who needs
+                  it.
                 </Typography>
               </Box>
               {/* for mobile */}
               <Box display={{ lg: "none", md: "none", xs: "block" }}>
                 <Typography
                   component={"h2"}
-                  lineHeight={2}
+                  lineHeight={1.5}
                   className=""
                   fontSize={24}
                 >
                   Congratulations,
+                  <br />
+                  you booked your flight!
                 </Typography>
                 <Typography
                   component={"h2"}
-                  lineHeight={2}
+                  lineHeight={1.5}
                   className=""
                   fontSize={24}
-                >
-                  you booked your flight!
-                </Typography>
+                ></Typography>
                 <Typography>
                   You and the other passengers have received a booking
                   confirmation - your booking reference is{" "}
-                  {PaymentData?.duffel_order?.booking_reference}. Use it to view
-                  and manage your booking directly on the airline’s website or
-                  app.
+                  <Typography component={"span"} className="exbold">
+                    {orderData?.duffel_order?.booking_reference}
+                  </Typography>
+                  . Use it to view and manage your booking directly on the
+                  airline’s website or app.
                 </Typography>
               </Box>
 
@@ -311,7 +320,11 @@ const inviteMoreEmailHandle=()=> {
                         <img src="/images/hand-emoji.svg" alt="hand" />{" "}
                         <img src="/images/hand-emoji.svg" alt="hand" /> We've
                         sent the emails.
-                        <Box component={"span"} onClick={()=>inviteMoreEmailHandle()} className="text-decuration-none cursor-pointer basecolor1">
+                        <Box
+                          component={"span"}
+                          onClick={() => inviteMoreEmailHandle()}
+                          className="text-decuration-none cursor-pointer basecolor1"
+                        >
                           {" "}
                           Invite more friends
                         </Box>
@@ -323,8 +336,7 @@ const inviteMoreEmailHandle=()=> {
                       gap={1}
                       pt={2}
                     >
-                    <InviteEmailForm flight_order={PaymentData.order.uuid} />
-                    
+                      <InviteEmailForm flight_order={orderData.order.uuid} />
                     </Box>
                   </Box>
                 </>

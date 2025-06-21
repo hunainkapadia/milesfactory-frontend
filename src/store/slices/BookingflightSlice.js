@@ -83,12 +83,12 @@ export const bookFlight = (flightId) => (dispatch, getState) => {
   // const getPassenger =  `${/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options}`
   // {{BASE_URL}}/api/v1/search/single/result/off_0000AtoC3XiG43x9eXiVTE
   const FlightId = getState().booking.selectedFlightId;
-  console.log("state001", FlightId);
+  
   
   api
     .get(`/api/v1/search/single/result/${FlightId}`)
     .then((res) => {
-      console.log("res0001", res);
+      
       dispatch(setSingleFlightData(res.data))
 
     })

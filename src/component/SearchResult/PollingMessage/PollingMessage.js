@@ -4,10 +4,10 @@ import LoadingArea from "../../LoadingArea";
 import { useSelector } from "react-redux";
 
 const PollingMessage = ({ PollingData }) => {
-  console.log("PollingData", PollingData);
+  
 
   const pollingComplete = useSelector((state)=> state.sendMessage.pollingComplete);
-  console.log("pollingComplete", pollingComplete)
+  
   
 
   return (

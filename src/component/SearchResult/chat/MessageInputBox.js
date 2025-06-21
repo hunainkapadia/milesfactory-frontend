@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IconButton, Box, Button } from "@mui/material";
+import { IconButton, Box, Button, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import MicAnimation from "../ChatInput/MicAnimation";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,8 +28,8 @@ const MessageInputBox = ({
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
 
-  console.log("userMessage", userMessage);
-  console.log("isTyping", isTyping);
+  
+  
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,7 +45,7 @@ const MessageInputBox = ({
 
   useEffect(() => {
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
-    console.log("storedUuid", storedUuid);
+    
     setGetuuid(storedUuid);
   }, []);
 
@@ -76,7 +76,7 @@ const MessageInputBox = ({
     if (!uuid) return null; // Skip rendering or logic
 
     // Only runs when uuid is defined
-    console.log("get_uuid", uuid);
+    
     router.push(`/chat/${uuid}`);
   };
 
@@ -100,7 +100,7 @@ const MessageInputBox = ({
 
   // check  polling true and start new chat
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
-    console.log("FlightExpire222", FlightExpire);
+    
   const messages = useSelector((state) => state.sendMessage.messages);
 
 // Find message with ai.offers
@@ -108,13 +108,13 @@ const checkPolling = messages.find(
   (msg) => msg.ai && msg.ai.offers
 );
 const isPolling = checkPolling?.ai?.is_complete;
-console.log("checkPolling", messages || FlightExpire);
+
 
   
-  const HandleNewThread = () => {
-    alert("test")
-    dispatch(deleteAndCreateThread());
-  };
+  // const HandleNewThread = () => {
+  //   alert("test")
+  //   dispatch(deleteAndCreateThread());
+  // };
 
   return (
     <Box
@@ -143,84 +143,81 @@ console.log("checkPolling", messages || FlightExpire);
               <i className="fa fa-arrow-down"></i>
             </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
-                  <Box
-                    className={inputStyles.SearchBoxIn}
-                    position={"relative"}
-                  >
-                    {!isMessageHome && !userMessage.trim() && !listening ? (
-                      <LabelAnimation />
-                    ) : null}
+              <Box className={inputStyles.SearchBoxIn} position={"relative"}>
+                {!isMessageHome && !userMessage.trim() && !listening ? (
+                  <LabelAnimation />
+                ) : null}
 
-                    <div
-                      ref={inputRef}
-                      contentEditable={true}
-                      suppressContentEditableWarning
-                      role="textbox"
-                      placeholder="Ask anything about your trip"
-                      className={inputStyles.SearchForm + " SearchForm 222"}
-                      onInput={(e) => {
-                        const value = e.currentTarget.textContent.trim();
-                        setUserMessage(value);
-                        setIsTyping(value.length > 0);
-                        // If user edits manually, reset transcript so react-speech-recognition does not override
-                        resetTranscript();
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          if (isLoading) return;
-                          e.preventDefault();
-                          handleSearch();
-                          e.currentTarget.textContent = "";
-                          setIsTyping(false);
-                          resetTranscript();
-                        }
-                      }}
-                      style={{ textAlign: "left" }}
-                    ></div>
+                <div
+                  ref={inputRef}
+                  contentEditable={true}
+                  suppressContentEditableWarning
+                  role="textbox"
+                  placeholder="Ask anything about your trip"
+                  className={inputStyles.SearchForm + " SearchForm 222"}
+                  onInput={(e) => {
+                    const value = e.currentTarget.textContent.trim();
+                    setUserMessage(value);
+                    setIsTyping(value.length > 0);
+                    // If user edits manually, reset transcript so react-speech-recognition does not override
+                    resetTranscript();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      if (isLoading) return;
+                      e.preventDefault();
+                      handleSearch();
+                      e.currentTarget.textContent = "";
+                      setIsTyping(false);
+                      resetTranscript();
+                    }
+                  }}
+                  style={{ textAlign: "left" }}
+                ></div>
 
-                    <Box
-                      className={`${inputStyles.SearchButtonBox} ${
-                        listening ? inputStyles.active : ""
-                      }`}
-                    >
-                      <Box width={"100%"}>
-                        {listening ? <MicAnimation active={listening} /> : null}
-                      </Box>
-                      <Box className={inputStyles.BoxButtons}>
-                        <IconButton
-                          className={inputStyles.MicButton}
-                          onClick={handleVoiceInput}
-                          disabled={isLoading}
-                        >
-                          <i
-                            className={`fa ${
-                              listening ? "fa-check" : "fa-microphone"
-                            }`}
-                          ></i>
-                        </IconButton>
-
-                        {listening ? (
-                          <IconButton
-                            className={inputStyles.MicButton}
-                            onClick={handleVoiceInput}
-                            disabled={isLoading}
-                          >
-                            <i className="fa fa-close"></i>
-                          </IconButton>
-                        ) : (
-                          <IconButton
-                            className={`${inputStyles.SearchButton} ${
-                              isLoading ? inputStyles.Disabled : ""
-                            }`}
-                            onClick={handleSearch}
-                            disabled={isLoading}
-                          >
-                            <i className="fa fa-arrow-right"></i>
-                          </IconButton>
-                        )}
-                      </Box>
-                    </Box>
+                <Box
+                  className={`${inputStyles.SearchButtonBox} ${
+                    listening ? inputStyles.MicActive : ""
+                  }`}
+                >
+                  <Box width={"100%"}>
+                    {listening ? <MicAnimation active={listening} /> : null}
                   </Box>
+                  <Box className={inputStyles.BoxButtons}>
+                    <IconButton
+                      className={inputStyles.MicButton}
+                      onClick={handleVoiceInput}
+                      disabled={isLoading}
+                    >
+                      <i
+                        className={`fa ${
+                          listening ? "fa-check" : "fa-microphone"
+                        }`}
+                      ></i>
+                    </IconButton>
+
+                    {listening ? (
+                      <IconButton
+                        className={inputStyles.MicButton}
+                        onClick={handleVoiceInput}
+                        disabled={isLoading}
+                      >
+                        <i className="fa fa-close"></i>
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        className={`${inputStyles.SearchButton} ${
+                          isLoading ? inputStyles.Disabled : ""
+                        }`}
+                        onClick={handleSearch}
+                        disabled={isLoading}
+                      >
+                        <i className="fa fa-arrow-right"></i>
+                      </IconButton>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
               {/* {!isPolling && !FlightExpire ? (
                 <>
                 </>
@@ -233,72 +230,7 @@ console.log("checkPolling", messages || FlightExpire);
                 </Box>
               )} */}
 
-              {!isMessageHome && !isSticky && (
-                <>
-                  <Box
-                    display={"none"}
-                    gap={2}
-                    mt={2}
-                    justifyContent={"center"}
-                  >
-                    <Box>
-                      <img height={28} src="/images/app-google-play.svg" />
-                    </Box>
-                    <Box>
-                      <img height={28} src="/images/app-app-store.svg" />
-                    </Box>
-                  </Box>
-
-                  <Box
-                    sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
-                    className={styles.ChatBullets}
-                    textAlign={"center"}
-                    justifyContent={"center"}
-                    flexWrap={"wrap"}
-                    fontSize={14}
-                  >
-                    <Box
-                      className={`${styles.ChatBullet} `}
-                    >
-                      ✅ Lowest price guaranteed
-                    </Box>
-                    <Box
-                      className={` ${styles.ChatBullet} `}
-                    >
-                      🛡️ Airline-direct booking and protection
-                    </Box>
-                    <Box
-                      className={`${styles.ChatBullet} `}
-                    >
-                      🔒 Privacy-safe
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
-                    className={styles.ChatBullets}
-                    textAlign={"center"}
-                    justifyContent={"center"}
-                    flexWrap={"wrap"}
-                    fontSize={12}
-                  >
-                    <Box
-                      className={`${styles.ChatBullet} `}
-                    >
-                      ✅ Best price
-                    </Box>
-                    <Box
-                      className={` ${styles.ChatBullet} `}
-                    >
-                      🛡️ Airline-protected
-                    </Box>
-                    <Box
-                      className={`${styles.ChatBullet} `}
-                    >
-                      🔒 Privacy-safe
-                    </Box>
-                  </Box>
-                </>
-              )}
+              
             </Box>
           </Box>
         </Box>

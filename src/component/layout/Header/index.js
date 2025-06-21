@@ -91,6 +91,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
     dispatch(createThreadAndRedirect(router));
   };
 
+  // delete and create thread and show message chat clear
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
   };
@@ -184,7 +185,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
               <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
                 <MobileLoading />
               </Box>
-              {console.log("isSticky_1", isSticky)}
+              
               <HeaderCurrencyLanguage
                 forHeader={"forHeader"}
                 isSticky={isSticky}

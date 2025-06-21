@@ -45,12 +45,12 @@ const baseSlice = createSlice({
       state.feedbackDialog = action.payload;
     },
     setCurrentUser: (state, action)=> {
-      console.log("currentuser_state", action);
+      
       
       state.currentUser = action.payload;
     },
     setThreadData: (state, action)=> {
-      console.log("thread_action", action);
+      
       
       state.ThreadData = action.payload
     },
@@ -61,7 +61,7 @@ const baseSlice = createSlice({
       state.TripDetailData = action.payload
     },
     setThreadDrawer: (state, action)=> {
-      console.log("handleThreadDrawer", action);
+      
       
       state.ThreadDrawer = action.payload
     },
@@ -81,19 +81,19 @@ export const thread = () => (dispatch, getState) => {
     dispatch(setThreadData(res.data))
     dispatch(seIsloading(false))
   }).catch((error)=> {
-    console.log(error);
+    
     
   }).finally(()=> {
-    console.log();
+    
     
   })
 };
 
 export const handleSubmitContact = (params) => (dispatch, getState) => {
-  console.log("contact_params", params);
+  
   
   api.post("/api/v1/contact-us", params).then((res)=> {
-    console.log("contact_res", res)
+    
     dispatch(setContactData(res));
     setTimeout(() => {
       dispatch(setContactDialog(false));      
@@ -109,11 +109,11 @@ export const handleSubmitContact = (params) => (dispatch, getState) => {
 
 
 export const RatingSubmit = (params) => (dispatch, getState) => {
-  console.log("rating_params", params);
+  
   api
     .post("/api/v1/rating", params)
     .then((res) => {
-      console.log("rating_res", res);
+      
       dispatch(setRatingSumbitRequest(res.data)); // store response if needed
     })
     .catch((error) => {
@@ -125,11 +125,11 @@ export const RatingSubmit = (params) => (dispatch, getState) => {
 };
 
 export const InviteSubmit = (params) => (dispatch, getState) => {
-  console.log("invite_params", params);
+  
   api
     .post("/api/v1/invite", params)
     .then((res) => {
-      console.log("invite_res", res);
+      
       dispatch(setInviteSuccess(res.data)); // store response if needed
     })
     .catch((error) => {
@@ -141,11 +141,11 @@ export const InviteSubmit = (params) => (dispatch, getState) => {
 };
 
 export const InviteDialogSubmit = (params) => (dispatch, getState) => {
-  console.log("invite_params", params);
+  
   api
     .post("/api/v1/invite", params)
     .then((res) => {
-      console.log("invite_res", res);
+      
       dispatch(setInviteSuccess(res.data)); // store response if needed
       // dispatch(setInviteEmailDialog(false))
     })
@@ -181,7 +181,7 @@ export const TripDetailSlice = (uuid) => (dispatch, getState) => {
   api
     .get(`api/v1/my/trip/${uuid}/details`)
     .then((res) => {
-      console.log("trip_res", res);
+      
       
       dispatch(setTripDetailData(res.data));
     })

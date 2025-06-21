@@ -29,7 +29,12 @@
       min-height: auto;
       padding-top: 20px;
       padding-bottom: 20px;
+      &.passDisabled {
+         pointer-events: none;
+         opacity: 0.5;
+      }
       &.isFilled {
+         pointer-events: none;
          border-color: $basecolor1;
       }
    

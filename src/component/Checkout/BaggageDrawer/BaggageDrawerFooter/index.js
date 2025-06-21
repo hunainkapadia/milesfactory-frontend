@@ -25,7 +25,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
     const PassengerData = useSelector((state) => state.passengerDrawer);
     
     
-    console.log("newCount", newCount);
+    
 
     const handleAddBaggage = () => {
       dispatch(addBaggage());
@@ -41,7 +41,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
     const totalAmount = Math.round(WithtaxAmount);
     const baggageAddData = useSelector((state)=> state.bagage.baggageAddData);
 
-    console.log("totalInitialBaggagePrice_0", totalInitialBaggagePrice);
+    
     
     return (
       <Box

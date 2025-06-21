@@ -28,8 +28,8 @@ const HomeSection4 = (props) => {
                   sx={{
                     width: {
                       xs: "100%", // Extra small screens
-                      sm: "59.7%", // Small screenss
-                      lg: "59.7%", // Large screens
+                      sm: "63.1%", // Small screenss
+                      lg: "63.1%", // Large screens
                     },
                   }}
                 >
@@ -47,7 +47,6 @@ const HomeSection4 = (props) => {
                     your style. An AI that adapts to you - not the other way
                     around.
                   </Typography>
-                  
                 </Box>
               </Box>
             </Box>
@@ -62,8 +61,12 @@ const HomeSection4 = (props) => {
                       Travel style remembered
                     </h5>
                     <Typography className="f14" color="white">
-                      Prefer late departures? Hate early flights? <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />Love trains?
-                      Mylz learns your habits.
+                      Prefer late departures? Hate early flights?{" "}
+                      <Box
+                        component="br"
+                        sx={{ display: { xs: "block", sm: "none" } }}
+                      />
+                      Love trains? Mylz learns your habits.
                     </Typography>
                   </Box>
                 </Card>
@@ -79,8 +82,12 @@ const HomeSection4 = (props) => {
                       Prompt memory
                     </h5>
                     <Typography className="f14" color="white">
-                      Repeat that Rome trip from last spring? <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />Just ask - your
-                      past prompts are saved.
+                      Repeat that Rome trip from last spring?{" "}
+                      <Box
+                        component="br"
+                        sx={{ display: { xs: "block", sm: "none" } }}
+                      />
+                      Just ask - your past prompts are saved.
                     </Typography>
                   </Box>
                 </Card>
@@ -96,8 +103,12 @@ const HomeSection4 = (props) => {
                       Faster booking every time
                     </h5>
                     <Typography className="f14" color="white">
-                      Mylz remembers your behaviour and <Box component="br" sx={{ display: { xs: 'block', sm: 'none' } }} />gets you through to
-                      booking in seconds.
+                      Mylz remembers your behaviour and{" "}
+                      <Box
+                        component="br"
+                        sx={{ display: { xs: "block", sm: "none" } }}
+                      />
+                      gets you through to booking in seconds.
                     </Typography>
                   </Box>
                 </Card>
@@ -112,19 +123,30 @@ const HomeSection4 = (props) => {
                 href={"#HomeSection2"}
                 className={styles.footerBtn + " white text-decoration-none"}
               >
-                <Typography
-                  className="align-center white"
-                  sx={{ display: { xs: "none", lg: "block", md: "block" } }}
-                >
-                  🛡️ Built for travellers, not marketers. No tracking. Just
-                  smarter travel every time.
-                </Typography>
-                <Typography
-                  className="align-center white"
-                  sx={{ display: { lg: "none", md: "none", xs: "block" } }}
-                >
-                  🛡️ Built for travellers. No tracking.
-                </Typography>
+                <Box display={"flex"} textAlign={"center"} justifyContent={"center"}
+                      alignItems={"center"}
+                      gap={1}
+                      >
+                  <Box className="imggroup">
+                    <img
+                      src="/images/protection-text-icon.svg"
+                      alt="Protection Icon"
+                      width={15}
+                    />
+                  </Box>
+                  <Typography component={"span"} className="align-center white" 
+                  sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                  >
+                    {" "}Built for travellers, not marketers. No tracking. Just
+                    smarter travel every time.
+                  </Typography>
+                  <Typography
+                    className="align-center white"
+                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                  >
+                    Built for travellers. No tracking.
+                  </Typography>
+                </Box>
               </Link>
             </Box>
           </Box>

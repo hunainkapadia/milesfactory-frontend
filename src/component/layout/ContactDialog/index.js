@@ -24,7 +24,7 @@ const ContactDialog = () => {
   const dispatch = useDispatch();
   const contactDialog = useSelector((state) => state?.base?.contactDialog);
   const contactSuccess = useSelector((state) => state?.base?.contactData?.data);
-  console.log("contactSuccess", contactSuccess);
+  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -168,7 +168,7 @@ const ContactDialog = () => {
                       <br />
                       have and we will reach out!
                     </Typography>
-                    {console.log("currentUser", currentUser?.user?.first_name)}
+                    
                     {currentUser ? (
                       <Typography variant="body1" mt={1}>
                         Signed in as{" "}
