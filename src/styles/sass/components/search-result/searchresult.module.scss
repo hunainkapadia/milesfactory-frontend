@@ -347,6 +347,7 @@
       .flightOfferCard {
         .selectFlightBtn {
           padding: 9px 50px 8px;
+          white-space: nowrap;
           height: 30px;
         }
         .airlineLogo {@include scale(40px, 40px);}
@@ -356,7 +357,7 @@
         // scroll-snap-stop: always;   
         // min-width: 319px;
         .FromAndToRow {width: 100%;}
-        .CardRight .RightTopSection {margin-bottom: 20px;}
+        .CardRight .RightTopSection {margin-bottom: 12px;}
         &.Oneway {
           .FromAndToRow {
             .rowExtraInfo {
@@ -385,9 +386,7 @@
           font-size: 10px;
         }
   
-        .airlineLogo {
-          @include scale(52px, 52px);
-        }
+        
   
         .Timings {
           display: flex;

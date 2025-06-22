@@ -229,10 +229,7 @@ const FromAndTo = ({ offerData }) => {
           </Box>
           <Box width="100%" pt={"17px"}></Box>
           {index !== 0 && (
-            <Box
-              width="100%"
-              py={"12px"}
-            >
+            <Box width="100%" py={"12px"}>
               <Divider />
             </Box>
           )}
@@ -241,9 +238,11 @@ const FromAndTo = ({ offerData }) => {
 
       <Box
         display={"flex"}
-        gap={"24px"}
         justifyContent={"space-between"}
-        sx={{ flexDirection: { lg: "row", md: "row", xs: "column" } }}
+        sx={{
+          flexDirection: { lg: "row", md: "row", xs: "column" },
+          gap: { lg: 3, md: 3, xs: 2 },
+        }}
         width={"100%"}
       >
         {offerData?.slices.map((slice, index) => (
