@@ -1,7 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/search-result/SearchFilterBar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setflightDetail, setOpenDrawer } from "@/src/store/slices/BookingflightSlice";
+import {
+  setflightDetail,
+  setOpenDrawer,
+} from "@/src/store/slices/BookingflightSlice";
 
 const SearchFilterBar = () => {
   const SearchHistoryGet = useSelector(
@@ -12,21 +15,22 @@ const SearchFilterBar = () => {
     (state) => state.sendMessage?.SearchHistorySend
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
-  console.log("SearchHistory2", SearchHistory?.children);
 
-//   for selct flight detail
-  const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);
-  console.log("getselectedFlight", getselectedFlight?.id);
+  //   for selct flight detail
+  const getselectedFlight = useSelector(
+    (state) => state?.booking?.flightDetail
+  );
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id;
-    const HandleSelectDrawer = () => {
-      // Dispatch flight detail and open drawer
-      if (offerkey) {
-        dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
-        dispatch(setflightDetail(getselectedFlight)); // Store flight details
-      }
-    };
-//   for selct flight detail end
+  const HandleSelectDrawer = () => {
+    // Dispatch flight detail and open drawer
+    if (offerkey) {
+      dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
+      dispatch(setflightDetail(getselectedFlight)); // Store flight details
+    }
+  };
+  console.log("SearchHistory2", offerkey);
+  //   for selct flight detail end
 
   return (
     <>
@@ -37,7 +41,14 @@ const SearchFilterBar = () => {
             className={styles.SearchFilterBar}
             sx={{ display: { xs: "block", lg: "none", md: "none" } }}
           >
-            <Box component={"section"} className={styles.Content} gap={2} display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+            <Box
+              component={"section"}
+              className={styles.Content}
+              gap={2}
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
               {/*  */}
               <Box gap={2} display={"flex"} alignItems={"center"}>
                 <Box className=" imggroup" sx={{ width: "28px" }}>
@@ -127,24 +138,26 @@ const SearchFilterBar = () => {
                   ""
                 )}
               </Box>
-                <Box>
+              <Box>
+                {offerkey && (
                   <Box style={{ cursor: "pointer" }}>
-                          <Box
-                            onClick={HandleSelectDrawer}
-                            className="text-decoration-none cursor-pointer"
-                          >
-                            <Box
-                              gap={1}
-                              alignItems={"center"}
-                              display={"flex"}
-                              className=" basecolor1 semibold f12"
-                            >
-                              <span>See details</span>
-                              <i className="fa-angle-right fa fas"></i>{" "}
-                            </Box>
-                          </Box>
-                        </Box>
-                </Box>
+                    <Box
+                      onClick={HandleSelectDrawer}
+                      className="text-decoration-none cursor-pointer"
+                    >
+                      <Box
+                        gap={1}
+                        alignItems={"center"}
+                        display={"flex"}
+                        className=" basecolor1 semibold f12"
+                      >
+                        <span>See details</span>
+                        <i className="fa-angle-right fa fas"></i>{" "}
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+              </Box>
             </Box>
             {/*  */}
           </Box>
