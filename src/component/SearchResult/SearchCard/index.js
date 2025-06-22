@@ -196,7 +196,9 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       flexDirection: { lg: "column", md: "column", xs: "row" },
                       width: { lg: "100%", md: "100%", xs: "100%" },
                       justifyContent: "space-between",
+                      alignItems: {lg:"flex-start", md: "flex-start", xs:"center"}
                     }}
+                      
                     gap={1}
                     className={searchResultStyles.PriceBottom}
                   >
@@ -211,13 +213,19 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           offerData?.tax_currency}
                         {Math.round(offerData?.per_passenger_amount)}
                       </h4>
+                      {console.log(offerData)}
                       
-                      {personQuantity > 1 && (
+                      {/* {personQuantity > 1 && (
                       <Typography className="f12 gray">
                         {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency}
                         {Math.round(offerData?.total_amount)} total
                       </Typography>
-                      )}
+                      )} */}
+                      <Typography className="f12 gray">
+                        {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency}
+                        {Math.round(offerData?.per_passenger_amount)} per person
+                      </Typography>
+                      
                     </Box>
                     {/* main select handle */}
                     {/* {!isselected ? (
@@ -241,7 +249,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     )}
 
                     {selectedFlightKey ? null : (
-                      <Box>
+                      <Box sx={{width:{lg:"100%", md:"100%", }}}>
                         <button
                           className={
                             "w-100 btn btn-primary btn-round btn-md " +

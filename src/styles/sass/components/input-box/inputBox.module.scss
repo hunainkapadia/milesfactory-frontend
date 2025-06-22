@@ -109,6 +109,7 @@
       opacity: 0;
       transition: transform 0.4s ease, opacity 0.4s ease;
       display: none;
+      
       &.InputSticky {
          display: flex;
          transform: translateY(0);
@@ -132,6 +133,7 @@
                min-height: 43px;
                background-color: $white;
                color: $basecolor;
+               padding: 10px 75px 10px 16px ;
             }
             .SearchButton {color: $white;}
             .SearchButtonBox {padding: 0;
@@ -165,7 +167,7 @@
       .SearchForm {
          outline: none;
             min-height: 86px;
-            padding: 10px 75px 10px 16px;
+            padding: 10px 75px 40px 16px ;
             background: #0B1729;
             border: 1px solid #F7F7F7;
             border-radius: 16px;
@@ -239,8 +241,7 @@
 
 
 
-@include for-mobile-large-screen {
-   
+@include for-mobile-large-screen {  
    .SearchBoxSection {
       &.HeaderInput {
          &.InputSticky {

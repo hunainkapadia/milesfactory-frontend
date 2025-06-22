@@ -226,11 +226,12 @@ const AiMessage = ({ aiMessage }) => {
             style={{ cursor: "pointer" }}
           >
             <Box
-              sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+              sx={{ my: { lg: 2, md: 2, xs: 2 } }}
               gap={2}
               alignItems="center"
               display="flex"
               className="bold"
+              
             >
               <span>See more flights</span>
               <i className="fa fa-caret-right fas" />

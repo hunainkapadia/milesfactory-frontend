@@ -16,7 +16,7 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
         justifyContent: { xs: "space-between" },
         alignItems: { xs: "center", lg: "flex-start", md: "flex-start" },
         gap: { md: 3, lg: 3, xs: 2 },
-        marginBottom: { xs: 4 },
+        mb: "6px" ,
       }}
       width={"100%"}
       className={searchResultStyles.RightTopSection + " RightTopSection"}
@@ -31,7 +31,7 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
               gap={1.5}
               alignItems={"center"}
               display={"flex"}
-              className=" semibold f12"
+              className=" bold f12"
               sx={{
                 fontSize: { xs: "12px", md: "16px" },
               }}
@@ -43,7 +43,8 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
         </Box>
       )}
       {/*  */}
-      {isMobile || isRoundTrip ? ( // Only show for round trips
+      {/* for mobile baggage start */}
+      {isMobile ? ( // Only show for round trips
         <Box
           display={"flex"}
           gap={1}
@@ -108,7 +109,7 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
               </Box>
             );
           })()}
-          <Box display={"flex"} alignItems={"center"} gap={1}>
+          {/* <Box display={"flex"} alignItems={"center"} gap={1}>
             <img width={11} src="/images/leave-icon.svg" />
             <Typography className="f12 gray">
               <span>
@@ -125,11 +126,13 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
                 </Box>
               </span>
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       ) : (
         ""
       )}
+      {/* for mobile baggage */}
+      
     </Box>
   );
 };

@@ -123,7 +123,7 @@ const isPolling = checkPolling?.ai?.is_complete;
           ? inputStyles.SearchBoxSectionActive
           : inputStyles.SearchBoxSection
       } ${HeaderInput ? inputStyles.HeaderInput : ""} ${
-        isSticky ? inputStyles.InputSticky : ""
+        isSticky ? inputStyles.InputSticky : inputStyles.noInputSticky
       }`}
     >
       <Box className={styles.Content + " " + inputStyles.Content}>
