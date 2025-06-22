@@ -39,91 +39,122 @@ const FromAndTo = ({ offerData }) => {
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="5px">
-  {/* Refund with penalty */}
-  {offerData?.conditions?.refund_before_departure?.allowed === true &&
-    offerData?.conditions?.refund_before_departure?.penalty_amount > 0 && (
-      <Tooltip
-        title={`Refundable - ${
-          currencySymbols[
-            offerData?.conditions?.refund_before_departure?.penalty_currency
-          ]
-        } ${offerData?.conditions?.refund_before_departure?.penalty_amount} penalty applies`}
-        placement="top"
-        arrow
-        enterTouchDelay={0}
-        leaveTouchDelay={3000}
-      >
-        <Box className="imggroup" sx={{ display: "inline-block", pointerEvents: "auto" }}>
-          <img
-            width={11}
-            src="/images/refund-with-fee.svg"
-            alt="Refund with Fee"
-          />
-        </Box>
-      </Tooltip>
-    )}
+                {/* Refund with penalty */}
+                {offerData?.conditions?.refund_before_departure?.allowed ===
+                  true &&
+                  offerData?.conditions?.refund_before_departure
+                    ?.penalty_amount > 0 && (
+                    <Tooltip
+                      title={`Refundable - ${
+                        currencySymbols[
+                          offerData?.conditions?.refund_before_departure
+                            ?.penalty_currency
+                        ]
+                      } ${
+                        offerData?.conditions?.refund_before_departure
+                          ?.penalty_amount
+                      } penalty applies`}
+                      placement="top"
+                      arrow
+                      enterTouchDelay={0}
+                      leaveTouchDelay={3000}
+                    >
+                      <Box
+                        className="imggroup"
+                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                      >
+                        <img
+                          width={11}
+                          src="/images/refund-with-fee.svg"
+                          alt="Refund with Fee"
+                        />
+                      </Box>
+                    </Tooltip>
+                  )}
 
-  {/* Free refund */}
-  {offerData?.conditions?.refund_before_departure?.allowed === true &&
-    offerData?.conditions?.refund_before_departure?.penalty_amount === 0 && (
-      <Tooltip
-        title="Free refund before departure"
-        placement="top"
-        arrow
-        enterTouchDelay={0}
-        leaveTouchDelay={3000}
-      >
-        <Box className="imggroup" sx={{ display: "inline-block", pointerEvents: "auto" }}>
-          <img width={11} src="/images/refund-icon.svg" alt="Free Refund" />
-        </Box>
-      </Tooltip>
-    )}
+                {/* Free refund */}
+                {offerData?.conditions?.refund_before_departure?.allowed ===
+                  true &&
+                  offerData?.conditions?.refund_before_departure
+                    ?.penalty_amount === 0 && (
+                    <Tooltip
+                      title="Free refund before departure"
+                      placement="top"
+                      arrow
+                      enterTouchDelay={0}
+                      leaveTouchDelay={3000}
+                    >
+                      <Box
+                        className="imggroup"
+                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                      >
+                        <img
+                          width={11}
+                          src="/images/refund-icon.svg"
+                          alt="Free Refund"
+                        />
+                      </Box>
+                    </Tooltip>
+                  )}
 
-  {/* Change with penalty */}
-  {offerData?.conditions?.change_before_departure?.allowed === true &&
-    offerData?.conditions?.change_before_departure?.penalty_amount > 0 && (
-      <Tooltip
-        title={`Changes allowed - ${
-          currencySymbols[
-            offerData?.conditions?.change_before_departure?.penalty_currency
-          ]
-        } ${offerData?.conditions?.change_before_departure?.penalty_amount} penalty applies`}
-        placement="top"
-        arrow
-        enterTouchDelay={0}
-        leaveTouchDelay={3000}
-      >
-        <Box className="imggroup" sx={{ display: "inline-block", pointerEvents: "auto" }}>
-          <img
-            width={11}
-            src="/images/flexible-change-with-fee.svg"
-            alt="Change with Fee"
-          />
-        </Box>
-      </Tooltip>
-    )}
+                {/* Change with penalty */}
+                {offerData?.conditions?.change_before_departure?.allowed ===
+                  true &&
+                  offerData?.conditions?.change_before_departure
+                    ?.penalty_amount > 0 && (
+                    <Tooltip
+                      title={`Changes allowed - ${
+                        currencySymbols[
+                          offerData?.conditions?.change_before_departure
+                            ?.penalty_currency
+                        ]
+                      } ${
+                        offerData?.conditions?.change_before_departure
+                          ?.penalty_amount
+                      } penalty applies`}
+                      placement="top"
+                      arrow
+                      enterTouchDelay={0}
+                      leaveTouchDelay={3000}
+                    >
+                      <Box
+                        className="imggroup"
+                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                      >
+                        <img
+                          width={11}
+                          src="/images/flexible-change-with-fee.svg"
+                          alt="Change with Fee"
+                        />
+                      </Box>
+                    </Tooltip>
+                  )}
 
-  {/* Free change */}
-  {offerData?.conditions?.change_before_departure?.allowed === true &&
-    offerData?.conditions?.change_before_departure?.penalty_amount === 0 && (
-      <Tooltip
-        title="Changes allowed - no fee"
-        placement="top"
-        arrow
-        enterTouchDelay={0}
-        leaveTouchDelay={3000}
-      >
-        <Box className="imggroup" sx={{ display: "inline-block", pointerEvents: "auto" }}>
-          <img
-            width={11}
-            src="/images/flexible-change-icon.svg"
-            alt="Free Change"
-          />
-        </Box>
-      </Tooltip>
-    )}
-</Box>
-
+                {/* Free change */}
+                {offerData?.conditions?.change_before_departure?.allowed ===
+                  true &&
+                  offerData?.conditions?.change_before_departure
+                    ?.penalty_amount === 0 && (
+                    <Tooltip
+                      title="Changes allowed - no fee"
+                      placement="top"
+                      arrow
+                      enterTouchDelay={0}
+                      leaveTouchDelay={3000}
+                    >
+                      <Box
+                        className="imggroup"
+                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                      >
+                        <img
+                          width={11}
+                          src="/images/flexible-change-icon.svg"
+                          alt="Free Change"
+                        />
+                      </Box>
+                    </Tooltip>
+                  )}
+              </Box>
             </Box>
             <Box
               className={searchResultStyles.RightColBaggage}
