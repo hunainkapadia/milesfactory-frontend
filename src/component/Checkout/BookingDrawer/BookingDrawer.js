@@ -70,14 +70,13 @@ const BookingDrawer = ({ getFlightDetail }) => {
             {/* Header Section */}
             <Grid
               container
-              
               px={3}
               display="flex"
               alignItems="center"
               justifyContent="space-between"
             >
               <Grid xs={12}>
-                <Box
+                <Box mb={3}
                   display={"flex"}
                   justifyContent={"space-between"}
                   alignItems={"center"}
@@ -101,13 +100,23 @@ const BookingDrawer = ({ getFlightDetail }) => {
                         )
                         .join(" - ")}
                     </Typography>
-                    
+
                     {getFlightDetail?.slices?.length <= 1 ? (
                       <Typography className={"f14 gray"}>
-                        {"One way"},{" "}{getFlightDetail?.slices[0]?.segments[0]?.passengers[0].cabin_class_marketing_name}
+                        {"One way"},{" "}
+                        {
+                          getFlightDetail?.slices[0]?.segments[0]?.passengers[0]
+                            .cabin_class_marketing_name
+                        }
                       </Typography>
                     ) : (
-                      <Typography className={"f14 gray"}>{"Return"}, {" "}{getFlightDetail?.slices[0]?.segments[0]?.passengers[0].cabin_class_marketing_name}</Typography>
+                      <Typography className={"f14 gray"}>
+                        {"Return"},{" "}
+                        {
+                          getFlightDetail?.slices[0]?.segments[0]?.passengers[0]
+                            .cabin_class_marketing_name
+                        }
+                      </Typography>
                     )}
                   </Box>
                 </Box>
@@ -122,14 +131,19 @@ const BookingDrawer = ({ getFlightDetail }) => {
                       key={index} // Always add a unique key when mapping
                       sliceLength={getFlightDetail?.slices.length}
                       getdata={slice}
-                      logo={getFlightDetail?.slices[0]?.segments[0]?.marketing_carrier?.logo_symbol_url}
+                      logo={
+                        getFlightDetail?.slices[0]?.segments[0]
+                          ?.marketing_carrier?.logo_symbol_url
+                      }
                       flightType={index === 0 ? "Outbound" : "Return"}
                       SearchHistoryGet={searchHistory}
                     />
                   </>
                 ))}
                 <Box display={"flex"} gap={2} alignItems={"center"} mb={3}>
-                  <img width={14} src="/images/leave-icon.svg" />
+                  <Box display={"flex"} alignItems={"center"}>
+                    <img width={14} src="/images/leave-icon.svg" />
+                  </Box>
                   <Typography className={styles.normalOption + " f12 gray"}>
                     <span>
                       Emissions estimate: {getFlightDetail?.total_emissions_kg}{" "}
@@ -137,28 +151,104 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     </span>
                   </Typography>
                 </Box>
-                <Box display={"flex"} gap={2} alignItems={"center"}>
-                    <Typography variant="p" className="gray f12" pb={2}>
-                    {getFlightDetail?.conditions?.change_before_departure?.allowed === true && getFlightDetail?.conditions?.change_before_departure?.penalty_amount > 0 && 
-                      `You can change your flight before departure for ${getFlightDetail?.conditions?.change_before_departure?.penalty_currency} ${" "} ${getFlightDetail?.conditions?.change_before_departure?.penalty_amount}`
-                    }
+                {/*  */}
+                <Box component={"section"} >
+                  {/* Change with penalty */}
+                  {getFlightDetail?.conditions?.change_before_departure
+                    ?.allowed === true &&
+                    getFlightDetail?.conditions?.change_before_departure
+                      ?.penalty_amount > 0 && (
+                      <Box display="flex" gap={2} alignItems="center" mb={1}>
+                        <Box display={"flex"} alignItems={"center"}>
+                          <img
+                            width={14}
+                            src="/images/flexible-change-with-fee.svg"
+                            alt="Change with Fee"
+                          />
+                        </Box>
+                        <Typography variant="body2" className="gray f12">
+                          Changes allowed -{" "}
+                          {
+                            currencySymbols[
+                              getFlightDetail?.conditions
+                                ?.change_before_departure?.penalty_currency
+                            ]
+                          }
+                          {
+                            getFlightDetail?.conditions?.change_before_departure
+                              ?.penalty_amount
+                          } penalty applies
+                        </Typography>
+                      </Box>
+                    )}
 
-                    {getFlightDetail?.conditions?.change_before_departure?.allowed === true && getFlightDetail?.conditions?.change_before_departure?.penalty_amount == 0 && 
-                      `You can change your flight before departure without any extra cost`
-                    }
-                  </Typography>
+                  {/* Change with no penalty */}
+                  {getFlightDetail?.conditions?.change_before_departure
+                    ?.allowed === true &&
+                    getFlightDetail?.conditions?.change_before_departure
+                      ?.penalty_amount === 0 && (
+                      <Box display="flex" gap={2} alignItems="center" mb={1}>
+                        <Box display={"flex"} alignItems={"center"}>
+                          <img
+                            width={14}
+                            src="/images/flexible-change-icon.svg"
+                            alt="Free Change"
+                          />
+                        </Box>
+                        <Typography variant="body2" className="gray f12">
+                          Changes allowed - no fee
+                        </Typography>
+                      </Box>
+                    )}
+
+                  {/* Refund with penalty */}
+                  {getFlightDetail?.conditions?.refund_before_departure
+                    ?.allowed === true &&
+                    getFlightDetail?.conditions?.refund_before_departure
+                      ?.penalty_amount > 0 && (
+                      <Box display="flex" gap={2} alignItems="center" mb={1}>
+                        <Box display={"flex"} alignItems={"center"}>
+                          <img
+                            width={14}
+                            src="/images/refund-with-fee.svg"
+                            alt="Refund with Fee"
+                          />
+                        </Box>
+                        <Typography variant="body2" className="gray f12">
+                          Refundable -{" "}
+                          {
+                            currencySymbols[
+                              getFlightDetail?.conditions
+                                ?.refund_before_departure?.penalty_currency
+                            ]
+                          }
+                          {
+                            getFlightDetail?.conditions?.refund_before_departure
+                              ?.penalty_amount
+                          } penalty applies
+                        </Typography>
+                      </Box>
+                    )}
+
+                  {/* Refund with no penalty */}
+                  {getFlightDetail?.conditions?.refund_before_departure
+                    ?.allowed === true &&
+                    getFlightDetail?.conditions?.refund_before_departure
+                      ?.penalty_amount === 0 && (
+                      <Box display="flex" gap={2} alignItems="center" mb={1}>
+                        <Box display={"flex"} alignItems={"center"}>
+                          <img
+                            width={14}
+                            src="/images/refund-icon.svg"
+                            alt="Free Refund"
+                          />
+                        </Box>
+                        <Typography variant="body2" className="gray f12">
+                          Refundable before departure - no fee
+                        </Typography>
+                      </Box>
+                    )}
                 </Box>
-                <Box display={"flex"} gap={2} alignItems={"center"}>
-                  <Typography variant="p" className="gray f12" pb={2}>
-                    {getFlightDetail?.conditions?.refund_before_departure?.allowed === true && getFlightDetail?.conditions?.refund_before_departure?.penalty_amount > 0 &&
-                      `You can refund your flight before departure for ${getFlightDetail?.conditions?.refund_before_departure?.penalty_currency} ${" "} ${getFlightDetail?.conditions?.refund_before_departure?.penalty_amount}`
-                    }
-
-                    {getFlightDetail?.conditions?.refund_before_departure?.allowed === true && getFlightDetail?.conditions?.refund_before_departure?.penalty_amount == 0 &&
-                      `You can refund your flight before departure without any extra cost`
-                    }
-                </Typography>
-                </Box>    
               </>
             </Box>
           </Box>

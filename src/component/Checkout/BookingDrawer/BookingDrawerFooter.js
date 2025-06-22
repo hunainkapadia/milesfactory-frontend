@@ -74,10 +74,36 @@
         {/* Footer Content */}
         <Box py={2} display="flex" flexDirection="column">
           {/* TODO: This will become dynamic based on airline cancellation policy */}
-          <Typography variant="p" className="gray f12" pb={2}>
-            The airline policy will apply if you decide to cancel or modify your
-            trip.
-          </Typography>
+          <Box
+            component={"section"}
+            display={"flex"}
+            alignItems={"center"}
+            pb={2}
+            gap={"5px"}
+          >
+            <Box class="imggroup" display={"flex"}>
+              <img
+                src="/images/protection-text-icon.svg"
+                alt="Protection Icon"
+                width="15"
+              />
+            </Box>
+            <Typography
+              variant="p"
+              className="gray f12"
+              display={{ lg: "block", md: "block", xs: "none" }}
+            >
+              The airline policy will apply if you decide to cancel or modify
+              your trip.
+            </Typography>
+            <Typography
+              variant="p"
+              className="gray f12"
+              display={{ lg: "none", md: "none", xs: "block" }}
+            >
+              Airline-direct booking - protected from airline disruptions.
+            </Typography>
+          </Box>
 
           {/* Price Row */}
           <Box
@@ -101,15 +127,15 @@
                   </span>
                 </h4>
               </Box>
-              {personQuantity > 1 && (
                 <Box className={styles.totalPersonPrice}>
                   <Typography variant="p" className=" gray f12">
-                    {currencySymbols[getFlightDetails?.tax_currency] ||
-                      getFlightDetails?.tax_currency}
-                    {Math.round(getFlightDetails?.total_amount)} total
+                  {currencySymbols[getFlightDetails?.tax_currency] || getFlightDetails?.tax_currency}
+                  {Math.round(getFlightDetails?.per_passenger_amount)} per person
+                    
                   </Typography>
                 </Box>
-              )}
+              {/* {personQuantity > 1 && (
+              )} */}
             </Box>
 
             {/* Actions Section */}
@@ -159,17 +185,16 @@
                 ) : (
                   ""
                 )} */}
-                    <button
-                      className={
-                        styles.selectFlightBtn +
-                        " btn btn-primary btn-sm btn-round"
-                      }
-                      onClick={handleBookFlight}
-                    >
-                      <Box display="flex" gap={1}>
-                        <Box>Select flight</Box>
-                      </Box>
-                    </button>
+                <button
+                  className={
+                    styles.selectFlightBtn + " btn btn-primary btn-sm btn-round"
+                  }
+                  onClick={handleBookFlight}
+                >
+                  <Box display="flex" gap={1}>
+                    <Box>Select flight</Box>
+                  </Box>
+                </button>
               </Box>
             </Box>
           </Box>

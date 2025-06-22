@@ -117,9 +117,7 @@
       
 
       .checkoutDrowerBody {
-         overflow-y: auto;
-         height: 100%;
-
+         
          .detailsSection {
             padding: 0 24px 144px;
             .fromAndToBodyBottom {
@@ -255,13 +253,20 @@
    // checkoutDrower section end
 
 }
+   .checkoutDrower {
+      .checkoutDrowerHeder {
+         padding: 28px 24px 0;
+         gap: 24px;
+         margin-bottom: 24px;
+      }
+   }
 @include for-mobile-large-screen {
    
    .checkoutDrower {
       .checkoutDrowerHeder {
          padding: 22px 24px 0;
          gap: 16px;
-         margin-bottom: 16px;
+         margin-bottom: 22px;
       }
       width: 100%;
       >div {
