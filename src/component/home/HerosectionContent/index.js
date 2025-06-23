@@ -22,7 +22,7 @@ const HerosectionContent = () => {
              <Typography
                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                color="white"
-               fontSize={20}
+               
              >
                Mylz AI finds the cheapest flight prices with full airline protection.
              </Typography>

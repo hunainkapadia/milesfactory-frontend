@@ -1,5 +1,7 @@
 import { Grid, Box, Card, Container, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
+import footerStyles from "@/src/styles/sass/components/baseLayout.module.scss";
+
 import Link from "next/link";
 import Footer from "../layout/Footer";
 
@@ -188,7 +190,8 @@ const HomeSection2 = (props) => {
                     />
                   </Box>
 
-                  <Typography component={"span"}
+                  <Typography
+                    component={"span"}
                     className="align-center white"
                     sx={{ display: { xs: "none", lg: "block", md: "block" } }}
                   >
@@ -207,11 +210,46 @@ const HomeSection2 = (props) => {
           </Box>
         </Container>
       </section>
-      <Footer
-        forDark
-        LearnMore={"Trusted by our global travel partners"}
-        id={"PoweredByglobal"}
-      />
+      {/* footer */}
+
+      <Box component={"footer"} className={footerStyles.FooterForDark} sx={{ pb: 4 }}>
+        <Container>
+          <Box
+            className={footerStyles.FooterBox}
+            display={"flex"}
+            sx={{
+              justifyContent: {
+                lg: "center",
+                md: "center",
+                xs: "center",
+              },
+            }}
+          >
+            <Link
+              href={`#PoweredByglobal`} // Use template literals
+              className={footerStyles.footerBtn + " white text-decoration-none"}
+            >
+              <Box gap={2} alignItems={"center"} display={"flex"}>
+                <i className="fa-arrow-down fa fas"></i>{" "}
+                <Typography
+                  display={{ lg: "block", md: "block", xs: "none" }}
+                  component={"span"}
+                >
+                  More than 1m+ travel partners.
+                </Typography>
+                <Typography
+                  display={{ lg: "none", md: "none", xs: "block" }}
+                  component={"span"}
+                  whiteSpace={"nowrap"}
+                >
+                  More than 1m+ partners.
+                </Typography>
+              </Box>
+            </Link>
+          </Box>
+        </Container>
+      </Box>
+      {/*  */}
     </Box>
   );
 };

@@ -59,7 +59,7 @@ const LabelAnimation = () => {
     <Box textAlign={"left"}>
       <FormLabel className={inputStyles.label}>
         {displayedText}
-        {showCursor ? " |" : ""}
+        
       </FormLabel>
     </Box>
   );
