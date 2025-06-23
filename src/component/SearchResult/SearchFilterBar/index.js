@@ -50,7 +50,7 @@ const SearchFilterBar = () => {
               justifyContent={"space-between"}
             >
               {/*  */}
-              <Box gap={2} display={"flex"} alignItems={"center"}>
+              <Box gap={"8px"} display={"flex"} alignItems={"center"}>
                 <Box className=" imggroup" sx={{ width: "28px" }}>
                   <img width="28" src="/images/plane-icon-basecolor1.svg" />
                 </Box>

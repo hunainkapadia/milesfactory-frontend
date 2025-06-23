@@ -7,7 +7,7 @@ import {
   setGetMessageUUID,
 } from "@/src/store/slices/GestMessageSlice";
 import { useRouter } from "next/router";
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import Messages from "@/src/component/Messages";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
@@ -46,19 +46,29 @@ const ChatByUUID = () => {
     }
   }, [router.isReady, uuid, dispatch]);
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  
   return (
     <>
       <Box component={"main"}>
-        <Box component={"section"}
+        {isMobile && (
+          <>
+            <Header isMessage={isMessage} isChat />
+            <Box className="w-100" display={"flex"} justifyContent={"center"} alignItems={"center"}></Box>
+          </>
+        )}
+        <Box
+          component={"section"}
           id="fold1"
           className={
             styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
           }
         >
-          <Header isMessage={isMessage} isChat />
+          {!isMobile && <Header isMessage={isMessage} isChat />}
           <Box className={styles.ChatBody}>
             <Container className={styles.Container}>
-              <Grid container width={"100%"} sx={{  margin: 0 }}>
+              <Grid container width={"100%"} sx={{ margin: 0 }}>
                 <Grid item md={8} lg={8} xs={12}>
                   <Messages />
                 </Grid>
