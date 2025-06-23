@@ -48,15 +48,15 @@ const ChatByUUID = () => {
 
   return (
     <>
-      <main>
-        <section
+      <Box component={"main"}>
+        <Box component={"section"}
           id="fold1"
           className={
             styles.SearchBodyActive + " bg-cover bg-norepeat bg-center"
           }
         >
           <Header isMessage={isMessage} isChat />
-          <Box className={styles.Box}>
+          <Box className={styles.ChatBody}>
             <Container className={styles.Container}>
               <Grid container width={"100%"} sx={{  margin: 0 }}>
                 <Grid item md={8} lg={8} xs={12}>
@@ -75,6 +75,10 @@ const ChatByUUID = () => {
                   )}
                 </Grid>
               </Grid>
+            </Container>
+          </Box>
+          <Box className={styles.InputBody}>
+            <Container className={styles.InputContainer}>
               <Box
                 className={inputStyles.SearchBoxGrid}
                 sx={{ width: "100%", margin: 0 }}
@@ -90,8 +94,8 @@ const ChatByUUID = () => {
               </Box>
             </Container>
           </Box>
-        </section>
-      </main>
+        </Box>
+      </Box>
     </>
   );
 };

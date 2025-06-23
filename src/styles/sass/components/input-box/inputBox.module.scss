@@ -2,25 +2,13 @@
 
 
 .SearchBoxGrid {
-   position: fixed;
-   width: 100%;
-   bottom: 0;
-   left: 0;
-   right: 0;
-   padding: 0 0 25px;
-   z-index: 3;
-   background-image: url("/images/search-footer-bg.png");
-   background-size: cover;
-   background-position: bottom center;
-   background-repeat: no-repeat;
+   
    .SearchBoxContainer {
       padding: 0;
    }
 }
 .SearchBoxSectionActive {
-   .SearchBoxContainer {
-      width: 100%;
-      padding: 0 10px;
+   .SearchBoxContainer {width: 100%;
       .label {
          position: absolute;
          z-index: 3;

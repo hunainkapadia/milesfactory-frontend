@@ -8,13 +8,17 @@
   top: 70px;
   z-index: 5;
   .MobileLoading {
-    
-
-  }
-  
+  }  
 }
 
 .SearchBodyActive {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* full screen */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
   background-color: $basecolor1-light;
   background-image: url("/images/search-bg.png");
   height: 100%;
@@ -28,9 +32,29 @@
     display: none;
   }
 
-  .messageContent {}
+  .ChatBody {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+  .InputBody {
+    flex-shrink: 0;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 0 25px;
+    z-index: 3;
+    background-image: url("/images/search-footer-bg.png");
+    background-size: cover;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    .InputContainer {
+      padding: 0 8px;
+    }
+  }
+
 }
-.SearchBodyActive .Box .Container {
+.SearchBodyActive  .Container {
   padding-left: 22px;
   padding-right: 15px;
 }
@@ -286,9 +310,15 @@
 
 @include for-mobile-large-screen {
   
-  .SearchBodyActive .Box .Container {
-    padding-left: 22px;
-    padding-right: 22px;
+  .SearchBodyActive {
+    .InputBody {padding-bottom: 0;}
+    .InputBody .InputContainer {
+      padding: 0;
+    }
+    .Container {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
   }
   .ExtraServicesWraper {
       display: grid;
