@@ -1,0 +1,7 @@
+
+html, body {
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden; // prevents unwanted scroll on mobile
+  position: fixed;  // optional, use only if needed
+  touch-action: manipulation;
+}

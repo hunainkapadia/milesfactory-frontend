@@ -5,6 +5,7 @@ import MicAnimation from "../ChatInput/MicAnimation";
 import { useDispatch, useSelector } from "react-redux";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import LabelAnimation from "../../home/LabelAnimation";
+import  "@/src/styles/sass/components/search-result/searchGlobal.scss";
 import {
   deleteAndCreateThread,
   sendMessage,
@@ -115,6 +116,21 @@ const isPolling = checkPolling?.ai?.is_complete;
   //   alert("test")
   //   dispatch(deleteAndCreateThread());
   // };
+
+  useEffect(() => {
+  const setVh = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+
+  setVh(); // Initial set
+  window.addEventListener("resize", setVh);
+
+  return () => {
+    window.removeEventListener("resize", setVh);
+  };
+}, []);
+
 
   return (
     <Box
