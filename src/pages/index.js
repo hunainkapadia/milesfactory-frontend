@@ -46,9 +46,9 @@ const Home = () => {
 
   return (
     <>
-      <Box component={"main"}>
+      <Box>
         <Header isHome={"isHome"} />
-        <Box component={"body"} className={styles.homeBody}>
+        <Box  className={styles.homeBody}>
 
           <section id="fold1" className={styles.HomeBanner}>
             <HomeHeroSection />
