@@ -3,6 +3,32 @@
 // loading 
 /* Rectangle 1068 */
 
+// scroll bar decrease
+/* Custom scrollbar styles */
+.ChatBody::-webkit-scrollbar {
+  width: 10px; // Increase or decrease width
+}
+
+.ChatBody::-webkit-scrollbar-track {
+  background: #f1f1f1; // Light grey track
+}
+
+.ChatBody::-webkit-scrollbar-thumb {
+  background: #999; // Darker thumb
+  border-radius: 4px;
+}
+
+.ChatBody::-webkit-scrollbar-thumb:hover {
+  background: #666; // Even darker on hover
+}
+
+/* Firefox */
+.ChatBody {
+  scrollbar-width: thin;
+  scrollbar-color: #aaa #f1f1f1;
+}
+
+// scroll end
 .MobileLoadingRow {
   left: 0%;
   top: 70px;
@@ -55,8 +81,7 @@
 
 }
 .SearchBodyActive  .Container {
-  padding-left: 22px;
-  padding-right: 15px;
+  
 }
 .messageContent {
   .CircleButton {
@@ -68,7 +93,7 @@
   }
 
   .messageContentIn {
-    padding: 0px 0 100px;
+    padding: 0px 0 35px;
     margin-top: 105px;
     position: relative;
 
@@ -83,7 +108,7 @@
       @include border-radius(22px);
       max-width: 80%;
       padding: 10px 24px;
-      margin: 0 0 12px;
+      margin-bottom: 34px;
 
       p {
         color: $basecolor-dark;
@@ -94,8 +119,7 @@
     .AiMessage {
       color: #0B1729;
       width: 100%;
-      padding: 10px 0;
-      margin: 12px 0;
+      padding-bottom: 34px;
       max-width: 80%;
 
       p {
@@ -316,8 +340,8 @@
       padding: 0;
     }
     .Container {
-      padding-left: 22px;
-      padding-right: 22px;
+      padding-left: 24px;
+      padding-right: 24px;
     }
   }
   .ExtraServicesWraper {
@@ -452,7 +476,7 @@
 
     .messageContentIn {
       width: 100%;
-      padding: 0px 0px 100px;
+      padding: 0px 0px 34px;
 
       .Aibox {
         width: 100%;

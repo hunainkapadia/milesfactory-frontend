@@ -69,14 +69,13 @@ const ChatByUUID = () => {
           <Box className={styles.ChatBody}>
             <Container className={styles.Container}>
               <Grid container width={"100%"} sx={{ margin: 0 }}>
-                <Grid item md={8} lg={8} xs={12}>
+                <Grid item md={7.3} lg={7.3} xs={12}>
                   <Messages />
                 </Grid>
                 <Grid
                   item
-                  md={4}
-                  lg={4}
-                  sx={{ display: { xs: "none", md: "block", lg: "block" } }}
+                  
+                  sx={{maxWidth:{lg:"674px", md:"674px"}, display: { xs: "none", md: "block", lg: "block" } }}
                 >
                   {SearchHistory ? (
                     <YourTripSidebar isMessage={isMessage} />
@@ -95,10 +94,10 @@ const ChatByUUID = () => {
               >
                 <Container className={inputStyles.SearchBoxContainer}>
                   <Grid container>
-                    <Grid item md={8} lg={8} xs={12}>
+                    <Grid item sx={{maxWidth:{lg:"674px", md:"674px"},}} xs={12}>
                       <MessageInputBox isMessageHome={isMessage} />
                     </Grid>
-                    <Grid item md={4} lg={4}></Grid>
+                    <Grid item md={4.7} lg={4.7}></Grid>
                   </Grid>
                 </Container>
               </Box>

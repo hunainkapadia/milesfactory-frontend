@@ -19,7 +19,7 @@
    z-index: 7;
    height: 60px;
    
-   .Container {padding:  0 12px;}
+   .Container {padding-left: 18px;}
    .Dropdown {
       @include transition(all 0.2s ease-in-out);
       display: flex; 

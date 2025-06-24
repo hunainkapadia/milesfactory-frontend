@@ -195,7 +195,6 @@ const AiMessage = ({ aiMessage }) => {
       {displayedGetFlights?.length > 0 ? (
         <>
           <Box
-            sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
             className={searchResultStyles.SearchCardWrapper}
           >
             <Box className="SearchBar SearchBar_000">
