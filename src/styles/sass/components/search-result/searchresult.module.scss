@@ -198,17 +198,24 @@
         
         .selectFlightBtn {}
       }
-    
-      .airlineLogo {
-        @include scale(52px, 52px);
-        background: $white;
-        justify-content: flex-start;
-        border-radius: 0;
-    
-        img {
-          width: 70%;
-          height: auto;
+      .logoCol {
+        .airlineLogo {
+          border-radius: 0;
+          justify-content: flex-start;
+          background: $white;
+          
+          img {
+            width: 100%;
+            height: auto;
+          }
         }
+        &.round .airlineLogo {
+          @include scale(30px, 30px);
+        }
+        &.oneway .airlineLogo {
+          @include scale(52px, 52px);
+        }
+
       }
     
       .rowExtraInfo {
@@ -404,7 +411,7 @@
           white-space: nowrap;
           height: 30px;
         }
-        .airlineLogo {@include scale(40px, 40px);}
+        .logoCol .airlineLogo {@include scale(40px, 40px);}
         .IsSelected {padding: 8px 50px 8px;height: 30px;}
         // for horizontal scroll
         // scroll-snap-align: start;
