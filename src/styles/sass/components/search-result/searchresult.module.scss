@@ -138,6 +138,7 @@
 .SearchCardWrapper {
   .SearchCardGrid {
     .flightOfferCard {
+      max-width: 674px;
       background: $white;
       border: 1px solid #E6EEEE;
       border-radius: 16px;
@@ -178,6 +179,14 @@
         white-space: nowrap;
       }
     
+      .destination {font-size: 10px;
+    position: relative;
+    bottom: 5px;}
+      .Duration {
+        font-size: 10px;
+        position: relative;
+    bottom: -5px;
+      }
       .flightDay {
         font-size: 10px;
       }
@@ -282,7 +291,7 @@
     
       .flightTime {
         font-weight: $semibold;
-        font-size: 20px;
+        font-size: 18px;
       }
     
       .logoCol {
@@ -455,9 +464,11 @@
           flex-direction: column;
         }
   
-        .flightRoute,
-        .flightTime {
+        .flightRoute {
           font-size: 10px !important;
+        }
+        .flightTime {
+          font-size: 16px !important;
         }
   
         .flightPriceSection {

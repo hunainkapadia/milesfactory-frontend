@@ -336,7 +336,7 @@ const FromAndTo = ({ offerData }) => {
                       </Typography>
                       <Typography
                         lineHeight={1}
-                        className={searchResultStyles.Duration + " gray f12"}
+                        className={searchResultStyles.Duration + " gray"}
                       >
                         {slice.duration}
                       </Typography>
@@ -429,14 +429,14 @@ const FromAndTo = ({ offerData }) => {
                       alignItems={"center"}
                     >
                       <Typography
-                        className={searchResultStyles.flightRoute + " bold f12"}
+                        className={searchResultStyles.flightRoute + " bold f10"}
                       >
                         {slice.origin.iata_code}
                       </Typography>
                       <Typography
                         className={
-                          searchResultStyles.flightDuration +
-                          " semibold gray f12"
+                          searchResultStyles.destination +
+                          " semibold gray"
                         }
                       >
                         {slice.segments?.length === 1 ? (
@@ -454,7 +454,7 @@ const FromAndTo = ({ offerData }) => {
                         )}
                       </Typography>
                       <Typography
-                        className={searchResultStyles.flightRoute + " bold f12"}
+                        className={searchResultStyles.flightRoute + " bold f10"}
                       >
                         {slice.destination.iata_code}
                       </Typography>
