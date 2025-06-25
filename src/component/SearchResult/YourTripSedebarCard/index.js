@@ -65,53 +65,90 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
       {SearchHistory ? (
-        <Box className={TripStyles.Header2 + " aaa"}>
+        <Box mb={2}
+          className={TripStyles.Header2 + " aaa"}
+          display={"flex"}
+          alignItems={"flex-start"}
+          justifyContent={"space-between"}
+        >
           <Box>
-            <h4 className="regular mb-0">
-              {SearchHistory?.from_title} to {SearchHistory?.to_title}
-            </h4>
+            <Box>
+              <h4 className="regular mb-0">
+                {SearchHistory?.from_title} to {SearchHistory?.to_title}
+              </h4>
+            </Box>
+            <Box className=" ">
+              <Typography className=" f12 black semibold">
+                {SearchHistory?.departure_date ? (
+                  <>
+                    {new Date(SearchHistory?.departure_date).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                      }
+                    )}
+                  </>
+                ) : (
+                  ""
+                )}
+                {SearchHistory?.arrival_date ? (
+                  <>
+                    {" - "}
+                    {new Date(SearchHistory.arrival_date).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                      }
+                    )}
+                  </>
+                ) : (
+                  ""
+                )}
+              </Typography>
+              <Typography className=" gray mb-0 f12">
+                {SearchHistory.flight_type == "round-trip"
+                  ? "Return"
+                  : "One way"}
+                , {totalTravelers}{" "}
+                {totalTravelers > 1 ? "Travellers" : "Traveller"}
+              </Typography>
+            </Box>
           </Box>
-          <Box className=" ">
-            <Typography className=" f12 black semibold">
-              {SearchHistory?.departure_date ? (
-                <>
-                  {new Date(SearchHistory?.departure_date).toLocaleDateString(
-                    "en-GB",
-                    {
-                      day: "2-digit",
-                      month: "short",
-                    }
-                  )}
-                </>
-              ) : (
-                ""
-              )}
-              {SearchHistory?.arrival_date ? (
-                <>
-                  {" - "}
-                  {new Date(SearchHistory.arrival_date).toLocaleDateString(
-                    "en-GB",
-                    {
-                      day: "2-digit",
-                      month: "short",
-                    }
-                  )}
-                </>
-              ) : (
-                ""
-              )}
-            </Typography>
-            <Typography className=" gray mb-0 f12">
 
-              {SearchHistory.flight_type == "round-trip" ? "Return" : "One way"}
-              , {totalTravelers}{" "}
-              {totalTravelers > 1 ? "Travellers" : "Traveller"}
+          <Box display={"flex"} alignItems={"center"} gap={1}>
+            <Typography className="gray" component={"span"}>
+              Reset{" "}
             </Typography>
+            <img className="gray" src="/images/refresh-gray.svg" />
           </Box>
         </Box>
       ) : (
         ""
       )}
+
+      {/* filter row */}
+      <Box
+        className={TripStyles.Header2 + " aaa"}
+        display={"flex"}
+        alignItems={"flex-start"}
+        justifyContent={"space-between"}
+      >
+        <Box className=" ">
+          <Typography className=" gray mb-0 f12">Filters: none</Typography>
+          <Typography className=" gray mb-0 f12">
+            Sorting: best match
+          </Typography>
+        </Box>
+
+        <Box display={"flex"} alignItems={"center"} gap={1}>
+          <Typography className="gray" component={"span"}>
+            Clear filters
+          </Typography>
+        </Box>
+      </Box>
+      {/* filter row */}
       {offerData ? (
         <>
           <Box className={`${TripStyles.flightOfferCard}`} mt={2}>
@@ -223,7 +260,6 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
                               flex={1}
                               className={TripStyles.flightDurationBox}
                             >
-                              
                               <Typography className={" gray f12"}>
                                 {slice.duration}
                               </Typography>

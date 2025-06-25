@@ -116,6 +116,11 @@ const isPolling = checkPolling?.ai?.is_complete;
   //   dispatch(deleteAndCreateThread());
   // };
   
+  useEffect(() => {
+  if (inputRef.current) {
+    inputRef.current.focus();
+  }
+}, []);
 
   return (
     <Box
