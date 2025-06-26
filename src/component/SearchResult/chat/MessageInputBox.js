@@ -141,13 +141,13 @@ const isPolling = checkPolling?.ai?.is_complete;
           flexDirection={"column"}
         >
           <Box display="flex" alignItems="center" justifyContent="center">
-            <IconButton sx={{position:"absolute", top:-60,}}
+            {/* <IconButton sx={{position:"absolute", top:-60,}}
               className={" CircleButton btn-white " + inputStyles.CircleButton}
               onClick={ScrollDown}
 
             >
               <i className="fa fa-arrow-down"></i>
-            </IconButton>
+            </IconButton> */}
             <Box className={inputStyles.SearchBoxContainer}>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (
