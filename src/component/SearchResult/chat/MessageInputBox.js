@@ -21,15 +21,13 @@ const MessageInputBox = ({
   isSticky,
   HeaderInput,
   messagesEndRef,
+  showScrollButton,
 }) => {
   const inputRef = useRef(null);
 
   const [getuuid, setGetuuid] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
-
-  
-  
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,7 +43,7 @@ const MessageInputBox = ({
 
   useEffect(() => {
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
-    
+
     setGetuuid(storedUuid);
   }, []);
 
@@ -76,7 +74,7 @@ const MessageInputBox = ({
     if (!uuid) return null; // Skip rendering or logic
 
     // Only runs when uuid is defined
-    
+
     router.push(`/chat/${uuid}`);
   };
 
@@ -94,33 +92,33 @@ const MessageInputBox = ({
       SpeechRecognition.startListening({ continuous: true, language: "en-US" });
     }
   };
-  const ScrollDown = () => {
-    messagesEndRef?.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   // check  polling true and start new chat
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
-    
+
   const messages = useSelector((state) => state.sendMessage.messages);
 
-// Find message with ai.offers
-const checkPolling = messages.find(
-  (msg) => msg.ai && msg.ai.offers
-);
-const isPolling = checkPolling?.ai?.is_complete;
+  // Find message with ai.offers
+  const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
+  const isPolling = checkPolling?.ai?.is_complete;
 
-
-  
   // const HandleNewThread = () => {
   //   alert("test")
   //   dispatch(deleteAndCreateThread());
   // };
-  
+
   useEffect(() => {
-  if (inputRef.current) {
-    inputRef.current.focus();
-  }
-}, []);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const ScrollDown = () => {
+    messagesEndRef?.current?.scrollTo({
+      top: messagesEndRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <Box
@@ -140,14 +138,22 @@ const isPolling = checkPolling?.ai?.is_complete;
           justifyContent={"center"}
           flexDirection={"column"}
         >
-          <Box display="flex" alignItems="center" justifyContent="center">
-            {/* <IconButton sx={{position:"absolute", top:-60,}}
-              className={" CircleButton btn-white " + inputStyles.CircleButton}
-              onClick={ScrollDown}
-
-            >
-              <i className="fa fa-arrow-down"></i>
-            </IconButton> */}
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            position={"relative"}
+          >
+            {showScrollButton && (
+              <IconButton
+                className={
+                  " CircleButton btn-white " + inputStyles.CircleButton
+                }
+                onClick={ScrollDown}
+              >
+                <i className="fa fa-arrow-down"></i>
+              </IconButton>
+            )}
             <Box className={inputStyles.SearchBoxContainer}>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (
@@ -235,8 +241,6 @@ const isPolling = checkPolling?.ai?.is_complete;
                   Start new chat
                 </Box>
               )} */}
-
-              
             </Box>
           </Box>
         </Box>

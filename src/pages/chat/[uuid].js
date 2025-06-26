@@ -1,6 +1,6 @@
 import Header from "@/src/component/layout/Header";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import {
   fetchMessages,
@@ -49,13 +49,41 @@ const ChatByUUID = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   
+    // scroll button
+    const chatScrollRef = useRef(null);
+const [showScrollButton, setShowScrollButton] = useState(false);
+
+// Scroll handler
+const handleScroll = () => {
+  const el = chatScrollRef.current;
+  if (!el) return;
+
+  const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
+  setShowScrollButton(!isAtBottom);
+};
+
+useEffect(() => {
+  const el = chatScrollRef.current;
+  if (!el) return;
+
+  el.addEventListener("scroll", handleScroll);
+
+  return () => {
+    el.removeEventListener("scroll", handleScroll);
+  };
+}, []);
   return (
     <>
       <Box component={"main"}>
         {isMobile && (
           <>
             <Header isMessage={isMessage} isChat />
-            <Box className="w-100" display={"flex"} justifyContent={"center"} alignItems={"center"}></Box>
+            <Box
+              className="w-100"
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            ></Box>
           </>
         )}
         <Box
@@ -66,16 +94,28 @@ const ChatByUUID = () => {
           }
         >
           {!isMobile && <Header isMessage={isMessage} isChat />}
-          <Box className={styles.ChatBody}>
+          <Box
+            className={styles.ChatBody}
+            ref={chatScrollRef}
+            onScroll={handleScroll}
+          >
             <Container className={styles.Container}>
               <Grid container width={"100%"} sx={{ margin: 0 }}>
-                <Grid className={styles.ChatBodyLeft} item md={7.3} lg={7.3} xs={12}>
+                <Grid
+                  className={styles.ChatBodyLeft}
+                  item
+                  md={7.3}
+                  lg={7.3}
+                  xs={12}
+                >
                   <Messages />
                 </Grid>
                 <Grid
                   item
-                  
-                  sx={{maxWidth:{lg:"674px", md:"674px"}, display: { xs: "none", md: "block", lg: "block" } }}
+                  sx={{
+                    maxWidth: { lg: "674px", md: "674px" },
+                    display: { xs: "none", md: "block", lg: "block" },
+                  }}
                 >
                   {SearchHistory ? (
                     <YourTripSidebar isMessage={isMessage} />
@@ -94,8 +134,16 @@ const ChatByUUID = () => {
               >
                 <Container className={inputStyles.SearchBoxContainer}>
                   <Grid container>
-                    <Grid item sx={{maxWidth:{lg:"674px", md:"674px"},}} xs={12}>
-                      <MessageInputBox isMessageHome={isMessage} />
+                    <Grid
+                      item
+                      sx={{ maxWidth: { lg: "674px", md: "674px" } }}
+                      xs={12}
+                    >
+                      <MessageInputBox
+                        isMessageHome={isMessage}
+                        showScrollButton={showScrollButton}
+                        messagesEndRef={chatScrollRef}
+                      />
                     </Grid>
                     <Grid item md={4.7} lg={4.7}></Grid>
                   </Grid>
