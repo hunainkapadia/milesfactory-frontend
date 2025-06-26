@@ -135,10 +135,11 @@
 .RightColBaggage {
   line-height: 1;
 }
+.ChatBody .ChatBodyLeft {max-width: 674px;}
 .SearchCardWrapper {
   .SearchCardGrid {
     .flightOfferCard {
-      max-width: 674px;
+      max-width: 100%;
       background: $white;
       border: 1px solid #E6EEEE;
       border-radius: 16px;
@@ -349,6 +350,7 @@
 }
 
 @include for-mobile-large-screen {
+  .ChatBody .ChatBodyLeft {max-width: 100%;}
   
   .SearchBodyActive {
     .InputBody {padding-bottom: 0;}

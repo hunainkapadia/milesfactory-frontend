@@ -69,7 +69,7 @@ const ChatByUUID = () => {
           <Box className={styles.ChatBody}>
             <Container className={styles.Container}>
               <Grid container width={"100%"} sx={{ margin: 0 }}>
-                <Grid item md={7.3} lg={7.3} xs={12}>
+                <Grid className={styles.ChatBodyLeft} item md={7.3} lg={7.3} xs={12}>
                   <Messages />
                 </Grid>
                 <Grid
