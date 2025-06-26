@@ -23,7 +23,10 @@ import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 
-const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
+const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
+
+  console.log("filterParams", filterParams?.isDirectFlight);
+  
   const dispatch = useDispatch();
   const offerkey = offerData?.id;
   const HandleSelectDrawer = () => {
@@ -65,7 +68,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
       {SearchHistory ? (
-        <Box mb={2}
+        <Box
+          mb={2}
           className={TripStyles.Header2 + " aaa"}
           display={"flex"}
           alignItems={"flex-start"}
@@ -136,7 +140,20 @@ const YourTripSedebarCard = ({ offerData, FlightExpire }) => {
         justifyContent={"space-between"}
       >
         <Box className=" ">
-          <Typography className=" gray mb-0 f12">Filters: none</Typography>
+          <Typography className=" gray mb-0 f12">
+            Filters:{" "}
+            {filterParams?.airlineName ||
+            filterParams?.isDirectFlight === "True" ? (
+              <>
+                {filterParams?.airlineName
+                  ? filterParams.airlineName + ", "
+                  : ""}
+                {filterParams?.isDirectFlight === "True" ? "Direct, " : ""}
+              </>
+            ) : (
+              "none"
+            )}
+          </Typography>
           <Typography className=" gray mb-0 f12">
             Sorting: best match
           </Typography>
