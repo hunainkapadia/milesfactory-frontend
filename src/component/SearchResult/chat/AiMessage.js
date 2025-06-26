@@ -248,6 +248,7 @@ const AiMessage = ({ aiMessage }) => {
               <Box className={searchResultStyles.AiMessage + " aaa"}>
                 {aiMessage?.ai?.isPolling?.status && (
                   <>
+                  {console.log("aiMessage_polling", aiMessage?.ai)}
                     
                     <PollingMessage
                       PollingData={aiMessage?.ai?.isPolling?.argument}
