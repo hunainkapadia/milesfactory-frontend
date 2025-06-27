@@ -429,7 +429,7 @@ const FromAndTo = ({ offerData }) => {
                       alignItems={"center"}
                     >
                       <Typography
-                        className={searchResultStyles.flightRoute + " bold f10"}
+                        className={searchResultStyles.flightRoute + "  f10"}
                       >
                         {slice.origin.iata_code}
                       </Typography>
@@ -454,7 +454,7 @@ const FromAndTo = ({ offerData }) => {
                         )}
                       </Typography>
                       <Typography
-                        className={searchResultStyles.flightRoute + " bold f10"}
+                        className={searchResultStyles.flightRoute + "  f10"}
                       >
                         {slice.destination.iata_code}
                       </Typography>

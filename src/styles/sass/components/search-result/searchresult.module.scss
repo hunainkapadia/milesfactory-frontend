@@ -134,6 +134,7 @@
 //  
 .RightColBaggage {
   line-height: 1;
+  opacity: 0.5;
 }
 .ChatBody .ChatBodyLeft {max-width: 674px;}
 .SearchCardWrapper {
@@ -350,6 +351,7 @@
 }
 
 @include for-mobile-large-screen {
+  .BaggageCol {opacity: 0.5;}
   .ChatBody .ChatBodyLeft {max-width: 100%;}
   
   .SearchBodyActive {

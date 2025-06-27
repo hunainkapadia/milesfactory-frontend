@@ -206,7 +206,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       <h4
                         className={
                           searchResultStyles.flightPriceSection +
-                          " mb-0 black exbold"
+                          " mb-0 black bold"
                         }
                       >
                         {currencySymbols[offerData?.tax_currency] ||

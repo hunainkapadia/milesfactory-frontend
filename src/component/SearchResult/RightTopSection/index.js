@@ -45,7 +45,7 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
       {/*  */}
       {/* for mobile baggage start */}
       {isMobile ? ( // Only show for round trips
-        <Box
+        <Box className={searchResultStyles.BaggageCol}
           display={"flex"}
           gap={1}
           sx={{

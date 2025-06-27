@@ -123,7 +123,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
           </Box>
 
           <Box display={"flex"} alignItems={"center"} gap={1}>
-            <Typography className="gray" component={"span"}>
+            <Typography className="f12 gray" component={"span"}>
               Reset{" "}
             </Typography>
             <img className="gray" src="/images/refresh-gray.svg" />
@@ -143,7 +143,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
         <FilterParams />
 
         <Box display={"flex"} alignItems={"center"} gap={1}>
-          <Typography className="gray" component={"span"}>
+          <Typography className="f12 gray" component={"span"}>
             Clear filters
           </Typography>
         </Box>
