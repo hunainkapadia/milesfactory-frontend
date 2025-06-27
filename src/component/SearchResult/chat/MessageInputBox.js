@@ -21,7 +21,6 @@ const MessageInputBox = ({
   isSticky,
   HeaderInput,
   messagesEndRef,
-  showScrollButton,
 }) => {
   const inputRef = useRef(null);
 
@@ -144,16 +143,7 @@ const MessageInputBox = ({
             justifyContent="center"
             position={"relative"}
           >
-            {showScrollButton && (
-              <IconButton
-                className={
-                  " CircleButton btn-white " + inputStyles.CircleButton
-                }
-                onClick={ScrollDown}
-              >
-                <i className="fa fa-arrow-down"></i>
-              </IconButton>
-            )}
+        
             <Box className={inputStyles.SearchBoxContainer}>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (
