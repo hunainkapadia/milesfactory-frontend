@@ -5,6 +5,7 @@ import {
   setflightDetail,
   setOpenDrawer,
 } from "@/src/store/slices/BookingflightSlice";
+import FilterParams from "../YourTripSidebar/FilterParams";
 
 const SearchFilterBar = () => {
   const SearchHistoryGet = useSelector(
@@ -67,7 +68,7 @@ const SearchFilterBar = () => {
                       display={"flex"}
                       alignItems={"center"}
                     >
-                      <Typography className=" f12 black regular">
+                      <Typography className=" black regular">
                         {SearchHistory?.departure_date ? (
                           <>
                             {new Date(
@@ -94,12 +95,12 @@ const SearchFilterBar = () => {
                           ""
                         )}
                       </Typography>
-                      <Typography className=" f12 black regular">
+                      <Typography className=" black regular">
                         {SearchHistory.flight_type == "round-trip"
                           ? "Return"
                           : "One way"}
                       </Typography>
-                      <Typography className="f12 black regular">
+                      <Typography className="black regular">
                         {[
                           SearchHistory?.adults > 0 &&
                             `${SearchHistory.adults} ${
@@ -125,12 +126,7 @@ const SearchFilterBar = () => {
                       display={"flex"}
                       alignItems={"center"}
                     >
-                      <Typography fontSize={8} className=" gray regular">
-                        Filters: none
-                      </Typography>
-                      <Typography fontSize={8} className=" gray regular">
-                        Sorting: best match
-                      </Typography>
+                      <FilterParams />
                     </Box>
                     {/*  */}
                   </Box>
@@ -149,7 +145,7 @@ const SearchFilterBar = () => {
                         gap={1}
                         alignItems={"center"}
                         display={"flex"}
-                        className=" basecolor1 semibold f12"
+                        className=" basecolor1 semibold"
                       >
                         <span>See details</span>
                         <i className="fa-angle-right fa fas"></i>{" "}

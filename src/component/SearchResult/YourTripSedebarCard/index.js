@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
+import FilterParams from "../YourTripSidebar/FilterParams";
 
 const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
 
@@ -139,25 +140,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
         alignItems={"flex-start"}
         justifyContent={"space-between"}
       >
-        <Box className=" ">
-          <Typography className=" gray mb-0 f12">
-            Filters:{" "}
-            {filterParams?.airlineName ||
-            filterParams?.isDirectFlight === "True" ? (
-              <>
-                {filterParams?.airlineName
-                  ? filterParams.airlineName + ", "
-                  : ""}
-                {filterParams?.isDirectFlight === "True" ? "Direct, " : ""}
-              </>
-            ) : (
-              "none"
-            )}
-          </Typography>
-          <Typography className=" gray mb-0 f12">
-            Sorting: best match
-          </Typography>
-        </Box>
+        <FilterParams />
 
         <Box display={"flex"} alignItems={"center"} gap={1}>
           <Typography className="gray" component={"span"}>

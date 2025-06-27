@@ -15,22 +15,13 @@ const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
-  const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
-
+  
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
-
-  const url = new URL(getSearchUrl, "https://dummy.com");
-  const airlineName = url.searchParams.get("airlines");
-  const isDirectFlight = url.searchParams.get("direct"); //
-  const filterParams = {
-    isDirectFlight: isDirectFlight,
-    airlineName: airlineName,
-  };
-
-  console.log("getselectedFlight", filterParams);
-
+  const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
+  
+  
   return (
     <>
       <Box
@@ -75,7 +66,6 @@ const YourTripSidebar = ({ isMessage }) => {
           <Box px={3} component={"section"} pt={2.5} pb={3.5}>
             <YourTripSedebarCard
               offerData={getselectedFlight}
-              filterParams={filterParams}
             />
 
             {/* <Box py={2}
