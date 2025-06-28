@@ -17,8 +17,7 @@
    border: 1px solid #E6EEEE;
    border-radius: 16px;
    box-shadow: none;
-   padding: 0 24px;
-   min-height: 85px;
+   padding: 24px 15px;
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -281,10 +280,12 @@
       padding-right: 20px !important;
     }
    .passengersCard {
+      padding: 12px;
       &.passengerProfileCard {
          padding: 18px 15px;
       }
       &.ExtraServices {
+         padding: 12px;
          margin-bottom: 0;
       }
    }

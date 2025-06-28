@@ -61,7 +61,8 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
+                        
                       >
                         <img
                           width={11}
@@ -86,7 +87,8 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
+                        
                       >
                         <img
                           width={11}
@@ -119,7 +121,8 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
+                        
                       >
                         <img
                           width={11}
@@ -144,7 +147,8 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
+                        
                       >
                         <img
                           width={11}
