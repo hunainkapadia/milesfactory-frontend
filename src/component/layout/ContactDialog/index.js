@@ -94,18 +94,33 @@ const ContactDialog = () => {
 
     // Optionally reset form
   };
-  useEffect(() => {
-    if (contactSuccess) {
-      setName("");
-      setEmail("");
-      setTopic("");
-      setDescription("");
-    }
-  });
+ 
+// 
   const currentUser = useSelector((state) => state.base?.currentUser);
   const logoutHandle = () => {
     dispatch(Logout());
   };
+
+   useEffect(() => {
+  if (contactSuccess) {
+    setName("");
+    setEmail("");
+    setTopic("");
+    setDescription("");
+    return;
+  }
+
+  if (currentUser?.user) {
+  const fullName = `${currentUser.user.first_name || ""} ${currentUser.user.last_name || ""}`.trim();
+  setName(fullName);
+  setEmail(currentUser.user.email || "");
+} else {
+  setName("");
+  setEmail("");
+}
+}, [contactSuccess, currentUser]);
+
+    
   return (
     <>
       <Dialog

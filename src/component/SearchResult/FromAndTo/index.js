@@ -194,30 +194,43 @@ const FromAndTo = ({ offerData }) => {
                     return (
                       <Box display={"flex"} alignItems={"center"} gap={2}>
                         {uniqueBaggages.map((baggage, index) => (
-                          <Box
+                          <Tooltip
                             key={index}
-                            display="flex"
-                            gap={0.5}
-                            alignItems="center"
+                            title={`${
+                              baggage?.type === "checked"
+                                ? "Checked baggage"
+                                : "Carry-on baggage"
+                            } x${baggage.quantity}`}
+                            placement="top"
+                            arrow
+                            enterTouchDelay={0}
+                            leaveTouchDelay={3000}
                           >
                             <Box
-                              className={searchResultStyles.BaggageIcon}
-                              style={{ opacity: 0.7 }}
+                              display="flex"
+                              gap={0.5}
+                              alignItems="center"
+                              sx={{ cursor: "default" }} // Optional: shows pointer interaction
                             >
-                              <img
-                                width={11}
-                                src={
-                                  baggage?.type === "checked"
-                                    ? "/images/checkout/checked-bagg.svg"
-                                    : "/images/checkout/carryon-bagg.svg"
-                                }
-                              />
+                              <Box
+                                className={searchResultStyles.BaggageIcon}
+                                style={{ opacity: 0.7 }}
+                              >
+                                <img
+                                  width={11}
+                                  src={
+                                    baggage?.type === "checked"
+                                      ? "/images/checkout/checked-bagg.svg"
+                                      : "/images/checkout/carryon-bagg.svg"
+                                  }
+                                  alt={`${baggage?.type} baggage`}
+                                />
+                              </Box>
+                              <Typography className={" basecolor f11"}>
+                                x{baggage.quantity}
+                              </Typography>
                             </Box>
-                            <Typography className={" basecolor f11"}>
-                              x{baggage.quantity}
-                              {/* {baggage.formatted_type} */}
-                            </Typography>
-                          </Box>
+                          </Tooltip>
                         ))}
                       </Box>
                     );
