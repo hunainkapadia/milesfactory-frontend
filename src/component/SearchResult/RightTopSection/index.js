@@ -1,9 +1,20 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
-const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey }) => {
+const RightTopSection = ({
+  offerData,
+  SelectDrawer,
+  selected,
+  selectedFlightKey,
+}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   const isRoundTrip = offerData?.slices.length > 1;
@@ -16,7 +27,7 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
         justifyContent: { xs: "space-between" },
         alignItems: { xs: "center", lg: "flex-start", md: "flex-start" },
         gap: { md: 3, lg: 3, xs: 2 },
-        mb: "6px" ,
+        mb: "6px",
       }}
       width={"100%"}
       className={searchResultStyles.RightTopSection + " RightTopSection"}
@@ -45,7 +56,8 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
       {/*  */}
       {/* for mobile baggage start */}
       {isMobile ? ( // Only show for round trips
-        <Box className={searchResultStyles.BaggageCol}
+        <Box
+          className={searchResultStyles.BaggageCol}
           display={"flex"}
           gap={1}
           sx={{
@@ -79,32 +91,47 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
                 }}
               >
                 {uniqueBaggages.map((baggage, index) => (
-                  <Box key={index} display="flex" gap={1} alignItems="center">
+                  <Tooltip
+                    key={index}
+                    title={`${baggage.formatted_type} x${baggage.quantity}`}
+                    placement="top"
+                    arrow
+                    enterTouchDelay={0}
+                    leaveTouchDelay={3000}
+                  >
                     <Box
-                      className={searchResultStyles.BaggageIcon}
-                      style={{ opacity: 0.7 }}
+                      display="flex"
+                      gap={1}
+                      alignItems="center"
+                      sx={{ cursor: "default" }}
                     >
-                      <img
-                        width={11}
-                        src={
-                          baggage?.type === "checked"
-                            ? "/images/checkout/checked-bagg.svg"
-                            : "/images/checkout/carryon-bagg.svg"
-                        }
-                      />
-                    </Box>
-                    <Typography className="basecolor f11">
-                      {baggage.quantity}x{" "}
                       <Box
-                        component="span"
-                        sx={{
-                          display: { lg: "inline", md: "inline", xs: "none" },
-                        }}
+                        className={searchResultStyles.BaggageIcon}
+                        style={{ opacity: 0.7 }}
                       >
-                        {baggage.formatted_type}
+                        <img
+                          width={11}
+                          src={
+                            baggage?.type === "checked"
+                              ? "/images/checkout/checked-bagg.svg"
+                              : "/images/checkout/carryon-bagg.svg"
+                          }
+                          alt={`${baggage?.formatted_type} icon`}
+                        />
                       </Box>
-                    </Typography>
-                  </Box>
+                      <Typography className="basecolor f11">
+                        {baggage.quantity}x{" "}
+                        <Box
+                          component="span"
+                          sx={{
+                            display: { lg: "inline", md: "inline", xs: "none" },
+                          }}
+                        >
+                          {baggage.formatted_type}
+                        </Box>
+                      </Typography>
+                    </Box>
+                  </Tooltip>
                 ))}
               </Box>
             );
@@ -132,7 +159,6 @@ const RightTopSection = ({ offerData, SelectDrawer, selected, selectedFlightKey 
         ""
       )}
       {/* for mobile baggage */}
-      
     </Box>
   );
 };
