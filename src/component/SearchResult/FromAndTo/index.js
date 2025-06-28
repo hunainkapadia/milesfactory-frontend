@@ -61,8 +61,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
-                        
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -87,8 +90,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
-                        
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -121,8 +127,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
-                        
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -147,8 +156,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto", opacity: 0.5 }}
-                        
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -252,7 +264,7 @@ const FromAndTo = ({ offerData }) => {
               </Box>
             </Box>
           </Box>
-          <Box width="100%" pt={"17px"}></Box>
+
           {index !== 0 && (
             <Box width="100%" py={"12px"}>
               <Divider />
@@ -260,7 +272,23 @@ const FromAndTo = ({ offerData }) => {
           )}
         </>
       ))}
-
+      {offerData?.slices.length > 1 ? (
+        <Box
+          sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+          width="100%"
+          pt={"12px"}
+          pb={"10px"}
+        >
+          <Divider sx={{ borderColor: "#F3F7F7" }} />
+        </Box>
+      ) : (
+        <Box sx={{ display: { lg: "block", md: "block", xs: "none" } }} width="100%" pt={"17px"}></Box>
+      )}
+      <Box
+          sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+          width="100%"
+          pt={"8px"}
+        ></Box>
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -452,8 +480,7 @@ const FromAndTo = ({ offerData }) => {
                       </Typography>
                       <Typography
                         className={
-                          searchResultStyles.destination +
-                          " semibold gray"
+                          searchResultStyles.destination + " semibold gray"
                         }
                       >
                         {slice.segments?.length === 1 ? (
