@@ -420,7 +420,7 @@
       
       .flightOfferCard {
         .selectFlightBtn {
-          padding: 9px 50px 8px;
+          padding: 9px 40px 8px;
           white-space: nowrap;
           height: 30px;
         }
@@ -453,6 +453,9 @@
             margin-bottom: 16px;
           }
         }
+        .DetailRow {
+          gap: 0 8px;
+        }
   
         
   
@@ -472,11 +475,12 @@
           font-size: 10px !important;
         }
         .flightTime {
-          font-size: 16px !important;
+          font-size: 14px !important;
         }
   
         .flightPriceSection {
           white-space: nowrap;
+          font-size: 18px;
         }
       }
     }

@@ -97,7 +97,7 @@ const FromAndToDetail = ({
             {firstSegment && lastSegment && (
               <Box className={styles.fromAndToBody + " fromAndToBodyNosegment"}>
                 <Box className={styles.fromAndToBodyTop}>
-                  <Box className={styles.fromAndToRow}>
+                  <Box className={styles.fromAndToRow + " aaa"}>
                     <Box
                       className={styles.fromAndToRowIn}
                       position="relative"
