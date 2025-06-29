@@ -126,7 +126,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
             <Typography className="f12 gray" component={"span"}>
               {/*  Reset{" "} */}
             </Typography>
-            <img className="gray" src="/images/refresh-gray.svg" />
+            {/*<img className="gray" src="/images/refresh-gray.svg" /> */} 
           </Box>
         </Box>
       ) : (
