@@ -97,7 +97,7 @@ const FromAndToDetail = ({
             {firstSegment && lastSegment && (
               <Box className={styles.fromAndToBody + " fromAndToBodyNosegment"}>
                 <Box className={styles.fromAndToBodyTop}>
-                  <Box className={styles.fromAndToRow}>
+                  <Box className={styles.fromAndToRow + " aaa"}>
                     <Box
                       className={styles.fromAndToRowIn}
                       position="relative"
@@ -440,10 +440,10 @@ const FromAndToDetail = ({
                   mb={1}
                   className={styles.normalOption}
                 >
-                  <Box className={styles.BaggageIcon}>
+                  <Box className={styles.BaggageIcon} display={"flex"} alignItems={"center"}>
                     <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
-                  <Typography className="f12">
+                  <Typography className="f12 gray">
                     {SearchHistoryGet?.adults} adult
                     {SearchHistoryGet?.adults > 1 ? "s" : ""}
                   </Typography>
@@ -462,10 +462,10 @@ const FromAndToDetail = ({
                     display="flex"
                     gap={2}
                     alignItems="center"
-                    mb={1}
+                    mb={2}
                     className={styles.normalOption}
                   >
-                    <Box className={styles.BaggageIcon}>
+                    <Box className={styles.BaggageIcon} display={"flex"} alignItems={"center"}>
                       <img
                         width={14}
                         src={
@@ -475,7 +475,7 @@ const FromAndToDetail = ({
                         }
                       />
                     </Box>
-                    <Typography className="f12">
+                    <Typography className="f12 gray">
                       {baggage.quantity} {baggage.formatted_type}
                     </Typography>
                   </Box>

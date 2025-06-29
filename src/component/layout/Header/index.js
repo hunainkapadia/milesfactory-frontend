@@ -52,6 +52,7 @@ import HeaderCurrencyLanguage from "./HeaderCurrencyLanguage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import ContactDialog from "../ContactDialog";
 import InviteEmailDialog from "../InviteEmailDialog";
+import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 
 const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -118,63 +119,60 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           `}
       >
-        <Container sx={{ position: "relative" }}>
+        <Container className={styles.Container} sx={{ position: "relative" }}>
           <Box
             className={styles.Box}
             display={"flex"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            
           >
+            <Box
+              color="white"
+              className={styles.leftCol}
+              display={"flex"}
+              alignItems={"center"}
+              gap={2}
+            >
               <Box
-                color="white"
-                className={styles.leftCol}
-                display={"flex"}
-                alignItems={"center"}
-                gap={2}
+                sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                fontSize={"24px"}
               >
-                <Box
-                  sx={{ display: { xs: "block", md: "none", lg: "none" } }}
-                  fontSize={"24px"}
-                >
-                  <i
-                    onClick={toggleDrawer}
-                    className={`fa fa-bars ${
-                      isSticky | IsActive || isMessage
-                        ? " basecolor "
-                        : " white"
-                    }`}
-                    aria-hidden="true"
-                  ></i>
-                </Box>
+                <i
+                  onClick={toggleDrawer}
+                  className={`fa fa-bars ${
+                    isSticky | IsActive || isMessage ? " basecolor " : " white"
+                  }`}
+                  aria-hidden="true"
+                ></i>
+              </Box>
 
-                <Box className={styles.Logo + " cursor-pointer"}>
-                  <Box component="a" href="/">
-                    <Box className="d-flex align-items-center">
-                      {isChat && isMobile ? (
-                        <img src="/images/chat-logo.svg" />
-                      ) : (
-                        <>
-                          {isSticky || isMessage || IsActive ? (
-                            <img src="/images/logo-color2.svg" />
-                          ) : (
-                            <img src="/images/logo-white2.svg" />
-                          )}
-                        </>
-                      )}
-                    </Box>
+              <Box className={styles.Logo + " cursor-pointer"}>
+                <Box component="a" href="/">
+                  <Box className="d-flex align-items-center">
+                    {isChat && isMobile ? (
+                      <img src="/images/chat-logo.svg" />
+                    ) : (
+                      <>
+                        {isSticky || isMessage || IsActive ? (
+                          <img src="/images/logo-color2.svg" />
+                        ) : (
+                          <img src="/images/logo-white2.svg" />
+                        )}
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Box>
+            </Box>
 
-              <Box
-                sx={{
-                  display: { xs: "none", md: "block" },
-                  pl: { xs: 8, lg: 0, md: 0 },
-                }}
-              >
-                <Navbar />
-              </Box>
+            <Box
+              sx={{
+                display: { xs: "none", md: "block" },
+                pl: { xs: 8, lg: 0, md: 0 },
+              }}
+            >
+              <Navbar />
+            </Box>
 
             <Box
               display={"flex"}
@@ -185,7 +183,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
               <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
                 <MobileLoading />
               </Box>
-              
+
               <HeaderCurrencyLanguage
                 forHeader={"forHeader"}
                 isSticky={isSticky}
@@ -270,15 +268,15 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                       className={styles.ChatIcon + " imggroup"}
                       onClick={handleThreadDrawer}
                     >
-                        <img
-                          src={`${
-                            isSticky | IsActive || isMessage
-                              ? "/images/chat-history-icon-black-v3.svg"
-                              : "/images/chat-history-icon-white-v2.svg"
-                          }`}
-                          alt="Chat History Icon"
-                        />
-                      </Box>
+                      <img
+                        src={`${
+                          isSticky | IsActive || isMessage
+                            ? "/images/chat-history-icon-black-v3.svg"
+                            : "/images/chat-history-icon-white-v2.svg"
+                        }`}
+                        alt="Chat History Icon"
+                      />
+                    </Box>
                   </Box>
                 </>
               ) : (
@@ -315,6 +313,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
           ) : (
             ""
           )}
+          {isChat && <SearchFilterBar />}
         </Container>
       </Box>
 

@@ -128,14 +128,10 @@ const PassengerInfo = ({ getdata }) => {
 
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
-            
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-            
 
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
-
-              
                 <PassengersCard
                   totalPass={index + 1}
                   getdata={passenger}
@@ -149,7 +145,7 @@ const PassengerInfo = ({ getdata }) => {
                       passenger.type,
                       passenger.age,
                       passenger.passport_number,
-                      passenger, // while pasenger data
+                      passenger // while pasenger data
                     )
                   }
                 />
@@ -167,7 +163,12 @@ const PassengerInfo = ({ getdata }) => {
           <>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Box py={4}>
+                <Box
+                  sx={{
+                    pt: { lg: "30px", md: "30px", xs: "24px" },
+                    pb: { lg: "24px", md: "24px", xs: "10px" },
+                  }}
+                >
                   <Typography>
                     Select now your seats and extra baggage.
                   </Typography>

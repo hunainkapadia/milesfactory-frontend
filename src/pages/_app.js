@@ -21,9 +21,9 @@ const theme = createTheme({
     MuiContainer: {
       styleOverrides: {
         maxWidthLg: {
-          maxWidth: "1140px", // Set lg container to 1140px
+          maxWidth: "1188px", // Set lg container to 1188px
           '@media (min-width: 1200px)': {
-            maxWidth: "1140px",
+            maxWidth: "1188px",
           },
         },
       },

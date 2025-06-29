@@ -12,12 +12,14 @@
    display: flex;
    align-items: center;
    box-shadow: 0px 1px 0px rgba(0, 80, 83, 0.05);
-   position: fixed;
+   position: sticky;
    top: 0;
    width: 100%;
    left: 0;
    z-index: 7;
    height: 60px;
+   
+   .Container {padding-left: 18px;}
    .Dropdown {
       @include transition(all 0.2s ease-in-out);
       display: flex; 

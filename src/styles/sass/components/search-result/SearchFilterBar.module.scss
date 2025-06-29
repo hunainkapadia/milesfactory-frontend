@@ -1,0 +1,42 @@
+@import "../../_variables.scss";
+
+.SearchFilterBar {
+    position: absolute;
+    width: 100%;
+    top: 52px;
+    left: 0px;
+    z-index: 5;
+    border-top: solid 1px #E6EEEE;
+    border-bottom: solid 1px #E6EEEE;
+
+   .Content {
+      background-color: $white;
+      padding: 7px 14px;
+      .filterRrow {
+         p {
+            border-right: solid 1px $black;
+            margin-right: 5px;
+            padding-right: 5px;
+            line-height: 1;
+            font-size: 8px;
+            &:last-child {
+               border: none;
+            }
+         }
+         &:last-child {
+            border: none;
+         }
+      }
+      .filterRrow2 {
+         p {
+            border-right: solid 1px $gray;
+            margin-right: 5px;
+            padding-right: 5px;
+            line-height: 1;
+            &:last-child {
+               border: none;
+            }
+         }
+      }
+   }
+}

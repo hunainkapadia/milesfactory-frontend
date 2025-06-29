@@ -195,7 +195,6 @@ const AiMessage = ({ aiMessage }) => {
       {displayedGetFlights?.length > 0 ? (
         <>
           <Box
-            sx={{ marginTop: { xs: 2, lg: 0, md: 0 } }}
             className={searchResultStyles.SearchCardWrapper}
           >
             <Box className="SearchBar SearchBar_000">
@@ -226,11 +225,12 @@ const AiMessage = ({ aiMessage }) => {
             style={{ cursor: "pointer" }}
           >
             <Box
-              sx={{ my: { lg: 2, md: 2, xs: 0 } }}
+              sx={{ my: { lg: 2, md: 2, xs: 2 } }}
               gap={2}
               alignItems="center"
               display="flex"
               className="bold"
+              
             >
               <span>See more flights</span>
               <i className="fa fa-caret-right fas" />
@@ -248,6 +248,7 @@ const AiMessage = ({ aiMessage }) => {
               <Box className={searchResultStyles.AiMessage + " aaa"}>
                 {aiMessage?.ai?.isPolling?.status && (
                   <>
+                  {console.log("aiMessage_polling", aiMessage?.ai)}
                     
                     <PollingMessage
                       PollingData={aiMessage?.ai?.isPolling?.argument}

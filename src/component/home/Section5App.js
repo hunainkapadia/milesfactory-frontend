@@ -34,7 +34,6 @@ const Section5App = (props) => {
                         lg: "flex-start",
                         md: "flex-start",
                       },
-                      
                     }}
                     width={"100%"}
                   >
@@ -43,7 +42,8 @@ const Section5App = (props) => {
                         component={"h2"}
                         className="basecolor-dark mb-0 bold"
                         sx={{
-                          fontSize: { lg: "56px", md: "56px", xs: "32px" },
+                          fontSize: { lg: "56px", md: "56px", xs: "28px" },
+                          lineHeight: { lg: "140%", md: "140%", xs: "160%" },
                         }}
                       >
                         AI-powered.

@@ -8,7 +8,11 @@ const PoweredByglobal = (props) => {
     <Box
       id={props.id}
       className={styles.PoweredByglobal + " "}
-      sx={{ pt: { lg: 20, md: 20, xs: "167px" }, backgroundColor: "#69707B", height:{lg: "auto", md:"auto", xs:"840px"} }}
+      sx={{
+        pt: { lg: 20, md: 20, xs: "167px" },
+        backgroundColor: "#69707B",
+        height: { lg: "auto", md: "auto", xs: "840px" },
+      }}
       pb={8}
       position={"relative"}
     >
@@ -20,12 +24,22 @@ const PoweredByglobal = (props) => {
             justifyContent={"center"}
           >
             <Box className={``} sx={{ mb: { lg: 6, md: 6, xs: 0 } }}>
-              <h2 className=" semibold white align-center mb-0">
-                Trusted by our <Box
-                      component="br"
-                      sx={{ display: { xs: "block", sm: "none" } }}
-                    />global travel partners
-              </h2>
+              <Box
+                
+                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+              >
+                <h2 className=" semibold white align-center mb-0">
+                  More than 1m+ travel partners
+                </h2>
+              </Box>
+              <Box mb={3}
+                
+                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+              >
+                <h2 className=" semibold white align-center mb-0">
+                  More than 1m+ partners.
+                </h2>
+              </Box>
             </Box>
           </Box>
           <Grid
@@ -35,8 +49,7 @@ const PoweredByglobal = (props) => {
             md={12}
             container
             sx={{
-              gap: { lg: 0, md: 0, xs: 5 },
-              marginBottom: { lg: 0, md: 0, xs: 5 },
+              gap: { lg: 0, md: 0, xs: 3 },
             }}
           >
             <Grid item xs={12} lg={4} md={4}>
@@ -46,18 +59,18 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{mb:{lg: 4, md:4, xs: 0}}} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, xs: 0 } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
                     fontSize={56}
                   >
-                    200+
+                    300+
                   </Typography>
 
                   <Typography className="f12">Global airlines</Typography>
                 </Box>
-                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
+                <Box sx={{ width: { lg: "auto", md: "auto", xs: 50 } }}>
                   <img src="/images/global-airline-v3.svg" />
                 </Box>
               </Box>
@@ -69,19 +82,19 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{mb:{lg: 4, md:4, xs: 0}}} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, xs: 0 } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
                     fontSize={56}
                   >
-                    800+
+                    1000+
                   </Typography>
                   <Typography className="f12">
                     Trains, coaches, and buses
                   </Typography>
                 </Box>
-                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
+                <Box sx={{ width: { lg: "auto", md: "auto", xs: 50 } }}>
                   <img src="/images/train-coatches.bussesn-v3.svg" />
                 </Box>
               </Box>
@@ -93,17 +106,17 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{mb:{lg: 4, md:4, xs: 0}}} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, xs: 0 } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
                     fontSize={56}
                   >
-                    700k+
+                    1m+
                   </Typography>
                   <Typography className="f12">Hotels and stays</Typography>
                 </Box>
-                <Box sx={{width: {lg:"auto", md:"auto", xs:50}}}>
+                <Box sx={{ width: { lg: "auto", md: "auto", xs: 50 } }}>
                   <img src="/images/hotel-stays-v3.svg" />
                 </Box>
               </Box>
@@ -176,11 +189,7 @@ const PoweredByglobal = (props) => {
         </Box>
       </Container>
       <Box sx={{ display: { xs: "block", lg: "none", md: "none" } }}>
-        <Footer
-          forDark
-          LearnMore={"Travel with Mylz"}
-          id={"Section5App"}
-        />
+        <Footer forDark LearnMore={"Travel with Mylz"} id={"Section5App"} />
       </Box>
     </Box>
   );

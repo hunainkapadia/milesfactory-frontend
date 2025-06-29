@@ -3,18 +3,48 @@
 // loading 
 /* Rectangle 1068 */
 
+// scroll bar decrease
+/* Custom scrollbar styles */
+.ChatBody::-webkit-scrollbar {
+  width: 10px; // Increase or decrease width
+}
+
+.ChatBody::-webkit-scrollbar-track {
+  background: #f1f1f1; // Light grey track
+}
+
+.ChatBody::-webkit-scrollbar-thumb {
+  background: #999; // Darker thumb
+  border-radius: 4px;
+}
+
+.ChatBody::-webkit-scrollbar-thumb:hover {
+  background: #666; // Even darker on hover
+}
+
+/* Firefox */
+.ChatBody {
+  scrollbar-width: thin;
+  scrollbar-color: #aaa #f1f1f1;
+}
+
+// scroll end
 .MobileLoadingRow {
   left: 0%;
   top: 70px;
   z-index: 5;
   .MobileLoading {
-    
-
-  }
-  
+  }  
 }
 
 .SearchBodyActive {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* full screen */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
   background-color: $basecolor1-light;
   background-image: url("/images/search-bg.png");
   height: 100%;
@@ -28,11 +58,30 @@
     display: none;
   }
 
-  .messageContent {}
+  .ChatBody {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+  .InputBody {
+    flex-shrink: 0;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 0 25px;
+    z-index: 3;
+    background-image: url("/images/search-footer-bg.png");
+    background-size: cover;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    .InputContainer {
+      padding: 0 12px;
+    }
+  }
+
 }
-.SearchBodyActive .Box .Container {
-  padding-left: 22px;
-  padding-right: 15px;
+.SearchBodyActive  .Container {
+  
 }
 .messageContent {
   .CircleButton {
@@ -44,13 +93,13 @@
   }
 
   .messageContentIn {
-    padding: 0px 0 100px;
+    padding: 0px 0 35px;
     margin-top: 105px;
     position: relative;
 
 
     .Aibox {
-      width: $BoxContainerSm;
+      width: 100%;
     }
 
     .UserMessage {
@@ -59,7 +108,7 @@
       @include border-radius(22px);
       max-width: 80%;
       padding: 10px 24px;
-      margin: 0 0 12px;
+      margin-bottom: 34px;
 
       p {
         color: $basecolor-dark;
@@ -70,8 +119,7 @@
     .AiMessage {
       color: #0B1729;
       width: 100%;
-      padding: 10px 0;
-      margin: 12px 0;
+      padding-bottom: 34px;
       max-width: 80%;
 
       p {
@@ -86,10 +134,13 @@
 //  
 .RightColBaggage {
   line-height: 1;
+  opacity: 0.5;
 }
+.ChatBody .ChatBodyLeft {max-width: 674px;}
 .SearchCardWrapper {
   .SearchCardGrid {
     .flightOfferCard {
+      max-width: 100%;
       background: $white;
       border: 1px solid #E6EEEE;
       border-radius: 16px;
@@ -99,30 +150,29 @@
       margin-bottom: 10px;
       
       .selectFlightBtn {
-        height: 40px;
+        height: 30px;
         font-size: 12px;
+        line-height: 0.8;
         &.IsSelected {background-color: #DEE1E6;}
       }
+      .FromAndToRow {width: 100%;}
       &.Oneway {
         .CardRight .RightTopSection {margin-bottom: 8px;}
         .FromAndToRow  .rowExtraInfo {
-          margin-bottom: 18px;align-items: flex-start;
+          align-items: flex-start;
         }
-        .CardLeft {
-          padding: 14px 25px 18px 16px;
-        }
+        
       }
       &.Return {
         .CardRight {}
       }
       
       .FromAndToRow {
-        margin-bottom: 24px;
         &:last-child {
           margin-bottom: 0;
         }
         .rowExtraInfo {
-          margin-bottom: 8px;
+          
         }
       }
     
@@ -131,8 +181,16 @@
         white-space: nowrap;
       }
     
+      .destination {font-size: 10px;
+    position: relative;
+    bottom: 5px;}
+      .Duration {
+        font-size: 10px;
+        position: relative;
+    bottom: -5px;
+      }
       .flightDay {
-        font-size: 12px;
+        font-size: 10px;
       }
       .Timings {
       }
@@ -143,7 +201,7 @@
       }
     
       .CardLeft {
-        padding: 16px 25px 24px 16px;
+        padding: 18px;
       }
       .CardRight {
         padding: 16px 14px 16px 17px;
@@ -151,19 +209,27 @@
         
         .selectFlightBtn {}
       }
-    
-      .airlineLogo {
-        @include scale(60px, 60px);
-        background: $white;
-    
-        img {
-          width: 70%;
-          height: auto;
+      .logoCol {
+        .airlineLogo {
+          border-radius: 0;
+          justify-content: flex-start;
+          background: $white;
+          
+          img {
+            width: 100%;
+            height: auto;
+          }
         }
+        &.round .airlineLogo {
+          @include scale(30px, 30px);
+        }
+        &.oneway .airlineLogo {
+          @include scale(52px, 52px);
+        }
+
       }
     
       .rowExtraInfo {
-        margin-bottom: 8px;
         display: flex;
         justify-content: space-between;
         font-size: 0.85rem;
@@ -180,8 +246,8 @@
       }
     
       .SearchDivider {
-        border: 1px dashed #D9D9D9;
-        transform: matrix(-1, 0, 0, 1, 0, 0);
+        border-top: 2px dashed transparent;
+        border-image: repeating-linear-gradient(to right, #D9D9D9 0, #D9D9D9 4px, /* Dash size */ transparent 6px, transparent 9px /* Gap size */) 100% 1;
         position: relative;
         margin: 8px 0;
     
@@ -208,7 +274,7 @@
         &::after {
           content: "";
           position: absolute;
-          top: 50%;
+          top: -1px;
           width: 6px;
           height: 6px;
           background-color: #D9D9D9;
@@ -227,11 +293,11 @@
     
       .flightTime {
         font-weight: $semibold;
-        font-size: 20px;
+        font-size: 18px;
       }
     
       .logoCol {
-        display: block;
+        
       }
     
       .FlightTimingsCol {
@@ -285,10 +351,18 @@
 }
 
 @include for-mobile-large-screen {
+  .BaggageCol {opacity: 0.5;}
+  .ChatBody .ChatBodyLeft {max-width: 100%;}
   
-  .SearchBodyActive .Box .Container {
-    padding-left: 22px;
-    padding-right: 22px;
+  .SearchBodyActive {
+    .InputBody {padding-bottom: 0;}
+    .InputBody .InputContainer {
+      padding: 0;
+    }
+    .Container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
   }
   .ExtraServicesWraper {
       display: grid;
@@ -340,19 +414,29 @@
       // gap: 8px;
       .Box {
         border-top: solid 1px $lightgray3;
-        padding-top: 16px;
+        padding-top: 12px;
         
       }
       
       .flightOfferCard {
+        .selectFlightBtn {
+          padding: 9px 40px 8px;
+          white-space: nowrap;
+          height: 30px;
+        }
+        .logoCol .airlineLogo {@include scale(36px, 36px);}
+        .IsSelected {padding: 8px 50px 8px;height: 30px;}
         // for horizontal scroll
         // scroll-snap-align: start;
         // scroll-snap-stop: always;   
         // min-width: 319px;
+        .FromAndToRow {width: 100%;}
+        .CardRight .RightTopSection {margin-bottom: 12px;}
         &.Oneway {
-          .CardRight .RightTopSection {margin-bottom: 8px;}
-          .FromAndToRow  .rowExtraInfo {
-            margin-bottom: 18px;
+          .FromAndToRow {
+            .rowExtraInfo {
+              margin-bottom: 18px;
+            }
           }
           .CardLeft {padding: 14px 17px 0 17px;}
         }
@@ -360,14 +444,17 @@
           padding: 16px 17px 0 17px;
         }
         .CardRight {
-          padding: 24px 17px 19px 17px;
+          padding: 12px 17px 10px;
         }
-        .FromAndToRow {margin-bottom: 24px;
+        .FromAndToRow {
           .fromAndToDetail {
           }
           .rowExtraInfo {
             margin-bottom: 16px;
           }
+        }
+        .DetailRow {
+          gap: 0 8px;
         }
   
         
@@ -376,9 +463,7 @@
           font-size: 10px;
         }
   
-        .airlineLogo {
-          @include scale(40px, 40px);
-        }
+        
   
         .Timings {
           display: flex;
@@ -386,13 +471,16 @@
           flex-direction: column;
         }
   
-        .flightRoute,
+        .flightRoute {
+          font-size: 10px !important;
+        }
         .flightTime {
-          font-size: 12px;
+          font-size: 14px !important;
         }
   
         .flightPriceSection {
           white-space: nowrap;
+          font-size: 18px;
         }
       }
     }
@@ -414,7 +502,7 @@
 
     .messageContentIn {
       width: 100%;
-      padding: 0px 0px 100px;
+      padding: 0px 0px 34px;
 
       .Aibox {
         width: 100%;

@@ -17,6 +17,7 @@ import HomeSection3 from "../component/home/HomeSection3";
 import HomeSection4 from "../component/home/HomeSection4";
 import HomeSection2 from "../component/home/HomeSection2";
 import Cookies from "js-cookie";
+import { Box } from "@mui/material";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -45,26 +46,29 @@ const Home = () => {
 
   return (
     <>
-      <main>
+      <Box>
         <Header isHome={"isHome"} />
-        <section id="fold1" className={styles.HomeBanner}>
-          <HomeHeroSection />
-        </section>
-        <HomeSection3 id={"HomeSection3"} />
-        <HomeSection4 id={"HomeSection4"} />
-        <HomeSection2 id={"HomeSection2"} />
+        <Box  className={styles.homeBody}>
 
-        <PoweredByglobal id={"PoweredByglobal"} />
-        {/* <Section4Reviews id={"Section4Reviews"} /> */}
-        <Section5App id={"Section5App"} />
-        <Footer forLight />
-        {/* for home section */}
-        {sendMessages ? (
-          <>{/* sending send message for chat prop only */}</>
-        ) : (
-          ""
-        )}
-      </main>
+          <section id="fold1" className={styles.HomeBanner}>
+            <HomeHeroSection />
+          </section>
+          <HomeSection3 id={"HomeSection3"} />
+          <HomeSection4 id={"HomeSection4"} />
+          <HomeSection2 id={"HomeSection2"} />
+
+          <PoweredByglobal id={"PoweredByglobal"} />
+          {/* <Section4Reviews id={"Section4Reviews"} /> */}
+          <Section5App id={"Section5App"} />
+          <Footer forLight />
+          {/* for home section */}
+          {sendMessages ? (
+            <>{/* sending send message for chat prop only */}</>
+          ) : (
+            ""
+          )}
+        </Box>
+      </Box>
     </>
   );
 };

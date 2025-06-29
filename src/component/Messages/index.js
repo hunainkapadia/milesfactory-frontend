@@ -57,19 +57,6 @@ const Messages = () => {
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
 
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
-
-    const hasFlightOffers =
-      lastMessage?.ai?.offers && lastMessage?.ai?.offers.length > 0;
-
-    sethasFlightOffers(hasFlightOffers);
-
-    if (!hasFlightOffers) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
   const handleSearch = () => {
     if (!userMessage.trim()) return;
     dispatch(sendMessage(userMessage)); //  Sends message to API (POST)

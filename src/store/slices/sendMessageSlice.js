@@ -25,7 +25,10 @@ const sendMessageSlice = createSlice({
     },
   },
   reducers: {
-    setIsFunction: (state, action)=> {
+    setFilterUrl: (state, action) => {
+      state.FilterUrl = action.payload;
+    },
+    setIsFunction: (state, action) => {
       state.IsFunction = action.payload;
     },
     setThreadUuid: (state, action) => {
@@ -128,7 +131,7 @@ export const createThread = () => (dispatch) => {
       const uuid = thread_res.data.uuid;
       console.log("thread_response", uuid);
       sessionStorage.setItem("chat_thread_uuid", uuid);
-      dispatch(setThreadUuid(uuid))
+      dispatch(setThreadUuid(uuid));
       dispatch(setThreadUUIDsend(uuid));
     })
     .catch((err) => {
@@ -157,12 +160,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-          
+
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
           console.log("gdata_00", gdata);
           dispatch(setpollingComplete(false));
-          
+
           dispatch(
             setMessage({
               ai: {
@@ -179,10 +182,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 api
                   .get(runStatusUrl)
                   .then((resRun) => {
-                    
-                    const runData = resRun.data;                    
+                    const runData = resRun.data;
                     // checking is function true before dufful flight
-                    
+
                     if (runData.run_status === "completed") {
                       console.log("runData_run_status", runData.run_status);
                       console.log(runData.run_status);
@@ -225,23 +227,22 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       // flight result [start]
       console.log("is_function_test", response?.is_function);
       if (response?.is_function) {
-        dispatch(setIsFunction({status: "true" }))
+        dispatch(setIsFunction({ status: "true" }));
       } else {
-        dispatch(setIsFunction({status: "false" }))
-
+        dispatch(setIsFunction({ status: "false" }));
       }
       if (response?.is_function) {
-
-        
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         const allFlightSearchUuid =
           response?.response?.results?.view_all_flight_result_api?.uuid;
+        console.log("allFlightSearchUuid", allFlightSearchApi);
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(allFlightSearchUuid));
           dispatch(setAllOfferUrl(allFlightSearchApi));
-          
+          dispatch(setFilterUrl(allFlightSearchApi));
+
           const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
           let hasShownInitialMessage = false;
 
@@ -266,7 +267,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   );
                 } else {
                   console.log("Still not complete after polling");
-                  
+
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -296,7 +297,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       .get(allFlightSearchApi)
                       .then((flightRes) => {
                         console.log("flightRes", flightRes);
-                        
+
                         const realFlightData = flightRes.data;
 
                         // First clear placeholders
@@ -376,7 +377,7 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
   const getuser = getState()?.base?.currentUser?.user;
 
   console.log("getuser_chat", getuser);
-  
+
   api
     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((res) => {
@@ -386,7 +387,7 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
         dispatch(
           setMessage({
             ai: {
-              newThread: true
+              newThread: true,
             },
           })
         );
@@ -425,8 +426,7 @@ export const deleteAndCreateThread =
               if (newUuid) {
                 dispatch(setThreadUUIDsend(newUuid));
                 sessionStorage.setItem("chat_thread_uuid", newUuid);
-                
-                
+
                 // Dispatch the welcome message (deleteThread message)
 
                 dispatch(
@@ -478,11 +478,9 @@ export const OnlydeleteChatThread =
 // for delete thread
 
 export const loadNextFlights = () => (dispatch, getState) => {
-    const getpageNo = getState()?.sendMessage?.appendFlights?.nextPageNo;
-    const getpageNo2 = getState()?.sendMessage;
-    console.log("getpageNo", getpageNo2);
-    
-
+  const getpageNo = getState()?.sendMessage?.appendFlights?.nextPageNo;
+  const getpageNo2 = getState()?.sendMessage;
+  console.log("getpageNo", getpageNo2);
 
   const allOfferUrl = getState().sendMessage?.AllOfferUrl;
   console.log("allOfferUrl", allOfferUrl);
@@ -512,7 +510,6 @@ export const loadNextFlights = () => (dispatch, getState) => {
     });
 };
 
-
 export const {
   setLoading,
   setMessage,
@@ -530,6 +527,7 @@ export const {
   setAppendFlights,
   setnextPageNo,
   setThreadUuid,
-  setIsFunction
+  setIsFunction,
+  setFilterUrl,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

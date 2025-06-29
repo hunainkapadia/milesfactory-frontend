@@ -96,7 +96,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
 
-      
+      {console.log("offerData_slice", offerData?.slices.length)}
       <Box
         className={`${searchResultStyles.flightOfferCard} ${
           offerData?.slices.length > 1
@@ -110,6 +110,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
             {/* FromAndTo with logo */}
 
             <FromAndTo offerData={offerData} />
+            
           </Grid>
 
           {/* Price Section */}
@@ -196,7 +197,9 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       flexDirection: { lg: "column", md: "column", xs: "row" },
                       width: { lg: "100%", md: "100%", xs: "100%" },
                       justifyContent: "space-between",
+                      alignItems: {lg:"flex-start", md: "flex-start", xs:"center"}
                     }}
+                      
                     gap={1}
                     className={searchResultStyles.PriceBottom}
                   >
@@ -204,20 +207,26 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       <h4
                         className={
                           searchResultStyles.flightPriceSection +
-                          " mb-0 black exbold"
+                          " mb-0 black bold"
                         }
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}
                         {Math.round(offerData?.per_passenger_amount)}
                       </h4>
+                      {console.log(offerData)}
                       
-                      {personQuantity > 1 && (
+                      {/* {personQuantity > 1 && (
                       <Typography className="f12 gray">
                         {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency}
                         {Math.round(offerData?.total_amount)} total
                       </Typography>
-                      )}
+                      )} */}
+                      <Typography className="f12 gray">
+                        {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency}
+                        {Math.round(offerData?.per_passenger_amount)} per person
+                      </Typography>
+                      
                     </Box>
                     {/* main select handle */}
                     {/* {!isselected ? (
@@ -241,7 +250,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                     )}
 
                     {selectedFlightKey ? null : (
-                      <Box>
+                      <Box sx={{width:{lg:"100%", md:"100%", }}}>
                         <button
                           className={
                             "w-100 btn btn-primary btn-round btn-md " +

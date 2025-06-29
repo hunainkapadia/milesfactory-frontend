@@ -1,6 +1,10 @@
 @import "../_variables.scss";
 
 
+.homeBody {
+  position: relative;
+  margin-top: -60px;
+}
 .ChatBullets {
   gap:7px 10px;
   padding-top: 18px;
@@ -240,7 +244,7 @@
     }
     .AppSectionRight {
       height: auto;
-      padding: 0px 0 54px;
+      padding: 0px 0 30px;
     }
     .appLogos {gap: 17px;
       .appLogo {width: 248px;

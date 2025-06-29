@@ -1,15 +1,27 @@
-import { Box, Card, CardContent, CardHeader, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Typography,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 import YourTripSedebarCard from "../YourTripSedebarCard";
 import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import Image from "next/image";
 
-const YourTripSidebar = ({isMessage}) => {
-   const getselectedFlight = useSelector((state) => state?.booking?.flightDetail);    
-   
-   const paymentSuccess = useSelector(
-     (state) => state.payment.PaymentFormSuccess
-   );
+const YourTripSidebar = ({ isMessage }) => {
+  const getselectedFlight = useSelector(
+    (state) => state?.booking?.flightDetail
+  );
+  
+  const paymentSuccess = useSelector(
+    (state) => state.payment.PaymentFormSuccess
+  );
+  const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
+  
+  
   return (
     <>
       <Box
@@ -19,7 +31,8 @@ const YourTripSidebar = ({isMessage}) => {
         justifyContent={"center"}
       >
         <Box className={YourtripStyles.YourTripCard} p={0}>
-          <Box component={"header"}
+          <Box
+            component={"header"}
             className={YourtripStyles.CardHeader}
             display={"flex"}
             alignItems={"center"}
@@ -32,9 +45,16 @@ const YourTripSidebar = ({isMessage}) => {
                 <img src="/images/plane-icon-basecolor1.svg" />
               </Box>
               {paymentSuccess ? (
-                <Typography textTransform={"uppercase"} className=" f12 basecolor1 mb-0 bold">YOU’RE BOOKED</Typography>
+                <Typography
+                  textTransform={"uppercase"}
+                  className=" f12 basecolor1 mb-0 bold"
+                >
+                  YOU’RE BOOKED
+                </Typography>
               ) : (
-                <Typography textTransform={"uppercase"} className="f12 basecolor1 mb-0 bold">Your trip</Typography>
+                <Typography className="basecolor1 mb-0 bold">
+                  Flights
+                </Typography>
               )}
             </Box>
             {paymentSuccess ? (
@@ -44,7 +64,9 @@ const YourTripSidebar = ({isMessage}) => {
             )}
           </Box>
           <Box px={3} component={"section"} pt={2.5} pb={3.5}>
-            <YourTripSedebarCard offerData={getselectedFlight} />
+            <YourTripSedebarCard
+              offerData={getselectedFlight}
+            />
 
             {/* <Box py={2}
               className=" Loading"
