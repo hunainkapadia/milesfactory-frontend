@@ -14,7 +14,8 @@ const FromAndTo = ({ offerData }) => {
             <Box display={"flex"} alignItems={"center"} gap={"10px"}>
               <Box display={"flex"} alignItems={"center"} gap={"3px"}>
                 <Typography className="f12 mb-0 bold black ">
-                  {offerData?.owner?.name}
+                  {offerData?.slices[0]?.segments[0]
+                          ?.marketing_carrier?.name}
                 </Typography>
                 <Typography
                   textTransform={"capitalize"}
@@ -319,8 +320,10 @@ const FromAndTo = ({ offerData }) => {
                 sx={{ display: { lg: "block", md: "block", xs: "none" } }}
               >
                 <Avatar
-                  src={offerData?.owner?.logo_symbol_url}
-                  alt={offerData?.owner?.name}
+                  src={offerData?.slices[0]?.segments[0]
+                          ?.marketing_carrier?.logo_symbol_url}
+                  alt={offerData?.slices[0]?.segments[0]
+                          ?.marketing_carrier?.name}
                   className={searchResultStyles.airlineLogo}
                 />
               </Box>
@@ -362,8 +365,10 @@ const FromAndTo = ({ offerData }) => {
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                     >
                       <Avatar
-                        src={offerData?.owner?.logo_symbol_url}
-                        alt={offerData?.owner?.name}
+                        src={offerData?.slices[0]?.segments[0]
+                          ?.marketing_carrier?.logo_symbol_url}
+                        alt={offerData?.slices[0]?.segments[0]
+                          ?.marketing_carrier?.name}
                         className={searchResultStyles.airlineLogo}
                       />
                     </Box>
