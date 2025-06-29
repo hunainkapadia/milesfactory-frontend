@@ -96,7 +96,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
 
-      
+      {console.log("offerData_slice", offerData?.slices.length)}
       <Box
         className={`${searchResultStyles.flightOfferCard} ${
           offerData?.slices.length > 1
@@ -110,6 +110,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
             {/* FromAndTo with logo */}
 
             <FromAndTo offerData={offerData} />
+            
           </Grid>
 
           {/* Price Section */}
@@ -206,7 +207,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       <h4
                         className={
                           searchResultStyles.flightPriceSection +
-                          " mb-0 black exbold"
+                          " mb-0 black bold"
                         }
                       >
                         {currencySymbols[offerData?.tax_currency] ||

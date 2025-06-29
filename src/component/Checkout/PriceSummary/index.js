@@ -66,7 +66,12 @@ console.log("priceSummary", priceSummary);
 
   return (
     <>
-      <Box py={2}>
+      <Box
+        sx={{
+          pb: { lg: "24px", md: "24px", xs: "16px" },
+          pt: { lg: "30px", md: "30px", xs: "16px" },
+        }}
+      >
         <Typography>
           When ready, go to the flight{" "}
           <span
@@ -114,7 +119,6 @@ console.log("priceSummary", priceSummary);
                   ))}
                 </Box>
                 <Box>
-                  
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
                   {Math.round(orderDetail?.base_amount)}
@@ -200,24 +204,25 @@ console.log("priceSummary", priceSummary);
                 </Box>
               </Box> */}
               {/* Additional baggage row */}
-              {flightOrder?.amount_calculations?.baggages_total_amount_plus_markup > 0 && (
-                  <Box
-                    className={styles.PriceRow + " f12"}
-                    display="flex"
-                    justifyContent="space-between"
-                    gap={4}
-                  >
-                    <Box>Additional Baggage Fee</Box>
-                    <Box>
-                      {currencySymbols[orderDetail?.tax_currency] ||
-                        orderDetail?.tax_currency}
-                      {Math.round(
-                        flightOrder?.amount_calculations
-                          ?.baggages_total_amount_plus_markup
-                      )}
-                    </Box>
+              {flightOrder?.amount_calculations
+                ?.baggages_total_amount_plus_markup > 0 && (
+                <Box
+                  className={styles.PriceRow + " f12"}
+                  display="flex"
+                  justifyContent="space-between"
+                  gap={4}
+                >
+                  <Box>Additional Baggage Fee</Box>
+                  <Box>
+                    {currencySymbols[orderDetail?.tax_currency] ||
+                      orderDetail?.tax_currency}
+                    {Math.round(
+                      flightOrder?.amount_calculations
+                        ?.baggages_total_amount_plus_markup
+                    )}
                   </Box>
-                )}
+                </Box>
+              )}
 
               {/* Markup row */}
               <Box
@@ -246,11 +251,12 @@ console.log("priceSummary", priceSummary);
               >
                 <Box>Total price</Box>
                 <Box className="mb-0 ">
-                  
                   {currencySymbols[orderDetail?.tax_currency] ||
                     orderDetail?.tax_currency}
-                  {flightOrder?.amount_calculations
-                          ?.total_amount_plus_markup_and_all_services}
+                  {
+                    flightOrder?.amount_calculations
+                      ?.total_amount_plus_markup_and_all_services
+                  }
                 </Box>
               </Box>
             </Box>

@@ -61,7 +61,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -86,7 +90,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -119,7 +127,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -144,7 +156,11 @@ const FromAndTo = ({ offerData }) => {
                     >
                       <Box
                         className="imggroup"
-                        sx={{ display: "inline-block", pointerEvents: "auto" }}
+                        sx={{
+                          display: "inline-block",
+                          pointerEvents: "auto",
+                          opacity: 0.5,
+                        }}
                       >
                         <img
                           width={11}
@@ -190,30 +206,43 @@ const FromAndTo = ({ offerData }) => {
                     return (
                       <Box display={"flex"} alignItems={"center"} gap={2}>
                         {uniqueBaggages.map((baggage, index) => (
-                          <Box
+                          <Tooltip
                             key={index}
-                            display="flex"
-                            gap={0.5}
-                            alignItems="center"
+                            title={`${
+                              baggage?.type === "checked"
+                                ? "Checked baggage"
+                                : "Carry-on baggage"
+                            } x${baggage.quantity}`}
+                            placement="top"
+                            arrow
+                            enterTouchDelay={0}
+                            leaveTouchDelay={3000}
                           >
                             <Box
-                              className={searchResultStyles.BaggageIcon}
-                              style={{ opacity: 0.7 }}
+                              display="flex"
+                              gap={0.5}
+                              alignItems="center"
+                              sx={{ cursor: "default" }} // Optional: shows pointer interaction
                             >
-                              <img
-                                width={11}
-                                src={
-                                  baggage?.type === "checked"
-                                    ? "/images/checkout/checked-bagg.svg"
-                                    : "/images/checkout/carryon-bagg.svg"
-                                }
-                              />
+                              <Box
+                                className={searchResultStyles.BaggageIcon}
+                                style={{ opacity: 0.7 }}
+                              >
+                                <img
+                                  width={11}
+                                  src={
+                                    baggage?.type === "checked"
+                                      ? "/images/checkout/checked-bagg.svg"
+                                      : "/images/checkout/carryon-bagg.svg"
+                                  }
+                                  alt={`${baggage?.type} baggage`}
+                                />
+                              </Box>
+                              <Typography className={" basecolor f11"}>
+                                x{baggage.quantity}
+                              </Typography>
                             </Box>
-                            <Typography className={" basecolor f11"}>
-                              x{baggage.quantity}
-                              {/* {baggage.formatted_type} */}
-                            </Typography>
-                          </Box>
+                          </Tooltip>
                         ))}
                       </Box>
                     );
@@ -235,7 +264,7 @@ const FromAndTo = ({ offerData }) => {
               </Box>
             </Box>
           </Box>
-          <Box width="100%" pt={"17px"}></Box>
+
           {index !== 0 && (
             <Box width="100%" py={"12px"}>
               <Divider />
@@ -243,7 +272,27 @@ const FromAndTo = ({ offerData }) => {
           )}
         </>
       ))}
-
+      {offerData?.slices.length > 1 ? (
+        <Box
+          sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+          width="100%"
+          pt={"12px"}
+          pb={"10px"}
+        >
+          <Divider sx={{ borderColor: "#F3F7F7" }} />
+        </Box>
+      ) : (
+        <Box
+          sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+          width="100%"
+          pt={"17px"}
+        ></Box>
+      )}
+      <Box
+        sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+        width="100%"
+        pt={"8px"}
+      ></Box>
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -254,6 +303,7 @@ const FromAndTo = ({ offerData }) => {
         }}
         width={"100%"}
       >
+      {/* logo out of detail row */}
         {/* Airline Logo */}
         {offerData?.slices?.length > 0 &&
           offerData.slices.slice(0, 1).map((slice, index) => {
@@ -276,12 +326,13 @@ const FromAndTo = ({ offerData }) => {
               </Box>
             );
           })}
-
+          {/* end logo */}
+        
         <Box
           display={"flex"}
           justifyContent={"space-between"}
+          flexDirection={"row"}
           sx={{
-            flexDirection: { lg: "row", md: "row", xs: "column" },
             gap: { lg: 3, md: 3, xs: 2 },
           }}
           width={"100%"}
@@ -303,17 +354,20 @@ const FromAndTo = ({ offerData }) => {
                   //   mt: { xs: index === 0 ? 2 : 0, md: index === 0 ? 3 : 0 },
                   // }}
                 >
-                  {/* Flight Details */}
-                  <Box
-                    className={searchResultStyles.logoCol}
-                    sx={{ display: { lg: "none", md: "none", xs: "block" } }}
-                  >
-                    <Avatar
-                      src={offerData?.owner?.logo_symbol_url}
-                      alt={offerData?.owner?.name}
-                      className={searchResultStyles.airlineLogo}
-                    />
-                  </Box>
+                  
+                  {/* logo insite of detail row for round trip only desktop */}
+                  {offerData?.slices.length < 2 && (
+                    <Box
+                      className={searchResultStyles.logoCol}
+                      sx={{ display: { lg: "none", md: "none", xs: "block" } }}
+                    >
+                      <Avatar
+                        src={offerData?.owner?.logo_symbol_url}
+                        alt={offerData?.owner?.name}
+                        className={searchResultStyles.airlineLogo}
+                      />
+                    </Box>
+                  )}
                   <Box
                     className={`${searchResultStyles.FlightTimingsCol} w-100`}
                   >
@@ -358,6 +412,7 @@ const FromAndTo = ({ offerData }) => {
                       alignItems="center"
                       justifyContent="center"
                       gap={2} // Optional spacing
+                      className={searchResultStyles.DetailRow}
                     >
                       {/* Departure Time & Code */}
                       <Box className={searchResultStyles.Timings}>
@@ -429,14 +484,13 @@ const FromAndTo = ({ offerData }) => {
                       alignItems={"center"}
                     >
                       <Typography
-                        className={searchResultStyles.flightRoute + " bold f10"}
+                        className={searchResultStyles.flightRoute + "  f10"}
                       >
                         {slice.origin.iata_code}
                       </Typography>
                       <Typography
                         className={
-                          searchResultStyles.destination +
-                          " semibold gray"
+                          searchResultStyles.destination + " semibold gray"
                         }
                       >
                         {slice.segments?.length === 1 ? (
@@ -454,7 +508,7 @@ const FromAndTo = ({ offerData }) => {
                         )}
                       </Typography>
                       <Typography
-                        className={searchResultStyles.flightRoute + " bold f10"}
+                        className={searchResultStyles.flightRoute + "  f10"}
                       >
                         {slice.destination.iata_code}
                       </Typography>

@@ -134,6 +134,7 @@
 //  
 .RightColBaggage {
   line-height: 1;
+  opacity: 0.5;
 }
 .ChatBody .ChatBodyLeft {max-width: 674px;}
 .SearchCardWrapper {
@@ -350,6 +351,7 @@
 }
 
 @include for-mobile-large-screen {
+  .BaggageCol {opacity: 0.5;}
   .ChatBody .ChatBodyLeft {max-width: 100%;}
   
   .SearchBodyActive {
@@ -418,11 +420,11 @@
       
       .flightOfferCard {
         .selectFlightBtn {
-          padding: 9px 50px 8px;
+          padding: 9px 40px 8px;
           white-space: nowrap;
           height: 30px;
         }
-        .logoCol .airlineLogo {@include scale(40px, 40px);}
+        .logoCol .airlineLogo {@include scale(36px, 36px);}
         .IsSelected {padding: 8px 50px 8px;height: 30px;}
         // for horizontal scroll
         // scroll-snap-align: start;
@@ -451,6 +453,9 @@
             margin-bottom: 16px;
           }
         }
+        .DetailRow {
+          gap: 0 8px;
+        }
   
         
   
@@ -470,11 +475,12 @@
           font-size: 10px !important;
         }
         .flightTime {
-          font-size: 16px !important;
+          font-size: 14px !important;
         }
   
         .flightPriceSection {
           white-space: nowrap;
+          font-size: 18px;
         }
       }
     }
