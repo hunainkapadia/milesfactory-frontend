@@ -19,7 +19,16 @@
    z-index: 7;
    height: 60px;
    
-   .Container {padding-left: 18px;}
+   &.AiBookingFrontHeader {position: relative;}
+   &.AiBookingMainHeaderRow1 {
+      position: relative;
+      height: 30px;
+      z-index: 11;
+   }
+   .AiBookingMainHeaderRow2 {
+      position: relative;
+      height: 30px;
+   }
    .Dropdown {
       @include transition(all 0.2s ease-in-out);
       display: flex; 
@@ -85,6 +94,7 @@
    
 
    &.isMessage {
+      padding-right: 10px;
       background-color: $white;
       
       .Box {
@@ -117,6 +127,9 @@
          font-size: 14px;
          padding: 20px 24px 20px 0;
          font-weight: $bold;
+         &:last-child {
+            padding-right: 0;
+         }
          
          
          

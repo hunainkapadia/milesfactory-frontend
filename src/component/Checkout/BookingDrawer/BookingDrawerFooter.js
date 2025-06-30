@@ -123,19 +123,19 @@
                   <span>
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {Math.round(getFlightDetails?.per_passenger_amount)}
+                    {Math.round(getFlightDetails?.per_passenger_amount_rounded)}
                   </span>
                 </h4>
               </Box>
-                <Box className={styles.totalPersonPrice}>
-                  <Typography variant="p" className=" gray f12">
-                  {currencySymbols[getFlightDetails?.tax_currency] || getFlightDetails?.tax_currency}
-                  {Math.round(getFlightDetails?.per_passenger_amount)} per person
-                    
-                  </Typography>
-                </Box>
-              {/* {personQuantity > 1 && (
-              )} */}
+              {personQuantity > 1 && (
+              <Box className={styles.totalPersonPrice}>
+                <Typography variant="p" className=" gray f12">
+                  {currencySymbols[getFlightDetails?.tax_currency] ||
+                      getFlightDetails?.tax_currency}
+                    {Math.round(getFlightDetails?.total_amount_rounded)} total
+                </Typography>
+              </Box>
+                )}
             </Box>
 
             {/* Actions Section */}

@@ -41,6 +41,7 @@ const baseSlice = createSlice({
       state.contactDialog = action.payload;
       state.contactData = null;
     },
+    
     setFeedbackDialog: (state,action)=> {
       state.feedbackDialog = action.payload;
     },
@@ -68,6 +69,10 @@ const baseSlice = createSlice({
    setSectionActive:(state, action)=> {
     state.sectionActive = action.payload; // Update active section
    },
+   setPowerAirlineDialog: (state, action)=> {
+      state.PowerAirlineDialog = action.payload;
+      state.contactData = null;
+    },
   },
 });
 
@@ -211,7 +216,8 @@ export const {
   setTripData,
   setTripDetailData,
   setInviteEmailDialog,
-  resetInviteSuccess
+  resetInviteSuccess, 
+  setPowerAirlineDialog
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

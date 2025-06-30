@@ -86,9 +86,7 @@ const ChatByUUID = () => {
     const lastMessage = isMessage[isMessage.length - 1];
     const hasFlightOffers = lastMessage?.ai?.offers;
 
-    console.log("lastMessage hasFlightOffers:", hasFlightOffers);
-
-    // ❌ Do NOT scroll if user is manually scrolling up
+    // Do NOT scroll if user is manually scrolling up
     if (!hasFlightOffers && !isUserScrollingUp && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
