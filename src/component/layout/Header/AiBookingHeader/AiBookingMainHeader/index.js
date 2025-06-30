@@ -257,8 +257,9 @@ const AiBookingMainHeader = ({
                   gap={2}
                 >
                   <Box
-                    sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                    sx={{ display: { xs: "block", md: "none", lg: "none" }, cursor:"pointer" }}
                     fontSize={"24px"}
+                    
                   >
                     <i
                       onClick={toggleDrawer}

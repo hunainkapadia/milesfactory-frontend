@@ -60,6 +60,7 @@ const AiBookingFrontHeader = ({
                   <Box
                     sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                     fontSize={"24px"}
+                    color={"#69707B"}
                   >
                     <i
                       //  onClick={toggleDrawer}
