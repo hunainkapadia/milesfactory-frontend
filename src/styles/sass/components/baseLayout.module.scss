@@ -217,6 +217,11 @@
     }
    
     .Header {
+      &.AiBookingFrontHeader {
+         position: sticky;
+         z-index: 12;
+         background: #fff;
+      }
       .Dropdown.forHader .Login {
         flex-direction: row;
       }
