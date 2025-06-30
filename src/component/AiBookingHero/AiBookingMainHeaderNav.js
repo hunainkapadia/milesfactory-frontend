@@ -35,16 +35,16 @@ const AiBookingMainHeaderNav = () => {
           alignItems: { xs: "flex-start", lg: "center", md: "center" },
         }}
       >
-        <Box onClick={contactHandle}  className={styles.navItem + " cursor-pointer"}>
+        <Box   className={styles.navItem + " cursor-pointer"}>
           Book a flight
         </Box>
-        <Box onClick={inviteEmailHandle} className={styles.navItem + " cursor-pointer"}>
+        <Box  className={styles.navItem + " cursor-pointer"}>
             Check-in
         </Box>
-        <Box onClick={inviteEmailHandle} className={styles.navItem + " cursor-pointer"}>
+        <Box  className={styles.navItem + " cursor-pointer"}>
             My Bookings
         </Box>
-        <Box onClick={inviteEmailHandle} className={styles.navItem + " cursor-pointer"}>
+        <Box  className={styles.navItem + " cursor-pointer"}>
             Information
         </Box>
 

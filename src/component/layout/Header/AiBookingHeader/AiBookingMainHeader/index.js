@@ -267,10 +267,10 @@ const AiBookingMainHeader = ({
                     ></i>
                   </Box>
 
-                  <Box className={styles.Logo + " cursor-pointer"}>
+                  <Box className={" cursor-pointer"}>
                     <Box component="a" href="/">
                       <Box className="d-flex align-items-center">
-                        <img src="/images/logo-white2.svg" />
+                        <img src="/images/airline-logo.svg" />
                       </Box>
                     </Box>
                   </Box>

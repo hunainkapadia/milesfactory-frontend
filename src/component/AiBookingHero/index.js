@@ -10,7 +10,7 @@ import AiBookingMainHeader from "../layout/Header/AiBookingHeader/AiBookingMainH
 const AiBookingHero = () => {
   //  Get past messages from API (GET)
   const [tabValue, setTabValue] = useState(0);
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState(true);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -179,7 +179,7 @@ const AiBookingHero = () => {
             className={" bold basecolor1 btn-link cursor-pointer"}
           >
             <i className={`fa fa-arrow-left fas`}></i>{" "}
-            <Box component={"span"}>Back to Mylz Chat</Box>
+            <Box component={"span"}>Back to Mylz</Box>
           </Box>
         </Container>
       </Box>
