@@ -266,6 +266,16 @@ const AiBookingMainHeader = ({
                       aria-hidden="true"
                     ></i>
                   </Box>
+                  <Box
+                    sx={{ display: { xs: "none", md: "block", lg: "block" } }}
+                    fontSize={"24px"}
+                  >
+                    <i
+                      
+                      className={`fa fa-bars`}
+                      aria-hidden="true"
+                    ></i>
+                  </Box>
 
                   <Box className={" cursor-pointer"}>
                     <Box component="a" href="/">
