@@ -212,20 +212,16 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}
-                        {Math.round(offerData?.per_passenger_amount)}
+                        {Math.round(offerData?.per_passenger_amount_rounded)}
                       </h4>
                       {console.log(offerData)}
                       
-                      {/* {personQuantity > 1 && (
+                      {personQuantity > 1 && (
                       <Typography className="f12 gray">
                         {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency}
-                        {Math.round(offerData?.total_amount)} total
+                        {Math.round(offerData?.total_amount_rounded)} total
                       </Typography>
-                      )} */}
-                      <Typography className="f12 gray">
-                        {currencySymbols[offerData?.tax_currency] || offerData?.tax_currency}
-                        {Math.round(offerData?.per_passenger_amount)} per person
-                      </Typography>
+                      )}
                       
                     </Box>
                     {/* main select handle */}
