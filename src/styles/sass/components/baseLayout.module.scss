@@ -18,7 +18,7 @@
    left: 0;
    z-index: 7;
    height: 60px;
-   padding-right: 10px;
+   
    &.AiBookingFrontHeader {position: relative;}
    &.AiBookingMainHeaderRow1 {
       position: relative;
@@ -94,6 +94,7 @@
    
 
    &.isMessage {
+      padding-right: 10px;
       background-color: $white;
       
       .Box {
