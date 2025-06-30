@@ -71,7 +71,7 @@ const AiBookingFrontHeader = ({
 
                   <Box className={ " cursor-pointer"}>
                     <Box component="a" href="/">
-                      <Box className="d-flex align-items-center">
+                      <Box className="d-flex align-items-center" sx={{width:{xs:"107px"}}}>
                         <img src="/images/ai-booking-logo.svg" />
                       </Box>
                     </Box>
