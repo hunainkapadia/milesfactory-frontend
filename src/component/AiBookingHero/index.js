@@ -72,6 +72,10 @@ const AiBookingHero = () => {
                     }`}
                   />
                   <Tab
+                    sx={{
+                      pointerEvents: "none", // disable clicking
+                      cursor:"pointer",
+                    }}
                     label={
                       <Box display="flex" alignItems="center" gap={1}>
                         <img
