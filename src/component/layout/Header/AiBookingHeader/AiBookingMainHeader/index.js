@@ -278,7 +278,7 @@ const AiBookingMainHeader = ({
                   </Box>
 
                   <Box className={" cursor-pointer"}>
-                    <Box component="a" href="/">
+                    <Box >
                       <Box className="d-flex align-items-center">
                         <img src="/images/airline-logo.svg" />
                       </Box>
