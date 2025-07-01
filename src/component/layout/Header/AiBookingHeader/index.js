@@ -113,7 +113,7 @@ const AiBookingFrontHeader = ({
                     alignItems={"center"}
                   >
                     <Box 
-                    sx={{width:{xs:"172px", padding:{xs:0}, display:"flex"}}}
+                    
                       className={styles.airlinepowerBtn + " btn btn-primary btn-sm  btn-round btn-shadow"}
                       alignItems="center"
                       justifyContent="center"
