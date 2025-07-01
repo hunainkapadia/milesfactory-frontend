@@ -270,7 +270,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
               </Box>
               <Box display="flex">
                 <Box
-                  onClick={currentUser ? HandleBookThread : HandlePopup}
+                  // onClick={currentUser ? HandleBookThread : HandlePopup}
                   className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
                 >
                   Search
