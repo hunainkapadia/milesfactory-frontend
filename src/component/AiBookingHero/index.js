@@ -25,6 +25,15 @@ const AiBookingHero = () => {
   const threadUUID = useSelector((state) => state.sendMessage.ThreadUUIDsend);
 
   
+  useEffect(() => {
+    const messageBookFlight = [
+      "Plan your perfect trip with AI.",
+      "Discover new destinations.",
+      "Your journey starts here!",
+    ];
+
+    dispatch(setInputLabelTexts(messageBookFlight));
+  }, [dispatch]);
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
 
