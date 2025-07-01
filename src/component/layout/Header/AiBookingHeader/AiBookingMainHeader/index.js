@@ -152,84 +152,41 @@ const AiBookingMainHeader = ({
               />
 
               {/* User section: visible on home, user page, or chat (desktop only) */}
-              <Box>
-                <HeaderUser
-                  forHader="forHader"
-                  // isSticky={isSticky}
-                  IsActive={IsActive}
-                  isMessage={isMessage}
-                />
-              </Box>
-
-              {/* New Chat Icon: show only in desktop chat view */}
-              {isChat && !isMobile && (
-                <Box
-                  className="cursor-pointer"
-                  onClick={HandleNewThread}
-                  display="flex"
-                  alignItems="center"
+              <Box
+                className={`${styles.Login} cursor-pointer`}
+                sx={{
+                  display: { lg: "flex", md: "flex", xs: "flex" },
+                  justifyContent: {
+                    lg: "center",
+                    md: "center",
+                    xs: "flex-start", // or conditionally change if needed
+                  },
+                  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
+                }}
+                alignItems="center"
+              >
+                <Typography
+                  className="bold f16"
+                  sx={{
+                    display: {
+                      lg: "block",
+                      md: "block",
+                      xs: isMessage ? "none" : "block",
+                    },
+                  }}
                 >
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    height={24}
-                    className={`${styles.ChatIcon} imggroup`}
-                  >
-                    <img src="/images/chat-new-icon.svg" alt="Chat Icon" />
-                  </Box>
-                </Box>
-              )}
+                  Sign in
+                </Typography>
 
-              {/* Current User Actions (e.g. My Trips, Chat History) */}
-              {currentUser ? (
-                <>
-                  <Box
-                    className=" currentUser111 cursor-pointer"
-                    alignItems={"center"}
-                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-                  >
-                    <Link href={"/my-trips"}>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        height={24}
-                        // Optional
-                        className={styles.ChatIcon + " imggroup"}
-                      >
-                        <img
-                          width={24}
-                          src={`/images/book-trip-icon-white.svg`}
-                          alt="book trip"
-                        />
-                      </Box>
-                    </Link>
-                  </Box>
-                  <Box
-                    className=" cursor-pointer"
-                    alignItems={"center"}
-                    sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height={48}
-                      // Optional
-                      className={styles.ChatIcon + " imggroup"}
-                      onClick={handleThreadDrawer}
-                    >
-                      <img
-                        src={`/images/chat-history-icon-white-v2.svg`}
-                        alt="Chat History Icon"
-                      />
-                    </Box>
-                  </Box>
-                </>
-              ) : (
-                ""
-              )}
+                <Box
+                  className="imggroup"
+                  alignItems="center"
+                  display="flex"
+                  sx={{ width: { lg: 24, md: 24, xs: 24 } }}
+                >
+                  <img src={"/images/user-icon-white.svg"} alt="User Icon" />
+                </Box>
+              </Box>
             </Box>
           </Container>
         </Box>
@@ -257,9 +214,11 @@ const AiBookingMainHeader = ({
                   gap={2}
                 >
                   <Box
-                    sx={{ display: { xs: "block", md: "none", lg: "none" }, cursor:"pointer" }}
+                    sx={{
+                      display: { xs: "block", md: "none", lg: "none" },
+                      cursor: "pointer",
+                    }}
                     fontSize={"24px"}
-                    
                   >
                     <i
                       onClick={toggleDrawer}
@@ -271,16 +230,15 @@ const AiBookingMainHeader = ({
                     sx={{ display: { xs: "none", md: "block", lg: "block" } }}
                     fontSize={"24px"}
                   >
-                    <i
-                      
-                      className={`fa fa-bars`}
-                      aria-hidden="true"
-                    ></i>
+                    <i className={`fa fa-bars`} aria-hidden="true"></i>
                   </Box>
 
                   <Box className={" cursor-pointer"}>
-                    <Box >
-                      <Box className="d-flex align-items-center" sx={{width:{xs:"138px"}}}>
+                    <Box>
+                      <Box
+                        className="d-flex align-items-center"
+                        sx={{ width: { xs: "138px" } }}
+                      >
                         <img src="/images/airline-logo.svg" />
                       </Box>
                     </Box>
