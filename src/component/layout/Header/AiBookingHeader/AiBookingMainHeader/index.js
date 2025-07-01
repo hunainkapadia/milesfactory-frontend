@@ -79,9 +79,7 @@ const AiBookingMainHeader = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+  
   // for login dialog
   const HandleBookTrip = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -221,7 +219,7 @@ const AiBookingMainHeader = ({
                     fontSize={"24px"}
                   >
                     <i
-                      onClick={toggleDrawer}
+                      
                       className={`fa fa-bars`}
                       aria-hidden="true"
                     ></i>
@@ -262,13 +260,7 @@ const AiBookingMainHeader = ({
       </Box>
 
       {/* extra content for  */}
-      <MobileNavDrawer
-        isDrawerOpen={isDrawerOpen}
-        toggleDrawer={toggleDrawer}
-        MobileNavDrawer={MobileNavDrawer}
-        isAiBooking={"isAiBooking"}
-      />
-
+      
       <UserPopup />
       {/* logoin popup */}
 

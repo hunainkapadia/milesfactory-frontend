@@ -189,6 +189,10 @@
          
    }
  @include for-mobile-large-screen () {
+   .airlinepowerBtn {
+      padding: 0 !important;
+      display: flex;
+   }
    
    .FooterForDark {
       z-index: 4;
