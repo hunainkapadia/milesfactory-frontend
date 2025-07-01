@@ -11,10 +11,10 @@ const LabelAnimation = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const typingSpeed = 80;
-  const deletingSpeed = 40;
+  const typingSpeed = 50;
+  const deletingSpeed = 20;
   const deleteAmount = 5; // Number of characters to delete before switching
-  const delayBeforeDeleting = 1500; // Delay before deletion starts
+  const delayBeforeDeleting = 2000; // Delay before deletion starts
 
     // 🔁 Reset animation on texts change
   useEffect(() => {
