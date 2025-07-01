@@ -25,35 +25,33 @@ const AiBookingHero = () => {
   const threadUUID = useSelector((state) => state.sendMessage.ThreadUUIDsend);
 
   
-  useEffect(() => {
-    const messageBookFlight = [
-      "Plan your perfect trip with AI.",
-      "Discover new destinations.",
-      "Your journey starts here!",
-    ];
+  // Define message arrays once
+const messageBookFlight = [
+  "Plan your perfect trip with AI.",
+  "Discover new destinations.",
+  "Your journey starts here!",
+];
 
+const messageExploreExperience = [
+  "Explore experiences beyond travel.",
+  "Find adventures that inspire you.",
+  "AI helps you explore the world!",
+];
+
+useEffect(() => {
+  dispatch(setInputLabelTexts(messageBookFlight));
+}, [dispatch]);
+
+const handleTabChange = (event, newValue) => {
+  setTabValue(newValue);
+
+  if (newValue === 0) {
     dispatch(setInputLabelTexts(messageBookFlight));
-  }, [dispatch]);
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
+  } else if (newValue === 1) {
+    dispatch(setInputLabelTexts(messageExploreExperience));
+  }
+};
 
-    if (newValue === 0) {
-      const messageBookFlight = [
-        "Plan your perfect trip with AI.",
-        "Discover new destinations.",
-        "Your journey starts here!",
-      ];
-
-      dispatch(setInputLabelTexts(messageBookFlight));
-    } else if (newValue === 1) {
-      const messageExploreExperience = [
-        "Explore experiences beyond travel.",
-        "Find adventures that inspire you.",
-        "AI helps you explore the world!",
-      ];
-      dispatch(setInputLabelTexts(messageExploreExperience));
-    }
-  };
   return (
     <>
       <Box className={`${styles.HeroSection}`}>
