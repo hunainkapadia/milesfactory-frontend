@@ -25,7 +25,6 @@ const PowerAirline = () => {
   const dispatch = useDispatch();
   const PowerAirline = useSelector((state) => state?.base?.PowerAirlineDialog);
   const contactSuccess = useSelector((state) => state?.base?.contactData?.data);
-  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -63,9 +62,8 @@ const PowerAirline = () => {
     }
 
     // Topic validation
-    
+
     // Description validation
-    
 
     // Submit if valid
     if (!valid) return;
@@ -74,40 +72,42 @@ const PowerAirline = () => {
       name: name,
       email: email,
       company: company,
-      comment, comment,
+      comment,
+      comment,
     };
 
     dispatch(handleSubmitContact(params)); // This is the Redux action
 
     // Optionally reset form
   };
- 
-// 
+
+  //
   const currentUser = useSelector((state) => state.base?.currentUser);
   const logoutHandle = () => {
     dispatch(Logout());
   };
 
-   useEffect(() => {
-  if (contactSuccess) {
-    setName("");
-    setEmail("");
-    setCompany("");
-    setComment("");
-    return;
-  }
+  useEffect(() => {
+    if (contactSuccess) {
+      setName("");
+      setEmail("");
+      setCompany("");
+      setComment("");
+      return;
+    }
 
-  if (currentUser?.user) {
-  const fullName = `${currentUser.user.first_name || ""} ${currentUser.user.last_name || ""}`.trim();
-  setName(fullName);
-  setEmail(currentUser.user.email || "");
-} else {
-  setName("");
-  setEmail("");
-}
-}, [contactSuccess, currentUser]);
+    if (currentUser?.user) {
+      const fullName = `${currentUser.user.first_name || ""} ${
+        currentUser.user.last_name || ""
+      }`.trim();
+      setName(fullName);
+      setEmail(currentUser.user.email || "");
+    } else {
+      setName("");
+      setEmail("");
+    }
+  }, [contactSuccess, currentUser]);
 
-    
   return (
     <>
       <Dialog
@@ -139,7 +139,7 @@ const PowerAirline = () => {
                   sx={{ textAlign: { lg: "left", md: "left", xs: "center" } }}
                 >
                   <Box mb={2}>
-                    <h3  mb={1} className="mb-0">
+                    <h3 mb={1} className="mb-0">
                       Power your airline
                     </h3>
 
@@ -213,6 +213,7 @@ const PowerAirline = () => {
                     </Box>
                     <Box className=" formGroup">
                       <TextField
+                        multiline
                         error={!!nameError}
                         helperText={nameError}
                         className="formControl"
@@ -220,29 +221,26 @@ const PowerAirline = () => {
                         placeholder="Additional comments (if any)"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
-                        sx={{ mb: 2 }}
+                        sx={{
+                          mb: 2,
+                          "& .MuiInputBase-root textarea": {
+                            resize: "vertical", // allow vertical resize only
+                            overflow: "auto",
+                          },
+                        }}
                       />
                     </Box>
-                    <Box display="flex" justifyContent="flex-end">
+                    <Box
+                      display="flex"
+                      justifyContent="flex-end"
+                      sx={{ pt: "6px" }}
+                    >
                       <Button
                         variant="contained"
                         onClick={handleSubmitContactForm}
                         className="btn btn-primary xs btn-sm btn-round"
                       >
-                        <Typography
-                          sx={{
-                            display: { lg: "block", md: "block", xs: "none" },
-                          }}
-                        >
-                          Power your airline
-                        </Typography>
-                        <Typography
-                          sx={{
-                            display: { lg: "none", md: "none", xs: "block" },
-                          }}
-                        >
-                          Build your engine
-                        </Typography>
+                        <Typography>Power your airline</Typography>
                       </Button>
                     </Box>
                   </Box>

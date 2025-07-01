@@ -308,7 +308,7 @@ const AiBookingMainHeader = ({
         isDrawerOpen={isDrawerOpen}
         toggleDrawer={toggleDrawer}
         MobileNavDrawer={MobileNavDrawer}
-        isChat={isChat}
+        isAiBooking={"isAiBooking"}
       />
 
       <UserPopup />
