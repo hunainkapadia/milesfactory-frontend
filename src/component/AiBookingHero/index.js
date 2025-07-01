@@ -27,9 +27,9 @@ const AiBookingHero = () => {
   
   useEffect(() => {
     const messageBookFlight = [
-      "Plan your perfect trip with AI.",
-      "Discover new destinations.",
-      "Your journey starts here!",
+      "I want to be in Bangkok on the 22nd of December on Emirates for 2 passnages.",
+      "London to Paris on the 15th of January, 2 adults, 1 child.",
+      "Going to Dubai for 1 week on 10th December.",
     ];
 
     dispatch(setInputLabelTexts(messageBookFlight));
@@ -39,9 +39,9 @@ const AiBookingHero = () => {
 
     if (newValue === 0) {
       const messageBookFlight = [
-        "Plan your perfect trip with AI.",
-        "Discover new destinations.",
-        "Your journey starts here!",
+        "I want to be in Bangkok on the 22nd of December on Emirates for 2 passnages.",
+        "London to Paris on the 15th of January, 2 adults, 1 child.",
+        "Going to Dubai for 1 week on 10th December.",
       ];
 
       dispatch(setInputLabelTexts(messageBookFlight));
