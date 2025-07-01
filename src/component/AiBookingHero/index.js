@@ -11,7 +11,7 @@ import { setInputLabelTexts } from "@/src/store/slices/Base/baseSlice";
 const AiBookingHero = () => {
   //  Get past messages from API (GET)
   const [tabValue, setTabValue] = useState(0);
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState(true);
 
   
   const sendMessages = useSelector(
