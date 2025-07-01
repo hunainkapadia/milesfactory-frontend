@@ -293,7 +293,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                 <Box
                   display="flex"
                   alignItems="center"
-                  onClick={contactHandle}
+                  // onClick={contactHandle}
                   sx={{ cursor: "pointer", gap: 0 }}
                   className={`basecolor1-dark2`}
                 >

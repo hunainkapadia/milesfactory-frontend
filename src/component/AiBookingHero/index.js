@@ -25,35 +25,33 @@ const AiBookingHero = () => {
   const threadUUID = useSelector((state) => state.sendMessage.ThreadUUIDsend);
 
   
-  useEffect(() => {
-    const messageBookFlight = [
-      "I want to be in Bangkok on the 22nd of December on Emirates for 2 passnages.",
-      "London to Paris on the 15th of January, 2 adults, 1 child.",
-      "Going to Dubai for 1 week on 10th December.",
-    ];
+  // Define message arrays once
+const messageBookFlight = [
+    "I want to be in Bangkok on the 22nd of December on Emirates for 2 passnages.",
+    "London to Paris on the 15th of January, 2 adults, 1 child.",
+    "Going to Dubai for 1 week on 10th December.",
+];
 
+const messageExploreExperience = [
+  "Explore experiences beyond travel.",
+  "Find adventures that inspire you.",
+  "AI helps you explore the world!",
+];
+
+useEffect(() => {
+  dispatch(setInputLabelTexts(messageBookFlight));
+}, [dispatch]);
+
+const handleTabChange = (event, newValue) => {
+  setTabValue(newValue);
+
+  if (newValue === 0) {
     dispatch(setInputLabelTexts(messageBookFlight));
-  }, [dispatch]);
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
+  } else if (newValue === 1) {
+    dispatch(setInputLabelTexts(messageExploreExperience));
+  }
+};
 
-    if (newValue === 0) {
-      const messageBookFlight = [
-        "I want to be in Bangkok on the 22nd of December on Emirates for 2 passnages.",
-        "London to Paris on the 15th of January, 2 adults, 1 child.",
-        "Going to Dubai for 1 week on 10th December.",
-      ];
-
-      dispatch(setInputLabelTexts(messageBookFlight));
-    } else if (newValue === 1) {
-      const messageExploreExperience = [
-        "Explore experiences beyond travel.",
-        "Find adventures that inspire you.",
-        "AI helps you explore the world!",
-      ];
-      dispatch(setInputLabelTexts(messageExploreExperience));
-    }
-  };
   return (
     <>
       <Box className={`${styles.HeroSection}`}>
