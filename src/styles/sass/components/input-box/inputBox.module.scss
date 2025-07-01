@@ -156,6 +156,7 @@
          top: 12px;
          left: 18px;
          line-height: 150%;
+         padding-right: 18px;
       }
 
       .SearchForm {
@@ -254,6 +255,9 @@
       
    .SearchBoxSectionActive {
       .SearchBoxContainer {padding: 0;
+         .label {
+            font-size: 14px;
+         }
          .SearchButtonBox {
             .BoxButtons {align-items: flex-end;}
          }

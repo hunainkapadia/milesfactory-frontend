@@ -16,6 +16,12 @@ const LabelAnimation = () => {
   const deleteAmount = 5; // Number of characters to delete before switching
   const delayBeforeDeleting = 1500; // Delay before deletion starts
 
+    // 🔁 Reset animation on texts change
+  useEffect(() => {
+    setDisplayedText("");
+    setTextIndex(0);
+    setIsDeleting(false);
+  }, [texts]);
   // Blinking Cursor Effect
   const [showCursor, setShowCursor] = useState(true);
   useEffect(() => {
