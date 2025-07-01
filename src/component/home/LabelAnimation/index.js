@@ -1,14 +1,12 @@
 import { Box, FormLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
+import { useSelector } from "react-redux";
 
 const LabelAnimation = () => {
   // Letter typing texts
-  const texts = [
-    "Where do you want to go today?",
-    "Explore one destination at a time.",
-    "Adventure is waiting for you!"
-  ];
+  
+  const texts = useSelector((state) => state.base.inputLabelTexts); // replace `ui` with your actual slice name
 
   const [displayedText, setDisplayedText] = useState("");
   const [textIndex, setTextIndex] = useState(0);

@@ -22,6 +22,7 @@ const MessageInputBox = ({
   HeaderInput,
   messagesEndRef,
   isAiBooking, // for aibook page
+  aiBookingMessage
 }) => {
   const inputRef = useRef(null);
 
@@ -153,7 +154,7 @@ const MessageInputBox = ({
             <Box className={inputStyles.SearchBoxContainer}>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (
-                  <LabelAnimation />
+                  <LabelAnimation aiBookingMessage={aiBookingMessage} />
                 ) : null}
 
                 <div
