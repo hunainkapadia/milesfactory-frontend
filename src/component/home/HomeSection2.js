@@ -30,8 +30,8 @@ const HomeSection2 = (props) => {
                   sx={{
                     width: {
                       xs: "100%", // Extra small screens
-                      sm: "72.6%", // Small screenss
-                      lg: "72.6%", // Large screens
+                      sm: "70.3%", // Small screenss
+                      lg: "70.3%", // Large screens
                     },
                   }}
                 >
@@ -240,7 +240,7 @@ const HomeSection2 = (props) => {
                 <Typography
                   display={{ lg: "none", md: "none", xs: "block" }}
                   component={"span"}
-                  whiteSpace={"nowrap"}
+                  
                 >
                   More than 1m+ partners.
                 </Typography>

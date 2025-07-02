@@ -78,7 +78,7 @@ const InviteEmailForm = ({ flight_order }) => {
           handleAddition={handleAddition}
           handleInputChange={(text) => setInputText(text)} // Track input
           inputFieldPosition="inline"
-          placeholder="Type an email and press enter or comma"
+          placeholder="Emails, comma separated"
           autocomplete
         />
         {emailError && (
