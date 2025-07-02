@@ -284,6 +284,15 @@
 }
 
 @media only screen and (max-width: 767px) {
+  .customTabs {
+    min-height: 30px;
+    height: 30px;
+  }
+  .inactiveTab {
+    min-height: 30px;
+    padding: 7px 10px;
+  }
+
   .ContentIn {
     width: auto !important;
   }
