@@ -93,6 +93,7 @@ body {
      color: #0B172980 !important;
      width: 100px;
      border: solid 2px red($color: #000000);
+     >div {font-size: 14px !important;}
      &.dates,
      &.travellers {
        width: 150px;
@@ -162,7 +163,6 @@ body {
             width: 134px;
             border: solid 2px red($color: #000000);
             margin-bottom: 18px;
-            >div {font-size: 14px !important;}
             &.destination, &.origin {
                width: 50%;
             }
