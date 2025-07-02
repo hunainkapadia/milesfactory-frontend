@@ -55,16 +55,7 @@ const BookAiForm = () => {
             InputLabelProps={{ shrink: false }}
             SelectProps={{
               displayEmpty: true,
-              IconComponent: () => (
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  style={{
-                    fontSize: "12px",
-                    color: "#0B1729",
-                    marginRight: "12px",
-                  }}
-                />
-              ),
+              
             }}
           >
             <MenuItem value="" disabled sx={{ color: "#0B172980" }}>
