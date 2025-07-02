@@ -81,10 +81,10 @@
   width: auto;
 }
 .Seperator {
-   right: 94px;
+   right: 44%;
    z-index: 2;
-   
-  }
+   top: 13px;
+}
 body {
 
    .formControl {
@@ -143,13 +143,14 @@ body {
 @include for-mobile-large-screen (){
    .bookingFormWrapper {
       gap: 0;
+      align-items: flex-end;
    }
    .SearchBoxContainer {
       flex-direction: column;
       justify-content: center;
    }
    .Seperator {
-      right: 138px;
+      right: 45.5%;
       top: 13px;
    }
       body {
@@ -162,6 +163,9 @@ body {
             border: solid 2px red($color: #000000);
             margin-bottom: 18px;
             >div {font-size: 14px !important;}
+            &.destination, &.origin {
+               width: 50%;
+            }
             &.Return {
                width: 100px;
             }

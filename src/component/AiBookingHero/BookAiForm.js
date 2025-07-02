@@ -17,6 +17,7 @@ import "react-date-range/dist/theme/default.css";
 import AiTravellers from "./AiTravellers";
 
 const BookAiForm = () => {
+   
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
@@ -42,7 +43,7 @@ const BookAiForm = () => {
         className={styles.SearchBoxContainer}
         display={"flex"}
         columnGap={"18px"}
-        justifyContent={"space-between"}
+        justifyContent={"flex-start"}
       >
         {/* Return Dropdown */}
         <Box className={styles.formGroup}>
@@ -89,7 +90,7 @@ const BookAiForm = () => {
             size="small"
             value={origin}
             onChange={(e) => setOrigin(e.target.value)}
-            className={styles.formControl + " formControl"}
+            className={`${styles.formControl} ${styles.origin}  formControl`}
             InputLabelProps={{ shrink: true }}
           />
 
@@ -101,7 +102,6 @@ const BookAiForm = () => {
             <img src="/images/form-seperator-icon.svg" />
           </Box>
 
-          <Box className={styles.formGroup}>
             <TextField
               variant="outlined"
               label="Destination"
@@ -109,11 +109,10 @@ const BookAiForm = () => {
               size="small"
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
-              className={styles.formControl + " formControl"}
+              className={`${styles.formControl} ${styles.destination}  formControl`}
               sx={{ width: "100px" }}
               InputLabelProps={{ shrink: true }}
             />
-          </Box>
         </Box>
 
         {/* Dates */}
