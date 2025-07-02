@@ -7,11 +7,12 @@ import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
 import AiBookingMainHeader from "../layout/Header/AiBookingHeader/AiBookingMainHeader";
 import { setInputLabelTexts } from "@/src/store/slices/Base/baseSlice";
+import BookAiForm from "./BookAiForm";
 
 const AiBookingHero = () => {
   //  Get past messages from API (GET)
   const [tabValue, setTabValue] = useState(0);
-  const [on, setOn] = useState(true);
+  const [switchOn, setSwitchOn] = useState(true);
 
   
   const sendMessages = useSelector(
@@ -89,8 +90,20 @@ const handleTabChange = (event, newValue) => {
                           alt="Book a Flight"
                           style={{ width: 16, height: 16 }}
                         />
-                        <Typography className="basecolor-dark f12">
+                        <Typography className="basecolor-dark f12"
+                        sx={{
+                            display: { lg: "block", md: "block", xs: "none" },
+                          }}
+                        >
                           Book a Flight
+                        </Typography>
+                        <Typography
+                          className="basecolor-dark f12"
+                          sx={{
+                            display: { lg: "none", md: "none", xs: "block" },
+                          }}
+                        >
+                          Flights
                         </Typography>
                       </Box>
                     }
@@ -116,7 +129,7 @@ const handleTabChange = (event, newValue) => {
                             display: { lg: "block", md: "block", xs: "none" },
                           }}
                         >
-                          Explore & Experience
+                          Book with Miles
                         </Typography>
                         <Typography
                           className="basecolor-dark f12"
@@ -143,7 +156,7 @@ const handleTabChange = (event, newValue) => {
                   <Box>
                     {tabValue === 0 ? (
                       <>
-                        <Box
+                        <Box component={"section"}
                           display={"flex"}
                           alignItems={"center"}
                           gap={2}
@@ -156,12 +169,12 @@ const handleTabChange = (event, newValue) => {
                             </Box>
                           </Typography>
                           <Box
-                            onClick={() => setOn(!on)}
+                            onClick={() => setSwitchOn(!switchOn)}
                             sx={{
                               width: { xs: 48, md: 48, lg: 50 },
                               height: { xs: 24, md: 24, lg: 28 },
                               borderRadius: "999px",
-                              background: on
+                              background: switchOn
                                 ? "linear-gradient(90deg, #6DA3FF, #00C4CC)" // gradient blue like image
                                 : "#ccc",
                               position: "relative",
@@ -177,14 +190,19 @@ const handleTabChange = (event, newValue) => {
                                 backgroundColor: "#fff",
                                 position: "absolute",
                                 top: "50%",
-                                left: on ? "26px" : "4px",
+                                left: switchOn ? "26px" : "4px",
                                 transform: "translateY(-50%)",
                                 transition: "left 0.3s",
                               }}
                             />
                           </Box>
                         </Box>
-                        <MessageInputBox isAiBooking="isAiBooking" />
+                        
+                          {switchOn ? (
+                            <MessageInputBox isAiBooking="isAiBooking" />
+                          ): (
+                            <BookAiForm />
+                          )}
                       </>
                     ) : (
                       <>
@@ -201,12 +219,12 @@ const handleTabChange = (event, newValue) => {
                             </Box>
                           </Typography>
                           <Box
-                            onClick={() => setOn(!on)}
+                            onClick={() => setSwitchOn(!switchOn)}
                             sx={{
                               width: { xs: 48, md: 48, lg: 50 },
                               height: { xs: 24, md: 24, lg: 28 },
                               borderRadius: "999px",
-                              background: on
+                              background: switchOn
                                 ? "linear-gradient(90deg, #6DA3FF, #00C4CC)" // gradient blue like image
                                 : "#ccc",
                               position: "relative",
@@ -222,14 +240,19 @@ const handleTabChange = (event, newValue) => {
                                 backgroundColor: "#fff",
                                 position: "absolute",
                                 top: "50%",
-                                left: on ? "26px" : "4px",
+                                left: switchOn ? "26px" : "4px",
                                 transform: "translateY(-50%)",
                                 transition: "left 0.3s",
                               }}
                             />
                           </Box>
                         </Box>
-                        <MessageInputBox isAiBooking={true}/>
+                        {switchOn ? (
+                            
+                            <MessageInputBox isAiBooking={true}/>
+                          ): (
+                            <BookAiForm />
+                          )}
                       </>
                     )}
                   </Box>
