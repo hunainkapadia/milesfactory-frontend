@@ -251,13 +251,16 @@
             }
          }
       }
-   }
-      
-   .SearchBoxSectionActive {
-      .SearchBoxContainer {padding: 0;
+      .SearchBoxContainer {
          .label {
             font-size: 14px;
          }
+         
+      }
+   }
+   .SearchBoxSectionActive {
+      .SearchBoxContainer {padding: 0;
+         
          .SearchButtonBox {
             .BoxButtons {align-items: flex-end;}
          }

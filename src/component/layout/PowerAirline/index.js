@@ -130,7 +130,15 @@ const PowerAirline = () => {
           <i className="fa fa-times" aria-hidden="true"></i>
         </IconButton>
 
-        <DialogContent>
+        <DialogContent
+          sx={{
+            p: {
+              xs: "18px",
+              md: "18px",
+              lg: "18px",
+            },
+          }}
+        >
           {!contactSuccess ? (
             <>
               <Box component="main" className={styles.signupSection}>
