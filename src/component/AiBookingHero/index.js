@@ -27,15 +27,15 @@ const AiBookingHero = () => {
   
   // Define message arrays once
 const messageBookFlight = [
-    "I want to be in Bangkok on the 22nd of December on Emirates for 2 passnages.",
-    "London to Paris on the 15th of January, 2 adults, 1 child.",
-    "Going to Dubai for 1 week on 10th December.",
+    "I want to be in Bangkok on the 22nd of December on Emirates for 2 passengers with a stop in Dubai",
+    "Give me the fastest route from New York to Singapore next Wednesday for 1 week.",
+    "⁠London to Seattle on the 15th of January, 2 adults, 1 child, preferably on Air France.",
 ];
 
 const messageExploreExperience = [
-  "Explore experiences beyond travel.",
-  "Find adventures that inspire you.",
-  "AI helps you explore the world!",
+  "Find me a sunny and child-friendly destination that does not require more than 7 hours of flight.",
+  "⁠What is the best jazz bar in Tokyo that doesn't need in advance booking",
+  "⁠What is the best way to hop to Tasmania and the most local-friendly b&b to stay at?",
 ];
 
 useEffect(() => {
