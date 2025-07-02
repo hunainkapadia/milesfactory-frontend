@@ -31,15 +31,12 @@ const AiBookingFrontHeader = ({
   isUser,
 }) => {
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
   
   const dispatch = useDispatch();
   const PowerAirlineDialog = () => {
     dispatch(setPowerAirlineDialog(true));
   };
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+  
   return (
     <>
       <Head></Head>
@@ -70,7 +67,6 @@ const AiBookingFrontHeader = ({
                     color={"#69707B"}
                   >
                     <i
-                      onClick={toggleDrawer}
                       className={`fa fa-bars`}
                       aria-hidden="true"
                     ></i>
@@ -114,7 +110,7 @@ const AiBookingFrontHeader = ({
                   >
                     <Box 
                     
-                      className={styles.airlinepowerBtn + " btn btn-primary btn-sm  btn-round btn-shadow 111"}
+                      className={styles.airlinepowerBtn + " btn btn-primary btn-sm  btn-round btn-shadow"}
                       alignItems="center"
                       justifyContent="center"
                       gap={1}
@@ -131,12 +127,7 @@ const AiBookingFrontHeader = ({
         </Container>
       </Box>
       <PowerAirline />
-      <MobileNavDrawer
-        isDrawerOpen={isDrawerOpen}
-        toggleDrawer={toggleDrawer}
-        MobileNavDrawer={MobileNavDrawer}
-        isAiBooking={"isAiBooking"}
-      />
+      
     </>
   );
 };
