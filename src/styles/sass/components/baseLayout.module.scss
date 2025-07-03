@@ -222,6 +222,9 @@
     }
    
     .Header {
+       &.AiBookingMainHeaderRow2 {
+         height: 40px;
+      }
       &.AiBookingFrontHeader {
          position: sticky;
          z-index: 12;
