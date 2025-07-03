@@ -25,7 +25,7 @@ import {
 import { useRouter } from "next/router";
 import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 
-const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
+const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) => {
   const HandleBookTrip = () => {
     // Your booking logic here
     
@@ -80,50 +80,52 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
         open={isDrawerOpen}
         onClose={toggleDrawer}
       >
-        <Box
-          className={styles.HeaderDrawer}
-          sx={{
-            px: { xs: 3 }, // Padding X (left & right)
-            py: 3, // Padding Y (top & bottom)
-          }}
-          width={"280px"}
-        >
-          {/* Header with Back Button & Logo */}
-          <Box component="header" display="flex" alignItems="center" gap={2}>
-            {/* Close Button */}
-            <Box fontSize="20px">
-              <i
-                onClick={toggleDrawer}
-                className="fa fa-arrow-left basecolor"
-                style={{ cursor: "pointer" }}
-              ></i>
-            </Box>
-
-            {/* Logo */}
-            <Box className={styles.Logo}>
-              <Link href="/">
-                <Box
-                  sx={{ width: { xs: 53 } }}
-                  className="d-flex align-items-center imggroup"
-                >
-                  <img src="/images/logo-color2.svg" alt="Logo" />
+        {isAiBooking ? (
+          <>
+            <Box
+              className={styles.HeaderDrawer}
+              sx={{
+                px: { xs: 3 }, // Padding X (left & right)
+                py: 3, // Padding Y (top & bottom)
+              }}
+              width={"280px"}
+            >
+              {/* Header with Back Button & Logo */}
+              <Box
+                component="header"
+                display="flex"
+                alignItems="center"
+                gap={2}
+              >
+                {/* Close Button */}
+                <Box fontSize="20px">
+                  <i
+                    onClick={toggleDrawer}
+                    className="fa fa-arrow-left basecolor"
+                    style={{ cursor: "pointer" }}
+                  ></i>
                 </Box>
-              </Link>
-            </Box>
-          </Box>
 
-          {/* Navigation & CTA */}
-          <Box>
-            <Box pt={7} display={"flex"} flexDirection={"column"} gap={3}>
-              <HeaderUser formobileDrawer={"formobileDrawer"} />
+                {/* Logo */}
+                <Box className={styles.Logo}>
+                  <Link href="/">
+                    <Box className="d-flex align-items-center imggroup">
+                      <img src="/images/airline-logo-gray.svg" alt="Logo" />
+                    </Box>
+                  </Link>
+                </Box>
+              </Box>
 
-              {/*  */}
-
-              {currentUser ? (
-                <>
-                <Link href="/my-trips" className="text-decuration-none"
-                >
-                  <Box 
+              <Box
+                component={"section"}
+                pt={7}
+                display={"flex"}
+                flexDirection={"column"}
+                gap={3}
+              >
+                {/*  */}
+                <Box className="text-decuration-none">
+                  <Box
                     className={`${styles.Login} darkgray cursor-pointer`}
                     sx={{
                       display: { lg: "flex", md: "flex", xs: "flex" },
@@ -139,7 +141,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                       sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                     >
                       <img
-                        src={"/images/book-trip-icon.svg"}
+                        src={"/images/book-flight-icon.svg"}
                         alt="chat history"
                       />
                     </Box>
@@ -152,176 +154,404 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
                         },
                       }}
                     >
-                      My booked trips
+                      Book a flight
                     </Typography>
                   </Box>
+                </Box>
+                {/*  */}
+                <Box className="text-decuration-none">
+                  <Box
+                    className={`${styles.Login} darkgray cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                      textDecoration: "none",
+                    }}
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    >
+                      <img
+                        src={"/images/chech-in-icon.svg"}
+                        alt="chat history"
+                      />
+                    </Box>
+                    <Typography
+                      className="bold f16"
+                      sx={{
+                        display: {
+                          lg: "block",
+                          md: "block",
+                        },
+                      }}
+                    >
+                      Check-in
+                    </Typography>
+                  </Box>
+                </Box>
+                {/*  */}
+                <Box className="text-decuration-none">
+                  <Box
+                    className={`${styles.Login} darkgray cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                      textDecoration: "none",
+                    }}
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    >
+                      <img
+                        src={"/images/mybook-icon.svg"}
+                        alt="chat history"
+                      />
+                    </Box>
+                    <Typography
+                      className="bold f16"
+                      sx={{
+                        display: {
+                          lg: "block",
+                          md: "block",
+                        },
+                      }}
+                    >
+                      My bookings
+                    </Typography>
+                  </Box>
+                </Box>
+                {/*  */}
+                <Box className="text-decuration-none">
+                  <Box
+                    className={`${styles.Login} darkgray cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                      textDecoration: "none",
+                    }}
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    >
+                      <img
+                        src={"/images/info-icon.svg"}
+                        alt="chat history"
+                      />
+                    </Box>
+                    <Typography
+                      className="bold f16"
+                      sx={{
+                        display: {
+                          lg: "block",
+                          md: "block",
+                        },
+                      }}
+                    >
+                      Information
+                    </Typography>
+                  </Box>
+                </Box>
+                {/*  */}
+              </Box>
+              <Box py={3}>
+                <Divider />
+              </Box>
+              <Box display="flex">
+                <Box
+                  // onClick={currentUser ? HandleBookThread : HandlePopup}
+                  className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
+                >
+                  Search
+                </Box>
+              </Box>
+              <Box py={3}>
+                <Divider />
+              </Box>
+
+              <Box
+                component={"section"}
+                sx={{
+                  display: "flex",
+                  gap: 3,
+                }}
+                flexDirection={"column"}
+                mb={3}
+              >
+                <HeaderCurrencyLanguage formobileDrawer={"formobileDrawer"} />
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  // onClick={contactHandle}
+                  sx={{ cursor: "pointer", gap: 0 }}
+                  className={`basecolor1-dark2`}
+                >
+                  <Typography variant="body2">Contact support</Typography>
+                </Box>
+              </Box>
+              {/*  */}
+            </Box>
+          </>
+        ) : (
+          <>
+            <Box
+              className={styles.HeaderDrawer}
+              sx={{
+                px: { xs: 3 }, // Padding X (left & right)
+                py: 3, // Padding Y (top & bottom)
+              }}
+              width={"280px"}
+            >
+              {/* Header with Back Button & Logo */}
+              <Box
+                component="header"
+                display="flex"
+                alignItems="center"
+                gap={2}
+              >
+                {/* Close Button */}
+                <Box fontSize="20px">
+                  <i
+                    onClick={toggleDrawer}
+                    className="fa fa-arrow-left basecolor"
+                    style={{ cursor: "pointer" }}
+                  ></i>
+                </Box>
+
+                {/* Logo */}
+                <Box className={styles.Logo}>
+                  <Link href="/">
+                    <Box
+                      sx={{ width: { xs: 53 } }}
+                      className="d-flex align-items-center imggroup"
+                    >
+                      <img src="/images/logo-color2.svg" alt="Logo" />
+                    </Box>
                   </Link>
+                </Box>
+              </Box>
 
-                  <Box
-                    className={`${styles.Login} cursor-pointer`}
-                    sx={{
-                      display: { lg: "flex", md: "flex", xs: "flex" },
-                    }}
-                    alignItems="center"
-                    gap={2}
-                    onClick={handleThreadDrawer}
-                  >
-                    <Box
-                      className="imggroup"
-                      alignItems="center"
-                      display="flex"
-                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-                    >
-                      <img
-                        src={"/images/chat-history-icon.svg"}
-                        alt="chat history"
-                      />
-                    </Box>
-                    <Typography
-                      className="bold f16"
-                      sx={{
-                        display: {
-                          lg: "block",
-                          md: "block",
-                        },
-                      }}
-                    >
-                      Search history
-                    </Typography>
-                  </Box>
-                  {/* new search */}
-                </>
-              ) : (
-                <></>
-              )}
-              {isChat ? (
-                <>
-                  <Box
-                    className={`${styles.Login} cursor-pointer`}
-                    sx={{
-                      display: { lg: "flex", md: "flex", xs: "flex" },
-                    }}
-                    alignItems="center"
-                    gap={2}
-                    onClick={HandleNewThread}
-                  >
-                    <Box
-                      className="imggroup"
-                      alignItems="center"
-                      display="flex"
-                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-                    >
-                      <img
-                        width={20}
-                        src="/images/chat-new-icon.svg"
-                        alt="Chat Icon"
-                      />
-                    </Box>
-                    <Typography
-                      className="bold f16"
-                      sx={{
-                        display: {
-                          lg: "block",
-                          md: "block",
-                        },
-                      }}
-                    >
-                      New search
-                    </Typography>
-                  </Box>
-                </>
-              ) : (
-                ""
-              )}
+              {/* Navigation & CTA */}
+              <Box>
+                <Box pt={7} display={"flex"} flexDirection={"column"} gap={3}>
+                  <HeaderUser formobileDrawer={"formobileDrawer"} />
 
-              {currentUser ? (
-                <>
-                  <Box
-                    className={`${styles.Login} cursor-pointer`}
-                    sx={{
-                      display: { lg: "flex", md: "flex", xs: "flex" },
-                    }}
-                    alignItems="center"
-                    gap={2}
-                    onClick={logoutHandle}
-                  >
-                    <Box
-                      className="imggroup"
-                      alignItems="center"
-                      display="flex"
-                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
-                      fontSize={20}
-                    >
-                      <i className="fa fa-sign-out"></i>
-                    </Box>
-                    <Typography
-                      className="bold f16"
-                      sx={{
-                        display: {
-                          lg: "block",
-                          md: "block",
-                        },
-                      }}
-                    >
-                      Sign out
-                    </Typography>
-                  </Box>
-                </>
-              ) : (
-                ""
-              )}
-            </Box>
-            <Box py={3}>
-              <Divider />
-            </Box>
-            {!isChat ? (
-              <>
-                <Box display="flex">
-                  <Box
-                    onClick={currentUser ? HandleBookThread : HandlePopup}
-                    className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
-                  >
-                    Book a trip
-                  </Box>
+                  {/*  */}
+
+                  {currentUser ? (
+                    <>
+                      <Link href="/my-trips" className="text-decuration-none">
+                        <Box
+                          className={`${styles.Login} darkgray cursor-pointer`}
+                          sx={{
+                            display: { lg: "flex", md: "flex", xs: "flex" },
+                            textDecoration: "none",
+                          }}
+                          alignItems="center"
+                          gap={2}
+                        >
+                          <Box
+                            className="imggroup"
+                            alignItems="center"
+                            display="flex"
+                            sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                          >
+                            <img
+                              src={"/images/book-trip-icon.svg"}
+                              alt="chat history"
+                            />
+                          </Box>
+                          <Typography
+                            className="bold f16"
+                            sx={{
+                              display: {
+                                lg: "block",
+                                md: "block",
+                              },
+                            }}
+                          >
+                            My booked trips
+                          </Typography>
+                        </Box>
+                      </Link>
+
+                      <Box
+                        className={`${styles.Login} cursor-pointer`}
+                        sx={{
+                          display: { lg: "flex", md: "flex", xs: "flex" },
+                        }}
+                        alignItems="center"
+                        gap={2}
+                        onClick={handleThreadDrawer}
+                      >
+                        <Box
+                          className="imggroup"
+                          alignItems="center"
+                          display="flex"
+                          sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                        >
+                          <img
+                            src={"/images/chat-history-icon.svg"}
+                            alt="chat history"
+                          />
+                        </Box>
+                        <Typography
+                          className="bold f16"
+                          sx={{
+                            display: {
+                              lg: "block",
+                              md: "block",
+                            },
+                          }}
+                        >
+                          Search history
+                        </Typography>
+                      </Box>
+                      {/* new search */}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+
+                  {isChat ? (
+                    <>
+                      <Box
+                        className={`${styles.Login} cursor-pointer`}
+                        sx={{
+                          display: { lg: "flex", md: "flex", xs: "flex" },
+                        }}
+                        alignItems="center"
+                        gap={2}
+                        onClick={HandleNewThread}
+                      >
+                        <Box
+                          className="imggroup"
+                          alignItems="center"
+                          display="flex"
+                          sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                        >
+                          <img
+                            width={20}
+                            src="/images/chat-new-icon.svg"
+                            alt="Chat Icon"
+                          />
+                        </Box>
+                        <Typography
+                          className="bold f16"
+                          sx={{
+                            display: {
+                              lg: "block",
+                              md: "block",
+                            },
+                          }}
+                        >
+                          New search
+                        </Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {currentUser ? (
+                    <>
+                      <Box
+                        className={`${styles.Login} cursor-pointer`}
+                        sx={{
+                          display: { lg: "flex", md: "flex", xs: "flex" },
+                        }}
+                        alignItems="center"
+                        gap={2}
+                        onClick={logoutHandle}
+                      >
+                        <Box
+                          className="imggroup"
+                          alignItems="center"
+                          display="flex"
+                          sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                          fontSize={20}
+                        >
+                          <i className="fa fa-sign-out"></i>
+                        </Box>
+                        <Typography
+                          className="bold f16"
+                          sx={{
+                            display: {
+                              lg: "block",
+                              md: "block",
+                            },
+                          }}
+                        >
+                          Sign out
+                        </Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </Box>
                 <Box py={3}>
                   <Divider />
                 </Box>
-              </>
-            ) : (
-              ""
-            )}
-            <Box
-              component={"section"}
-              sx={{
-                display: "flex",
-                gap: 3,
-              }}
-              flexDirection={"column"}
-              mb={3}
-            >
-              <HeaderCurrencyLanguage formobileDrawer={"formobileDrawer"} />
-              <Box
-                display="flex"
-                alignItems="center"
-                onClick={contactHandle}
-                sx={{ cursor: "pointer", gap: 0 }}
-                className={`basecolor1-dark2`}
-              >
-                <Typography variant="body2">Contact support</Typography>
-              </Box>
-              <Box
-                display="flex"
-                alignItems="center"
-                onClick={inviteEmailHandle}
-                sx={{ cursor: "pointer", gap: 0 }}
-                className={`basecolor1-dark2`}
-              >
-                <Typography variant="body2">
-                  Share Mylz with friends
-                </Typography>
-              </Box>
-              {/* <Box
+                {!isChat ? (
+                  <>
+                    <Box display="flex">
+                      <Box
+                        onClick={currentUser ? HandleBookThread : HandlePopup}
+                        className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
+                      >
+                        Book a trip
+                      </Box>
+                    </Box>
+                    <Box py={3}>
+                      <Divider />
+                    </Box>
+                  </>
+                ) : (
+                  ""
+                )}
+                <Box
+                  component={"section"}
+                  sx={{
+                    display: "flex",
+                    gap: 3,
+                  }}
+                  flexDirection={"column"}
+                  mb={3}
+                >
+                  <HeaderCurrencyLanguage formobileDrawer={"formobileDrawer"} />
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={contactHandle}
+                    sx={{ cursor: "pointer", gap: 0 }}
+                    className={`basecolor1-dark2`}
+                  >
+                    <Typography variant="body2">Contact support</Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={inviteEmailHandle}
+                    sx={{ cursor: "pointer", gap: 0 }}
+                    className={`basecolor1-dark2`}
+                  >
+                    <Typography variant="body2">
+                      Share Mylz with friends
+                    </Typography>
+                  </Box>
+                  {/* <Box
                 display="flex"
                 alignItems="center"
                 
@@ -330,11 +560,13 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat }) => {
               >
                 <Typography variant="body2">Explore community trips</Typography>
               </Box> */}
+                </Box>
+                {/*  */}
+                {/*  */}
+              </Box>
             </Box>
-            {/*  */}
-            {/*  */}
-          </Box>
-        </Box>
+          </>
+        )}
       </Drawer>
     </>
   );

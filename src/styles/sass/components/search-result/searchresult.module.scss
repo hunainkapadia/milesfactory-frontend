@@ -152,9 +152,17 @@
       .selectFlightBtn {
         height: 30px;
         font-size: 12px;
-        line-height: 0.8;
-        &.IsSelected {background-color: #DEE1E6;}
+        line-height: 0.8; 
+        
       }
+      .IsSelected {
+        height: 30px;
+        width: 100% !important;
+        padding: 0; 
+        white-space: nowrap;
+        line-height: 1;
+        
+        background-color: #DEE1E6;}
       .FromAndToRow {width: 100%;}
       &.Oneway {
         .CardRight .RightTopSection {margin-bottom: 8px;}
@@ -424,8 +432,9 @@
           white-space: nowrap;
           height: 30px;
         }
-        .logoCol .airlineLogo {@include scale(36px, 36px);}
         .IsSelected {padding: 8px 50px 8px;height: 30px;}
+        
+        .logoCol .airlineLogo {@include scale(36px, 36px);}
         // for horizontal scroll
         // scroll-snap-align: start;
         // scroll-snap-stop: always;   

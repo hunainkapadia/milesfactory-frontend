@@ -20,6 +20,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { setPowerAirlineDialog } from "@/src/store/slices/Base/baseSlice";
 import PowerAirline from "../../PowerAirline";
 import { useDispatch } from "react-redux";
+import MobileNavDrawer from "../MobileNavDrawer";
+import { useState } from "react";
 
 const AiBookingFrontHeader = ({
   isMessage,
@@ -29,10 +31,12 @@ const AiBookingFrontHeader = ({
   isUser,
 }) => {
 
+  
   const dispatch = useDispatch();
   const PowerAirlineDialog = () => {
     dispatch(setPowerAirlineDialog(true));
   };
+  
   return (
     <>
       <Head></Head>
@@ -60,17 +64,20 @@ const AiBookingFrontHeader = ({
                   <Box
                     sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                     fontSize={"24px"}
+                    color={"#69707B"}
                   >
                     <i
-                      //  onClick={toggleDrawer}
                       className={`fa fa-bars`}
                       aria-hidden="true"
                     ></i>
                   </Box>
 
-                  <Box className={ " cursor-pointer"}>
+                  <Box className={" cursor-pointer"}>
                     <Box component="a" href="/">
-                      <Box className="d-flex align-items-center">
+                      <Box
+                        className="d-flex align-items-center"
+                        sx={{ maxWidth : { xs: "107px" } }}
+                      >
                         <img src="/images/ai-booking-logo.svg" />
                       </Box>
                     </Box>
@@ -101,8 +108,9 @@ const AiBookingFrontHeader = ({
                     display={"flex"}
                     alignItems={"center"}
                   >
-                    <Box
-                      className="btn btn-primary btn-sm  btn-round btn-shadow"
+                    <Box 
+                    
+                      className={styles.airlinepowerBtn + " btn btn-primary btn-sm  btn-round btn-shadow"}
                       alignItems="center"
                       justifyContent="center"
                       gap={1}
@@ -119,6 +127,7 @@ const AiBookingFrontHeader = ({
         </Container>
       </Box>
       <PowerAirline />
+      
     </>
   );
 };

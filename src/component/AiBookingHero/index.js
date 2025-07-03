@@ -6,15 +6,15 @@ import Footer from "../layout/Footer";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
 import AiBookingMainHeader from "../layout/Header/AiBookingHeader/AiBookingMainHeader";
+import { setInputLabelTexts } from "@/src/store/slices/Base/baseSlice";
+import BookAiForm from "./BookAiForm";
 
 const AiBookingHero = () => {
   //  Get past messages from API (GET)
   const [tabValue, setTabValue] = useState(0);
-  const [on, setOn] = useState(true);
+  const [switchOn, setSwitchOn] = useState(true);
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
+  
   const sendMessages = useSelector(
     (state) => state.sendMessage?.messages.length
   );
@@ -24,6 +24,34 @@ const AiBookingHero = () => {
   const dispatch = useDispatch();
 
   const threadUUID = useSelector((state) => state.sendMessage.ThreadUUIDsend);
+
+  
+  // Define message arrays once
+const messageBookFlight = [
+    "I want to be in Bangkok on the 22nd of December on Emirates for 2 passengers with a stop in Dubai",
+    "Give me the fastest route from New York to Singapore next Wednesday for 1 week.",
+    "⁠London to Seattle on the 15th of January, 2 adults, 1 child, preferably on Air France.",
+];
+
+const messageExploreExperience = [
+  "Find me a sunny and child-friendly destination that does not require more than 7 hours of flight.",
+  "⁠What is the best jazz bar in Tokyo that doesn't need in advance booking",
+  "⁠What is the best way to hop to Tasmania and the most local-friendly b&b to stay at?",
+];
+
+useEffect(() => {
+  dispatch(setInputLabelTexts(messageBookFlight));
+}, [dispatch]);
+
+const handleTabChange = (event, newValue) => {
+  setTabValue(newValue);
+
+  if (newValue === 0) {
+    dispatch(setInputLabelTexts(messageBookFlight));
+  } else if (newValue === 1) {
+    dispatch(setInputLabelTexts(messageExploreExperience));
+  }
+};
 
   return (
     <>
@@ -62,8 +90,20 @@ const AiBookingHero = () => {
                           alt="Book a Flight"
                           style={{ width: 16, height: 16 }}
                         />
-                        <Typography className="basecolor-dark f12">
+                        <Typography className="basecolor-dark f12"
+                        sx={{
+                            display: { lg: "block", md: "block", xs: "none" },
+                          }}
+                        >
                           Book a Flight
+                        </Typography>
+                        <Typography
+                          className="basecolor-dark f12"
+                          sx={{
+                            display: { lg: "none", md: "none", xs: "block" },
+                          }}
+                        >
+                          Flights
                         </Typography>
                       </Box>
                     }
@@ -89,7 +129,7 @@ const AiBookingHero = () => {
                             display: { lg: "block", md: "block", xs: "none" },
                           }}
                         >
-                          Explore & Experience
+                          Book with Miles
                         </Typography>
                         <Typography
                           className="basecolor-dark f12"
@@ -116,7 +156,7 @@ const AiBookingHero = () => {
                   <Box>
                     {tabValue === 0 ? (
                       <>
-                        <Box
+                        <Box component={"section"}
                           display={"flex"}
                           alignItems={"center"}
                           gap={2}
@@ -129,12 +169,12 @@ const AiBookingHero = () => {
                             </Box>
                           </Typography>
                           <Box
-                            onClick={() => setOn(!on)}
+                            onClick={() => setSwitchOn(!switchOn)}
                             sx={{
                               width: { xs: 48, md: 48, lg: 50 },
                               height: { xs: 24, md: 24, lg: 28 },
                               borderRadius: "999px",
-                              background: on
+                              background: switchOn
                                 ? "linear-gradient(90deg, #6DA3FF, #00C4CC)" // gradient blue like image
                                 : "#ccc",
                               position: "relative",
@@ -150,17 +190,70 @@ const AiBookingHero = () => {
                                 backgroundColor: "#fff",
                                 position: "absolute",
                                 top: "50%",
-                                left: on ? "26px" : "4px",
+                                left: switchOn ? "26px" : "4px",
                                 transform: "translateY(-50%)",
                                 transition: "left 0.3s",
                               }}
                             />
                           </Box>
                         </Box>
-                        <MessageInputBox isAiBooking="isAiBooking" />
+                        
+                          {switchOn ? (
+                            <MessageInputBox isAiBooking="isAiBooking" />
+                          ): (
+                            <BookAiForm />
+                          )}
                       </>
                     ) : (
-                      <Typography variant="body1">tab2</Typography>
+                      <>
+                        <Box
+                          display={"flex"}
+                          alignItems={"center"}
+                          gap={2}
+                          sx={{ pb: { lg: "23px", md: "23px", xs: "12px" } }}
+                        >
+                          <Typography sx={{ fontSize: { xs: 14 } }}>
+                            Book your travel with{" "}
+                            <Box className="basecolor1" component={"span"}>
+                              AI
+                            </Box>
+                          </Typography>
+                          <Box
+                            onClick={() => setSwitchOn(!switchOn)}
+                            sx={{
+                              width: { xs: 48, md: 48, lg: 50 },
+                              height: { xs: 24, md: 24, lg: 28 },
+                              borderRadius: "999px",
+                              background: switchOn
+                                ? "linear-gradient(90deg, #6DA3FF, #00C4CC)" // gradient blue like image
+                                : "#ccc",
+                              position: "relative",
+                              cursor: "pointer",
+                              transition: "background 0.3s",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                width: 20,
+                                height: 20,
+                                borderRadius: "50%",
+                                backgroundColor: "#fff",
+                                position: "absolute",
+                                top: "50%",
+                                left: switchOn ? "26px" : "4px",
+                                transform: "translateY(-50%)",
+                                transition: "left 0.3s",
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                        {switchOn ? (
+                            
+                            <MessageInputBox isAiBooking={true}/>
+                          ): (
+                            <BookAiForm />
+                          )}
+                      </>
                     )}
                   </Box>
                 </Box>

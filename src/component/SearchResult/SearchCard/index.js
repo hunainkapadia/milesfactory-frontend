@@ -231,7 +231,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                       ""
                     )}{" "} */}
                     {selected ? (
-                      <Box>
+                      <Box sx={{width:{lg: "100%", md:"100%", xs: "auto"}}}>
                         <Button
                           disabled
                           className={

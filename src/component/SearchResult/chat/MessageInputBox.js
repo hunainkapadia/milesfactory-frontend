@@ -21,7 +21,8 @@ const MessageInputBox = ({
   isSticky,
   HeaderInput,
   messagesEndRef,
-  isAiBooking, // for aibook page 
+  isAiBooking, // for aibook page
+  aiBookingMessage
 }) => {
   const inputRef = useRef(null);
 
@@ -144,9 +145,7 @@ const MessageInputBox = ({
             justifyContent="center"
             position={"relative"}
             sx={{
-              gap: isAiBooking
-                ? { lg: "26px", md: "26px", xs: "12px" }
-                : "",
+              gap: isAiBooking ? { lg: "26px", md: "26px", xs: "12px" } : "",
               flexDirection: isAiBooking
                 ? { lg: "row", md: "row", xs: "column" }
                 : "",
@@ -155,7 +154,7 @@ const MessageInputBox = ({
             <Box className={inputStyles.SearchBoxContainer}>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
                 {!isMessageHome && !userMessage.trim() && !listening ? (
-                  <LabelAnimation />
+                  <LabelAnimation aiBookingMessage={aiBookingMessage} />
                 ) : null}
 
                 <div
@@ -246,16 +245,16 @@ const MessageInputBox = ({
               )} */}
             </Box>
             {isAiBooking && (
-              <Box whiteSpace={"nowrap"}  
-  sx={{
-    
-    width: { xs: "100%", sm: "auto" },           // 100% on mobile, auto on larger
-    display: { xs: "flex", sm: "block" },         // flex on mobile, block on larger
-    justifyContent: { xs: "end", sm: "start" },   // end on mobile, start/default on larger
-  }}
+              <Box
+                whiteSpace={"nowrap"}
+                sx={{
+                  width: { xs: "100%", sm: "auto" }, // 100% on mobile, auto on larger
+                  display: { xs: "flex", sm: "block" }, // flex on mobile, block on larger
+                  justifyContent: { xs: "end", sm: "start" }, // end on mobile, start/default on larger
+                }}
               >
                 <Button
-                  className={`btn btn-primary btn-round btn-md  ${
+                  className={`btn btn-primary btn-round btn-xs  ${
                     inputStyles.SearchButton
                   } ${isLoading ? inputStyles.Disabled : ""}`}
                   onClick={handleSearch}

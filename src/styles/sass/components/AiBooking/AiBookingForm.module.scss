@@ -1,0 +1,178 @@
+@import "../../_variables.scss";
+
+
+// tavellers
+.triggerButton {
+  width: 150px;
+  text-transform: none;
+  font-size: 14px;
+  padding: 8px 12px;
+  justify-content: space-between;
+}
+
+.dropdownMenu {
+  padding: 16px;
+  width: 250px;
+}
+
+.numberInput {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.label {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.sublabel {
+  font-size: 12px;
+  color: #888;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count {
+  min-width: 20px;
+  text-align: center;
+}
+
+// travellers
+
+.bookingFormWrapper {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+  }
+
+  gap: 12px;
+  position: relative;
+}
+
+.SearchBoxContainer {
+  width: 100%;
+}
+
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    gap: 26px;
+  }
+}
+
+.formGroup {
+  min-width: 100px;
+  width: auto;
+}
+.Seperator {
+   right: 44%;
+   z-index: 2;
+   top: 13px;
+}
+body {
+
+   .formControl {
+      height: 50px;
+     border-radius: 12px !important;
+     color: #0B172980 !important;
+     width: 100px;
+     border: solid 2px red($color: #000000);
+     >div {font-size: 14px !important;}
+     &.dates,
+     &.travellers {
+       width: 150px;
+     }
+     &.Return {
+        > div {
+           > div {padding-right: 0 !important;}
+           color: #0B172980 !important;
+         }
+      }
+     
+   
+     .MuiOutlinedInput-root {
+       border-radius: 12px;
+     }
+   
+     label {
+       color: $basecolor-dark !important;
+     }
+   
+     label.Mui-focused {
+       color: #1539cf;
+     }
+   }
+}
+
+.swapIcon {
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButtonBox {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  @media (min-width: 600px) {
+    justify-content: flex-start;
+  }
+}
+
+
+@include for-mobile-large-screen (){
+   .bookingFormWrapper {
+      gap: 0;
+      align-items: flex-end;
+   }
+   .SearchBoxContainer {
+      flex-direction: column;
+      justify-content: center;
+   }
+   .Seperator {
+      right: 45.5%;
+      top: 13px;
+   }
+      body {
+   
+         .formControl {
+            height: 50px;
+            border-radius: 12px !important;
+            color: #0B172980 !important;
+            width: 134px;
+            border: solid 2px red($color: #000000);
+            margin-bottom: 18px;
+            &.destination, &.origin {
+               width: 50%;
+            }
+            &.Return {
+               width: 100px;
+            }
+            &.dates,
+            &.travellers {
+               width: 100%;
+            }
+         }
+      }
+}

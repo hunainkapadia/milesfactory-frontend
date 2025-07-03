@@ -1,5 +1,78 @@
 @import "../../_variables.scss";
 
+.bookingFormWrapper {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+  }
+
+  gap: 12px;
+  position: relative;
+}
+
+.SearchBoxContainer {
+  width: 100%;
+}
+
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    gap: 26px;
+  }
+}
+
+.formGroup {
+  min-width: 100px;
+  width: auto;
+}
+
+.formControl {
+  border-radius: 12px !important;
+
+  .MuiOutlinedInput-root {
+    border-radius: 12px;
+  }
+
+  label {
+    color: #9e9e9e;
+  }
+
+  label.Mui-focused {
+    color: #1539cf;
+  }
+}
+
+.swapIcon {
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButtonBox {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  @media (min-width: 600px) {
+    justify-content: flex-start;
+  }
+}
+
+
 .customTabs {
   min-height: 36px;
 }
@@ -80,7 +153,6 @@
    .HeroSectionIn {
       width: 100%;
       @include border-radius(18px);
-      overflow: hidden;   
       background-image: url("/images/ai_booking_bg.png");
       background-repeat: no-repeat;
       background-position: center 10%;
@@ -89,6 +161,7 @@
       /* Rectangle 24 */
       &::before {
          content: "";
+         @include border-radius(18px);
          position: absolute;
          width: 100%;
          height: 100%;
@@ -211,11 +284,24 @@
 }
 
 @media only screen and (max-width: 767px) {
+  .customTabs {
+    min-height: 30px;
+    height: 30px;
+  }
+  .inactiveTab {
+    min-height: 30px;
+    padding: 7px 10px;
+  }
+
+  .ContentIn {
+    width: auto !important;
+  }
   .homeBody {
     margin-top: 0;
   }
   .TabSection {
     padding: 12px;
+    width: 315px;
   }
   .HeroSection {
     padding: 24px 0 0;
@@ -226,7 +312,7 @@
       position: relative;
       .HeroSectionIn {padding-top: 0px;}
       .Content {
-        height: 60vh;
+        height: 70vh;
       }
       .ContentIn {
         width: 100%;
