@@ -23,7 +23,6 @@
     "@reduxjs/toolkit": "^2.5.0",
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.3.0",
-    "@types/react": "^18.2.21",
     "axios": "^1.7.9",
     "country-flag-icons": "^1.5.18",
     "date-fns": "^4.1.0",
@@ -42,5 +41,10 @@
     "react-tag-input": "^6.10.6",
     "reactjs-social-login": "^2.6.3",
     "sass": "^1.83.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "@types/react": "^18.3.23",
+    "typescript": "^5.8.3"
   }
 }
