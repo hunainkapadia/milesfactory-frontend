@@ -34,6 +34,8 @@ const theme = createTheme({
   },
 });
 
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+
 function AppWrapper({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
@@ -69,8 +71,8 @@ export default function App({ Component, pageProps }) {
 
               {/* Google Analytics */}
               <script
-                async
-                src="https://www.googletagmanager.com/gtag/js?id=G-0MNTS4RLHH"
+                strategy="afterInteractive"
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
               ></script>
               <script
                 dangerouslySetInnerHTML={{
