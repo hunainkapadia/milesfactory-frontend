@@ -14,6 +14,7 @@ import "@/src/styles/sass/style.scss";
 import "react-phone-input-2/lib/style.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { useRouter } from "next/router";
+import Script from 'next/script';
 
 // Define a Custom Theme with the New Font
 const theme = createTheme({
@@ -45,7 +46,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      window.gtag?.("config", `${GA_ID}` {
+      window.gtag?.("config", `${GA_ID}`, {
         page_path: url,
       });
     };
@@ -70,17 +71,19 @@ export default function App({ Component, pageProps }) {
               <link rel="icon" href="/images/favicon_mylz_big.svg" />
 
               {/* Google Analytics */}
-              <script
+              <Script
                 strategy="afterInteractive"
                 src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              ></script>
-              <script
+              />
+              <Script
+                id="gtag-init"
+                strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
                   __html: `
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
-                    gtag('config', 'G-0MNTS4RLHH');
+                    gtag('config', '${GA_ID}');
                   `,
                 }}
               />
