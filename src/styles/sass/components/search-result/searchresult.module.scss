@@ -165,7 +165,7 @@
         background-color: #DEE1E6;}
       .FromAndToRow {width: 100%;}
       &.Oneway {
-        .CardRight .RightTopSection {margin-bottom: 8px;}
+        // .CardRight .RightTopSection {margin-bottom: 8px;}
         .FromAndToRow  .rowExtraInfo {
           align-items: flex-start;
         }
@@ -368,8 +368,8 @@
       padding: 0;
     }
     .Container {
-      padding-left: 24px;
-      padding-right: 24px;
+      padding-left: 18px;
+      padding-right: 18px;
     }
   }
   .ExtraServicesWraper {
@@ -422,7 +422,8 @@
       // gap: 8px;
       .Box {
         border-top: solid 1px $lightgray3;
-        padding-top: 12px;
+        padding-top: 5px;
+        padding-left: 2px;
         
       }
       
@@ -432,7 +433,7 @@
           white-space: nowrap;
           height: 30px;
         }
-        .IsSelected {padding: 8px 50px 8px;height: 30px;}
+        .IsSelected {padding: 9px 40px 8px;height: 30px;}
         
         .logoCol .airlineLogo {@include scale(36px, 36px);}
         // for horizontal scroll
@@ -440,20 +441,20 @@
         // scroll-snap-stop: always;   
         // min-width: 319px;
         .FromAndToRow {width: 100%;}
-        .CardRight .RightTopSection {margin-bottom: 12px;}
+        .CardRight .RightTopSection {margin-bottom: 4px;}
         &.Oneway {
           .FromAndToRow {
             .rowExtraInfo {
               margin-bottom: 18px;
             }
           }
-          .CardLeft {padding: 14px 17px 0 17px;}
+          .CardLeft {padding: 14px 12px 0 16px 12px 0 12px;}
         }
         .CardLeft {
-          padding: 16px 17px 0 17px;
+          padding: 16px 12px 0 12px;
         }
         .CardRight {
-          padding: 12px 17px 10px;
+          padding: 12px 12px 12px;
         }
         .FromAndToRow {
           .fromAndToDetail {
