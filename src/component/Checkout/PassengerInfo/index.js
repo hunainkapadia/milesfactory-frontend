@@ -170,7 +170,7 @@ const PassengerInfo = ({ getdata }) => {
                   }}
                 >
                   <Typography>
-                    Select now your seats and extra baggage.
+                    Select now your extra baggage.
                   </Typography>
                 </Box>
               </Grid>
