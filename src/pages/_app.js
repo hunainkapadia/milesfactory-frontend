@@ -63,7 +63,7 @@ export default function App({ Component, pageProps }) {
           <ThemeProvider theme={theme}>
             <CssBaseline /> {/* Ensures global styles apply */}
             <Head>
-              <title>Mylz | Stop the endless tabs. Book trips in seconds.</title> {/* Default title */}
+              <title>Mylz | Design trips. Book instantly.</title> {/* Default title */}
               <link
                 href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
                 rel="stylesheet"
