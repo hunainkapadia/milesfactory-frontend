@@ -110,7 +110,8 @@ const RightTopSection = ({
                         style={{ opacity: 0.7 }}
                       >
                         <img
-                          width={11}
+                          width={13}
+                          height={13}
                           src={
                             baggage?.type === "checked"
                               ? "/images/checkout/checked-bagg.svg"

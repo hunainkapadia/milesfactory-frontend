@@ -422,7 +422,8 @@
       // gap: 8px;
       .Box {
         border-top: solid 1px $lightgray3;
-        padding-top: 12px;
+        padding-top: 5px;
+        padding-left: 2px;
         
       }
       
@@ -440,20 +441,20 @@
         // scroll-snap-stop: always;   
         // min-width: 319px;
         .FromAndToRow {width: 100%;}
-        .CardRight .RightTopSection {margin-bottom: 12px;}
+        .CardRight .RightTopSection {margin-bottom: 4px;}
         &.Oneway {
           .FromAndToRow {
             .rowExtraInfo {
               margin-bottom: 18px;
             }
           }
-          .CardLeft {padding: 14px 17px 0 17px;}
+          .CardLeft {padding: 14px 12px 0 16px 12px 0 12px;}
         }
         .CardLeft {
-          padding: 16px 17px 0 17px;
+          padding: 16px 12px 0 12px;
         }
         .CardRight {
-          padding: 12px 17px 10px;
+          padding: 12px 12px 12px;
         }
         .FromAndToRow {
           .fromAndToDetail {
