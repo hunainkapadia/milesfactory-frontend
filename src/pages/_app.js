@@ -69,27 +69,30 @@ export default function App({ Component, pageProps }) {
                 rel="stylesheet"
               />
               <link rel="icon" href="/images/favicon_mylz_big.svg" />
-
-              {/* Google Analytics */}
-              <Script
-                strategy="afterInteractive"
-                src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              />
-              <Script
-                id="gtag-init"
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                  __html: `
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', '${GA_ID}');
-                  `,
-                }}
-              />
-              {/* Google Analytics */}
             </Head>
+             {/* ✅ GA Scripts go outside <Head> */}
+            {GA_ID && (
+              <>
+                <Script
+                  strategy="afterInteractive"
+                  src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+                />
+                <Script
+                  id="gtag-init"
+                  strategy="afterInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      window.dataLayer = window.dataLayer || [];
+                      function gtag(){dataLayer.push(arguments);}
+                      gtag('js', new Date());
+                      gtag('config', '${GA_ID}');
+                    `,
+                  }}
+                />
+              </>
+            )}
             <AppWrapper Component={Component} pageProps={pageProps} />
+
           </ThemeProvider>
         </StyledEngineProvider>
       </GoogleOAuthProvider>
