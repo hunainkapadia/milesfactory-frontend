@@ -173,7 +173,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             <Divider />
           </Box>
           {/*  */}
-          <Box component={"section"} pb={10}>
+          <Box className={styles.checkoutDrowerBody} component={"section"} pb={10}>
             {/* passport */}
             {/* if passport_number  equal and show selected profile */}
 
@@ -260,7 +260,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   display="flex"
                   alignItems="center"
                   gap={2}
-                  className="basecolor1 f14"
+                  className="f14"
                   style={{ cursor: "pointer" }}
                   onClick={handleCloseDrawer}
                   disabled={"isFormLoading"} // Disable when loading

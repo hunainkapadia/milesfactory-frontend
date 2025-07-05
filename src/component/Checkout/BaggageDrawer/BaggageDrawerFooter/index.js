@@ -44,20 +44,10 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
     
     
     return (
-      <Box
-        className={styles.BaggageDrawerFooter + " test11"}
-        position="absolute"
-      >
+      <>
         <Divider />
-
-        {/* Footer Content */}
-        <Box
-          className={styles.checkoutDrowerHeder}
-          py={1}
-          px={3}
-          display="flex"
-          flexDirection="column"
-        >
+        <Box className={styles.BaggageDrawerFooter + " test11"}>
+          {/* Footer Content */}
           {/* Price Row */}
           <Box
             className={styles.priceRow + " aaa"}
@@ -147,7 +137,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
             </Box>
           </Box>
         </Box>
-      </Box>
+      </>
     );
   };
 
