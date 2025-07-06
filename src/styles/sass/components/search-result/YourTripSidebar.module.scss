@@ -2,105 +2,171 @@
 
 
 
+// tabs
+.customTabs {
+  height: auto;
+  min-height: inherit;
+}
+
+.TabSection {
+  @include border-radius(0 18px 18px 18px);
+  padding: 24px 42px 24px 24px;
+}
+
+.inactiveTab {
+  margin-right: 4px;
+  min-height: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 9px 12px;
+  border: none;
+  background-color: inherit;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  text-transform: none;
+  border-color: #E6EEEE;
+
+  p {
+    color: $basecolor;
+    font-size: $f12;
+    font-weight: $semibold;
+  }
+}
+
+.activeTab {
+  border: none;
+  border-style: none;
+  color: $basecolor;
+  background: #FFFFFF;
+  border: 1px solid #C5DADE;
+
+  p {
+    color: $black;
+    font-weight: $bold;
+  }
+}
+
 .flightOfferCard {
-   width: 100%;
-   display: flex;
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  transition:none;
+  transition: none;
 
   .flightPriceSection {
-   font-size: $bfsizeLabel;
-   white-space: nowrap;
- }
- .Timings {
-   .flightDay {
-     font-size: 12px;
-   }
- }
+    font-size: $bfsizeLabel;
+    white-space: nowrap;
+  }
 
-  .CardLeft {
-   
+  .Timings {
+    .flightDay {
+      font-size: 12px;
+    }
   }
+
+  .CardLeft {}
+
   .CardRight {
-   padding: 12px 14px 16px 17px;
-   border-left: solid 1px $lightgray3;
-   .selectFlightBtn {
-     margin-top: 15px;
-   }
+    padding: 12px 14px 16px 17px;
+    border-left: solid 1px $lightgray3;
+
+    .selectFlightBtn {
+      margin-top: 15px;
+    }
   }
+
   .airlineLogo {
     @include border-radius(100px);
-   background: $white;
-   border: 1px solid $lightgray3;
-   img {
-     width: 70%;
-     height: auto;
-   }
+    background: $white;
+    border: 1px solid $lightgray3;
 
-    
+    img {
+      width: 70%;
+      height: auto;
+    }
+
+
   }
+
   .rowExtraInfo {
-   margin-bottom: 8px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
     font-size: 0.85rem;
     color: gray;
   }
+
   .flightDurationBox {
-   width: 80%;
-   .flightDuration {
-     font-size: 12px;
-     color: $black;
-   }
-  }   
-  .SearchDivider {
-     border: 1px dashed #D9D9D9;
-     transform: matrix(-1, 0, 0, 1, 0, 0);
-     position: relative;
-     
-     &::before,
-     &::after {
-       content: "";
-       position: absolute;
-       top: 50%;
-       width: 10px;
-       height: 10px;
-       background-color: #D9D9D9;
-       border-radius: 50%;
-       transform: translateY(-50%);
-     }
-     &::before {
-       left: -5px;
-     }
-     &::after {
-       right: -5px;
-     }
+    width: 80%;
+
+    .flightDuration {
+      font-size: 12px;
+      color: $black;
+    }
   }
+
+  .SearchDivider {
+    border: 1px dashed #D9D9D9;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    position: relative;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: #D9D9D9;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    &::before {
+      left: -5px;
+    }
+
+    &::after {
+      right: -5px;
+    }
+  }
+
   .flightTime {
-   font-weight: $semibold;
-   font-size: 20px;
- }
- .logoCol {display: block;}
- .FlightTimingsCol {display: block;}
+    font-weight: $semibold;
+    font-size: 20px;
+  }
+
+  .logoCol {
+    display: block;
+  }
+
+  .FlightTimingsCol {
+    display: block;
+  }
 }
 
 
 
 .separater {
   padding: 0 10px;
+
   span {
-     /* Rectangle 117 */
-     background: #82B4E8;
-     width: 100%;
-     display: flex;
-     height: 1px;
+    /* Rectangle 117 */
+    background: #82B4E8;
+    width: 100%;
+    display: flex;
+    height: 1px;
   }
 }
+
 @keyframes slideInRight {
   from {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -108,28 +174,51 @@
 }
 
 .YourTripSidebar {
+  z-index: 6;
   display: flex;
   justify-content: flex-end;
   animation: slideInRight 0.5s ease forwards;
 
   position: fixed;
-    top: 50px;
-    right: calc((100vw - 1130px) / 2);
-    
-    min-height: 82vh;
-    max-height: 82vh;
-    .YourTripCard {
-    overflow: auto;
+  top: 98px;
+  right: calc((100vw - 1130px) / 2);
+
+  min-height: 82vh;
+  max-height: 82vh;
+
+  .YourTripCard {
     width: 387px;
+    // width: 751px;
     background: #FBFDFD;
     box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
     border-radius: 24px;
-    max-height: 70vh;
+    
+    .TripBody {
+  overflow: auto;
+  max-height: 63vh;
 
-    .CardHeader {
-      background-color: #F7FCFA;
-      border-bottom: solid 1px $lightgray3;
-    }
+  /* For WebKit browsers (Chrome, Safari) */
+  &::-webkit-scrollbar {
+    width: 4px;         // thin vertical scrollbar
+    height: 4px;        // thin horizontal scrollbar (if needed)
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); // light gray scroll thumb
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Optional: Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+
+    .CardHeader {}
 
     .flightRoute {
       font-weight: $bold;

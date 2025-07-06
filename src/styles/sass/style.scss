@@ -350,6 +350,10 @@ label,
   color: $red !important;
 }
 
+.border-dashed {
+  border: 1px dashed rgba(197, 218, 222, 0.4);
+}
+
 .br-15 {
   border-radius: 12px !important;
 }
@@ -1575,7 +1579,7 @@ body {
   &.btn-black {
     @include border-radius(4px);
     padding: 4px 10px;
-    background: $black;
+    background: $darkgray;
     color: $white;
     font-weight: $bold;
     font-size: 12px;

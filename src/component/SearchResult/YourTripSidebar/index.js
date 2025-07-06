@@ -15,13 +15,12 @@ const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
-  
+
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
-  
-  
+
   return (
     <>
       <Box
@@ -38,50 +37,32 @@ const YourTripSidebar = ({ isMessage }) => {
             alignItems={"center"}
             justifyContent={"space-between"}
             px={3}
-            py={2}
+            pt={"20px"}
+            pb={"13px"}
           >
-            <Box gap={2} display={"flex"} alignItems={"center"}>
+            <Box gap={1} display={"flex"} alignItems={"center"}>
               <Box className=" imggroup">
-                <img src="/images/plane-icon-basecolor1.svg" />
+                <img src="/images/large-screen-icon.svg" />
               </Box>
-              {paymentSuccess ? (
-                <Typography
-                  textTransform={"uppercase"}
-                  className=" f12 basecolor1 mb-0 bold"
-                >
-                  YOU’RE BOOKED
-                </Typography>
-              ) : (
-                <Typography className="basecolor1 mb-0 bold">
-                  Flights
-                </Typography>
-              )}
+              <Box className=" imggroup">
+                <img src="/images/builder-icon.svg" />
+              </Box>
+              <Typography className="basecolor1 mb-0 bold">Builder</Typography>
             </Box>
-            {paymentSuccess ? (
-              <Image width={24} height={24} src="/images/success-check.svg" />
-            ) : (
-              ""
-            )}
-          </Box>
-          <Box px={3} component={"section"} pt={2.5} pb={3.5}>
-            <YourTripSedebarCard
-              offerData={getselectedFlight}
-            />
 
-            {/* <Box py={2}
-              className=" Loading"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "8px",
-              }}
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              className="basecolor1"
+              gap={1}
             >
-              <span className="dot"></span>
-              <span className="dot"></span>
-              <span className="dot"></span>
-            </Box> */}
+              <Box className=" imggroup">
+                <Image width={24} height={24} src="/images/share-icon.svg" />
+              </Box>
+              <Typography>Share</Typography>
+            </Box>
           </Box>
+          <YourTripSedebarCard offerData={getselectedFlight} />
         </Box>
       </Box>
     </>
