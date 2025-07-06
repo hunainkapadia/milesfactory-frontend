@@ -157,7 +157,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
 
         console.log("run_status111 ", run_status);
-        dispatch(setIsFunction({ status: "false" }));
+        dispatch(setIsFunction({ status: false }));
 
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
@@ -229,9 +229,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       // flight result [start]
       console.log("is_function_test", response?.is_function);
       if (response?.is_function) {
-        dispatch(setIsFunction({ status: "true" }));
+        dispatch(setIsFunction({ status: true }));
       } else {
-        dispatch(setIsFunction({ status: "false" }));
+        dispatch(setIsFunction({ status: false }));
       }
       if (response?.is_function) {
         const allFlightSearchApi =

@@ -180,7 +180,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         ""
       )}
-      
+
       {displayedGetFlights?.length > 0 ? (
         <>
           <Box className={searchResultStyles.SearchCardWrapper}>
@@ -226,19 +226,34 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         // Default AI response
         <>
-        {Array.isArray(displayedGetFlights) && displayedGetFlights.length === 0 && (
-<Box className={searchResultStyles.AiMessage}>
-<Typography variant="body1">
-No flight offers available at the moment. Please try again later.
-</Typography>
+          {Array.isArray(displayedGetFlights) &&
+            displayedGetFlights.length === 0 && (
+              <Box
+  
+  elevation={0}
+  sx={{
+    width: "100%",
+    p: 3,
+    textAlign: "center",
+    borderRadius: "12px",
+    border: "1px solid #e0e0e0",
+  }}
+>
+  <Typography variant="h6" sx={{ color: "#1e293b", fontWeight: 600, mb: 1 }}>
+    No flights found
+  </Typography>
+  <Typography variant="body2" sx={{ color: "#6b7280" }}>
+    Please search for another flight.
+  </Typography>
 </Box>
-)}
+
+            )}
           {!aiMessage?.ai?.response?.results ||
           aiMessage?.ai?.newThread ||
           aiMessage?.ai?.deleteThread ? (
             <>
-            {/* when is function true hide polling mesage */}
-              {aiMessage?.ai?.isPolling?.status && isFunction !== "true" && (
+              {/* when is function true hide polling mesage */}
+              {aiMessage?.ai?.isPolling?.status && !isFunction && (
                 <>
                   <Box className={searchResultStyles.AiMessage + " aaa"}>
                     {console.log(
@@ -256,19 +271,19 @@ No flight offers available at the moment. Please try again later.
               <>
                 {aiMessage?.ai?.response ? (
                   <>
-                  <Box className={searchResultStyles.AiMessage + " aaa"}>
-                    <Typography
-                      component="div"
-                      variant="body1"
-                      dangerouslySetInnerHTML={{
-                        __html: formatTextToHtmlList(
-                          convertMarkdownToHtml(
-                            sanitizeResponse(aiMessage.ai.response)
-                          )
-                        ),
-                      }}
-                    />
-                  </Box>
+                    <Box className={searchResultStyles.AiMessage + " aaa"}>
+                      <Typography
+                        component="div"
+                        variant="body1"
+                        dangerouslySetInnerHTML={{
+                          __html: formatTextToHtmlList(
+                            convertMarkdownToHtml(
+                              sanitizeResponse(aiMessage.ai.response)
+                            )
+                          ),
+                        }}
+                      />
+                    </Box>
                   </>
                 ) : aiMessage?.ai?.newThread ? (
                   <Typography component="div" variant="body1">
@@ -287,19 +302,19 @@ No flight offers available at the moment. Please try again later.
                   </Typography>
                 ) : aiMessage?.ai?.deleteThread ? (
                   <>
-                  <Box className={searchResultStyles.AiMessage + " aaa"}>
-                    <Typography
-                      component="div"
-                      variant="body1"
-                      dangerouslySetInnerHTML={{
-                        __html: formatTextToHtmlList(
-                          convertMarkdownToHtml(
-                            sanitizeResponse(aiMessage.ai.deleteThread)
-                          )
-                        ),
-                      }}
-                    />
-                  </Box>
+                    <Box className={searchResultStyles.AiMessage + " aaa"}>
+                      <Typography
+                        component="div"
+                        variant="body1"
+                        dangerouslySetInnerHTML={{
+                          __html: formatTextToHtmlList(
+                            convertMarkdownToHtml(
+                              sanitizeResponse(aiMessage.ai.deleteThread)
+                            )
+                          ),
+                        }}
+                      />
+                    </Box>
                   </>
                 ) : null}
               </>
