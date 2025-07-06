@@ -243,7 +243,7 @@ const AiMessage = ({ aiMessage }) => {
     No flights found
   </Typography>
   <Typography variant="body2" sx={{ color: "#6b7280" }}>
-    Please search for another flight.
+    Looks like there are no flights available right now. Please search again with new options.
   </Typography>
 </Box>
 
