@@ -229,24 +229,26 @@ const AiMessage = ({ aiMessage }) => {
           {Array.isArray(displayedGetFlights) &&
             displayedGetFlights.length === 0 && (
               <Box
-  
-  elevation={0}
-  sx={{
-    width: "100%",
-    p: 3,
-    textAlign: "center",
-    borderRadius: "12px",
-    border: "1px solid #e0e0e0",
-  }}
->
-  <Typography variant="h6" sx={{ color: "#1e293b", fontWeight: 600, mb: 1 }}>
-    No flights found
-  </Typography>
-  <Typography variant="body2" sx={{ color: "#6b7280" }}>
-    Looks like there are no flights available right now. Please search again with new options.
-  </Typography>
-</Box>
-
+                elevation={0}
+                sx={{
+                  width: "100%",
+                  p: 3,
+                  textAlign: "center",
+                  borderRadius: "12px",
+                  border: "1px solid #e0e0e0",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ color: "#1e293b", fontWeight: 600, mb: 1 }}
+                >
+                  No flights found
+                </Typography>
+                <Typography variant="body2" sx={{ color: "#6b7280" }}>
+                  Looks like there are no flights available right now. Please
+                  search again with new options.
+                </Typography>
+              </Box>
             )}
           {!aiMessage?.ai?.response?.results ||
           aiMessage?.ai?.newThread ||
