@@ -157,6 +157,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
 
         console.log("run_status111 ", run_status);
+        dispatch(setIsFunction({ status: "false" }));
 
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
@@ -164,6 +165,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
           console.log("gdata_00", gdata);
+          
           dispatch(setpollingComplete(false));
 
           dispatch(
@@ -252,13 +254,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .then((flightRes) => {
                 const isComplete = flightRes?.data?.is_complete;
                 console.log("flightRes", flightRes);
-
+                
                 console.log(
                   " Final refreshed flightRes is_complete:",
                   isComplete
                 );
 
                 if (isComplete === true) {
+                  
                   console.log("Replacing with real flight results");
                   dispatch(
                     setMessage({
@@ -302,7 +305,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                         // First clear placeholders
                         dispatch(setClearflight());
-
+                        
+                        
                         // Then add final results
                         dispatch(
                           setMessage({

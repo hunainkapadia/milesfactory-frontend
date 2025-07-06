@@ -115,7 +115,6 @@ const AiMessage = ({ aiMessage }) => {
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );
-
   console.log("isFunction", isFunction);
 
   // Find message with ai.offers
@@ -181,7 +180,7 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         ""
       )}
-
+      
       {displayedGetFlights?.length > 0 ? (
         <>
           <Box className={searchResultStyles.SearchCardWrapper}>
@@ -227,6 +226,13 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         // Default AI response
         <>
+        {Array.isArray(displayedGetFlights) && displayedGetFlights.length === 0 && (
+<Box className={searchResultStyles.AiMessage}>
+<Typography variant="body1">
+No flight offers available at the moment. Please try again later.
+</Typography>
+</Box>
+)}
           {!aiMessage?.ai?.response?.results ||
           aiMessage?.ai?.newThread ||
           aiMessage?.ai?.deleteThread ? (
