@@ -27,11 +27,10 @@
          position: absolute;
          right: 0;
          top: 0;
-         background-color: $white;
          @include border-radius(36px);
-         background-color: $white;
+         
          width: auto;
-         padding: 15px;
+         padding: 15px 15px 15px 0;
          &.MicActive { width: 100%;@include display(flex);align-items: center;}
          
          .BoxButtons {
@@ -73,16 +72,20 @@
          box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
          @include border-radius(36px);
          background-color: $white;
-         padding: 20px 60px 20px  31px;
+         padding: 20px 115px 20px 31px;
          display: flex;
          min-height: 66px;
-         align-items: center;
+         align-items: flex-start;
          
          &:focus,
          &:focus-visible {
            outline: none;
            
          }
+         max-height: 20vh;
+               overflow-y: auto;
+               
+         @include scrollbar-light;
        }
    
       i {
@@ -124,10 +127,15 @@
             background-repeat: no-repeat;
    
             .SearchForm {
+               max-height: 20vh;
+               overflow-y: auto;
                min-height: 43px;
                background-color: $white;
                color: $basecolor;
                padding: 10px 75px 10px 16px ;
+               @include scrollbar-light;
+               align-items: flex-start;
+
             }
             .SearchButton {color: $white;}
             .SearchButtonBox {padding: 0;
@@ -160,15 +168,21 @@
       }
 
       .SearchForm {
+         align-items: flex-start;
          outline: none;
-            min-height: 86px;
-            padding: 10px 75px 40px 16px ;
-            background: #0B1729;
-            border: 1px solid #F7F7F7;
-            border-radius: 16px;
-            color: #D3D3D3;
-            text-align: center;
-            
+         overflow-y: auto;
+         max-height: 30vh;
+         min-height: 86px;
+         padding: 10px 75px 40px 16px;
+         background: #0B1729;
+         border: 1px solid #F7F7F7;
+         border-radius: 16px;
+         color: #D3D3D3;
+         text-align: center;
+      
+           @include scrollbar-dark;
+
+      
       }
 
       

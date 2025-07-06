@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { clearInputValue, setInputValue } from "@/src/store/slices/Base/baseSlice";
 
 const MessageInputBox = ({
   isMessageHome,
@@ -28,7 +29,6 @@ const MessageInputBox = ({
 
   const [getuuid, setGetuuid] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
-  const [userMessage, setUserMessage] = useState("");
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -42,6 +42,7 @@ const MessageInputBox = ({
   const isMessage = sendMessages > 0 || getmessages > 0;
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
+  const inputValue = useSelector((state) => state.base.inputValue); //get input value
   useEffect(() => {
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
 
@@ -58,18 +59,19 @@ const MessageInputBox = ({
 
   // Sync react-speech-recognition transcript with local state and contentEditable div
   useEffect(() => {
-    setUserMessage(transcript);
+    dispatch(setInputValue(transcript));
     if (inputRef.current) {
       inputRef.current.textContent = transcript;
     }
   }, [transcript]);
 
   const handleSearch = () => {
-    if (!userMessage.trim()) return;
+    dispatch(setInputValue(inputValue)); // inputvalue set in redux state
+    dispatch(clearInputValue()); // clear input value
+    if (!inputValue.trim()) return;
     if (inputRef.current) inputRef.current.textContent = "";
 
-    dispatch(sendMessage(userMessage));
-    setUserMessage("");
+    dispatch(sendMessage(inputValue));
     resetTranscript();
     setIsTyping(false);
     if (!uuid) return null; // Skip rendering or logic
@@ -121,6 +123,15 @@ const MessageInputBox = ({
     });
   };
 
+  useEffect(() => {
+  if (
+    inputRef.current &&
+    inputRef.current.textContent !== inputValue &&
+    !document.activeElement.isEqualNode(inputRef.current)
+  ) {
+    inputRef.current.textContent = inputValue || "";
+  }
+}, [inputValue]);
   return (
     <Box
       className={`${
@@ -153,12 +164,17 @@ const MessageInputBox = ({
           >
             <Box className={inputStyles.SearchBoxContainer}>
               <Box className={inputStyles.SearchBoxIn} position={"relative"}>
-                {!isMessageHome && !userMessage.trim() && !listening ? (
+                {!isMessageHome && !inputValue.trim() && !listening ? (
                   <LabelAnimation aiBookingMessage={aiBookingMessage} />
                 ) : null}
 
                 <div
                   ref={inputRef}
+                  onPaste={(e) => {
+                    e.preventDefault(); // stop default paste
+                    const text = e.clipboardData.getData("text/plain"); // get plain text
+                    document.execCommand("insertText", false, text); // insert plain text
+                  }}
                   contentEditable={true}
                   suppressContentEditableWarning
                   role="textbox"
@@ -166,7 +182,7 @@ const MessageInputBox = ({
                   className={inputStyles.SearchForm + " SearchForm 222"}
                   onInput={(e) => {
                     const value = e.currentTarget.textContent.trim();
-                    setUserMessage(value);
+                    dispatch(setInputValue(value));
                     setIsTyping(value.length > 0);
                     // If user edits manually, reset transcript so react-speech-recognition does not override
                     resetTranscript();

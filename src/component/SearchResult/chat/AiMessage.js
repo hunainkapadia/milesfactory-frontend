@@ -24,8 +24,6 @@ const AiMessage = ({ aiMessage }) => {
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
 
-  
-
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
 
@@ -46,8 +44,6 @@ const AiMessage = ({ aiMessage }) => {
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
-  
-  
 
   useEffect(() => {
     if (GetViewPassengers.length > 0) {
@@ -62,29 +58,19 @@ const AiMessage = ({ aiMessage }) => {
       setShowAllFlight(true); // only enable showing all flights once
     }
   };
-  
-  
 
   const getNextFlight = useSelector(
     (state) => state.sendMessage?.appendFlights?.ai
   );
-  
 
   const displayedGetFlights = showAllFlight
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
     : aiMessage?.ai?.offers;
 
-  
-  
-  
-
-  
-
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
-  
 
   useEffect(() => {
     if (paymentSuccess) {
@@ -100,7 +86,6 @@ const AiMessage = ({ aiMessage }) => {
   const aiboxRef = useRef(null); //  Add this ref
 
   // Add class when all flights are shown
-  
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
@@ -123,14 +108,19 @@ const AiMessage = ({ aiMessage }) => {
 
   const getuser = useSelector((state) => state.base?.currentUser?.user);
 
-  
-
   const orderDetail = useSelector(
     (state) => state?.payment?.OrderConfirm?.order?.selected_offer
   ); //from order api
 
-  
-  
+  const isFunction = useSelector(
+    (state) => state?.sendMessage?.IsFunction?.status
+  );
+
+  console.log("isFunction", isFunction);
+
+  // Find message with ai.offers
+  // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
+
   return (
     <Box
       ref={aiboxRef}
@@ -194,9 +184,7 @@ const AiMessage = ({ aiMessage }) => {
 
       {displayedGetFlights?.length > 0 ? (
         <>
-          <Box
-            className={searchResultStyles.SearchCardWrapper}
-          >
+          <Box className={searchResultStyles.SearchCardWrapper}>
             <Box className="SearchBar SearchBar_000">
               <SearchProgressBar />
             </Box>
@@ -230,7 +218,6 @@ const AiMessage = ({ aiMessage }) => {
               alignItems="center"
               display="flex"
               className="bold"
-              
             >
               <span>See more flights</span>
               <i className="fa fa-caret-right fas" />
@@ -240,25 +227,30 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         // Default AI response
         <>
-          
           {!aiMessage?.ai?.response?.results ||
           aiMessage?.ai?.newThread ||
           aiMessage?.ai?.deleteThread ? (
             <>
-              <Box className={searchResultStyles.AiMessage + " aaa"}>
-                {aiMessage?.ai?.isPolling?.status && (
-                  <>
-                  {console.log("aiMessage_polling", aiMessage?.ai)}
-                    
+            {/* when is function true hide polling mesage */}
+              {aiMessage?.ai?.isPolling?.status && isFunction !== "true" && (
+                <>
+                  <Box className={searchResultStyles.AiMessage + " aaa"}>
+                    {console.log(
+                      "aiMessage_polling",
+                      aiMessage?.ai?.isPolling?.argument
+                    )}
+
                     <PollingMessage
                       PollingData={aiMessage?.ai?.isPolling?.argument}
                     />
-                  </>
-                )}
+                  </Box>
+                </>
+              )}
 
-                
-                <>
-                  {aiMessage?.ai?.response ? (
+              <>
+                {aiMessage?.ai?.response ? (
+                  <>
+                  <Box className={searchResultStyles.AiMessage + " aaa"}>
                     <Typography
                       component="div"
                       variant="body1"
@@ -270,22 +262,26 @@ const AiMessage = ({ aiMessage }) => {
                         ),
                       }}
                     />
-                  ) : aiMessage?.ai?.newThread ? (
-                    <Typography component="div" variant="body1">
-                      Hello{" "}
-                      <Typography component="span" textTransform="capitalize">
-                        {getuser?.first_name ?? "there"}
-                      </Typography>{" "}
-                      <Typography component="span" textTransform="capitalize">
-                        {getuser?.last_name ?? ""}
-                      </Typography>
-                      , I'm{" "}
-                      <Typography component="span" textTransform="capitalize">
-                        Mylz
-                      </Typography>
-                      . How can I help you?
+                  </Box>
+                  </>
+                ) : aiMessage?.ai?.newThread ? (
+                  <Typography component="div" variant="body1">
+                    Hello{" "}
+                    <Typography component="span" textTransform="capitalize">
+                      {getuser?.first_name ?? "there"}
+                    </Typography>{" "}
+                    <Typography component="span" textTransform="capitalize">
+                      {getuser?.last_name ?? ""}
                     </Typography>
-                  ) : aiMessage?.ai?.deleteThread ? (
+                    , I'm{" "}
+                    <Typography component="span" textTransform="capitalize">
+                      Mylz
+                    </Typography>
+                    . How can I help you?
+                  </Typography>
+                ) : aiMessage?.ai?.deleteThread ? (
+                  <>
+                  <Box className={searchResultStyles.AiMessage + " aaa"}>
                     <Typography
                       component="div"
                       variant="body1"
@@ -297,9 +293,10 @@ const AiMessage = ({ aiMessage }) => {
                         ),
                       }}
                     />
-                  ) : null}
-                </>
-              </Box>
+                  </Box>
+                  </>
+                ) : null}
+              </>
             </>
           ) : (
             ""

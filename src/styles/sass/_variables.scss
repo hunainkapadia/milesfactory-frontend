@@ -526,3 +526,42 @@ $cancel-circle: "\f104";
     @content;
   }
 }
+
+
+@mixin scrollbar-light {
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+  }
+
+  scrollbar-color: #ccc #f0f0f0;
+  scrollbar-width: thin;
+}
+
+@mixin scrollbar-dark {
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #1e1e1e;
+  }
+
+  scrollbar-color: #444 #1e1e1e;
+  scrollbar-width: thin;
+}
