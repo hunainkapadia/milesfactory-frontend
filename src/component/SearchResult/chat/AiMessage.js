@@ -228,7 +228,7 @@ const AiMessage = ({ aiMessage }) => {
         <>
           {Array.isArray(displayedGetFlights) &&
             displayedGetFlights.length === 0 && (
-              <Box
+              <Box mb={3}
                 elevation={0}
                 sx={{
                   width: "100%",
