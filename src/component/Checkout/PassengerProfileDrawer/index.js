@@ -113,56 +113,66 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   console.log("passengerPofile", selectPassenger);
   const handleSavePassenger = () => {
-  if (!selectedProfilePass?.uuid) {
-    alert("Please select a passenger before saving.");
-    return;
-  }
+    // Step 1: Check if any passenger is selected
+    if (!selectedProfilePass?.uuid) {
+      alert("Please select a passenger before saving.");
+      return;
+    }
 
-  const passenger = selectedProfilePass;
+    const passenger = selectedProfilePass;
 
-  const birthDate = dayjs(passenger?.born_on);
-  const now = dayjs();
-  const profilePassengerAge = now.diff(birthDate, "year");
+    // Step 2: Calculate age of selected profile passenger
+    const birthDate = dayjs(passenger?.born_on);
+    const now = dayjs();
+    const profilePassengerAge = now.diff(birthDate, "year");
 
-  const isValidPassenger =
-    selectPassenger?.type === "adult"
-      ? passenger?.type === "adult"
-      : profilePassengerAge === selectPassenger?.age &&
-        passenger?.type === selectPassenger?.type;
+    // Step 3: Validate passenger type and age match
+    const isValidPassenger =
+      selectPassenger?.type === "adult"
+        ? passenger?.type === "adult"
+        : profilePassengerAge === selectPassenger?.age &&
+          passenger?.type === selectPassenger?.type;
 
-  if (!isValidPassenger) {
-    alert("Selected profile does not match passenger type or age.");
-    return;
-  }
+    if (!isValidPassenger) {
+      alert("Selected profile does not match passenger type or age.");
+      return;
+    }
 
-  const params = {
-    gender: passenger.gender,
-    given_name: passenger.given_name,
-    family_name: passenger.family_name,
-    born_on: passenger.born_on,
-    passport_number: passenger.passport_number,
-    passport_expire_date: passenger.passport_expire_date,
-    phone_number: passenger.phone_number || "",
-    email: passenger.email || "",
-    nationality: passenger?.nationality?.id || "",
-    region: passenger?.phone_number ? "US" : "",
+    // Step 4: Create API-compatible params object
+    const params = {
+      gender: passenger.gender,
+      given_name: passenger.given_name,
+      family_name: passenger.family_name,
+      born_on: passenger.born_on,
+      passport_number: passenger.passport_number,
+      passport_expire_date: passenger.passport_expire_date,
+      phone_number: passenger.phone_number || "",
+      email: passenger.email || "",
+      nationality: passenger?.nationality?.id || "",
+      region: passenger?.phone_number ? "US" : "", // default region if phone present
+    };
+
+    console.log("params_passengerprofile", params);
+
+    // Step 5: Submit passenger form
+    dispatch(PassengerFormSubmit(params));
+
+    // Step 6: If it's the first passenger (captain), save separately
+    if (tabValue === 0) {
+      dispatch(setCaptainParams(params));
+      dispatch(passengerCaptain(params));
+    }
+
+    //  Step 7: Show success message
+    setShowSuccessSnackbar(true);
+
+    //  Step 8: Unselect the profile after saving
+    dispatch(setSelectedProfilePass(null));
+
+    //  Step 9: Hide success message after 3 seconds
+    setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
 
-  console.log("params_passengerprofile", params);
-
-  dispatch(PassengerFormSubmit(params));
-
-  // If it's the first passenger (Captain), dispatch separately
-  if (tabValue === 0) {
-    dispatch(setCaptainParams(params));
-    dispatch(passengerCaptain(params));
-  }
-
-  setShowSuccessSnackbar(true);
-  dispatch(setSelectedProfilePass(null)); // unselect after save
-
-  setTimeout(() => setShowSuccessSnackbar(false), 3000); // auto-hide success
-};
 
 
   const GetViewPassengers = useSelector(

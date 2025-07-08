@@ -177,7 +177,7 @@ const PassengerProfilecard = ({
               <Typography
                 onClick={() => handleToggle()}
                 sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
-                className="f12 bold mb-0 basecolor1 cursor-pointer"
+                className="f12 semibold mb-0 basecolor1 cursor-pointer"
                 display="flex"
                 alignItems="center"
                 gap={1}
@@ -191,7 +191,7 @@ const PassengerProfilecard = ({
               </Typography>
               <Box>
                 <Box p={1} onClick={handleOpenMenu}>
-                  <FontAwesomeIcon icon={faEllipsisV} />
+                  <FontAwesomeIcon color="#69707B" icon={faEllipsisV} />
                 </Box>
 
                 <Menu
