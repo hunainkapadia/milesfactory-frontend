@@ -49,7 +49,6 @@ import PassengerProfilecard from "./PassengerProfilecard";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [tabValue, setTabValue] = useState(0);
-  const [selectedPassengerUUID, setSelectedPassengerUUID] = useState(null);
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
 
   // passenger select set for card
@@ -65,6 +64,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
+  const selectedProfilePass = useSelector((state) => state?.passengerDrawer?.selectedProfilePass);
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -77,9 +77,6 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   // get filled pasenger form data from submit from to redux
 
-  const handleProfileCard = (passenger) => {
-    console.log("passenger_test", passenger);
-  };
   const handleModifyCard = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
 
@@ -114,68 +111,59 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state?.passengerDrawer?.SelectPassenger
   );
 
-  console.log("passengerPofile", selectPassenger)
+  console.log("passengerPofile", selectPassenger);
   const handleSavePassenger = () => {
-    if (!selectedPassengerUUID) {
-      alert("Please select a passenger before saving.");
-      return;
-    }
-    let savedIndex = -1;
+  if (!selectedProfilePass?.uuid) {
+    alert("Please select a passenger before saving.");
+    return;
+  }
 
-    passengerPofile?.forEach((passenger, index) => {
-      // Calculate age
-      const birthDate = dayjs(passenger?.born_on);
-      const now = dayjs();
-      const profilePassengerAge = now.diff(birthDate, "year");
+  const passenger = selectedProfilePass;
 
-      const isFirstPassenger = index === 0;
+  const birthDate = dayjs(passenger?.born_on);
+  const now = dayjs();
+  const profilePassengerAge = now.diff(birthDate, "year");
 
-      // Validate match
-      const isValidPassenger =
-        selectPassenger?.type === "adult"
-          ? passenger?.type === "adult"
-          : profilePassengerAge === selectPassenger?.age &&
-            passenger?.type === selectPassenger?.type;
+  const isValidPassenger =
+    selectPassenger?.type === "adult"
+      ? passenger?.type === "adult"
+      : profilePassengerAge === selectPassenger?.age &&
+        passenger?.type === selectPassenger?.type;
 
-      if (!isValidPassenger) return;
+  if (!isValidPassenger) {
+    alert("Selected profile does not match passenger type or age.");
+    return;
+  }
 
-      const params = {
-        gender: passenger.gender,
-        given_name: passenger.given_name,
-        family_name: passenger.family_name,
-        born_on: passenger.born_on,
-        passport_number: passenger.passport_number,
-        passport_expire_date: passenger.passport_expire_date,
-        phone_number: passenger.phone_number || "",
-        email: passenger.email || "",
-        nationality: passenger?.nationality?.id || "",
-        region: passenger?.phone_number ? "US" : "",
-      };
-      console.log("params_passengerprofile", passenger)
-
-      dispatch(PassengerFormSubmit(params));
-
-      if (isFirstPassenger) {
-        dispatch(setCaptainParams(params));
-        dispatch(passengerCaptain(params));
-      }
-
-      savedIndex = index;
-    });
-
-    //  Move to the next tab (if any)
-    // if (savedIndex >= 0 && savedIndex < passengerPofile.length - 1) {
-    //   setTabValue(savedIndex + 1);
-    // }
-
-    // Don't close the drawer
-    // dispatch(setPassProfileDrawer(false));
-    if (savedIndex !== -1) {
-      setShowSuccessSnackbar(true);
-      setSelectedPassengerUUID(null); // ✅ Unselect current passenger
-      setTimeout(() => setShowSuccessSnackbar(false), 3000);
-    }
+  const params = {
+    gender: passenger.gender,
+    given_name: passenger.given_name,
+    family_name: passenger.family_name,
+    born_on: passenger.born_on,
+    passport_number: passenger.passport_number,
+    passport_expire_date: passenger.passport_expire_date,
+    phone_number: passenger.phone_number || "",
+    email: passenger.email || "",
+    nationality: passenger?.nationality?.id || "",
+    region: passenger?.phone_number ? "US" : "",
   };
+
+  console.log("params_passengerprofile", params);
+
+  dispatch(PassengerFormSubmit(params));
+
+  // If it's the first passenger (Captain), dispatch separately
+  if (tabValue === 0) {
+    dispatch(setCaptainParams(params));
+    dispatch(passengerCaptain(params));
+  }
+
+  setShowSuccessSnackbar(true);
+  dispatch(setSelectedProfilePass(null)); // unselect after save
+
+  setTimeout(() => setShowSuccessSnackbar(false), 3000); // auto-hide success
+};
+
 
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
@@ -206,6 +194,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   // for change state button and incomplete text
   const isAllPassengersFilled = filledCount === totalPassengers;
 
+  const handleProfileCard = (passenger) => {
+    dispatch(setSelectedProfilePass(passenger)) // dispatch profile pass
+  };
+  console.log("selectedProfilePass", selectedProfilePass)
+  
   return (
     <Drawer
       anchor="right"
@@ -382,7 +375,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                         passenger?.type !== selectPassenger?.type;
                     }
                     const isSelected =
-                      selectedPassengerUUID === passenger?.uuid;
+                      selectedProfilePass?.uuid === passenger?.uuid;
                     {
                       /* check if selected pas uuid equal */
                     }
@@ -393,10 +386,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                         getdata={passenger}
                         onClickModifyCard={() => handleModifyCard(passenger)}
                         // pas profile card on click
-                        onClickProfileCard={() => {
-                          console.log("_selected_passenger", passenger)
-                            setSelectedPassengerUUID(passenger?.uuid); // Save the selected card
-                        }}
+                        onClickProfileCard={() => handleProfileCard(passenger)}
                         isSelected={isSelected} //  Pass selection status
                         passFilled={isPassFilled}
                         passDisabled={ispassDisabled}
