@@ -1,16 +1,32 @@
 import React, { useState } from "react";
-import { Box, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
+import {
+  Box,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Radio,
+  Typography,
+} from "@mui/material";
 
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import dayjs from "dayjs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 // Example Props (you should pass these from parent)
 
-const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }) => {
-
-  
-  
+const PassengerProfilecard = ({
+  getdata,
+  onClickModifyCard,
+  onClickProfileCard,
+  passFilled,
+  passDisabled,
+  isSelected
+}) => {
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const totalPass = 1; // e.g., traveller number
   const isFilled = true; // or false
@@ -26,17 +42,23 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
   const years = now.diff(birthDate, "year");
   const months = now.diff(birthDate.add(years, "year"), "month");
 
-  
-  
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
       <Box px={3} pb={2}>
-        <Box 
+        <Box
           className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
-            passFilled ? styles.isFilled : "" 
-          } ${
-            passDisabled ? styles.passDisabled : "" }`}
+            passFilled ? styles.isFilled : ""
+          } ${passDisabled ? styles.passDisabled : ""} ${
+            isSelected ? styles.selected : ""
+          }`}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"space-between"}
@@ -44,8 +66,8 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
         >
           <Box width={"100%"} display={"flex"} justifyContent={"space-between"}>
             <Box
+              onClick={onClickProfileCard}
               id={getdata.uuid}
-              onClick={onClickCard}
               display={"flex"}
               sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}
             >
@@ -53,7 +75,7 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
                 value={getdata.name}
                 control={
                   <Radio
-                    checked={passFilled}
+                    checked={passFilled || isSelected}
                     onChange={(e) => setSelectedValue(e.target.value)}
                     className="customRadio"
                     sx={{ p: 0, m: 0 }} // Zero padding & margin using MUI's sx prop
@@ -112,7 +134,8 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
                             className="f12 red"
                           >
                             {years}
-                          </Typography> year{years !== 1 ? "s" : ""}{" "}
+                          </Typography>{" "}
+                          year{years !== 1 ? "s" : ""}{" "}
                         </>
                       ) : getdata.type === "child" ? (
                         <>
@@ -123,7 +146,8 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
                             className="f12 red"
                           >
                             {years}
-                          </Typography> year{years !== 1 ? "s" : ""}{" "}
+                          </Typography>{" "}
+                          year{years !== 1 ? "s" : ""}{" "}
                         </>
                       ) : getdata.type === "adult" ? (
                         <>
@@ -146,11 +170,12 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
             </Box>
             <Box
               className="cursor-pointer"
-              onClick={() => handleToggle()}
               alignItems="center"
               display={"flex"}
+              gap={1}
             >
               <Typography
+                onClick={() => handleToggle()}
                 sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                 className="f12 bold mb-0 basecolor1 cursor-pointer"
                 display="flex"
@@ -164,6 +189,49 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
                   }`}
                 />
               </Typography>
+              <Box>
+                <Box p={1} onClick={handleOpenMenu}>
+                  <FontAwesomeIcon icon={faEllipsisV} />
+                </Box>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  PaperProps={{
+                    style: {
+                      background: "#FFFFFF",
+                      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                      borderRadius: 8,
+                    },
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      onClickModifyCard();
+                      handleCloseMenu();
+                    }}
+                  >
+                    Modify
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseMenu();
+                      onDelete();
+                    }}
+                  >
+                    Delete Traveller
+                  </MenuItem>
+                </Menu>
+              </Box>
             </Box>
           </Box>
           {isOpen && (

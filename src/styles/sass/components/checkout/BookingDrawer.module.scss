@@ -32,8 +32,9 @@
          pointer-events: none;
          opacity: 0.5;
       }
+      &.selected, 
       &.isFilled {
-         pointer-events: none;
+         // pointer-events: none;
          border-color: $basecolor1;
       }
    
@@ -82,7 +83,8 @@
          flex-direction: column;
          height: 100vh;
          .checkoutDrowerBody {
-            flex: 1;
+            flex: 1; 
+            overflow-y: auto;
          }
       }
    }
@@ -256,7 +258,10 @@
    // checkoutDrower section end
 
 }
-   .checkoutDrower {
+.checkoutDrower {
+      .ProfileDrowerSection  .checkoutDrowerHeder {
+         margin-bottom: 10px;
+      }
       .checkoutDrowerHeder {
          padding: 28px 24px 0;
          gap: 24px;
