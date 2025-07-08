@@ -1627,6 +1627,11 @@ body {
   }
 
   &.btn-primary {
+    &.btn-lg-x {
+      padding: 7px 36px 8px;
+      white-space: nowrap;
+      height: 40px;
+    }
     &.btn-border {
         background: transparent;
         color: $basecolor1;

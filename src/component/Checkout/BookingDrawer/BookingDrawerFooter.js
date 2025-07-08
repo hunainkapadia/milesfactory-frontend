@@ -64,12 +64,13 @@
     
     
     return (
+      <>
+        <Divider />
       <Box
         px={3}
         className={styles.checkoutDrowerFooter + " test11"}
         width={"100%"}
       >
-        <Divider />
 
         {/* Footer Content */}
         <Box py={2} display="flex" flexDirection="column">
@@ -187,7 +188,7 @@
                 )} */}
                 <button
                   className={
-                    styles.selectFlightBtn + " btn btn-primary btn-sm btn-round"
+                    styles.selectFlightBtn + " btn btn-primary btn-round btn-lg-x"
                   }
                   onClick={handleBookFlight}
                 >
@@ -200,6 +201,8 @@
           </Box>
         </Box>
       </Box>
+
+        </>
     );
   };
 

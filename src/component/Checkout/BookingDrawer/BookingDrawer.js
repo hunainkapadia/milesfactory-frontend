@@ -82,10 +82,10 @@ const BookingDrawer = ({ getFlightDetail }) => {
                   alignItems={"center"}
                 >
                   <Box>
-                    <h4 className={styles.title + " mb-0"}>
+                    <h5 className={styles.title + " mb-0 black"}>
                       {getFlightDetail?.slices[0]?.origin.city_name} to{" "}
                       {getFlightDetail?.slices[0]?.destination.city_name}
-                    </h4>
+                    </h5>
                     <Typography className=" f14 bold">
                       {getFlightDetail?.slices
                         .slice(0, 2)
