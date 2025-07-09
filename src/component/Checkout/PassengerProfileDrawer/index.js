@@ -311,7 +311,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
 
                   return (
-                    <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
+                    <Box key={passenger.uuid}>
                       <PassengerProfileTab
                         totalPass={index + 1}
                         getdata={passenger}
@@ -330,7 +330,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                         }
                         isActive={activeTabUUID === passenger.uuid} // ✅ Pass active status
                       />
-                    </Grid>
+                    </Box>
                   );
                 })}
               </Box>

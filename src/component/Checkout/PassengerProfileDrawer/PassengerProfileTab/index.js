@@ -20,11 +20,10 @@ const PassengerProfileTab = ({
   ${isFilled ? Profilestyles.isFilled + " isFilled" : Profilestyles.Notactive}
   ${!onClickCard ? Profilestyles.disabledCard : ""}
   ${isActive ? Profilestyles.activeTab + " activeTab" : ""}`} // ✅ Add active class
-      display={"flex"}
-      justifyContent={"space-between"}
+   
+   display="flex" alignItems="center" gap={1}
+   justifyContent={"flex-start"}
     >
-      <Box className="" display={"flex"} gap={2}>
-        <Box display="flex" alignItems="center" gap={1}>
           <img
             src="/images/card-icon.svg"
             alt="Traveler icon"
@@ -76,8 +75,6 @@ const PassengerProfileTab = ({
                   </Typography>
                </>
             )}
-        </Box>
-      </Box>
     </Box>
   );
 };

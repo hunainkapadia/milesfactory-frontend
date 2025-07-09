@@ -9,7 +9,6 @@
       justify-content: flex-start;
         overflow-x: auto !important;
         white-space: nowrap;
-        padding-bottom: 2px;
    
          -webkit-overflow-scrolling: touch;
    
@@ -26,6 +25,7 @@
          display: none;
       }
       .inactiveTab {
+         cursor: pointer;
          margin-right: 4px;
          min-height: 38px;
          display: flex;
