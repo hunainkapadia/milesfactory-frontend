@@ -7,10 +7,10 @@
    .customTabs {
       display: flex;
       justify-content: flex-start;
-        overflow-x: auto !important;
-        white-space: nowrap;
+      overflow-x: auto !important;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
    
-         -webkit-overflow-scrolling: touch;
    
       &::-webkit-scrollbar {
          height: 0px;

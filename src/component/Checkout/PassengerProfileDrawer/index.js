@@ -54,6 +54,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [activeTabUUID, setActiveTabUUID] = useState(null);
   const [tabValue, setTabValue] = useState(0);
 
+  console.log("activeTabUUID", activeTabUUID);
+  
   // passenger select set for card
 
   const isPassengerProfileDrawer = useSelector(
@@ -70,6 +72,14 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedProfilePass = useSelector(
     (state) => state?.passengerDrawer?.selectedProfilePass
   );
+  const PassengerType= useSelector(
+    (state) => state?.passengerDrawer?.SelectPassenger?.type
+  );
+
+  console.log("PassengerType", PassengerType);
+  
+
+  
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -208,6 +218,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
       dispatch(setPassengerType(passenger?.type));
       dispatch(setPassengerAge(passenger?.age));
       dispatch(setPassengerPassport(passenger?.passportNumber));
+      // main selctor
       dispatch(setSelectPassenger(passenger));
       setActiveTabUUID(passenger?.uuid); //  Set active tab
     }
@@ -286,9 +297,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   const isFilled = filledPassengerUUIDs.includes(
                     passenger.uuid
                   );
+                  console.log("activeTabUUID", PassengerType)
 
                   return (
                     <Box key={passenger.uuid}>
+                  
                       <PassengerProfileTab
                         totalPass={index + 1}
                         getdata={passenger}
@@ -301,7 +314,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                             passenger // while pasenger data
                           )
                         }
-                        isActive={activeTabUUID === passenger.uuid} //  Pass active status
+                        isActive={PassengerType === passenger.type} //  Pass active status
                       />
                     </Box>
                   );
@@ -348,7 +361,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
               }) */}
 
             <Box pt={3}>
-              {passengerPofile?.[tabValue] && (
+              {passengerPofile && (
                 <>
                   <Box px={3} pb={2}>
                     <Typography className="semibold">
