@@ -50,8 +50,10 @@ import PassengersCard from "../PassengersCard";
 import PassengerProfileTab from "./PassengerProfileTab";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
-  const [tabValue, setTabValue] = useState(0);
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
+  const [activeTabUUID, setActiveTabUUID] = useState(null);
+    const [tabValue, setTabValue] = useState(0);
+
 
   // passenger select set for card
 
@@ -66,7 +68,9 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
-  const selectedProfilePass = useSelector((state) => state?.passengerDrawer?.selectedProfilePass);
+  const selectedProfilePass = useSelector(
+    (state) => state?.passengerDrawer?.selectedProfilePass
+  );
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -175,14 +179,12 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
 
-
-
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
   const handleTabChange = (event, newValue) => {
-      event.preventDefault(); // optional but helps
+    event.preventDefault(); // optional but helps
     setTabValue(newValue);
 
     const passenger = GetViewPassengers?.[newValue];
@@ -208,24 +210,33 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const isAllPassengersFilled = filledCount === totalPassengers;
 
   const handleProfileCard = (passenger) => {
-    dispatch(setSelectedProfilePass(passenger)) // dispatch profile pass
+    dispatch(setSelectedProfilePass(passenger)); // dispatch profile pass
   };
-  console.log("selectedProfilePass", selectedProfilePass)
+  console.log("selectedProfilePass", selectedProfilePass);
   const filledPassengerUUIDs = useSelector(
-      (state) => state.passengerDrawer.filledPassengerUUIDs
-    );
-  
-    const handlePassengerClick = (uuid, isFilled, type, age, passportNumber, passenger) => {
-        if (passengerPofile?.length) {
-          dispatch(getPassPofile()); // call passenger profile
-          dispatch(setPassProfileDrawer(true));
-          dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
-          dispatch(setPassengerType(type));
-          dispatch(setPassengerAge(age));
-          dispatch(setPassengerPassport(passportNumber))
-          dispatch(setSelectPassenger(passenger))
-      };
+    (state) => state.passengerDrawer.filledPassengerUUIDs
+  );
+
+  const handlePassengerClick = (
+    uuid,
+    isFilled,
+    type,
+    age,
+    passportNumber,
+    passenger
+  ) => {
+    if (passengerPofile?.length) {
+      dispatch(getPassPofile()); // call passenger profile
+      dispatch(setPassProfileDrawer(true));
+      dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
+      dispatch(setPassengerType(type));
+      dispatch(setPassengerAge(age));
+      dispatch(setPassengerPassport(passportNumber));
+      dispatch(setSelectPassenger(passenger));
+          setActiveTabUUID(uuid); // ✅ Set active tab
+
     }
+  };
   return (
     <Drawer
       anchor="right"
@@ -294,31 +305,35 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             <Divider />
 
             <Box className={Profilestyles.scrollTabsWrapper}>
-              {GetViewPassengers?.map((passenger, index) => {
-            const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+              <Box className={Profilestyles.customTabs}>
+            
+                {GetViewPassengers?.map((passenger, index) => {
+                  const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
 
-            return (
-              <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
-                <PassengerProfileTab
-                  totalPass={index + 1}
-                  getdata={passenger}
-                  passDetail={isFilled ? passenger : ""}
-                  isMainPassenger={index === 0}
-                  isFilled={isFilled}
-                  onClickCard={() =>
-                    handlePassengerClick(
-                      passenger.uuid,
-                      isFilled,
-                      passenger.type,
-                      passenger.age,
-                      passenger.passport_number,
-                      passenger // while pasenger data
-                    )
-                  }
-                />
-              </Grid>
-            );
-          })}
+                  return (
+                    <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
+                      <PassengerProfileTab
+                        totalPass={index + 1}
+                        getdata={passenger}
+                        passDetail={isFilled ? passenger : ""}
+                        isMainPassenger={index === 0}
+                        isFilled={isFilled}
+                        onClickCard={() =>
+                          handlePassengerClick(
+                            passenger.uuid,
+                            isFilled,
+                            passenger.type,
+                            passenger.age,
+                            passenger.passport_number,
+                            passenger // while pasenger data
+                          )
+                        }
+                        isActive={activeTabUUID === passenger.uuid} // ✅ Pass active status
+                      />
+                    </Grid>
+                  );
+                })}
+              </Box>
             </Box>
             {showSuccessSnackbar && (
               <Box
