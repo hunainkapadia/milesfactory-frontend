@@ -46,6 +46,8 @@ import {
   ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
+import PassengersCard from "../PassengersCard";
+import PassengerProfileTab from "./PassengerProfileTab";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [tabValue, setTabValue] = useState(0);
@@ -180,6 +182,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   );
 
   const handleTabChange = (event, newValue) => {
+      event.preventDefault(); // optional but helps
     setTabValue(newValue);
 
     const passenger = GetViewPassengers?.[newValue];
@@ -208,7 +211,21 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setSelectedProfilePass(passenger)) // dispatch profile pass
   };
   console.log("selectedProfilePass", selectedProfilePass)
+  const filledPassengerUUIDs = useSelector(
+      (state) => state.passengerDrawer.filledPassengerUUIDs
+    );
   
+    const handlePassengerClick = (uuid, isFilled, type, age, passportNumber, passenger) => {
+        if (passengerPofile?.length) {
+          dispatch(getPassPofile()); // call passenger profile
+          dispatch(setPassProfileDrawer(true));
+          dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
+          dispatch(setPassengerType(type));
+          dispatch(setPassengerAge(age));
+          dispatch(setPassengerPassport(passportNumber))
+          dispatch(setSelectPassenger(passenger))
+      };
+    }
   return (
     <Drawer
       anchor="right"
@@ -277,33 +294,31 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             <Divider />
 
             <Box className={Profilestyles.scrollTabsWrapper}>
-              <Tabs
-                value={tabValue}
-                onChange={handleTabChange} // don't call with argument here!
-                TabIndicatorProps={{ style: { display: "none" } }}
-                className={Profilestyles.customTabs}
-              >
-                {GetViewPassengers?.map((passenger, index) => (
-                  <Tab
-                    key={passenger?.uuid || index}
-                    label={
-                      <Box display="flex" alignItems="center" gap={1}>
-                        <img
-                          src="/images/card-icon.svg"
-                          alt="Traveler icon"
-                          style={{ width: 16, height: 16 }}
-                        />
-                        <Typography className="basecolor-dark f12">
-                          Traveller {index + 1} ({passenger?.type})
-                        </Typography>
-                      </Box>
-                    }
-                    className={`${Profilestyles.inactiveTab} ${
-                      tabValue === index ? Profilestyles.activeTab : ""
-                    }`}
-                  />
-                ))}
-              </Tabs>
+              {GetViewPassengers?.map((passenger, index) => {
+            const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+
+            return (
+              <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
+                <PassengerProfileTab
+                  totalPass={index + 1}
+                  getdata={passenger}
+                  passDetail={isFilled ? passenger : ""}
+                  isMainPassenger={index === 0}
+                  isFilled={isFilled}
+                  onClickCard={() =>
+                    handlePassengerClick(
+                      passenger.uuid,
+                      isFilled,
+                      passenger.type,
+                      passenger.age,
+                      passenger.passport_number,
+                      passenger // while pasenger data
+                    )
+                  }
+                />
+              </Grid>
+            );
+          })}
             </Box>
             {showSuccessSnackbar && (
               <Box
