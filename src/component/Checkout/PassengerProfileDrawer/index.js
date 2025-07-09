@@ -66,16 +66,12 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state?.passengerDrawer?.passProfile
   );
 
-  const selectedType = useSelector(
-    (state) => state.passengerDrawer?.PassengerType
-  );
   const selectedProfilePass = useSelector(
     (state) => state?.passengerDrawer?.selectedProfilePass
   );
   const PassengerType= useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger?.type
   );
-
   console.log("PassengerType", PassengerType);
   
 
@@ -314,7 +310,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                             passenger // while pasenger data
                           )
                         }
-                        isActive={PassengerType === passenger.type} //  Pass active status
+                        isActive={PassengerType === passenger.type} 
+                        //  passenger from type tabs selected PassengerType comming from redux
                       />
                     </Box>
                   );
