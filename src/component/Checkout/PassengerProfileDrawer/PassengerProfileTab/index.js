@@ -19,7 +19,7 @@ const PassengerProfileTab = ({
       className={`${Profilestyles.inactiveTab} 
   ${isFilled ? Profilestyles.isFilled + " isFilled" : Profilestyles.Notactive}
   ${!onClickCard ? Profilestyles.disabledCard : ""}
-  ${isActive ? Profilestyles.activeTab + " activeTab" : ""}`} // ✅ Add active class
+  ${isActive ? Profilestyles.activeTab + " activeTab" : ""}`} //  Add active class
    
    display="flex" alignItems="center" gap={1}
    justifyContent={"flex-start"}

@@ -52,8 +52,7 @@ import PassengerProfileTab from "./PassengerProfileTab";
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [activeTabUUID, setActiveTabUUID] = useState(null);
-    const [tabValue, setTabValue] = useState(0);
-
+  const [tabValue, setTabValue] = useState(0);
 
   // passenger select set for card
 
@@ -183,23 +182,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const handleTabChange = (event, newValue) => {
-    event.preventDefault(); // optional but helps
-    setTabValue(newValue);
-
-    const passenger = GetViewPassengers?.[newValue];
-    console.log("select__passenger", passenger?.type);
-    if (passenger) {
-      // Send full passenger details here
-      dispatch(getPassPofile()); // call passenger profile
-      dispatch(setPassengerUUID(passenger?.uuid)); // set selected passenger UUID
-      dispatch(setPassengerType(passenger?.type));
-      dispatch(setPassengerAge(passenger?.age));
-      dispatch(setPassengerPassport(passenger?.passportNumber));
-      dispatch(setSelectPassenger(passenger));
-    }
-  };
-
+  
   // check pasenger remining count for footer
   const FillPassCountByUUID = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
@@ -217,24 +200,16 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
 
-  const handlePassengerClick = (
-    uuid,
-    isFilled,
-    type,
-    age,
-    passportNumber,
-    passenger
-  ) => {
+  const handlePassengerTab = (isFilled, passenger) => {
     if (passengerPofile?.length) {
       dispatch(getPassPofile()); // call passenger profile
       dispatch(setPassProfileDrawer(true));
-      dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
-      dispatch(setPassengerType(type));
-      dispatch(setPassengerAge(age));
-      dispatch(setPassengerPassport(passportNumber));
+      dispatch(setPassengerUUID(passenger?.uuid)); // set selected passenger UUID
+      dispatch(setPassengerType(passenger?.type));
+      dispatch(setPassengerAge(passenger?.age));
+      dispatch(setPassengerPassport(passenger?.passportNumber));
       dispatch(setSelectPassenger(passenger));
-          setActiveTabUUID(uuid); // ✅ Set active tab
-
+      setActiveTabUUID(passenger?.uuid); //  Set active tab
     }
   };
   return (
@@ -306,9 +281,10 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
             <Box className={Profilestyles.scrollTabsWrapper}>
               <Box className={Profilestyles.customTabs}>
-            
                 {GetViewPassengers?.map((passenger, index) => {
-                  const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+                  const isFilled = filledPassengerUUIDs.includes(
+                    passenger.uuid
+                  );
 
                   return (
                     <Box key={passenger.uuid}>
@@ -319,16 +295,12 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                         isMainPassenger={index === 0}
                         isFilled={isFilled}
                         onClickCard={() =>
-                          handlePassengerClick(
-                            passenger.uuid,
+                          handlePassengerTab(
                             isFilled,
-                            passenger.type,
-                            passenger.age,
-                            passenger.passport_number,
                             passenger // while pasenger data
                           )
                         }
-                        isActive={activeTabUUID === passenger.uuid} // ✅ Pass active status
+                        isActive={activeTabUUID === passenger.uuid} //  Pass active status
                       />
                     </Box>
                   );
