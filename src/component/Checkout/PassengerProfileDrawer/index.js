@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -212,26 +212,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
       setActiveTabUUID(passenger?.uuid); //  Set active tab
     }
   };
-  const activePassenger = GetViewPassengers.find(
-    (passenger) => passenger.uuid === activeTabUUID
-  );
-
-  // Now find the index of that passenger (if needed)
-  const activeIndex = GetViewPassengers.findIndex(
-    (passenger) => passenger.uuid === activeTabUUID
-  );
-  console.log("activePassenger", activePassenger)
-  useEffect(() => {
-  if (!activeTabUUID && GetViewPassengers?.length > 0) {
-    const firstPassenger = GetViewPassengers[0];
-    setActiveTabUUID(firstPassenger.uuid);
-
-    dispatch(setPassengerUUID(firstPassenger.uuid));
-    dispatch(setPassengerType(firstPassenger.type));
-    dispatch(setPassengerAge(firstPassenger.age));
-    dispatch(setSelectPassenger(firstPassenger));
-  }
-}, [GetViewPassengers, activeTabUUID, dispatch]);
+  
   return (
     <Drawer
       anchor="right"
@@ -367,12 +348,12 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
               }) */}
 
             <Box pt={3}>
-              {activePassenger && (
+              {passengerPofile?.[tabValue] && (
                 <>
                   <Box px={3} pb={2}>
                     <Typography className="semibold">
-                      Select traveller {activeIndex + 1} (
-                      {activePassenger?.type})
+                      Select traveller {tabValue + 1} (
+                      {passengerPofile[tabValue]?.type})
                     </Typography>
                   </Box>
                   {passengerPofile?.map((passenger, index) => {
