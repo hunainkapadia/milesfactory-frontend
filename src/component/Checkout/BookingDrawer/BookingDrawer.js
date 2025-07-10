@@ -30,8 +30,9 @@ const BookingDrawer = ({ getFlightDetail }) => {
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
+      
     >
-      <Box className={styles.checkoutDrower + " white-bg"} width={480}>
+      <Box className={styles.checkoutDrower + " white-bg"} width={375}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box
             component={"header"}
@@ -253,9 +254,9 @@ const BookingDrawer = ({ getFlightDetail }) => {
             </Box>
           </Box>
         </Box>
+        {/* Footer Section */}
+        <BookingDrawerFooter getFlightDetails={getFlightDetail} />
       </Box>
-      {/* Footer Section */}
-      <BookingDrawerFooter getFlightDetails={getFlightDetail} />
     </Drawer>
   );
 };

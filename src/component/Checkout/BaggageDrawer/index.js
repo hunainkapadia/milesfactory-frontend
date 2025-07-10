@@ -318,7 +318,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                       </Typography>
                                     </Box>
                                     <Typography className="f11 gray">
-                                      Handbag/laptop bag
+                                      Handbag
                                     </Typography>
                                   </Box>
                                 </Grid>
