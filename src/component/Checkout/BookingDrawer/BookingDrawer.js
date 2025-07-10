@@ -28,7 +28,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
       anchor="right"
       open={getFlightKey}
       onClose={HandlecloseDrawer}
-      className={`${styles.checkoutDrower} aaaaa`}
+      className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
     >
       <Box className={styles.checkoutDrower + " white-bg"} width={480}>

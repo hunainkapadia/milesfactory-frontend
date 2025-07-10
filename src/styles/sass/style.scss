@@ -1676,7 +1676,7 @@ body {
     border: 1px solid #E0EBEB;
     color: $basecolor1-dark2;
     font-weight: $bold;
-    padding: 10px 12px;
+  padding: 10px 12px;
     gap: 8px;
     display: flex;
     align-items: center;
@@ -1853,7 +1853,8 @@ body {
 
 hr {
   margin: 20px 0;
-  border-top: solid 1px $lightgray3;
+  border-top: solid 0px $lightgray4 !important;
+  border-color: $lightgray4 !important;
 }
 
 .divider:not(.text) {

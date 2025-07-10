@@ -138,14 +138,13 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       <Box className={styles.BaggageDrawerSection} width={480}>
         <Box
           component={"header"}
-          className={styles.checkoutDrowerHeder}
+          className={styles.BaggageDrawerHeder}
           pt={3}
-          pb={2}
           px={3}
           display="flex"
           justifyContent="space-between"
           flexDirection={"column"}
-          gap={3}
+          gap={18}
         >
           <Box
             component={"section"}

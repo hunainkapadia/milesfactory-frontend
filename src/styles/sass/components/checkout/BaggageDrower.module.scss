@@ -10,7 +10,10 @@
   }
 }
 .BaggageDrawer {
-   
+   .BaggageDrawerHeder {
+      padding: 18px 18px;
+      gap: 18px;
+   }
    .BaggageDrawerSection {
       overflow-y: auto;
          display: flex;
