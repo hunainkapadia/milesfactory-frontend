@@ -317,67 +317,69 @@ const PassengerDrawerForm = () => {
       onClose={handleCloseDrawer}
       className={`${styles.checkoutDrower} checkoutDrower00`}
       transitionDuration={300}
-      
     >
-      <Box className={styles.checkoutDrowerSection + " aa white-bg"} width={"463px"}>
-        <Box className={styles.checkoutDrowerBody}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              SubmitPassenger();
-            }}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          SubmitPassenger();
+        }}
+      >
+        <Box
+          className={styles.checkoutDrowerSection + " aa white-bg"}
+          width={"463px"}
+        >
+          <Box
+            px={3}
+            component={"header"}
+            className={"checkoutDrowerHeder"}
+            pt={3}
+            display="flex"
+            justifyContent="space-between"
+            flexDirection={"column"}
+            gap={3}
           >
             <Box
-              px={3}
-              component={"header"}
-              className={styles.checkoutDrowerHeder}
-              py={3}
+              component={"section"}
+              gap={1}
+              alignItems="center"
+              display="flex"
+              className={" bold basecolor1 btn-link cursor-pointer"}
+              onClick={handleCloseDrawer}
+            >
+              <i className={`fa fa-arrow-left fas`}></i>{" "}
+              <Box component={"span"}>Back to Mylz Chat</Box>
+            </Box>
+            <Box
+              component={"section"}
               display="flex"
               justifyContent="space-between"
-              flexDirection={"column"}
-              gap={3}
+              alignItems={"center"}
             >
-              <Box
-                component={"section"}
-                gap={1}
-                alignItems="center"
-                display="flex"
-                className={" bold basecolor1 btn-link cursor-pointer"}
-                onClick={handleCloseDrawer}
-              >
-                <i className={`fa fa-arrow-left fas`}></i>{" "}
-                <Box component={"span"}>Back to Mylz Chat</Box>
+              <Box>
+                <h3 className="regular mb-0">
+                  Traveller details -{" "}
+                  <span className="capitalize">
+                    {selectPassenger?.type === "infant_without_seat" ? (
+                      <>
+                        Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
+                        {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
+                    ) : selectPassenger?.type === "child" ? (
+                      <>
+                        Child {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
+                    ) : (
+                      <>{selectPassenger?.type} 18+ years</>
+                    )}
+                  </span>{" "}
+                </h3>
               </Box>
-              <Box
-                component={"section"}
-                display="flex"
-                justifyContent="space-between"
-                alignItems={"center"}
-              >
-                <Box>
-                  <h3 className="regular mb-0">
-                    Traveller details -{" "}
-                    <span className="capitalize">
-                      {selectPassenger?.type === "infant_without_seat" ? (
-                        <>
-                          Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
-                          {selectPassenger?.age}{" "}
-                          {selectPassenger?.age > 1 ? "years" : "year"}
-                        </>
-                      ) : selectPassenger?.type === "child" ? (
-                        <>
-                          Child {selectPassenger?.age}{" "}
-                          {selectPassenger?.age > 1 ? "years" : "year"}
-                        </>
-                      ) : (
-                        <>{selectPassenger?.type} 18+ years</>
-                      )}
-                    </span>{" "}
-                  </h3>
-                </Box>
-              </Box>
-              <Divider />
             </Box>
+            <Divider />
+          </Box>
+          <Box className={styles.checkoutDrowerBody}>
             <Box py={3} px={3}>
               <Box
                 sx={{ pt: { lg: 2, md: 2 } }}
@@ -632,7 +634,6 @@ const PassengerDrawerForm = () => {
                 </Box>
               </Box>
             </Box>
-
             {/* Footer */}
             <Box className={styles.passengerDrawerFooter}>
               <Divider />
@@ -667,9 +668,9 @@ const PassengerDrawerForm = () => {
                 </Box>
               </Box>
             </Box>
-          </form>
+          </Box>
         </Box>
-      </Box>
+      </form>
     </Drawer>
   );
 };

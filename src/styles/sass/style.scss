@@ -642,10 +642,11 @@ label,
 }
 
 .select-dropdown .MuiOutlinedInput-root {
+  border: none;
   z-index: 1;
   background-color: $white;
-  border: solid 1px $lightgray2;
-  height: 45px;
+  
+  height: 47px;
   padding: 6px 16px;
   @include border-radius(8px);
 }
@@ -1468,6 +1469,7 @@ body {
     color: #009EA0 !important;
   }
 }
+
 
 .btn {
   text-transform: none;
