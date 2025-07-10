@@ -85,8 +85,8 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
             <Box
               className={styles.HeaderDrawer}
               sx={{
-                px: { xs: 3 }, // Padding X (left & right)
-                py: 3, // Padding Y (top & bottom)
+                px: { xs: "15px" }, // Padding X (left & right)
+                py: "15px" , // Padding Y (top & bottom)
               }}
               width={"280px"}
             >
@@ -308,8 +308,8 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
             <Box
               className={styles.HeaderDrawer}
               sx={{
-                px: { xs: 3 }, // Padding X (left & right)
-                py: 3, // Padding Y (top & bottom)
+                px: { xs: "15px" }, // Padding X (left & right)
+                py: "15px", // Padding Y (top & bottom)
               }}
               width={"280px"}
             >
