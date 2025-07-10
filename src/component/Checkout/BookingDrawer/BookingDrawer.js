@@ -42,7 +42,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
             display="flex"
             justifyContent="space-between"
             flexDirection={"column"}
-            gap={3}
+            gap={"12px"}
           >
             <Box
               component={"section"}
