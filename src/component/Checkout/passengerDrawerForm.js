@@ -63,8 +63,6 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerFormError
   );
 
-  
-
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
   );
@@ -84,22 +82,15 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerType
   );
 
-  
-
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
 
-  
-  
   // get select from whole pasenger detail card
-
 
   useEffect(() => {
     dispatch(NationalitData());
   }, [dispatch]);
-
-  
 
   useEffect(() => {
     dispatch(getPassPofile()); // pasenger profile call api
@@ -112,21 +103,14 @@ const PassengerDrawerForm = () => {
 
   // Load form data or reset on drawer open
 
-  
-
   useEffect(() => {
     if (isPassengerDrawerOpen) {
       setTimeout(() => {
-        
-        
-
         if (passengerPofile?.length && PassengersUuID) {
           const passengerData = passengerPofile.find(
             (getProfilepassenger) =>
               getProfilepassenger.uuid === selectedpassengerPofile?.uuid
           );
-
-          
 
           if (passengerData) {
             setgender(passengerData.gender || "");
@@ -182,20 +166,12 @@ const PassengerDrawerForm = () => {
   let maxDate = dayjs();
 
   const validateChildDOB = (dob, PassengerAge) => {
-    
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    
-    
-    
   };
   const validateInfantDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    
-
-    
-    
   };
   // child dat
   // infant age
@@ -206,12 +182,9 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(18, "year");
   }
   if (PassengerType === "infant_without_seat") {
-    
     validateInfantDOB(born_on, PassengerAge);
   }
   if (PassengerType === "child") {
-    
-
     validateChildDOB(born_on, PassengerAge);
   } else {
     // fallback: adult
@@ -327,19 +300,16 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
-  
 
   // if all passenger file logic
   const AllPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  
 
   const selectPassenger = useSelector(
-        (state) => state?.passengerDrawer?.SelectPassenger
-      );
-      
-  
+    (state) => state?.passengerDrawer?.SelectPassenger
+  );
+
   return (
     <Drawer
       anchor="right"
@@ -347,18 +317,16 @@ const PassengerDrawerForm = () => {
       onClose={handleCloseDrawer}
       className={`${styles.checkoutDrower} checkoutDrower00`}
       transitionDuration={300}
+      
     >
-      <Box
-        className={`${styles.checkoutDrower} bbb white-bg ${styles.PassengerDrower}`}
-        width={480}
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            SubmitPassenger();
-          }}
-        >
-          <Box className={styles.checkoutDrowerSection + " aa white-bg"}>
+      <Box className={styles.checkoutDrowerSection + " aa white-bg"} width={"463px"}>
+        <Box className={styles.checkoutDrowerBody}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              SubmitPassenger();
+            }}
+          >
             <Box
               px={3}
               component={"header"}
@@ -402,9 +370,7 @@ const PassengerDrawerForm = () => {
                           {selectPassenger?.age > 1 ? "years" : "year"}
                         </>
                       ) : (
-                        <>
-                          {selectPassenger?.type} 18+ years
-                        </>
+                        <>{selectPassenger?.type} 18+ years</>
                       )}
                     </span>{" "}
                   </h3>
@@ -701,8 +667,8 @@ const PassengerDrawerForm = () => {
                 </Box>
               </Box>
             </Box>
-          </Box>
-        </form>
+          </form>
+        </Box>
       </Box>
     </Drawer>
   );
