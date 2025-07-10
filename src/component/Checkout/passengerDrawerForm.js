@@ -378,7 +378,7 @@ const PassengerDrawerForm = () => {
               </Box>
               <Divider />
             </Box>
-            <Box px={3}>
+            <Box py={3} px={3}>
               <Box
                 sx={{ pt: { lg: 2, md: 2 } }}
                 pb={4}
