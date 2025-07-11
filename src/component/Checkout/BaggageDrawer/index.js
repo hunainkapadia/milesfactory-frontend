@@ -135,7 +135,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       className={`${styles.BaggageDrawer} BaggageDrawer`}
       transitionDuration={300}
     >
-      <Box className={styles.BaggageDrawerSection} width={480}>
+      <Box className={styles.BaggageDrawerSection} width={375}>
         <Box
           component={"header"}
           className={styles.BaggageDrawerHeder}
@@ -169,7 +169,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
           </Box>
         </Box>
         <Box className={styles.BaggageDrawerBody}>
-          <Box px={3}>
+          <Box px={"18px"}>
             <Tabs
               value={tabValue}
               onChange={handleTabChange}

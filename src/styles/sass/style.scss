@@ -322,7 +322,10 @@ label,
 .gray {
   color: $gray;
 }
-
+.opacity-50 {opacity: 50%;}
+.black-50 {
+  color: $black-50;
+}
 .black-bg {
   background-color: $black #000 !important;
 }

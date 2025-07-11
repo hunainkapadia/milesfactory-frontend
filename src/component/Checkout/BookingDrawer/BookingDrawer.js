@@ -141,11 +141,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     />
                   </>
                 ))}
-                <Box display={"flex"} gap={2} alignItems={"center"} mb={3}>
+                <Box className="black opacity-50" display={"flex"} gap={2} alignItems={"center"} mb={3}>
                   <Box display={"flex"} alignItems={"center"}>
                     <img width={14} src="/images/leave-icon.svg" />
                   </Box>
-                  <Typography className={styles.normalOption + " f12 gray"}>
+                  <Typography className={styles.normalOption + " f12 black"}>
                     <span>
                       Emissions estimate: {getFlightDetail?.total_emissions_kg}{" "}
                       kg CO₂e
