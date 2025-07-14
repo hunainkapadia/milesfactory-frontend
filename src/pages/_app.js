@@ -50,6 +50,11 @@ export default function App({ Component, pageProps }) {
       window.gtag?.("config", `${GA_ID}`, {
         page_path: url,
       });
+      // The TikTok pixel object might not be available immediately
+      // so we check for its existence before calling the 'page' method.
+      if (window.ttq) {
+        window.ttq.page();
+      }
     };
 
     router.events.on("routeChangeComplete", handleRouteChange);
@@ -143,6 +148,23 @@ export default function App({ Component, pageProps }) {
                           ttq.load('D1QFC0BC77U41SK2OQ9G');
                           ttq.page();
                         }(window, document, 'ttq');
+                    `,
+                  }}
+                />
+              </>
+            )}
+            {/* Twitter pixel. Using fb pixel env var so it only runs in prod */}
+            {FB_PIXEL_ID && (
+              <>
+                <Script
+                  id="twitter-pixel-script"
+                  strategy="afterInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+                      },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
+                      a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+                      twq('config','q5oxs');
                     `,
                   }}
                 />
