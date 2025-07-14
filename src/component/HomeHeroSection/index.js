@@ -52,15 +52,17 @@ const HomeHeroSection = () => {
 
                   <Box
                     sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
-                    className={styles.ChatBullets}
+                    className={styles.ChatBullets + " f14"}
                     textAlign={"center"}
                     justifyContent={"center"}
                     flexWrap={"wrap"}
-                    fontSize={14}
+                    
                   >
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}
-                      alignItems={"center"}>
-                      ✅ Lowest price guaranteed
+                    <Box className={`${styles.ChatBullet + " f14"} `} display={"flex"}
+                      alignItems={"center"} gap={1}>
+                      <Box className="imggroup">✅</Box>  
+                      <Typography component={"span"} fontSize={14}>Best direct prices, no hidden fees
+                      </Typography>
                     </Box>
                     <Box
                       gap={1}
@@ -75,13 +77,13 @@ const HomeHeroSection = () => {
                           width={15}
                         />
                       </Box>
-                      <Typography component={"span"}>
-                        Airline-direct booking and protection
+                      <Typography component={"span"} fontSize={14}>
+                         Protected bookings
                       </Typography>
                     </Box>
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}
+                    <Box gap={1} className={`${styles.ChatBullet} `} display={"flex"}
                       alignItems={"center"}>
-                      🔒 Privacy-safe
+                      <Box className="imggroup">🔒</Box><Typography component={"span"} fontSize={14}>Privacy-safe</Typography>
                     </Box>
                   </Box>
                   <Box

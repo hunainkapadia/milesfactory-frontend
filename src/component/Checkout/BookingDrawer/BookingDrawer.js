@@ -28,10 +28,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
       anchor="right"
       open={getFlightKey}
       onClose={HandlecloseDrawer}
-      className={`${styles.checkoutDrower} aaaaa`}
+      className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
+      
     >
-      <Box className={styles.checkoutDrower + " white-bg"} width={480}>
+      <Box className={styles.checkoutDrower + " white-bg"} width={375}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box
             component={"header"}
@@ -41,7 +42,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
             display="flex"
             justifyContent="space-between"
             flexDirection={"column"}
-            gap={3}
+            gap={"12px"}
           >
             <Box
               component={"section"}
@@ -140,11 +141,11 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     />
                   </>
                 ))}
-                <Box display={"flex"} gap={2} alignItems={"center"} mb={3}>
+                <Box className="black opacity-50" display={"flex"} gap={2} alignItems={"center"} mb={3}>
                   <Box display={"flex"} alignItems={"center"}>
                     <img width={14} src="/images/leave-icon.svg" />
                   </Box>
-                  <Typography className={styles.normalOption + " f12 gray"}>
+                  <Typography className={styles.normalOption + " f12 black"}>
                     <span>
                       Emissions estimate: {getFlightDetail?.total_emissions_kg}{" "}
                       kg CO₂e
@@ -253,9 +254,9 @@ const BookingDrawer = ({ getFlightDetail }) => {
             </Box>
           </Box>
         </Box>
+        {/* Footer Section */}
+        <BookingDrawerFooter getFlightDetails={getFlightDetail} />
       </Box>
-      {/* Footer Section */}
-      <BookingDrawerFooter getFlightDetails={getFlightDetail} />
     </Drawer>
   );
 };

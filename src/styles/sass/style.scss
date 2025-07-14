@@ -322,7 +322,10 @@ label,
 .gray {
   color: $gray;
 }
-
+.opacity-50 {opacity: 50%;}
+.black-50 {
+  color: $black-50;
+}
 .black-bg {
   background-color: $black #000 !important;
 }
@@ -642,10 +645,11 @@ label,
 }
 
 .select-dropdown .MuiOutlinedInput-root {
+  border: none;
   z-index: 1;
   background-color: $white;
-  border: solid 1px $lightgray2;
-  height: 45px;
+  
+  height: 47px;
   padding: 6px 16px;
   @include border-radius(8px);
 }
@@ -1469,6 +1473,7 @@ body {
   }
 }
 
+
 .btn {
   text-transform: none;
   font-family: $primary-font;
@@ -1669,7 +1674,6 @@ body {
   &.btn-border {
     &.black-border {
       width: 300px;
-      height: 35px;
       border: 1px solid $black;
     }
 
@@ -1677,7 +1681,7 @@ body {
     border: 1px solid #E0EBEB;
     color: $basecolor1-dark2;
     font-weight: $bold;
-    padding: 10px 12px;
+  padding: 10px 12px;
     gap: 8px;
     display: flex;
     align-items: center;
@@ -1854,7 +1858,8 @@ body {
 
 hr {
   margin: 20px 0;
-  border-top: solid 1px $lightgray3;
+  border-top: solid 0px $lightgray4 !important;
+  border-color: $lightgray4 !important;
 }
 
 .divider:not(.text) {

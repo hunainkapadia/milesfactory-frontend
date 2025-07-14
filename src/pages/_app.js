@@ -50,6 +50,11 @@ export default function App({ Component, pageProps }) {
       window.gtag?.("config", `${GA_ID}`, {
         page_path: url,
       });
+      // The TikTok pixel object might not be available immediately
+      // so we check for its existence before calling the 'page' method.
+      if (window.ttq) {
+        window.ttq.page();
+      }
     };
 
     router.events.on("routeChangeComplete", handleRouteChange);
@@ -124,6 +129,45 @@ export default function App({ Component, pageProps }) {
                     alt=""
                   />
                 </noscript>
+              </>
+            )}
+             {/* Tiktok pixel. Using fb pixel env var so it only runs in prod */}
+            {FB_PIXEL_ID && (
+              <>
+                <Script
+                  id="tiktok-pixel-script"
+                  strategy="afterInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                        !function (w, d, t) {
+                          w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+                        var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+                        ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+
+                          ttq.load('D1QFC0BC77U41SK2OQ9G');
+                          ttq.page();
+                        }(window, document, 'ttq');
+                    `,
+                  }}
+                />
+              </>
+            )}
+            {/* Twitter pixel. Using fb pixel env var so it only runs in prod */}
+            {FB_PIXEL_ID && (
+              <>
+                <Script
+                  id="twitter-pixel-script"
+                  strategy="afterInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+                      },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
+                      a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+                      twq('config','q5oxs');
+                    `,
+                  }}
+                />
               </>
             )}
             <AppWrapper Component={Component} pageProps={pageProps} />

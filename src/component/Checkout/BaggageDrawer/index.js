@@ -135,17 +135,16 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       className={`${styles.BaggageDrawer} BaggageDrawer`}
       transitionDuration={300}
     >
-      <Box className={styles.BaggageDrawerSection} width={480}>
+      <Box className={styles.BaggageDrawerSection} width={375}>
         <Box
           component={"header"}
-          className={styles.checkoutDrowerHeder}
+          className={styles.BaggageDrawerHeder}
           pt={3}
-          pb={2}
           px={3}
           display="flex"
           justifyContent="space-between"
           flexDirection={"column"}
-          gap={3}
+          gap={18}
         >
           <Box
             component={"section"}
@@ -170,7 +169,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
           </Box>
         </Box>
         <Box className={styles.BaggageDrawerBody}>
-          <Box px={3}>
+          <Box px={"18px"}>
             <Tabs
               value={tabValue}
               onChange={handleTabChange}
@@ -319,7 +318,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                                       </Typography>
                                     </Box>
                                     <Typography className="f11 gray">
-                                      Handbag/laptop bag
+                                      Handbag
                                     </Typography>
                                   </Box>
                                 </Grid>

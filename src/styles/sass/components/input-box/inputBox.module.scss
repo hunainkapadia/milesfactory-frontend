@@ -172,11 +172,11 @@
          outline: none;
          overflow-y: auto;
          max-height: 30vh;
-         min-height: 86px;
+         min-height:120px;
          padding: 10px 75px 40px 16px;
          background: #0B1729;
          border: 1px solid #F7F7F7;
-         border-radius: 16px;
+         @include border-radius(18px);
          color: #D3D3D3;
          text-align: center;
       

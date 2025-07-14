@@ -199,7 +199,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                                 className={styles.baggageLabel + " f11 gray"}
                               >
                                 {baggage.type === "personal"
-                                  ? "Handbag/laptop bag"
+                                  ? "Handbag"
                                   : baggage.type === "carry_on"
                                   ? "Carry-on bags"
                                   : baggage.type === "checked"
