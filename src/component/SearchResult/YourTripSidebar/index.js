@@ -25,6 +25,7 @@ const YourTripSidebar = ({ isMessage }) => {
 
   return (
     <>
+    {getBuilder && (
       <Box
         className={YourtripStyles.YourTripSidebar}
         display={"flex"}
@@ -64,9 +65,14 @@ const YourTripSidebar = ({ isMessage }) => {
               <Typography>Share</Typography>
             </Box>
           </Box>
-          <YourTripSedebarCard offerData={getselectedFlight} getBuilder={getBuilder} />
+            <YourTripSedebarCard
+              offerData={getselectedFlight}
+              getBuilder={getBuilder}
+            />
+          
         </Box>
       </Box>
+          )}
     </>
   );
 };
