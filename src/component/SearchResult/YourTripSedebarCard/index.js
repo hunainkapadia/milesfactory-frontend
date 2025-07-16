@@ -27,10 +27,20 @@ import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 import FilterParams from "../YourTripSidebar/FilterParams";
 
-const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
+const YourTripSedebarCard = ({
+  offerData,
+  FlightExpire,
+  filterParams,
+  getBuilder,
+}) => {
   const [tabValue, setTabValue] = useState(0);
+  const BuilderArguments =
+    getBuilder?.silent_function_template?.[0]?.function?.arguments;
 
-  console.log("filterParams", filterParams?.isDirectFlight);
+  console.log(
+    "getBuilder",
+    getBuilder?.silent_function_template?.[0]?.function?.arguments
+  );
 
   const dispatch = useDispatch();
   const offerkey = offerData?.id;
@@ -91,6 +101,23 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
     "urban adventure",
     "local experience",
   ];
+
+  const departureDate = BuilderArguments?.departure_date
+    ? new Date(BuilderArguments.departure_date)
+    : null;
+
+  const returnDate = BuilderArguments?.return_date
+    ? new Date(BuilderArguments.return_date)
+    : null;
+
+  const tripDays =
+    departureDate && returnDate
+      ? Math.round(
+          (returnDate.getTime() - departureDate.getTime()) /
+            (1000 * 60 * 60 * 24)
+        )
+      : null;
+
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -110,9 +137,9 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
             backgroundColor: "#F2F7F8",
             borderRadius: "8px",
             padding: "4px",
-            display:"flex",
-            alignItems:"center",
-            mb:"18px"
+            display: "flex",
+            alignItems: "center",
+            mb: "18px",
           }}
         >
           <Tab
@@ -156,12 +183,65 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
           <Box>
             <Box>
               <h4 className="semibold black mb-0">
-                My 7-day travel in Bangkok
+                {tripDays
+                  ? `My ${tripDays}-day travel in ${BuilderArguments?.to_destination}`
+                  : `My travel in ${BuilderArguments?.to_destination}`}
               </h4>
             </Box>
             <Box className=" ">
               <Typography className=" f12 black semibold">
-                London - Bangkok | 20 Jun - 26 Jun | 2 adults, 1 infant
+                {BuilderArguments?.from_destination} {" - "}{" "}
+                {BuilderArguments?.to_destination} |{" "}
+                {BuilderArguments?.departure_date ? (
+                  <>
+                    {new Date(
+                      BuilderArguments?.departure_date
+                    ).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                    })}
+                  </>
+                ) : (
+                  ""
+                )}
+                {BuilderArguments?.return_date ? (
+                  <>
+                    {" - "}
+                    {new Date(BuilderArguments.return_date).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                      }
+                    )}
+                  </>
+                ) : (
+                  ""
+                )}
+                {/* {" - "}{" "} */}
+                {/* {BuilderArguments?.departure_date}  */} |{" "}
+                {[
+                  BuilderArguments?.passengers?.adults > 0 &&
+                    `${BuilderArguments?.passengers.adults} ${
+                      BuilderArguments?.passengers.adults === 1
+                        ? "adult"
+                        : "adults"
+                    }`,
+                  BuilderArguments?.passengers?.children?.length > 0 &&
+                    `${BuilderArguments?.passengers.children.length} ${
+                      BuilderArguments?.passengers.children.length === 1
+                        ? "child"
+                        : "children"
+                    }`,
+                  BuilderArguments?.passengers?.infants?.length > 0 &&
+                    `${BuilderArguments?.passengers.infants.length} ${
+                      BuilderArguments?.passengers.infants.length === 1
+                        ? "infant"
+                        : "infants"
+                    }`,
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
               </Typography>
             </Box>
           </Box>
@@ -201,60 +281,82 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
             {/* footer */}
             {/*  */}
             <Box>
-                <Box
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  mb={3}
-                >
-                  <Box display={"flex"}>
-                    <Typography
-                      className={
-                        TripStyles.onewayReturn + " btn btn-xs btn-black "
-                      }
-                    >
-                      Overview
-                    </Typography>
-                  </Box>
-                </Box>
-                {/*  */}
-                <Box
-                  className="imggroup"
-                  borderRadius={"16px"}
-                  overflow={"hidden"}
-                  mb={3}
-                >
-                  <img src="/images/trip-map-png.png" />
-                </Box>
-
-                <Box mb={3}>
-                  <Typography className="f12">
-                    You’ve booked a return flight from London to Bangkok with
-                    Qatar Airways, arriving on 20 June and returning on 26
-                    June. You’ll spend 6 nights in the city — perfect for
-                    urban exploration, street food and temples. Ready to add
-                    your hotel, transfers, or activities? Everything stays
-                    synced right here.
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                mb={3}
+              >
+                <Box display={"flex"}>
+                  <Typography
+                    className={
+                      TripStyles.onewayReturn + " btn btn-xs btn-black "
+                    }
+                  >
+                    Overview
                   </Typography>
                 </Box>
-                {/*  */}
+              </Box>
+              {/*  */}
+              <Box
+                className="imggroup"
+                borderRadius={"16px"}
+                overflow={"hidden"}
+                mb={3}
+              >
+                <img src="/images/trip-map-png.png" />
+              </Box>
 
-                <Box
-                  mb={3}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  gap={2}
-                  className="border-dashed"
-                  borderRadius={"8px"}
-                  p={"12px"}
+              <Box mb={3}>
+                <Typography className="f12">
+                  You’ve booked a return flight from London to Bangkok with
+                  Qatar Airways, arriving on 20 June and returning on 26 June.
+                  You’ll spend 6 nights in the city — perfect for urban
+                  exploration, street food and temples. Ready to add your hotel,
+                  transfers, or activities? Everything stays synced right here.
+                </Typography>
+              </Box>
+              {/*  */}
+
+              <Box
+                mb={3}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                gap={2}
+                className="border-dashed"
+                borderRadius={"8px"}
+                p={"12px"}
+              >
+                <Box>
+                  <Typography className="f12">
+                    Want to visit the floating markets on Day 2. Also, consider
+                    booking a cooking class in the city centre.
+                  </Typography>
+                </Box>
+                <Box className="imggroup">
+                  <Avatar
+                    src="/images/edit-pen-icon.svg"
+                    alt="edit"
+                    sx={{
+                      width: 10,
+                      height: 10,
+                      bgcolor: "transparent", // optional, keeps background clear
+                      opacity: 0.2,
+                    }}
+                    variant="square" // optional if you don’t want it rounded
+                  />
+                </Box>
+              </Box>
+              {/*  */}
+              <Box display={"flex"} alignItems={"center"} mb={3} gap={"12px"}>
+                <Typography
+                  className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
                 >
-                  <Box>
-                    <Typography className="f12">
-                      Want to visit the floating markets on Day 2. Also,
-                      consider booking a cooking class in the city centre.
-                    </Typography>
-                  </Box>
+                  Day 1 | Fri, 20 Jun
+                </Typography>
+                <Box display={"flex"} alignItems={"center"} gap={1}>
+                  <Typography>Bangkok</Typography>
                   <Box className="imggroup">
                     <Avatar
                       src="/images/edit-pen-icon.svg"
@@ -269,51 +371,21 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
                     />
                   </Box>
                 </Box>
-                {/*  */}
-                <Box
-                  display={"flex"}
-                  alignItems={"center"}
-                  mb={3}
-                  gap={"12px"}
-                >
-                  <Typography
-                    className={
-                      TripStyles.onewayReturn + " btn btn-xs btn-black "
-                    }
-                  >
-                    Day 1 | Fri, 20 Jun
+              </Box>
+              {/*  */}
+              <Box display="flex" alignItems="center" gap={2}>
+                <Box>🌤️</Box>
+                <Box>
+                  <Typography className="f12 semibold black">
+                    32° 27° Partly Cloudy
                   </Typography>
-                  <Box display={"flex"} alignItems={"center"} gap={1}>
-                    <Typography>Bangkok</Typography>
-                    <Box className="imggroup">
-                      <Avatar
-                        src="/images/edit-pen-icon.svg"
-                        alt="edit"
-                        sx={{
-                          width: 10,
-                          height: 10,
-                          bgcolor: "transparent", // optional, keeps background clear
-                          opacity: 0.2,
-                        }}
-                        variant="square" // optional if you don’t want it rounded
-                      />
-                    </Box>
-                  </Box>
+                  <Typography className="f12 black">
+                    Arrive in Bangkok and unwind - check-in at 4pm.
+                  </Typography>
                 </Box>
-                {/*  */}
-                <Box display="flex" alignItems="center" gap={2}>
-                  <Box>🌤️</Box>
-                  <Box>
-                    <Typography className="f12 semibold black">
-                      32° 27° Partly Cloudy
-                    </Typography>
-                    <Typography className="f12 black">
-                      Arrive in Bangkok and unwind - check-in at 4pm.
-                    </Typography>
-                  </Box>
-                </Box>
+              </Box>
 
-                {/*  */}
+              {/*  */}
             </Box>
             {/*  */}
           </Box>
@@ -331,12 +403,8 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
         py={"12px"}
       >
         <Box>
-          <h4 className="exbold mb-0">
-            £457
-          </h4>
-          <Typography className="gray f12">
-            £457 total
-          </Typography>
+          <h4 className="exbold mb-0">£457</h4>
+          <Typography className="gray f12">£457 total</Typography>
         </Box>
 
         <Box>

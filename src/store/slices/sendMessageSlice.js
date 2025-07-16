@@ -25,6 +25,9 @@ const sendMessageSlice = createSlice({
     },
   },
   reducers: {
+    setAddBuilder: (state, action) => {
+      state.AddBuilder = action.payload;
+    },
     setFilterUrl: (state, action) => {
       state.FilterUrl = action.payload;
     },
@@ -156,7 +159,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_id = response.run_id;
         const run_status = response.run_status;
 
-        console.log("run_status111 ", run_status);
+        console.log("run_status111 ", response);
+        if(response.silent_is_function) {
+          dispatch(setAddBuilder(response))
+        }
         dispatch(setIsFunction({ status: false }));
 
         if (run_status === "requires_action") {
@@ -533,5 +539,6 @@ export const {
   setThreadUuid,
   setIsFunction,
   setFilterUrl,
+  setAddBuilder
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

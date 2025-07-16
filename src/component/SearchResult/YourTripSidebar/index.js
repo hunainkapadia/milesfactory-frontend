@@ -20,6 +20,8 @@ const YourTripSidebar = ({ isMessage }) => {
     (state) => state.payment.PaymentFormSuccess
   );
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
+  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
+  console.log("getBuilder_000", getBuilder)
 
   return (
     <>
@@ -62,7 +64,7 @@ const YourTripSidebar = ({ isMessage }) => {
               <Typography>Share</Typography>
             </Box>
           </Box>
-          <YourTripSedebarCard offerData={getselectedFlight} />
+          <YourTripSedebarCard offerData={getselectedFlight} getBuilder={getBuilder} />
         </Box>
       </Box>
     </>
