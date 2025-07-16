@@ -69,21 +69,29 @@
    background: #FFFFFF;
    border: 1px dashed #E6EAEB;
    border-radius: 8px;
-
 }
+
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
       padding: 0;
       flex: 1;
-      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
       .checkoutDrowerSection {
          background-color: #fff;
-         overflow-y: auto;
          display: flex;
          flex-direction: column;
          height: 100vh;
+
+         flex: 1 1 auto;
+         overflow: hidden;
          .checkoutDrowerBody {
-            flex: 1;
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding-bottom: 18px; // optional, space before footer
+            padding-top: 18px; // optional, space before footer
          }
       }
    }
@@ -124,7 +132,7 @@
       .checkoutDrowerBody {
          
          .detailsSection {
-            padding: 0 24px 144px;
+            padding: 0 18px 144px;
             .fromAndToBodyBottom {
                margin-bottom: 24px;
             }
@@ -143,7 +151,7 @@
             .fromAndToContainer {
                border-bottom: none;
                &.isBaggage {
-                  border-bottom: solid 1px $lightgray2;
+                  border-bottom: solid 0px $lightgray4;
                   margin-bottom: 24px;
                }
             }
@@ -155,7 +163,7 @@
                   }
                }
                .fromAndToBodyTop {
-                  // border-bottom: solid 1px $lightgray2;
+                  // border-bottom: solid 1px $lightgray4;
                   // margin-bottom: 24px;
                   // padding-bottom: 0;
                }
@@ -173,7 +181,7 @@
                      justify-content: flex-end;
                   }
                   .Country {
-                     font-size: $f14;
+                     font-size: $f12;
                   }
                   .Dates {font-size: $f12;}
                }
@@ -241,7 +249,7 @@
       
    }
    .checkoutDrowerFooter {
-      filter: drop-shadow(0px -1px 4px rgba(12, 12, 13, 0.05));
+      
       z-index: 3;
       bottom: 0;
       right: 0;
@@ -257,20 +265,18 @@
    // checkoutDrower section end
 
 }
-   .checkoutDrower {
-      .checkoutDrowerHeder {
-         padding: 28px 24px 0;
-         gap: 24px;
-         margin-bottom: 24px;
-      }
+.checkoutDrower {
+   .checkoutDrowerHeder {
+      padding: 18px 18px 0;
+      gap: 18px;
    }
+}
 @include for-mobile-large-screen {
    
    .checkoutDrower {
       .checkoutDrowerHeder {
-         padding: 22px 24px 0;
+         padding: 18px 18px 0;
          gap: 16px;
-         margin-bottom: 22px;
       }
       width: 100%;
       >div {

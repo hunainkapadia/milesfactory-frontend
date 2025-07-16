@@ -10,7 +10,10 @@
   }
 }
 .BaggageDrawer {
-   
+   .BaggageDrawerHeder {
+      padding: 18px 18px;
+      gap: 18px;
+   }
    .BaggageDrawerSection {
       overflow-y: auto;
          display: flex;
@@ -36,7 +39,6 @@
           }
        }
        .customTabs {
-         margin-top: 10px;
          min-height: auto;
          border-bottom: 1px solid #e0e0e0;
          

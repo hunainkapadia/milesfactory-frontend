@@ -52,8 +52,6 @@
   top: 0;
   left: 0;
   width: 100%;
-  overflow: auto;
-
   &::before {
     display: none;
   }
@@ -512,13 +510,14 @@
 
     .messageContentIn {
       width: 100%;
-      padding: 0px 0px 34px;
+      padding: 30px 0px 34px;
 
       .Aibox {
         width: 100%;
       }
 
       .UserMessage {
+        margin-bottom: 8px;
         max-width: 100%;
       }
       .AiMessage {

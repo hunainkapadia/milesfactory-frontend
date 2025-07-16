@@ -15,17 +15,25 @@ const initialState = {
     "Explore one destination at a time.",
     "Adventure is waiting for you!"
   ],
+
+  inputValue: "",
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
-    resetInviteSuccess: (state) => {
-      state.InviteSuccess = false;
+     setInputValue: (state, action) => {
+      state.inputValue = action.payload;
+    },
+    clearInputValue: (state) => {
+      state.inputValue = '';
     },
     setInputLabelTexts: (state, action)=> {
       state.inputLabelTexts = action.payload;
+    },
+    resetInviteSuccess: (state) => {
+      state.InviteSuccess = false;
     },
     seIsloading: (state, action)=> {
       state.isloading = action.payload;
@@ -226,7 +234,9 @@ export const {
   setInviteEmailDialog,
   resetInviteSuccess, 
   setPowerAirlineDialog,
-  setInputLabelTexts
+  setInputLabelTexts,
+  setInputValue, 
+  clearInputValue
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

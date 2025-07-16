@@ -91,7 +91,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
             >
               {/* Close Button */}
               <Box
-                sx={{ display: { xs: "none", md: "flex", lg: "flex" } }}
+                
                 alignItems="center"
                 gap={2}
                 className="gray f14"
