@@ -160,7 +160,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
 
         console.log("run_status111 ", response);
-        if(response.silent_is_function) {
+        if(response?.silent_is_function) {
           dispatch(setAddBuilder(response))
         }
         dispatch(setIsFunction({ status: false }));

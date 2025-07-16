@@ -180,11 +180,8 @@ const ChatByUUID = () => {
                     display: { xs: "none", md: "block", lg: "block" },
                   }}
                 >
-                  {SearchHistory ? (
-                    <YourTripSidebar isMessage={isMessage} />
-                  ) : (
-                    " "
-                  )}
+                  <YourTripSidebar isMessage={isMessage} />
+                  
                 </Grid>
               </Grid>
             </Container>

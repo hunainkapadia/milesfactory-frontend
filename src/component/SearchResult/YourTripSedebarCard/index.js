@@ -55,15 +55,13 @@ const YourTripSedebarCard = ({
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const SearchHistoryGet = useSelector(
-    (state) => state.getMessages.SearchHistory
-  );
-  const SearchHistorySend = useSelector(
-    (state) => state.sendMessage?.SearchHistorySend
-  );
-  const SearchHistory = SearchHistorySend || SearchHistoryGet;
-
-  console.log("SearchHistorySend", SearchHistory);
+  // const SearchHistoryGet = useSelector(
+  //   (state) => state.getMessages.SearchHistory
+  // );
+  // const SearchHistorySend = useSelector(
+  //   (state) => state.sendMessage?.SearchHistorySend
+  // );
+  // const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
@@ -77,10 +75,10 @@ const YourTripSedebarCard = ({
   const validPassengers = GetViewPassengers?.filter(
     (p) => p.given_name && p.family_name
   );
-  const totalTravelers =
-    (SearchHistory.adults || 0) +
-    (SearchHistory.children || 0) +
-    (SearchHistory.infants || 0);
+  // const totalTravelers =
+  //   (SearchHistory.adults || 0) +
+  //   (SearchHistory.children || 0) +
+  //   (SearchHistory.infants || 0);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -188,61 +186,80 @@ const YourTripSedebarCard = ({
                   : `My travel in ${BuilderArguments?.to_destination}`}
               </h4>
             </Box>
-            <Box className=" ">
-              <Typography className=" f12 black semibold">
-                {BuilderArguments?.from_destination} {" - "}{" "}
-                {BuilderArguments?.to_destination} |{" "}
-                {BuilderArguments?.departure_date ? (
-                  <>
-                    {new Date(
-                      BuilderArguments?.departure_date
-                    ).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                    })}
-                  </>
-                ) : (
-                  ""
+            <Box display="flex" flexWrap="wrap" className={TripStyles.tripDetails}>
+              {BuilderArguments?.from_destination &&
+                BuilderArguments?.to_destination && (
+                  <Box
+                    
+                    
+                    sx={{  }}
+                    className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                  >
+                    {BuilderArguments.from_destination} -{" "}
+                    {BuilderArguments.to_destination}
+                  </Box>
                 )}
-                {BuilderArguments?.return_date ? (
-                  <>
-                    {" - "}
-                    {new Date(BuilderArguments.return_date).toLocaleDateString(
-                      "en-GB",
-                      {
+
+              {(BuilderArguments?.departure_date ||
+                BuilderArguments?.return_date) && (
+                <Box
+                  
+                  
+                  sx={{  }}
+                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                >
+                  {BuilderArguments?.departure_date && (
+                    <>
+                      {new Date(
+                        BuilderArguments.departure_date
+                      ).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "short",
-                      }
-                    )}
-                  </>
-                ) : (
-                  ""
-                )}
-                {/* {" - "}{" "} */}
-                {/* {BuilderArguments?.departure_date}  */} |{" "}
-                {[
-                  BuilderArguments?.passengers?.adults > 0 &&
-                    `${BuilderArguments?.passengers.adults} ${
-                      BuilderArguments?.passengers.adults === 1
-                        ? "adult"
-                        : "adults"
-                    }`,
-                  BuilderArguments?.passengers?.children?.length > 0 &&
-                    `${BuilderArguments?.passengers.children.length} ${
-                      BuilderArguments?.passengers.children.length === 1
-                        ? "child"
-                        : "children"
-                    }`,
-                  BuilderArguments?.passengers?.infants?.length > 0 &&
-                    `${BuilderArguments?.passengers.infants.length} ${
-                      BuilderArguments?.passengers.infants.length === 1
-                        ? "infant"
-                        : "infants"
-                    }`,
-                ]
-                  .filter(Boolean)
-                  .join(", ")}
-              </Typography>
+                      })}
+                    </>
+                  )}
+                  {BuilderArguments?.return_date && (
+                    <>
+                      {" - "}
+                      {new Date(
+                        BuilderArguments.return_date
+                      ).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })}
+                    </>
+                  )}
+                </Box>
+              )}
+
+              {(BuilderArguments?.passengers?.adults ||
+                BuilderArguments?.passengers?.children?.length > 0 ||
+                BuilderArguments?.passengers?.infants?.length > 0) && (
+                <Box className={TripStyles.tripDetailsCol + " f12 black semibold"}>
+                  {[
+                    BuilderArguments?.passengers?.adults > 0 &&
+                      `${BuilderArguments.passengers.adults} ${
+                        BuilderArguments.passengers.adults === 1
+                          ? "adult"
+                          : "adults"
+                      }`,
+                    BuilderArguments?.passengers?.children?.length > 0 &&
+                      `${BuilderArguments.passengers.children.length} ${
+                        BuilderArguments.passengers.children.length === 1
+                          ? "child"
+                          : "children"
+                      }`,
+                    BuilderArguments?.passengers?.infants?.length > 0 &&
+                      `${BuilderArguments.passengers.infants.length} ${
+                        BuilderArguments.passengers.infants.length === 1
+                          ? "infant"
+                          : "infants"
+                      }`,
+                  ]
+                    .filter(Boolean)
+                    .join(", ")}
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>

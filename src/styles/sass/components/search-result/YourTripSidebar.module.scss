@@ -1,7 +1,14 @@
 @import "../../_variables.scss";
 
 
-
+.tripDetails .tripDetailsCol {
+  border-right: 1px solid $black;
+  margin-right: 5px;
+  padding-right: 5px;
+  &:last-child {
+    border-right: none;
+  }
+}
 // tabs
 .customTabs {
   height: auto;
