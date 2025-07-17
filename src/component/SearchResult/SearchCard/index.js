@@ -21,7 +21,7 @@ import {
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
-import { currencySymbols } from "@/src/utils/utils";
+import { currencySymbols,event } from "@/src/utils/utils";
 import {
   PassengerForm,
   setisLoading,
@@ -91,6 +91,12 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
       ("");
     }
     dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'hero_cta_button'
+    });
+    console.log("GA event sent: hero_cta_button click");
   };
   return (
     <>
