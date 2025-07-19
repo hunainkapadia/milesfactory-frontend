@@ -36,6 +36,13 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
 
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
+    //Push GA event
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'See Flight Details',
+    });
+    console.log("See Flight Details");
     if (offerkey) {
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
@@ -103,7 +110,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
 
-      {console.log("offerData_slice", offerData?.slices.length)}
       <Box
         className={`${searchResultStyles.flightOfferCard} ${
           offerData?.slices.length > 1
@@ -221,7 +227,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           offerData?.tax_currency}
                         {Math.round(offerData?.per_passenger_amount_rounded)}
                       </h4>
-                      {console.log(offerData)}
+                      {/* {console.log(offerData)} */}
                       
                       {personQuantity > 1 && (
                       <Typography className="f12 gray">

@@ -28,6 +28,7 @@ import {
 import dayjs from "dayjs";
 import PhoneInput from "react-phone-input-2";
 import ButtonLoading from "../LoadingArea/ButtonLoading";
+import { event } from "@/src/utils/utils";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -282,6 +283,14 @@ const PassengerDrawerForm = () => {
       nationality: nationality?.id || "",
       region,
     };
+    
+    //ga_event
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'Passenger Form Submit',
+    });
+    console.log("Passenger Form Submit");
 
     dispatch(PassengerFormSubmit(params));
 

@@ -33,7 +33,7 @@ const GetMessagesSlice = createSlice({
       state.refreshSearch = action.payload;
     },
     setMessage: (state, action) => {
-      console.log("actiontest", action);
+      //console.log("actiontest", action);
       
       state.messages.push(action.payload);
     },
@@ -132,7 +132,7 @@ export const fetchMessages = () => (dispatch, getState) => {
             //    setMessage({ user: item.message, ai: { response: item?.response } })
             //  );
             
-            console.log("allFlightSearch11", allFlightSearchApi);
+            //console.log("allFlightSearch11", allFlightSearchApi);
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
@@ -143,7 +143,7 @@ export const fetchMessages = () => (dispatch, getState) => {
                     ai: flightRes.data,
                   })
                 );
-                console.log("allFlightSearchApi11", flightRes.data);
+                //console.log("allFlightSearchApi11", flightRes.data);
               })
               .catch((flighterror) => {
                 
@@ -172,22 +172,22 @@ export const fetchMessages = () => (dispatch, getState) => {
 export const RefreshHandle = () => (dispatch, getState) => {
   const state = getState();
   const uuid = state?.getMessages?.SearchHistory?.uuid
-  console.log("state_0", uuid);
+  //console.log("state_0", uuid);
   const threadUUID = sessionStorage.getItem("chat_thread_uuid");
-  console.log("threadUUID_0", threadUUID);
+  //console.log("threadUUID_0", threadUUID);
   
 // {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
   // const url = `api/v1/search/<str:flight_search_uuid>/refresh/<str:chat_thread_uuid></str:chat_thread_uuid>`
   const expireURL =  `/api/v1/search/${uuid}/refresh/${threadUUID}`
 
-  console.log("expireURL", expireURL);
+  //console.log("expireURL", expireURL);
   
 
   api.post(expireURL).then((res)=> {
-    console.log("expire_res", res)
+    //console.log("expire_res", res)
     dispatch(setRefreshSearch())
   }).catch((error)=> {
-    console.log("error", error);
+    //console.log("error", error);
     
   })
 }
