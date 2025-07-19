@@ -150,6 +150,7 @@ const YourTripSedebarCard = ({
               tabValue === 0 ? TripStyles.activeTab : ""
             }`}
           />
+          {/*
           <Tab
             label={
               <Box display="flex" alignItems="center" gap={1}>
@@ -169,7 +170,7 @@ const YourTripSedebarCard = ({
             className={`${TripStyles.inactiveTab} ${
               tabValue === 1 ? TripStyles.activeTab : ""
             }`}
-          />
+          />*/}
         </Tabs>
         <Box
           mb={2}
@@ -180,11 +181,23 @@ const YourTripSedebarCard = ({
         >
           <Box>
             <Box>
-              <h4 className="semibold black mb-0">
-                {tripDays
-                  ? `My ${tripDays}-day travel in ${BuilderArguments?.to_destination}`
-                  : `My travel in ${BuilderArguments?.to_destination}`}
-              </h4>
+         {(BuilderArguments?.to_destination && BuilderArguments?.trip_length && BuilderArguments?.from_destination) ? (
+            <h4 className="semibold black mb-0">
+              My {BuilderArguments.trip_length} day(s) travel to {BuilderArguments.to_destination} from {BuilderArguments.from_destination}
+            </h4>
+          ) : (BuilderArguments?.to_destination && BuilderArguments?.trip_length) ? (
+            <h4 className="semibold black mb-0">
+              My {BuilderArguments.trip_length} day(s) travel to {BuilderArguments.to_destination}
+            </h4>
+          ) : (BuilderArguments?.to_destination && BuilderArguments?.from_destination) ? (
+            <h4 className="semibold black mb-0">
+              My travel to {BuilderArguments.to_destination} from {BuilderArguments.from_destination}
+            </h4>
+          ) : (BuilderArguments?.to_destination) ? (
+            <h4 className="semibold black mb-0">
+              My travel to {BuilderArguments.to_destination}
+            </h4>
+          ) : null}
             </Box>
             <Box display="flex" flexWrap="wrap" className={TripStyles.tripDetails}>
               {BuilderArguments?.from_destination &&
@@ -264,7 +277,7 @@ const YourTripSedebarCard = ({
           </Box>
         </Box>
         {/* filter row */}
-        <Box
+        {/* <Box
           className={TripStyles.TripTags}
           display="flex"
           flexWrap="wrap"
@@ -291,7 +304,7 @@ const YourTripSedebarCard = ({
               </Typography>
             </Box>
           ))}
-        </Box>
+        </Box> */}
         {/* filter row */}
         <Box className={`${TripStyles.flightOfferCard}`} mt={2}>
           <Box className={TripStyles.CardLeft} lg={12} md={12}>
@@ -304,7 +317,7 @@ const YourTripSedebarCard = ({
                 alignItems={"center"}
                 mb={3}
               >
-                <Box display={"flex"}>
+                {/* <Box display={"flex"}>
                   <Typography
                     className={
                       TripStyles.onewayReturn + " btn btn-xs btn-black "
@@ -312,9 +325,10 @@ const YourTripSedebarCard = ({
                   >
                     Overview
                   </Typography>
-                </Box>
+                </Box> */}
               </Box>
               {/*  */}
+              {BuilderArguments.from_destination && BuilderArguments.to_destination && (
               <Box
                 className="imggroup"
                 borderRadius={"16px"}
@@ -323,8 +337,8 @@ const YourTripSedebarCard = ({
               >
                 <img src="/images/trip-map-png.png" />
               </Box>
-
-              <Box mb={3}>
+              )}      
+              {/* <Box mb={3}>
                 <Typography className="f12">
                   You’ve booked a return flight from London to Bangkok with
                   Qatar Airways, arriving on 20 June and returning on 26 June.
@@ -332,10 +346,10 @@ const YourTripSedebarCard = ({
                   exploration, street food and temples. Ready to add your hotel,
                   transfers, or activities? Everything stays synced right here.
                 </Typography>
-              </Box>
+              </Box> */}
               {/*  */}
 
-              <Box
+              {/* <Box
                 mb={3}
                 display="flex"
                 justifyContent="space-between"
@@ -364,9 +378,9 @@ const YourTripSedebarCard = ({
                     variant="square" // optional if you don’t want it rounded
                   />
                 </Box>
-              </Box>
+              </Box> */}
               {/*  */}
-              <Box display={"flex"} alignItems={"center"} mb={3} gap={"12px"}>
+              {/* <Box display={"flex"} alignItems={"center"} mb={3} gap={"12px"}>
                 <Typography
                   className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
                 >
@@ -388,9 +402,9 @@ const YourTripSedebarCard = ({
                     />
                   </Box>
                 </Box>
-              </Box>
+              </Box> */}
               {/*  */}
-              <Box display="flex" alignItems="center" gap={2}>
+              {/* <Box display="flex" alignItems="center" gap={2}>
                 <Box>🌤️</Box>
                 <Box>
                   <Typography className="f12 semibold black">
@@ -400,7 +414,7 @@ const YourTripSedebarCard = ({
                     Arrive in Bangkok and unwind - check-in at 4pm.
                   </Typography>
                 </Box>
-              </Box>
+              </Box> */}
 
               {/*  */}
             </Box>
@@ -410,7 +424,7 @@ const YourTripSedebarCard = ({
         </Box>
       </Box>
       <Divider />
-      <Box
+      {/* <Box
         component={"footer"}
         className={TripStyles.TripFooter}
         display={"flex"}
@@ -434,7 +448,7 @@ const YourTripSedebarCard = ({
             Book now
           </Button>
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 };
