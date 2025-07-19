@@ -94,9 +94,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     event({
       action: 'click',
       category: 'engagement',
-      label: 'hero_cta_button'
+      label: 'Select Flight',
+      value: offerData?.total_amount_rounded,
     });
-    console.log("GA event sent: hero_cta_button click");
+    console.log("Select Flight", offerData?.total_amount_rounded);
   };
   return (
     <>
