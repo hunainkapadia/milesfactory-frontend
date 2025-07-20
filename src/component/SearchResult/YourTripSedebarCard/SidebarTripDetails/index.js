@@ -1,4 +1,4 @@
-import { Box, Chip, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useSelector } from "react-redux";
 
@@ -131,6 +131,9 @@ const SidebarTripDetails = () => {
             </Typography>
           </Stack>
         </Stack>
+          <Box display={"flex"} justifyContent={"flex-end"}>
+            <Button className="btn btn-white btn-sm btn-round">Search flights in Chat</Button>
+          </Box>
       </Box>
 
       <Box mb={3}>

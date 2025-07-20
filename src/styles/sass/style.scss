@@ -1635,6 +1635,17 @@ body {
     }
   }
 
+  &.btn-white {
+    border-radius: 8px;
+    background: $white;
+    letter-spacing: 1.2px !important;
+    color: $basecolor1;
+    font-weight: 500;
+    border: solid 1px #E2ECEF !important;
+     &.btn-round {
+      border-radius: 100px;
+    }
+  }
   &.btn-primary {
     &.disabled {
       pointer-events: none; // disables clicks
