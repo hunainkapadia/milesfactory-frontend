@@ -9,6 +9,7 @@ import {
   Tabs,
   Tab,
   Button,
+  Stack,
 } from "@mui/material";
 // import TripStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
@@ -119,7 +120,7 @@ const YourTripSedebarCard = ({
       <Box
         className={TripStyles.TripBody}
         pt={"18px"}
-        px={3}
+        px={"18px"}
         component={"section"}
         pb={3}
       >
@@ -299,7 +300,11 @@ const YourTripSedebarCard = ({
                       {index === 0 ? (
                         <>
                           <Box mb={1}>
-                            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                            <Box
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={"12px"}
+                            >
                               <Typography
                                 className={
                                   TripStyles.onewayReturn +
@@ -315,7 +320,9 @@ const YourTripSedebarCard = ({
                                   month: "short",
                                 })}
                               </Typography>
-                              <Typography className="f12 semibold">{BuilderArguments?.from_destination}</Typography>
+                              <Typography className="f12 semibold">
+                                {BuilderArguments?.from_destination}
+                              </Typography>
                             </Box>
                           </Box>
                           <Typography className="f12">
@@ -326,7 +333,11 @@ const YourTripSedebarCard = ({
                       ) : (
                         <>
                           <Box mb={1}>
-                            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                            <Box
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={"12px"}
+                            >
                               <Typography
                                 className={
                                   TripStyles.onewayReturn +
@@ -342,11 +353,14 @@ const YourTripSedebarCard = ({
                                   month: "short",
                                 })}
                               </Typography>
-                              <Typography className="f12 semibold">{BuilderArguments?.to_destination}</Typography>
+                              <Typography className="f12 semibold">
+                                {BuilderArguments?.to_destination}
+                              </Typography>
                             </Box>
                           </Box>
                           <Typography className="f12">
-                            Departure. Check out and head to the airport for your flight.
+                            Departure. Check out and head to the airport for
+                            your flight.
                           </Typography>
                         </>
                       )}
@@ -555,85 +569,105 @@ const YourTripSedebarCard = ({
                           </Box>
                         </Box>
                       ) : null}
-                      <Box
-                        component={"section"}
-                        display={"flex"}
-                        justifyContent={"space-between"}
-                        alignItems={"center"}
-                        gap={2}
-                      >
-                        <Box>
-                          <Typography className="f12  bold basecolor">
-                            Extra baggage:
-                          </Typography>
-                          <Typography className="f12 basecolor">
-                            {(() => {
-                              const baggageMap = new Map();
 
-                              offerData?.slices.forEach((slice, sliceIndex) => {
-                                slice?.segments?.forEach((segment) => {
-                                  segment?.passengers?.forEach((passenger) => {
-                                    passenger?.baggages?.forEach((baggage) => {
-                                      const key = `${baggage.type}-${baggage.formatted_type}`;
-                                      if (!baggageMap.has(key)) {
-                                        baggageMap.set(key, { ...baggage });
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        alignItems="center"
+                        component="section"
+                        justifyContent={"space-between"}
+                      >
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          alignItems={"flex-start"}
+                        >
+                          <Box pt={0}>
+                            <svg
+                              width="13"
+                              height="13"
+                              viewBox="0 0 13 13"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M7.75 2.75V1.5H5.25V2.75H7.75ZM1.5 4V10.875H11.5V4H1.5ZM11.5 2.75C12.1937 2.75 12.75 3.30625 12.75 4V10.875C12.75 11.5688 12.1937 12.125 11.5 12.125H1.5C0.80625 12.125 0.25 11.5688 0.25 10.875L0.25625 4C0.25625 3.30625 0.80625 2.75 1.5 2.75H4V1.5C4 0.80625 4.55625 0.25 5.25 0.25H7.75C8.44375 0.25 9 0.80625 9 1.5V2.75H11.5Z"
+                                fill="black"
+                                fillOpacity="0.3"
+                              />
+                            </svg>
+                          </Box>
+
+                          <Stack width={"100%"}>
+                            
+                            <Typography className="f12 basecolor">
+                              <Typography component={"span"} className="f12 bold basecolor">Extra baggage: </Typography>{(() => {
+                                const baggageMap = new Map();
+
+                                offerData?.slices.forEach((slice) => {
+                                  slice?.segments?.forEach((segment) => {
+                                    segment?.passengers?.forEach(
+                                      (passenger) => {
+                                        passenger?.baggages?.forEach(
+                                          (baggage) => {
+                                            const key = `${baggage.type}-${baggage.formatted_type}`;
+                                            if (!baggageMap.has(key)) {
+                                              baggageMap.set(key, {
+                                                ...baggage,
+                                              });
+                                            }
+                                          }
+                                        );
                                       }
-                                    });
+                                    );
                                   });
                                 });
-                              });
 
-                              const uniqueBaggages = Array.from(
-                                baggageMap.values()
-                              );
+                                const uniqueBaggages = Array.from(
+                                  baggageMap.values()
+                                );
 
-                              return (
-                                <span>
-                                  {offerData?.slices.map(
-                                    (slice, sliceIndex) => {
-                                      const sliceLabel =
-                                        sliceIndex === 0
-                                          ? "Outbound"
-                                          : "Return";
-                                      const baggageSummary = uniqueBaggages
-                                        .filter(
-                                          (baggage) => baggage.quantity > 0
-                                        ) // Filter out baggage with quantity 0
-                                        .map(
-                                          (baggage) =>
-                                            `${baggage.quantity}x ${baggage.formatted_type}`
-                                        )
-                                        .join(", ");
+                                return offerData?.slices.map(
+                                  (slice, sliceIndex) => {
+                                    const baggageSummary = uniqueBaggages
+                                      .filter((baggage) => baggage.quantity > 0)
+                                      .map(
+                                        (baggage) =>
+                                          `${baggage.quantity}x ${baggage.formatted_type}`
+                                      )
+                                      .join(", ");
 
-                                      return (
-                                        <span key={sliceIndex}>
-                                          {baggageSummary || "No baggage info"}
-                                          {sliceIndex === 0 &&
-                                          offerData?.slices.length > 1
-                                            ? " / "
-                                            : ""}
-                                        </span>
-                                      );
-                                    }
-                                  )}
-                                </span>
-                              );
-                            })()}
-                          </Typography>
-                        </Box>
-                        <Box
-                          whiteSpace={"nowrap"}
-                          display={"flex"}
-                          alignItems={"center"}
-                          gap={1}
+                                    return (
+                                      <span key={sliceIndex}>
+                                        {baggageSummary || "No baggage info"}
+                                        {sliceIndex === 0 &&
+                                        offerData?.slices.length > 1
+                                          ? " / "
+                                          : ""}
+                                      </span>
+                                    );
+                                  }
+                                );
+                              })()}
+                            </Typography>
+                          </Stack>
+                        </Stack>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          spacing={1}
                           className="f12 basecolor1"
+                          whiteSpace={"nowrap"}
                         >
-                          <Typography className="f12" component={"span"}>
+                          <Typography className="f12" component="span">
                             Change
                           </Typography>
-                          <i className="fa f12 fa-angle-right basecolor1"></i>
-                        </Box>
-                      </Box>
+                          <i className="fa f12 fa-angle-right basecolor1" />
+                        </Stack>
+                      </Stack>
+
                       <Box
                         component={"section"}
                         display={"flex"}
@@ -648,7 +682,7 @@ const YourTripSedebarCard = ({
                           gap={1}
                           className="white-bg br-100 "
                           px={"14px"}
-                          py={"14px"}
+                          py={"10px"}
                         >
                           <svg
                             width="16"
@@ -673,10 +707,12 @@ const YourTripSedebarCard = ({
                         display={"flex"}
                         justifyContent={"flex-end"}
                         alignItems={"center"}
-                        gap={1}
+                        gap={0.5}
                       >
                         <Typography component={"span"} className="bold f12">
-                          £1342,{" "}
+                          {currencySymbols[offerData?.tax_currency] ||
+                            offerData?.tax_currency}
+                          {Math.round(offerData?.per_passenger_amount)},{" "}
                         </Typography>
                         <Typography component={"span"} className="f12">
                           selected by you
