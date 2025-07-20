@@ -112,8 +112,10 @@ const YourTripSidebar = ({ isMessage }) => {
                       : "No product added"}
                   </Typography>
                 </Box>
-                <Button 
-                  className={`btn btn-primary btn-round btn-xs ${!getselectedFlight ? "disabled" : ""}`}
+                <Button
+                  className={`btn btn-primary btn-round btn-xs ${
+                    !getselectedFlight ? "disabled" : ""
+                  }`}
                   // onClick={HandleSelectDrawer}
                 >
                   Book now

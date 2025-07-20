@@ -10,6 +10,7 @@ import {
   Tab,
   Button,
   Stack,
+  Chip,
 } from "@mui/material";
 // import TripStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
@@ -27,6 +28,7 @@ import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 import FilterParams from "../YourTripSidebar/FilterParams";
+import SidebarTripDetails from "./SidebarTripDetails";
 
 const YourTripSedebarCard = ({
   offerData,
@@ -38,6 +40,9 @@ const YourTripSedebarCard = ({
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
 
+    const getselectedFlight = useSelector(
+    (state) => state?.booking?.flightDetail
+  );
   console.log("getBuilder", BuilderArguments);
 
   const dispatch = useDispatch();
@@ -288,6 +293,8 @@ const YourTripSedebarCard = ({
         </Box>
         {/* filter row */}
         {/*  */}
+        {!getselectedFlight ? <SidebarTripDetails /> : ""}
+
         <Box>
           {/*  */}
           {offerData ? (
@@ -601,9 +608,14 @@ const YourTripSedebarCard = ({
                           </Box>
 
                           <Stack width={"100%"}>
-                            
                             <Typography className="f12 basecolor">
-                              <Typography component={"span"} className="f12 bold basecolor">Extra baggage: </Typography>{(() => {
+                              <Typography
+                                component={"span"}
+                                className="f12 bold basecolor"
+                              >
+                                Extra baggage:{" "}
+                              </Typography>
+                              {(() => {
                                 const baggageMap = new Map();
 
                                 offerData?.slices.forEach((slice) => {
