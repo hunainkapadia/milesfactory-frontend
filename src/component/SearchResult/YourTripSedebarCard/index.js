@@ -37,10 +37,7 @@ const YourTripSedebarCard = ({
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
 
-  console.log(
-    "getBuilder",
-    getBuilder?.silent_function_template?.[0]?.function?.arguments
-  );
+  console.log("getBuilder", BuilderArguments);
 
   const dispatch = useDispatch();
   const offerkey = offerData?.id;
@@ -181,32 +178,44 @@ const YourTripSedebarCard = ({
         >
           <Box>
             <Box>
-         {(BuilderArguments?.to_destination && BuilderArguments?.trip_length && BuilderArguments?.from_destination) ? (
-            <h4 className="semibold black mb-0">
-              My {BuilderArguments.trip_length} day(s) travel to {BuilderArguments.to_destination} from {BuilderArguments.from_destination}
-            </h4>
-          ) : (BuilderArguments?.to_destination && BuilderArguments?.trip_length) ? (
-            <h4 className="semibold black mb-0">
-              My {BuilderArguments.trip_length} day(s) travel to {BuilderArguments.to_destination}
-            </h4>
-          ) : (BuilderArguments?.to_destination && BuilderArguments?.from_destination) ? (
-            <h4 className="semibold black mb-0">
-              My travel to {BuilderArguments.to_destination} from {BuilderArguments.from_destination}
-            </h4>
-          ) : (BuilderArguments?.to_destination) ? (
-            <h4 className="semibold black mb-0">
-              My travel to {BuilderArguments.to_destination}
-            </h4>
-          ) : null}
+              {BuilderArguments?.to_destination &&
+              BuilderArguments?.trip_length &&
+              BuilderArguments?.from_destination ? (
+                <h4 className="semibold black mb-0">
+                  My {BuilderArguments.trip_length} day(s) travel to{" "}
+                  {BuilderArguments.to_destination} from{" "}
+                  {BuilderArguments.from_destination}
+                </h4>
+              ) : BuilderArguments?.to_destination &&
+                BuilderArguments?.trip_length ? (
+                <h4 className="semibold black mb-0">
+                  My {BuilderArguments.trip_length} day(s) travel to{" "}
+                  {BuilderArguments.to_destination}
+                </h4>
+              ) : BuilderArguments?.to_destination &&
+                BuilderArguments?.from_destination ? (
+                <h4 className="semibold black mb-0">
+                  My travel to {BuilderArguments.to_destination} from{" "}
+                  {BuilderArguments.from_destination}
+                </h4>
+              ) : BuilderArguments?.to_destination ? (
+                <h4 className="semibold black mb-0">
+                  My travel to {BuilderArguments.to_destination}
+                </h4>
+              ) : null}
             </Box>
-            <Box display="flex" flexWrap="wrap" className={TripStyles.tripDetails}>
+            <Box
+              display="flex"
+              flexWrap="wrap"
+              className={TripStyles.tripDetails}
+            >
               {BuilderArguments?.from_destination &&
                 BuilderArguments?.to_destination && (
                   <Box
-                    
-                    
-                    sx={{  }}
-                    className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                    sx={{}}
+                    className={
+                      TripStyles.tripDetailsCol + " f12 black semibold"
+                    }
                   >
                     {BuilderArguments.from_destination} -{" "}
                     {BuilderArguments.to_destination}
@@ -216,9 +225,7 @@ const YourTripSedebarCard = ({
               {(BuilderArguments?.departure_date ||
                 BuilderArguments?.return_date) && (
                 <Box
-                  
-                  
-                  sx={{  }}
+                  sx={{}}
                   className={TripStyles.tripDetailsCol + " f12 black semibold"}
                 >
                   {BuilderArguments?.departure_date && (
@@ -248,7 +255,9 @@ const YourTripSedebarCard = ({
               {(BuilderArguments?.passengers?.adults ||
                 BuilderArguments?.passengers?.children?.length > 0 ||
                 BuilderArguments?.passengers?.infants?.length > 0) && (
-                <Box className={TripStyles.tripDetailsCol + " f12 black semibold"}>
+                <Box
+                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                >
                   {[
                     BuilderArguments?.passengers?.adults > 0 &&
                       `${BuilderArguments.passengers.adults} ${
@@ -277,68 +286,425 @@ const YourTripSedebarCard = ({
           </Box>
         </Box>
         {/* filter row */}
-        {/* <Box
-          className={TripStyles.TripTags}
-          display="flex"
-          flexWrap="wrap"
-          gap={1}
-          sx={{ mb: 3 }}
-        >
-          {TripTags.map((tag, index) => (
-            <Box
-              key={index}
-              sx={{
-                backgroundColor: "#F6F8FA",
-                color: "rgba(0, 0, 0, 0.7)",
-                borderRadius: "999px",
-                px: 2,
-                py: 0.5,
-                fontSize: "12px",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="body2" sx={{ fontSize: "12px" }}>
-                {tag}
-              </Typography>
-            </Box>
-          ))}
-        </Box> */}
-        {/* filter row */}
-        <Box className={`${TripStyles.flightOfferCard}`} mt={2}>
-          <Box className={TripStyles.CardLeft} lg={12} md={12}>
-            {/* footer */}
-            {/*  */}
-            <Box>
-              <Box
-                display={"flex"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                mb={3}
-              >
-                {/* <Box display={"flex"}>
-                  <Typography
-                    className={
-                      TripStyles.onewayReturn + " btn btn-xs btn-black "
-                    }
+        {/*  */}
+        <Box>
+          {/*  */}
+          {offerData ? (
+            <>
+              <Box>
+                {/* footer */}
+                {offerData?.slices.map((slice, index) => (
+                  <>
+                    <Box mb={3}>
+                      {index === 0 ? (
+                        <>
+                          <Box mb={1}>
+                            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                              <Typography
+                                className={
+                                  TripStyles.onewayReturn +
+                                  " btn btn-xs btn-black "
+                                }
+                              >
+                                Outbound |{" "}
+                                {new Date(
+                                  BuilderArguments?.departure_date
+                                ).toLocaleDateString("en-GB", {
+                                  weekday: "short",
+                                  day: "2-digit",
+                                  month: "short",
+                                })}
+                              </Typography>
+                              <Typography className="f12 semibold">{BuilderArguments?.from_destination}</Typography>
+                            </Box>
+                          </Box>
+                          <Typography className="f12">
+                            Arrive in Bangkok and unwind – check-in opens at
+                            4pm.
+                          </Typography>
+                        </>
+                      ) : (
+                        <>
+                          <Box mb={1}>
+                            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                              <Typography
+                                className={
+                                  TripStyles.onewayReturn +
+                                  " btn btn-xs btn-black"
+                                }
+                              >
+                                Return |{" "}
+                                {new Date(
+                                  BuilderArguments?.return_date
+                                ).toLocaleDateString("en-GB", {
+                                  weekday: "short",
+                                  day: "2-digit",
+                                  month: "short",
+                                })}
+                              </Typography>
+                              <Typography className="f12 semibold">{BuilderArguments?.to_destination}</Typography>
+                            </Box>
+                          </Box>
+                          <Typography className="f12">
+                            Departure. Check out and head to the airport for your flight.
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
+                    <Box className={`${TripStyles.flightOfferCard}`} mb={3}>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        {index === 0 ? (
+                          <Box display={"flex"}>
+                            <Typography className="f12 semibold">
+                              Outbound flight
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <Box display={"flex"}>
+                            <Typography className="f12 semibold">
+                              Return flight
+                            </Typography>
+                          </Box>
+                        )}
+                        <Box>
+                          <Box
+                            display={"flex"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            className={TripStyles.SelectedLabel + " br-100 f12"}
+                          >
+                            Selected
+                          </Box>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        component={"section"}
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Box
+                          key={index}
+                          className={`${TripStyles.logoCol}`}
+                          display={"flex"}
+                          alignItems={"center"}
+                          gap={2}
+                        >
+                          <Avatar
+                            src={
+                              slice?.segments[0]?.marketing_carrier
+                                ?.logo_symbol_url
+                            }
+                            alt={slice?.segments[0]?.marketing_carrier?.name}
+                            className={TripStyles.airlineLogo}
+                          />
+                          <Box>
+                            <Typography className="f14 mb-0 bold black ">
+                              {slice?.segments[0]?.marketing_carrier?.name}
+                            </Typography>
+                            <Typography
+                              textTransform={"capitalize"}
+                              className="f12 mb-0 bold gray "
+                            >
+                              {slice?.segments[0]?.passengers[0]?.cabin_class}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box style={{ cursor: "pointer" }}>
+                          <Box
+                            onClick={HandleSelectDrawer}
+                            className="text-decoration-none cursor-pointer"
+                          >
+                            <Box
+                              gap={1}
+                              alignItems={"center"}
+                              display={"flex"}
+                              className=" basecolor1 semibold f12"
+                            >
+                              <span>See details</span>
+                              <i className="fa-angle-right fa fas"></i>{" "}
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                      {/*  */}
+
+                      {/*  */}
+                      <Box
+                        className={TripStyles.fromAndToRow}
+                        key={index}
+                        display="flex"
+                        alignItems="center"
+                        gap={2}
+                      >
+                        {/* Airline Logo */}
+
+                        {/* Flight Details */}
+                        <Box className={`${TripStyles.FlightTimingsCol} w-100`}>
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            gap={2} // Optional spacing
+                          >
+                            {/* Departure Time & Code */}
+                            <Box className={TripStyles.Timings}>
+                              <Typography className={TripStyles.flightTime}>
+                                {new Date(
+                                  slice.departing_at
+                                ).toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                })}
+                              </Typography>
+                              <Typography
+                                className={TripStyles.flightRoute + " f12"}
+                              >
+                                {slice.origin.iata_code}
+                              </Typography>
+                            </Box>
+
+                            {/* Flight Duration with Dotted Line */}
+                            <Box
+                              display="flex"
+                              flexDirection="column"
+                              alignItems="center"
+                              justifyContent="center"
+                              flex={1}
+                              className={TripStyles.flightDurationBox}
+                            >
+                              <Box className={TripStyles.divider}>
+                                <img
+                                  src={
+                                    slice.segments?.length === 1
+                                      ? "/images/direct-plan-icon.svg"
+                                      : "/images/stop-plan-icon.svg"
+                                  }
+                                />
+                              </Box>
+                              <Typography className={" gray f12"}>
+                                {slice.duration}
+                              </Typography>
+                              {/* Dotted Line */}
+                            </Box>
+
+                            {/* Arrival Time & Code */}
+                            <Box
+                              textAlign={"right"}
+                              className={TripStyles.Timings}
+                            >
+                              <Typography className={TripStyles.flightTime}>
+                                {new Date(slice.arriving_at).toLocaleTimeString(
+                                  [],
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: false,
+                                  }
+                                )}
+                              </Typography>
+                              <Typography
+                                className={TripStyles.flightRoute + " f12"}
+                              >
+                                {slice.destination.iata_code}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                      {/* traveller and baggage */}
+                      {validPassengers?.length ? (
+                        <Box
+                          component={"section"}
+                          display={"flex"}
+                          flexDirection={"column"}
+                          gap={2}
+                        >
+                          <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            gap={2}
+                          >
+                            <Box>
+                              <Typography className="f12 bold">
+                                Travellers
+                              </Typography>
+                              <Typography className="f12 gray">
+                                {validPassengers?.map((p, i) => {
+                                  const isLast =
+                                    i === validPassengers.length - 1;
+                                  return (
+                                    <span key={i}>
+                                      {p.given_name} {p.family_name}
+                                      {!isLast && ", "}
+                                    </span>
+                                  );
+                                })}
+                              </Typography>
+                            </Box>
+                            <Box>
+                              <i className="fa f20 fa-angle-right basecolor1"></i>
+                            </Box>
+                          </Box>
+                        </Box>
+                      ) : null}
+                      <Box
+                        component={"section"}
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                        gap={2}
+                      >
+                        <Box>
+                          <Typography className="f12  bold basecolor">
+                            Extra baggage:
+                          </Typography>
+                          <Typography className="f12 basecolor">
+                            {(() => {
+                              const baggageMap = new Map();
+
+                              offerData?.slices.forEach((slice, sliceIndex) => {
+                                slice?.segments?.forEach((segment) => {
+                                  segment?.passengers?.forEach((passenger) => {
+                                    passenger?.baggages?.forEach((baggage) => {
+                                      const key = `${baggage.type}-${baggage.formatted_type}`;
+                                      if (!baggageMap.has(key)) {
+                                        baggageMap.set(key, { ...baggage });
+                                      }
+                                    });
+                                  });
+                                });
+                              });
+
+                              const uniqueBaggages = Array.from(
+                                baggageMap.values()
+                              );
+
+                              return (
+                                <span>
+                                  {offerData?.slices.map(
+                                    (slice, sliceIndex) => {
+                                      const sliceLabel =
+                                        sliceIndex === 0
+                                          ? "Outbound"
+                                          : "Return";
+                                      const baggageSummary = uniqueBaggages
+                                        .filter(
+                                          (baggage) => baggage.quantity > 0
+                                        ) // Filter out baggage with quantity 0
+                                        .map(
+                                          (baggage) =>
+                                            `${baggage.quantity}x ${baggage.formatted_type}`
+                                        )
+                                        .join(", ");
+
+                                      return (
+                                        <span key={sliceIndex}>
+                                          {baggageSummary || "No baggage info"}
+                                          {sliceIndex === 0 &&
+                                          offerData?.slices.length > 1
+                                            ? " / "
+                                            : ""}
+                                        </span>
+                                      );
+                                    }
+                                  )}
+                                </span>
+                              );
+                            })()}
+                          </Typography>
+                        </Box>
+                        <Box
+                          whiteSpace={"nowrap"}
+                          display={"flex"}
+                          alignItems={"center"}
+                          gap={1}
+                          className="f12 basecolor1"
+                        >
+                          <Typography className="f12" component={"span"}>
+                            Change
+                          </Typography>
+                          <i className="fa f12 fa-angle-right basecolor1"></i>
+                        </Box>
+                      </Box>
+                      <Box
+                        component={"section"}
+                        display={"flex"}
+                        justifyContent={"flex-end"}
+                      >
+                        <Box
+                          border={1}
+                          borderColor="rgba(197, 218, 222, 0.5)"
+                          component={"section"}
+                          display={"flex"}
+                          alignItems={"center"}
+                          gap={1}
+                          className="white-bg br-100 "
+                          px={"14px"}
+                          py={"14px"}
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M8 11.75C8.2125 11.75 8.39063 11.6781 8.53438 11.5344C8.67813 11.3906 8.75 11.2125 8.75 11C8.75 10.7875 8.67813 10.6094 8.53438 10.4656C8.39063 10.3219 8.2125 10.25 8 10.25C7.7875 10.25 7.60938 10.3219 7.46563 10.4656C7.32188 10.6094 7.25 10.7875 7.25 11C7.25 11.2125 7.32188 11.3906 7.46563 11.5344C7.60938 11.6781 7.7875 11.75 8 11.75ZM7.25 8.75H8.75V4.25H7.25V8.75ZM8 15.5C6.9625 15.5 5.9875 15.3031 5.075 14.9094C4.1625 14.5156 3.36875 13.9813 2.69375 13.3063C2.01875 12.6313 1.48438 11.8375 1.09063 10.925C0.696875 10.0125 0.5 9.0375 0.5 8C0.5 6.9625 0.696875 5.9875 1.09063 5.075C1.48438 4.1625 2.01875 3.36875 2.69375 2.69375C3.36875 2.01875 4.1625 1.48438 5.075 1.09063C5.9875 0.696875 6.9625 0.5 8 0.5C9.0375 0.5 10.0125 0.696875 10.925 1.09063C11.8375 1.48438 12.6313 2.01875 13.3063 2.69375C13.9813 3.36875 14.5156 4.1625 14.9094 5.075C15.3031 5.9875 15.5 6.9625 15.5 8C15.5 9.0375 15.3031 10.0125 14.9094 10.925C14.5156 11.8375 13.9813 12.6313 13.3063 13.3063C12.6313 13.9813 11.8375 14.5156 10.925 14.9094C10.0125 15.3031 9.0375 15.5 8 15.5Z"
+                              fill="#DEB135"
+                              fill-opacity="0.7"
+                            />
+                          </svg>
+                          <Typography component={"span"} className="f11 bold">
+                            Add missing travellers
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box
+                        className="f11"
+                        display={"flex"}
+                        justifyContent={"flex-end"}
+                        alignItems={"center"}
+                        gap={1}
+                      >
+                        <Typography component={"span"} className="bold f12">
+                          £1342,{" "}
+                        </Typography>
+                        <Typography component={"span"} className="f12">
+                          selected by you
+                        </Typography>
+                      </Box>
+
+                      {/*  */}
+                    </Box>
+                    {/*  */}
+                  </>
+                ))}
+              </Box>
+            </>
+          ) : (
+            ""
+          )}
+          {/* {BuilderArguments.from_destination &&
+                BuilderArguments.to_destination && (
+                  <Box
+                    className="imggroup"
+                    borderRadius={"16px"}
+                    overflow={"hidden"}
+                    mb={3}
                   >
-                    Overview
-                  </Typography>
-                </Box> */}
-              </Box>
-              {/*  */}
-              {BuilderArguments.from_destination && BuilderArguments.to_destination && (
-              <Box
-                className="imggroup"
-                borderRadius={"16px"}
-                overflow={"hidden"}
-                mb={3}
-              >
-                <img src="/images/trip-map-png.png" />
-              </Box>
-              )}      
-              {/* <Box mb={3}>
+                    <img src="/images/trip-map-png.png" />
+                  </Box>
+                )} */}
+          {/* <Box mb={3}>
                 <Typography className="f12">
                   You’ve booked a return flight from London to Bangkok with
                   Qatar Airways, arriving on 20 June and returning on 26 June.
@@ -347,9 +713,9 @@ const YourTripSedebarCard = ({
                   transfers, or activities? Everything stays synced right here.
                 </Typography>
               </Box> */}
-              {/*  */}
+          {/*  */}
 
-              {/* <Box
+          {/* <Box
                 mb={3}
                 display="flex"
                 justifyContent="space-between"
@@ -379,8 +745,8 @@ const YourTripSedebarCard = ({
                   />
                 </Box>
               </Box> */}
-              {/*  */}
-              {/* <Box display={"flex"} alignItems={"center"} mb={3} gap={"12px"}>
+          {/*  */}
+          {/* <Box display={"flex"} alignItems={"center"} mb={3} gap={"12px"}>
                 <Typography
                   className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
                 >
@@ -403,8 +769,8 @@ const YourTripSedebarCard = ({
                   </Box>
                 </Box>
               </Box> */}
-              {/*  */}
-              {/* <Box display="flex" alignItems="center" gap={2}>
+          {/*  */}
+          {/* <Box display="flex" alignItems="center" gap={2}>
                 <Box>🌤️</Box>
                 <Box>
                   <Typography className="f12 semibold black">
@@ -416,13 +782,12 @@ const YourTripSedebarCard = ({
                 </Box>
               </Box> */}
 
-              {/*  */}
-            </Box>
-            {/*  */}
-          </Box>
-          {/* Extra Info bottom */}
+          {/*  */}
         </Box>
+        {/*  */}
       </Box>
+      {/* Extra Info bottom */}
+
       <Divider />
       {/* <Box
         component={"footer"}
