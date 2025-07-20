@@ -1636,6 +1636,11 @@ body {
   }
 
   &.btn-primary {
+    &.disabled {
+      pointer-events: none; // disables clicks
+      cursor: not-allowed; // optional: shows disabled cursor
+      opacity: 0.5;
+    }
     &.btn-lg-x {
       padding: 7px 36px 8px;
       white-space: nowrap;

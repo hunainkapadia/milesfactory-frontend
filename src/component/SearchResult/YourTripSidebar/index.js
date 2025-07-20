@@ -37,9 +37,12 @@ const YourTripSidebar = ({ isMessage }) => {
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
-          
         >
-          <Box className={YourtripStyles.YourTripCard} p={0} overflow={"hidden"}>
+          <Box
+            className={YourtripStyles.YourTripCard}
+            p={0}
+            overflow={"hidden"}
+          >
             <Box
               component={"header"}
               className={YourtripStyles.CardHeader}
@@ -79,37 +82,42 @@ const YourTripSidebar = ({ isMessage }) => {
               getBuilder={getBuilder}
             />
 
-            <Box px={"18px"} py={"14px"}
+            <Box
+              px={"18px"}
+              py={"14px"}
               component={"footer"}
               className={YourtripStyles.PaymentRow + " "}
-              sx={{backgroundColor:"#F2F7F8"}}
+              sx={{ backgroundColor: "#F2F7F8" }}
             >
-              <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
                 <Box>
                   <h4 className="exbold mb-0">
-  {getselectedFlight?.per_passenger_amount != null
-    ? (currencySymbols[getselectedFlight?.tax_currency] || getselectedFlight?.tax_currency) +
-      Math.round(getselectedFlight?.per_passenger_amount)
-    : "-"}
-</h4>
+                    {getselectedFlight?.per_passenger_amount != null
+                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
+                          getselectedFlight?.tax_currency) +
+                        Math.round(getselectedFlight?.per_passenger_amount)
+                      : "-"}
+                  </h4>
 
-<Typography className="gray f12">
-  {getselectedFlight?.total_amount != null
-    ? (currencySymbols[getselectedFlight?.tax_currency] || getselectedFlight?.tax_currency) +
-      Math.round(getselectedFlight?.total_amount) + " total"
-    : "No product added"}
-</Typography>
-
+                  <Typography className="gray f12">
+                    {getselectedFlight?.total_amount != null
+                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
+                          getselectedFlight?.tax_currency) +
+                        Math.round(getselectedFlight?.total_amount) +
+                        " total"
+                      : "No product added"}
+                  </Typography>
                 </Box>
-                 <Button
-                    className={
-                      " btn btn-primary btn-round btn-xs" +
-                      YourtripStyles.selectFlightBtn
-                    }
-                    // onClick={HandleSelectDrawer}
-                  >
-                    Book now
-                  </Button>
+                <Button 
+                  className={`btn btn-primary btn-round btn-xs ${!getselectedFlight ? "disabled" : ""}`}
+                  // onClick={HandleSelectDrawer}
+                >
+                  Book now
+                </Button>
               </Box>
             </Box>
           </Box>
