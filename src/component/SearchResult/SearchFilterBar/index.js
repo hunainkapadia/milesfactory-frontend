@@ -6,6 +6,7 @@ import {
   setOpenDrawer,
 } from "@/src/store/slices/BookingflightSlice";
 import FilterParams from "../YourTripSidebar/FilterParams";
+import { event } from "@/src/utils/utils";
 
 const SearchFilterBar = () => {
   const SearchHistoryGet = useSelector(
@@ -30,7 +31,8 @@ const SearchFilterBar = () => {
       dispatch(setflightDetail(getselectedFlight)); // Store flight details
     }
   };
-  console.log("SearchHistory2", offerkey);
+
+
   //   for selct flight detail end
 
   return (

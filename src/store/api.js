@@ -29,8 +29,8 @@ api.interceptors.request.use(async (config) => {
   const accessToken = Cookies.get("access_token");
   const refreshToken = Cookies.get("refresh_token");
 
-  console.log("Access Token:", accessToken);
-  console.log("Refresh Token:", refreshToken);
+  //console.log("Access Token:", accessToken);
+  //console.log("Refresh Token:", refreshToken);
 
   if (accessToken && !isTokenExpired(accessToken)) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -38,7 +38,7 @@ api.interceptors.request.use(async (config) => {
   }
 
   if (accessToken && isTokenExpired(accessToken)) {
-    console.log("Access token expired. Refreshing...");
+    //console.log("Access token expired. Refreshing...");
 
     if (!refreshToken) {
       console.warn("No refresh token available. Logging out...");
@@ -61,7 +61,7 @@ api.interceptors.request.use(async (config) => {
         const newAccessToken = response.data.access;
         const newRefreshToken = response.data.refresh;
 
-        console.log("New tokens received:", response.data);
+        //console.log("New tokens received:", response.data);
 
         Cookies.set("access_token", newAccessToken);
         if (newRefreshToken) {
@@ -76,7 +76,7 @@ api.interceptors.request.use(async (config) => {
 
       } catch (error) {
         console.error("🔴 Token refresh failed:", error?.response?.status);
-        console.log("🔴 Refresh error:", error?.response?.data);
+        //console.log("🔴 Refresh error:", error?.response?.data);
 
         Cookies.remove("access_token");
         Cookies.remove("refresh_token");

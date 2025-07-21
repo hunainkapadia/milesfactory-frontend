@@ -21,7 +21,7 @@ import {
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
-import { currencySymbols } from "@/src/utils/utils";
+import { currencySymbols,event } from "@/src/utils/utils";
 import {
   PassengerForm,
   setisLoading,
@@ -36,6 +36,13 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
 
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
+    //Push GA event
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'See Flight Details',
+    });
+    console.log("See Flight Details");
     if (offerkey) {
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
@@ -91,12 +98,18 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
       ("");
     }
     dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'Select Flight',
+      value: offerData?.total_amount_rounded,
+    });
+    console.log("Select Flight", offerData?.total_amount_rounded);
   };
   return (
     <>
       {/* Open drawer only for the selected flight */}
 
-      {console.log("offerData_slice", offerData?.slices.length)}
       <Box
         className={`${searchResultStyles.flightOfferCard} ${
           offerData?.slices.length > 1
@@ -214,7 +227,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           offerData?.tax_currency}
                         {Math.round(offerData?.per_passenger_amount_rounded)}
                       </h4>
-                      {console.log(offerData)}
+                      {/* {console.log(offerData)} */}
                       
                       {personQuantity > 1 && (
                       <Typography className="f12 gray">
