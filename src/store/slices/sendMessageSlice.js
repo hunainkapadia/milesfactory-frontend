@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
+import { setSearchHistoryGet } from "./GestMessageSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -420,6 +421,8 @@ export const deleteAndCreateThread =
         if (res) {
           // Clear previous chat history/messages in Redux store
           dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
+          dispatch(setSearchHistoryGet(null))
+          dispatch(setSearchHistorySend(null)); // Clear SearchHistorySend
 
           sessionStorage.removeItem("chat_thread_uuid");
 

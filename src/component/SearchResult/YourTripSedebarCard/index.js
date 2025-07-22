@@ -79,7 +79,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
           <Box>
             <Box>
               <h4 className="regular mb-0">
-                {SearchHistory?.from_title} to {SearchHistory?.to_title}
+                aa{SearchHistory?.from_title} to {SearchHistory?.to_title}
               </h4>
             </Box>
             <Box className=" ">
