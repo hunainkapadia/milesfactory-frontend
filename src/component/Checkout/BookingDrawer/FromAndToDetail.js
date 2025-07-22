@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import { event } from "@/src/utils/utils";
 
 const FromAndToDetail = ({
   SearchHistoryGet,

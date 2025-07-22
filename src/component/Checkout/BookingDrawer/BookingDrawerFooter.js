@@ -12,7 +12,7 @@
   } from "@/src/store/slices/BookingflightSlice";
   import { setMessage } from "@/src/store/slices/sendMessageSlice";
   import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
-  import { currencySymbols } from "@/src/utils/utils";
+  import { currencySymbols,event } from "@/src/utils/utils";
 
   const BookingDrawerFooter = ({ getFlightDetails }) => {
     const dispatch = useDispatch();
@@ -29,6 +29,13 @@
       (state) => state?.sendMessage
     );    
     const handleBookFlight = () => {
+      event({
+        action: 'click',
+        category: 'engagement',
+        label: 'Select Flight Drawer',
+        value: getFlightDetails?.total_amount_rounded,
+      });
+      console.log("Select Flight Drawer", getFlightDetails?.total_amount_rounded);
       dispatch(setisLoading())
       dispatch(setCloseDrawer()); //dispatch close
       dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail

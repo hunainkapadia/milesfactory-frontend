@@ -49,7 +49,7 @@ const YourTripSedebarCard = ({ offerData, FlightExpire, filterParams }) => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  console.log("SearchHistorySend", SearchHistory);
+  //console.log("SearchHistorySend", SearchHistory);
   
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
