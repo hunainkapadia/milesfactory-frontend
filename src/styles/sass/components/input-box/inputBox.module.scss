@@ -14,6 +14,14 @@
    }
 }
 .SearchBoxSectionActive {
+   .PlaceholderText {
+         font-weight: 400;
+         font-size: 16px;
+         color: rgba(0, 0, 0, 0.4);
+         pointer-events: none;
+
+
+   }
    .Micanimation {
          display: none;
       }

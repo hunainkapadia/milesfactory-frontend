@@ -226,6 +226,19 @@ const MessageInputBox = ({
                     }}
                     style={{ textAlign: "left" }}
                   ></div>
+                  {isChat && !inputValue && !listening && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: { md: "35px", xs: "20px" },
+                      }}
+                      className={inputStyles.PlaceholderText}
+                    >
+                      {isMobile
+                        ? "Ask Mylz..."
+                        : "Ask anything about your trip"}
+                    </Box>
+                  )}
 
                   <Box className={inputStyles.buttonRow}>
                     {!isAiBooking && (
