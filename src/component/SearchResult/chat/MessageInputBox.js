@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IconButton, Box, Button, Typography } from "@mui/material";
+import {
+  IconButton,
+  Box,
+  Button,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import MicAnimation from "../ChatInput/MicAnimation";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +22,14 @@ import { useRouter } from "next/router";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { clearInputValue, setInputValue } from "@/src/store/slices/Base/baseSlice";
+import {
+  clearInputValue,
+  setInputValue,
+} from "@/src/store/slices/Base/baseSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import MobileBuilder from "../ChatInput/mobileBuilderBUtton";
+import MobileBuilderDialoge from "../ChatInput/MobileBuilderDialoge";
 
 const MessageInputBox = ({
   isMessageHome,
@@ -23,12 +37,17 @@ const MessageInputBox = ({
   HeaderInput,
   messagesEndRef,
   isAiBooking, // for aibook page
-  aiBookingMessage
+  aiBookingMessage,
+  isChat,
 }) => {
   const inputRef = useRef(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
   const [getuuid, setGetuuid] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
+    
+
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -124,20 +143,20 @@ const MessageInputBox = ({
   };
 
   useEffect(() => {
-  if (
-    inputRef.current &&
-    inputRef.current.textContent !== inputValue &&
-    !document.activeElement.isEqualNode(inputRef.current)
-  ) {
-    inputRef.current.textContent = inputValue || "";
-  }
-}, [inputValue]);
+    if (
+      inputRef.current &&
+      inputRef.current.textContent !== inputValue &&
+      !document.activeElement.isEqualNode(inputRef.current)
+    ) {
+      inputRef.current.textContent = inputValue || "";
+    }
+  }, [inputValue]);
   return (
     <Box
       className={`${
         isMessageHome
           ? inputStyles.SearchBoxSectionActive
-          : inputStyles.SearchBoxSection
+          : inputStyles.SearchBoxSectionHome
       } ${HeaderInput ? inputStyles.HeaderInput : ""} ${
         isSticky ? inputStyles.InputSticky : inputStyles.noInputSticky
       }`}
@@ -163,7 +182,7 @@ const MessageInputBox = ({
             }}
           >
             <Box className={inputStyles.SearchBoxContainer}>
-              <Box className={inputStyles.SearchBoxIn} position={"relative"}>
+              <Box className={inputStyles.SearchBoxIn}>
                 {!isMessageHome && !inputValue.trim() && !listening ? (
                   <LabelAnimation aiBookingMessage={aiBookingMessage} />
                 ) : null}
@@ -200,52 +219,74 @@ const MessageInputBox = ({
                   style={{ textAlign: "left" }}
                 ></div>
 
-                {!isAiBooking && (
-                  <Box
-                    className={`${inputStyles.SearchButtonBox} ${
-                      listening ? inputStyles.MicActive : ""
-                    }`}
-                  >
-                    <Box width={"100%"}>
-                      {listening ? <MicAnimation active={listening} /> : null}
-                    </Box>
-                    <Box className={inputStyles.BoxButtons}>
-                      <IconButton
-                        className={inputStyles.MicButton}
-                        onClick={handleVoiceInput}
-                        disabled={isLoading}
-                      >
-                        <i
-                          className={`fa ${
-                            listening ? "fa-check" : "fa-microphone"
-                          }`}
-                        ></i>
-                      </IconButton>
-
-                      {listening ? (
-                        <IconButton
-                          className={inputStyles.MicButton}
-                          onClick={handleVoiceInput}
-                          disabled={isLoading}
-                        >
-                          <i className="fa fa-close"></i>
-                        </IconButton>
-                      ) : (
+                <Box className={inputStyles.buttonRow}>
+                  {!isAiBooking && (
+                    <Box
+                      className={`${inputStyles.SearchButtonBox} ${
+                        listening ? inputStyles.MicActive : ""
+                      }`}
+                    >
+                      {isChat && isMobile ? (
                         <>
+                          
+                          <Box
+                            className={
+                              styles.newChatBtn + " newChatBtn lg"
+                            }
+                          >
+                            <FontAwesomeIcon icon={faPlus} />
+                          </Box>
+                          <MobileBuilder />
+                          <MobileBuilderDialoge />
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      <Box className={inputStyles.rightCol}>
+                        <Box width={"100%"}>
+                          {listening ? (
+                            <MicAnimation active={listening} />
+                          ) : null}
+                        </Box>
+                        <Box className={inputStyles.BoxButtons}>
                           <IconButton
-                            className={`${inputStyles.SearchButton} ${
-                              isLoading ? inputStyles.Disabled : ""
-                            }`}
-                            onClick={handleSearch}
+                            className={inputStyles.MicButton}
+                            onClick={handleVoiceInput}
                             disabled={isLoading}
                           >
-                            <i className="fa fa-arrow-right"></i>
+                            <i
+                              className={`fa ${
+                                listening ? "fa-check" : "fa-microphone"
+                              }`}
+                            ></i>
                           </IconButton>
-                        </>
-                      )}
+
+                          {listening ? (
+                            <IconButton
+                              className={inputStyles.MicButton}
+                              onClick={handleVoiceInput}
+                              disabled={isLoading}
+                            >
+                              <i className="fa fa-close"></i>
+                            </IconButton>
+                          ) : (
+                            <>
+                              <IconButton
+                                className={`${inputStyles.SearchButton} ${
+                                  isLoading ? inputStyles.Disabled : ""
+                                }`}
+                                onClick={handleSearch}
+                                disabled={isLoading}
+                              >
+                                <i className="fa fa-arrow-right"></i>
+                              </IconButton>
+                            </>
+                          )}
+                        </Box>
+                      </Box>
                     </Box>
-                  </Box>
-                )}
+                  )}
+                </Box>
               </Box>
 
               {/* {!isPolling && !FlightExpire ? (

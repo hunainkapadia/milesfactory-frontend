@@ -133,14 +133,15 @@ const YourTripSedebarCard = ({
           value={tabValue}
           onChange={handleTabChange}
           TabIndicatorProps={{ style: { display: "none" } }}
-          className={TripStyles.customTabs + " customTabs"}
+          className={TripStyles.customTabs + "  customTabs"}
           sx={{
             backgroundColor: "#F2F7F8",
             borderRadius: "8px",
             padding: "4px",
-            display: "flex",
+
             alignItems: "center",
             mb: "18px",
+            display: { md: "flex", xs: "none" },
           }}
         >
           <Tab
@@ -187,11 +188,15 @@ const YourTripSedebarCard = ({
               {BuilderArguments?.to_destination &&
               BuilderArguments?.trip_length &&
               BuilderArguments?.from_destination ? (
-                <h4 className="semibold black mb-0">
+                <Typography
+                  component="h4"
+                  sx={{ fontSize: { xs: "16px", md: "20px" } }}
+                  className="font-semibold text-black mb-0"
+                >
                   My {BuilderArguments.trip_length} day(s) travel to{" "}
                   {BuilderArguments.to_destination} from{" "}
                   {BuilderArguments.from_destination}
-                </h4>
+                </Typography>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.trip_length ? (
                 <h4 className="semibold black mb-0">

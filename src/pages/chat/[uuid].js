@@ -213,7 +213,7 @@ const ChatByUUID = () => {
                           <i className="fa fa-arrow-down"></i>
                         </IconButton>
                       )}
-                      <MessageInputBox isMessageHome={isMessage} />
+                      <MessageInputBox isChat isMessageHome={isMessage} />
                     </Grid>
                     <Grid item md={4.7} lg={4.7}></Grid>
                   </Grid>

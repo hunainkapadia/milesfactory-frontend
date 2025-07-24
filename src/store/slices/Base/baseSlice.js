@@ -17,12 +17,16 @@ const initialState = {
   ],
 
   inputValue: "",
+  IsBuilderDialog: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setIsBuilderDialog: (state, action) => {
+      state.IsBuilderDialog = action.payload;
+    },
      setInputValue: (state, action) => {
       state.inputValue = action.payload;
     },
@@ -236,7 +240,8 @@ export const {
   setPowerAirlineDialog,
   setInputLabelTexts,
   setInputValue, 
-  clearInputValue
+  clearInputValue,
+  setIsBuilderDialog,
 } = baseSlice.actions;
 
 export default baseSlice.reducer;
