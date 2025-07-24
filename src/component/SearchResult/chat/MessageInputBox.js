@@ -151,6 +151,11 @@ const MessageInputBox = ({
       inputRef.current.textContent = inputValue || "";
     }
   }, [inputValue]);
+
+  // new thread handel
+  const HandleNewThread = () => {
+      dispatch(deleteAndCreateThread());
+    };
   return (
     <Box
       className={`${
@@ -230,8 +235,9 @@ const MessageInputBox = ({
                         <>
                           
                           <Box
+                            onClick={HandleNewThread}
                             className={
-                              styles.newChatBtn + " newChatBtn lg"
+                              styles.newChatBtn + " newChatBtn lg cursor-pointer"
                             }
                           >
                             <FontAwesomeIcon icon={faPlus} />
