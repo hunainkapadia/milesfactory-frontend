@@ -47,11 +47,11 @@ const MobileBuilderDialoge = () => {
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
       TransitionComponent={Transition}
-      sx={{top:"56px",       boxShadow: "none" }}
+      sx={{top:"61px",       boxShadow: "none" }}
         BackdropProps={{ invisible: true }} 
 
     >
-      <DialogContent sx={{ px: 0 }}>
+      <DialogContent sx={{ px: 0 }} className="asasas">
         <Box>
           <YourTripSedebarCard
             offerData={getselectedFlight}
