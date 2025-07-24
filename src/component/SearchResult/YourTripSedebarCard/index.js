@@ -124,7 +124,7 @@ const YourTripSedebarCard = ({
       {/* Open drawer only for the selected flight */}
       <Box
         className={TripStyles.TripBody}
-        pt={"18px"}
+        sx={{ pt: { md: "18px", xs: 0 } }}
         px={"18px"}
         component={"section"}
         pb={3}
@@ -177,7 +177,7 @@ const YourTripSedebarCard = ({
           />*/}
         </Tabs>
         <Box
-          mb={2}
+          mb={3}
           className={TripStyles.Header2 + " aaa"}
           display={"flex"}
           alignItems={"flex-start"}

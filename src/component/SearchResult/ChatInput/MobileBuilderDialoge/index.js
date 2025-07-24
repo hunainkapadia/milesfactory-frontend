@@ -51,7 +51,7 @@ const MobileBuilderDialoge = () => {
         BackdropProps={{ invisible: true }} 
 
     >
-      <DialogContent sx={{ px: 0 }} className="asasas">
+      <DialogContent  sx={{ px: 0, py: "18px", }} className="asasas">
         <Box>
           <YourTripSedebarCard
             offerData={getselectedFlight}
