@@ -46,8 +46,7 @@ const MessageInputBox = ({
 
   const [getuuid, setGetuuid] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
-    
-
+  const [isMicActive, setIsMicActive] = useState(false);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -100,18 +99,21 @@ const MessageInputBox = ({
     router.push(`/chat/${uuid}`);
   };
 
+  console.log("listening", listening);
   const handleVoiceInput = () => {
     if (!browserSupportsSpeechRecognition) {
       alert("Your browser does not support speech recognition.");
       return;
     }
 
-    if (listening) {
+    if (isMicActive) {
       SpeechRecognition.stopListening();
+      setIsMicActive(false);
     } else {
       resetTranscript();
       if (inputRef.current) inputRef.current.textContent = "";
       SpeechRecognition.startListening({ continuous: true, language: "en-US" });
+      setIsMicActive(true);
     }
   };
 
@@ -154,8 +156,8 @@ const MessageInputBox = ({
 
   // new thread handel
   const HandleNewThread = () => {
-      dispatch(deleteAndCreateThread());
-    };
+    dispatch(deleteAndCreateThread());
+  };
   return (
     <>
       <Box
@@ -250,8 +252,8 @@ const MessageInputBox = ({
                         )}
                         <Box className={inputStyles.rightCol}>
                           <Box width={"100%"}>
-                            {listening ? (
-                              <MicAnimation active={listening} />
+                            {isMicActive ? (
+                              <MicAnimation active={isMicActive} />
                             ) : null}
                           </Box>
                           <Box className={inputStyles.BoxButtons}>
@@ -262,12 +264,12 @@ const MessageInputBox = ({
                             >
                               <i
                                 className={`fa ${
-                                  listening ? "fa-check" : "fa-microphone"
+                                  isMicActive ? "fa-check" : "fa-microphone"
                                 }`}
                               ></i>
                             </IconButton>
 
-                            {listening ? (
+                            {isMicActive ? (
                               <IconButton
                                 className={inputStyles.MicButton}
                                 onClick={handleVoiceInput}
