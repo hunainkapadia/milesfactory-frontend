@@ -26,24 +26,25 @@
 
   .slider {
     position: absolute;
-    top: 4px;
-    width: calc(50% - 8px);
-    height: 32px;
+    top: 0;
+    width: calc(50% - 0px);
+    height: 38px;
     background-color: $white;
     border-radius: 20px;
     transition: all 0.3s ease;
     left: 4px;
-      background: #FFFFFF;
+      background: $white;
       border: 1px solid #C5DADE;
       border-radius: 30px;
 
 
     &.right {
-      left: calc(50% + 4px);
+      left: calc(50% + 0px);
     }
   }
 
   .label {
+    padding-left: 5px;
     flex: 1;
     display: flex;
     align-items: center;
@@ -52,13 +53,15 @@
     font-size: 14px;
 
     &.active {
-      font-weight: bold;
-      color: $basecolor1; // uses MUI theme variable
+      p {
+         font-weight: normal;
+         color: $basecolor; // uses MUI theme variable
+      }
     }
 
     &.inactive {
-      font-weight: normal;
-      color: $basecolor; // uses MUI theme variable
+      p {font-weight: $bold;}
+      color: $basecolor1; // uses MUI theme variable
     }
   }
 }

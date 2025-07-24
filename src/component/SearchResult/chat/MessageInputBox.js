@@ -157,180 +157,182 @@ const MessageInputBox = ({
       dispatch(deleteAndCreateThread());
     };
   return (
-    <Box
-      className={`${
-        isMessageHome
-          ? inputStyles.SearchBoxSectionActive
-          : inputStyles.SearchBoxSectionHome
-      } ${HeaderInput ? inputStyles.HeaderInput : ""} ${
-        isSticky ? inputStyles.InputSticky : inputStyles.noInputSticky
-      }`}
-    >
-      <Box className={styles.Content + " " + inputStyles.Content}>
-        <Box
-          className={styles.ContentIn}
-          textAlign={"center"}
-          display={"flex"}
-          justifyContent={"center"}
-          flexDirection={"column"}
-        >
+    <>
+      <Box
+        className={`${
+          isMessageHome
+            ? inputStyles.SearchBoxSectionActive
+            : inputStyles.SearchBoxSectionHome
+        } ${HeaderInput ? inputStyles.HeaderInput : ""} ${
+          isSticky ? inputStyles.InputSticky : inputStyles.noInputSticky
+        }`}
+      >
+        <Box className={styles.Content + " " + inputStyles.Content}>
           <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            position={"relative"}
-            sx={{
-              gap: isAiBooking ? { lg: "26px", md: "26px", xs: "12px" } : "",
-              flexDirection: isAiBooking
-                ? { lg: "row", md: "row", xs: "column" }
-                : "",
-            }}
+            className={styles.ContentIn}
+            textAlign={"center"}
+            display={"flex"}
+            justifyContent={"center"}
+            flexDirection={"column"}
           >
-            <Box className={inputStyles.SearchBoxContainer}>
-              <Box className={inputStyles.SearchBoxIn}>
-                {!isMessageHome && !inputValue.trim() && !listening ? (
-                  <LabelAnimation aiBookingMessage={aiBookingMessage} />
-                ) : null}
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              position={"relative"}
+              sx={{
+                gap: isAiBooking ? { lg: "26px", md: "26px", xs: "12px" } : "",
+                flexDirection: isAiBooking
+                  ? { lg: "row", md: "row", xs: "column" }
+                  : "",
+              }}
+            >
+              <Box className={inputStyles.SearchBoxContainer}>
+                <Box className={inputStyles.SearchBoxIn}>
+                  {!isMessageHome && !inputValue.trim() && !listening ? (
+                    <LabelAnimation aiBookingMessage={aiBookingMessage} />
+                  ) : null}
 
-                <div
-                  ref={inputRef}
-                  onPaste={(e) => {
-                    e.preventDefault(); // stop default paste
-                    const text = e.clipboardData.getData("text/plain"); // get plain text
-                    document.execCommand("insertText", false, text); // insert plain text
-                  }}
-                  contentEditable={true}
-                  suppressContentEditableWarning
-                  role="textbox"
-                  placeholder="Ask anything about your trip"
-                  className={inputStyles.SearchForm + " SearchForm 222"}
-                  onInput={(e) => {
-                    const value = e.currentTarget.textContent.trim();
-                    dispatch(setInputValue(value));
-                    setIsTyping(value.length > 0);
-                    // If user edits manually, reset transcript so react-speech-recognition does not override
-                    resetTranscript();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      if (isLoading) return;
-                      e.preventDefault();
-                      handleSearch();
-                      e.currentTarget.textContent = "";
-                      setIsTyping(false);
+                  <div
+                    ref={inputRef}
+                    onPaste={(e) => {
+                      e.preventDefault(); // stop default paste
+                      const text = e.clipboardData.getData("text/plain"); // get plain text
+                      document.execCommand("insertText", false, text); // insert plain text
+                    }}
+                    contentEditable={true}
+                    suppressContentEditableWarning
+                    role="textbox"
+                    placeholder="Ask anything about your trip"
+                    className={inputStyles.SearchForm + " SearchForm 222"}
+                    onInput={(e) => {
+                      const value = e.currentTarget.textContent.trim();
+                      dispatch(setInputValue(value));
+                      setIsTyping(value.length > 0);
+                      // If user edits manually, reset transcript so react-speech-recognition does not override
                       resetTranscript();
-                    }
-                  }}
-                  style={{ textAlign: "left" }}
-                ></div>
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        if (isLoading) return;
+                        e.preventDefault();
+                        handleSearch();
+                        e.currentTarget.textContent = "";
+                        setIsTyping(false);
+                        resetTranscript();
+                      }
+                    }}
+                    style={{ textAlign: "left" }}
+                  ></div>
 
-                <Box className={inputStyles.buttonRow}>
-                  {!isAiBooking && (
-                    <Box
-                      className={`${inputStyles.SearchButtonBox} ${
-                        listening ? inputStyles.MicActive : ""
-                      }`}
-                    >
-                      {isChat && isMobile ? (
-                        <>
-                          
-                          <Box
-                            onClick={HandleNewThread}
-                            className={
-                              styles.newChatBtn + " newChatBtn lg cursor-pointer"
-                            }
-                          >
-                            <FontAwesomeIcon icon={faPlus} />
+                  <Box className={inputStyles.buttonRow}>
+                    {!isAiBooking && (
+                      <Box
+                        className={`${inputStyles.SearchButtonBox} ${
+                          listening ? inputStyles.MicActive : ""
+                        }`}
+                      >
+                        {isChat && isMobile ? (
+                          <>
+                            <Box
+                              onClick={HandleNewThread}
+                              className={
+                                styles.newChatBtn +
+                                " newChatBtn lg cursor-pointer"
+                              }
+                            >
+                              <FontAwesomeIcon icon={faPlus} />
+                            </Box>
+                            <MobileBuilder />
+                          </>
+                        ) : (
+                          ""
+                        )}
+                        <Box className={inputStyles.rightCol}>
+                          <Box width={"100%"}>
+                            {listening ? (
+                              <MicAnimation active={listening} />
+                            ) : null}
                           </Box>
-                          <MobileBuilder />
-                          <MobileBuilderDialoge />
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      <Box className={inputStyles.rightCol}>
-                        <Box width={"100%"}>
-                          {listening ? (
-                            <MicAnimation active={listening} />
-                          ) : null}
-                        </Box>
-                        <Box className={inputStyles.BoxButtons}>
-                          <IconButton
-                            className={inputStyles.MicButton}
-                            onClick={handleVoiceInput}
-                            disabled={isLoading}
-                          >
-                            <i
-                              className={`fa ${
-                                listening ? "fa-check" : "fa-microphone"
-                              }`}
-                            ></i>
-                          </IconButton>
-
-                          {listening ? (
+                          <Box className={inputStyles.BoxButtons}>
                             <IconButton
                               className={inputStyles.MicButton}
                               onClick={handleVoiceInput}
                               disabled={isLoading}
                             >
-                              <i className="fa fa-close"></i>
-                            </IconButton>
-                          ) : (
-                            <>
-                              <IconButton
-                                className={`${inputStyles.SearchButton} ${
-                                  isLoading ? inputStyles.Disabled : ""
+                              <i
+                                className={`fa ${
+                                  listening ? "fa-check" : "fa-microphone"
                                 }`}
-                                onClick={handleSearch}
+                              ></i>
+                            </IconButton>
+
+                            {listening ? (
+                              <IconButton
+                                className={inputStyles.MicButton}
+                                onClick={handleVoiceInput}
                                 disabled={isLoading}
                               >
-                                <i className="fa fa-arrow-right"></i>
+                                <i className="fa fa-close"></i>
                               </IconButton>
-                            </>
-                          )}
+                            ) : (
+                              <>
+                                <IconButton
+                                  className={`${inputStyles.SearchButton} ${
+                                    isLoading ? inputStyles.Disabled : ""
+                                  }`}
+                                  onClick={handleSearch}
+                                  disabled={isLoading}
+                                >
+                                  <i className="fa fa-arrow-right"></i>
+                                </IconButton>
+                              </>
+                            )}
+                          </Box>
                         </Box>
                       </Box>
-                    </Box>
-                  )}
+                    )}
+                  </Box>
                 </Box>
-              </Box>
 
-              {/* {!isPolling && !FlightExpire ? (
-                <>
-                </>
-              ) : (
-                <Box
-                  onClick={HandleNewThread}
-                  className="btn btn-basecolor1 btn-border  btn-sm cursor-pointer"
-                >
-                  Start new chat
-                </Box>
-              )} */}
-            </Box>
-            {isAiBooking && (
-              <Box
-                whiteSpace={"nowrap"}
-                sx={{
-                  width: { xs: "100%", sm: "auto" }, // 100% on mobile, auto on larger
-                  display: { xs: "flex", sm: "block" }, // flex on mobile, block on larger
-                  justifyContent: { xs: "end", sm: "start" }, // end on mobile, start/default on larger
-                }}
-              >
-                <Button
-                  className={`btn btn-primary btn-round btn-xs  ${
-                    inputStyles.SearchButton
-                  } ${isLoading ? inputStyles.Disabled : ""}`}
-                  onClick={handleSearch}
-                  disabled={isLoading}
-                >
-                  Search
-                </Button>
+                {/* {!isPolling && !FlightExpire ? (
+                  <>
+                  </>
+                ) : (
+                  <Box
+                    onClick={HandleNewThread}
+                    className="btn btn-basecolor1 btn-border  btn-sm cursor-pointer"
+                  >
+                    Start new chat
+                  </Box>
+                )} */}
               </Box>
-            )}
+              {isAiBooking && (
+                <Box
+                  whiteSpace={"nowrap"}
+                  sx={{
+                    width: { xs: "100%", sm: "auto" }, // 100% on mobile, auto on larger
+                    display: { xs: "flex", sm: "block" }, // flex on mobile, block on larger
+                    justifyContent: { xs: "end", sm: "start" }, // end on mobile, start/default on larger
+                  }}
+                >
+                  <Button
+                    className={`btn btn-primary btn-round btn-xs  ${
+                      inputStyles.SearchButton
+                    } ${isLoading ? inputStyles.Disabled : ""}`}
+                    onClick={handleSearch}
+                    disabled={isLoading}
+                  >
+                    Search
+                  </Button>
+                </Box>
+              )}
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
+      <MobileBuilderDialoge />
+    </>
   );
 };
 
