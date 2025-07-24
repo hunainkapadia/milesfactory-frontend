@@ -61,6 +61,7 @@ const MessageInputBox = ({
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
   const inputValue = useSelector((state) => state.base.inputValue); //get input value
+  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder); // builder
   useEffect(() => {
     const storedUuid = sessionStorage.getItem("chat_thread_uuid");
 
@@ -258,7 +259,7 @@ const MessageInputBox = ({
                             >
                               <FontAwesomeIcon icon={faPlus} />
                             </Box>
-                            <MobileBuilder />
+                            <Box>{getBuilder && <MobileBuilder />}</Box>
                           </>
                         ) : (
                           ""
