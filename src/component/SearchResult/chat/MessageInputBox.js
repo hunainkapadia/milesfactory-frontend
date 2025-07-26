@@ -259,7 +259,9 @@ const MessageInputBox = ({
                             >
                               <FontAwesomeIcon icon={faPlus} />
                             </Box>
-                            <Box>{getBuilder && <MobileBuilder />}</Box>
+                            <Box sx={{ opacity: !getBuilder ? 0.5 : 1 }}>
+                              <MobileBuilder />
+                            </Box>
                           </>
                         ) : (
                           ""
