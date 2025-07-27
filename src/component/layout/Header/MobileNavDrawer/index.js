@@ -308,7 +308,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
             <Box
               className={styles.HeaderDrawer}
               sx={{
-                px: { xs: "15px" }, // Padding X (left & right)
+                
                 py: "15px", // Padding Y (top & bottom)
               }}
               width={"280px"}
@@ -318,7 +318,8 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                 component="header"
                 display="flex"
                 alignItems="center"
-                gap={2}
+                gap={"15px"}
+                px={"18px"}
               >
                 {/* Close Button */}
                 <Box fontSize="20px">
@@ -343,8 +344,8 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
               </Box>
 
               {/* Navigation & CTA */}
-              <Box>
-                <Box pt={7} display={"flex"} flexDirection={"column"} gap={3}>
+              <Box component={"body"} px={2}>
+                <Box pt={"60px"} display={"flex"} flexDirection={"column"} gap={3}>
                   <HeaderUser formobileDrawer={"formobileDrawer"} />
 
                   {/*  */}

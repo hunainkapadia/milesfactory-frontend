@@ -1,5 +1,7 @@
 import { Box, Card, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const PassengersCard = ({
   passName,
@@ -122,10 +124,13 @@ const PassengersCard = ({
         display={"flex"}
         alignItems={"center"}
         justifyContent={"flex-end"}
+        className={"basecolor1"}
+        gap={"5px"}
       >
-        <Typography className=" f12 bold mb-0 basecolor1 cursor-pointer">
+        <Typography className=" f12 bold mb-0 basecolor1 cursor-pointer" >
           {isFilled ? "Change" : "Add"}
         </Typography>
+        <FontAwesomeIcon icon={faAngleRight} fontSize={"14px"}/>
       </Box>
     </Box>
   );

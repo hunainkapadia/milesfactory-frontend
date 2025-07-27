@@ -72,7 +72,7 @@ const YourTripSidebar = ({ isMessage }) => {
                 <Box className=" imggroup">
                   <Image width={24} height={24} src="/images/share-icon.svg" />
                 </Box>
-                <Typography>Share</Typography>
+                <Typography className="bold">Share</Typography>
               </Box>
             </Box>
             <YourTripSedebarCard

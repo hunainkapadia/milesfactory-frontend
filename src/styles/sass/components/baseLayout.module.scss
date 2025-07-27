@@ -2,6 +2,63 @@
 @import '../_css3-mixins.scss'; //This is used for basic css3 usage with minimal line of code, info https://github.com/matthieua/sass-css3-mixins/blob/master/css3-mixins.scss
 
 
+// search share dropdown header
+.ShareDropdown {
+   @include transition(all 0.2s ease-in-out);
+   padding: 0px;
+   position: relative;
+
+   .ShareDropdownHandle {
+      height: 60px;
+   }
+
+   &:hover .DropdownItems {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0); // Moves to normal position
+   }
+
+   .DropdownItems {
+      width: 100%;
+      position: absolute;
+      height: auto;
+      top: 60px;
+      left: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include transition(opacity 0.3s ease-in-out, transform 0.3s ease-in-out);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px); // Move slightly up
+
+      .DropdownItemsIn {
+         @include border-radius(8px);
+         z-index: 4;
+         padding: 15px 13px;
+         width: 170px;
+
+
+         background: #FFFFFF;
+         border: 1px solid #FFFFFF;
+         box-shadow: 0px 10px 32px rgba(0, 196, 204, 0.15), 0px 16px 32px -4px rgba(12, 12, 13, 0.1), 0px 4px 4px -4px rgba(12, 12, 13, 0.05);
+         border-radius: 8px;
+
+         .DropdownItemsBox {
+            gap: 38px;
+
+            a {
+               color: $white;
+
+            }
+
+            i {
+               display: flex;
+            }
+         }
+      }
+   }
+}
 .flagIcon {
    width: 20px;
    height: 20px;
@@ -69,7 +126,7 @@
       width: 62px;
    }
    &.Sticky {
-      height: 60px;
+      height: 50px;
       background-color: $white;
       transition: all 0.3s ease-in-out;
       .Login {
@@ -97,7 +154,8 @@
       background-color: $white;
       box-shadow: 0px 1px 0px rgba(0, 80, 83, 0.05);
       
-      .Box {
+      .Box {position: relative;z-index: 8;gap: 40px;
+         justify-content: flex-start;
          .Login {
             color: $basecolor-dark;
             
@@ -243,7 +301,17 @@
             top: 50px;
          }
       }
+      &.isHome {
+         .Container {
+            padding-left: 20px;
+            padding-right: 20px;
+         }
+      }
       &.isMessage {
+         .Container {
+            padding-left: 15px;
+            padding-right: 15px;
+         }
          .leftCol .Logo {
             width: 94px;
          }

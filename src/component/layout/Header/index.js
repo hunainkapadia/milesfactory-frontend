@@ -53,6 +53,8 @@ import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import ContactDialog from "../ContactDialog";
 import InviteEmailDialog from "../InviteEmailDialog";
 import SearchFilterBar from "../../SearchResult/SearchFilterBar";
+import Image from "next/image";
+import ShareDropdown from "./ShareDropdown";
 
 const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -117,6 +119,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
           ${styles.Header} //normal header
           ${isMessage ? styles.isMessage : ""} // if message header change
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
+          ${isHome ? styles.isHome : ""} // if sticky or login
+          
           `}
       >
         <Container className={styles.Container} sx={{ position: "relative" }}>
@@ -168,6 +172,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                     </Box>
                   </Box>
                 </Box>
+                {isMessage && isMobile ? <ShareDropdown /> : ""}
 
                 <Box
                   sx={{
