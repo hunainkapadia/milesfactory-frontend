@@ -165,6 +165,23 @@ const SidebarTripDetails = () => {
           {/* Departure. Check out and head to the airport for your flight. */}
         </Typography>
       </Box>
+      
+      {BuilderArguments?.itinerary_text &&
+      <Box mb={3}>
+        <Box mb={1}>
+          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+            <Typography
+              className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+            >
+              Itinerary for {BuilderArguments?.to_destination}
+            </Typography>
+          </Box>
+        </Box>
+        <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+           {BuilderArguments?.itinerary_text}
+        </Typography>
+      </Box>
+      }
     </>
   );
 };
