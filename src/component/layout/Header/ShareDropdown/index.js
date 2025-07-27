@@ -1,47 +1,35 @@
 import { useState } from "react";
 import {
   Box,
-  Menu,
-  MenuItem,
   Typography,
-  ListItemIcon,
+  Stack,
 } from "@mui/material";
 import Image from "next/image";
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
+import { useSelector } from "react-redux";
 
-export default function ShareDropdown({ tripLink }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  let timer;
+export default function ShareDropdown() {
+  const url = useSelector((state) => state); // Optional use
+  const [copied, setCopied] = useState(false); // Control visibility
 
-  const handleMouseEnter = (event) => {
-    clearTimeout(timer);
-    setAnchorEl(event.currentTarget);
-  };
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
 
-  const handleMouseLeave = () => {
-    timer = setTimeout(() => {
-      setAnchorEl(null);
-    }, 200); // slight delay for smoother UX
-  };
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(tripLink);
-    setAnchorEl(null);
-  };
-
-  const handleViewPublicPage = () => {
-    window.open("/public-page", "_blank"); // Replace with your actual link
-    setAnchorEl(null);
+    // Hide after 5 seconds
+    setTimeout(() => {
+      setCopied(false);
+    }, 5000);
   };
 
   return (
-    <Box className={`${styles.Dropdown}`}>
+    <Box className={`${styles.ShareDropdown}`}>
+      {/* Share Button */}
       <Box
         display={"flex"}
         alignItems={"center"}
-        className="basecolor1"
         gap={1}
+        className={`${styles.ShareDropdownHandle} basecolor1`}
       >
         <Box className="imggroup">
           <Image
@@ -54,35 +42,57 @@ export default function ShareDropdown({ tripLink }) {
         <Typography className="bold">Share</Typography>
       </Box>
 
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={() => setAnchorEl(null)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}
-        PaperProps={{
-          onMouseEnter: () => clearTimeout(timer),
-          onMouseLeave: handleMouseLeave,
-          elevation: 4,
-          sx: { borderRadius: 2, minWidth: 200 },
-        }}
-        className={styles.DropdownItems}
+      {/* Dropdown Content */}
+      <Stack
+        justifyContent={"center"}
+        width={"100%"}
+        className={`${styles.DropdownItems} DropdownItems`}
       >
-        <MenuItem disabled>
-          <ListItemIcon>✅</ListItemIcon>
-          <Typography>Trip link copied!</Typography>
-        </MenuItem>
+        <Stack
+          flexDirection={"column"}
+          gap={"10px"}
+          className={`${styles.DropdownItemsIn} DropdownItems`}
+        >
+          {/* ✅ Show this only when copied */}
+          {copied && (
+            <Stack gap={"4px"} flexDirection={"row"} alignItems={"center"}>
+              <Image
+                width={15}
+                height={15}
+                src="/images/success-check.svg"
+                alt="Check Icon"
+              />
+              <Typography className="f16 basecolor1 bold">
+                Trip link copied!
+              </Typography>
+            </Stack>
+          )}
 
-        <MenuItem onClick={handleViewPublicPage}>
-          <ListItemIcon>🌐</ListItemIcon>
-          <Typography>View public page</Typography>
-        </MenuItem>
+          {/* View Public Page */}
+          {/* <Stack
+            gap={"4px"}
+            flexDirection={"row"}
+            alignItems={"center"}
+            pl={"19px"}
+            sx={{ cursor: "pointer" }}
+            onClick={() => window.open("/public-page", "_blank")} // adjust as needed
+          >
+            <Typography className="f12 bold">View public page</Typography>
+          </Stack> */}
 
-        <MenuItem onClick={handleCopy}>
-          <ListItemIcon>📋</ListItemIcon>
-          <Typography>Copy link again</Typography>
-        </MenuItem>
-      </Menu>
+          {/* Copy Link Again */}
+          <Stack
+            gap={"4px"}
+            flexDirection={"row"}
+            alignItems={"center"}
+            pl={"19px"}
+            sx={{ cursor: "pointer" }}
+            onClick={handleCopyLink}
+          >
+            <Typography className="f12">Copy link {copied ? "again" : ""}</Typography>
+          </Stack>
+        </Stack>
+      </Stack>
     </Box>
   );
 }
