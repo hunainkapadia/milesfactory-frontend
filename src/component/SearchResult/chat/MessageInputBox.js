@@ -192,7 +192,10 @@ const MessageInputBox = ({
             >
               <Box className={inputStyles.SearchBoxContainer}>
                 <Box className={inputStyles.SearchBoxIn}>
-                  {!isMessageHome && !inputValue.trim() && !listening ? (
+                  {(!isMobile || (isMobile && !isSticky)) &&
+                  !isMessageHome &&
+                  !inputValue.trim() &&
+                  !listening ? (
                     <LabelAnimation aiBookingMessage={aiBookingMessage} />
                   ) : null}
 

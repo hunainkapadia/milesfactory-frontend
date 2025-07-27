@@ -26,13 +26,13 @@ const HerosectionContent = () => {
                color="white"
                
              >
-               Set your budget, time, and pace - Mylz AI builds travel plans you can actually book.
+               Set your budget, time, and pace – Mylz AI builds real travel plans you can book.
              </Typography>
              <Typography
                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                color="white"
              >
-               Set your budget, time, and pace - Mylz<br/>builds travel plans you can actually book.
+               Mylz builds real travel plans you can book.
              </Typography>
            </Box>
          </Box>
