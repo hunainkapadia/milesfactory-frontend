@@ -15,14 +15,16 @@ const SidebarTripDetails = () => {
               className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
             >
               Outbound |{" "}
-              {new Date(BuilderArguments?.departure_date).toLocaleDateString(
-                "en-GB",
-                {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                }
-              )}
+              {
+                BuilderArguments?.departure_date && 
+                  new Date(BuilderArguments?.departure_date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  })
+              }
             </Typography>
             <Typography className="f12 semibold">
               {BuilderArguments?.from_destination}
@@ -30,7 +32,7 @@ const SidebarTripDetails = () => {
           </Box>
         </Box>
         <Typography className="f12">
-          Arrive in Bangkok and unwind – check-in opens at 4pm.
+          {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
         </Typography>
       </Box>
 
@@ -65,28 +67,30 @@ const SidebarTripDetails = () => {
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Departure</Typography>
             <Typography className="f12 semibold">
-              {new Date(BuilderArguments?.departure_date).toLocaleDateString(
-                "en-GB",
-                {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                }
-              )}
+              {
+                BuilderArguments?.departure_date && 
+                  new Date(BuilderArguments?.departure_date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  })
+              }
             </Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Return</Typography>
             <Typography className="f12 semibold">
-              {new Date(BuilderArguments?.return_date).toLocaleDateString(
-                "en-GB",
-                {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                }
-              )}
+              {
+                BuilderArguments?.return_date && // This is the condition
+                  new Date(BuilderArguments.return_date).toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  })
+              }
             </Typography>
           </Stack>
 
@@ -131,9 +135,9 @@ const SidebarTripDetails = () => {
             </Typography>
           </Stack>
         </Stack>
-          <Box display={"flex"} justifyContent={"flex-end"}>
+          {/* <Box display={"flex"} justifyContent={"flex-end"}>
             <Button className="btn btn-white btn-sm btn-round">Search flights in Chat</Button>
-          </Box>
+          </Box> */}
       </Box>
 
       <Box mb={3}>
@@ -143,14 +147,14 @@ const SidebarTripDetails = () => {
               className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
             >
               Return |{" "}
-              {new Date(BuilderArguments?.return_date).toLocaleDateString(
-                "en-GB",
-                {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                }
-              )}
+              {
+                BuilderArguments?.return_date && // This is the condition
+                  new Date(BuilderArguments.return_date).toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  })
+              }
             </Typography>
             <Typography className="f12 semibold">
               {BuilderArguments?.to_destination}
@@ -158,7 +162,7 @@ const SidebarTripDetails = () => {
           </Box>
         </Box>
         <Typography className="f12">
-          Departure. Check out and head to the airport for your flight.
+          {/* Departure. Check out and head to the airport for your flight. */}
         </Typography>
       </Box>
     </>

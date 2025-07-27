@@ -338,8 +338,8 @@ const YourTripSedebarCard = ({
                             </Box>
                           </Box>
                           <Typography className="f12">
-                            Arrive in Bangkok and unwind – check-in opens at
-                            4pm.
+                            {/* Arrive in Bangkok and unwind – check-in opens at
+                            4pm. */}
                           </Typography>
                         </>
                       ) : (
@@ -678,10 +678,10 @@ const YourTripSedebarCard = ({
                           className="f12 basecolor1"
                           whiteSpace={"nowrap"}
                         >
-                          <Typography className="f12" component="span">
+                          {/* <Typography className="f12" component="span">
                             Change
-                          </Typography>
-                          <i className="fa f12 fa-angle-right basecolor1" />
+                          </Typography> */}
+                          {/* <i className="fa f12 fa-angle-right basecolor1" /> */}
                         </Stack>
                       </Stack>
 
@@ -726,14 +726,14 @@ const YourTripSedebarCard = ({
                         alignItems={"center"}
                         gap={0.5}
                       >
-                        <Typography component={"span"} className="bold f12">
+                        {/* <Typography component={"span"} className="bold f12">
                           {currencySymbols[offerData?.tax_currency] ||
                             offerData?.tax_currency}
                           {Math.round(offerData?.per_passenger_amount)},{" "}
                         </Typography>
                         <Typography component={"span"} className="f12">
                           selected by you
-                        </Typography>
+                        </Typography> */}
                       </Box>
 
                       {/*  */}
