@@ -154,8 +154,7 @@
       background-color: $white;
       box-shadow: 0px 1px 0px rgba(0, 80, 83, 0.05);
       
-      .Box {position: relative;z-index: 8;gap: 40px;
-         justify-content: flex-start;
+      .Box {position: relative;z-index: 8;
          .Login {
             color: $basecolor-dark;
             
@@ -291,6 +290,12 @@
       }
       .Dropdown.forHader .Login {
         flex-direction: row;
+      }
+      &.isMessage {
+         .Box {height: 54px;
+            position: relative;z-index: 8;gap: 40px;
+            justify-content: flex-start;
+         }
       }
       .Box {
          height: 54px;
