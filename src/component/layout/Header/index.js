@@ -172,7 +172,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                     </Box>
                   </Box>
                 </Box>
-                <ShareDropdown />
+                {isMessage ? <ShareDropdown /> : ""}
 
                 <Box
                   sx={{
