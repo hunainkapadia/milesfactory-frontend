@@ -115,8 +115,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                   >
                     <Box display="flex" justifyContent="space-between" gap={4}>
                       <Typography
-                        className="f12 basecolor-dark"
-                        fontWeight="bold"
+                        className="f12 basecolor-dark semibold"
                       >
                         {title}
                       </Typography>

@@ -310,7 +310,6 @@
                @include border-radius(100px);
                color: $white;
                font-size: $bfsize;
-               border: solid 1px $lightgray2;
                i  {font-size: 12px;}
                &:hover {
                   background-color: $basecolor1;
@@ -328,6 +327,9 @@
 
 
 @include for-mobile-large-screen {  
+   .CircleButton {
+      top: -58px;
+   }
    .SearchBoxSectionHome { 
       &.HeaderInput {
          &.InputSticky {

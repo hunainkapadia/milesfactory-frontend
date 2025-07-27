@@ -243,7 +243,17 @@
             top: 50px;
          }
       }
+      &.isHome {
+         .Container {
+            padding-left: 20px;
+            padding-right: 20px;
+         }
+      }
       &.isMessage {
+         .Container {
+            padding-left: 15px;
+            padding-right: 15px;
+         }
          .leftCol .Logo {
             width: 94px;
          }
