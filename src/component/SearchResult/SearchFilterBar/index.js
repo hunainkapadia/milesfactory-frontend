@@ -148,7 +148,8 @@ const SearchFilterBar = () => {
                         gap={1}
                         alignItems={"center"}
                         display={"flex"}
-                        className=" basecolor1 semibold f10"
+                        className=" basecolor1 semibold"
+                        sx={{fontSize:{md:"12px", xs:"10px" }}}
                       >
                         <span>See details</span>
                         <i className="fa-angle-right fa fas"></i>{" "}
