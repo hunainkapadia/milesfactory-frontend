@@ -52,8 +52,12 @@ const SearchFilterBar = () => {
             >
               {/*  */}
               <Box gap={"8px"} display={"flex"} alignItems={"center"}>
-                <Box className=" imggroup" sx={{ width: "28px" }}>
+                <Box className=" imggroup">
+                {offerkey ? (
+                  <img width={20} height={20} src="/images/success-check.svg" />
+                ): (
                   <img width="28" src="/images/plane-icon-basecolor1.svg" />
+                )}
                 </Box>
                 {SearchHistory ? (
                   <Box className={styles.Header2 + " aaa"}>
@@ -145,7 +149,7 @@ const SearchFilterBar = () => {
                         gap={1}
                         alignItems={"center"}
                         display={"flex"}
-                        className=" basecolor1 semibold"
+                        className=" basecolor1 semibold f10"
                       >
                         <span>See details</span>
                         <i className="fa-angle-right fa fas"></i>{" "}

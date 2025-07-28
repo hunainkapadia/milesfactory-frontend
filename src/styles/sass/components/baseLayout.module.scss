@@ -293,7 +293,7 @@
       }
       &.isMessage {
          .Box {height: 54px;
-            position: relative;z-index: 8;gap: 40px;
+            position: relative;z-index: 8;gap: 21px;
             justify-content: flex-start;
          }
       }
@@ -320,7 +320,10 @@
          .leftCol .Logo {
             width: 94px;
          }
-         .HeaderRightCol {gap: 0 24px;}
+         .HeaderRightCol {gap: 0 24px;
+            position: absolute;
+            right: 0px;
+         }
          .userName {
             display: none;
          }
