@@ -125,7 +125,13 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
       >
         <Container className={styles.Container} sx={{ position: "relative" }}>
           <Grid container width={"100%"} sx={{ margin: 0 }}>
-            <Grid item md={12} lg={12} xs={12}>
+            <Grid
+              item
+              md={12}
+              lg={12}
+              xs={12}
+              sx={{ position: { md: "relative", xs: "static" } }}
+            >
               <Box
                 className={styles.Box}
                 display={"flex"}
@@ -319,6 +325,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                 </Box>
                 {/*  */}
               </Box>
+              {isChat && <SearchFilterBar />}
               {isHome ? (
                 <MessageInputBox
                   isSticky={InputSticky}
@@ -327,7 +334,6 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
               ) : (
                 ""
               )}
-              {isChat && <SearchFilterBar />}
             </Grid>
           </Grid>
         </Container>

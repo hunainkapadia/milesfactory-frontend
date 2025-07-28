@@ -40,7 +40,6 @@ const SearchFilterBar = () => {
           <Box
             component={"main"}
             className={styles.SearchFilterBar}
-            sx={{ display: { xs: "block", lg: "none", md: "none" } }}
           >
             <Box
               component={"section"}
@@ -62,7 +61,7 @@ const SearchFilterBar = () => {
                 {SearchHistory ? (
                   <Box className={styles.Header2 + " aaa"}>
                     <Box mb={"2px"}>
-                      <Typography className="bold f10">
+                      <Typography className="bold" sx={{fontSize:{md:"12px", xs:"10px" }}}>
                         {SearchHistory?.from_title} - {SearchHistory?.to_title}
                       </Typography>
                     </Box>
