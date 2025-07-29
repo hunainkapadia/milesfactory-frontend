@@ -154,7 +154,7 @@
       background-color: $white;
       box-shadow: 0px 1px 0px rgba(0, 80, 83, 0.05);
       
-      .Box {position: relative;z-index: 8;
+      .Box {z-index: 8;
          .Login {
             color: $basecolor-dark;
             
@@ -291,9 +291,9 @@
       .Dropdown.forHader .Login {
         flex-direction: row;
       }
-      &.isMessage {
+      &.isMessage {padding-right: 0;
          .Box {height: 54px;
-            position: relative;z-index: 8;gap: 40px;
+            z-index: 8;gap: 21px;
             justify-content: flex-start;
          }
       }
@@ -320,7 +320,10 @@
          .leftCol .Logo {
             width: 94px;
          }
-         .HeaderRightCol {gap: 0 24px;}
+         .HeaderRightCol {gap: 0 24px;
+            position: absolute;
+            right: 8px;
+         }
          .userName {
             display: none;
          }

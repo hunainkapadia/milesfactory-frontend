@@ -1,16 +1,35 @@
 @import "../../_variables.scss";
 
-.SearchFilterBar {
-    position: absolute;
-    width: 100%;
-    top: 52px;
-    left: 0px;
-    z-index: 5;
-    border-top: solid 1px #E6EEEE;
-    border-bottom: solid 1px #E6EEEE;
 
+@keyframes slideInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px); /* start above */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* final position */
+  }
+}
+
+.SearchFilterBar {
+  animation: slideInTop 0.5s ease forwards;
+
+   width: 674px;
+   position: absolute;
+   display: flex;
+   justify-content: center;
+   top: 102px;
+   left: -10px;
    .Content {
-      background-color: $white;
+      width: 540px;
+      background: linear-gradient(0deg, rgba(0, 196, 204, 0.02), rgba(0, 196, 204, 0.02)), #FFFFFF;
+      border: 1px solid rgba(21, 38, 74, 0.1);
+      box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
+      border-radius: 20px;
+   
+       z-index: 5;
+      background-color: #FAFEFE;
       padding: 7px 14px;
       .filterRrow {
          p {
@@ -18,7 +37,7 @@
             margin-right: 5px;
             padding-right: 5px;
             line-height: 1;
-            font-size: 8px;
+            font-size: 10px;
             &:last-child {
                border: none;
             }
@@ -35,6 +54,28 @@
             line-height: 1;
             &:last-child {
                border: none;
+            }
+         }
+      }
+   }
+}
+
+
+@include for-mobile-large-screen () {
+   .SearchFilterBar {
+      width: 100%;
+      top: 52px;
+      left: 0px;
+      .Content {
+         width: 100%;
+         z-index: 5;
+         border-radius: 0;
+         border-top: solid 1px #E6EEEE;
+         border-bottom: solid 1px #E6EEEE;
+         box-shadow: none;
+         .filterRrow {
+            p {
+               font-size: 8px;
             }
          }
       }

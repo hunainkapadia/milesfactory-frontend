@@ -34,6 +34,7 @@ import Link from "next/link";
 import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
 import BaggageDrawer from "../Checkout/BaggageDrawer";
 import PassengerProfileDrawer from "../Checkout/PassengerProfileDrawer";
+import SearchFilterBar from "../SearchResult/SearchFilterBar";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -89,10 +90,9 @@ const Messages = () => {
   return (
     <>
       {messages.length ? (
-        <section>
+        <Box component={"section"}>
           <Box className={searchResultStyles.messageContent}>
             <Box className={searchResultStyles.messageContentIn}>
-                
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}
@@ -108,17 +108,16 @@ const Messages = () => {
 
               {/*  */}
 
-              
               {!hasFlightOffers ? <Box ref={messagesEndRef} /> : ""}
               {/* booking flow start */}
 
               <BookingDrawer getFlightDetail={flightDetail} />
               <PassengerDrawerForm />
-              <PassengerProfileDrawer/>
+              <PassengerProfileDrawer />
               <BaggageDrawer getFlightDetail={flightDetail} />
             </Box>
           </Box>
-        </section>
+        </Box>
       ) : (
         <></>
       )}

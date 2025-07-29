@@ -40,7 +40,6 @@ const SearchFilterBar = () => {
           <Box
             component={"main"}
             className={styles.SearchFilterBar}
-            sx={{ display: { xs: "block", lg: "none", md: "none" } }}
           >
             <Box
               component={"section"}
@@ -52,13 +51,17 @@ const SearchFilterBar = () => {
             >
               {/*  */}
               <Box gap={"8px"} display={"flex"} alignItems={"center"}>
-                <Box className=" imggroup" sx={{ width: "28px" }}>
+                <Box className=" imggroup">
+                {offerkey ? (
+                  <img width={20} height={20} src="/images/success-check.svg" />
+                ): (
                   <img width="28" src="/images/plane-icon-basecolor1.svg" />
+                )}
                 </Box>
                 {SearchHistory ? (
                   <Box className={styles.Header2 + " aaa"}>
                     <Box mb={"2px"}>
-                      <Typography className="bold f10">
+                      <Typography className="bold" sx={{fontSize:{md:"12px", xs:"10px" }}}>
                         {SearchHistory?.from_title} - {SearchHistory?.to_title}
                       </Typography>
                     </Box>
@@ -146,6 +149,7 @@ const SearchFilterBar = () => {
                         alignItems={"center"}
                         display={"flex"}
                         className=" basecolor1 semibold"
+                        sx={{fontSize:{md:"12px", xs:"10px" }}}
                       >
                         <span>See details</span>
                         <i className="fa-angle-right fa fas"></i>{" "}

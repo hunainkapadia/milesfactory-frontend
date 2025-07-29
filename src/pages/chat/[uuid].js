@@ -129,12 +129,12 @@ const ChatByUUID = () => {
   }, []);
 
   const ScrollDown = () => {
-  if (messagesEndRef.current) {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }
-  setIsUserScrollingUp(false);
-  setShowArrow(false);
-};
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsUserScrollingUp(false);
+    setShowArrow(false);
+  };
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
@@ -181,7 +181,6 @@ const ChatByUUID = () => {
                   }}
                 >
                   <YourTripSidebar isMessage={isMessage} />
-                  
                 </Grid>
               </Grid>
             </Container>
