@@ -1,11 +1,26 @@
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useSelector } from "react-redux";
+import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 
-const SidebarTripDetails = () => {
+const SidebarTripDetails = ({id}) => {
    const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
+
+    function convertMarkdownToHtml(text) {
+    if (!text) return "";
+    // 1. Convert **bold** to span with class
+    let result = text.replace(
+      /\*\*(.*?)\*\*/g,
+      "<span class='heading exbold'>$1</span>"
+    );
+    // 2. Remove leading "- " before text on each line
+    result = result.replace(/^- /gm, "");
+
+    return result;
+  }
+
   return (
     <>
       <Box mb={3}>
@@ -15,16 +30,15 @@ const SidebarTripDetails = () => {
               className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
             >
               Outbound |{" "}
-              {
-                BuilderArguments?.departure_date && 
-                  new Date(BuilderArguments?.departure_date).toLocaleDateString(
+              {BuilderArguments?.departure_date &&
+                new Date(BuilderArguments?.departure_date).toLocaleDateString(
                   "en-GB",
                   {
                     weekday: "short",
                     day: "2-digit",
                     month: "short",
-                  })
-              }
+                  }
+                )}
             </Typography>
             <Typography className="f12 semibold">
               {BuilderArguments?.from_destination}
@@ -67,30 +81,30 @@ const SidebarTripDetails = () => {
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Departure</Typography>
             <Typography className="f12 semibold">
-              {
-                BuilderArguments?.departure_date && 
-                  new Date(BuilderArguments?.departure_date).toLocaleDateString(
+              {BuilderArguments?.departure_date &&
+                new Date(BuilderArguments?.departure_date).toLocaleDateString(
                   "en-GB",
                   {
                     weekday: "short",
                     day: "2-digit",
                     month: "short",
-                  })
-              }
+                  }
+                )}
             </Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Return</Typography>
             <Typography className="f12 semibold">
-              {
-                BuilderArguments?.return_date && // This is the condition
-                  new Date(BuilderArguments.return_date).toLocaleDateString("en-GB", {
+              {BuilderArguments?.return_date && // This is the condition
+                new Date(BuilderArguments.return_date).toLocaleDateString(
+                  "en-GB",
+                  {
                     weekday: "short",
                     day: "2-digit",
                     month: "short",
-                  })
-              }
+                  }
+                )}
             </Typography>
           </Stack>
 
@@ -135,7 +149,7 @@ const SidebarTripDetails = () => {
             </Typography>
           </Stack>
         </Stack>
-          {/* <Box display={"flex"} justifyContent={"flex-end"}>
+        {/* <Box display={"flex"} justifyContent={"flex-end"}>
             <Button className="btn btn-white btn-sm btn-round">Search flights in Chat</Button>
           </Box> */}
       </Box>
@@ -147,14 +161,15 @@ const SidebarTripDetails = () => {
               className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
             >
               Return |{" "}
-              {
-                BuilderArguments?.return_date && // This is the condition
-                  new Date(BuilderArguments.return_date).toLocaleDateString("en-GB", {
+              {BuilderArguments?.return_date && // This is the condition
+                new Date(BuilderArguments.return_date).toLocaleDateString(
+                  "en-GB",
+                  {
                     weekday: "short",
                     day: "2-digit",
                     month: "short",
-                  })
-              }
+                  }
+                )}
             </Typography>
             <Typography className="f12 semibold">
               {BuilderArguments?.to_destination}
@@ -165,23 +180,33 @@ const SidebarTripDetails = () => {
           {/* Departure. Check out and head to the airport for your flight. */}
         </Typography>
       </Box>
-      
-      {BuilderArguments?.itinerary_text &&
-      <Box mb={3}>
-        <Box mb={1}>
-          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-            <Typography
-              className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
-            >
-              Itinerary for {BuilderArguments?.to_destination}
-            </Typography>
+
+      {BuilderArguments?.itinerary_text && (
+        <Box mb={3}>
+          <Box  id={id} mb={1}>
+            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+              <Typography
+                className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+              >
+                Itinerary for {BuilderArguments?.to_destination}
+              </Typography>
+            </Box>
           </Box>
+
+          <Typography
+            className="formateContent f12 mt-0"
+            component="div"
+            variant="body1"
+            dangerouslySetInnerHTML={{
+              __html: formatTextToHtmlList(
+                convertMarkdownToHtml(
+                  sanitizeResponse(BuilderArguments?.itinerary_text)
+                )
+              ),
+            }}
+          />
         </Box>
-        <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
-           {BuilderArguments?.itinerary_text}
-        </Typography>
-      </Box>
-      }
+      )}
     </>
   );
 };
