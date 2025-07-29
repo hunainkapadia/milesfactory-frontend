@@ -153,12 +153,11 @@ const YourTripSedebarCard = ({
             className={`${TripStyles.inactiveTab} ${
               tabValue === 0 ? TripStyles.activeTab : ""
             }`}
-          />
-          {/*
+          />        
           <Tab
             label={
               <Box display="flex" alignItems="center" gap={1}>
-                <Typography className="f12">Days 1</Typography>
+                <Typography className="f12">Flights</Typography>
               </Box>
             }
             className={`${TripStyles.inactiveTab} ${
@@ -168,13 +167,13 @@ const YourTripSedebarCard = ({
           <Tab
             label={
               <Box display="flex" alignItems="center" gap={1}>
-                <Typography className="f12">Days 2-6</Typography>
+                <Typography className="f12">Itinerary</Typography>
               </Box>
             }
             className={`${TripStyles.inactiveTab} ${
               tabValue === 1 ? TripStyles.activeTab : ""
             }`}
-          />*/}
+          />
         </Tabs>
         <Box
           mb={3}
@@ -739,6 +738,22 @@ const YourTripSedebarCard = ({
                       {/*  */}
                     </Box>
                     {/*  */}
+                    {BuilderArguments?.itinerary_text &&
+                      <Box mb={3}>
+                        <Box mb={1}>
+                          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                            <Typography
+                              className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+                            >
+                              Itinerary for {BuilderArguments?.to_destination}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+                          {BuilderArguments?.itinerary_text}
+                        </Typography>
+                      </Box>
+                    }
                   </>
                 ))}
               </Box>
