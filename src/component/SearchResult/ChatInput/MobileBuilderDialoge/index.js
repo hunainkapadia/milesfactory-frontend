@@ -93,7 +93,28 @@ const MobileBuilderDialoge = () => {
               tabValue === 0 ? TripStyles.activeTab : ""
             }`}
           />
+          <Tab
+            label={
+              <Box display="flex" alignItems="center" gap={1}>
+                <Typography className="f12">Flights</Typography>
+              </Box>
+            }
+            className={`${TripStyles.inactiveTab} ${
+              tabValue === 1 ? TripStyles.activeTab : ""
+            }`}
+          />
+          <Tab
+            label={
+              <Box display="flex" alignItems="center" gap={1}>
+                <Typography className="f12">Itinerary</Typography>
+              </Box>
+            }
+            className={`${TripStyles.inactiveTab} ${
+              tabValue === 2 ? TripStyles.activeTab : ""
+            }`}
+          />
         </Tabs>
+      
         <MobileBuilder />
       </Box>
     </Dialog>

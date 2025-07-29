@@ -171,7 +171,7 @@ const YourTripSedebarCard = ({
               </Box>
             }
             className={`${TripStyles.inactiveTab} ${
-              tabValue === 1 ? TripStyles.activeTab : ""
+              tabValue === 2 ? TripStyles.activeTab : ""
             }`}
           />
         </Tabs>
