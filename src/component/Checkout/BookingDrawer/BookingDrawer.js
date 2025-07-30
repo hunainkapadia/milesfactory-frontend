@@ -32,7 +32,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
       transitionDuration={300}
       
     >
-      <Box className={styles.checkoutDrower + " white-bg"} width={375}>
+      <Box className={styles.checkoutDrower + " white-bg"} width={463}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box
             component={"header"}
