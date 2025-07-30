@@ -37,10 +37,7 @@ const SearchFilterBar = () => {
     <>
       {SearchHistory && (
         <>
-          <Box
-            component={"main"}
-            className={styles.SearchFilterBar}
-          >
+          <Box component={"main"} className={styles.SearchFilterBar}>
             <Box
               component={"section"}
               className={styles.Content}
@@ -50,18 +47,29 @@ const SearchFilterBar = () => {
               justifyContent={"space-between"}
             >
               {/*  */}
-              <Box gap={"8px"} display={"flex"} alignItems={"center"}>
+              <Box
+                sx={{ gap: { md: "12px", xs: "8px" } }}
+                display={"flex"}
+                alignItems={"center"}
+              >
                 <Box className=" imggroup">
-                {offerkey ? (
-                  <img width={20} height={20} src="/images/success-check.svg" />
-                ): (
-                  <img width="28" src="/images/plane-icon-basecolor1.svg" />
-                )}
+                  {offerkey ? (
+                    <img
+                      width={20}
+                      height={20}
+                      src="/images/success-check.svg"
+                    />
+                  ) : (
+                    <img width="28" src="/images/plane-icon-basecolor1.svg" />
+                  )}
                 </Box>
                 {SearchHistory ? (
                   <Box className={styles.Header2 + " aaa"}>
                     <Box mb={"2px"}>
-                      <Typography className="bold" sx={{fontSize:{md:"12px", xs:"10px" }}}>
+                      <Typography
+                        className="bold"
+                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
+                      >
                         {SearchHistory?.from_title} - {SearchHistory?.to_title}
                       </Typography>
                     </Box>
@@ -149,7 +157,7 @@ const SearchFilterBar = () => {
                         alignItems={"center"}
                         display={"flex"}
                         className=" basecolor1 semibold"
-                        sx={{fontSize:{md:"12px", xs:"10px" }}}
+                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
                       >
                         <span>See details</span>
                         <i className="fa-angle-right fa fas"></i>{" "}

@@ -30,7 +30,7 @@
    
        z-index: 5;
       background-color: #FAFEFE;
-      padding: 7px 14px;
+      padding: 12px 24px;
       .filterRrow {
          p {
             border-right: solid 1px $black;
@@ -73,6 +73,7 @@
          border-top: solid 1px #E6EEEE;
          border-bottom: solid 1px #E6EEEE;
          box-shadow: none;
+         padding: 7px 14px;
          .filterRrow {
             p {
                font-size: 8px;
