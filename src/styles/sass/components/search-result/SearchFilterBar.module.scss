@@ -15,12 +15,18 @@
 .SearchFilterBar {
   animation: slideInTop 0.5s ease forwards;
 
-   width: 674px;
-   position: absolute;
-   display: flex;
-   justify-content: center;
-   top: 102px;
-   left: -10px;
+   width: 684px;
+    position: absolute;
+    display: flex
+;
+    justify-content: center;
+    top: 61px;
+    left: -5px;
+    padding-top: 40px;
+    background-image: url("/images/search-bg.png");
+    background-size: 1440px;
+    background-position: -230px -120px;
+    background-repeat: no-repeat;
    .Content {
       width: 540px;
       background: linear-gradient(0deg, rgba(0, 196, 204, 0.02), rgba(0, 196, 204, 0.02)), #FFFFFF;
@@ -66,6 +72,7 @@
       width: 100%;
       top: 52px;
       left: 0px;
+      padding-top: 0;
       .Content {
          width: 100%;
          z-index: 5;
