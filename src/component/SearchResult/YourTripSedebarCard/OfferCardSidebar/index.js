@@ -67,7 +67,7 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
             </Box>
           )}
           <Box display={"flex"} gap={2} alignItems={"center"}>
-            {!AllPassengerFill ? (
+            {AllPassengerFill ? (
               <Box
                 display={"flex"}
                 justifyContent={"center"}
