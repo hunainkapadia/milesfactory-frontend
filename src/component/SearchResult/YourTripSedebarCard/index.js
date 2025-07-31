@@ -34,6 +34,7 @@ import Link from "next/link";
 import FilterParams from "../YourTripSidebar/FilterParams";
 import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
+import SidebarTabs from "./SidebarTabs";
 
 const YourTripSedebarCard = ({
   offerData,
@@ -120,77 +121,15 @@ const YourTripSedebarCard = ({
     return result;
   }
 
-  const [activeTab, setActiveTab] = useState("overview");
-  const handleTabClick = (tabId) => {
-    setActiveTab(tabId);
-  };
+  
 
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      <Box px={"18px"} pb={1}>
-        <Box
-          sx={{
-            backgroundColor: "#F2F7F8",
-            borderRadius: "8px",
-            padding: "4px",
-            display: { md: "flex", xs: "none" },
-            gap: 2,
-          }}
-          className={`${TripStyles.customTabs} customTabs`}
-        >
-          <a
-            href="#overview"
-            onClick={() => handleTabClick("overview")}
-            style={{ textDecoration: "none" }}
-          >
-            <Box
-              className={`${TripStyles.inactiveTab} ${
-                activeTab === "overview" ? TripStyles.activeTab : ""
-              }`}
-              display="flex"
-              alignItems="center"
-              gap={1}
-            >
-              <Typography className="f12">Overview</Typography>
-            </Box>
-          </a>
-
-          <a
-            href="#offer-card"
-            onClick={() => handleTabClick("flights")}
-            style={{ textDecoration: "none" }}
-          >
-            <Box
-              className={`${TripStyles.inactiveTab} ${
-                activeTab === "flights" ? TripStyles.activeTab : ""
-              }`}
-              display="flex"
-              alignItems="center"
-              gap={1}
-            >
-              <Typography className="f12">Flights</Typography>
-            </Box>
-          </a>
-
-          <a
-            href="#itinerary-section"
-            onClick={() => handleTabClick("itinerary")}
-            style={{ textDecoration: "none" }}
-          >
-            <Box
-              className={`${TripStyles.inactiveTab} ${
-                activeTab === "itinerary" ? TripStyles.activeTab : ""
-              }`}
-              display="flex"
-              alignItems="center"
-              gap={1}
-            >
-              <Typography className="f12">Itinerary</Typography>
-            </Box>
-          </a>
-        </Box>
+      <Box component={"section"} className="Tabs" px={"18px"} pb={1}>
+        <SidebarTabs />
       </Box>
+
       <Box
         className={TripStyles.TripBody}
         sx={{ pt: { md: "18px", xs: 0 } }}
@@ -198,7 +137,8 @@ const YourTripSedebarCard = ({
         component={"section"}
         pb={3}
       >
-        <Box id="overview"
+        <Box
+          id="overview"
           mb={3}
           className={TripStyles.Header2 + " aaa"}
           display={"flex"}
@@ -320,7 +260,11 @@ const YourTripSedebarCard = ({
         </Box>
         {/* filter row */}
         {/*  */}
-        {!getselectedFlight ? <SidebarTripDetails id="itinerary-section" /> : ""}
+        {!getselectedFlight ? (
+          <SidebarTripDetails id="itinerary-section" />
+        ) : (
+          ""
+        )}
 
         <Box>
           {/*  */}

@@ -37,7 +37,11 @@ const SearchFilterBar = () => {
     <>
       {SearchHistory && (
         <>
-          <Box component={"main"} className={styles.SearchFilterBar}>
+          <Box
+            component={"main"}
+            className={styles.SearchFilterBar}
+            sx={{ pb: { xs: 0, md: "10px" } }}
+          >
             <Box
               component={"section"}
               className={styles.Content}

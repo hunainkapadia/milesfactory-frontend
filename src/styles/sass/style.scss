@@ -572,6 +572,9 @@ label,
 .basecolor1 {
   color: $basecolor1 !important;
 }
+.basecolor1-50 {
+  color: $basecolor1-50 !important;
+}
 
 .basecolor1-light2-bg {
   background-color: $basecolor1-light2 !important;
@@ -1500,6 +1503,23 @@ body {
     width: 40px;
     height: 40px;
 
+  }
+}
+.chip {
+  &.sm {
+    padding: 2px 8px;
+    height: 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-size: 12px;
+  }
+  &.chipPrimary {
+    color: $white;
+    background: $basecolor1;
+  }
+  &.chipYellow {
+    color: $white;
+    background: #FFC107;
   }
 }
 .btn {

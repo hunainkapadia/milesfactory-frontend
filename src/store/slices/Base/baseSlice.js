@@ -18,12 +18,16 @@ const initialState = {
 
   inputValue: "",
   IsBuilderDialog: false,
+  sidebarTab: "overview",
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setSidebarTab:(state, action) => {
+      state.sidebarTab = action.payload;
+    },
     setIsBuilderDialog: (state, action) => {
       state.IsBuilderDialog = action.payload;
     },
@@ -242,6 +246,7 @@ export const {
   setInputValue, 
   clearInputValue,
   setIsBuilderDialog,
+  setSidebarTab,
 } = baseSlice.actions;
 
 export default baseSlice.reducer;
