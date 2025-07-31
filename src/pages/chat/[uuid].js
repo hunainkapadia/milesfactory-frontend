@@ -20,6 +20,7 @@ import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
 import { setThreadUuid } from "@/src/store/slices/sendMessageSlice";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -39,10 +40,17 @@ const ChatByUUID = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
-
-  console.log("isMessage_00", isMessage);
-
-  // scroll mesge chat
+  
+  // scroll on click select direct
+  const ChatScroll = useSelector((state) => state.base.Chatscroll);  
+  // Scroll if ChatScroll becomes true
+  useEffect(() => {
+    if (ChatScroll && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      dispatch(setChatscroll(false)); // Reset after scroll
+    }
+  }, [ChatScroll, dispatch]);
+  // scroll on click select direct
 
   // Fetch messages using the UUID from URL
 
@@ -109,9 +117,9 @@ const ChatByUUID = () => {
 
       if (scrollingUp) {
         setIsUserScrollingUp(true);
-        setShowArrow(true); // ✅ Always show on scroll up — no timeout
+        setShowArrow(true); //  Always show on scroll up — no timeout
       } else if (scrollingDown) {
-        // ✅ Only reset scroll lock if user is really at bottom
+        //  Only reset scroll lock if user is really at bottom
         if (isNearBottom(chatEl)) {
           setIsUserScrollingUp(false);
           setShowArrow(false);

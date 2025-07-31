@@ -30,6 +30,7 @@ import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import FromAndTo from "../FromAndTo";
 import RightTopSection from "../RightTopSection";
 import { RefreshHandle, setRefreshSearch } from "@/src/store/slices/GestMessageSlice";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
@@ -72,6 +73,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   
   const handleBookFlight = () => {
+    dispatch(setChatscroll(true))
     dispatch(setisLoading(true));
     if(selected) {
       setHideSelectButton(true);
