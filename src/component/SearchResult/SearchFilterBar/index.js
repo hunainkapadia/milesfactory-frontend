@@ -30,7 +30,7 @@ const SearchFilterBar = () => {
       dispatch(setflightDetail(getselectedFlight)); // Store flight details
     }
   };
-  console.log("SearchHistory2", offerkey);
+  console.log("SearchHistory2", SearchHistory);
   //   for selct flight detail end
 
   return (

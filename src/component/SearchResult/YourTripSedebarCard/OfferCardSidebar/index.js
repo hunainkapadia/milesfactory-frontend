@@ -43,7 +43,7 @@ const OfferCardSidebar = ({index, slice, offerData}) => {
                         {index === 0 ? (
                           <Box display={"flex"}>
                             <Typography className="f12 semibold">
-                              Outbound flight
+                              Outbound flight aa
                             </Typography>
                           </Box>
                         ) : (

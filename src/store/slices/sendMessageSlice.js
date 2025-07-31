@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
+import { setSelectedFlightKey } from "./BookingflightSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -268,6 +269,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                 if (isComplete === true) {
                   
+                  
                   console.log("Replacing with real flight results");
                   dispatch(
                     setMessage({
@@ -306,6 +308,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       .get(allFlightSearchApi)
                       .then((flightRes) => {
                         console.log("flightRes", flightRes);
+                        dispatch(setSelectedFlightKey(null)); //  clear select flight key
+                        
 
                         const realFlightData = flightRes.data;
 
