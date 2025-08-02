@@ -39,7 +39,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 // IMPORTANT: Use the full, absolute URL for the image
 
-const defaultOgImage = 'https://builder.gomylz.com/images/favicon_mylz_v2.png';
+const defaultOgImage = 'https://d32n5ymbetby8w.cloudfront.net/mylz-assets/images/favicon_mylz_v2.png';
 const defaultSiteTitle = 'Mylz | Design trips. Book instantly.';
 
 function AppWrapper({ Component, pageProps }) {
@@ -85,8 +85,10 @@ export default function App({ Component, pageProps }) {
               <meta property="og:type" content="website" />
               <meta property="og:site_name" content={defaultSiteTitle} />
               <meta property="og:image" content={defaultOgImage} />
-              <meta property="og:image:width" content="1200" />
-              <meta property="og:image:height" content="630" />
+              <meta property="og:title" content={defaultSiteTitle} />
+              <meta property="og:description" content="Design trips. Book instantly." />
+              <meta property="og:url" content="https://gomylz.com" />
+              <meta name="description" content="Design trips. Book instantly." />
               
               {/* Default Twitter Card tags */}
               <meta name="twitter:card" content="summary_large_image" />
