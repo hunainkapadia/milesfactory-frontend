@@ -15,11 +15,11 @@ const PaymentFooter = ({selectedCard, agreeTerms}) => {
     triggerScroll();
     setTimeout(() => {
       dispatch(setPaymentFormSuccess(true));
-      dispatch(setIsDrawer(false));
+      // dispatch(setIsDrawer(false));
     }, 300); // Optional: tweak delay
   }
   const handleCloseDrawer =()=> {
-    dispatch(setIsDrawer(false))
+    // dispatch(setIsDrawer(false))
   }
   const flightDetail = useSelector((state) => state.payment.PaymentData.order.selected_offer);
 
