@@ -19,7 +19,7 @@ export default function ShareDropdown() {
     setTimeout(() => {
       setCopied(false);
       setIsOpen(false);
-    }, 2000);
+    }, 5000);
   };
 
   return (

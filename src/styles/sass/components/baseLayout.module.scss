@@ -15,7 +15,7 @@
       width: 100%;
       position: absolute;
       height: auto;
-      top: 60px;
+      top: 25px;
       left: -50px;
       display: flex;
       justify-content: center;
@@ -234,7 +234,11 @@
    }
  @include for-mobile-large-screen () {
    .ShareDropdown {
-      .ShareDropdownHandle {
+      .DropdownItems {
+         top: 60px;
+      }
+      .ShareDropdownHandle
+       {
          height: 60px;
       }
    }
