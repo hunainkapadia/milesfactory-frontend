@@ -48,7 +48,7 @@ const MobileBuilderDialoge = () => {
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
       TransitionComponent={Transition}
-      sx={{ top: "61px", boxShadow: "none" }}
+      sx={{ top: "50px", boxShadow: "none", borderTop:"solid 1px #E6EEEE" }}
       BackdropProps={{ invisible: true }}
     >
       <DialogContent sx={{ px: 0, py: "18px" }} className="asasas">

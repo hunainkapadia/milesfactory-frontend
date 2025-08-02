@@ -38,7 +38,7 @@ const bookingflightsSlice = createSlice({
     },
     setflightDetail: (state, action) => {
       state.flightDetail = action.payload; //payload comming in action 
-      state.selectedFlightId = action.payload.id;
+      state.selectedFlightId = action?.payload?.id;
     },
     
     setLoading: (state, action) => {

@@ -295,6 +295,8 @@
          .Box {height: 54px;
             z-index: 8;gap: 21px;
             justify-content: flex-start;
+            position: relative;
+            z-index: 7;
          }
       }
       .Box {

@@ -15,6 +15,8 @@ import Image from "next/image";
 import { currencySymbols } from "@/src/utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { PassengerForm, setAllPassengerFill, setIsPassengerflow, setOrderUuid, setViewPassengers, ViewPassengers } from "@/src/store/slices/passengerDrawerSlice";
+import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
 const OfferCardSidebar = ({ index, slice, offerData }) => {
   const GetViewPassengers = useSelector(
@@ -36,18 +38,22 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
     (state) => state?.booking?.flightDetail
   );
   const dispatch = useDispatch();
-  const offerkey = getselectedFlight?.id;
+  const offerkey = getselectedFlight?.id ?? null;
 
   const HandleSelectDrawer = () => {
-    // Dispatch flight detail and open drawer
-    if (offerkey) {
-      dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
-      dispatch(setflightDetail(offerData)); // Store flight details
+    if (offerData?.id) {
+      dispatch(setOpenDrawer(offerData.id));
+      dispatch(setflightDetail(offerData));
     }
   };
-  const handleClearFlight =()=> {
-    dispatch(setSelectedFlightKey(null)); //  clear select flight key
-  }
+
+  const handleClearFlight = () => {
+  dispatch(setSelectedFlightKey(null));
+  dispatch(setflightDetail(null));
+  dispatch(setViewPassengers([])); // Clear passengers array
+  dispatch(setOrderUuid(null));    // Clear order UUID
+  dispatch(setMessage({ ai: { passengerFlowRes: false } }))
+};
 
   return (
     <>

@@ -57,6 +57,7 @@ const Messages = () => {
   
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
+  {console.log("messages_test", sendMessages)}
 
   const handleSearch = () => {
     if (!userMessage.trim()) return;
@@ -93,8 +94,10 @@ const Messages = () => {
         <Box component={"section"}>
           <Box className={searchResultStyles.messageContent}>
             <Box className={searchResultStyles.messageContentIn}>
+            
               {messages.map((msg, index) => (
                 <Box key={index}>
+                {console.log("msg_000", msg)}
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />

@@ -9,9 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 const MobileBuilder = () => {
   const dispatch = useDispatch();
   const handleToggle = () => {
+    if (!isBuilderArgument) return; // 
+
     dispatch(setIsBuilderDialog(!isBuilder));
   };
   const isBuilder = useSelector((state) => state?.base?.IsBuilderDialog);
+
+  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
+  // getBuilder?.silent_function_template?.[0]?.function?.arguments
+  const isBuilderArgument = getBuilder?.silent_function_template?.[0]
+  console.log("getBuilder", isBuilderArgument)
 
   return (
     <>

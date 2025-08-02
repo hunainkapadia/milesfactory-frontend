@@ -220,10 +220,10 @@
     background: #FBFDFD;
     box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
     border-radius: 24px;
-    
+    .Footer {border-radius: 0 0 24px 24px;}
     .TripBody {
-  overflow: auto;
-  max-height: 63vh;
+      overflow: auto;
+      max-height: 60vh;
 
   /* For WebKit browsers (Chrome, Safari) */
   &::-webkit-scrollbar {

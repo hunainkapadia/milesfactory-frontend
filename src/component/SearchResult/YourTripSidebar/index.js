@@ -13,6 +13,7 @@ import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripS
 
 import Image from "next/image";
 import { currencySymbols } from "@/src/utils/utils";
+import ShareDropdown from "../../layout/Header/ShareDropdown";
 
 const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
@@ -39,13 +40,14 @@ const YourTripSidebar = ({ isMessage }) => {
           <Box
             className={YourtripStyles.YourTripCard}
             p={0}
-            overflow={"hidden"}
           >
             <Box
               component={"header"}
               className={YourtripStyles.CardHeader}
               display={"flex"}
               alignItems={"center"}
+              position={"relative"}
+              zIndex={1}
               justifyContent={"space-between"}
               px={"18px"}
               pt={"20px"}
@@ -60,7 +62,7 @@ const YourTripSidebar = ({ isMessage }) => {
                 </Typography>
               </Box>
 
-              <Box
+              {/* <Box
                 display={"flex"}
                 alignItems={"center"}
                 className="basecolor1"
@@ -70,9 +72,11 @@ const YourTripSidebar = ({ isMessage }) => {
                   <Image width={24} height={24} src="/images/share-icon.svg" />
                 </Box>
                 <Typography className="bold">Share</Typography>
-              </Box>
+              </Box> */}
+              {isMessage && <ShareDropdown />}
             </Box>
             <YourTripSedebarCard
+              isSidebar
               offerData={getselectedFlight}
               getBuilder={getBuilder}
             />
@@ -81,7 +85,7 @@ const YourTripSidebar = ({ isMessage }) => {
               px={"18px"}
               py={"14px"}
               component={"footer"}
-              className={YourtripStyles.PaymentRow + " "}
+              className={YourtripStyles.Footer + " "}
               sx={{ backgroundColor: "#F2F7F8" }}
             >
               <Box

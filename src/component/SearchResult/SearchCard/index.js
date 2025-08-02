@@ -92,7 +92,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     } else {
       ("");
     }
-    dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
+    // dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
   };
   return (
     <>

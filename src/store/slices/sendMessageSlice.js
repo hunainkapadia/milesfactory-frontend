@@ -100,7 +100,18 @@ const sendMessageSlice = createSlice({
       state.isLoading = action.payload;
     },
     setMessage: (state, action) => {
-      state.messages.push(action.payload);
+      const newMessage = action.payload;
+
+      // ✅ STEP 1: If this is a passengerFlowRes message
+      if (newMessage?.ai?.passengerFlowRes !== undefined) {
+        // ✅ STEP 2: Remove all old passengerFlowRes messages
+        state.messages = state.messages.filter(
+          (msg) => !(msg?.ai?.passengerFlowRes !== undefined)
+        );
+      }
+
+      // ✅ STEP 3: Push the new message
+      state.messages.push(newMessage);
     },
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
@@ -499,7 +510,9 @@ export const loadNextFlights = () => (dispatch, getState) => {
   const allOfferUrl = getState().sendMessage?.AllOfferUrl;
   console.log("allOfferUrl", allOfferUrl);
 
-  const nextPageUrl = `${allOfferUrl}?page=${getpageNo}`;
+  const paginationSymbol = allOfferUrl.includes("?") ? "&" : "?";
+  const nextPageUrl = `${allOfferUrl}${paginationSymbol}page=${getpageNo}`;
+
   console.log("nextPageUrl", nextPageUrl);
   dispatch(setLoading(true));
 

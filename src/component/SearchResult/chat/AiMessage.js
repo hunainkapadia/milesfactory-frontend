@@ -34,9 +34,6 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state.sendMessage.allFlightSearchResults
   );
 
-  // const getselectedFlight = useSelector(
-  //   (state) => state?.booking?.flightDetail
-  // );
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -52,12 +49,6 @@ const AiMessage = ({ aiMessage }) => {
       }, 100);
     }
   }, [GetViewPassengers]);
-
-  const seeAllResultHandle = () => {
-    if (!showAllFlight) {
-      setShowAllFlight(true); // only enable showing all flights once
-    }
-  };
 
   const getNextFlight = useSelector(
     (state) => state.sendMessage?.appendFlights?.ai
@@ -89,10 +80,6 @@ const AiMessage = ({ aiMessage }) => {
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
-  const moreflightsHandle = () => {
-    dispatch(loadNextFlights());
-  };
-
   function convertMarkdownToHtml(text) {
     if (!text) return "";
     // 1. Convert **bold** to span with class
@@ -120,6 +107,17 @@ const AiMessage = ({ aiMessage }) => {
   // Find message with ai.offers
   // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
 
+  const handleSeeMoreFlights = () => {
+    if (!showAllFlight) {
+      setShowAllFlight(true);
+    }
+    dispatch(loadNextFlights());
+  };
+
+  const isLoadingPassenger = useSelector((state) => state?.passengerDrawer?.isLoading);
+  
+  console.log("isLoadingPassenger", isLoadingPassenger);
+
   return (
     <Box
       ref={aiboxRef}
@@ -130,56 +128,66 @@ const AiMessage = ({ aiMessage }) => {
       mb={2}
     >
       {/* Passenger Flow */}
-      {aiMessage?.ai?.passengerFlowRes === "passengerFlowActive" ? (
+
+      {/* <Box className={searchResultStyles.AiMessage}>
+              <Typography fontWeight="semibold">
+                You have selected the flight option below.
+              </Typography>
+            </Box> */}
+
+      {/* Selected flight preview */}
+      {/* <Box mt={2}>
+              <SearchCard
+                offerData={getselectedFlight}
+                FlightExpire={FlightExpire}
+              />
+            </Box> */}
+
+      {/* Show passenger form or loading */}
+
+      {/* If all passengers are filled, show payment components */}
+
+      {!isLoadingPassenger ? (
         <>
-          {/* <Box className={searchResultStyles.AiMessage}>
-            <Typography fontWeight="semibold">
-              You have selected the flight option below.
-            </Typography>
-          </Box> */}
-
-          {/* Selected flight preview */}
-          {/* <Box mt={2}>
-            <SearchCard
-              offerData={getselectedFlight}
-              FlightExpire={FlightExpire}
-            />
-          </Box> */}
-
-          {/* Show passenger form or loading */}
-
-          {/* If all passengers are filled, show payment components */}
-
-          {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
+          {aiMessage?.ai?.passengerFlowRes ? (
             <>
-              <PassengerInfo getdata={GetViewPassengers} />
+              {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
+                <>
+                  <PassengerInfo getdata={GetViewPassengers} />
 
-              {Array.isArray(filledPassenger) &&
-                filledPassenger.length === GetViewPassengers.length && (
-                  <>
-                    {orderDetail ? (
-                      <PriceSummary />
-                    ) : (
+                  {Array.isArray(filledPassenger) &&
+                    filledPassenger.length === GetViewPassengers.length && (
                       <>
-                        <Box my={3}>
-                          <LoadingArea />
-                        </Box>
+                        {orderDetail ? (
+                          <PriceSummary />
+                        ) : (
+                          <>
+                            <Box my={3}>
+                              <LoadingArea />
+                            </Box>
+                          </>
+                        )}
+                        <PaymentDrawer />
+                        <PaymentAddCard />
+                        {paymentSuccess && <PaymentSuccess />}
                       </>
                     )}
-                    <PaymentDrawer />
-                    <PaymentAddCard />
-                    {paymentSuccess && <PaymentSuccess />}
-                  </>
-                )}
+                </>
+              ) : (
+                ""
+              )}
             </>
           ) : (
-            <Box my={3}>
-              <LoadingArea />
-            </Box>
+            ""
           )}
         </>
+
       ) : (
-        ""
+        <>
+        <Box my={3}>
+          <LoadingArea />
+        </Box>
+        </>
       )}
 
       {displayedGetFlights?.length > 0 ? (
@@ -205,13 +213,7 @@ const AiMessage = ({ aiMessage }) => {
 
           {/* Toggle button */}
 
-          <Box
-            onClick={() => {
-              seeAllResultHandle(); // First show all flights
-              moreflightsHandle(); // Then dispatch to load more flights
-            }}
-            style={{ cursor: "pointer" }}
-          >
+          <Box onClick={handleSeeMoreFlights} style={{ cursor: "pointer" }}>
             <Box
               sx={{ my: { lg: 2, md: 2, xs: 2 } }}
               gap={2}
@@ -229,7 +231,8 @@ const AiMessage = ({ aiMessage }) => {
         <>
           {Array.isArray(displayedGetFlights) &&
             displayedGetFlights.length === 0 && (
-              <Box mb={3}
+              <Box
+                mb={3}
                 elevation={0}
                 sx={{
                   width: "100%",
