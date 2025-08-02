@@ -220,6 +220,10 @@
     background: #FBFDFD;
     box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
     border-radius: 24px;
+    .CardHeader {
+      padding: 20px 24px 10px 30px;
+      border-radius: 24px 24px 0  0;
+    }
     .Footer {border-radius: 0 0 24px 24px;}
     .TripBody {
       overflow: auto;

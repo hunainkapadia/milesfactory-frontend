@@ -8,9 +8,6 @@
    padding: 0px;
    position: relative;
 
-   .ShareDropdownHandle {
-      height: 60px;
-   }
 
    
 
@@ -236,6 +233,11 @@
          
    }
  @include for-mobile-large-screen () {
+   .ShareDropdown {
+      .ShareDropdownHandle {
+         height: 60px;
+      }
+   }
    .airlinepowerBtn {
       padding: 0 !important;
       display: flex;

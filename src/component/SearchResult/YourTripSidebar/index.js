@@ -49,9 +49,6 @@ const YourTripSidebar = ({ isMessage }) => {
               position={"relative"}
               zIndex={1}
               justifyContent={"space-between"}
-              px={"18px"}
-              pt={"20px"}
-              pb={"13px"}
             >
               <Box gap={1} display={"flex"} alignItems={"center"}>
                 <Box className=" imggroup">
