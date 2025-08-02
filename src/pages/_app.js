@@ -37,6 +37,10 @@ const theme = createTheme({
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+// IMPORTANT: Use the full, absolute URL for the image
+
+const defaultOgImage = 'https://gomylz.com/images/favicon_mylz_big.svg';
+const defaultSiteTitle = 'Mylz | Design trips. Book instantly.';
 
 function AppWrapper({ Component, pageProps }) {
   return <Component {...pageProps} />;
@@ -69,13 +73,25 @@ export default function App({ Component, pageProps }) {
           <ThemeProvider theme={theme}>
             <CssBaseline /> {/* Ensures global styles apply */}
             <Head>
-              <title>Mylz | Design trips. Book instantly.</title> {/* Default title */}
+              <title>{defaultSiteTitle}</title> {/* Default title */}
               <link
                 href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
                 rel="stylesheet"
               />
 
               <link rel="icon" href="/images/favicon_mylz_big.svg" />
+                      
+              {/* Default Open Graph tags */}
+              <meta property="og:type" content="website" />
+              <meta property="og:site_name" content={defaultSiteTitle} />
+              <meta property="og:image" content={defaultOgImage} />
+              <meta property="og:image:width" content="1200" />
+              <meta property="og:image:height" content="630" />
+              
+              {/* Default Twitter Card tags */}
+              <meta name="twitter:card" content={defaultSiteTitle}/>
+              <meta name="twitter:site" content="@gomylz" />
+              <meta name="twitter:image" content={defaultOgImage} />
             </Head>
              {/* ✅ GA Scripts go outside <Head> */}
             {GA_ID && (
