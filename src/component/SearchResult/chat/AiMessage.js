@@ -114,7 +114,8 @@ const AiMessage = ({ aiMessage }) => {
     dispatch(loadNextFlights());
   };
 
-  const isLoadingPassenger = useSelector((state) => state?.passengerDrawer?.isLoading);
+  const isLoadingPassenger = useSelector((state) => state?.passengerDrawer?.isPassengerLoading);
+  console.log("isLoadingPassenger", isLoadingPassenger)
   
   console.log("isLoadingPassenger", isLoadingPassenger);
 
@@ -147,9 +148,7 @@ const AiMessage = ({ aiMessage }) => {
 
       {/* If all passengers are filled, show payment components */}
 
-      {!isLoadingPassenger ? (
-        <>
-          {aiMessage?.ai?.passengerFlowRes ? (
+        {aiMessage?.ai?.passengerFlowRes ? (
             <>
               {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
                 <>
@@ -180,15 +179,7 @@ const AiMessage = ({ aiMessage }) => {
           ) : (
             ""
           )}
-        </>
-
-      ) : (
-        <>
-        <Box my={3}>
-          <LoadingArea />
-        </Box>
-        </>
-      )}
+        
 
       {displayedGetFlights?.length > 0 ? (
         <>

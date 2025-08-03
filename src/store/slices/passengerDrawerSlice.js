@@ -33,6 +33,7 @@ const passengerDrawerSlice = createSlice({
     selectedProfilePass: null,
     IsPassengerflow: null,
     IsorderSetup: null,
+    isPassengerLoading: false,
   },
   reducers: {
     setIsPassengerflow: (state, action) => {
@@ -124,8 +125,8 @@ const passengerDrawerSlice = createSlice({
     },
     setisLoading: (state, action) => {
       state.isLoading = action.payload;
-
     },
+    
     setIsFormLoading: (state) => {
       state.isFormLoading = false;
     },
@@ -173,7 +174,7 @@ export const PassengerForm = () => (dispatch, getState) => {
       }
     })
     .catch((error) => {
-      
+      console.error(error);
     }).finally (()=> {
           dispatch(setisLoading(false)); // 🔁 Again setting it to false
 
@@ -355,7 +356,8 @@ export const {
   setPassengerIndex,
   setPassengerPassport,
   setSelectPassenger,
-  setIsPassengerflow
+  setIsPassengerflow,
+  setisPassengerLoading
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

@@ -20,7 +20,6 @@ const YourTripSidebar = ({ isMessage }) => {
     (state) => state?.booking?.singleFlightData
   );
   
-  console.log("getselectedFlight", getselectedFlight)
 
 
   const paymentSuccess = useSelector(
