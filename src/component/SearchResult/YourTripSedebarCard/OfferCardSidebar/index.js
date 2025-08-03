@@ -20,7 +20,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { PassengerForm, setAllPassengerFill, setIsPassengerflow, setOrderUuid, setViewPassengers, ViewPassengers } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
-const OfferCardSidebar = ({ index, slice, offerData }) => {
+const OfferCardSidebar = ({ index, slice }) => {
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -37,15 +37,15 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
   );
   //   for selct flight detail
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id ?? null;
 
   const HandleSelectDrawer = () => {
-    if (offerData?.id) {
-      dispatch(setOpenDrawer(offerData.id));
-      dispatch(setflightDetail(offerData));
+    if (getselectedFlight?.id) {
+      dispatch(setOpenDrawer(getselectedFlight.id));
+      dispatch(setflightDetail(getselectedFlight));
     }
   };
 
@@ -307,7 +307,7 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
                     {(() => {
                       const baggageMap = new Map();
 
-                      offerData?.slices.forEach((slice) => {
+                      getselectedFlight?.slices.forEach((slice) => {
                         slice?.segments?.forEach((segment) => {
                           segment?.passengers?.forEach((passenger) => {
                             passenger?.baggages?.forEach((baggage) => {
@@ -324,7 +324,7 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
 
                       const uniqueBaggages = Array.from(baggageMap.values());
 
-                      return offerData?.slices.map((slice, sliceIndex) => {
+                      return getselectedFlight?.slices.map((slice, sliceIndex) => {
                         const baggageSummary = uniqueBaggages
                           .filter((baggage) => baggage.quantity > 0)
                           .map(
@@ -336,7 +336,7 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
                         return (
                           <span key={sliceIndex}>
                             {baggageSummary || "No baggage info"}
-                            {sliceIndex === 0 && offerData?.slices.length > 1
+                            {sliceIndex === 0 && getselectedFlight?.slices.length > 1
                               ? " / "
                               : ""}
                           </span>
