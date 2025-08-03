@@ -17,8 +17,8 @@ const SidebarTabs = () => {
         ?.arguments
   );
   const getselectedFlight = useSelector(
-      (state) => state?.booking?.flightDetail
-    );
+    (state) => state?.booking?.singleFlightData
+  );
 
   return (
     <Box
