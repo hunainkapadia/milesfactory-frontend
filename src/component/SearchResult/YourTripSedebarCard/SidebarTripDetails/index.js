@@ -3,12 +3,12 @@ import TripStyles from "@/src/styles/sass/components/search-result/YourTripSideb
 import { useSelector } from "react-redux";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 
-const SidebarTripDetails = ({id}) => {
-   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
+const SidebarTripDetails = ({ id }) => {
+  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
 
-    function convertMarkdownToHtml(text) {
+  function convertMarkdownToHtml(text) {
     if (!text) return "";
     // 1. Convert **bold** to span with class
     let result = text.replace(
@@ -21,6 +21,59 @@ const SidebarTripDetails = ({id}) => {
     return result;
   }
 
+  // Outbound journey text formatting
+  // This function formats the outbound journey text based on the provided arguments.
+  // It handles cases where either 'from' or 'to' is available, or both
+  const formatJourneyTextOutbound = (args) => {
+    // Use optional chaining for safety
+    const from = args?.from_destination;
+    const to = args?.to_destination;
+
+    // Case 1: Both are available
+    if (from && to) {
+      return `${from} - ${to}`;
+    }
+
+    // Case 2: Only 'from' is available
+    if (from) {
+      return `Leaving from ${from}`;
+    }
+
+    // Case 3: Only 'to' is available
+    if (to) {
+      return `Going to ${to}`;
+    }
+
+    return null;
+  };
+
+  // Return journey text formatting
+  // This function formats the return journey text based on the provided arguments.
+  // It handles cases where either 'from' or 'to' is available, or both
+  const formatJourneyTextReturn = (args) => {
+    // Use optional chaining for safety
+    const from = args?.from_destination;
+    const to = args?.to_destination;
+
+    // Case 1: Both are available
+    if (from && to) {
+      return `${to} - ${from}`;
+    }
+
+    // Case 2: Only 'from' is available
+    if (to) {
+      return `Leaving from ${to}`;
+    }
+
+    // Case 3: Only 'to' is available
+    if (from) {
+      return `Returning to ${from}`;
+    }
+
+    // Case 4: Neither is available (return null to render nothing)
+    return null;
+  };
+
   return (
     <>
       <Box mb={3}>
@@ -29,7 +82,7 @@ const SidebarTripDetails = ({id}) => {
             <Typography
               className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
             >
-              Outbound |{" "}
+              Departure |{" "}
               {BuilderArguments?.departure_date &&
                 new Date(BuilderArguments?.departure_date).toLocaleDateString(
                   "en-GB",
@@ -41,7 +94,7 @@ const SidebarTripDetails = ({id}) => {
                 )}
             </Typography>
             <Typography className="f12 semibold">
-              {BuilderArguments?.from_destination}
+              {formatJourneyTextOutbound(BuilderArguments)}
             </Typography>
           </Box>
         </Box>
@@ -119,39 +172,76 @@ const SidebarTripDetails = ({id}) => {
               {(BuilderArguments?.passengers?.adults ||
                 BuilderArguments?.passengers?.children?.length > 0 ||
                 BuilderArguments?.passengers?.infants?.length > 0) && (
-                <Box
-                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
-                >
-                  {[
-                    BuilderArguments?.passengers?.adults > 0 &&
-                      `${BuilderArguments.passengers.adults} ${
-                        BuilderArguments.passengers.adults === 1
-                          ? "adult"
-                          : "adults"
+                  <Box
+                    className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                  >
+                    {[
+                      BuilderArguments?.passengers?.adults > 0 &&
+                      `${BuilderArguments.passengers.adults} ${BuilderArguments.passengers.adults === 1
+                        ? "adult"
+                        : "adults"
                       }`,
-                    BuilderArguments?.passengers?.children?.length > 0 &&
-                      `${BuilderArguments.passengers.children.length} ${
-                        BuilderArguments.passengers.children.length === 1
-                          ? "child"
-                          : "children"
+                      BuilderArguments?.passengers?.children?.length > 0 &&
+                      `${BuilderArguments.passengers.children.length} ${BuilderArguments.passengers.children.length === 1
+                        ? "child"
+                        : "children"
                       }`,
-                    BuilderArguments?.passengers?.infants?.length > 0 &&
-                      `${BuilderArguments.passengers.infants.length} ${
-                        BuilderArguments.passengers.infants.length === 1
-                          ? "infant"
-                          : "infants"
+                      BuilderArguments?.passengers?.infants?.length > 0 &&
+                      `${BuilderArguments.passengers.infants.length} ${BuilderArguments.passengers.infants.length === 1
+                        ? "infant"
+                        : "infants"
                       }`,
-                  ]
-                    .filter(Boolean)
-                    .join(", ")}
-                </Box>
-              )}
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </Box>
+                )}
             </Typography>
           </Stack>
         </Stack>
         {/* <Box display={"flex"} justifyContent={"flex-end"}>
             <Button className="btn btn-white btn-sm btn-round">Search flights in Chat</Button>
           </Box> */}
+      </Box>
+
+      <Box mb={3}>
+        <Box id={id} mb={1}>
+          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+            <Typography
+              className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+            >
+              {
+                BuilderArguments?.to_destination
+                  ? `Itinerary for ${BuilderArguments.to_destination}`
+                  : 'Itinerary'
+              }
+            </Typography>
+          </Box>
+        </Box>
+
+        {
+          BuilderArguments?.itinerary_text ? (
+            // IF the text exists (is "truthy"), show this:
+            <Typography
+              className="formateContent f12 mt-0"
+              component="div"
+              variant="body1"
+              dangerouslySetInnerHTML={{
+                __html: formatTextToHtmlList(
+                  convertMarkdownToHtml(
+                    sanitizeResponse(BuilderArguments.itinerary_text)
+                  )
+                ),
+              }}
+            />
+          ) : (
+            // ELSE, show this sentence.
+            // Using Typography for consistent styling is a good practice.
+            <Typography className="f12" variant="body1">
+              Ask Mylz to generate an itinerary for this trip in the chat.
+            </Typography>
+          )
+        }
       </Box>
 
       <Box mb={3}>
@@ -172,7 +262,7 @@ const SidebarTripDetails = ({id}) => {
                 )}
             </Typography>
             <Typography className="f12 semibold">
-              {BuilderArguments?.to_destination}
+              {formatJourneyTextReturn(BuilderArguments)}
             </Typography>
           </Box>
         </Box>
@@ -181,32 +271,7 @@ const SidebarTripDetails = ({id}) => {
         </Typography>
       </Box>
 
-      {BuilderArguments?.itinerary_text && (
-        <Box mb={3}>
-          <Box  id={id} mb={1}>
-            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-              <Typography
-                className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
-              >
-                Itinerary for {BuilderArguments?.to_destination}
-              </Typography>
-            </Box>
-          </Box>
 
-          <Typography
-            className="formateContent f12 mt-0"
-            component="div"
-            variant="body1"
-            dangerouslySetInnerHTML={{
-              __html: formatTextToHtmlList(
-                convertMarkdownToHtml(
-                  sanitizeResponse(BuilderArguments?.itinerary_text)
-                )
-              ),
-            }}
-          />
-        </Box>
-      )}
     </>
   );
 };

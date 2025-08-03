@@ -291,7 +291,7 @@ const YourTripSedebarCard = ({
                                   " btn btn-xs btn-black "
                                 }
                               >
-                                Outbound |{" "}
+                                Departing |{" "}
                                 {new Date(
                                   BuilderArguments?.departure_date
                                 ).toLocaleDateString("en-GB", {
@@ -301,7 +301,7 @@ const YourTripSedebarCard = ({
                                 })}
                               </Typography>
                               <Typography className="f12 semibold">
-                                {BuilderArguments?.from_destination}
+                                {BuilderArguments?.from_destination} - {BuilderArguments?.to_destination}
                               </Typography>
                             </Box>
                           </Box>
@@ -334,14 +334,13 @@ const YourTripSedebarCard = ({
                                 })}
                               </Typography>
                               <Typography className="f12 semibold">
-                                {BuilderArguments?.to_destination}
+                                {BuilderArguments?.to_destination} - {BuilderArguments?.from_destination}
                               </Typography>
                             </Box>
                           </Box>
-                          <Typography className="f12">
-                            Departure. Check out and head to the airport for
-                            your flight.
-                          </Typography>
+                          {/* <Typography className="f12">
+                            Add airport name and flight number here.
+                          </Typography> */}
                         </>
                       )}
                     </Box>

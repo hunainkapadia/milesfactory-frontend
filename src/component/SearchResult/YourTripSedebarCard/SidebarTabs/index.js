@@ -45,29 +45,9 @@ const SidebarTabs = () => {
           alignItems="center"
           gap={1}
         >
-          <Typography className="f12">Overview</Typography>
+          <Typography className="f12">Outbound</Typography>
         </Box>
       </a>
-      {getselectedFlight && (
-        <>
-        <a
-          href="#offer-card"
-          onClick={() => handleTabClick("flights")}
-          style={{ textDecoration: "none" }}
-        >
-          <Box
-            className={`${TripStyles.inactiveTab} ${
-              activeTab === "flights" ? TripStyles.activeTab : ""
-            }`}
-            display="flex"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography className="f12">Flights</Typography>
-          </Box>
-        </a>
-        </>
-      )}
       {getBuilder?.itinerary_text && (
         <>
           <a
@@ -86,6 +66,26 @@ const SidebarTabs = () => {
               <Typography className="f12">Itinerary</Typography>
             </Box>
           </a>
+        </>
+      )}
+      {getselectedFlight && (
+        <>
+        <a
+          href="#offer-card"
+          onClick={() => handleTabClick("flights")}
+          style={{ textDecoration: "none" }}
+        >
+          <Box
+            className={`${TripStyles.inactiveTab} ${
+              activeTab === "flights" ? TripStyles.activeTab : ""
+            }`}
+            display="flex"
+            alignItems="center"
+            gap={1}
+          >
+            <Typography className="f12">Return</Typography>
+          </Box>
+        </a>
         </>
       )}
     </Box>
