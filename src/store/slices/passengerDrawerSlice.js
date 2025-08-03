@@ -34,8 +34,12 @@ const passengerDrawerSlice = createSlice({
     IsPassengerflow: null,
     IsorderSetup: null,
     isPassengerLoading: false,
+    SeeDetailButton: null,
   },
   reducers: {
+    setSeeDetailButton: (state, action) => {
+      state.SeeDetailButton = action.payload;
+    },
     setIsPassengerflow: (state, action) => {
       state.IsPassengerflow = action.payload;
     },
@@ -186,9 +190,7 @@ export const ViewPassengers = () => (dispatch, getState) => {
   const orderUuid = states.passengerDrawer?.OrderUuid;
 
   if (!orderUuid) return;
-
   const viewPassengerUrl = `/api/v1/order/${orderUuid}/passengers`;
-
   dispatch(setLoading(true))
   api
     .get(viewPassengerUrl)
@@ -357,7 +359,8 @@ export const {
   setPassengerPassport,
   setSelectPassenger,
   setIsPassengerflow,
-  setisPassengerLoading
+  setisPassengerLoading,
+  setSeeDetailButton
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

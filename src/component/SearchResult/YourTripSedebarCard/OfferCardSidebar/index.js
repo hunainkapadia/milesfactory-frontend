@@ -17,7 +17,15 @@ import Image from "next/image";
 import { currencySymbols } from "@/src/utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { PassengerForm, setAllPassengerFill, setIsPassengerflow, setOrderUuid, setViewPassengers, ViewPassengers } from "@/src/store/slices/passengerDrawerSlice";
+import {
+  PassengerForm,
+  setAllPassengerFill,
+  setIsPassengerflow,
+  setOrderUuid,
+  setSeeDetailButton,
+  setViewPassengers,
+  ViewPassengers,
+} from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
 const OfferCardSidebar = ({ index, slice }) => {
@@ -27,11 +35,10 @@ const OfferCardSidebar = ({ index, slice }) => {
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const orderDetail = flightOrder?.order?.selected_offer;
 
-  console.log("flightOrder", flightOrder)
   const AllPassengerFill = useSelector(
-      (state) => state.passengerDrawer.allPassengerFill
-    );
-    console.log("AllPassengerFill", AllPassengerFill)
+    (state) => state.passengerDrawer.allPassengerFill
+  );
+
   const validPassengers = GetViewPassengers?.filter(
     (p) => p.given_name && p.family_name
   );
@@ -39,25 +46,29 @@ const OfferCardSidebar = ({ index, slice }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
+  const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
+  
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id ?? null;
 
   const HandleSelectDrawer = () => {
     if (getselectedFlight?.id) {
+      dispatch(setSeeDetailButton("Builder"))
       dispatch(setOpenDrawer(getselectedFlight.id));
       dispatch(setflightDetail(getselectedFlight));
     }
   };
 
   const handleClearFlight = () => {
-  dispatch(setSelectedFlightKey(null));
-  dispatch(setflightDetail(null));
-  dispatch(setViewPassengers([])); // Clear passengers array
-  dispatch(setOrderUuid(null));    // Clear order UUID
-  dispatch(setMessage({ ai: { passengerFlowRes: false } }))
-  dispatch(bookFlight(null)); // Pass flight ID to bookFlight
-  dispatch(setSingleFlightData(null))
-};
+    dispatch(setSelectedFlightKey(null));
+    dispatch(setflightDetail(null));
+    dispatch(setViewPassengers([])); // Clear passengers array
+    dispatch(setOrderUuid(null)); // Clear order UUID
+    dispatch(setMessage({ ai: { passengerFlowRes: false } }));
+    dispatch(bookFlight(null)); // Pass flight ID to bookFlight
+    dispatch(setSingleFlightData(null));
+  };
 
   return (
     <>
@@ -77,7 +88,8 @@ const OfferCardSidebar = ({ index, slice }) => {
             </Box>
           )}
           <Box display={"flex"} gap={2} alignItems={"center"}>
-            {AllPassengerFill ? (
+            {PaymentStatus?.is_complete === "yes" &&
+            PaymentStatus?.status === "success" ? (
               <Box
                 display={"flex"}
                 justifyContent={"center"}
@@ -86,19 +98,20 @@ const OfferCardSidebar = ({ index, slice }) => {
               >
                 Booked
               </Box>
-            ) : (
+            ) : getselectedFlight ? (
               <Box
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
                 className={TripStyles.SelectedLabel + " chip chipYellow sm"}
               >
                 Selected
               </Box>
-            )}
+            ) : null}
+
             <FontAwesomeIcon
               className="basecolor1-50"
-              cursor={"pointer"}
+              cursor="pointer"
               onClick={handleClearFlight}
               icon={faClose}
               fontSize={18}
@@ -229,102 +242,103 @@ const OfferCardSidebar = ({ index, slice }) => {
         </Box>
         {/* traveller and baggage */}
         <Box>
-            {validPassengers?.length ? (
-              <Stack
-                direction="row"
-                alignItems="center"
-                component="section"
-                justifyContent={"space-between"}
-                mb={"8px"}
-              >
-                <Stack  direction="row" spacing={1} alignItems={"center"}>
-                  <Box pt={0}>
-                    <svg
-                      width="13"
-                      height="13"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 1.425C6.87 1.425 7.575 2.13 7.575 3C7.575 3.87 6.87 4.575 6 4.575C5.13 4.575 4.425 3.87 4.425 3C4.425 2.13 5.13 1.425 6 1.425ZM6 8.175C8.2275 8.175 10.575 9.27 10.575 9.75V10.575H1.425V9.75C1.425 9.27 3.7725 8.175 6 8.175ZM6 0C4.3425 0 3 1.3425 3 3C3 4.6575 4.3425 6 6 6C7.6575 6 9 4.6575 9 3C9 1.3425 7.6575 0 6 0ZM6 6.75C3.9975 6.75 0 7.755 0 9.75V12H12V9.75C12 7.755 8.0025 6.75 6 6.75Z"
-                        fill="black"
-                        fill-opacity="0.3"
-                      />
-                    </svg>
-                  </Box>
-                  <Box className="f12 basecolor">
-                    <Typography component={"span"} className="f12 bold basecolor">
-                      Travellers:{" "}
-                    </Typography>
-                    <Typography component={"span"} className="f12 gray">
-                      {validPassengers?.map((p, i) => {
-                        const isLast = i === validPassengers.length - 1;
-                        return (
-                          <span key={i}>
-                            {p.given_name} {p.family_name}
-                            {!isLast && ", "}
-                          </span>
-                        );
-                      })}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </Stack>
-            ) : null}
-
+          {validPassengers?.length ? (
             <Stack
               direction="row"
-              spacing={1}
               alignItems="center"
               component="section"
               justifyContent={"space-between"}
+              mb={"8px"}
             >
               <Stack direction="row" spacing={1} alignItems={"center"}>
                 <Box pt={0}>
                   <svg
                     width="13"
                     height="13"
-                    viewBox="0 0 13 13"
+                    viewBox="0 0 12 12"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M7.75 2.75V1.5H5.25V2.75H7.75ZM1.5 4V10.875H11.5V4H1.5ZM11.5 2.75C12.1937 2.75 12.75 3.30625 12.75 4V10.875C12.75 11.5688 12.1937 12.125 11.5 12.125H1.5C0.80625 12.125 0.25 11.5688 0.25 10.875L0.25625 4C0.25625 3.30625 0.80625 2.75 1.5 2.75H4V1.5C4 0.80625 4.55625 0.25 5.25 0.25H7.75C8.44375 0.25 9 0.80625 9 1.5V2.75H11.5Z"
+                      d="M6 1.425C6.87 1.425 7.575 2.13 7.575 3C7.575 3.87 6.87 4.575 6 4.575C5.13 4.575 4.425 3.87 4.425 3C4.425 2.13 5.13 1.425 6 1.425ZM6 8.175C8.2275 8.175 10.575 9.27 10.575 9.75V10.575H1.425V9.75C1.425 9.27 3.7725 8.175 6 8.175ZM6 0C4.3425 0 3 1.3425 3 3C3 4.6575 4.3425 6 6 6C7.6575 6 9 4.6575 9 3C9 1.3425 7.6575 0 6 0ZM6 6.75C3.9975 6.75 0 7.755 0 9.75V12H12V9.75C12 7.755 8.0025 6.75 6 6.75Z"
                       fill="black"
-                      fillOpacity="0.3"
+                      fill-opacity="0.3"
                     />
                   </svg>
                 </Box>
+                <Box className="f12 basecolor">
+                  <Typography component={"span"} className="f12 bold basecolor">
+                    Travellers:{" "}
+                  </Typography>
+                  <Typography component={"span"} className="f12 gray">
+                    {validPassengers?.map((p, i) => {
+                      const isLast = i === validPassengers.length - 1;
+                      return (
+                        <span key={i}>
+                          {p.given_name} {p.family_name}
+                          {!isLast && ", "}
+                        </span>
+                      );
+                    })}
+                  </Typography>
+                </Box>
+              </Stack>
+            </Stack>
+          ) : null}
 
-                <Stack width={"100%"}>
-                  <Typography className="f12 basecolor">
-                    <Typography component={"span"} className="f12 bold basecolor">
-                      Extra baggage:{" "}
-                    </Typography>
-                    {(() => {
-                      const baggageMap = new Map();
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            component="section"
+            justifyContent={"space-between"}
+          >
+            <Stack direction="row" spacing={1} alignItems={"center"}>
+              <Box pt={0}>
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 13 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M7.75 2.75V1.5H5.25V2.75H7.75ZM1.5 4V10.875H11.5V4H1.5ZM11.5 2.75C12.1937 2.75 12.75 3.30625 12.75 4V10.875C12.75 11.5688 12.1937 12.125 11.5 12.125H1.5C0.80625 12.125 0.25 11.5688 0.25 10.875L0.25625 4C0.25625 3.30625 0.80625 2.75 1.5 2.75H4V1.5C4 0.80625 4.55625 0.25 5.25 0.25H7.75C8.44375 0.25 9 0.80625 9 1.5V2.75H11.5Z"
+                    fill="black"
+                    fillOpacity="0.3"
+                  />
+                </svg>
+              </Box>
 
-                      getselectedFlight?.slices.forEach((slice) => {
-                        slice?.segments?.forEach((segment) => {
-                          segment?.passengers?.forEach((passenger) => {
-                            passenger?.baggages?.forEach((baggage) => {
-                              const key = `${baggage.type}-${baggage.formatted_type}`;
-                              if (!baggageMap.has(key)) {
-                                baggageMap.set(key, {
-                                  ...baggage,
-                                });
-                              }
-                            });
+              <Stack width={"100%"}>
+                <Typography className="f12 basecolor">
+                  <Typography component={"span"} className="f12 bold basecolor">
+                    Extra baggage:{" "}
+                  </Typography>
+                  {(() => {
+                    const baggageMap = new Map();
+
+                    getselectedFlight?.slices.forEach((slice) => {
+                      slice?.segments?.forEach((segment) => {
+                        segment?.passengers?.forEach((passenger) => {
+                          passenger?.baggages?.forEach((baggage) => {
+                            const key = `${baggage.type}-${baggage.formatted_type}`;
+                            if (!baggageMap.has(key)) {
+                              baggageMap.set(key, {
+                                ...baggage,
+                              });
+                            }
                           });
                         });
                       });
+                    });
 
-                      const uniqueBaggages = Array.from(baggageMap.values());
+                    const uniqueBaggages = Array.from(baggageMap.values());
 
-                      return getselectedFlight?.slices.map((slice, sliceIndex) => {
+                    return getselectedFlight?.slices.map(
+                      (slice, sliceIndex) => {
                         const baggageSummary = uniqueBaggages
                           .filter((baggage) => baggage.quantity > 0)
                           .map(
@@ -336,17 +350,19 @@ const OfferCardSidebar = ({ index, slice }) => {
                         return (
                           <span key={sliceIndex}>
                             {baggageSummary || "No baggage info"}
-                            {sliceIndex === 0 && getselectedFlight?.slices.length > 1
+                            {sliceIndex === 0 &&
+                            getselectedFlight?.slices.length > 1
                               ? " / "
                               : ""}
                           </span>
                         );
-                      });
-                    })()}
-                  </Typography>
-                </Stack>
+                      }
+                    );
+                  })()}
+                </Typography>
               </Stack>
             </Stack>
+          </Stack>
         </Box>
         {!validPassengers?.length && (
           <>
@@ -406,8 +422,8 @@ const OfferCardSidebar = ({ index, slice }) => {
                   {
                     flightOrder?.amount_calculations
                       ?.total_amount_plus_markup_and_all_services
-                  },
-                  {" paid"}
+                  }
+                  ,{" paid"}
                 </Typography>
               </Box>
             </Box>

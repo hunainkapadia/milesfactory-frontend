@@ -25,6 +25,7 @@ import { currencySymbols } from "@/src/utils/utils";
 import {
   PassengerForm,
   setisLoading,
+  setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import FromAndTo from "../FromAndTo";
@@ -38,6 +39,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
+      dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
     }
@@ -98,7 +100,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     <>
       {/* Open drawer only for the selected flight */}
 
-      {console.log("offerData_slice", offerData?.slices.length)}
       <Box
         className={`${searchResultStyles.flightOfferCard} ${
           offerData?.slices.length > 1

@@ -6,6 +6,7 @@ import {
   setOpenDrawer,
 } from "@/src/store/slices/BookingflightSlice";
 import FilterParams from "../YourTripSidebar/FilterParams";
+import { setSeeDetailButton } from "@/src/store/slices/passengerDrawerSlice";
 
 const SearchFilterBar = () => {
   const SearchHistoryGet = useSelector(
@@ -26,6 +27,7 @@ const SearchFilterBar = () => {
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
+      dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(getselectedFlight)); // Store flight details
     }

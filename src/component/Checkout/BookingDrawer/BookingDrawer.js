@@ -8,9 +8,6 @@ import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols } from "@/src/utils/utils";
 import Link from "next/link";
 const BookingDrawer = ({ getFlightDetail }) => {
-  
-  console.log("getFlightDetail", getFlightDetail);
-  
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
@@ -23,26 +20,29 @@ const BookingDrawer = ({ getFlightDetail }) => {
   );
   const searchHistory = SearchHistoryGet || SearchHistorySend;
   const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
+  const seeDetail = useSelector(
+          (state) => state.passengerDrawer.SeeDetailButton
+        );
+        
+    console.log("seeDetail", seeDetail);
   return (
     <Drawer
-  anchor="right"
-  open={getFlightKey}
-  onClose={HandlecloseDrawer}
-  className={`${styles.checkoutDrower} aaaaa 2222`}
-  transitionDuration={300}
-  ModalProps={{
-    sx: {
-      zIndex: (theme) => theme.zIndex.modal + 10, // Ensure this applies to Modal layer
-    },
-  }}
-  PaperProps={{
-    sx: {
-      zIndex: (theme) => theme.zIndex.modal + 11, // Paper (the drawer container itself)
-      
-    },
-  }}
->
-
+      anchor="right"
+      open={getFlightKey}
+      onClose={HandlecloseDrawer}
+      className={`${styles.checkoutDrower} aaaaa 2222`}
+      transitionDuration={300}
+      ModalProps={{
+        sx: {
+          zIndex: (theme) => theme.zIndex.modal + 10, // Ensure this applies to Modal layer
+        },
+      }}
+      PaperProps={{
+        sx: {
+          zIndex: (theme) => theme.zIndex.modal + 11, // Paper (the drawer container itself)
+        },
+      }}
+    >
       <Box className={styles.checkoutDrower + " white-bg"} width={463}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box
@@ -64,7 +64,9 @@ const BookingDrawer = ({ getFlightDetail }) => {
               onClick={HandlecloseDrawer}
             >
               <i className={`fa fa-arrow-left fas`}></i>{" "}
-              <Box component={"span"}>Back to Mylz Chat</Box>
+              <Box component={"span"}>
+                Back to Mylz {seeDetail}
+              </Box>
             </Box>
             <Box
               component={"section"}
@@ -88,7 +90,8 @@ const BookingDrawer = ({ getFlightDetail }) => {
               justifyContent="space-between"
             >
               <Grid xs={12}>
-                <Box mb={3}
+                <Box
+                  mb={3}
                   display={"flex"}
                   justifyContent={"space-between"}
                   alignItems={"center"}
@@ -152,7 +155,13 @@ const BookingDrawer = ({ getFlightDetail }) => {
                     />
                   </>
                 ))}
-                <Box className="black opacity-50" display={"flex"} gap={2} alignItems={"center"} mb={3}>
+                <Box
+                  className="black opacity-50"
+                  display={"flex"}
+                  gap={2}
+                  alignItems={"center"}
+                  mb={3}
+                >
                   <Box display={"flex"} alignItems={"center"}>
                     <img width={14} src="/images/leave-icon.svg" />
                   </Box>
@@ -164,7 +173,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                   </Typography>
                 </Box>
                 {/*  */}
-                <Box component={"section"} >
+                <Box component={"section"}>
                   {/* Change with penalty */}
                   {getFlightDetail?.conditions?.change_before_departure
                     ?.allowed === true &&
@@ -189,7 +198,8 @@ const BookingDrawer = ({ getFlightDetail }) => {
                           {
                             getFlightDetail?.conditions?.change_before_departure
                               ?.penalty_amount
-                          } penalty applies
+                          }{" "}
+                          penalty applies
                         </Typography>
                       </Box>
                     )}
@@ -237,7 +247,8 @@ const BookingDrawer = ({ getFlightDetail }) => {
                           {
                             getFlightDetail?.conditions?.refund_before_departure
                               ?.penalty_amount
-                          } penalty applies
+                          }{" "}
+                          penalty applies
                         </Typography>
                       </Box>
                     )}
