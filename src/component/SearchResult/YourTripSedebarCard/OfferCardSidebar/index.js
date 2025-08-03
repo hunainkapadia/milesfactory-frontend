@@ -7,6 +7,7 @@ import {
   setOpenDrawer,
   setSelectedFlightKey,
   setSelectFlightKey,
+  setSingleFlightData,
 } from "@/src/store/slices/BookingflightSlice";
 
 // import TripStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
@@ -55,6 +56,7 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
   dispatch(setOrderUuid(null));    // Clear order UUID
   dispatch(setMessage({ ai: { passengerFlowRes: false } }))
   dispatch(bookFlight(null)); // Pass flight ID to bookFlight
+  dispatch(setSingleFlightData(null))
 };
 
   return (

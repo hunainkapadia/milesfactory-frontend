@@ -48,9 +48,10 @@ const YourTripSedebarCard = ({
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
 
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
-  console.log("getBuilder", BuilderArguments);
+  
+  console.log("getselectedFlight", getselectedFlight);
 
   const dispatch = useDispatch();
   const offerkey = offerData?.id;
