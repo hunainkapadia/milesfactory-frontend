@@ -34,7 +34,7 @@ const passengerDrawerSlice = createSlice({
     IsPassengerflow: null,
     IsorderSetup: null,
     isPassengerLoading: false,
-    SeeDetailButton: null,
+    SeeDetailButton: "Chat",
   },
   reducers: {
     setSeeDetailButton: (state, action) => {
