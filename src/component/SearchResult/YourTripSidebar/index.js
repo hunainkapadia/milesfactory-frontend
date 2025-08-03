@@ -17,10 +17,11 @@ import ShareDropdown from "../../layout/Header/ShareDropdown";
 
 const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
+  
+  console.log("getselectedFlight", getselectedFlight)
 
-  console.log("getselectedFlight", getselectedFlight);
 
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
@@ -49,6 +50,9 @@ const YourTripSidebar = ({ isMessage }) => {
               position={"relative"}
               zIndex={1}
               justifyContent={"space-between"}
+              px={"18px"}
+              pt={"20px"}
+              pb={"13px"}
             >
               <Box gap={1} display={"flex"} alignItems={"center"}>
                 <Box className=" imggroup">

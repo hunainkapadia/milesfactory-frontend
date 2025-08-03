@@ -1,5 +1,6 @@
 import { Box, Typography, Avatar, Stack } from "@mui/material";
 import {
+  bookFlight,
   closeDrawer,
   fetchflightDetail,
   setflightDetail,
@@ -53,6 +54,7 @@ const OfferCardSidebar = ({ index, slice, offerData }) => {
   dispatch(setViewPassengers([])); // Clear passengers array
   dispatch(setOrderUuid(null));    // Clear order UUID
   dispatch(setMessage({ ai: { passengerFlowRes: false } }))
+  dispatch(bookFlight(null)); // Pass flight ID to bookFlight
 };
 
   return (
