@@ -33,7 +33,7 @@ const MobileBuilderDialoge = () => {
   const dispatch = useDispatch();
   const isBuilderDialoge = useSelector((state) => state?.base?.IsBuilderDialog);
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
 
@@ -54,7 +54,6 @@ const MobileBuilderDialoge = () => {
       <DialogContent sx={{ px: 0, py: "18px" }} className="asasas">
         <Box>
           <YourTripSedebarCard
-            offerData={getselectedFlight}
             getBuilder={getBuilder}
           />
         </Box>

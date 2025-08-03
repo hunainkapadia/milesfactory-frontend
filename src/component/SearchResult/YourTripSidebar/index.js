@@ -19,8 +19,9 @@ const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
+  console.log("orderSuccess", orderSuccess);
   
-  console.log("getselectedFlight", getselectedFlight)
 
 
   const paymentSuccess = useSelector(
@@ -114,8 +115,9 @@ const YourTripSidebar = ({ isMessage }) => {
                 </Box>
                 <Button
                   className={`btn btn-primary btn-round btn-xs ${
-                    !getselectedFlight ? "disabled" : ""
+                    !!orderSuccess || !getselectedFlight ? "disabled" : ""
                   }`}
+                    
                   // onClick={HandleSelectDrawer}
                 >
                   Book now

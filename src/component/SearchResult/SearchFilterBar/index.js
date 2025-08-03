@@ -19,7 +19,7 @@ const SearchFilterBar = () => {
 
   //   for selct flight detail
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id;

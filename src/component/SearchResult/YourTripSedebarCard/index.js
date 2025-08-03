@@ -37,7 +37,6 @@ import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
 
 const YourTripSedebarCard = ({
-  offerData,
   FlightExpire,
   filterParams,
   getBuilder,
@@ -48,12 +47,13 @@ const YourTripSedebarCard = ({
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
 
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
-  console.log("getBuilder", BuilderArguments);
+  
+  console.log("getselectedFlight", getselectedFlight);
 
   const dispatch = useDispatch();
-  const offerkey = offerData?.id;
+  const offerkey = getselectedFlight?.id;
   const isPassenger = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -70,9 +70,9 @@ const YourTripSedebarCard = ({
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const personQuantity = offerData?.passengers.length;
-  const Passengers = Number(offerData?.per_passenger_amount) * personQuantity;
-  const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
+  const personQuantity = getselectedFlight?.passengers.length;
+  const Passengers = Number(getselectedFlight?.per_passenger_amount) * personQuantity;
+  const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;
   const totalAmount = Math.round(WithtaxAmount);
 
   const validPassengers = GetViewPassengers?.filter(
@@ -270,11 +270,11 @@ const YourTripSedebarCard = ({
         <Box>
           {/*  */}
 
-          {offerData ? (
+          {getselectedFlight ? (
             <>
               <Box>
                 {/* footer */}
-                {offerData?.slices.map((slice, index) => (
+                {getselectedFlight?.slices.map((slice, index) => (
                   <>
                     <Box mb={3}>
                       {index === 0 ? (
@@ -348,7 +348,6 @@ const YourTripSedebarCard = ({
                     {/* offer card  */}
                     <Box id="offer-card">
                       <OfferCardSidebar
-                        offerData={offerData}
                         index={index}
                         slice={slice}
                       />
