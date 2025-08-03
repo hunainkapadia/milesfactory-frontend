@@ -21,6 +21,8 @@ import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.
 import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
 import { setThreadUuid } from "@/src/store/slices/sendMessageSlice";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import BookingDrawer from "@/src/component/Checkout/BookingDrawer/BookingDrawer";
+import BaggageDrawer from "@/src/component/Checkout/BaggageDrawer";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -146,7 +148,8 @@ const ChatByUUID = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-
+const flightDetail = useSelector((state) => state.booking.flightDetail);
+  
   return (
     <>
       <Box component={"main"}>
@@ -229,7 +232,9 @@ const ChatByUUID = () => {
             </Container>
           </Box>
         </Box>
+      <BookingDrawer getFlightDetail={flightDetail} />
       </Box>
+      <BaggageDrawer getFlightDetail={flightDetail} />
     </>
   );
 };

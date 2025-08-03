@@ -24,6 +24,7 @@ const sendMessageSlice = createSlice({
       nextPageNo: 2,
       ai: "",
     },
+    AddBuilder:null,
   },
   reducers: {
     setAddBuilder: (state, action) => {
@@ -102,15 +103,15 @@ const sendMessageSlice = createSlice({
     setMessage: (state, action) => {
       const newMessage = action.payload;
 
-      // ✅ STEP 1: If this is a passengerFlowRes message
+      // STEP 1: If this is a passengerFlowRes message
       if (newMessage?.ai?.passengerFlowRes !== undefined) {
-        // ✅ STEP 2: Remove all old passengerFlowRes messages
+        // STEP 2: Remove all old passengerFlowRes messages
         state.messages = state.messages.filter(
           (msg) => !(msg?.ai?.passengerFlowRes !== undefined)
         );
       }
 
-      // ✅ STEP 3: Push the new message
+      // STEP 3: Push the new message
       state.messages.push(newMessage);
     },
     setAllFlightResults: (state, action) => {
@@ -428,7 +429,7 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
 // for chat page header plus  icon
 export const deleteAndCreateThread =
   (followUpMessage = null) =>
-  (dispatch, getState) => {
+  (dispatch, getState) => { 
     const getuser = getState()?.base?.currentUser?.user;
     console.log("getuser_0", getuser);
     const uuid = sessionStorage.getItem("chat_thread_uuid");
@@ -441,7 +442,9 @@ export const deleteAndCreateThread =
         if (res) {
           // Clear previous chat history/messages in Redux store
           dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
-
+          dispatch(setAddBuilder(null)) //builder clear on new thread
+          dispatch(setSearchHistorySend(null)) // filter clear history
+          
           sessionStorage.removeItem("chat_thread_uuid");
 
           api

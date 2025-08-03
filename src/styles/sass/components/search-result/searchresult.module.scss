@@ -89,10 +89,13 @@
     top: inherit;
     left: 48%;
   }
+    &.FilterActive .messageContentIn {
+      margin-top: 140px;
+    }
 
   .messageContentIn {
     padding: 0px 0 35px;
-    margin-top: 125px;
+    margin-top: 50px;
     position: relative;
 
 
@@ -507,11 +510,13 @@
     display: flex;
     justify-content: center;
     width: 100%;
-
+    &.FilterActive .messageContentIn {
+      margin-top: 120px;
+    }
     .messageContentIn {
       width: 100%;
       padding: 30px 0px 34px;
-      margin-top: 90px;
+      margin-top: 70px;
 
       .Aibox {
         width: 100%;

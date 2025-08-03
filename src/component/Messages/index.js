@@ -22,7 +22,6 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
 import LoadingArea from "../LoadingArea";
-import BookingDrawer from "../Checkout/BookingDrawer/BookingDrawer";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
@@ -88,16 +87,29 @@ const Messages = () => {
     dispatch(setRefreshSearch());
   };
 
+  const SearchHistoryGet = useSelector(
+      (state) => state.getMessages.SearchHistory
+    );
+  
+    const SearchHistorySend = useSelector(
+      (state) => state.sendMessage?.SearchHistorySend
+    );
+    const SearchHistory = SearchHistorySend || SearchHistoryGet;
+    
+
   return (
     <>
       {messages.length ? (
         <Box component={"section"}>
-          <Box className={searchResultStyles.messageContent}>
+          <Box
+            className={`${searchResultStyles.messageContent} ${
+              SearchHistory ? searchResultStyles.FilterActive : ""
+            }`}
+          >
             <Box className={searchResultStyles.messageContentIn}>
-            
               {messages.map((msg, index) => (
                 <Box key={index}>
-                {console.log("msg_000", msg)}
+                  {console.log("msg_000", msg)}
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
@@ -114,10 +126,9 @@ const Messages = () => {
               {!hasFlightOffers ? <Box ref={messagesEndRef} /> : ""}
               {/* booking flow start */}
 
-              <BookingDrawer getFlightDetail={flightDetail} />
+              
               <PassengerDrawerForm />
               <PassengerProfileDrawer />
-              <BaggageDrawer getFlightDetail={flightDetail} />
             </Box>
           </Box>
         </Box>
