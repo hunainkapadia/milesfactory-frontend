@@ -164,7 +164,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                     <Box component="a" href="/">
                       <Box className="d-flex align-items-center">
                         {isChat && isMobile ? (
-                          <img src="/images/chat-logo.svg" />
+                          <img src="/images/logo-color2.svg" />
                         ) : (
                           <>
                             {isSticky || isMessage || IsActive ? (
