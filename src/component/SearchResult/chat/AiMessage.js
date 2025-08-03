@@ -115,10 +115,7 @@ const AiMessage = ({ aiMessage }) => {
   };
 
   const isLoadingPassenger = useSelector((state) => state?.passengerDrawer?.isPassengerLoading);
-  console.log("isLoadingPassenger", isLoadingPassenger)
   
-  console.log("isLoadingPassenger", isLoadingPassenger);
-
   return (
     <Box
       ref={aiboxRef}
