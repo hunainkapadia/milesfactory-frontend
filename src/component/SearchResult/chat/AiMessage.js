@@ -223,12 +223,15 @@ const AiMessage = ({ aiMessage }) => {
               </Box>
             </Box>
           ) : (
-            <Typography
-              variant="h6"
-              sx={{ color: "#1e293b", fontWeight: 600, mb: 1 }}
-            >
+            <Box
+                sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+                gap={2}
+                alignItems="center"
+                display="flex"
+                className="bold"
+              >
               No more flights found.
-            </Typography>
+            </Box>
           )}
         </>
       ) : (
