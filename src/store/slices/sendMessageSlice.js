@@ -103,6 +103,7 @@ const sendMessageSlice = createSlice({
     setMessage: (state, action) => {
       const newMessage = action.payload;
 
+      console.log("newMessage", newMessage);
       // STEP 1: If this is a passengerFlowRes message
       if (newMessage?.ai?.passengerFlowRes !== undefined) {
         // STEP 2: Remove all old passengerFlowRes messages
@@ -444,7 +445,7 @@ export const deleteAndCreateThread =
           dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
           dispatch(setAddBuilder(null)) //builder clear on new thread
           dispatch(setSearchHistorySend(null)) // filter clear history
-          
+
           sessionStorage.removeItem("chat_thread_uuid");
 
           api

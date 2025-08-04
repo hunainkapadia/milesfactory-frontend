@@ -71,7 +71,7 @@ const SidebarTabs = () => {
       {getselectedFlight && (
         <>
         <a
-          href="#offer-card"
+          href="#offer-card-return"
           onClick={() => handleTabClick("flights")}
           style={{ textDecoration: "none" }}
         >

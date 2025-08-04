@@ -318,7 +318,7 @@ const YourTripSedebarCard = ({
                               alignItems={"center"}
                               gap={"12px"}
                             >
-                              <Typography
+                              <Typography 
                                 className={
                                   TripStyles.onewayReturn +
                                   " btn btn-xs btn-black"
@@ -345,7 +345,7 @@ const YourTripSedebarCard = ({
                       )}
                     </Box>
                     {/* offer card  */}
-                    <Box id="offer-card">
+                    <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
                       <OfferCardSidebar
                         index={index}
                         slice={slice}

@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import {
   Box,
-  Dialog,
   DialogContent,
+  Drawer,
   IconButton,
   Slide,
   Tab,
@@ -42,20 +42,25 @@ const MobileBuilderDialoge = () => {
   };
 
   return (
-    <Dialog
-      fullScreen
-      className=" BuilderDialoge aaa"
+    <Drawer
+      anchor="right"
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
-      TransitionComponent={Transition}
-      sx={{ top: "50px", boxShadow: "none", borderTop:"solid 1px #E6EEEE" }}
-      BackdropProps={{ invisible: true }}
+      PaperProps={{
+        sx: {
+          width: "100%",
+          maxWidth: "480px",
+          boxShadow: "none",
+          borderLeft: "1px solid #E6EEEE",
+        },
+      }}
+      SlideProps={{
+        timeout: 300, // optional: controls animation duration
+      }}
     >
       <DialogContent sx={{ px: 0, py: "18px" }} className="asasas">
         <Box>
-          <YourTripSedebarCard
-            getBuilder={getBuilder}
-          />
+          <YourTripSedebarCard getBuilder={getBuilder} />
         </Box>
       </DialogContent>
       <Box
@@ -72,7 +77,7 @@ const MobileBuilderDialoge = () => {
         </Box>
         <MobileBuilder />
       </Box>
-    </Dialog>
+    </Drawer>
   );
 };
 
