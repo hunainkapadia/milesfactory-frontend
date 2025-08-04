@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
-import { setSelectedFlightKey } from "./BookingflightSlice";
+import { bookFlight, setflightDetail, setSelectedFlightKey, setSingleFlightData } from "./BookingflightSlice";
+import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -445,6 +446,14 @@ export const deleteAndCreateThread =
           dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
           dispatch(setAddBuilder(null)) //builder clear on new thread
           dispatch(setSearchHistorySend(null)) // filter clear history
+          dispatch(setSelectedFlightKey(null));
+              dispatch(setflightDetail(null));
+              dispatch(setViewPassengers([])); // Clear passengers array
+              dispatch(setOrderUuid(null)); // Clear order UUID
+              dispatch(setMessage({ ai: { passengerFlowRes: false } }));
+              dispatch(bookFlight(null)); // Pass flight ID to bookFlight
+              dispatch(setSingleFlightData(null));
+
 
           sessionStorage.removeItem("chat_thread_uuid");
 

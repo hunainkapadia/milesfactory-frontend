@@ -5,11 +5,8 @@ import {
   Box,
   DialogContent,
   Drawer,
-  IconButton,
   Slide,
-  Tab,
-  Tabs,
-  Typography,
+  
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsBuilderDialog } from "@/src/store/slices/Base/baseSlice";
