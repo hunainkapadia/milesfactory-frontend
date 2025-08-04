@@ -20,6 +20,9 @@ import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import YourTripSidebar from "@/src/component/SearchResult/YourTripSidebar";
 import { setThreadUuid } from "@/src/store/slices/sendMessageSlice";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import BookingDrawer from "@/src/component/Checkout/BookingDrawer/BookingDrawer";
+import BaggageDrawer from "@/src/component/Checkout/BaggageDrawer";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -39,10 +42,17 @@ const ChatByUUID = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
-
-  console.log("isMessage_00", isMessage);
-
-  // scroll mesge chat
+  
+  // scroll on click select direct
+  const ChatScroll = useSelector((state) => state.base.Chatscroll);  
+  // Scroll if ChatScroll becomes true
+  useEffect(() => {
+    if (ChatScroll && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      dispatch(setChatscroll(false)); // Reset after scroll
+    }
+  }, [ChatScroll, dispatch]);
+  // scroll on click select direct
 
   // Fetch messages using the UUID from URL
 
@@ -109,9 +119,9 @@ const ChatByUUID = () => {
 
       if (scrollingUp) {
         setIsUserScrollingUp(true);
-        setShowArrow(true); // ✅ Always show on scroll up — no timeout
+        setShowArrow(true); //  Always show on scroll up — no timeout
       } else if (scrollingDown) {
-        // ✅ Only reset scroll lock if user is really at bottom
+        //  Only reset scroll lock if user is really at bottom
         if (isNearBottom(chatEl)) {
           setIsUserScrollingUp(false);
           setShowArrow(false);
@@ -129,16 +139,17 @@ const ChatByUUID = () => {
   }, []);
 
   const ScrollDown = () => {
-  if (messagesEndRef.current) {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }
-  setIsUserScrollingUp(false);
-  setShowArrow(false);
-};
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsUserScrollingUp(false);
+    setShowArrow(false);
+  };
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-
+const flightDetail = useSelector((state) => state.booking.flightDetail);
+  
   return (
     <>
       <Box component={"main"}>
@@ -180,11 +191,7 @@ const ChatByUUID = () => {
                     display: { xs: "none", md: "block", lg: "block" },
                   }}
                 >
-                  {SearchHistory ? (
-                    <YourTripSidebar isMessage={isMessage} />
-                  ) : (
-                    " "
-                  )}
+                  <YourTripSidebar isMessage={isMessage} />
                 </Grid>
               </Grid>
             </Container>
@@ -216,7 +223,7 @@ const ChatByUUID = () => {
                           <i className="fa fa-arrow-down"></i>
                         </IconButton>
                       )}
-                      <MessageInputBox isMessageHome={isMessage} />
+                      <MessageInputBox isChat isMessageHome={isMessage} />
                     </Grid>
                     <Grid item md={4.7} lg={4.7}></Grid>
                   </Grid>
@@ -225,7 +232,9 @@ const ChatByUUID = () => {
             </Container>
           </Box>
         </Box>
+      <BookingDrawer getFlightDetail={flightDetail} />
       </Box>
+      <BaggageDrawer getFlightDetail={flightDetail} />
     </>
   );
 };

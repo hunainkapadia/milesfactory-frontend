@@ -11,6 +11,7 @@ import {
   setAllPassengerFill,
   setCaptainSuccess,
   setFormSuccess,
+  setisLoading,
   setOpenPassengerDrawer,
   setPassengerAge,
   setPassengerPassport,
@@ -60,7 +61,6 @@ const PassengerInfo = ({ getdata }) => {
       dispatch(setSelectPassenger(passenger))
       
     } else {
-      
       
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       if (!isFilled) {

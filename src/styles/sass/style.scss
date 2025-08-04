@@ -172,7 +172,15 @@ h6 {
   font-size: $h6 ;
   line-height: 1.5em;
 }
-
+.formateContent  {
+  .heading {
+      margin-top: -10px;
+    }
+    p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    }
+}
 .hgroup {
   margin-bottom: 30px;
   position: relative;
@@ -351,6 +359,10 @@ label,
 .color-red-all,
 .color-red-all * {
   color: $red !important;
+}
+
+.border-dashed {
+  border: 1px dashed rgba(197, 218, 222, 0.4);
 }
 
 .br-15 {
@@ -560,7 +572,13 @@ label,
 .basecolor1 {
   color: $basecolor1 !important;
 }
+.basecolor1-50 {
+  color: $basecolor1-50 !important;
+}
 
+.basecolor1-light2-bg {
+  background-color: $basecolor1-light2 !important;
+}
 .basecolor1-light-bg {
   background-color: $basecolor1-light !important;
 }
@@ -1474,6 +1492,36 @@ body {
 }
 
 
+.newChatBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $white;
+  border: 1px solid rgba(197, 218, 222, 0.3);
+  border-radius: 100px;
+  &.lg {
+    width: 40px;
+    height: 40px;
+
+  }
+}
+.chip {
+  &.sm {
+    padding: 2px 8px;
+    height: 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-size: 12px;
+  }
+  &.chipPrimary {
+    color: $white;
+    background: $basecolor1;
+  }
+  &.chipYellow {
+    color: $white;
+    background: #FFC107;
+  }
+}
 .btn {
   text-transform: none;
   font-family: $primary-font;
@@ -1580,7 +1628,7 @@ body {
   &.btn-black {
     @include border-radius(4px);
     padding: 4px 10px;
-    background: $black;
+    background: $darkgray;
     color: $white;
     font-weight: $bold;
     font-size: 12px;
@@ -1631,7 +1679,23 @@ body {
     }
   }
 
+  &.btn-white {
+    border-radius: 8px;
+    background: $white;
+    letter-spacing: 1.2px !important;
+    color: $basecolor1;
+    font-weight: 500;
+    border: solid 1px #E2ECEF !important;
+     &.btn-round {
+      border-radius: 100px;
+    }
+  }
   &.btn-primary {
+    &.disabled {
+      pointer-events: none; // disables clicks
+      cursor: not-allowed; // optional: shows disabled cursor
+      opacity: 0.5;
+    }
     &.btn-lg-x {
       padding: 7px 36px 8px;
       white-space: nowrap;
@@ -2680,6 +2744,13 @@ html {
   [class*="widescreen only"]:not(.tablet),
   [class*="or lower hidden"]:not(.mobile) {
     display: none !important;
+  }
+}
+body .BuilderDialoge .MuiDialog-container {padding: 0;
+  .MuiDialog-paper {width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+
   }
 }
 

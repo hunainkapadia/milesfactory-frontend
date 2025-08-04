@@ -1,24 +1,50 @@
 @import "../../_variables.scss";
 
-.SearchFilterBar {
-    position: absolute;
-    width: 100%;
-    top: 52px;
-    left: 0px;
-    z-index: 5;
-    border-top: solid 1px #E6EEEE;
-    border-bottom: solid 1px #E6EEEE;
 
+@keyframes slideInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px); /* start above */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* final position */
+  }
+}
+
+.SearchFilterBar {
+   
+  animation: slideInTop 0.5s ease forwards;
+
+   width: 684px;
+    position: absolute;
+    display: flex
+;
+    justify-content: center;
+    top: 60px;
+    left: -5px;
+    padding-top: 40px;
+    background-image: url("/images/search-bg.png");
+    background-size: 1440px;
+    background-position: -230px -120px;
+    background-repeat: no-repeat;
    .Content {
-      background-color: $white;
-      padding: 7px 14px;
+      width: 540px;
+      background: linear-gradient(0deg, rgba(0, 196, 204, 0.02), rgba(0, 196, 204, 0.02)), #FFFFFF;
+      border: 1px solid rgba(21, 38, 74, 0.1);
+      box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
+      border-radius: 20px;
+   
+       z-index: 5;
+      background-color: #FAFEFE;
+      padding: 12px 24px;
       .filterRrow {
          p {
             border-right: solid 1px $black;
             margin-right: 5px;
             padding-right: 5px;
             line-height: 1;
-            font-size: 8px;
+            font-size: 10px;
             &:last-child {
                border: none;
             }
@@ -35,6 +61,30 @@
             line-height: 1;
             &:last-child {
                border: none;
+            }
+         }
+      }
+   }
+}
+
+
+@include for-mobile-large-screen () {
+   .SearchFilterBar {
+      width: 100%;
+      top: 52px;
+      left: 0px;
+      padding-top: 0;
+      .Content {
+         width: 100%;
+         z-index: 5;
+         border-radius: 0;
+         border-top: solid 1px #E6EEEE;
+         border-bottom: solid 1px #E6EEEE;
+         box-shadow: none;
+         padding: 7px 14px;
+         .filterRrow {
+            p {
+               font-size: 8px;
             }
          }
       }

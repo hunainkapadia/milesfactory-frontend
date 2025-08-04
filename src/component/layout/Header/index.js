@@ -53,6 +53,8 @@ import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import ContactDialog from "../ContactDialog";
 import InviteEmailDialog from "../InviteEmailDialog";
 import SearchFilterBar from "../../SearchResult/SearchFilterBar";
+import Image from "next/image";
+import ShareDropdown from "./ShareDropdown";
 
 const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -117,11 +119,19 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
           ${styles.Header} //normal header
           ${isMessage ? styles.isMessage : ""} // if message header change
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
+          ${isHome ? styles.isHome : ""} // if sticky or login
+          
           `}
       >
         <Container className={styles.Container} sx={{ position: "relative" }}>
           <Grid container width={"100%"} sx={{ margin: 0 }}>
-            <Grid item md={12} lg={12} xs={12}>
+            <Grid
+              item
+              md={12}
+              lg={12}
+              xs={12}
+              sx={{ position: { md: "relative", xs: "static" } }}
+            >
               <Box
                 className={styles.Box}
                 display={"flex"}
@@ -154,7 +164,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                     <Box component="a" href="/">
                       <Box className="d-flex align-items-center">
                         {isChat && isMobile ? (
-                          <img src="/images/chat-logo.svg" />
+                          <img src="/images/chat-logo-2.svg" />
                         ) : (
                           <>
                             {isSticky || isMessage || IsActive ? (
@@ -168,6 +178,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                     </Box>
                   </Box>
                 </Box>
+                {isMessage && isMobile ? <ShareDropdown /> : ""}
 
                 <Box
                   sx={{
@@ -314,6 +325,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                 </Box>
                 {/*  */}
               </Box>
+              {isChat && <SearchFilterBar />}
               {isHome ? (
                 <MessageInputBox
                   isSticky={InputSticky}
@@ -322,7 +334,6 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
               ) : (
                 ""
               )}
-              {isChat && <SearchFilterBar />}
             </Grid>
           </Grid>
         </Container>

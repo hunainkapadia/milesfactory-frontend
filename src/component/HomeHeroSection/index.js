@@ -94,9 +94,9 @@ const HomeHeroSection = () => {
                     flexWrap={"wrap"}
                     fontSize={12}
                   >
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}alignItems={"center"}>✅ Best price</Box>
+                    <Box className={`${styles.ChatBullet} `} display={"flex"} alignItems={"center"}>✅  Best direct prices </Box>
                     <Box
-                      gap={1}
+                      gap={"2px"}
                       display={"flex"}
                       alignItems={"center"}
                       className={` ${styles.ChatBullet} `}
@@ -109,7 +109,7 @@ const HomeHeroSection = () => {
                         />
                       </Box>
                       <Typography component={"span"} fontSize={12}>
-                        Airline-protected
+                        Protected bookings
                       </Typography>
                     </Box>
                     <Box className={`${styles.ChatBullet} `} display={"flex"}alignItems={"center"}>
