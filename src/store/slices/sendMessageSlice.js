@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "@/src/store/api";
 import { API_ENDPOINTS } from "@/src/store/api/apiEndpoints";
 import Cookies from "js-cookie";
-import { bookFlight, setflightDetail, setSelectedFlightKey, setSingleFlightData } from "./BookingflightSlice";
+import {
+  bookFlight,
+  setflightDetail,
+  setSelectedFlightKey,
+  setSingleFlightData,
+} from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 
 const sendMessageSlice = createSlice({
@@ -25,9 +30,13 @@ const sendMessageSlice = createSlice({
       nextPageNo: 2,
       ai: "",
     },
-    AddBuilder:null,
+    AddBuilder: null,
+    noMoreFlights:false,
   },
   reducers: {
+    setNoMoreFlights: (state, action) => {
+      state.noMoreFlights = action.payload;
+    },
     setAddBuilder: (state, action) => {
       state.AddBuilder = action.payload;
     },
@@ -58,18 +67,6 @@ const sendMessageSlice = createSlice({
       if (nextPageNo) {
         state.appendFlights.nextPageNo = nextPageNo;
       }
-
-      // const { count, has_next, is_complete, next_page_number, offers } = action.payload
-      // console.log("state_next", state.appendFlights);
-      // if (state.appendFlights) {
-      //   const updatedObj = {
-      //     ...action.payload,
-      //     offers: [...state.appendFlights.offers, ...action.payload.offers],
-      //   };
-      //   state.appendFlights = updatedObj;
-      // } else {
-      //   state.appendFlights = action.payload
-      // }
     },
     setNextMessage: (state, action) => {
       state.NextMessage = action.payload;
@@ -104,7 +101,7 @@ const sendMessageSlice = createSlice({
     setMessage: (state, action) => {
       const newMessage = action.payload;
 
-      console.log("newMessage", newMessage);
+      console.log("newMessage", newMessage?.ai?.passengerFlowRes);
       // STEP 1: If this is a passengerFlowRes message
       if (newMessage?.ai?.passengerFlowRes !== undefined) {
         // STEP 2: Remove all old passengerFlowRes messages
@@ -175,8 +172,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
 
         console.log("run_status111 ", response);
-        if(response?.silent_is_function) {
-          dispatch(setAddBuilder(response))
+        if (response?.silent_is_function) {
+          dispatch(setAddBuilder(response));
         }
         dispatch(setIsFunction({ status: false }));
 
@@ -186,7 +183,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
           console.log("gdata_00", gdata);
-          
+
           dispatch(setpollingComplete(false));
 
           dispatch(
@@ -275,15 +272,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .then((flightRes) => {
                 const isComplete = flightRes?.data?.is_complete;
                 console.log("flightRes", flightRes);
-                
+
                 console.log(
                   " Final refreshed flightRes is_complete:",
                   isComplete
                 );
 
                 if (isComplete === true) {
-                  
-                  
                   console.log("Replacing with real flight results");
                   dispatch(
                     setMessage({
@@ -323,14 +318,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       .then((flightRes) => {
                         console.log("flightRes", flightRes);
                         dispatch(setSelectedFlightKey(null)); //  clear select flight key
-                        
 
                         const realFlightData = flightRes.data;
 
                         // First clear placeholders
                         dispatch(setClearflight());
-                        
-                        
+
                         // Then add final results
                         dispatch(
                           setMessage({
@@ -431,7 +424,7 @@ export const createThreadAndRedirect = (router) => (dispatch, getState) => {
 // for chat page header plus  icon
 export const deleteAndCreateThread =
   (followUpMessage = null) =>
-  (dispatch, getState) => { 
+  (dispatch, getState) => {
     const getuser = getState()?.base?.currentUser?.user;
     console.log("getuser_0", getuser);
     const uuid = sessionStorage.getItem("chat_thread_uuid");
@@ -444,16 +437,15 @@ export const deleteAndCreateThread =
         if (res) {
           // Clear previous chat history/messages in Redux store
           dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
-          dispatch(setAddBuilder(null)) //builder clear on new thread
-          dispatch(setSearchHistorySend(null)) // filter clear history
+          dispatch(setAddBuilder(null)); //builder clear on new thread
+          dispatch(setSearchHistorySend(null)); // filter clear history
           dispatch(setSelectedFlightKey(null));
-              dispatch(setflightDetail(null));
-              dispatch(setViewPassengers([])); // Clear passengers array
-              dispatch(setOrderUuid(null)); // Clear order UUID
-              dispatch(setMessage({ ai: { passengerFlowRes: false } }));
-              dispatch(bookFlight(null)); // Pass flight ID to bookFlight
-              dispatch(setSingleFlightData(null));
-
+          dispatch(setflightDetail(null));
+          dispatch(setViewPassengers([])); // Clear passengers array
+          dispatch(setOrderUuid(null)); // Clear order UUID
+          dispatch(setMessage({ ai: { passengerFlowRes: false } }));
+          dispatch(bookFlight(null)); // Pass flight ID to bookFlight
+          dispatch(setSingleFlightData(null));
 
           sessionStorage.removeItem("chat_thread_uuid");
 
@@ -534,7 +526,13 @@ export const loadNextFlights = () => (dispatch, getState) => {
     .get(nextPageUrl)
     .then((res) => {
       const flightData = res.data;
-      console.log("flightDat", flightData);
+      const offers = flightData?.offers || [];
+
+      if (offers.length === 0) {
+        dispatch(setNoMoreFlights(true))
+        return;
+      }
+
       dispatch(
         setAppendFlights({
           ai: flightData,
@@ -569,6 +567,7 @@ export const {
   setThreadUuid,
   setIsFunction,
   setFilterUrl,
-  setAddBuilder
+  setAddBuilder,
+  setNoMoreFlights
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

@@ -23,6 +23,8 @@ const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
+  
+
 
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
@@ -33,6 +35,7 @@ const AiMessage = ({ aiMessage }) => {
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
+
 
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
@@ -58,6 +61,7 @@ const AiMessage = ({ aiMessage }) => {
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
     : aiMessage?.ai?.offers;
 
+    {console.log("displayedGetFlights", aiMessage)}
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
@@ -106,6 +110,11 @@ const AiMessage = ({ aiMessage }) => {
 
   // Find message with ai.offers
   // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
+  const noMoreFlights = useSelector(
+    (state) => state.sendMessage.noMoreFlights
+  );
+  console.log("noMoreFlights", noMoreFlights);
+  
 
   const handleSeeMoreFlights = () => {
     if (!showAllFlight) {
@@ -145,38 +154,37 @@ const AiMessage = ({ aiMessage }) => {
 
       {/* If all passengers are filled, show payment components */}
 
-        {aiMessage?.ai?.passengerFlowRes ? (
+      {aiMessage?.ai?.passengerFlowRes ? (
+        <>
+          {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
             <>
-              {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
-                <>
-                  <PassengerInfo getdata={GetViewPassengers} />
+              <PassengerInfo getdata={GetViewPassengers} />
 
-                  {Array.isArray(filledPassenger) &&
-                    filledPassenger.length === GetViewPassengers.length && (
+              {Array.isArray(filledPassenger) &&
+                filledPassenger.length === GetViewPassengers.length && (
+                  <>
+                    {orderDetail ? (
+                      <PriceSummary />
+                    ) : (
                       <>
-                        {orderDetail ? (
-                          <PriceSummary />
-                        ) : (
-                          <>
-                            <Box my={3}>
-                              <LoadingArea />
-                            </Box>
-                          </>
-                        )}
-                        <PaymentDrawer />
-                        <PaymentAddCard />
-                        {paymentSuccess && <PaymentSuccess />}
+                        <Box my={3}>
+                          <LoadingArea />
+                        </Box>
                       </>
                     )}
-                </>
-              ) : (
-                ""
-              )}
+                    <PaymentDrawer />
+                    <PaymentAddCard />
+                    {paymentSuccess && <PaymentSuccess />}
+                  </>
+                )}
             </>
           ) : (
             ""
           )}
-        
+        </>
+      ) : (
+        ""
+      )}
 
       {displayedGetFlights?.length > 0 ? (
         <>
@@ -200,19 +208,29 @@ const AiMessage = ({ aiMessage }) => {
           </Box>
 
           {/* Toggle button */}
-
-          <Box onClick={handleSeeMoreFlights} style={{ cursor: "pointer" }}>
-            <Box
-              sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-              gap={2}
-              alignItems="center"
-              display="flex"
-              className="bold"
-            >
-              <span>See more flights</span>
-              <i className="fa fa-caret-right fas" />
+          {!noMoreFlights &&
+          (aiMessage?.ai?.next_page_number ||
+            getNextFlight?.next_page_number) ? (
+            <Box onClick={handleSeeMoreFlights} style={{ cursor: "pointer" }}>
+              <Box
+                sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+                gap={2}
+                alignItems="center"
+                display="flex"
+                className="bold"
+              >
+                <span>See more flights</span>
+                <i className="fa fa-caret-right fas" />
+              </Box>
             </Box>
-          </Box>
+          ) : (
+            <Typography
+              variant="h6"
+              sx={{ color: "#1e293b", fontWeight: 600, mb: 1 }}
+            >
+              No more flights found.
+            </Typography>
+          )}
         </>
       ) : (
         // Default AI response
