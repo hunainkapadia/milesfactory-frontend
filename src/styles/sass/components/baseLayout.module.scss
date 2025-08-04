@@ -2,6 +2,50 @@
 @import '../_css3-mixins.scss'; //This is used for basic css3 usage with minimal line of code, info https://github.com/matthieua/sass-css3-mixins/blob/master/css3-mixins.scss
 
 
+// search share dropdown header
+.ShareDropdown {
+   @include transition(all 0.2s ease-in-out);
+   padding: 0px;
+   position: relative;
+
+
+   
+
+   .DropdownItems {
+      width: 100%;
+      position: absolute;
+      height: auto;
+      top: 25px;
+      left: -50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+         @include border-radius(8px);
+         z-index: 4;
+         padding: 15px 13px;
+         width: 170px;
+
+
+         background: #FFFFFF;
+         border: 1px solid #FFFFFF;
+         box-shadow: 0px 10px 32px rgba(0, 196, 204, 0.15), 0px 16px 32px -4px rgba(12, 12, 13, 0.1), 0px 4px 4px -4px rgba(12, 12, 13, 0.05);
+         border-radius: 8px;
+
+         .DropdownItemsBox {
+            gap: 38px;
+
+            a {
+               color: $white;
+
+            }
+
+            i {
+               display: flex;
+            }
+         }
+   }
+}
 .flagIcon {
    width: 20px;
    height: 20px;
@@ -69,7 +113,7 @@
       width: 62px;
    }
    &.Sticky {
-      height: 60px;
+      height: 50px;
       background-color: $white;
       transition: all 0.3s ease-in-out;
       .Login {
@@ -97,7 +141,7 @@
       background-color: $white;
       box-shadow: 0px 1px 0px rgba(0, 80, 83, 0.05);
       
-      .Box {
+      .Box {z-index: 8;
          .Login {
             color: $basecolor-dark;
             
@@ -189,6 +233,15 @@
          
    }
  @include for-mobile-large-screen () {
+   .ShareDropdown {
+      .DropdownItems {
+         top: 60px;
+      }
+      .ShareDropdownHandle
+       {
+         height: 60px;
+      }
+   }
    .airlinepowerBtn {
       padding: 0 !important;
       display: flex;
@@ -222,6 +275,7 @@
     }
    
     .Header {
+      height: 50px;
        &.AiBookingMainHeaderRow2 {
          height: 40px;
       }
@@ -233,6 +287,14 @@
       .Dropdown.forHader .Login {
         flex-direction: row;
       }
+      &.isMessage {padding-right: 0;
+         .Box {height: 54px;
+            z-index: 8;gap: 15px;
+            justify-content: flex-start;
+            position: relative;
+            z-index: 7;
+         }
+      }
       .Box {
          height: 54px;
       }
@@ -242,11 +304,24 @@
             top: 50px;
          }
       }
+      &.isHome {
+         .Container {
+            padding-left: 20px;
+            padding-right: 20px;
+         }
+      }
       &.isMessage {
+         .Container {
+            padding-left: 15px;
+            padding-right: 15px;
+         }
          .leftCol .Logo {
             width: 94px;
          }
-         .HeaderRightCol {gap: 0 24px;}
+         .HeaderRightCol {gap: 0 24px;
+            position: absolute;
+            right: 8px;
+         }
          .userName {
             display: none;
          }

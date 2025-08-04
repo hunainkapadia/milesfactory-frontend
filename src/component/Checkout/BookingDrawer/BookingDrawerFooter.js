@@ -27,7 +27,13 @@
     ); //from order api
     const passengerSelected = useSelector(
       (state) => state?.sendMessage
-    );    
+    );
+    const getselectedFlight = useSelector(
+        (state) => state?.booking?.singleFlightData
+      );
+      console.log("getselectedFlight", getselectedFlight);
+      
+
     const handleBookFlight = () => {
       event({
         action: 'click',
@@ -67,6 +73,8 @@
     const IsPassengerflow = useSelector(
       (state) => state?.passengerDrawer?.IsPassengerflow
     );
+    
+      
     
     
     
@@ -121,7 +129,7 @@
             width={"100%"}
           >
             {/* Price Section */}
-            <Box display={"flex"} flexDirection="column">
+            <Box display={"flex"} flexDirection="column" justifyContent={"center"}>
               <Box
                 className={styles.priceSection}
                 display="flex"
@@ -193,16 +201,18 @@
                 ) : (
                   ""
                 )} */}
-                <button
-                  className={
-                    styles.selectFlightBtn + " btn btn-primary btn-round btn-lg-x"
-                  }
-                  onClick={handleBookFlight}
-                >
-                  <Box display="flex" gap={1}>
-                    <Box>Select flight</Box>
-                  </Box>
-                </button>
+                {!getselectedFlight && (
+                  <button
+                    className={
+                      styles.selectFlightBtn + " btn btn-primary btn-round btn-lg-x"
+                    }
+                    onClick={handleBookFlight}
+                  >
+                    <Box display="flex" gap={1}>
+                      <Box>Select flight</Box>
+                    </Box>
+                  </button>
+                )}
               </Box>
             </Box>
           </Box>

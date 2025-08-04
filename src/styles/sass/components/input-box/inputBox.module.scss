@@ -14,6 +14,17 @@
    }
 }
 .SearchBoxSectionActive {
+   .PlaceholderText {
+         font-weight: 400;
+         font-size: 16px;
+         color: rgba(0, 0, 0, 0.4);
+         pointer-events: none;
+
+
+   }
+   .Micanimation {
+         display: none;
+      }
    .SearchBoxContainer {width: 100%;
       .label {
          position: absolute;
@@ -22,60 +33,24 @@
          top: 15px;
          left: 20px;
       }
-   
-      .SearchButtonBox {
-         position: absolute;
-         right: 0;
-         top: 0;
-         @include border-radius(36px);
-         
-         width: auto;
-         padding: 15px 15px 15px 0;
-         &.MicActive { width: 100%;@include display(flex);align-items: center;}
-         
-         .BoxButtons {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            .SearchButton {
-               width: 40px;
-               height: 40px;
-               z-index: 2;
-               background-color: $basecolor1;
-               @include border-radius(100px);
-               color: $white;
-               &.Disabled {
-                  background-color: $lightgray1;
-               }
-               i {font-size: 20px;}
-         
-               &:hover {
-                  background-color: $basecolor1;
-               }
-            }
-            .MicButton {
-               width: 40px;
-               height: 40px;
-               z-index: 2;
-               background-color: $white;
-               @include border-radius(100px);
-               border: solid 1px $lightgray3;
-               color: #656565;
-               i {font-size: 20px;}
-            }
-         }
-      }
-   
-      .SearchForm {
+      .SearchBoxIn {
+         align-items: center;
          border: 1px solid #E6EEEE;
          box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
          @include border-radius(36px);
          background-color: $white;
-         padding: 20px 115px 20px 31px;
+         padding: 20px 20 20px 31px;
+         display: flex;
+         justify-content: space-between;
+         width: 100%;
+      }
+      
+      .SearchForm {
+         width: 100%;
          display: flex;
          min-height: 66px;
          align-items: flex-start;
+         padding: 20px 20px 20px 31px;
          
          &:focus,
          &:focus-visible {
@@ -90,13 +65,80 @@
    
       i {
          line-height: 2;
+      }  
+      // button area
+      .SearchButtonBox {
+         position: relative;
+         z-index: 1;
+         display: flex;
+         width: 100%;
+         height: auto;
+         align-items: flex-end;
+         padding: 15px 15px 15px 0;
+         gap: 0 10px;
+         @include border-radius(36px);
+
+         &.MicActive {
+            height: 100%;
+            width: 100%;
+            border-radius: 16px;
+            align-items: center;
+         }
+
+         .BoxButtons {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .SearchButton {
+               width: 40px;
+               height: 40px;
+               z-index: 2;
+               background-color: $basecolor1;
+               @include border-radius(100px);
+               color: $white;
+
+               &.Disabled {
+               background-color: $lightgray1;
+               }
+
+               i {
+               font-size: 20px;
+               }
+
+               &:hover {
+               background-color: $basecolor1;
+               }
+            }
+
+            .MicButton {
+               width: 40px;
+               height: 40px;
+               z-index: 2;
+               background-color: $white;
+               @include border-radius(100px);
+               border: solid 1px $lightgray3;
+               color: #656565;
+
+               i {
+               font-size: 20px;
+               }
+
+               &:hover {
+               background-color: $basecolor1;
+               color: $white;
+               }
+            }
+         }
       }
+
    }
 }
 
 
 
-.SearchBoxSection {
+.SearchBoxSectionHome {
    &.HeaderInput {
       display: flex;
       justify-content: center;
@@ -108,52 +150,90 @@
       display: none;
       
       &.InputSticky {
-         display: flex;
-         transform: translateY(0);
-         opacity: 1;
-         position: absolute;
-         bottom: -56px;
-         width: 100%;
-         justify-content: center;
-         align-items: center;
-         .Micanimation {display: none;}
-         .Content {
-            width: 756px;
-            background-image: url("/images/input-sticky-bg.svg");
-            background-size: 100%;
-            background-position: bottom center;
-            height: 58px;
-            padding: 4px 50px 0;
-            background-repeat: no-repeat;
-   
-            .SearchForm {
-               max-height: 20vh;
-               overflow-y: auto;
-               min-height: 43px;
-               background-color: $white;
-               color: $basecolor;
-               padding: 10px 75px 10px 16px ;
-               @include scrollbar-light;
-               align-items: flex-start;
-
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+            position: absolute;
+            bottom: -52px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+      
+            .Micanimation {
+               display: none;
             }
-            .SearchButton {color: $white;}
-            .SearchButtonBox {padding: 0;
-               width: auto;
-               .BoxButtons {
-                  padding: 10px 15px;
-                  .MicButton {
-                     color: $gray;
+      
+            .Content {
+               width: 756px;
+               background-image: url("/images/input-sticky-bg.svg");
+               background-size: 100%;
+               background-position: bottom center;
+               height: 58px;
+               padding: 4px 50px 0;
+               background-repeat: no-repeat;
+      
+               .SearchBoxContainer {
+                  .SearchBoxIn {
+                     flex-direction: row;
+                  }
+      
+                  padding: 10px 15px 10px 16px;
+                  background-color: $white;
+                  align-items: flex-start;
+                  display: flex;              
+                  max-height: 130px;
+                  min-height: 43px;
+                  overflow: hidden;
+               }
+               
+               .SearchForm {
+                  width: 100%;
+                  color: $basecolor;
+                  overflow-y: auto;
+                  @include scrollbar-light;
+                  max-height: 120px;
+      
+               }
+      
+               .SearchButton {
+                  color: $white;
+               }
+      
+               .SearchButtonBox {
+                  padding: 0;
+                  width: auto;
+                  height: 100%;
+      
+                  .BoxButtons {
+                     padding:0;
+      
+                     .MicButton {
+                        color: $gray;
+                     }
                   }
                }
             }
          }
-      }
       
    }
    .SearchBoxContainer {
       position: relative;
       width: 100%;
+      max-height: 30vh;
+         min-height:120px;
+         padding: 10px 10px 8px 16px;
+         background: #0B1729;
+         border: 1px solid #F7F7F7;
+         @include border-radius(18px);
+         display: flex;
+         width: 100%;
+         .SearchBoxIn {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+         }
+         
 
       .label {
          pointer-events: none;
@@ -168,15 +248,10 @@
       }
 
       .SearchForm {
+         height: 100%;
          align-items: flex-start;
          outline: none;
          overflow-y: auto;
-         max-height: 30vh;
-         min-height:120px;
-         padding: 10px 75px 40px 16px;
-         background: #0B1729;
-         border: 1px solid #F7F7F7;
-         @include border-radius(18px);
          color: #D3D3D3;
          text-align: center;
       
@@ -187,81 +262,90 @@
 
       
       i {}
+      .SearchButtonBox {
+         z-index: 1;
+         display: flex;
+         width: 100%;
+         align-items:flex-end;
+         padding: 0;
+         gap: 0 10px;
+         height: auto;
+         .rightCol {
+            width: 100%;
+            display: flex;
+            gap: 0 10px;
+         }
+         .InputSticky {
+            &.active {
+               height: 100%;
+               z-index: 1;
+               background: none;
+               border: none;
+               border-radius: 16px;
+            }
+         }
+         &.MicActive {
+               height: 100%;
+               z-index: 1;
+               
+               border-radius: 16px;
+            }
+         
+         .BoxButtons {
+            display: flex;
+            align-items: center;
+            
+            gap: 8px;
+            .SearchButton {
+               width: 25px;
+               height: 25px;
+               background-color: $basecolor1;
+               @include border-radius(100px);
+               color: $black;
+               font-size: $bfsize;
+            }
+            .MicButton {
+               width: 25px;
+               height: 25px;
+               padding: 0;
+               @include border-radius(100px);
+               color: $white;
+               font-size: $bfsize;
+               i  {font-size: 12px;}
+               &:hover {
+                  background-color: $basecolor1;
+                  color: $white;
+               }
+            }
+         }
+      }
       
    }
 }
 
-.SearchButtonBox {
-   position: absolute;
-   z-index: 1;
-   bottom: 0;
-   right: 0;
-   display: flex;
-   width: 100%;
-   align-items:flex-end;
-   padding: 0px 15px 15px;
-   gap: 0 10px;
-   height: auto;
-   .InputSticky {
-      &.active {
-         height: 100%;
-         z-index: 1;
-         background: none;
-         border: none;
-         border-radius: 16px;
-      }
-   }
-   &.MicActive {
-         height: 100%;
-         z-index: 1;
-         
-         border-radius: 16px;
-      }
-   
-   .BoxButtons {
-      display: flex;
-      align-items: center;
-      
-      gap: 8px;
-      .SearchButton {
-         width: 25px;
-         height: 25px;
-         background-color: $basecolor1;
-         @include border-radius(100px);
-         color: $black;
-         font-size: $bfsize;
-      }
-      .MicButton {
-         width: 25px;
-         height: 25px;
-         padding: 0;
-         @include border-radius(100px);
-         color: $white;
-         font-size: $bfsize;
-         border: solid 1px $lightgray2;
-         i  {font-size: 12px;}
-         &:hover {
-            background-color: $basecolor1;
-            color: $white;
-         }
-      }
-   }
-}
+
 
 
 
 @include for-mobile-large-screen {  
-   .SearchBoxSection {
+   .CircleButton {
+      top: -58px;
+   }
+   .SearchBoxSectionHome { 
       &.HeaderInput {
          &.InputSticky {
             position: absolute;
             width: 100%;
-            top: 60px;
+            top: 50px;
             left: 0px;
             .Content {
                background-color: $white;
                padding: 4px 15px 5px;
                @include border-radius(0px 0px 12px 12px);
+               .SearchForm {
+                  padding: 0 ;
+                  height: inherit;
+               }
             }
          }
       }
@@ -273,17 +357,37 @@
       }
    }
    .SearchBoxSectionActive {
+      
       .SearchBoxContainer {padding: 0;
+         .SearchBoxIn {
+            display: flex;
+            flex-direction: column;
+            border-radius: 30px 30px 0 0; 
+            padding: 8px 18px 5px;
+            max-height: 130px;
+         }
+         .buttonRow {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+         }
+         
          
          .SearchButtonBox {
+            padding: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             .BoxButtons {align-items: flex-end;}
          }
          
          .SearchForm {
-            border-radius: 30px 30px 0 0;
-            padding: 20px 112px 20px 15px ;
+            min-height: inherit;
+            padding: 0;
+            padding-bottom: 10px;
             height: inherit;
-            min-height: 66px;
+            max-height: 100px;
          }
       }
    }

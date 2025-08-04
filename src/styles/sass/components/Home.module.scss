@@ -219,7 +219,7 @@
 
 @media only screen and (max-width: 767px) {
   .ChatBullets {
-    gap: 6px;
+    gap: 6px 0px;
     .ChatBullet {
       padding-right: 6px;
     }
@@ -297,7 +297,7 @@
 
   .mainHeroSection.HeroSection {
     height: 95vh;
-    padding: 164px 0 26vh;
+    padding: 19vh 0 26vh;
 
     .Box .Content .ContentIn {
       &.ContentInSection1 {

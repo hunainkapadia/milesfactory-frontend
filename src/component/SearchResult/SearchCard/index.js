@@ -25,11 +25,13 @@ import { currencySymbols,event } from "@/src/utils/utils";
 import {
   PassengerForm,
   setisLoading,
+  setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import FromAndTo from "../FromAndTo";
 import RightTopSection from "../RightTopSection";
 import { RefreshHandle, setRefreshSearch } from "@/src/store/slices/GestMessageSlice";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
@@ -44,6 +46,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     });
     console.log("See Flight Details");
     if (offerkey) {
+      dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
     }
@@ -79,6 +82,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   
   const handleBookFlight = () => {
+    dispatch(setChatscroll(true))
     dispatch(setisLoading(true));
     if(selected) {
       setHideSelectButton(true);
@@ -97,7 +101,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     } else {
       ("");
     }
-    dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
+    // dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
+
     event({
       action: 'click',
       category: 'engagement',

@@ -17,75 +17,81 @@ const initialState = {
   ],
 
   inputValue: "",
+  IsBuilderDialog: false,
+  sidebarTab: "overview",
+  Chatscroll: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
-     setInputValue: (state, action) => {
+    setChatscroll: (state, action) => {
+      state.Chatscroll = action.payload;
+    },
+    setSidebarTab: (state, action) => {
+      state.sidebarTab = action.payload;
+    },
+    setIsBuilderDialog: (state, action) => {
+      state.IsBuilderDialog = action.payload;
+    },
+    setInputValue: (state, action) => {
       state.inputValue = action.payload;
     },
     clearInputValue: (state) => {
-      state.inputValue = '';
+      state.inputValue = "";
     },
-    setInputLabelTexts: (state, action)=> {
+    setInputLabelTexts: (state, action) => {
       state.inputLabelTexts = action.payload;
     },
     resetInviteSuccess: (state) => {
       state.InviteSuccess = false;
     },
-    seIsloading: (state, action)=> {
+    seIsloading: (state, action) => {
       state.isloading = action.payload;
     },
-    setInviteSuccess : (state, action)=> {
-      state.InviteSuccess = action.payload
+    setInviteSuccess: (state, action) => {
+      state.InviteSuccess = action.payload;
     },
-    setRatingSumbitRequest: (state, action)=> {
-      state.RatingSumbitRequest = action.payload
+    setRatingSumbitRequest: (state, action) => {
+      state.RatingSumbitRequest = action.payload;
     },
-     submitFeedback: (state, action) => {
+    submitFeedback: (state, action) => {
       state.reviews.push(action.payload); // Save feedback to store
     },
-    setInviteEmailDialog:(state, action) => {
-      state.InviteEmailDialog = action.payload
+    setInviteEmailDialog: (state, action) => {
+      state.InviteEmailDialog = action.payload;
     },
-    setContactData:(state, action) => {
-      state.contactData = action.payload
+    setContactData: (state, action) => {
+      state.contactData = action.payload;
     },
-    setContactDialog: (state, action)=> {
+    setContactDialog: (state, action) => {
       state.contactDialog = action.payload;
       state.contactData = null;
     },
-    
-    setFeedbackDialog: (state,action)=> {
+
+    setFeedbackDialog: (state, action) => {
       state.feedbackDialog = action.payload;
     },
-    setCurrentUser: (state, action)=> {
-      
-      
+    setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
     },
-    setThreadData: (state, action)=> {
-      
-      
-      state.ThreadData = action.payload
+    setThreadData: (state, action) => {
+      state.ThreadData = action.payload;
     },
-    setTripData:(state, action)=> {
-      state.TripData = action.payload
+    setTripData: (state, action) => {
+      state.TripData = action.payload;
     },
-    setTripDetailData:(state, action)=> {
-      state.TripDetailData = action.payload
+    setTripDetailData: (state, action) => {
+      state.TripDetailData = action.payload;
     },
-    setThreadDrawer: (state, action)=> {
-      
-      
-      state.ThreadDrawer = action.payload
+    setThreadDrawer: (state, action) => {
+      state.ThreadDrawer = action.payload;
     },
-   setSectionActive:(state, action)=> {
-    state.sectionActive = action.payload; // Update active section
-   },
-   setPowerAirlineDialog: (state, action)=> {
+    setSectionActive: (state, action) => {
+      state.sectionActive = action.payload; // Update active section
+    },
+    setPowerAirlineDialog: (state, action) => {
       state.PowerAirlineDialog = action.payload;
       state.contactData = null;
     },
@@ -236,7 +242,10 @@ export const {
   setPowerAirlineDialog,
   setInputLabelTexts,
   setInputValue, 
-  clearInputValue
+  clearInputValue,
+  setIsBuilderDialog,
+  setSidebarTab,
+  setChatscroll,
 } = baseSlice.actions;
 
 export default baseSlice.reducer;
