@@ -35,7 +35,7 @@ const theme = createTheme({
   },
 });
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID //|| "G-0MNTS4RLHH";
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 // IMPORTANT: Use the full, absolute URL for the image
 

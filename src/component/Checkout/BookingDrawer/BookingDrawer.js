@@ -5,9 +5,12 @@ import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
-import { currencySymbols } from "@/src/utils/utils";
+import { currencySymbols,event } from "@/src/utils/utils";
 import Link from "next/link";
 const BookingDrawer = ({ getFlightDetail }) => {
+  
+  //console.log("getFlightDetail", getFlightDetail);
+  
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer

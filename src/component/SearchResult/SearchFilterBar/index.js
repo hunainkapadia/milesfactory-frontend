@@ -7,6 +7,7 @@ import {
 } from "@/src/store/slices/BookingflightSlice";
 import FilterParams from "../YourTripSidebar/FilterParams";
 import { setSeeDetailButton } from "@/src/store/slices/passengerDrawerSlice";
+import { event } from "@/src/utils/utils";
 
 const SearchFilterBar = () => {
   const SearchHistoryGet = useSelector(
@@ -33,6 +34,8 @@ const SearchFilterBar = () => {
     }
   };
   console.log("SearchHistory2", SearchHistory);
+
+
   //   for selct flight detail end
 
   return (

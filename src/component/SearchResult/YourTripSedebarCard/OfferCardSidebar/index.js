@@ -402,7 +402,7 @@ const OfferCardSidebar = ({ index, slice }) => {
             </Box>
           </>
         )}
-        {flightOrder ? (
+        {/* {flightOrder ? (
           <>
             <Box
               mt={1}
@@ -430,7 +430,7 @@ const OfferCardSidebar = ({ index, slice }) => {
           </>
         ) : (
           ""
-        )}
+        )} */}
 
         {/*  */}
       </Box>

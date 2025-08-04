@@ -12,6 +12,7 @@ import MicAnimation from "../ChatInput/MicAnimation";
 import { useDispatch, useSelector } from "react-redux";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import LabelAnimation from "../../home/LabelAnimation";
+import { event } from "@/src/utils/utils";
 import {
   deleteAndCreateThread,
   sendMessage,
@@ -96,6 +97,13 @@ const MessageInputBox = ({
     if (!uuid) return null; // Skip rendering or logic
 
     // Only runs when uuid is defined
+    //Push GA event
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'chat_message_sent',
+    });
+    console.log("chat_message_sent");
 
     router.push(`/chat/${uuid}`);
   };
@@ -116,6 +124,12 @@ const MessageInputBox = ({
       SpeechRecognition.startListening({ continuous: true, language: "en-US" });
       setIsMicActive(true);
     }
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'voice_input_used',
+    });
+    console.log("voince_input_used");
   };
 
   // check  polling true and start new chat

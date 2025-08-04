@@ -9,6 +9,7 @@ import {
   setSingleFlightData,
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
+import { setSearchHistoryGet } from "./GestMessageSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -85,7 +86,7 @@ const sendMessageSlice = createSlice({
       state.pollingComplete = action.payload;
     },
     setisPolling: (state, action) => {
-      console.log("action111", action);
+      //console.log("action111", action);
 
       state.isPolling = action.payload;
     },
@@ -117,7 +118,7 @@ const sendMessageSlice = createSlice({
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
-      console.log("action_history", action);
+      //console.log("action_history", action);
 
       state.SearchHistorySend = action.payload;
     },
@@ -138,13 +139,13 @@ const sendMessageSlice = createSlice({
 });
 
 export const createThread = () => (dispatch) => {
-  console.log("thread_uuid");
+  //console.log("thread_uuid");
 
   api
     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((thread_res) => {
       const uuid = thread_res.data.uuid;
-      console.log("thread_response", uuid);
+      //console.log("thread_response", uuid);
       sessionStorage.setItem("chat_thread_uuid", uuid);
       dispatch(setThreadUuid(uuid));
       dispatch(setThreadUUIDsend(uuid));
@@ -206,7 +207,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     // checking is function true before dufful flight
 
                     if (runData.run_status === "completed") {
-                      console.log("runData_run_status", runData.run_status);
+                      //console.log("runData_run_status", runData.run_status);
                       console.log(runData.run_status);
 
                       clearInterval(interval);
