@@ -132,7 +132,6 @@ const AiMessage = ({ aiMessage }) => {
       flexDirection="column"
       display="flex"
       justifyContent="flex-start"
-      mb={2}
     >
       {/* Passenger Flow */}
 
