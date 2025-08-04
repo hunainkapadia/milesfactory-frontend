@@ -22,6 +22,7 @@ const MobileBuilder = () => {
 
   return (
     <>
+      {isBuilderArgument && (
       <Box className={styles.switchWrapper} onClick={handleToggle}>
         {/* Switch Slider */}
         <Box className={`${styles.slider} ${isBuilder ? styles.right : ""}`} />
@@ -44,7 +45,7 @@ const MobileBuilder = () => {
           <Typography variant="body2">Builder</Typography>
         </Box>
       </Box>
-      
+      )}
     </>
   );
 };
