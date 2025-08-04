@@ -122,7 +122,7 @@
             width={"100%"}
           >
             {/* Price Section */}
-            <Box display={"flex"} flexDirection="column">
+            <Box display={"flex"} flexDirection="column" justifyContent={"center"}>
               <Box
                 className={styles.priceSection}
                 display="flex"
