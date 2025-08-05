@@ -36,6 +36,7 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
 
+
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     //Push GA event
@@ -73,6 +74,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     (state) => state.booking.selectedFlightKey
   );
   const selected = selectedFlightKey === offerkey;
+  console.log("selected", selectedFlightKey);
+  
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());
@@ -81,6 +84,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   
   
+  console.log("offerkey_11", offerkey)
   const handleBookFlight = () => {
     dispatch(setChatscroll(true))
     dispatch(setisLoading(true));

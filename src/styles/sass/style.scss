@@ -1652,7 +1652,7 @@ body {
       box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
       background: $lightgray2;
       cursor: inherit;
-      letter-spacing: 1.2px !important;
+      letter-spacing: 0px;
       color: $white !important;
       font-weight: 500;
 
@@ -1682,7 +1682,7 @@ body {
   &.btn-white {
     border-radius: 8px;
     background: $white;
-    letter-spacing: 1.2px !important;
+    letter-spacing: 0 !important;
     color: $basecolor1;
     font-weight: 500;
     border: solid 1px #E2ECEF !important;
@@ -1722,7 +1722,7 @@ body {
 
     border-radius: 8px;
     background: $basecolor1;
-    letter-spacing: 1.2px !important;
+    letter-spacing: 0 !important;
     color: $white;
     font-weight: 500;
 
