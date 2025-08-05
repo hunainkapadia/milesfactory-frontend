@@ -22,7 +22,7 @@ import {
   setSignupPopup,
 } from "@/src/store/slices/Auth/SignupSlice";
 
-const LoginPopup = ({}) => {
+const LoginPopup = ({ isChat }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -63,26 +63,37 @@ const LoginPopup = ({}) => {
   }, [isuserLogin]);
   // for button enable when all fields fill
   const isFormValid = email && password;
+  
+  const currentUser = useSelector((state) => state.base?.currentUser);
+    
   return (
     <Dialog
       open={isLoginPopup}
-      onClose={handleLoginPopupClose}
+      onClose={
+        isChat && !currentUser
+          ? undefined //  Don't allow closing
+          : handleLoginPopupClose // Allow closing only when not forced
+      }
       maxWidth="sm" // Set max width to 1280px
       fullWidth // Forces Dialog to expand to maxWidth
     >
-      <IconButton
-        aria-label="close"
-        onClick={handleLoginPopupClose}
-        sx={{
-          position: "absolute",
-          right: 16,
-          zIndex: 1,
-          top: 8,
-          color: "#000", // Change color if needed
-        }}
-      >
-        <i className="fa fa-times" aria-hidden="true"></i>
-      </IconButton>
+      {!isChat && !currentUser ? (
+        <IconButton
+          aria-label="close"
+          onClick={handleLoginPopupClose}
+          sx={{
+            position: "absolute",
+            right: 16,
+            zIndex: 1,
+            top: 8,
+            color: "#000", // Change color if needed
+          }}
+        >
+          <i className="fa fa-times" aria-hidden="true"></i>
+        </IconButton>
+      ) : (
+        ""
+      )}
 
       <DialogContent
         sx={{
@@ -157,11 +168,10 @@ const LoginPopup = ({}) => {
                           ),
                         }}
                       />
-                    <Typography className="error" color="red">
-                      {LoginError.password}
-                    </Typography>
+                      <Typography className="error" color="red">
+                        {LoginError.password}
+                      </Typography>
                     </Box>
-                    
                   </Box>
                 </Box>
                 <Box component={"section"}>

@@ -20,7 +20,7 @@ import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
 import LoginWithOptions from "../LoginWithOptions";
 
-const UserPopup = () => {
+const UserPopup = (isChat) => {
   const dispatch = useDispatch();
   const router = useRouter();
   // get error
@@ -51,26 +51,34 @@ const UserPopup = () => {
     dispatch(setisUserPopup(false));
     dispatch(setRegisterPopup(true));
   };
+  const currentUser = useSelector((state) => state.base?.currentUser);
+  
   return (
     <Dialog
       open={isUserPopup || getUser}
-      onClose={handlePopupClose}
+      onClose={
+        isChat?.isChat && !currentUser
+          ? undefined //  Don't allow closing
+          : handlePopupClose // Allow closing only when not forced
+      }
       maxWidth="sm" // Set max width to 1280px
       fullWidth // Forces Dialog to expand to maxWidth
     >
-      <IconButton
-        aria-label="close"
-        onClick={handlePopupClose}
-        sx={{
-          position: "absolute",
-          right: 16,
-          zIndex: 1,
-          top: 8,
-          color: "#000", // Change color if needed
-        }}
-      >
-        <i className="fa fa-times" aria-hidden="true"></i>
-      </IconButton>
+      {(!isChat?.isChat && !currentUser ) ? (
+        <IconButton
+          aria-label="close"
+          onClick={handlePopupClose}
+          sx={{
+            position: "absolute",
+            right: 16,
+            zIndex: 1,
+            top: 8,
+            color: "#000",
+          }}
+        >
+          <i className="fa fa-times" aria-hidden="true"></i>
+        </IconButton>
+      ):""}
 
       <DialogContent
         sx={{

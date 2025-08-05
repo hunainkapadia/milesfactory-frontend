@@ -5,7 +5,7 @@ const initialState = {
   LoginError: "",
   ThreadDrawer: false,
   ThreadData: null,
-  currentUser: "",
+  currentUser: null,
   feedbackDialog: false,
   contactDialog: false,
   isloading: false,

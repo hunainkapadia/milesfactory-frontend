@@ -23,6 +23,7 @@ import { setThreadUuid } from "@/src/store/slices/sendMessageSlice";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 import BookingDrawer from "@/src/component/Checkout/BookingDrawer/BookingDrawer";
 import BaggageDrawer from "@/src/component/Checkout/BaggageDrawer";
+import { setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -42,9 +43,9 @@ const ChatByUUID = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
-  
+
   // scroll on click select direct
-  const ChatScroll = useSelector((state) => state.base.Chatscroll);  
+  const ChatScroll = useSelector((state) => state.base.Chatscroll);
   // Scroll if ChatScroll becomes true
   useEffect(() => {
     if (ChatScroll && messagesEndRef.current) {
@@ -148,8 +149,17 @@ const ChatByUUID = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-const flightDetail = useSelector((state) => state.booking.flightDetail);
-  
+  const flightDetail = useSelector((state) => state.booking.flightDetail);
+
+  const currentUser = useSelector((state) => state.base?.currentUser);
+  console.log("currentUser", currentUser);
+
+  useEffect(() => {
+    if (!currentUser) {
+      dispatch(setisUserPopup(true)); //if user not login force to login this popup
+    }
+  }, [dispatch]);
+
   return (
     <>
       <Box component={"main"}>
@@ -232,8 +242,8 @@ const flightDetail = useSelector((state) => state.booking.flightDetail);
             </Container>
           </Box>
         </Box>
-      <BookingDrawer getFlightDetail={flightDetail} />
       </Box>
+      <BookingDrawer getFlightDetail={flightDetail} />
       <BaggageDrawer getFlightDetail={flightDetail} />
     </>
   );

@@ -26,7 +26,7 @@ import { setLoginPopup } from "@/src/store/slices/Auth/LoginSlice";
 import { LoadingButton } from "@mui/lab";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
-const SignUpPopup = () => {
+const SignUpPopup = ({isChat}) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [firstName, setFirstName] = useState();
@@ -64,10 +64,13 @@ const SignUpPopup = () => {
 
   // for login popup
   const isSignupPopup = useSelector((state) => state?.signup?.SignupPopup);
-
+  const currentUser = useSelector((state) => state.base?.currentUser);
+  
   const HandleSignupPopupClose = () => {
     dispatch(setSignupPopup(false));
   };
+  console.log("test_cond", isChat );
+
 
   const isFormValid =
   firstName &&
@@ -78,11 +81,16 @@ const SignUpPopup = () => {
   return (
     <Dialog
       open={isSignupPopup}
-      onClose={HandleSignupPopupClose}
+      onClose={
+        isChat && !currentUser
+          ? undefined //  Don't allow closing
+          : HandleSignupPopupClose // Allow closing only when not forced
+      }
       maxWidth="sm" // Set max width to 1280px
       fullWidth // Forces Dialog to expand to maxWidth
       className="modalDialog"
     >
+    {!isChat && !currentUser ? (      
       <IconButton
         aria-label="close"
         onClick={HandleSignupPopupClose}
@@ -96,6 +104,10 @@ const SignUpPopup = () => {
       >
         <i className="fa fa-times" aria-hidden="true"></i>
       </IconButton>
+      ) : (
+        ""
+      )}
+
       <DialogContent
         sx={{
           textAlign: { xs: "center", md: "left", lg: "left" },

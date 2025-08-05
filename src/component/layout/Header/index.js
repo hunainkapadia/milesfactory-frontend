@@ -103,9 +103,10 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
 
-  const HandlePopup = () => {
-    dispatch(setisUserPopup(true));
-  };
+  // const HandlePopup = () => {
+  //   dispatch(setisUserPopup(true));
+  // }; force sign
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
@@ -316,7 +317,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                         justifyContent="center"
                         gap={1}
                         component="button"
-                        onClick={currentUser ? HandleBookThread : HandlePopup}
+                        onClick={HandleBookThread}
                       >
                         <Box>Book a trip</Box>
                       </Box>
@@ -347,12 +348,12 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
         isChat={isChat}
       />
 
-      <UserPopup />
+      <UserPopup isChat={isChat} />
       {/* logoin popup */}
 
-      <LoginPopup />
-      <RegisterPopup />
-      <SignUpPopup />
+      <LoginPopup isChat={isChat} />
+      <RegisterPopup isChat={isChat} />
+      <SignUpPopup isChat={isChat} />
       <Feedback />
       <ContactDialog />
       <InviteEmailDialog />

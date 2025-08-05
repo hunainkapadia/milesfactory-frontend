@@ -21,7 +21,7 @@ import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
 import LoginWithOptions from "../LoginWithOptions";
 
-const RegisterPopup = () => {
+const RegisterPopup = (isChat) => {
   const dispatch = useDispatch();
   const router = useRouter();
   
@@ -46,13 +46,20 @@ const RegisterPopup = () => {
   const HandleRegisterPopupClose = () => {
     dispatch(setRegisterPopup(false))
   };
+  const currentUser = useSelector((state) => state.base?.currentUser);
+  
   return (
     <Dialog
       open={isRegisterPopup}
-      onClose={HandleRegisterPopupClose}
+      onClose={
+        isChat?.isChat && !currentUser
+          ? undefined //  Don't allow closing
+          : HandleRegisterPopupClose // Allow closing only when not forced
+      }
       maxWidth="sm" // Set max width to 1280px
       fullWidth // Forces Dialog to expand to maxWidth
     >
+    {(!isChat?.isChat && !currentUser ) ? (
       <IconButton
         aria-label="close"
         onClick={HandleRegisterPopupClose}
@@ -66,6 +73,7 @@ const RegisterPopup = () => {
       >
         <i className="fa fa-times" aria-hidden="true"></i>
       </IconButton>
+      ):""}
 
       <DialogContent
         sx={{
