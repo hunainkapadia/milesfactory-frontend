@@ -14,6 +14,7 @@ import {
   closeDrawer,
   fetchflightDetail,
   setflightDetail,
+  setOfferkey,
   setOpenDrawer,
   setSelectedFlightKey,
   setSelectFlightKey,
@@ -37,6 +38,9 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
 
 
+  // useEffect(()=> {
+  //   dispatch(setOfferkey(offerkey));
+  // }, [])
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     //Push GA event
@@ -46,6 +50,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
       label: 'See Flight Details',
     });
     console.log("See Flight Details");
+    
     if (offerkey) {
       dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer

@@ -33,27 +33,7 @@ const SidebarTabs = () => {
       }}
       className={`${TripStyles.customTabs} customTabs`}
     >
-        {slices.length === 1 && (
-      <a
-        href="#offer-card"
-        onClick={() => handleTabClick("overview")}
-        style={{ textDecoration: "none" }}
-      >
-        <Box
-          className={`${TripStyles.inactiveTab} ${
-            activeTab === "overview" ? TripStyles.activeTab : ""
-          }`}
-          display="flex"
-          alignItems="center"
-          gap={1}
-        >
-          <Typography className="f12">Outbound</Typography>
-        </Box>
-      </a>
-    )}
-
-    {slices.length === 2 && (
-      <>
+      {slices.length === 1 && (
         <a
           href="#offer-card"
           onClick={() => handleTabClick("overview")}
@@ -70,24 +50,44 @@ const SidebarTabs = () => {
             <Typography className="f12">Outbound</Typography>
           </Box>
         </a>
-        <a
-          href="#offer-card-return"
-          onClick={() => handleTabClick("flights")}
-          style={{ textDecoration: "none" }}
-        >
-          <Box
-            className={`${TripStyles.inactiveTab} ${
-              activeTab === "flights" ? TripStyles.activeTab : ""
-            }`}
-            display="flex"
-            alignItems="center"
-            gap={1}
+      )}
+
+      {slices.length === 2 && (
+        <>
+          <a
+            href="#offer-card"
+            onClick={() => handleTabClick("overview")}
+            style={{ textDecoration: "none" }}
           >
-            <Typography className="f12">Return</Typography>
-          </Box>
-        </a>
-      </>
-    )}
+            <Box
+              className={`${TripStyles.inactiveTab} ${
+                activeTab === "overview" ? TripStyles.activeTab : ""
+              }`}
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Typography className="f12">Outbound</Typography>
+            </Box>
+          </a>
+          <a
+            href="#offer-card-return"
+            onClick={() => handleTabClick("flights")}
+            style={{ textDecoration: "none" }}
+          >
+            <Box
+              className={`${TripStyles.inactiveTab} ${
+                activeTab === "flights" ? TripStyles.activeTab : ""
+              }`}
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Typography className="f12">Return</Typography>
+            </Box>
+          </a>
+        </>
+      )}
       {getBuilder?.itinerary_text && (
         <>
           <a
@@ -108,7 +108,6 @@ const SidebarTabs = () => {
           </a>
         </>
       )}
-      
     </Box>
   );
 };

@@ -32,7 +32,11 @@
         (state) => state?.booking?.singleFlightData
       );
       console.log("getselectedFlight", getselectedFlight);
-      
+    // const getOfferkey = useSelector(
+    //   (state) => state?.booking?.offerkey
+    // );
+    // console.log("getOfferkey", getOfferkey);
+    
 
     const handleBookFlight = () => {
       event({
@@ -42,6 +46,10 @@
         value: getFlightDetails?.total_amount_rounded,
       });
       console.log("Select Flight Drawer", getFlightDetails?.total_amount_rounded);
+      // if (offerkey) {
+      //   dispatch(setflightDetail(offerData)); // Store flight details
+      //   dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
+      // }
       dispatch(setisLoading())
       dispatch(setCloseDrawer()); //dispatch close
       dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail

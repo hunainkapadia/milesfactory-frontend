@@ -154,12 +154,13 @@ const ChatByUUID = () => {
   const currentUser = useSelector((state) => state.base?.currentUser);
   console.log("currentUser", currentUser);
 
-  useEffect(() => {
-    if (!currentUser) {
-      dispatch(setisUserPopup(true)); //if user not login force to login this popup
-    }
-  }, [dispatch]);
-
+useEffect(() => {
+  if (currentUser) {
+    dispatch(setisUserPopup(false)); // force login if not logged in
+  } else {
+    dispatch(setisUserPopup(true)); // force login if not logged in
+  }
+}, [currentUser, dispatch]);
   return (
     <>
       <Box component={"main"}>
