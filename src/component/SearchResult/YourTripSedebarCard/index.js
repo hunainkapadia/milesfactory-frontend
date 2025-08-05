@@ -159,8 +159,7 @@ const YourTripSedebarCard = ({
                   className="font-semibold text-black mb-0"
                 >
                   My {BuilderArguments.trip_length} day(s) travel to{" "}
-                  {BuilderArguments.to_destination} from{" "}
-                  {BuilderArguments.from_destination}
+                  {BuilderArguments.to_destination}
                 </Typography>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.trip_length ? (
@@ -171,8 +170,7 @@ const YourTripSedebarCard = ({
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.from_destination ? (
                 <h4 className="semibold black mb-0">
-                  My travel to {BuilderArguments.to_destination} from{" "}
-                  {BuilderArguments.from_destination}
+                  My travel to {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination ? (
                 <h4 className="semibold black mb-0">
