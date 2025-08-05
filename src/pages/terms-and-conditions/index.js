@@ -8,7 +8,7 @@ import HerosectionSm from "@/src/component/layout/HerosectionSm";
 const TermsAndConditions = () => {
   return (
     <main>
-      <Header isUser />
+      <Header isUser isMessage={"isMessage"}  />
       <section id="fold1" className={styles.HomeBanner}>
         <HerosectionSm heading={"Terms and Conditions"} />
       </section>

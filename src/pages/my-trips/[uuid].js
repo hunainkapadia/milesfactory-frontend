@@ -50,7 +50,7 @@ const TripDetailPage = () => {
   return (
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
-        <Header isMessage="isMessage" isChat="isChat" />
+        <Header isMessage="isMessage" />
         <Box sx={{ backgroundColor: "#e6f5ee" }} py={6}>
           {/* Hero section */}
           <Box
