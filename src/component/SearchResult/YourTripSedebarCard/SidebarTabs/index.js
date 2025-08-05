@@ -21,6 +21,8 @@ const SidebarTabs = () => {
   );
   const slices = getselectedFlight?.slices || [];
 
+  console.log("getBuilder", getBuilder?.flight_type ===  "round-trip");
+  
   return (
     <Box
       width={"100%"}
@@ -33,7 +35,7 @@ const SidebarTabs = () => {
       }}
       className={`${TripStyles.customTabs} customTabs`}
     >
-      {slices.length === 1 && (
+      {getBuilder?.flight_type ===  "one-way" ? (
         <a
           href="#offer-card"
           onClick={() => handleTabClick("overview")}
@@ -50,9 +52,7 @@ const SidebarTabs = () => {
             <Typography className="f12">Outbound</Typography>
           </Box>
         </a>
-      )}
-
-      {slices.length === 2 && (
+      ) : getBuilder?.flight_type ===  "round-trip" ? (
         <>
           <a
             href="#offer-card"
@@ -87,7 +87,8 @@ const SidebarTabs = () => {
             </Box>
           </a>
         </>
-      )}
+      ): ""}
+
       {getBuilder?.itinerary_text && (
         <>
           <a
