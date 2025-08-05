@@ -15,6 +15,7 @@ import {
   fetchflightDetail,
   setflightDetail,
   setOfferkey,
+  setOfferkeyforDetail,
   setOpenDrawer,
   setSelectedFlightKey,
   setSelectFlightKey,
@@ -38,12 +39,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
 
 
-  // useEffect(()=> {
-  //   dispatch(setOfferkey(offerkey));
-  // }, [])
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     //Push GA event
+    
     event({
       action: 'click',
       category: 'engagement',
@@ -52,6 +51,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     console.log("See Flight Details");
     
     if (offerkey) {
+      dispatch(setOfferkeyforDetail(offerkey)); //  Store selected flight key (for detail)
       dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
@@ -80,6 +80,11 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   );
   const selected = selectedFlightKey === offerkey;
   console.log("selected", selectedFlightKey);
+
+  console.log("offerkey_00", offerkey);
+  
+  console.log("selectedFlightKey_00", selectedFlightKey);
+  
   
 
   const refreshHandle = () => {
@@ -110,8 +115,6 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     } else {
       ("");
     }
-    // dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
-
     event({
       action: 'click',
       category: 'engagement',

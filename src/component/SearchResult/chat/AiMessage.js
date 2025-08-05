@@ -300,20 +300,22 @@ const AiMessage = ({ aiMessage }) => {
                     </Box>
                   </>
                 ) : aiMessage?.ai?.newThread ? (
-                  <Typography component="div" variant="body1">
-                    Hello{" "}
-                    <Typography component="span" textTransform="capitalize">
-                      {getuser?.first_name ?? "there"}
-                    </Typography>{" "}
-                    <Typography component="span" textTransform="capitalize">
-                      {getuser?.last_name ?? ""}
+                  <Box pb={3} className={"newChatBox"}>
+                    <Typography component="div" variant="body1">
+                      Hello{" "}
+                      <Typography component="span" textTransform="capitalize">
+                        {getuser?.first_name ?? "there"}
+                      </Typography>{" "}
+                      <Typography component="span" textTransform="capitalize">
+                        {getuser?.last_name ?? ""}
+                      </Typography>
+                      , I'm{" "}
+                      <Typography component="span" textTransform="capitalize">
+                        Mylz
+                      </Typography>
+                      . How can I help you?
                     </Typography>
-                    , I'm{" "}
-                    <Typography component="span" textTransform="capitalize">
-                      Mylz
-                    </Typography>
-                    . How can I help you?
-                  </Typography>
+                  </Box>
                 ) : aiMessage?.ai?.deleteThread ? (
                   <>
                     <Box className={searchResultStyles.AiMessage + " aaa"}>

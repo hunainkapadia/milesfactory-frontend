@@ -290,6 +290,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
       region: captainParams.region,
     };
     
+    console.log("getParams", getParams);
   
     setTimeout(() => {
       api

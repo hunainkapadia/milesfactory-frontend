@@ -14,7 +14,7 @@ const initialState = {
   CloseDrawer: false,
   BookingSetupUrl: null,
   selectedFlightKey: null, //Store selected flight key
-  offerkey: null, 
+  offerkeyforDetail: null, 
   BaggageDrawer: false,
   baggageOptions: {}, // ← add this line
   selectedBaggage: [], // add in initialState
@@ -28,8 +28,8 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
-    setOfferkey:(state, action)=> {
-      state.offerkey = action.payload
+    setOfferkeyforDetail:(state, action)=> {
+      state.offerkeyforDetail = action.payload
     },
     setSingleFlightData: (state, action)=> {
       state.singleFlightData = action.payload
@@ -117,6 +117,6 @@ export const {
   setBookingSetupUrl,
   setSelectedFlightKey,
   setSingleFlightData,
-  setOfferkey,
+  setOfferkeyforDetail,
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

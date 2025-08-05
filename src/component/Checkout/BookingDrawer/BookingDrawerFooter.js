@@ -8,11 +8,13 @@
     setCloseDrawer,
     setflightDetail,
     setselectedFlighDetail,
+    setSelectedFlightKey,
     setSelectFlightKey,
   } from "@/src/store/slices/BookingflightSlice";
   import { setMessage } from "@/src/store/slices/sendMessageSlice";
   import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
   import { currencySymbols,event } from "@/src/utils/utils";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
   const BookingDrawerFooter = ({ getFlightDetails }) => {
     const dispatch = useDispatch();
@@ -21,6 +23,8 @@
       dispatch(setCloseDrawer()); // Pass an empty value to close the drawer
 
     };
+    console.log("getFlightDetails", getFlightDetails);
+    
     
     const orderSuccess = useSelector(
       (state) => state?.payment?.OrderConfirm
@@ -32,10 +36,10 @@
         (state) => state?.booking?.singleFlightData
       );
       console.log("getselectedFlight", getselectedFlight);
-    // const getOfferkey = useSelector(
-    //   (state) => state?.booking?.offerkey
-    // );
-    // console.log("getOfferkey", getOfferkey);
+    const offerkey = useSelector(
+      (state) => state?.booking?.offerkeyforDetail
+    );
+    console.log("offerkeyforDetail", offerkey);
     
 
     const handleBookFlight = () => {
@@ -46,25 +50,40 @@
         value: getFlightDetails?.total_amount_rounded,
       });
       console.log("Select Flight Drawer", getFlightDetails?.total_amount_rounded);
-      // if (offerkey) {
-      //   dispatch(setflightDetail(offerData)); // Store flight details
-      //   dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
-      // }
-      dispatch(setisLoading())
-      dispatch(setCloseDrawer()); //dispatch close
-      dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
-      dispatch(PassengerForm())
       
-      // dispatch(bookFlight());
-      // dispatch(setPassengerData()); // pass data store in slice
-
+      
+      
+      
+      dispatch(setChatscroll(true))
+      dispatch(setisLoading(true));
+      // if(selected) {
+      //   setHideSelectButton(true);
+      // };
+      if (offerkey) {
+        dispatch(setflightDetail(offerkey)); // Store flight details
+        dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
+      }
+      
+      dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
+      dispatch(PassengerForm());
+  
+      dispatch(bookFlight());
       if (getFlightDetails?.id) {
         dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
-
       } else {
-        ""
+        ("");
       }
-      dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this si message trigger passenger flow active
+
+
+
+
+      
+      dispatch(setisLoading())
+      dispatch(setCloseDrawer()); //dispatch close
+      dispatch(PassengerForm())
+      
+      
+      
     };
 
     const personQuantity = getFlightDetails?.passengers.length;

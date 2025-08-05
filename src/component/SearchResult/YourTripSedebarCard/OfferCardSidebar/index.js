@@ -4,6 +4,7 @@ import {
   closeDrawer,
   fetchflightDetail,
   setflightDetail,
+  setOfferkeyforDetail,
   setOpenDrawer,
   setSelectedFlightKey,
   setSelectFlightKey,
@@ -68,6 +69,7 @@ const OfferCardSidebar = ({ index, slice }) => {
     dispatch(setMessage({ ai: { passengerFlowRes: false } }));
     dispatch(bookFlight(null)); // Pass flight ID to bookFlight
     dispatch(setSingleFlightData(null));
+    dispatch(setOfferkeyforDetail(null)); //  offerkey clear key (for detail)
   };
 
   return (
