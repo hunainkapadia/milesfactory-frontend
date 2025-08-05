@@ -31,7 +31,7 @@ const SidebarTabs = () => {
         borderRadius: "8px",
         padding: "4px",
         display: "flex",
-        gap: 2,
+        gap: "4px",
       }}
       className={`${TripStyles.customTabs} customTabs`}
     >
