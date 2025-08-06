@@ -156,7 +156,19 @@ export const createThread = () => (dispatch) => {
 };
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
-  const ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
+  let ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
+  if (!ThreadUUIDsendState) {
+    
+    const path = window.location.pathname;
+    const segments = path.split('/'); 
+    const threadIdFromUrl = segments.length > 2 ? segments[2] : null; 
+
+    if (threadIdFromUrl) {
+      dispatch(setThreadUuid(threadIdFromUrl));
+      dispatch(setThreadUUIDsend(threadIdFromUrl));
+      ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
+    }
+  }
 
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
