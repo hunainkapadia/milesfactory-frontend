@@ -76,6 +76,10 @@ const AiMessage = ({ aiMessage }) => {
   }, [paymentSuccess]);
   // scroll
   const isLoading = useSelector((state) => state.sendMessage?.isLoading);
+  const Selectloading = useSelector((state) => state.booking.isLoading);
+
+  console.log("Selectloading", Selectloading);
+  
   // track for send message loading
 
   const aiboxRef = useRef(null); //  Add this ref
@@ -152,38 +156,33 @@ const AiMessage = ({ aiMessage }) => {
       {/* Show passenger form or loading */}
 
       {/* If all passengers are filled, show payment components */}
+      
+      
+      {aiMessage?.ai?.passengerFlowRes && 
+        Array.isArray(GetViewPassengers) &&
+        GetViewPassengers.length > 0 && (
+          <>
+            <PassengerInfo getdata={GetViewPassengers} />
+            {Array.isArray(filledPassenger) &&
+              filledPassenger.length === GetViewPassengers.length && (
+                <>
+                  {orderDetail ? (
+                    <PriceSummary />
+                  ) : (
+                    <Box my={3}>
+                      <LoadingArea />
+                    </Box>
+                  )}
 
-      {aiMessage?.ai?.passengerFlowRes ? (
-        <>
-          {Array.isArray(GetViewPassengers) && GetViewPassengers.length > 0 ? (
-            <>
-              <PassengerInfo getdata={GetViewPassengers} />
+                  <PaymentDrawer />
+                  <PaymentAddCard />
 
-              {Array.isArray(filledPassenger) &&
-                filledPassenger.length === GetViewPassengers.length && (
-                  <>
-                    {orderDetail ? (
-                      <PriceSummary />
-                    ) : (
-                      <>
-                        <Box my={3}>
-                          <LoadingArea />
-                        </Box>
-                      </>
-                    )}
-                    <PaymentDrawer />
-                    <PaymentAddCard />
-                    {paymentSuccess && <PaymentSuccess />}
-                  </>
-                )}
-            </>
-          ) : (
-            ""
-          )}
-        </>
-      ) : (
-        ""
+                  {paymentSuccess && <PaymentSuccess />}
+                </>
+              )}
+          </>
       )}
+      
 
       {displayedGetFlights?.length > 0 ? (
         <>
@@ -191,7 +190,7 @@ const AiMessage = ({ aiMessage }) => {
             <Box className="SearchBar SearchBar_000">
               <SearchProgressBar />
             </Box>
-            <Box  className={searchResultStyles.SearchCardGrid}>
+            <Box className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
                 <SearchCard
@@ -224,12 +223,12 @@ const AiMessage = ({ aiMessage }) => {
             </Box>
           ) : (
             <Box
-                sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-                gap={2}
-                alignItems="center"
-                display="flex"
-                className="bold"
-              >
+              sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+              gap={2}
+              alignItems="center"
+              display="flex"
+              className="bold"
+            >
               No more flights found.
             </Box>
           )}

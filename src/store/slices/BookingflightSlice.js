@@ -4,7 +4,7 @@ import api from "../api";
 
 const initialState = {
   flightDetail: null,
-  setLoading: null,
+  isLoading: false,
   setError: null,
   selectedFlightId: null,
   selectedFlighDetail: null,
@@ -86,17 +86,17 @@ export const bookFlight = (flightId) => (dispatch, getState) => {
   // const getPassenger =  `${/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options}`
   // {{BASE_URL}}/api/v1/search/single/result/off_0000AtoC3XiG43x9eXiVTE
   const FlightId = getState().booking.selectedFlightId;
-  
+  dispatch(setLoading(true))
   
   api
     .get(`/api/v1/search/single/result/${FlightId}`)
     .then((res) => {
-      
       dispatch(setSingleFlightData(res.data))
-
     })
     .catch((error) => {
       console.log(error);
+    }).finally (()=> {
+      dispatch(setLoading(false))
     });
   
   

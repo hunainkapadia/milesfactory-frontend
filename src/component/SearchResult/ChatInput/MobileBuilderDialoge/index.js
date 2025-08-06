@@ -46,7 +46,7 @@ const MobileBuilderDialoge = () => {
       PaperProps={{
         sx: {
           width: "100%",
-          maxWidth: "480px",
+          maxWidth: "100%",
           boxShadow: "none",
           borderTop: "1px solid #E6EEEE",
           

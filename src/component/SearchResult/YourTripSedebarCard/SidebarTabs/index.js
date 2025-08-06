@@ -5,8 +5,24 @@ import { useDispatch, useSelector } from "react-redux";
 
 const SidebarTabs = () => {
   const dispatch = useDispatch();
-  const handleTabClick = (tabId) => {
+  const handleTabClick = (tabId, sectionId) => {
+    console.log("sectionId", sectionId);
+    
     dispatch(setSidebarTab(tabId));
+    setTimeout(() => {
+      const drawerContent = document.querySelector(".asasas"); // your scroll container
+      const section = drawerContent?.querySelector(`#${sectionId}`);
+
+      if (drawerContent && section) {
+        const sectionTop = section.offsetTop;
+        const scrollOffset = 60; // Adjust this to match your fixed header height
+
+        drawerContent.scrollTo({
+          top: sectionTop - scrollOffset,
+          behavior: "smooth",
+        });
+      }
+    }, 100); // small delay ensures DOM has rendered
   };
   const activeTab = useSelector((state) => state?.base?.sidebarTab);
   console.log("activeTab", activeTab);
@@ -38,7 +54,7 @@ const SidebarTabs = () => {
       {getBuilder?.flight_type ===  "one-way" ? (
         <a
           href="#offer-card"
-          onClick={() => handleTabClick("overview")}
+          onClick={() => handleTabClick("overview", "offer-card")}
           style={{ textDecoration: "none" }}
         >
           <Box
@@ -56,7 +72,7 @@ const SidebarTabs = () => {
         <>
           <a
             href="#offer-card"
-            onClick={() => handleTabClick("overview")}
+            onClick={() => handleTabClick("overview", "offer-card")}
             style={{ textDecoration: "none" }}
           >
             <Box
@@ -72,7 +88,7 @@ const SidebarTabs = () => {
           </a>
           <a
             href="#offer-card-return"
-            onClick={() => handleTabClick("flights")}
+            onClick={() => handleTabClick("flights", "offer-card-return")}
             style={{ textDecoration: "none" }}
           >
             <Box
@@ -93,7 +109,7 @@ const SidebarTabs = () => {
         <>
           <a
             href="#itinerary-section"
-            onClick={() => handleTabClick("itinerary")}
+            onClick={() => handleTabClick("itinerary", "itinerary-section")}
             style={{ textDecoration: "none" }}
           >
             <Box

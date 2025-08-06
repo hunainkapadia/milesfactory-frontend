@@ -14,6 +14,7 @@ import {
   closeDrawer,
   fetchflightDetail,
   setflightDetail,
+  setLoading,
   setOfferkey,
   setOfferkeyforDetail,
   setOpenDrawer,
@@ -26,7 +27,6 @@ import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols,event } from "@/src/utils/utils";
 import {
   PassengerForm,
-  setisLoading,
   setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
@@ -51,7 +51,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     console.log("See Flight Details");
     
     if (offerkey) {
-      dispatch(setOfferkeyforDetail(offerkey)); //  Store selected flight key (for detail)
+      dispatch(setOfferkeyforDetail(offerkey)); //  Store selected flight key for detail
       dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
@@ -63,6 +63,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
 
   // selected flight detail get for send data in select button click
   const flightDetail = useSelector((state) => state.booking.flightDetail);
+  
+
   // get offerid from getmessage
   const offeridGet = useSelector((state) => state.getMessages.topOfferUrl);
   const offeridSend = useSelector((state) => state);
@@ -97,7 +99,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   console.log("offerkey_11", offerkey)
   const handleBookFlight = () => {
     dispatch(setChatscroll(true))
-    dispatch(setisLoading(true));
+    dispatch(setLoading(true));
     if(selected) {
       setHideSelectButton(true);
     };

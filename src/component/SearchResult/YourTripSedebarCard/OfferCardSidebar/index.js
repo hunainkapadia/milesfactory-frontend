@@ -49,13 +49,13 @@ const OfferCardSidebar = ({ index, slice }) => {
   );
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-  
+
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id ?? null;
 
   const HandleSelectDrawer = () => {
     if (getselectedFlight?.id) {
-      dispatch(setSeeDetailButton("Builder"))
+      dispatch(setSeeDetailButton("Builder"));
       dispatch(setOpenDrawer(getselectedFlight.id));
       dispatch(setflightDetail(getselectedFlight));
     }
@@ -80,45 +80,46 @@ const OfferCardSidebar = ({ index, slice }) => {
           justifyContent={"space-between"}
           alignItems={"center"}
         >
-          {index === 0 ? (
-            <Box display={"flex"}>
-              <Typography className="f12 semibold">Departing flight</Typography>
-            </Box>
-          ) : (
-            <Box display={"flex"}>
-              <Typography className="f12 semibold">Return flight</Typography>
-            </Box>
-          )}
           <Box display={"flex"} gap={2} alignItems={"center"}>
-            {PaymentStatus?.is_complete === "yes" &&
-            PaymentStatus?.status === "success" ? (
-              <Box
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                className={TripStyles.BookedLabel + " chip chipPrimary sm"}
-              >
-                Booked
+            {index === 0 ? (
+              <Box display={"flex"}>
+                <Typography className="f12 semibold">
+                  Departing flight
+                </Typography>
               </Box>
-            ) : getselectedFlight ? (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                className={TripStyles.SelectedLabel + " chip chipYellow sm"}
-              >
-                Selected
+            ) : (
+              <Box display={"flex"}>
+                <Typography className="f12 semibold">Return flight</Typography>
               </Box>
-            ) : null}
-
+            )}
             <FontAwesomeIcon
               className="basecolor1-50"
               cursor="pointer"
               onClick={handleClearFlight}
               icon={faClose}
-              fontSize={18}
+              fontSize={20}
             />
           </Box>
+          {PaymentStatus?.is_complete === "yes" &&
+          PaymentStatus?.status === "success" ? (
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              className={TripStyles.BookedLabel + " chip chipPrimary sm"}
+            >
+              Booked
+            </Box>
+          ) : getselectedFlight ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              className={TripStyles.SelectedLabel + " chip chipYellow sm"}
+            >
+              Selected
+            </Box>
+          ) : null}
         </Box>
 
         <Box
