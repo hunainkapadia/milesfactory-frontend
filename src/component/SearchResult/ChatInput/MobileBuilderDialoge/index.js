@@ -10,6 +10,7 @@ import styles from "@/src/styles/sass/components/input-box/mobileBuilder.module.
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import MobileBuilder from "../mobileBuilderBUtton";
 import SidebarTabs from "../../YourTripSedebarCard/SidebarTabs";
+import Header from "@/src/component/layout/Header";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -33,7 +34,8 @@ const MobileBuilderDialoge = () => {
   };
 
   return (
-    <Drawer
+    <Drawer 
+    className={styles.BuilderDrawer + " BuilderDrawer"}
       anchor="right"
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
@@ -47,15 +49,15 @@ const MobileBuilderDialoge = () => {
           maxWidth: "480px",
           boxShadow: "none",
           borderTop: "1px solid #E6EEEE",
-          top: "50px", //
-          height: "calc(100% - 50px)",
+          
         },
       }}
       SlideProps={{
         timeout: 300,
       }}
     >
-      <DialogContent sx={{ px: 0, py: "18px" }} className="asasas">
+      <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
+        <Header isMessage={"isMessage"} isChat />
         <Box>
           <YourTripSedebarCard getBuilder={getBuilder} />
         </Box>

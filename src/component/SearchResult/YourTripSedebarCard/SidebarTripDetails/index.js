@@ -95,7 +95,7 @@ const SidebarTripDetails = ({ id }) => {
                   month: "short",
                 })}
             </Typography>
-            <Typography className="f12 semibold">
+            <Typography className="f12 bold">
               {formatJourneyTextOutbound(getBuilder)}
             </Typography>
           </Box>
@@ -124,7 +124,7 @@ const SidebarTripDetails = ({ id }) => {
             size="small"
           />
         </Box>
-        <Typography className="f12 semibold">
+        <Typography className="f12 bold">
           Need help finding flights?
         </Typography>
 
@@ -136,7 +136,7 @@ const SidebarTripDetails = ({ id }) => {
         >
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Departure</Typography>
-            <Typography className="f12 semibold">
+            <Typography className="f12 bold">
               {getBuilder?.departure_date &&
                 new Date(getBuilder?.departure_date).toLocaleDateString(
                   "en-GB",
@@ -150,7 +150,7 @@ const SidebarTripDetails = ({ id }) => {
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Return</Typography>
-            <Typography className="f12 semibold">
+            <Typography className="f12 bold">
               {getBuilder?.return_date && // This is the condition
                 new Date(getBuilder.return_date).toLocaleDateString(
                   "en-GB",
@@ -165,17 +165,17 @@ const SidebarTripDetails = ({ id }) => {
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Class</Typography>
-            <Typography className="f12 semibold">{getBuilder?.cabin_class}</Typography>
+            <Typography className="f12 bold">{getBuilder?.cabin_class}</Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Travellers</Typography>
-            <Typography className="f12 semibold">
+            <Typography className="f12 bold">
               {(getBuilder?.passengers?.adults ||
                 getBuilder?.passengers?.children?.length > 0 ||
                 getBuilder?.passengers?.infants?.length > 0) && (
                 <Box
-                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                  className={TripStyles.tripDetailsCol + " f12 black bold"}
                 >
                   {[
                     getBuilder?.passengers?.adults > 0 &&
@@ -261,7 +261,7 @@ const SidebarTripDetails = ({ id }) => {
                   }
                 )}
             </Typography>
-            <Typography className="f12 semibold">
+            <Typography className="f12 bold">
               {formatJourneyTextReturn(getBuilder)}
             </Typography>
           </Box>
