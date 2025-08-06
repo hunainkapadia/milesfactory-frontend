@@ -66,8 +66,6 @@ const YourTripSedebarCard = ({
   // );
   // const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  //console.log("SearchHistorySend", SearchHistory);
-  
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
