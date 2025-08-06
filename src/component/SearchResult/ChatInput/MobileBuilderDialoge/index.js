@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Box,
-  DialogContent,
-  Drawer,
-  Slide,
-  
-} from "@mui/material";
+import { Box, DialogContent, Drawer, Slide } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsBuilderDialog } from "@/src/store/slices/Base/baseSlice";
 import YourTripSedebarCard from "../../YourTripSedebarCard";
@@ -43,16 +37,22 @@ const MobileBuilderDialoge = () => {
       anchor="right"
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
+      ModalProps={{
+        hideBackdrop: true,
+        keepMounted: true,
+      }}
       PaperProps={{
         sx: {
           width: "100%",
           maxWidth: "480px",
           boxShadow: "none",
-          borderLeft: "1px solid #E6EEEE",
+          borderTop: "1px solid #E6EEEE",
+          top: "50px", //
+          height: "calc(100% - 50px)",
         },
       }}
       SlideProps={{
-        timeout: 300, // optional: controls animation duration
+        timeout: 300,
       }}
     >
       <DialogContent sx={{ px: 0, py: "18px" }} className="asasas">

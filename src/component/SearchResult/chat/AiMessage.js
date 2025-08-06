@@ -191,7 +191,7 @@ const AiMessage = ({ aiMessage }) => {
             <Box className="SearchBar SearchBar_000">
               <SearchProgressBar />
             </Box>
-            <Box mt={2} className={searchResultStyles.SearchCardGrid}>
+            <Box  className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
                 <SearchCard

@@ -17,12 +17,14 @@
   display: flex;
   align-items: center;
   position: relative;
-  width: 140px;
-  height: 40px;
-  border-radius: 20px;
+  width: auto;
+  height: auto;
+  white-space: nowrap;
+  border-radius: 100px;
   background-color: #F2F7F8;
   cursor: pointer;
-  padding: 0 4px;
+  padding: 0;
+  gap: 0;
 
   .slider {
     position: absolute;
@@ -50,16 +52,22 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
-    font-size: 14px;
+    font-size: 16px;
+    p {
+      line-height: 1;
+    }
 
-    &.active {
+    &.inactive {
       p {
          font-weight: normal;
          color: $basecolor; // uses MUI theme variable
       }
     }
-
-    &.inactive {
+    padding: 14px 12px;
+    &.active {
+      background: $white;
+      border: 1px solid #C5DADE;
+      border-radius: 30px;
       p {font-weight: $bold;}
       color: $basecolor1; // uses MUI theme variable
     }
