@@ -137,42 +137,38 @@ const SidebarTripDetails = ({ id }) => {
           alignItems="center"
           justifyContent={"space-between"}
         >
-          {getBuilder?.departure_date && (
-            <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Departure</Typography>
-              <Typography className="f12 semibold">
-                {getBuilder?.departure_date &&
-                  new Date(getBuilder?.departure_date).toLocaleDateString(
-                    "en-GB",
-                    {
-                      weekday: "short",
-                      day: "2-digit",
-                      month: "short",
-                    }
-                  )}
-              </Typography>
-            </Stack>
-          )}
-          {getBuilder.return_date && (
-            <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Return</Typography>
-              <Typography className="f12 semibold">
-                {getBuilder?.return_date && // This is the condition
-                  new Date(getBuilder.return_date).toLocaleDateString(
-                    "en-GB",
-                    {
-                      weekday: "short",
-                      day: "2-digit",
-                      month: "short",
-                    }
-                  )}
-              </Typography>
-            </Stack>
-          )}
+          <Stack alignItems="center" textAlign={"center"}>
+            <Typography className="f12">Departure</Typography>
+            <Typography className="f12 semibold">
+              {getBuilder?.departure_date &&
+                new Date(getBuilder?.departure_date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  }
+                )}
+            </Typography>
+          </Stack>
+          <Stack alignItems="center" textAlign={"center"}>
+            <Typography className="f12">Return</Typography>
+            <Typography className="f12 semibold">
+              {getBuilder?.return_date && // This is the condition
+                new Date(getBuilder.return_date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  }
+                )}
+            </Typography>
+          </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Class</Typography>
-            <Typography className="f12 semibold">Eco</Typography>
+            <Typography className="f12 semibold">{getBuilder?.cabin_class}</Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>

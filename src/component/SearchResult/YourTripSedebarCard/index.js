@@ -149,28 +149,25 @@ const YourTripSedebarCard = ({
           <Box>
             <Box>
               {BuilderArguments?.to_destination &&
-              BuilderArguments?.trip_length &&
-              BuilderArguments?.from_destination ? (
+              BuilderArguments?.trip_length ? (
                 <Typography
                   component="h4"
                   sx={{ fontSize: { xs: "16px", md: "20px" } }}
                   className="font-semibold text-black mb-0"
                 >
-                  My {BuilderArguments.trip_length} day(s) travel to{" "}
-                  {BuilderArguments.to_destination} from{" "}
-                  {BuilderArguments.from_destination}
+                  My {BuilderArguments.trip_length} day{BuilderArguments.trip_length > 1 ? 's' : ''}  travel to{" "}
+                  {BuilderArguments.to_destination}
                 </Typography>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.trip_length ? (
                 <h4 className="semibold black mb-0">
-                  My {BuilderArguments.trip_length} day(s) travel to{" "}
+                  My {BuilderArguments.trip_length} day{BuilderArguments.trip_length > 1 ? 's' : ''} travel to{" "}
                   {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.from_destination ? (
                 <h4 className="semibold black mb-0">
-                  My travel to {BuilderArguments.to_destination} from{" "}
-                  {BuilderArguments.from_destination}
+                  My travel to {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination ? (
                 <h4 className="semibold black mb-0">
