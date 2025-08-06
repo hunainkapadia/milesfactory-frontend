@@ -16,9 +16,13 @@
   gap: 12px;
   
   
-  background: rgba(0, 196, 204, 0.02);
-  border: 1px solid rgba(197, 218, 222, 0.4);
   border-radius: 8px;
+  
+  background: rgba(0, 196, 204, 0.05);
+  border: 1px solid rgba(197, 218, 222, 0.4);
+
+
+  
 }
 
 
@@ -37,12 +41,15 @@
 
   }
 
-.tripDetails .tripDetailsCol {
-  border-right: 1px solid $black;
-  margin-right: 5px;
-  padding-right: 5px;
-  &:last-child {
-    border-right: none;
+.tripDetails {margin-top: 4px;
+  .tripDetailsCol {
+    line-height: 1;
+    border-right: 1px solid $black;
+    margin-right: 5px;
+    padding-right: 5px;
+    &:last-child {
+      border-right: none;
+    }
   }
 }
 // tabs

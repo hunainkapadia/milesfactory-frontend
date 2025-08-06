@@ -88,7 +88,7 @@ const YourTripSidebar = ({ isMessage }) => {
               py={"14px"}
               component={"footer"}
               className={YourtripStyles.Footer + " "}
-              sx={{ backgroundColor: "#F2F7F8" }}
+              sx={{ borderTop:" solid 1px  #E6EEEE" }}
             >
               <Box
                 display={"flex"}
@@ -113,6 +113,7 @@ const YourTripSidebar = ({ isMessage }) => {
                       : "No product added"}
                   </Typography>
                 </Box>
+                
                 <Button
                   className={`btn btn-primary btn-round btn-xs ${
                     !!orderSuccess || !getselectedFlight ? "disabled" : ""

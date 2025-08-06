@@ -56,7 +56,9 @@ import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
 
-const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
+const Header = ({ isMessage, IsActive, isHome, isChat, isUser, isBuilder }) => {
+  console.log("isBuilder_isBuilder", isBuilder);
+  
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
@@ -326,7 +328,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                 </Box>
                 {/*  */}
               </Box>
-              {isChat && <SearchFilterBar />}
+              {isChat && !isBuilder && <SearchFilterBar />}
+
               {isHome ? (
                 <MessageInputBox
                   isSticky={InputSticky}

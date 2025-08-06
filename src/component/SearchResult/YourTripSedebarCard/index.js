@@ -127,9 +127,13 @@ const YourTripSedebarCard = ({
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      <Box component={"section"} className="Tabs" px={"18px"} pb={1}>
-        {isSidebar ? <SidebarTabs /> : ""}
-      </Box>
+      {isSidebar ? (
+        <Box component={"section"} className="Tabs" px={"18px"} pb={1}>
+          <SidebarTabs />
+        </Box>
+      ) : (
+        ""
+      )}
 
       <Box
         className={TripStyles.TripBody}
@@ -155,13 +159,15 @@ const YourTripSedebarCard = ({
                   sx={{ fontSize: { xs: "16px", md: "20px" } }}
                   className="bold black mb-0"
                 >
-                  My {BuilderArguments.trip_length} day{BuilderArguments.trip_length > 1 ? 's' : ''}  travel to{" "}
+                  My {BuilderArguments.trip_length} day
+                  {BuilderArguments.trip_length > 1 ? "s" : ""} travel to{" "}
                   {BuilderArguments.to_destination}
                 </Typography>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.trip_length ? (
                 <h4 className="bold black mb-0">
-                  My {BuilderArguments.trip_length} day{BuilderArguments.trip_length > 1 ? 's' : ''} travel to{" "}
+                  My {BuilderArguments.trip_length} day
+                  {BuilderArguments.trip_length > 1 ? "s" : ""} travel to{" "}
                   {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination &&
@@ -184,9 +190,7 @@ const YourTripSedebarCard = ({
                 BuilderArguments?.to_destination && (
                   <Box
                     sx={{}}
-                    className={
-                      TripStyles.tripDetailsCol + " f12 black bold"
-                    }
+                    className={TripStyles.tripDetailsCol + " f12 black bold"}
                   >
                     {BuilderArguments.from_destination} -{" "}
                     {BuilderArguments.to_destination}
@@ -226,9 +230,7 @@ const YourTripSedebarCard = ({
               {(BuilderArguments?.passengers?.adults ||
                 BuilderArguments?.passengers?.children?.length > 0 ||
                 BuilderArguments?.passengers?.infants?.length > 0) && (
-                <Box
-                  className={TripStyles.tripDetailsCol + " f12 black bold"}
-                >
+                <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
                   {[
                     BuilderArguments?.passengers?.adults > 0 &&
                       `${BuilderArguments.passengers.adults} ${
@@ -298,7 +300,8 @@ const YourTripSedebarCard = ({
                                 })}
                               </Typography>
                               <Typography className="f12 bold">
-                                {BuilderArguments?.from_destination} - {BuilderArguments?.to_destination}
+                                {BuilderArguments?.from_destination} -{" "}
+                                {BuilderArguments?.to_destination}
                               </Typography>
                             </Box>
                           </Box>
@@ -315,7 +318,7 @@ const YourTripSedebarCard = ({
                               alignItems={"center"}
                               gap={"12px"}
                             >
-                              <Typography 
+                              <Typography
                                 className={
                                   TripStyles.onewayReturn +
                                   " btn btn-xs btn-black"
@@ -331,7 +334,8 @@ const YourTripSedebarCard = ({
                                 })}
                               </Typography>
                               <Typography className="f12 bold">
-                                {BuilderArguments?.to_destination} - {BuilderArguments?.from_destination}
+                                {BuilderArguments?.to_destination} -{" "}
+                                {BuilderArguments?.from_destination}
                               </Typography>
                             </Box>
                           </Box>
@@ -343,10 +347,7 @@ const YourTripSedebarCard = ({
                     </Box>
                     {/* offer card  */}
                     <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
-                      <OfferCardSidebar
-                        index={index}
-                        slice={slice}
-                      />
+                      <OfferCardSidebar index={index} slice={slice} />
                     </Box>
                     {/*  */}
                     {BuilderArguments?.itinerary_text && (

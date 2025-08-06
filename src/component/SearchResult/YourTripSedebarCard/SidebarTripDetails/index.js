@@ -136,7 +136,7 @@ const SidebarTripDetails = ({ id }) => {
         >
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Departure</Typography>
-            <Typography className="f12 bold">
+            <Typography className="f12 black bold">
               {getBuilder?.departure_date &&
                 new Date(getBuilder?.departure_date).toLocaleDateString(
                   "en-GB",
@@ -150,7 +150,7 @@ const SidebarTripDetails = ({ id }) => {
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Return</Typography>
-            <Typography className="f12 bold">
+            <Typography className="f12 black bold">
               {getBuilder?.return_date && // This is the condition
                 new Date(getBuilder.return_date).toLocaleDateString(
                   "en-GB",
@@ -165,12 +165,12 @@ const SidebarTripDetails = ({ id }) => {
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Class</Typography>
-            <Typography className="f12 bold">{getBuilder?.cabin_class}</Typography>
+            <Typography className="f12 black bold">{getBuilder?.cabin_class}</Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Travellers</Typography>
-            <Typography className="f12 bold">
+            <Typography className="f12 black bold">
               {(getBuilder?.passengers?.adults ||
                 getBuilder?.passengers?.children?.length > 0 ||
                 getBuilder?.passengers?.infants?.length > 0) && (

@@ -57,8 +57,8 @@ const MobileBuilderDialoge = () => {
       }}
     >
       <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
-        <Header isMessage={"isMessage"} isChat />
-        <Box>
+        <Header isMessage={"isMessage"} isChat isBuilder={"isBuilder"} />
+        <Box className="1111" py={"18px"}>
           <YourTripSedebarCard getBuilder={getBuilder} />
         </Box>
       </DialogContent>
