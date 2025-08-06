@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 
 const SidebarTripDetails = ({ id }) => {
-  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
-  const BuilderArguments =
-    getBuilder?.silent_function_template?.[0]?.function?.arguments;
+  const Addbuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
+  const getBuilder =
+    Addbuilder?.silent_function_template?.[0]?.function?.arguments;
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";
@@ -20,6 +20,8 @@ const SidebarTripDetails = ({ id }) => {
 
     return result;
   }
+  console.log("getBuilder", getBuilder);
+  
 
   // Outbound journey text formatting
   // This function formats the outbound journey text based on the provided arguments.
@@ -76,32 +78,36 @@ const SidebarTripDetails = ({ id }) => {
 
   return (
     <>
-      <Box mb={3}>
-        <Box mb={1}>
-          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-            <Typography
-              className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
-            >
-              Departure |{" "}
-              {BuilderArguments?.departure_date &&
-                new Date(BuilderArguments?.departure_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
-            </Typography>
-            <Typography className="f12 semibold">
-              {formatJourneyTextOutbound(BuilderArguments)}
+      
+      {(getBuilder?.flight_type === "one-way" || getBuilder?.flight_type ===  "round-trip") && (
+        <>
+          <Box mb={3}>
+            <Box mb={1}>
+              <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                <Typography
+                  className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
+                >
+                  Departure |{" "}
+                  {getBuilder?.departure_date &&
+                    new Date(
+                      getBuilder?.departure_date
+                    ).toLocaleDateString("en-GB", {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    })}
+                </Typography>
+                <Typography className="f12 semibold">
+                  {formatJourneyTextOutbound(getBuilder)}
+                </Typography>
+              </Box>
+            </Box>
+            <Typography className="f12">
+              {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
             </Typography>
           </Box>
-        </Box>
-        <Typography className="f12">
-          {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
-        </Typography>
-      </Box>
+        </>
+      )}
 
       <Box
         className={`${TripStyles.PaddDetailCard} PaddDetailCard`}
@@ -131,35 +137,38 @@ const SidebarTripDetails = ({ id }) => {
           alignItems="center"
           justifyContent={"space-between"}
         >
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Departure</Typography>
-            <Typography className="f12 semibold">
-              {BuilderArguments?.departure_date &&
-                new Date(BuilderArguments?.departure_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
-            </Typography>
-          </Stack>
-
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Return</Typography>
-            <Typography className="f12 semibold">
-              {BuilderArguments?.return_date && // This is the condition
-                new Date(BuilderArguments.return_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
-            </Typography>
-          </Stack>
+          {getBuilder?.departure_date && (
+            <Stack alignItems="center" textAlign={"center"}>
+              <Typography className="f12">Departure</Typography>
+              <Typography className="f12 semibold">
+                {getBuilder?.departure_date &&
+                  new Date(getBuilder?.departure_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )}
+              </Typography>
+            </Stack>
+          )}
+          {getBuilder.return_date && (
+            <Stack alignItems="center" textAlign={"center"}>
+              <Typography className="f12">Return</Typography>
+              <Typography className="f12 semibold">
+                {getBuilder?.return_date && // This is the condition
+                  new Date(getBuilder.return_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )}
+              </Typography>
+            </Stack>
+          )}
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Class</Typography>
@@ -169,33 +178,36 @@ const SidebarTripDetails = ({ id }) => {
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Travellers</Typography>
             <Typography className="f12 semibold">
-              {(BuilderArguments?.passengers?.adults ||
-                BuilderArguments?.passengers?.children?.length > 0 ||
-                BuilderArguments?.passengers?.infants?.length > 0) && (
-                  <Box
-                    className={TripStyles.tripDetailsCol + " f12 black semibold"}
-                  >
-                    {[
-                      BuilderArguments?.passengers?.adults > 0 &&
-                      `${BuilderArguments.passengers.adults} ${BuilderArguments.passengers.adults === 1
-                        ? "adult"
-                        : "adults"
+              {(getBuilder?.passengers?.adults ||
+                getBuilder?.passengers?.children?.length > 0 ||
+                getBuilder?.passengers?.infants?.length > 0) && (
+                <Box
+                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                >
+                  {[
+                    getBuilder?.passengers?.adults > 0 &&
+                      `${getBuilder.passengers.adults} ${
+                        getBuilder.passengers.adults === 1
+                          ? "adult"
+                          : "adults"
                       }`,
-                      BuilderArguments?.passengers?.children?.length > 0 &&
-                      `${BuilderArguments.passengers.children.length} ${BuilderArguments.passengers.children.length === 1
-                        ? "child"
-                        : "children"
+                    getBuilder?.passengers?.children?.length > 0 &&
+                      `${getBuilder.passengers.children.length} ${
+                        getBuilder.passengers.children.length === 1
+                          ? "child"
+                          : "children"
                       }`,
-                      BuilderArguments?.passengers?.infants?.length > 0 &&
-                      `${BuilderArguments.passengers.infants.length} ${BuilderArguments.passengers.infants.length === 1
-                        ? "infant"
-                        : "infants"
+                    getBuilder?.passengers?.infants?.length > 0 &&
+                      `${getBuilder.passengers.infants.length} ${
+                        getBuilder.passengers.infants.length === 1
+                          ? "infant"
+                          : "infants"
                       }`,
-                    ]
-                      .filter(Boolean)
-                      .join(", ")}
-                  </Box>
-                )}
+                  ]
+                    .filter(Boolean)
+                    .join(", ")}
+                </Box>
+              )}
             </Typography>
           </Stack>
         </Stack>
@@ -210,68 +222,63 @@ const SidebarTripDetails = ({ id }) => {
             <Typography
               className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
             >
-              {
-                BuilderArguments?.to_destination
-                  ? `Itinerary for ${BuilderArguments.to_destination}`
-                  : 'Itinerary'
-              }
+              {getBuilder?.to_destination
+                ? `Itinerary for ${getBuilder.to_destination}`
+                : "Itinerary"}
             </Typography>
           </Box>
         </Box>
 
-        {
-          BuilderArguments?.itinerary_text ? (
-            // IF the text exists (is "truthy"), show this:
-            <Typography
-              className="formateContent f12 mt-0"
-              component="div"
-              variant="body1"
-              dangerouslySetInnerHTML={{
-                __html: formatTextToHtmlList(
-                  convertMarkdownToHtml(
-                    sanitizeResponse(BuilderArguments.itinerary_text)
-                  )
-                ),
-              }}
-            />
-          ) : (
-            // ELSE, show this sentence.
-            // Using Typography for consistent styling is a good practice.
-            <Typography className="f12" variant="body1">
-              Ask Mylz to generate an itinerary for this trip in the chat.
-            </Typography>
-          )
-        }
+        {getBuilder?.itinerary_text ? (
+          // IF the text exists (is "truthy"), show this:
+          <Typography
+            className="formateContent f12 mt-0"
+            component="div"
+            variant="body1"
+            dangerouslySetInnerHTML={{
+              __html: formatTextToHtmlList(
+                convertMarkdownToHtml(
+                  sanitizeResponse(getBuilder.itinerary_text)
+                )
+              ),
+            }}
+          />
+        ) : (
+          // ELSE, show this sentence.
+          // Using Typography for consistent styling is a good practice.
+          <Typography className="f12" variant="body1">
+            Ask Mylz to generate an itinerary for this trip in the chat.
+          </Typography>
+        )}
       </Box>
-
-      <Box mb={3}>
-        <Box mb={1}>
-          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-            <Typography
-              className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
-            >
-              Return |{" "}
-              {BuilderArguments?.return_date && // This is the condition
-                new Date(BuilderArguments.return_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
-            </Typography>
-            <Typography className="f12 semibold">
-              {formatJourneyTextReturn(BuilderArguments)}
-            </Typography>
+      {getBuilder?.flight_type ===  "round-trip" && (
+        <Box mb={3}>
+          <Box mb={1}>
+            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+              <Typography
+                className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+              >
+                Return |{" "}
+                {getBuilder?.return_date && // This is the condition
+                  new Date(getBuilder.return_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )}
+              </Typography>
+              <Typography className="f12 semibold">
+                {formatJourneyTextReturn(getBuilder)}
+              </Typography>
+            </Box>
           </Box>
+          <Typography className="f12">
+            {/* Departure. Check out and head to the airport for your flight. */}
+          </Typography>
         </Box>
-        <Typography className="f12">
-          {/* Departure. Check out and head to the airport for your flight. */}
-        </Typography>
-      </Box>
-
-
+      )}
     </>
   );
 };
