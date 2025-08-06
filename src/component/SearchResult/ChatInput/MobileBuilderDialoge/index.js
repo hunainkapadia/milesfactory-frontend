@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Box,
-  DialogContent,
-  Drawer,
-  Slide,
-  
-} from "@mui/material";
+import { Box, DialogContent, Drawer, Slide } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsBuilderDialog } from "@/src/store/slices/Base/baseSlice";
 import YourTripSedebarCard from "../../YourTripSedebarCard";
@@ -16,6 +10,7 @@ import styles from "@/src/styles/sass/components/input-box/mobileBuilder.module.
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import MobileBuilder from "../mobileBuilderBUtton";
 import SidebarTabs from "../../YourTripSedebarCard/SidebarTabs";
+import Header from "@/src/component/layout/Header";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -39,23 +34,30 @@ const MobileBuilderDialoge = () => {
   };
 
   return (
-    <Drawer
+    <Drawer 
+    className={styles.BuilderDrawer + " BuilderDrawer"}
       anchor="right"
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
+      ModalProps={{
+        hideBackdrop: true,
+        keepMounted: true,
+      }}
       PaperProps={{
         sx: {
           width: "100%",
           maxWidth: "480px",
           boxShadow: "none",
-          borderLeft: "1px solid #E6EEEE",
+          borderTop: "1px solid #E6EEEE",
+          
         },
       }}
       SlideProps={{
-        timeout: 300, // optional: controls animation duration
+        timeout: 300,
       }}
     >
-      <DialogContent sx={{ px: 0, py: "18px" }} className="asasas">
+      <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
+        <Header isMessage={"isMessage"} isChat />
         <Box>
           <YourTripSedebarCard getBuilder={getBuilder} />
         </Box>

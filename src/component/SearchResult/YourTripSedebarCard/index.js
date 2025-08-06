@@ -153,24 +153,24 @@ const YourTripSedebarCard = ({
                 <Typography
                   component="h4"
                   sx={{ fontSize: { xs: "16px", md: "20px" } }}
-                  className="font-semibold text-black mb-0"
+                  className="bold black mb-0"
                 >
                   My {BuilderArguments.trip_length} day{BuilderArguments.trip_length > 1 ? 's' : ''}  travel to{" "}
                   {BuilderArguments.to_destination}
                 </Typography>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.trip_length ? (
-                <h4 className="semibold black mb-0">
+                <h4 className="bold black mb-0">
                   My {BuilderArguments.trip_length} day{BuilderArguments.trip_length > 1 ? 's' : ''} travel to{" "}
                   {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.from_destination ? (
-                <h4 className="semibold black mb-0">
+                <h4 className="bold black mb-0">
                   My travel to {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination ? (
-                <h4 className="semibold black mb-0">
+                <h4 className="bold black mb-0">
                   My travel to {BuilderArguments.to_destination}
                 </h4>
               ) : null}
@@ -185,7 +185,7 @@ const YourTripSedebarCard = ({
                   <Box
                     sx={{}}
                     className={
-                      TripStyles.tripDetailsCol + " f12 black semibold"
+                      TripStyles.tripDetailsCol + " f12 black bold"
                     }
                   >
                     {BuilderArguments.from_destination} -{" "}
@@ -197,7 +197,7 @@ const YourTripSedebarCard = ({
                 BuilderArguments?.return_date) && (
                 <Box
                   sx={{}}
-                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                  className={TripStyles.tripDetailsCol + " f12 black bold"}
                 >
                   {BuilderArguments?.departure_date && (
                     <>
@@ -227,7 +227,7 @@ const YourTripSedebarCard = ({
                 BuilderArguments?.passengers?.children?.length > 0 ||
                 BuilderArguments?.passengers?.infants?.length > 0) && (
                 <Box
-                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                  className={TripStyles.tripDetailsCol + " f12 black bold"}
                 >
                   {[
                     BuilderArguments?.passengers?.adults > 0 &&
@@ -297,7 +297,7 @@ const YourTripSedebarCard = ({
                                   month: "short",
                                 })}
                               </Typography>
-                              <Typography className="f12 semibold">
+                              <Typography className="f12 bold">
                                 {BuilderArguments?.from_destination} - {BuilderArguments?.to_destination}
                               </Typography>
                             </Box>
@@ -330,7 +330,7 @@ const YourTripSedebarCard = ({
                                   month: "short",
                                 })}
                               </Typography>
-                              <Typography className="f12 semibold">
+                              <Typography className="f12 bold">
                                 {BuilderArguments?.to_destination} - {BuilderArguments?.from_destination}
                               </Typography>
                             </Box>
@@ -476,7 +476,7 @@ const YourTripSedebarCard = ({
           {/* <Box display="flex" alignItems="center" gap={2}>
                 <Box>🌤️</Box>
                 <Box>
-                  <Typography className="f12 semibold black">
+                  <Typography className="f12 bold black">
                     32° 27° Partly Cloudy
                   </Typography>
                   <Typography className="f12 black">
@@ -491,7 +491,6 @@ const YourTripSedebarCard = ({
       </Box>
       {/* Extra Info bottom */}
 
-      <Divider />
       {/* <Box
         component={"footer"}
         className={TripStyles.TripFooter}
