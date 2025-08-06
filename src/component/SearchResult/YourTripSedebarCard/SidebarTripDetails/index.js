@@ -79,35 +79,32 @@ const SidebarTripDetails = ({ id }) => {
   return (
     <>
       
-      {(getBuilder?.flight_type === "one-way" || getBuilder?.flight_type ===  "round-trip") && (
-        <>
-          <Box mb={3}>
-            <Box mb={1}>
-              <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-                <Typography
-                  className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
-                >
-                  Departure |{" "}
-                  {getBuilder?.departure_date &&
-                    new Date(
-                      getBuilder?.departure_date
-                    ).toLocaleDateString("en-GB", {
-                      weekday: "short",
-                      day: "2-digit",
-                      month: "short",
-                    })}
-                </Typography>
-                <Typography className="f12 semibold">
-                  {formatJourneyTextOutbound(getBuilder)}
-                </Typography>
-              </Box>
-            </Box>
-            <Typography className="f12">
-              {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
+      <Box mb={3}>
+        <Box mb={1}>
+          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+            <Typography
+              className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
+            >
+              Departure |{" "}
+              {getBuilder?.departure_date &&
+                new Date(
+                  getBuilder?.departure_date
+                ).toLocaleDateString("en-GB", {
+                  weekday: "short",
+                  day: "2-digit",
+                  month: "short",
+                })}
+            </Typography>
+            <Typography className="f12 semibold">
+              {formatJourneyTextOutbound(getBuilder)}
             </Typography>
           </Box>
-        </>
-      )}
+        </Box>
+        <Typography className="f12">
+          {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
+        </Typography>
+      </Box>
+
 
       <Box
         className={`${TripStyles.PaddDetailCard} PaddDetailCard`}
@@ -247,34 +244,32 @@ const SidebarTripDetails = ({ id }) => {
           </Typography>
         )}
       </Box>
-      {getBuilder?.flight_type ===  "round-trip" && (
-        <Box mb={3}>
-          <Box mb={1}>
-            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-              <Typography
-                className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
-              >
-                Return |{" "}
-                {getBuilder?.return_date && // This is the condition
-                  new Date(getBuilder.return_date).toLocaleDateString(
-                    "en-GB",
-                    {
-                      weekday: "short",
-                      day: "2-digit",
-                      month: "short",
-                    }
-                  )}
-              </Typography>
-              <Typography className="f12 semibold">
-                {formatJourneyTextReturn(getBuilder)}
-              </Typography>
-            </Box>
+      <Box mb={3}>
+        <Box mb={1}>
+          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+            <Typography
+              className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+            >
+              Return |{" "}
+              {getBuilder?.return_date && // This is the condition
+                new Date(getBuilder.return_date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  }
+                )}
+            </Typography>
+            <Typography className="f12 semibold">
+              {formatJourneyTextReturn(getBuilder)}
+            </Typography>
           </Box>
-          <Typography className="f12">
-            {/* Departure. Check out and head to the airport for your flight. */}
-          </Typography>
         </Box>
-      )}
+        <Typography className="f12">
+          {/* Departure. Check out and head to the airport for your flight. */}
+        </Typography>
+      </Box>
     </>
   );
 };
