@@ -21,7 +21,7 @@ const SidebarTabs = () => {
   );
   const slices = getselectedFlight?.slices || [];
 
-  console.log("getBuilder", getBuilder?.flight_type ===  "round-trip");
+  console.log("getBuilder", getBuilder?.flight_type);
   
   return (
     <Box

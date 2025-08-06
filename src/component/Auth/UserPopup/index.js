@@ -5,6 +5,8 @@ import {
   Dialog,
   IconButton,
   DialogContent,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +54,9 @@ const UserPopup = (isChat) => {
     dispatch(setRegisterPopup(true));
   };
   const currentUser = useSelector((state) => state.base?.currentUser);
-  
+  const theme = useTheme();
+      const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+    
   return (
     <Dialog
       open={isUserPopup || getUser}
@@ -64,7 +68,7 @@ const UserPopup = (isChat) => {
       maxWidth="sm" // Set max width to 1280px
       fullWidth // Forces Dialog to expand to maxWidth
     >
-      {(!isChat?.isChat && !currentUser ) ? (
+      {!isChat?.isChat && !currentUser ? (
         <IconButton
           aria-label="close"
           onClick={handlePopupClose}
@@ -78,7 +82,9 @@ const UserPopup = (isChat) => {
         >
           <i className="fa fa-times" aria-hidden="true"></i>
         </IconButton>
-      ):""}
+      ) : (
+        ""
+      )}
 
       <DialogContent
         sx={{
@@ -87,7 +93,19 @@ const UserPopup = (isChat) => {
         }}
       >
         <Box mb={2} textAlign={"center"}>
-          <h3 className="mb-0">Welcome back!</h3>
+          <h3 sx={{mb:"12px"}}>
+          {isChat?.isChat ? (
+            isMobile ? "Don't loose your trip!" : "Don't loose your trip details!"
+          ) : (
+            "Welcome back!"
+          )}
+          </h3>
+          
+          {isChat?.isChat && (
+            <Typography>
+            {isMobile ? "Log in to save your trip details" : "Log in to save and find your information faster"}
+            </Typography>
+          )}
         </Box>
         <Box>
           <LoginWithOptions options={"Continue with"} />

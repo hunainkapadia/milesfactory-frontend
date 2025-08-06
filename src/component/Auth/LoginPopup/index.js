@@ -110,7 +110,9 @@ const LoginPopup = ({ isChat }) => {
             position={"relative"}
           >
             <Box textAlign={"center"} mb={2}>
-              <h3 className="">Welcome back!</h3>
+              <h3 className="">
+              Welcome back!
+              </h3>
             </Box>
 
             {/* LoginPopup  */}
