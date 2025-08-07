@@ -56,7 +56,7 @@ import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
 
-const Header = ({ isMessage, IsActive, isHome, isChat, isUser, isBuilder }) => {
+const Header = ({ isMessage, IsActive, isHome, isChat, isUser, isBuilder, isLandingPages }) => {
   console.log("isBuilder_isBuilder", isBuilder);
   
   const [isSticky, setIsSticky] = useState(false);
@@ -181,7 +181,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser, isBuilder }) => {
                     </Box>
                   </Box>
                 </Box>
-                {isMessage && isMobile ? <ShareDropdown /> : ""}
+                {isMessage && isMobile && isChat ? <ShareDropdown /> : ""}
 
                 <Box
                   sx={{

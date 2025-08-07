@@ -3,15 +3,15 @@ import { Container, Typography, Box, Link as MuiLink } from "@mui/material";
 import Header from "@/src/component/layout/Header";
 import Footer from "@/src/component/layout/Footer";
 import HerosectionSm from "@/src/component/layout/HerosectionSm";
-import styles from "@/src/styles/sass/components/baseLayout.module.scss";
+import styles from "@/src/styles/sass/components/Home.module.scss";
 
 const SanctionsPolicy = () => {
   return (
-    <main>
-      <Header isUser isMessage={"isMessage"} />
-      <section id="fold1" className={styles.HomeBanner}>
+    <Box component={"main"}>
+      <Header isUser isLandingPages={"isLandingPages"}  />
+      <Box component={"section"} id="fold1" className={` ${styles.PagesBanner}`}>
         <HerosectionSm heading={"Sanctions Compliance"} />
-      </section>
+      </Box>
 
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
@@ -151,7 +151,7 @@ const SanctionsPolicy = () => {
       </Box>
 
       <Footer partnerLogos forLight />
-    </main>
+    </Box>
   );
 };
 
