@@ -8,7 +8,9 @@
    padding: 0px;
    position: relative;
 
-
+      .ShareDropdownHandle {
+         padding: 10px 0;
+      }
    
 
    .DropdownItems {
@@ -239,6 +241,7 @@
       }
       .ShareDropdownHandle
        {
+         padding: 0;
          height: 60px;
       }
    }

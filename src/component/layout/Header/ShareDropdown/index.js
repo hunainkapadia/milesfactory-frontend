@@ -35,7 +35,7 @@ export default function ShareDropdown() {
         alignItems={"center"}
         gap={1}
         className={`${styles.ShareDropdownHandle} basecolor1`}
-        sx={{ cursor: "pointer", pb:{md:"10px", xs:"0"} }}
+        sx={{ cursor: "pointer",  }}
       >
         <Box className="imggroup">
           <Image
