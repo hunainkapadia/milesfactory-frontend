@@ -17,6 +17,16 @@ const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    clearGetMessages: (state) => {
+      state.SearchHistory
+      state.messages = [];
+      state.error = null;
+      state.isLoading = false;
+      state.flightExpire = "";
+      state.refreshSearch = "";
+      state.SearchHistoryGet = null;
+      state.topOfferUrl = null;
+    },
     setGetMessageUUID: (state, action)=> {
       console.log("action_000", action);
       
@@ -206,6 +216,7 @@ export const {
   setRefreshSearch,
   setSearchHistoryGet,
   setTopOfferUrl,
-  setGetMessageUUID
+  setGetMessageUUID,
+  clearGetMessages
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

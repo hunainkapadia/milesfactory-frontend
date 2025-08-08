@@ -10,7 +10,7 @@ import {
   offerkey
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { fetchMessages, setSearchHistoryGet } from "./GestMessageSlice";
+import { clearGetMessages, fetchMessages, setSearchHistoryGet } from "./GestMessageSlice";
 import { setThreadDrawer } from "./Base/baseSlice";
 
 const sendMessageSlice = createSlice({
@@ -407,16 +407,19 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 // for chat page header plus  icon
 export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
-  api
-    .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+  api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
 
       if (newUuid) {
         dispatch(setThreadUuid(newUuid));
 
-        // Clear all old chat data
-        dispatch(setClearChat());
+        // ✅ Clear old chat data in both slices
+        dispatch(setClearChat());     // from sendMessageSlice
+        dispatch(clearGetMessages());    // from getMessagesSlice
+        dispatch(setSearchHistorySend(null))
+        dispatch(setSearchHistoryGet(null))
+
         dispatch(setAddBuilder(null));
         dispatch(setSearchHistorySend(null));
         dispatch(setSelectedFlightKey(null));
@@ -426,12 +429,11 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(bookFlight(null));
         dispatch(setSingleFlightData(null));
 
-        // Optional: show "new thread" message placeholder
+        // Optional: placeholder for new thread
         dispatch(setMessage({ ai: { newThread: true } }));
 
-        // Save the new thread UUID in session storage if needed
-        // Only fetch messages if the new thread is supposed to have history
-        // dispatch(fetchMessages());
+        // ✅ Now fetch new messages for the new thread
+        dispatch(fetchMessages());
       }
     })
     .catch((err) => {
