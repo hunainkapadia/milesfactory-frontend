@@ -161,11 +161,7 @@ useEffect(() => {
 }, [currentUser, dispatch]);
 
 
- useEffect(() => {
-    if (sendMessages.length === 0) {
-      dispatch(fetchMessages());
-    }
-  }, [ dispatch]);
+ 
   return (
     <>
       <Box component={"main"}>

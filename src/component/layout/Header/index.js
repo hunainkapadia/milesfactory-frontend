@@ -112,15 +112,19 @@ const Header = ({
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   useEffect(() => {
-    if (uuid && isChat) {
-      alert("asas")
+    if (uuid && isHome) {
       router.push(`/chat/${uuid}`); //if uuid exist move to chat page
-      
     }
-  }, [uuid]);
+  }, [uuid, isHome]);
+  
   const HandleNewThread = () => {
+    if (uuid) {
+      router.push(`/chat/${uuid}`); //if uuid exist move to chat page
+    }
     dispatch(deleteAndCreateThread());
   };
+
+  
   const handleThreadDrawer = () => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer

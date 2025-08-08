@@ -30,6 +30,9 @@ const LoginPopup = ({ isChat }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginError = useSelector((state) => state.login.LoginError);
+
+  console.log("LoginError", LoginError?.other);
+  
   /// isform submit redirect to home
   const isFormSupmit = useSelector((state) => state.login.loginUser);
   const router = useRouter();
@@ -174,6 +177,9 @@ const LoginPopup = ({ isChat }) => {
                         {LoginError.password}
                       </Typography>
                     </Box>
+                    <Typography className="error" color="red">
+                        {LoginError?.other}
+                      </Typography>
                   </Box>
                 </Box>
                 <Box component={"section"}>
@@ -241,7 +247,7 @@ const LoginPopup = ({ isChat }) => {
                       pt={2}
                       gap={1}
                     >
-                      <Typography>Don’t have an account yet? </Typography>
+                      <Typography> Don’t have an account yet? </Typography>
                       <Typography
                         onClick={() => HandleSignup()}
                         className="basecolor1 cursor-pointer underline"
