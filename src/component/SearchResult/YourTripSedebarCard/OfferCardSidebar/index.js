@@ -141,7 +141,7 @@ const OfferCardSidebar = ({ index, slice }) => {
               className={TripStyles.airlineLogo}
             />
             <Box>
-              <Typography className="f14 mb-0 bold black ">
+              <Typography lineHeight={1} className="f14 mb-0 bold black ">
                 {slice?.segments[0]?.marketing_carrier?.name}
               </Typography>
               <Typography

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { event } from "@/src/utils/utils";
 
@@ -44,15 +44,15 @@ const FromAndToDetail = ({
     <>
       {/* === Header (One Way / Return + Flight Details Toggle) === */}
 
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        className={styles.FromandToHeader}
-      >
-        {/* sliceLength <= 1 */}
-        {getdata?.segments?.length > 1 ? (
-          <>
+      {/* sliceLength <= 1 */}
+      {getdata?.segments?.length > 1 ? (
+        <>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            className={styles.FromandToHeader}
+          >
             <Box display="flex">
               {sliceLength > 1 ? (
                 <Typography className={styles.onewayReturn}>
@@ -82,15 +82,13 @@ const FromAndToDetail = ({
                 </Box>
               </Box>
             </Box>
-          </>
-        ) : null}
-      </Box>
+          </Box>
+        </>
+      ) : null}
 
       {/* === Segment Details === */}
       <Box
-        className={`${styles.fromAndToContainer} ${
-          flightDetail ? styles.isBaggage : ""
-        }`}
+        className={`${styles.fromAndToContainer}`}
       >
         {flightDetail ? (
           <>
@@ -154,7 +152,10 @@ const FromAndToDetail = ({
                         gap={1}
                       >
                         <Box className={styles.Col1}>
-                          <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }} className=" mb-0">
+                          <Typography
+                            sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                            className=" mb-0"
+                          >
                             {firstSegment?.duration}
                           </Typography>
                         </Box>
@@ -172,17 +173,32 @@ const FromAndToDetail = ({
                             <>
                               {getdata.segments.map((segment) => (
                                 <div key={segment.id}>
-                                  <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                  <Typography
+                                    className="mb-0"
+                                    sx={{
+                                      fontSize: { lg: 14, md: 14, xs: 12 },
+                                    }}
+                                  >
                                     {segment.marketing_carrier?.iata_code}-
                                     {segment.marketing_carrier_flight_number}{" "}
                                     {segment.marketing_carrier?.name}
                                   </Typography>
-                                  <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
+                                  <Typography
+                                    sx={{
+                                      fontSize: { lg: 14, md: 14, xs: 12 },
+                                    }}
+                                  >
                                     {segment.aircraft?.name}
                                   </Typography>
-                                 {segment.marketing_carrier?.name !== segment.operating_carrier?.name ? (
-                                    <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                      Operated by {segment.operating_carrier?.name}
+                                  {segment.marketing_carrier?.name !==
+                                  segment.operating_carrier?.name ? (
+                                    <Typography
+                                      sx={{
+                                        fontSize: { lg: 14, md: 14, xs: 12 },
+                                      }}
+                                    >
+                                      Operated by{" "}
+                                      {segment.operating_carrier?.name}
                                     </Typography>
                                   ) : null}
                                 </div>
@@ -247,7 +263,8 @@ const FromAndToDetail = ({
             {getdata?.segments?.length > 1 && (
               <Box
                 className={
-                  styles.multiSegmentDetails + " fromAndToBodyNosegment seeDetail"
+                  styles.multiSegmentDetails +
+                  " fromAndToBodyNosegment seeDetail"
                 }
               >
                 {getdata?.segments?.map((segment, index) => (
@@ -333,28 +350,44 @@ const FromAndToDetail = ({
                             gap={1}
                           >
                             <Box className={styles.Col1}>
-                              <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }} className=" mb-0">
+                              <Typography
+                                sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                                className=" mb-0"
+                              >
                                 {segment?.duration}
                               </Typography>
                             </Box>
                             <Box className={styles.Col2 + " col2-e"}>
-                              <Typography className="mb-0" sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment.marketing_carrier?.iata_code}-
-                                    {segment.marketing_carrier_flight_number}{" "}
-                                    {segment.marketing_carrier?.name}
-                                  </Typography>
-                                   <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                    {segment.aircraft?.name}
-                                  </Typography>
-                                 {segment.marketing_carrier?.name !== segment.operating_carrier?.name ? (
-                                    <Typography sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}>
-                                      Operated by {segment.operating_carrier?.name}
-                                    </Typography>
-                                  ) : null}   
+                              <Typography
+                                className="mb-0"
+                                sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                              >
+                                {segment.marketing_carrier?.iata_code}-
+                                {segment.marketing_carrier_flight_number}{" "}
+                                {segment.marketing_carrier?.name}
+                              </Typography>
+                              <Typography
+                                sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                              >
+                                {segment.aircraft?.name}
+                              </Typography>
+                              {segment.marketing_carrier?.name !==
+                              segment.operating_carrier?.name ? (
+                                <Typography
+                                  sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                                >
+                                  Operated by {segment.operating_carrier?.name}
+                                </Typography>
+                              ) : null}
                             </Box>
                             <Box className={styles.Col3}>
                               <Box className={styles.airlineLogo + " imggroup"}>
-                                <img src={segment.marketing_carrier?.logo_symbol_url} alt="Airline logo" />
+                                <img
+                                  src={
+                                    segment.marketing_carrier?.logo_symbol_url
+                                  }
+                                  alt="Airline logo"
+                                />
                               </Box>
                             </Box>
                           </Box>
@@ -407,7 +440,7 @@ const FromAndToDetail = ({
           </>
         )}
       </Box>
-
+      
       {/* === Baggage Info === */}
       <Box className={styles.fromAndToBodyBottom + " "}>
         <Box mb={2}>
@@ -441,7 +474,11 @@ const FromAndToDetail = ({
                   mb={1}
                   className={styles.normalOption}
                 >
-                  <Box className={styles.BaggageIcon + " opacity-50 "} display={"flex"} alignItems={"center"}>
+                  <Box
+                    className={styles.BaggageIcon + " opacity-50 "}
+                    display={"flex"}
+                    alignItems={"center"}
+                  >
                     <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
                   <Typography className="f12 black ">
@@ -466,7 +503,11 @@ const FromAndToDetail = ({
                     mb={2}
                     className={styles.normalOption}
                   >
-                    <Box className={styles.BaggageIcon + " opacity-50 "} display={"flex"} alignItems={"center"}>
+                    <Box
+                      className={styles.BaggageIcon + " opacity-50 "}
+                      display={"flex"}
+                      alignItems={"center"}
+                    >
                       <img
                         width={14}
                         src={
