@@ -416,10 +416,13 @@ export const deleteAndCreateThread =
       .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
       .then((newThreadRes) => {
         const newUuid = newThreadRes.data.uuid;
-        if (newUuid) {
-          dispatch(setThreadUuid(newUuid));
-          sessionStorage.setItem("chat_thread_uuid", newUuid);
 
+        
+        if (newUuid) {
+          console.log("newUuid", newUuid);
+          
+          dispatch(setThreadUuid(newUuid));
+          
           // Dispatch the welcome message (deleteThread message)
           dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
           dispatch(setAddBuilder(null)); //builder clear on new thread
@@ -432,8 +435,6 @@ export const deleteAndCreateThread =
           dispatch(bookFlight(null)); // Pass flight ID to bookFlight
           dispatch(setSingleFlightData(null));
           dispatch(fetchMessages(null))
-
-          sessionStorage.removeItem("chat_thread_uuid");
             dispatch(
               setMessage({
                 ai: {
