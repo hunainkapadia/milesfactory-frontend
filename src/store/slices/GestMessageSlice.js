@@ -56,15 +56,20 @@ const GetMessagesSlice = createSlice({
 
 export const fetchMessages = () => (dispatch, getState) => {
   const state = getState();
-  const uuid =  state?.getMessages?.getMessageUUID
+  // const uuid =  state?.getMessages?.getMessageUUID
   
-  
+  // Get the current URL path
+  const pathname = window.location.pathname;
+
+  // Extract only the UUID after /chat/ and remove anything after it
+  const threadUUID = pathname.split("/chat/")[1]?.split("/")[0]?.split("?")[0] || "";
+
   dispatch(setIsLoading(true));
-  const localUUID = sessionStorage.getItem("chat_thread_uuid");
-  
-  
-  const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${uuid}`
-  console.log("state_getmess", threadUrl);
+
+  // Use only the UUID in the API URL
+  const threadUrl = `/api/v1/chat/get-messages/${threadUUID}`;
+  console.log("threadUrl", threadUrl);
+
   
   api
   .get(threadUrl)

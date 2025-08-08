@@ -10,7 +10,7 @@ import {
   offerkey
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { setSearchHistoryGet } from "./GestMessageSlice";
+import { fetchMessages, setSearchHistoryGet } from "./GestMessageSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -455,6 +455,7 @@ export const deleteAndCreateThread =
           dispatch(setMessage({ ai: { passengerFlowRes: false } }));
           dispatch(bookFlight(null)); // Pass flight ID to bookFlight
           dispatch(setSingleFlightData(null));
+          dispatch(fetchMessages(null))
 
           sessionStorage.removeItem("chat_thread_uuid");
 
@@ -477,6 +478,8 @@ export const deleteAndCreateThread =
         console.error("Failed to create new thread", err);
       });
   };
+
+
 
 export const OnlydeleteChatThread =
   (followUpMessage = null) =>

@@ -154,6 +154,13 @@ useEffect(() => {
     dispatch(setisUserPopup(true)); // force login if not logged in
   }
 }, [currentUser, dispatch]);
+
+
+ useEffect(() => {
+    if (sendMessages.length === 0) {
+      dispatch(fetchMessages());
+    }
+  }, [ dispatch]);
   return (
     <>
       <Box component={"main"}>

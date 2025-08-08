@@ -14,6 +14,8 @@ import { setThreadDrawer } from "@/src/store/slices/Base/baseSlice";
 import Link from "next/link";
 import api from "@/src/store/api";
 import { useRouter } from "next/router";
+import { historySingleThread, setThreadUuid } from "@/src/store/slices/sendMessageSlice";
+import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
 
 const ThreadDrawer = () => {
   const dispatch = useDispatch();
@@ -116,10 +118,18 @@ const ThreadDrawer = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const router = useRouter();
+  const geturlUUID = useSelector((state) => state?.sendMessage?.threadUuid);
+
   const HandleSingleThread = (threaduuid) => {
     dispatch(setThreadDrawer(false));
     if (threaduuid) {
-      router.replace(`/chat/${threaduuid}?reload=${Date.now()}`);
+      console.log("drawer_thread_uuid", threaduuid);
+      dispatch(setThreadUuid(threaduuid)) //set uuid if uuid exist logic in header to redirect to chat
+      if (geturlUUID) {
+        dispatch(fetchMessages())
+      }
+       // get message call
+      // router.replace(`/chat/${threaduuid}}`);
     }
   };
   const isloading = useSelector((state) => state.base.isloading);

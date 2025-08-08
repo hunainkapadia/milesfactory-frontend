@@ -113,6 +113,7 @@ const Header = ({
   useEffect(() => {
     if (uuid) {
       router.push(`/chat/${uuid}`);
+      
     }
   }, [uuid]);
   const HandleNewThread = () => {

@@ -57,6 +57,8 @@ const UserPopup = (isChat) => {
   const theme = useTheme();
       const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
     
+      console.log("getUser", currentUser);
+      
   return (
     <Dialog
       open={isUserPopup || getUser}
