@@ -102,7 +102,8 @@ const Header = ({
   // book a trip new thread
 
   const HandleBookThread = () => {
-    dispatch(createThreadAndRedirect(router));
+    dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
+
   };
 
   // delete and create thread and show message chat clear
@@ -112,7 +113,7 @@ const Header = ({
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   useEffect(() => {
     if (uuid) {
-      router.push(`/chat/${uuid}`);
+      router.push(`/chat/${uuid}`); //if uuid exist move to chat page
       
     }
   }, [uuid]);

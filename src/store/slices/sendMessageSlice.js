@@ -403,38 +403,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 
 // create thread api call
-export const createThreadAndRedirect = (router) => (dispatch, getState) => {
-  const getuser = getState()?.base?.currentUser?.user;
-
-  console.log("getuser_chat", getuser);
-
-  api
-    .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
-    .then((res) => {
-      const uuid = res.data.uuid;
-      if (uuid) {
-        dispatch(setThreadUUIDsend(uuid));
-        dispatch(
-          setMessage({
-            ai: {
-              newThread: true,
-            },
-          })
-        );
-
-        router.push(`/chat/${uuid}`);
-      }
-    })
-    .catch((error) => {
-      console.error("Failed to create thread:", error);
-    });
-};
 
 // for chat page header plus  icon
 export const deleteAndCreateThread =
-  (followUpMessage = null) =>
+  ( isMessage) =>
   (dispatch, getState) => {
     const getuser = getState()?.base?.currentUser?.user;
+
+    
 
     api
       .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
@@ -458,20 +434,17 @@ export const deleteAndCreateThread =
           dispatch(fetchMessages(null))
 
           sessionStorage.removeItem("chat_thread_uuid");
-
-          dispatch(
-            setMessage({
-              ai: {
-                deleteThread: `Hello ${getuser?.first_name ?? "there"} ${
-                  getuser?.last_name ?? ""
-                }, I'm Mylz. How can I help you?`,
-              },
-            })
-          );
-
-          if (followUpMessage) {
-            dispatch(sendMessage(followUpMessage)); // Send the follow-up message if exists.
-          }
+            dispatch(
+              setMessage({
+                ai: {
+                  newThread: true,
+                },
+              })
+            );
+          
+          
+          // dispatch(sendMessage(followUpMessage)); // Send the follow-up message if exists.
+          
         }
       })
       .catch((err) => {
