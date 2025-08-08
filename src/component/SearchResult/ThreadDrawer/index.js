@@ -22,77 +22,72 @@ const ThreadDrawer = () => {
   const ThreadDrawerOpen = useSelector((state) => state.base.ThreadDrawer);
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
 
+
+  console.log("ThreadData", ThreadData);
+  
+
   const HandlecloseDrawer = () => {
     dispatch(setThreadDrawer(false));
   };
 
   const groupRecordsByDate = (data) => {
-    const today = new Date();
+  // Sort by created_date DESC so newest is first
+  const sortedData = [...data].sort(
+    (a, b) => new Date(b.created_date) - new Date(a.created_date)
+  );
 
-    const startOfToday = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
-    const startOfYesterday = new Date(startOfToday);
-    startOfYesterday.setDate(startOfToday.getDate() - 1);
+  const today = new Date();
 
-    const startOf7DaysAgo = new Date(startOfToday);
-    startOf7DaysAgo.setDate(startOfToday.getDate() - 7);
+  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const startOfYesterday = new Date(startOfToday);
+  startOfYesterday.setDate(startOfToday.getDate() - 1);
 
-    const startOf30DaysAgo = new Date(startOfToday);
-    startOf30DaysAgo.setDate(startOfToday.getDate() - 30);
+  const startOf7DaysAgo = new Date(startOfToday);
+  startOf7DaysAgo.setDate(startOfToday.getDate() - 7);
 
-    const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const startOf30DaysAgo = new Date(startOfToday);
+  startOf30DaysAgo.setDate(startOfToday.getDate() - 30);
 
-    const group = {
-      today: [],
-      yesterday: [],
-      last7Days: [],
-      last30Days: [],
-      lastMonth: [],
-      older: [],
-    };
+  const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 
-    data.forEach((item) => {
-      const itemDate = new Date(item.created_date);
-
-      // Normalize itemDate to local timezone before truncating to midnight
-      const localDate = new Date(
-        itemDate.getTime() + itemDate.getTimezoneOffset() * 60000
-      );
-      const itemDay = new Date(
-        localDate.getFullYear(),
-        localDate.getMonth(),
-        localDate.getDate()
-      );
-
-      if (itemDay.getTime() === startOfToday.getTime()) {
-        
-        group.today.push(item);
-      } else if (itemDay.getTime() === startOfYesterday.getTime()) {
-        
-        group.yesterday.push(item);
-      } else if (itemDay >= startOf7DaysAgo) {
-        
-        group.last7Days.push(item);
-      } else if (itemDay >= startOf30DaysAgo) {
-        
-        group.last30Days.push(item);
-      } else if (
-        itemDay.getMonth() === lastMonth.getMonth() &&
-        itemDay.getFullYear() === lastMonth.getFullYear()
-      ) {
-        
-        group.lastMonth.push(item);
-      } else {
-        
-        group.older.push(item);
-      }
-    });
-
-    return group;
+  const group = {
+    today: [],
+    yesterday: [],
+    last7Days: [],
+    last30Days: [],
+    lastMonth: [],
+    older: [],
   };
+
+  sortedData.forEach((item) => {
+    const itemDate = new Date(item.created_date);
+
+    const localDate = new Date(
+      itemDate.getTime() + itemDate.getTimezoneOffset() * 60000
+    );
+    const itemDay = new Date(localDate.getFullYear(), localDate.getMonth(), localDate.getDate());
+
+    if (itemDay.getTime() === startOfToday.getTime()) {
+      group.today.push(item);
+    } else if (itemDay.getTime() === startOfYesterday.getTime()) {
+      group.yesterday.push(item);
+    } else if (itemDay >= startOf7DaysAgo) {
+      group.last7Days.push(item);
+    } else if (itemDay >= startOf30DaysAgo) {
+      group.last30Days.push(item);
+    } else if (
+      itemDay.getMonth() === lastMonth.getMonth() &&
+      itemDay.getFullYear() === lastMonth.getFullYear()
+    ) {
+      group.lastMonth.push(item);
+    } else {
+      group.older.push(item);
+    }
+  });
+
+  return group;
+};
+
 
   const groupedRecords = groupRecordsByDate(ThreadData || []);
 
@@ -106,13 +101,15 @@ const ThreadDrawer = () => {
   };
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
+  return new Date(date).toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true, // 12-hour format, set to false for 24-hour
+  });
+};
   const theme = useTheme();
   // Check if the screen size is "small" or below (mobile)
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -222,6 +219,7 @@ const ThreadDrawer = () => {
                     <Typography className="f12 exbold" pb={2}>
                       {groupLabels[groupKey]}
                     </Typography>
+                    {console.log('records', records)}
                     {records.map((item, i) => (
                       <>
                         <Box
@@ -233,6 +231,7 @@ const ThreadDrawer = () => {
                         >
                           <Typography className="f12">
                             {formatDate(item.created_date)}
+                            
                           </Typography>
                         </Box>
                       </>
