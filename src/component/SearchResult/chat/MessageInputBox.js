@@ -99,7 +99,7 @@ const MessageInputBox = ({
       inputRef.current.textContent = "";
     }
 
-    dispatch(sendMessage(inputValue)); // This handles both creating & sending
+    dispatch(sendMessage(inputValue)); // This handles both creating & sending 
 
     resetTranscript();
     setIsTyping(false);
@@ -146,10 +146,9 @@ const MessageInputBox = ({
   const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
   const isPolling = checkPolling?.ai?.is_complete;
 
-  // const HandleNewThread = () => {
-  //   alert("test")
-  //   dispatch(deleteAndCreateThread());
-  // };
+  const HandleNewThread = () => {
+    dispatch(deleteAndCreateThread());
+  };
 
   useEffect(() => {
     if (inputRef.current) {

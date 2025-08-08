@@ -131,7 +131,7 @@ const SidebarTripDetails = ({ id }) => {
         <Stack
           direction="row"
           flexWrap="wrap"
-          alignItems="center"
+          alignItems="flex-start"
           justifyContent={"space-between"}
         >
           <Stack alignItems="center" textAlign={"center"}>

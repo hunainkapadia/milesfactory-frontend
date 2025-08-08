@@ -33,7 +33,7 @@ export default function ShareDropdown() {
       <Box
         display={"flex"}
         alignItems={"center"}
-        gap={1}
+        gap={"4px"}
         className={`${styles.ShareDropdownHandle} basecolor1`}
         sx={{ cursor: "pointer",  }}
       >

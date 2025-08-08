@@ -417,30 +417,28 @@ export const deleteAndCreateThread =
       .then((newThreadRes) => {
         const newUuid = newThreadRes.data.uuid;
 
-        
-         if (newUuid) {
-        dispatch(setThreadUuid(newUuid));
+        if (newUuid) {
+          dispatch(setThreadUuid(newUuid));
+          // Clear all old chat data
+          dispatch(setClearChat());
+          dispatch(setAddBuilder(null));
+          dispatch(setSearchHistorySend(null));
+          dispatch(setSelectedFlightKey(null));
+          dispatch(setflightDetail(null));
+          dispatch(setViewPassengers([]));
+          dispatch(setOrderUuid(null));
+          dispatch(bookFlight(null));
+          dispatch(setSingleFlightData(null));
 
-        // Clear all old chat data
-        dispatch(setClearChat());
-        dispatch(setAddBuilder(null));
-        dispatch(setSearchHistorySend(null));
-        dispatch(setSelectedFlightKey(null));
-        dispatch(setflightDetail(null));
-        dispatch(setViewPassengers([]));
-        dispatch(setOrderUuid(null));
-        dispatch(bookFlight(null));
-        dispatch(setSingleFlightData(null));
+          // Optional: show "new thread" message placeholder
+          dispatch(setMessage({ ai: { newThread: true } }));
 
-        // Optional: show "new thread" message placeholder
-        dispatch(setMessage({ ai: { newThread: true } }));
+          // Save the new thread UUID in session storage if needed
+          sessionStorage.setItem("chat_thread_uuid", newUuid);
 
-        // Save the new thread UUID in session storage if needed
-        sessionStorage.setItem("chat_thread_uuid", newUuid);
-
-        // Only fetch messages if the new thread is supposed to have history
-        // dispatch(fetchMessages());
-      }
+          // Only fetch messages if the new thread is supposed to have history
+          // dispatch(fetchMessages());
+        }
       })
       .catch((err) => {
         console.error("Failed to create new thread", err);

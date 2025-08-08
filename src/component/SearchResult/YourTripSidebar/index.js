@@ -55,11 +55,12 @@ const YourTripSidebar = ({ isMessage }) => {
               pt={"20px"}
               pb={"13px"}
             >
-              <Box gap={1} display={"flex"} alignItems={"center"}>
+              <Box gap={"3px"} display={"flex"} alignItems={"center"}>
                 <Box className=" imggroup">
                   <img src="/images/builder-icon.svg" />
                 </Box>
-                <Typography className="basecolor1 mb-0 bold">
+                
+                <Typography sx={{pt:"6px"}} className="basecolor1 mb-0 exbold">
                   Builder
                 </Typography>
               </Box>
