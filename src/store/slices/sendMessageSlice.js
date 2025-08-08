@@ -7,6 +7,7 @@ import {
   setflightDetail,
   setSelectedFlightKey,
   setSingleFlightData,
+  offerkey
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import { setSearchHistoryGet } from "./GestMessageSlice";
@@ -16,6 +17,7 @@ const sendMessageSlice = createSlice({
   initialState: {
     messages: [],
     isLoading: false,
+    inputLoading: false,
     AllFlightPostApi: null, // Store all flight search results here
     SearchHistorySend: null,
     ThreadUUIDsend: null,
@@ -33,8 +35,12 @@ const sendMessageSlice = createSlice({
     },
     AddBuilder: null,
     noMoreFlights:false,
+    threadUuid: null,
   },
   reducers: {
+    setInputLoading: (state, action) => {
+      state.inputLoading = action.payload;
+    },
     setNoMoreFlights: (state, action) => {
       state.noMoreFlights = action.payload;
     },
@@ -124,11 +130,6 @@ const sendMessageSlice = createSlice({
     },
     setThreadUUIDsend: (state, action) => {
       state.ThreadUUIDsend = action.payload;
-      if (action.payload) {
-        sessionStorage.setItem("chat_thread_uuid", action.payload);
-      } else {
-        // sessionStorage.removeItem("chat_thread_uuid");
-      }
     },
     setClearChat: (state) => {
       state.messages = [];
@@ -138,35 +139,13 @@ const sendMessageSlice = createSlice({
   },
 });
 
-export const createThread = () => (dispatch) => {
-  //console.log("thread_uuid");
-
-  api
-    .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
-    .then((thread_res) => {
-      const uuid = thread_res.data.uuid;
-      //console.log("thread_response", uuid);
-      sessionStorage.setItem("chat_thread_uuid", uuid);
-      dispatch(setThreadUuid(uuid));
-      dispatch(setThreadUUIDsend(uuid));
-    })
-    .catch((err) => {
-      console.error("Thread creation failed", err);
-    });
-};
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
-  let ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
-    
-  const path = window.location.pathname;
-  const segments = path.split('/'); 
-  const threadIdFromUrl = segments.length > 2 ? segments[2] : null; 
-
-  if (threadIdFromUrl) {
-    dispatch(setThreadUuid(threadIdFromUrl));
-    dispatch(setThreadUUIDsend(threadIdFromUrl));
-    ThreadUUIDsendState = getState().sendMessage.ThreadUUIDsend;
-  }
+  dispatch(setInputLoading(true));
+  const pathname = window.location.pathname;
+  // Extract the UUID after /chat/
+  const threadUUID = pathname.split("/chat/")[1];
+  console.log("pathname_00:", threadUUID);
   
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
@@ -390,15 +369,16 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     };
   };
 
-  //  Check if thread UUID already exists
-  if (ThreadUUIDsendState) {
-    sendToThread(ThreadUUIDsendState);
+  //  Check if thread UUID already exists set from url to sendToThread
+  if (threadUUID) {
+    sendToThread(threadUUID); // set in function for next chat flow
   } else {
     // Only create a new thread if one doesn't exist
     api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res) => {
       const uuid = thread_res.data.uuid;
-      dispatch(setThreadUUIDsend(uuid));
-      sendToThread(uuid);
+      dispatch(setInputLoading(false));
+      dispatch(setThreadUuid(uuid)); // set for 1st chat url 
+      sendToThread(uuid); // set in function for next chat flow 
     });
   }
 };
@@ -579,6 +559,7 @@ export const {
   setIsFunction,
   setFilterUrl,
   setAddBuilder,
-  setNoMoreFlights
+  setNoMoreFlights,
+  setInputLoading
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

@@ -29,7 +29,9 @@ const ChatByUUID = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { uuid } = router.query;
+  const { uuid } = router;
+  console.log("uuid_url", uuid);
+  
   const messagesEndRef = useRef(null);
   const [hasFlightOffers, sethasFlightOffers] = useState(null);
   const chatBodyRef = useRef(null);
@@ -78,16 +80,7 @@ const ChatByUUID = () => {
       threshold
     );
   };
-  useEffect(() => {
-    if (!router.isReady) return; // Wait for router to be ready
-    if (typeof uuid === "string" && uuid.trim() !== "") {
-      dispatch(setGetMessageUUID(uuid));
-    }
-
-    if (sendMessages.length === 0) {
-      dispatch(fetchMessages());
-    }
-  }, [router.isReady, uuid, dispatch]);
+  
 
   // chat scroll
   // scroll messge chat

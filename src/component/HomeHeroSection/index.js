@@ -34,7 +34,7 @@ const HomeHeroSection = () => {
             {/* ////////////////////////// Search Box start ////////////////////////// */}
               
             <Container>
-              <MessageInputBox />
+              <MessageInputBox isHomePage={"isHomePage"} />
                 <>
                   <Box
                     display={"none"}

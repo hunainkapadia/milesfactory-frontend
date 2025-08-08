@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import MicAnimation from "../ChatInput/MicAnimation";
@@ -14,6 +15,7 @@ import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.
 import LabelAnimation from "../../home/LabelAnimation";
 import { event } from "@/src/utils/utils";
 import {
+  createThread,
   deleteAndCreateThread,
   sendMessage,
 } from "@/src/store/slices/sendMessageSlice";
@@ -31,9 +33,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import MobileBuilder from "../ChatInput/mobileBuilderBUtton";
 import MobileBuilderDialoge from "../ChatInput/MobileBuilderDialoge";
+import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 
 const MessageInputBox = ({
   isMessageHome,
+  isHomePage,
   isSticky,
   HeaderInput,
   messagesEndRef,
@@ -60,14 +64,16 @@ const MessageInputBox = ({
   );
   const isMessage = sendMessages > 0 || getmessages > 0;
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
+  
+  console.log("inputLoading", inputLoading);
+  
 
   const inputValue = useSelector((state) => state.base.inputValue); //get input value
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder); // builder
-  useEffect(() => {
-    const storedUuid = sessionStorage.getItem("chat_thread_uuid");
-
-    setGetuuid(storedUuid);
-  }, []);
+  
+  console.log("uuid_00", uuid);
+  
 
   // Using react-speech-recognition hook
   const {
@@ -86,27 +92,32 @@ const MessageInputBox = ({
   }, [transcript]);
 
   const handleSearch = () => {
-    dispatch(setInputValue(inputValue)); // inputvalue set in redux state
-    dispatch(clearInputValue()); // clear input value
     if (!inputValue.trim()) return;
-    if (inputRef.current) inputRef.current.textContent = "";
 
-    dispatch(sendMessage(inputValue));
+    dispatch(setInputValue(inputValue));
+    dispatch(clearInputValue());
+
+    if (inputRef.current) {
+      inputRef.current.textContent = "";
+    }
+
+    dispatch(sendMessage(inputValue)); // This handles both creating & sending
+
     resetTranscript();
     setIsTyping(false);
-    if (!uuid) return null; // Skip rendering or logic
 
-    // Only runs when uuid is defined
-    //Push GA event
     event({
       action: 'click',
       category: 'engagement',
       label: 'chat_message_sent',
     });
-    console.log("chat_message_sent");
-
-    router.push(`/chat/${uuid}`);
   };
+  useEffect(() => {
+    if (uuid) {
+      router.push(`/chat/${uuid}`);
+    }
+  }, [uuid]);
+
 
   console.log("listening", listening);
   const handleVoiceInput = () => {
@@ -169,10 +180,6 @@ const MessageInputBox = ({
     }
   }, [inputValue]);
 
-  // new thread handel
-  const HandleNewThread = () => {
-    dispatch(deleteAndCreateThread());
-  };
   return (
     <>
       <Box
@@ -329,6 +336,15 @@ const MessageInputBox = ({
                     )}
                   </Box>
                 </Box>
+                {inputLoading && isHomePage && (
+                  <Box sx={{position:"absolute", right:"15px", top:"15px"}}>
+                    <CircularProgress
+                      size={20}
+                      color="inherit"
+                      sx={{ color: "#fff" }}
+                    />
+                  </Box>
+                )}
 
                 {/* {!isPolling && !FlightExpire ? (
                   <>
