@@ -31,7 +31,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
     
   };
   const dispatch = useDispatch();
-  const handleThreadDrawer = () => {
+  const handleThreadDrawerMobile = () => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
@@ -394,7 +394,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                         }}
                         alignItems="center"
                         gap={2}
-                        onClick={handleThreadDrawer}
+                        onClick={handleThreadDrawerMobile}
                       >
                         <Box
                           className="imggroup"

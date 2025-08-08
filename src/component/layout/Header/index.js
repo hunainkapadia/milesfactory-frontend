@@ -135,7 +135,7 @@ const Header = ({
   return (
     <>
       <Head></Head>
-      <ThreadDrawer />
+      
       <Box
         component={"header"}
         className={`
@@ -365,6 +365,7 @@ const Header = ({
       </Box>
 
       {/* extra content for  */}
+      
       <MobileNavDrawer
         isDrawerOpen={isDrawerOpen}
         toggleDrawer={toggleDrawer}
@@ -381,6 +382,7 @@ const Header = ({
       <Feedback />
       <ContactDialog />
       <InviteEmailDialog />
+      <ThreadDrawer />
     </>
   );
 };
