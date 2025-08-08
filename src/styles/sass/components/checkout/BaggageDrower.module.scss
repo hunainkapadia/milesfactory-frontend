@@ -7,6 +7,13 @@
     
     overflow-y: auto;
     .ThreadDrawerBody {}
+    .ThreadDrawerItem {
+      padding: 10px 10px;
+      &:hover {
+        background-color: $lightgray3;
+        border-radius: 20px;
+      }
+    }
   }
 }
 .BaggageDrawer {

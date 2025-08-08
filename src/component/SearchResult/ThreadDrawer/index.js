@@ -150,9 +150,9 @@ const ThreadDrawer = () => {
           alignItems={"center"}
           sx={{ display: { lg: "none", md: "none", xs: "flex" } }}
           gap={2}
-          px={2}
           pt={1}
           pb={3}
+          
         >
           {/* Close Button */}
           <Box fontSize={"20px"}>
@@ -176,7 +176,7 @@ const ThreadDrawer = () => {
           <Grid
             container
             className={styles.checkoutDrowerHeder}
-            px={3}
+            
             alignItems="center"
             justifyContent="space-between"
             sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
@@ -186,7 +186,8 @@ const ThreadDrawer = () => {
                 display="flex"
                 justifyContent="flex-end"
                 alignItems="center"
-                pt={3}
+                pt={"19px"}
+                px={"24px"}
               >
                 <Box
                   onClick={HandlecloseDrawer}
@@ -210,33 +211,35 @@ const ThreadDrawer = () => {
               <CircularProgress color="primary" />
             </Box>
           ) : (
-            <Box px={3}>
+            <Box>
               {Object.keys(groupedRecords).map((groupKey) => {
                 const records = groupedRecords[groupKey];
                 if (records.length === 0) return null;
 
                 return (
                   <Box key={groupKey} pb={3}>
+                  <Box px={"24px"}>
                     <Typography className="f12 exbold" pb={2}>
                       {groupLabels[groupKey]}
                     </Typography>
-                    
-                    {records.map((item, i) => (
-                      <>
-                        <Box
-                          key={item.uuid}
-                          onClick={() => HandleSingleThread(item.uuid)}
-                          className={"cursor-pointer"}
-                          sx={{ textDecoration: "none" }}
-                          pb={2}
-                        >
-                          <Typography className="f12">
-                            {formatDate(item.created_date)}
-                            
-                          </Typography>
-                        </Box>
-                      </>
-                    ))}
+                  </Box>
+                    <Box px={"14px"}>
+                      {records.map((item, i) => (
+                        <>
+                          <Box
+                            key={item.uuid}
+                            onClick={() => HandleSingleThread(item.uuid)}
+                            className={styles.ThreadDrawerItem + " cursor-pointer"}
+                            sx={{ textDecoration: "none" }}
+                          >
+                            <Typography className="f12">
+                              {formatDate(item.created_date)}
+                              
+                            </Typography>
+                          </Box>
+                        </>
+                      ))}
+                    </Box>
                   </Box>
                 );
               })}
