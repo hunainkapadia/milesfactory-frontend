@@ -18,6 +18,7 @@ const sendMessageSlice = createSlice({
   initialState: {
     messages: [],
     isLoading: false,
+    newChatLoading: false,
     inputLoading: false,
     AllFlightPostApi: null, // Store all flight search results here
     SearchHistorySend: null,
@@ -106,6 +107,9 @@ const sendMessageSlice = createSlice({
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    setNewChatLoading: (state, action) => {
+      state.newChatLoading = action.payload;
+    },
     setMessage: (state, action) => {
       const newMessage = action.payload;
 
@@ -135,7 +139,6 @@ const sendMessageSlice = createSlice({
     setClearChat: (state) => {
       state.messages = [];
       state.ThreadUUIDsend = null;
-      sessionStorage.removeItem("chat_thread_uuid");
     },
   },
 });
@@ -407,21 +410,22 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 // for chat page header plus  icon
 export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
+  dispatch(setNewChatLoading(true));
   api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
-
+      console.log("newUuid", newUuid);
+      
       if (newUuid) {
         dispatch(setThreadUuid(newUuid));
 
-        // ✅ Clear old chat data in both slices
+        //  Clear old chat data in both slices
         dispatch(setClearChat());     // from sendMessageSlice
         dispatch(clearGetMessages());    // from getMessagesSlice
         dispatch(setSearchHistorySend(null))
         dispatch(setSearchHistoryGet(null))
 
         dispatch(setAddBuilder(null));
-        dispatch(setSearchHistorySend(null));
         dispatch(setSelectedFlightKey(null));
         dispatch(setflightDetail(null));
         dispatch(setViewPassengers([]));
@@ -433,7 +437,8 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setMessage({ ai: { newThread: true } }));
 
         // ✅ Now fetch new messages for the new thread
-        dispatch(fetchMessages());
+        dispatch(setNewChatLoading(false));
+
       }
     })
     .catch((err) => {
@@ -524,6 +529,7 @@ export const {
   setFilterUrl,
   setAddBuilder,
   setNoMoreFlights,
-  setInputLoading
+  setInputLoading,
+  setNewChatLoading
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

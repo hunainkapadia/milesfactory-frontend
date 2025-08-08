@@ -112,7 +112,7 @@ const AiBookingMainHeader = ({
   return (
     <>
       <Head></Head>
-      {/* <ThreadDrawer /> */}
+      <ThreadDrawer />
       <Box
         sx={{
           display: {

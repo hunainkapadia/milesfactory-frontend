@@ -9,6 +9,7 @@ import {
 import { useRouter } from "next/router";
 import {
   Box,
+  CircularProgress,
   Container,
   Grid,
   IconButton,
@@ -45,6 +46,10 @@ const ChatByUUID = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
+  const newChatLoading = useSelector((state) => state.sendMessage?.newChatLoading);
+  console.log("newChatLoading", newChatLoading);
+  
+
 
   // scroll on click select direct
   const ChatScroll = useSelector((state) => state.base.Chatscroll);
@@ -167,12 +172,6 @@ useEffect(() => {
         {isMobile && (
           <>
             <Header isMessage={isMessage} isChat />
-            <Box
-              className="w-100"
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            ></Box>
           </>
         )}
         <Box
@@ -183,6 +182,7 @@ useEffect(() => {
           }
         >
           {!isMobile && <Header isMessage={isMessage} isChat />}
+          {/* {isLoading ? "isLoading" : "is not Loading "} */}
           <Box className={styles.ChatBody} ref={chatBodyRef}>
             <Container className={styles.Container}>
               <Grid container width={"100%"} sx={{ margin: 0 }}>
@@ -193,6 +193,23 @@ useEffect(() => {
                   lg={7.3}
                   xs={12}
                 >
+                  {newChatLoading && (
+                    <Box
+                      sx={{
+                        position: "fixed", // covers whole viewport
+                        inset: 0, // top:0; right:0; bottom:0; left:0
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "rgba(0, 0, 0, 0.2)", // dim background
+                        zIndex: 2000, // above everything else
+                      }}
+                      aria-live="polite"
+                      role="status"
+                    >
+                      <CircularProgress sx={{ color: '#fff' }} size={40} />
+                    </Box>
+                  )}
                   <Messages />
                 </Grid>
                 <Grid
