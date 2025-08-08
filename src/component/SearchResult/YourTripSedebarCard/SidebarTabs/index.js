@@ -51,6 +51,7 @@ const SidebarTabs = () => {
       }}
       className={`${TripStyles.customTabs} customTabs`}
     >
+      {/* // Conditional rendering of tabs based on flight type. Assume return by default  */}
       {getBuilder?.flight_type ===  "one-way" ? (
         <a
           href="#offer-card"
@@ -65,10 +66,10 @@ const SidebarTabs = () => {
             alignItems="center"
             gap={1}
           >
-            <Typography className="f12">Outbound</Typography>
+            <Typography className="f12">Departure</Typography>
           </Box>
         </a>
-      ) : getBuilder?.flight_type ===  "round-trip" ? (
+      ) : (
         <>
           <a
             href="#offer-card"
@@ -83,7 +84,7 @@ const SidebarTabs = () => {
               alignItems="center"
               gap={1}
             >
-              <Typography className="f12">Outbound</Typography>
+              <Typography className="f12">Departure</Typography>
             </Box>
           </a>
           <a
@@ -103,7 +104,7 @@ const SidebarTabs = () => {
             </Box>
           </a>
         </>
-      ): ""}
+      )}
 
       {getBuilder?.itinerary_text && (
         <>
