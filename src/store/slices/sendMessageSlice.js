@@ -11,6 +11,7 @@ import {
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import { fetchMessages, setSearchHistoryGet } from "./GestMessageSlice";
+import { setThreadDrawer } from "./Base/baseSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -429,8 +430,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setMessage({ ai: { newThread: true } }));
 
         // Save the new thread UUID in session storage if needed
-        sessionStorage.setItem("chat_thread_uuid", newUuid);
-
         // Only fetch messages if the new thread is supposed to have history
         // dispatch(fetchMessages());
       }
@@ -440,29 +439,25 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     });
 };
 
+export const CreatesingleThread = () => (dispatch, getState) => {
+  dispatch(setThreadDrawer(false));
+  dispatch(fetchMessages())
 
+  dispatch(setClearChat());
+  dispatch(setAddBuilder(null));
+  dispatch(setSearchHistorySend(null));
+  dispatch(setSelectedFlightKey(null));
+  dispatch(setflightDetail(null));
+  dispatch(setViewPassengers([]));
+  dispatch(setOrderUuid(null));
+  dispatch(bookFlight(null));
+  dispatch(setSingleFlightData(null));
 
+  // Optional: show "new thread" message placeholder
+  dispatch(setMessage({ ai: { newThread: true } }));
 
-export const OnlydeleteChatThread =
-  (followUpMessage = null) =>
-  (dispatch, getState) => {
-    const uuid = sessionStorage.getItem("chat_thread_uuid");
-    if (!uuid) return;
+}
 
-    const url = `/api/v1/chat/thread/${uuid}/delete`;
-    api
-      .delete(url)
-      .then((res) => {
-        if (res) {
-          // Clear previous chat history/messages in Redux store
-          dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
-          sessionStorage.removeItem("chat_thread_uuid");
-        }
-      })
-      .catch((err) => {
-        console.error("Error deleting thread", err?.response?.data?.error);
-      });
-  };
 
 // for delete thread
 

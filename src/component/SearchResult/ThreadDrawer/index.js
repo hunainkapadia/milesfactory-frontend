@@ -14,13 +14,14 @@ import { setThreadDrawer } from "@/src/store/slices/Base/baseSlice";
 import Link from "next/link";
 import api from "@/src/store/api";
 import { useRouter } from "next/router";
-import { historySingleThread, setThreadUuid } from "@/src/store/slices/sendMessageSlice";
+import { CreatesingleThread, historySingleThread, setThreadUuid } from "@/src/store/slices/sendMessageSlice";
 import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
 
 const ThreadDrawer = () => {
   const dispatch = useDispatch();
   const ThreadDrawerOpen = useSelector((state) => state.base.ThreadDrawer);
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
+
 
   
 
@@ -119,12 +120,11 @@ const ThreadDrawer = () => {
   const geturlUUID = useSelector((state) => state?.sendMessage?.threadUuid);
 
   const HandleSingleThread = (threaduuid) => {
-    dispatch(setThreadDrawer(false));
     if (threaduuid) {
       
       dispatch(setThreadUuid(threaduuid)) //set uuid if uuid exist logic in header to redirect to chat
       if (geturlUUID) {
-        dispatch(fetchMessages())
+        dispatch(CreatesingleThread())
       }
        // get message call
       // router.replace(`/chat/${threaduuid}}`);
