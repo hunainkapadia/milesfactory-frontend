@@ -112,7 +112,8 @@ const Header = ({
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   useEffect(() => {
-    if (uuid) {
+    if (uuid && isChat) {
+      alert("asas")
       router.push(`/chat/${uuid}`); //if uuid exist move to chat page
       
     }
