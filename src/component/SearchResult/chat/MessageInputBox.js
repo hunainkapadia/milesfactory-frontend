@@ -63,7 +63,7 @@ const MessageInputBox = ({
     (state) => state.getMessages.messages.length || 0
   );
   const isMessage = sendMessages > 0 || getmessages > 0;
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
   
   console.log("inputLoading", inputLoading);
@@ -71,8 +71,6 @@ const MessageInputBox = ({
 
   const inputValue = useSelector((state) => state.base.inputValue); //get input value
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder); // builder
-  
-  console.log("uuid_00", uuid);
   
 
   // Using react-speech-recognition hook
@@ -112,11 +110,7 @@ const MessageInputBox = ({
       label: 'chat_message_sent',
     });
   };
-  useEffect(() => {
-    if (uuid) {
-      router.push(`/chat/${uuid}`);
-    }
-  }, [uuid]);
+  
 
 
   console.log("listening", listening);

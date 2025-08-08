@@ -384,6 +384,24 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 };
 // close send messge
 
+// export const createThread = () => (dispatch) => {
+//   //console.log("thread_uuid");
+
+//   api
+//     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+//     .then((thread_res) => {
+//       const uuid = thread_res.data.uuid;
+//       //console.log("thread_response", uuid);
+//       sessionStorage.setItem("chat_thread_uuid", uuid);
+//       dispatch(setThreadUuid(uuid));
+//       dispatch(setThreadUUIDsend(uuid));
+//     })
+//     .catch((err) => {
+//       console.error("Thread creation failed", err);
+//     });
+// };
+
+
 // create thread api call
 export const createThreadAndRedirect = (router) => (dispatch, getState) => {
   const getuser = getState()?.base?.currentUser?.user;
@@ -417,16 +435,16 @@ export const deleteAndCreateThread =
   (followUpMessage = null) =>
   (dispatch, getState) => {
     const getuser = getState()?.base?.currentUser?.user;
-    console.log("getuser_0", getuser);
-    const uuid = sessionStorage.getItem("chat_thread_uuid");
-    if (!uuid) return;
 
-    const url = `/api/v1/chat/thread/${uuid}/delete`;
     api
-      .delete(url)
-      .then((res) => {
-        if (res) {
-          // Clear previous chat history/messages in Redux store
+      .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+      .then((newThreadRes) => {
+        const newUuid = newThreadRes.data.uuid;
+        if (newUuid) {
+          dispatch(setThreadUuid(newUuid));
+          sessionStorage.setItem("chat_thread_uuid", newUuid);
+
+          // Dispatch the welcome message (deleteThread message)
           dispatch(setClearChat()); // Clear the chat history to prevent old messages from showing.
           dispatch(setAddBuilder(null)); //builder clear on new thread
           dispatch(setSearchHistorySend(null)); // filter clear history
@@ -440,38 +458,23 @@ export const deleteAndCreateThread =
 
           sessionStorage.removeItem("chat_thread_uuid");
 
-          api
-            .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
-            .then((newThreadRes) => {
-              const newUuid = newThreadRes.data.uuid;
-              if (newUuid) {
-                dispatch(setThreadUUIDsend(newUuid));
-                sessionStorage.setItem("chat_thread_uuid", newUuid);
-
-                // Dispatch the welcome message (deleteThread message)
-
-                dispatch(
-                  setMessage({
-                    ai: {
-                      deleteThread: `Hello ${getuser?.first_name ?? "there"} ${
-                        getuser?.last_name ?? ""
-                      }, I'm Mylz. How can I help you?`,
-                    },
-                  })
-                );
-
-                if (followUpMessage) {
-                  dispatch(sendMessage(followUpMessage)); // Send the follow-up message if exists.
-                }
-              }
+          dispatch(
+            setMessage({
+              ai: {
+                deleteThread: `Hello ${getuser?.first_name ?? "there"} ${
+                  getuser?.last_name ?? ""
+                }, I'm Mylz. How can I help you?`,
+              },
             })
-            .catch((err) => {
-              console.error("Failed to create new thread", err);
-            });
+          );
+
+          if (followUpMessage) {
+            dispatch(sendMessage(followUpMessage)); // Send the follow-up message if exists.
+          }
         }
       })
       .catch((err) => {
-        console.error("Error deleting thread", err?.response?.data?.error);
+        console.error("Failed to create new thread", err);
       });
   };
 

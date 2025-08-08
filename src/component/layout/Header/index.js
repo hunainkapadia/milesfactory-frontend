@@ -37,6 +37,7 @@ import {
 } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
 import {
+  createThread,
   createThreadAndRedirect,
   deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
@@ -56,9 +57,17 @@ import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
 
-const Header = ({ isMessage, IsActive, isHome, isChat, isUser, isBuilder, isLandingPages }) => {
+const Header = ({
+  isMessage,
+  IsActive,
+  isHome,
+  isChat,
+  isUser,
+  isBuilder,
+  isLandingPages,
+}) => {
   console.log("isBuilder_isBuilder", isBuilder);
-  
+
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
@@ -97,6 +106,15 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser, isBuilder, isLand
   };
 
   // delete and create thread and show message chat clear
+  // const {uuid} = router.query
+  // console.log("router_test", uuid);
+  
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  useEffect(() => {
+    if (uuid) {
+      router.push(`/chat/${uuid}`);
+    }
+  }, [uuid]);
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
   };
@@ -123,6 +141,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser, isBuilder, isLand
           ${isMessage ? styles.isMessage : ""} // if message header change
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           ${isHome ? styles.isHome : ""} // if sticky or login
+          
           
           `}
       >
