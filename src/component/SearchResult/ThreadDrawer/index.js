@@ -23,7 +23,7 @@ const ThreadDrawer = () => {
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
 
 
-  console.log("ThreadData", ThreadData);
+
   
 
   const HandlecloseDrawer = () => {
@@ -120,7 +120,7 @@ const ThreadDrawer = () => {
   const HandleSingleThread = (threaduuid) => {
     dispatch(setThreadDrawer(false));
     if (threaduuid) {
-      console.log("drawer_thread_uuid", threaduuid);
+      
       dispatch(setThreadUuid(threaduuid)) //set uuid if uuid exist logic in header to redirect to chat
       if (geturlUUID) {
         dispatch(fetchMessages())
@@ -219,7 +219,7 @@ const ThreadDrawer = () => {
                     <Typography className="f12 exbold" pb={2}>
                       {groupLabels[groupKey]}
                     </Typography>
-                    {console.log('records', records)}
+                    
                     {records.map((item, i) => (
                       <>
                         <Box

@@ -61,7 +61,7 @@ const UserPopup = (isChat) => {
       
   return (
     <Dialog
-      open={isUserPopup || getUser}
+      open={isUserPopup || Boolean(getUser)}
       onClose={
         isChat?.isChat && !currentUser
           ? undefined //  Don't allow closing
