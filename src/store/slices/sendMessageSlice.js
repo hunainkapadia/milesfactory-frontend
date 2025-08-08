@@ -454,7 +454,6 @@ export const CreatesingleThread = () => (dispatch, getState) => {
   dispatch(setSingleFlightData(null));
 
   // Optional: show "new thread" message placeholder
-  dispatch(setMessage({ ai: { newThread: true } }));
 
 }
 
