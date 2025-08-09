@@ -45,7 +45,7 @@ export default function ShareDropdown() {
             alt="Share Icon"
           />
         </Box>
-        <Typography className="bold">Share</Typography>
+        <Typography sx={{mb:"2px"}} className="bold">Share</Typography>
       </Box>
 
       {/* Dropdown Content */}

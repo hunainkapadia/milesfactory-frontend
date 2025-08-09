@@ -32,6 +32,7 @@ import { useRouter } from "next/router";
 import ThreadDrawer from "../../SearchResult/ThreadDrawer";
 import {
   setCurrentUser,
+  setMobileNaveDrawer,
   setThreadDrawer,
   thread,
 } from "@/src/store/slices/Base/baseSlice";
@@ -85,8 +86,8 @@ const Header = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+  const handleMobileNav = () => {
+    dispatch(setMobileNaveDrawer(true))
   };
   // for login dialog
   const HandleBookTrip = () => {
@@ -113,10 +114,10 @@ const Header = ({
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
   useEffect(() => {
-    if (uuid && (isHome || isChat)) {
-      router.push(`/chat/${uuid}`);
-    }
-  }, [uuid, isHome, isChat, router]);
+  if (uuid && (isHome || isChat)) {
+    router.replace(`/chat/${uuid}`); // replace to avoid extra history entries
+  }
+}, [uuid]);
 
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
@@ -177,7 +178,7 @@ const Header = ({
                     fontSize={"24px"}
                   >
                     <i
-                      onClick={toggleDrawer}
+                      onClick={handleMobileNav}
                       className={`fa fa-bars ${
                         isSticky | IsActive || isMessage
                           ? " basecolor "
@@ -370,9 +371,6 @@ const Header = ({
       {/* extra content for  */}
       
       <MobileNavDrawer
-        isDrawerOpen={isDrawerOpen}
-        toggleDrawer={toggleDrawer}
-        MobileNavDrawer={MobileNavDrawer}
         isChat={isChat}
       />
 

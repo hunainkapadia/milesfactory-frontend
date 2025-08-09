@@ -157,6 +157,7 @@ const ThreadDrawer = () => {
           gap={2}
           pt={1}
           pb={3}
+          px={"24px"}
         >
           {/* Close Button */}
           <Box fontSize={"20px"}>

@@ -42,6 +42,9 @@ const GetMessagesSlice = createSlice({
     setRefreshSearch: (state, action)=> {
       state.refreshSearch = action.payload;
     },
+    setMessages: (state, action) => {
+  state.messages = action.payload;  // Replace entire messages array
+},
     setMessage: (state, action) => {
       console.log("thread_action", action);
       
@@ -69,10 +72,7 @@ const GetMessagesSlice = createSlice({
 export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
   const state = getState();
   const threadUuid =  state?.sendMessage?.threadUuid
-  const uuid = getthreaduuid || threadUuid;
-
-  console.log("uuid_get", uuid);
-  
+  const uuid = getthreaduuid || threadUuid;  
   
   // Get the current URL path
   // const pathname = window.location.pathname;
@@ -91,9 +91,7 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
   
   api
   .get(threadUrl)
-  .then((response) => {
-    console.log("get_test12", response);
-    
+  .then((response) => {    
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
@@ -225,6 +223,7 @@ export const {
   setSearchHistoryGet,
   setTopOfferUrl,
   setGetMessageUUID,
-  clearGetMessages
+  clearGetMessages,
+  setMessages
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

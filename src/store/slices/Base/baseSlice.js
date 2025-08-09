@@ -20,12 +20,16 @@ const initialState = {
   IsBuilderDialog: false,
   sidebarTab: "overview",
   Chatscroll: false,
+  mobileNaveDrawer: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setMobileNaveDrawer: (state, action) => {
+      state.mobileNaveDrawer = action.payload;
+    },
     setChatscroll: (state, action) => {
       state.Chatscroll = action.payload;
     },
@@ -246,6 +250,7 @@ export const {
   setIsBuilderDialog,
   setSidebarTab,
   setChatscroll,
+  setMobileNaveDrawer
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

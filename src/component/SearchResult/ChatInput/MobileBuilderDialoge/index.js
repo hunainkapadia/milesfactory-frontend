@@ -59,9 +59,7 @@ const MobileBuilderDialoge = () => {
       <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
         {isBuilderDialoge && (
           <>
-            aaaaaaaaaa
-          <Header isMessage={"isMessage"} isChat isBuilder={"isBuilder"} /> 
-
+            <Header isMessage={"isMessage"} isChat isBuilder={"isBuilder"} /> 
           </>
         )}
         <Box className="1111" py={"18px"}>
