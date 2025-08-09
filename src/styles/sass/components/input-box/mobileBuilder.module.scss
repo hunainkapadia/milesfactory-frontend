@@ -1,6 +1,8 @@
 @import "../../_variables.scss";
 
-
+.BuilderDrawer {
+   z-index: 4;
+}
 .builderFooter {
    align-items: center;
    border: 1px solid #E6EEEE;

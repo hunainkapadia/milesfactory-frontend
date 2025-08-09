@@ -80,7 +80,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
               <h3 className="regular mb-0">Flight details</h3>
             </Box>
             <Box>
-              <Divider />
+              <Divider className={`${styles.Divider} Divider`} />
             </Box>
           </Box>
           <Box className={styles.checkoutDrowerBody}>

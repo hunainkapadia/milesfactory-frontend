@@ -375,7 +375,7 @@ const MessageInputBox = ({
           </Box>
         </Box>
       </Box>
-      <MobileBuilderDialoge />
+      
     </>
   );
 };

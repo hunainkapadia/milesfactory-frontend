@@ -57,6 +57,7 @@ import InviteEmailDialog from "../InviteEmailDialog";
 import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
+import MobileBuilderDialoge from "../../SearchResult/ChatInput/MobileBuilderDialoge";
 
 const Header = ({
   isMessage,
@@ -64,16 +65,16 @@ const Header = ({
   isHome,
   isChat,
   isUser,
-  isBuilder,
   isLandingPages,
 }) => {
-  console.log("isBuilder_isBuilder", isBuilder);
 
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
-
+  const isBuilderDialoge = useSelector((state) => state?.base?.IsBuilderDialog);
+  console.log("isBuilderDialoge", isBuilderDialoge);
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 50); // Sticky header after 50px
@@ -353,7 +354,7 @@ const Header = ({
                 </Box>
                 {/*  */}
               </Box>
-              {isChat && !isBuilder && <SearchFilterBar />}
+              {isChat && !isBuilderDialoge && <SearchFilterBar />}
 
               {isHome ? (
                 <MessageInputBox
@@ -370,6 +371,7 @@ const Header = ({
 
       {/* extra content for  */}
       
+      <MobileBuilderDialoge />
       <MobileNavDrawer
         isChat={isChat}
       />

@@ -107,7 +107,7 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
     
     return (
       <>
-        <Divider />
+        <Divider className={`${styles.Divider} Divider`} />
       <Box
         px={3}
         className={styles.checkoutDrowerFooter + " test11"}

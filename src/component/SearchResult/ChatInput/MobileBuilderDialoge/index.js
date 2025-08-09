@@ -34,8 +34,8 @@ const MobileBuilderDialoge = () => {
   };
 
   return (
-    <Drawer 
-    className={styles.BuilderDrawer + " BuilderDrawer"}
+    <Drawer
+      className={styles.BuilderDrawer + " BuilderDrawer"}
       anchor="right"
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
@@ -45,11 +45,15 @@ const MobileBuilderDialoge = () => {
       }}
       PaperProps={{
         sx: {
+          position: "absolute",
+          top: "50px", // shift drawer down 50px
+          height: "calc(100% - 50px)", // adjust height so it doesn't overflow
           width: "100%",
           maxWidth: "100%",
           boxShadow: "none",
           borderTop: "1px solid #E6EEEE",
-          
+          overflow: "hidden", // keep scroll only in content area
+          zIndex:4,
         },
       }}
       SlideProps={{
@@ -57,11 +61,6 @@ const MobileBuilderDialoge = () => {
       }}
     >
       <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
-        {isBuilderDialoge && (
-          <>
-            <Header isMessage={"isMessage"} isChat isBuilder={"isBuilder"} /> 
-          </>
-        )}
         <Box className="1111" py={"18px"}>
           <YourTripSedebarCard getBuilder={getBuilder} />
         </Box>
