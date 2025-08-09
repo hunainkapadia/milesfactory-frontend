@@ -117,7 +117,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     >
       <Box
         className={`${styles.checkoutDrower} bbb white-bg ${styles.PassengerDrower}`}
-        width={480}
+        width={463}
       >
         <Box className={styles.checkoutDrowerSection + " aa white-bg"}>
           <Box

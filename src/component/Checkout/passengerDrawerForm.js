@@ -335,7 +335,7 @@ const PassengerDrawerForm = () => {
       >
         <Box
           className={styles.checkoutDrowerSection + " aa white-bg"}
-          width={"463px"}
+          width={463}
         >
           <Box
             px={3}

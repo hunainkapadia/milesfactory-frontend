@@ -253,8 +253,8 @@ const OfferCardSidebar = ({ index, slice }) => {
               justifyContent={"space-between"}
               mb={"8px"}
             >
-              <Stack direction="row" spacing={1} alignItems={"center"}>
-                <Box pt={0}>
+              <Stack direction="row" spacing={"4px"} alignItems={"center"}>
+                <Box pt={"3px"}>
                   <svg
                     width="13"
                     height="13"
@@ -291,13 +291,13 @@ const OfferCardSidebar = ({ index, slice }) => {
 
           <Stack
             direction="row"
-            spacing={1}
+            spacing={"4px"}
             alignItems="center"
             component="section"
             justifyContent={"space-between"}
           >
-            <Stack direction="row" spacing={1} alignItems={"center"}>
-              <Box pt={0}>
+            <Stack direction="row" spacing={"4px"} alignItems={"center"}>
+              <Box pt={"3px"}>
                 <svg
                   width="13"
                   height="13"

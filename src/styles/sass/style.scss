@@ -1188,9 +1188,17 @@ body {
 .MuiDialog-container{ padding: 0 18px;}
   .formGroup {
     margin-bottom: 22px;
+    .formControl.select {
+      .fa {
+        right: 20px;
+        position: absolute;
+        font-size: 14px;
+        pointer-events: none;
+      }
+    }
     label.MuiInputLabel-formControl {
         color: #8C8C7A !important;
-        top: -3px;
+        top: 0px;
       }
 
     .formLabel {}
@@ -1213,7 +1221,7 @@ body {
 
   .formControl.description .MuiInputBase-root {
     min-height: 80px;
-    padding-top: 50px;
+    padding-top: 12px;
   }
 
 
@@ -1625,7 +1633,7 @@ body {
 
   &.btn-black {
     @include border-radius(4px);
-    padding: 4px 10px;
+    padding: 5px 10px 5px;
     background: $darkgray;
     color: $white;
     font-weight: $bold;

@@ -183,7 +183,7 @@ const ContactDialog = () => {
                       <br />
                       have and we will reach out!
                     </Typography>
-                    
+
                     {currentUser ? (
                       <Typography variant="body1" mt={1}>
                         Signed in as{" "}
@@ -240,12 +240,19 @@ const ContactDialog = () => {
                       <TextField
                         error={!!topicError}
                         helperText={topicError}
-                        className="formControl"
+                        className="formControl select 11111111"
                         fullWidth
                         select
                         label="Select topic"
                         value={topic}
                         onChange={(e) => setTopic(e.target.value)}
+                        SelectProps={{
+                          IconComponent: () => (
+                            <i className="fa ">
+                              {"\uf078"} {/* fa-chevron-down */}
+                            </i>
+                          ),
+                        }}
                         sx={{
                           mb: 2,
                           "& label": {
@@ -254,7 +261,7 @@ const ContactDialog = () => {
                           "& label.Mui-focused": {
                             color: "#9e9e9e", // focused label color
                           },
-                          textAlign:"left"
+                          textAlign: "left",
                         }}
                       >
                         <MenuItem value="" disabled sx={{ color: "#9e9e9e" }}>
