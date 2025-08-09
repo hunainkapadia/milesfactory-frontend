@@ -10,6 +10,7 @@
     .ThreadDrawerItem {
       padding: 10px 10px;
       display: block;
+      margin-bottom: 4px;
       &.active, &:hover {
         background-color: $lightgray3;
         border-radius: 20px;

@@ -210,16 +210,19 @@ const HeaderCurrencyLanguage = ({
                 : " white "
             }`}
           >
-            <Box
-              className={styles.flagIcon + " imaggroup"}
-              width={20}
-              borderRadius={100}
-              sx={{
-                backgroundImage: `url(${selectedLanguage.flag})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
+            <Box>
+
+              <Box
+                className={styles.flagIcon + " imaggroup"}
+                width={20}
+                borderRadius={100}
+                sx={{
+                  backgroundImage: `url(${selectedLanguage.flag})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+              </Box>
             </Box>
             <FontAwesomeIcon
               icon={faChevronDown}

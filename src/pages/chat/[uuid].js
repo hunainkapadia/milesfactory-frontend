@@ -160,7 +160,17 @@ const ChatByUUID = () => {
   }, [currentUser, dispatch]);
 
   
-  
+  useEffect(() => {
+    if (!router.isReady) return; // Wait until router is ready
+    const { uuid } = router.query;
+
+    // Only fetch messages if we have a UUID and no messages yet
+    if (uuid && sendMessages.length === 0) {
+      dispatch(fetchMessages(uuid));
+    }
+  }, [router.isReady, router.query.uuid, sendMessages.length, dispatch]);
+
+
   // for get message on page refresh
     console.log("geturlUUID_000", router?.query?.uuid);
     

@@ -128,12 +128,10 @@ const ThreadDrawer = () => {
   const geturlUUID = useSelector((state) => state?.sendMessage?.threadUuid);
   const activeUUID = geturlUUID || router.query?.uuid;
 
-  console.log("geturlUUID_000", router.query?.uuid);
-
   
   const handleSingleThread = (threaduuid) => {
     if (threaduuid) {
-      router.push(`/chat/${threaduuid}`); //if uuid exist move to chat page
+      window.location.href = `/chat/${threaduuid}`; // full browser reload
       dispatch(CreatesingleThread(threaduuid))
     }
   };
