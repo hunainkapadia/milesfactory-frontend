@@ -67,7 +67,7 @@ const FromAndToDetail = ({
                 className="cursor-pointer text-decoration-none basecolor1 f12"
                 onClick={() => toggleBaggage(flightType)}
               >
-                <Box gap={2} alignItems="center" display="flex">
+                <Box gap={"4px"} alignItems="center" display="flex">
                   {flightDetail ? (
                     <>
                       <span>See details</span>

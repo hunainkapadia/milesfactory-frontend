@@ -11,7 +11,7 @@ import {
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import { clearGetMessages, fetchMessages, setSearchHistoryGet } from "./GestMessageSlice";
-import { setMobileNaveDrawer, setThreadDrawer } from "./Base/baseSlice";
+import { setIsBuilderDialog, setMobileNaveDrawer, setThreadDrawer } from "./Base/baseSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -419,6 +419,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
       if (newUuid) {
         dispatch(setThreadUuid(newUuid));
         dispatch(setMobileNaveDrawer(false))
+        dispatch(setIsBuilderDialog(false))
 
         //  Clear old chat data in both slices
         dispatch(setClearChat());     // from sendMessageSlice

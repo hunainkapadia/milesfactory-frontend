@@ -162,7 +162,7 @@ const SearchFilterBar = () => {
                       className="text-decoration-none cursor-pointer"
                     >
                       <Box
-                        gap={1}
+                        gap={"4px"}
                         alignItems={"center"}
                         display={"flex"}
                         className=" basecolor1 semibold"

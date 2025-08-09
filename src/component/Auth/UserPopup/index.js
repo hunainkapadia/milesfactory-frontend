@@ -57,12 +57,13 @@ const UserPopup = (isChat) => {
   const theme = useTheme();
       const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
     const loginState =  useSelector((state) => state?.login?.loginState); 
-      console.log("loginState", isChat);
+      console.log("loginState", loginState);
+      console.log("isUserPopup", isUserPopup);
 
       
   return (
     <Dialog
-      open={isUserPopup || (isChat?.isChat && !loginState)}
+      open={isUserPopup || (isChat?.isChat && loginState)}
       onClose={
         isChat?.isChat && !currentUser
           ? undefined //  Don't allow closing

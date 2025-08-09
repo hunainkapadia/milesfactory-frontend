@@ -12,7 +12,7 @@ const initialState = {
   LoginCloseDrawer: false,
   IsUser: null,
   LogoutUser: null,
-  loginState: false,
+  loginState: true,
 };
 
 const loginSlice = createSlice({
@@ -59,7 +59,7 @@ export const loginUser = (params) => (dispatch) => {
         // 1. Update Redux state
         dispatch(setLoginUser({ user: {user: res.data}, status: res.status }));
         dispatch(setLoginPopup(false));
-        dispatch(setLoginState(true))
+        dispatch(setLoginState(false))
         
         const { username, first_name, last_name, access, refresh } = res.data;
 

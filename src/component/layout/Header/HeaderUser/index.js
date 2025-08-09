@@ -85,7 +85,7 @@ const HeaderUser = ({
           status: 200,
         })
       );
-      dispatch(setLoginState(true))
+      dispatch(setLoginState(false))
     }
   }, []);
 
