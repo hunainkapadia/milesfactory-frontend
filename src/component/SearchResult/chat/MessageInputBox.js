@@ -66,7 +66,7 @@ const MessageInputBox = ({
   
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
   
-  console.log("inputLoading", inputLoading);
+  console.log("inputLoading", isHomePage);
   
 
   const inputValue = useSelector((state) => state.base.inputValue); //get input value
@@ -330,11 +330,13 @@ const MessageInputBox = ({
                   </Box>
                 </Box>
                 {inputLoading && isHomePage && (
-                  <Box sx={{position:"absolute", right:"15px", top:"15px"}}>
+                  <Box
+                    sx={{ position: "absolute", right: `${isSticky ? "80px" : "15px"}`, top: "15px" }}
+                  >
                     <CircularProgress
                       size={20}
                       color="inherit"
-                      sx={{ color: "#fff" }}
+                      sx={{ color: `${!isSticky ? "#fff" : "#000"}`}}
                     />
                   </Box>
                 )}
@@ -375,7 +377,6 @@ const MessageInputBox = ({
           </Box>
         </Box>
       </Box>
-      
     </>
   );
 };
