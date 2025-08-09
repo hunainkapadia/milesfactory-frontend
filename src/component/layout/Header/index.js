@@ -111,16 +111,14 @@ const Header = ({
   // console.log("router_test", uuid);
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+
   useEffect(() => {
-    if (uuid && isHome) {
-      router.push(`/chat/${uuid}`); //if uuid exist move to chat page
+    if (uuid && (isHome || isChat)) {
+      router.push(`/chat/${uuid}`);
     }
-  }, [uuid, isHome]);
-  
+  }, [uuid, isHome, isChat, router]);
+
   const HandleNewThread = () => {
-    if (uuid) {
-      router.push(`/chat/${uuid}`); //if uuid exist move to chat page
-    }
     dispatch(deleteAndCreateThread());
   };
 
