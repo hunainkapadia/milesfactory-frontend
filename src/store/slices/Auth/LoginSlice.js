@@ -12,19 +12,20 @@ const initialState = {
   LoginCloseDrawer: false,
   IsUser: null,
   LogoutUser: null,
+  loginState: false,
 };
 
 const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
+    setLoginState:(state, action) => {
+      state.loginState = action.payload;
+    },
     setIsUser: (state, action) => {
-      
-      
       state.IsUser = action.payload;
     },
     setLoginUser: (state, action) => {
-      
       state.loginUser = action.payload;
       state.emailError = "";
       state.passwordError = "";
@@ -58,9 +59,8 @@ export const loginUser = (params) => (dispatch) => {
         // 1. Update Redux state
         dispatch(setLoginUser({ user: {user: res.data}, status: res.status }));
         dispatch(setLoginPopup(false));
-
+        dispatch(setLoginState(true))
         
-
         const { username, first_name, last_name, access, refresh } = res.data;
 
         // 2. Store basic user info (NO password, NO tokens)
@@ -241,6 +241,7 @@ export const {
   setLoginError,
   setisLoading,
   setIsUser,
+  setLoginState
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
