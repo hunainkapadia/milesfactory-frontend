@@ -29,9 +29,9 @@ const AiMessage = ({ aiMessage }) => {
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const getAllFlightGetApi = useSelector(
-    (state) => state?.getMessages?.allFlightSearchResults
-  );
+  const getMessages = useSelector((state) => state.getMessages?.messages);
+  console.log("getMessages", getMessages.length > 0);
+  
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
@@ -156,9 +156,8 @@ const AiMessage = ({ aiMessage }) => {
       {/* Show passenger form or loading */}
 
       {/* If all passengers are filled, show payment components */}
-      
-      
-      {aiMessage?.ai?.passengerFlowRes && 
+
+      {aiMessage?.ai?.passengerFlowRes &&
         Array.isArray(GetViewPassengers) &&
         GetViewPassengers.length > 0 && (
           <>
@@ -181,8 +180,7 @@ const AiMessage = ({ aiMessage }) => {
                 </>
               )}
           </>
-      )}
-      
+        )}
 
       {displayedGetFlights?.length > 0 ? (
         <>
@@ -206,31 +204,38 @@ const AiMessage = ({ aiMessage }) => {
           </Box>
 
           {/* Toggle button */}
-          {!noMoreFlights &&
-          (aiMessage?.ai?.next_page_number ||
-            getNextFlight?.next_page_number) ? (
-            <Box onClick={handleSeeMoreFlights} style={{ cursor: "pointer" }}>
-              <Box
-                sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-                gap={2}
-                alignItems="center"
-                display="flex"
-                className="bold"
-              >
-                <span>See more flights</span>
-                <i className="fa fa-caret-right fas" />
-              </Box>
-            </Box>
-          ) : (
-            <Box
-              sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-              gap={2}
-              alignItems="center"
-              display="flex"
-              className="bold"
-            >
-              No more flights found.
-            </Box>
+          {!getMessages.length > 0 && (
+            <>
+              {!noMoreFlights &&
+              (aiMessage?.ai?.next_page_number ||
+                getNextFlight?.next_page_number) ? (
+                <Box
+                  onClick={handleSeeMoreFlights}
+                  style={{ cursor: "pointer" }}
+                >
+                  <Box
+                    sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+                    gap={2}
+                    alignItems="center"
+                    display="flex"
+                    className="bold"
+                  >
+                    <span>See more flights</span>
+                    <i className="fa fa-caret-right fas" />
+                  </Box>
+                </Box>
+              ) : (
+                <Box
+                  sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+                  gap={2}
+                  alignItems="center"
+                  display="flex"
+                  className="bold"
+                >
+                  No more flights found.
+                </Box>
+              )}
+            </>
           )}
         </>
       ) : (

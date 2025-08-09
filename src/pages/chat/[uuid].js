@@ -49,7 +49,7 @@ const ChatByUUID = () => {
   const newChatLoading = useSelector(
     (state) => state.sendMessage?.newChatLoading
   );
-  console.log("newChatLoading", newChatLoading);
+  console.log("getMessages", getMessages);
 
   // scroll on click select direct
   const ChatScroll = useSelector((state) => state.base.Chatscroll);
@@ -164,7 +164,7 @@ const ChatByUUID = () => {
     if (!router.isReady) return; // Wait until router is ready
     const { uuid } = router.query;
 
-    // Only fetch messages if we have a UUID and no messages yet
+    // Only fetch messages if we have a UUID and no messages yet if send messge not
     if (uuid && sendMessages.length === 0) {
       dispatch(fetchMessages(uuid));
     }
@@ -191,7 +191,6 @@ const ChatByUUID = () => {
           }
         >
           {!isMobile && <Header isMessage={isMessage} isChat />}
-          {/* {isLoading ? "isLoading" : "is not Loading "} */}
           <Box className={styles.ChatBody} ref={chatBodyRef}>
             <Container className={styles.Container}>
               <Grid container width={"100%"} sx={{ margin: 0 }}>
