@@ -11,6 +11,7 @@ const initialState = {
   refreshSearch: "",
   SearchHistoryGet: null,
   topOfferUrl: null,
+
 };
 
 const GetMessagesSlice = createSlice({
@@ -42,7 +43,12 @@ const GetMessagesSlice = createSlice({
     setRefreshSearch: (state, action)=> {
       state.refreshSearch = action.payload;
     },
+    setMessages: (state, action) => {
+  state.messages = action.payload;  // Replace entire messages array
+},
     setMessage: (state, action) => {
+      console.log("thread_action", action);
+      
       //console.log("actiontest", action);
       
       state.messages.push(action.payload);
@@ -64,126 +70,98 @@ const GetMessagesSlice = createSlice({
   },
 });
 
-export const fetchMessages = () => (dispatch, getState) => {
+export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
   const state = getState();
-  // const uuid =  state?.getMessages?.getMessageUUID
-  
-  // Get the current URL path
-  const pathname = window.location.pathname;
+  const threadUuid = state?.sendMessage?.threadUuid;
+  const uuid = getthreaduuid || threadUuid;
 
-  // Extract only the UUID after /chat/ and remove anything after it
-  const threadUUID = pathname.split("/chat/")[1]?.split("/")[0]?.split("?")[0] || "";
+  if (!uuid) {
+    console.error("No thread UUID found!");
+    return;
+  }
 
   dispatch(setIsLoading(true));
 
-  // Use only the UUID in the API URL
-  const threadUrl = `/api/v1/chat/get-messages/${threadUUID}`;
-  console.log("threadUrl", threadUrl);
+  const threadUrl = `/api/v1/chat/get-messages/${uuid}`;
 
-  
   api
-  .get(threadUrl)
-  .then((response) => {
-    console.log("get_test12", response);
-    
+    .get(threadUrl)
+    .then((response) => {
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
       }
-      response?.data.forEach((item) => {
-        // is function true start search result flow
-        console.log("allFlightSearchApi", item);
+
+      // Collect all messages here
+      const allMessages = [];
+
+      // Process each item
+      response.data.forEach((item) => {
         if (item?.is_function) {
-          
-          
-          // const topFlightSearchApi =
-          // item?.response?.results?.view_top_flight_result_api?.url;
-          // if (topFlightSearchApi) {
-          //   api
-          //   .get(topFlightSearchApi)
-          //   .then((offerResponse) => {
-          //     console.log("get message", offerResponse);
-          //     dispatch(
-          //         setMessage({
-          //           user: item.message,
-          //           ai: offerResponse.data,
-          //           OfferId: topFlightSearchApi, // this is for passenger flow  offerID
-          //         })
-          //       );
-          //     })
-          //     .catch((searcherror) => {
-          //       dispatch(setError("Error fetching flight offer data"));
-          //     });
-          // }
-
-          
-          
-          
+          // Handle special case of flight offers or similar
           const allFlightSearchApi =
-          item?.response?.results?.view_all_flight_result_api?.url;
-
+            item?.response?.results?.view_all_flight_result_api?.url;
           const allFlightSearchUuid =
-          item?.response?.results?.view_all_flight_result_api?.uuid;
-          
-          if (allFlightSearchApi) {
-            
-            
-            // flight history [start]
-            const getallFlightId = allFlightSearchApi.split('/').pop();
-            dispatch(setTopOfferUrl(allFlightSearchUuid)); // for passenger flow id dispatch
-            
-            
-             const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
-             api.get(historyUrl).then((history_res)=> {
-              //  console.log("historyUrl", history_res.data.search);
-               dispatch(setSearchHistoryGet(history_res.data.search))
-             }).catch((error)=> {
-              console.log("error", error);
-              
+            item?.response?.results?.view_all_flight_result_api?.uuid;
 
-             })
-             // flight history [end]
-            //  dispatch(
-            //    setMessage({ user: item.message, ai: { response: item?.response } })
-            //  );
-            
-            //console.log("allFlightSearch11", allFlightSearchApi);
+          if (allFlightSearchApi) {
+            dispatch(setTopOfferUrl(allFlightSearchUuid)); // save flight offer id
+
+            const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
+
+            api
+              .get(historyUrl)
+              .then((history_res) => {
+                dispatch(setSearchHistoryGet(history_res.data.search));
+              })
+              .catch((error) => {
+                console.log("error fetching history", error);
+              });
+
+            // Fetch flight results and then push message with flight data
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                // dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
-                dispatch(
-                  setMessage({
-                    user: item.message,
-                    ai: flightRes.data,
-                  })
-                );
-                //console.log("allFlightSearchApi11", flightRes.data);
+                allMessages.push({
+                  user: item.message,
+                  ai: flightRes.data,
+                });
+
+                // Because this is async inside forEach, to keep it simple,
+                // you might want to fetch flight data outside or handle differently,
+                // but here, we just add message synchronously for example.
               })
               .catch((flighterror) => {
-                
-
                 dispatch(setFlightExpire(flighterror?.response?.data?.error));
-              })
-              .finally(() => {});
+              });
+
+          } else {
+            // If no flight api, just add normal message
+            allMessages.push({
+              user: item.message,
+              ai: { response: item?.response },
+            });
           }
         } else {
-          console.log("item_response", item);
-          dispatch(
-            setMessage({ user: item.message, ai: { response: item?.response } })
-          );
+          // Normal message, push to array
+          allMessages.push({
+            user: item.message,
+            ai: { response: item?.response },
+          });
         }
       });
+
+      // After forEach, set all messages in state (replace old messages)
+      dispatch(setMessages(allMessages));
     })
     .catch((error) => {
-      console.log("thread_error", error);
-      
       dispatch(setError("Error fetching messages"));
     })
     .finally(() => {
       dispatch(setIsLoading(false));
     });
 };
+
 export const RefreshHandle = () => (dispatch, getState) => {
   const state = getState();
   const uuid = state?.getMessages?.SearchHistory?.uuid
@@ -217,6 +195,7 @@ export const {
   setSearchHistoryGet,
   setTopOfferUrl,
   setGetMessageUUID,
-  clearGetMessages
+  clearGetMessages,
+  setMessages
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

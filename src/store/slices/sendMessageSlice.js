@@ -446,10 +446,10 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     });
 };
 
-export const CreatesingleThread = () => (dispatch, getState) => {
+export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(setThreadDrawer(false));
-  dispatch(fetchMessages())
-
+  
+  // Clear all first
   dispatch(setClearChat());
   dispatch(setAddBuilder(null));
   dispatch(setSearchHistorySend(null));
@@ -460,9 +460,12 @@ export const CreatesingleThread = () => (dispatch, getState) => {
   dispatch(bookFlight(null));
   dispatch(setSingleFlightData(null));
 
-  // Optional: show "new thread" message placeholder
+  // Then fetch messages for the new thread
+  dispatch(fetchMessages(threaduuid));
 
+  // Optional: show "new thread" message placeholder
 }
+
 
 
 // for delete thread

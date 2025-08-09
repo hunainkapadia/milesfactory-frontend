@@ -32,7 +32,7 @@ const ChatByUUID = () => {
 
   const { uuid } = router;
   console.log("uuid_url", uuid);
-  
+
   const messagesEndRef = useRef(null);
   const [hasFlightOffers, sethasFlightOffers] = useState(null);
   const chatBodyRef = useRef(null);
@@ -46,10 +46,10 @@ const ChatByUUID = () => {
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
   const isMessage = [...getMessages, ...sendMessages];
-  const newChatLoading = useSelector((state) => state.sendMessage?.newChatLoading);
+  const newChatLoading = useSelector(
+    (state) => state.sendMessage?.newChatLoading
+  );
   console.log("newChatLoading", newChatLoading);
-  
-
 
   // scroll on click select direct
   const ChatScroll = useSelector((state) => state.base.Chatscroll);
@@ -85,7 +85,6 @@ const ChatByUUID = () => {
       threshold
     );
   };
-  
 
   // chat scroll
   // scroll messge chat
@@ -152,16 +151,20 @@ const ChatByUUID = () => {
   const currentUser = useSelector((state) => state.base?.currentUser);
   console.log("currentUser", currentUser);
 
-useEffect(() => {
-  if (currentUser) {
-    dispatch(setisUserPopup(false)); // force login if not logged in
-  } else {
-    dispatch(setisUserPopup(true)); // force login if not logged in
-  }
-}, [currentUser, dispatch]);
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(setisUserPopup(false)); // force login if not logged in
+    } else {
+      dispatch(setisUserPopup(true)); // force login if not logged in
+    }
+  }, [currentUser, dispatch]);
 
+  
+  
+  // for get message on page refresh
+    console.log("geturlUUID_000", router?.query?.uuid);
+    
 
- 
   return (
     <>
       <Box component={"main"}>
@@ -203,7 +206,7 @@ useEffect(() => {
                       aria-live="polite"
                       role="status"
                     >
-                      <CircularProgress sx={{ color: '#fff' }} size={40} />
+                      <CircularProgress sx={{ color: "#fff" }} size={40} />
                     </Box>
                   )}
                   <Messages />
