@@ -438,7 +438,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         // Optional: placeholder for new thread
         dispatch(setMessage({ ai: { newThread: true } }));
 
-        // ✅ Now fetch new messages for the new thread
+        //  Now fetch new messages for the new thread
         dispatch(setNewChatLoading(false));
 
       }
