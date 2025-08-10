@@ -7,13 +7,14 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import YourTripSedebarCard from "../YourTripSedebarCard";
 import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 
 import Image from "next/image";
 import { currencySymbols } from "@/src/utils/utils";
 import ShareDropdown from "../../layout/Header/ShareDropdown";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
@@ -29,7 +30,10 @@ const YourTripSidebar = ({ isMessage }) => {
   );
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
-
+  const dispatch= useDispatch();
+  const handleBookFlight = ()=> {
+    dispatch(setChatscroll(true)); // scrol lon click book
+  }
   return (
     <>
       {getBuilder && (
@@ -115,7 +119,7 @@ const YourTripSidebar = ({ isMessage }) => {
                   </Typography>
                 </Box>
                 
-                <Button
+                <Button onClick={handleBookFlight}
                   className={`btn btn-primary btn-round btn-xs ${
                     !!orderSuccess || !getselectedFlight ? "disabled" : ""
                   }`}

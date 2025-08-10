@@ -41,6 +41,8 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+  console.log("FlightExpire", FlightExpire);
+  
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
