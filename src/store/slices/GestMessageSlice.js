@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
+import { setAddBuilder } from "./sendMessageSlice";
 
 const initialState = {
   chatActive: false,
@@ -11,12 +12,14 @@ const initialState = {
   refreshSearch: "",
   SearchHistoryGet: null,
   topOfferUrl: null,
+  
 };
 
 const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    
     clearGetMessages: (state) => {
       state.SearchHistory
       state.messages = [];
@@ -98,8 +101,11 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
       }
       response?.data.forEach((item) => {
         // is function true start search result flow
-        console.log("allFlightSearchApi", item);
+        if (item?.silent_is_function) {
+          dispatch(setAddBuilder(item));
+        }
         if (item?.is_function) {
+          // builder for get
           
           
           // const topFlightSearchApi =
@@ -224,6 +230,7 @@ export const {
   setTopOfferUrl,
   setGetMessageUUID,
   clearGetMessages,
-  setMessages
+  setMessages,
+  
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

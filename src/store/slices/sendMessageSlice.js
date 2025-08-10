@@ -165,7 +165,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_id = response.run_id;
         const run_status = response.run_status;
 
-        console.log("run_status111 ", response);
         if (response?.silent_is_function) {
           dispatch(setAddBuilder(response));
         }
@@ -176,7 +175,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
-          console.log("gdata_00", gdata);
 
           dispatch(setpollingComplete(false));
 

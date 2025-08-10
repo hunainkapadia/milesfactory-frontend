@@ -29,9 +29,7 @@ const YourTripSidebar = ({ isMessage }) => {
   );
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
-  
-  console.log("getBuilder", getBuilder);
-  
+
   return (
     <>
       {getBuilder && (
