@@ -295,11 +295,40 @@ const MessageInputBox = ({
                               onClick={handleVoiceInput}
                               disabled={isLoading}
                             >
-                              <i
-                                className={`fa ${
-                                  isMicActive ? "fa-check" : "fa-microphone"
-                                }`}
-                              ></i>
+                              {isMicActive ? (
+                                <i className="fa fa-check"></i>
+                              ) : (
+                                <Box className="imggroup">
+                                  {isSticky ? (
+                                    <img
+                                      src="/images/mic-border-icon-v2.svg"
+                                      style={{
+                                        width: "12px",
+                                        maxWidth: "12px",
+                                      }}
+                                      alt="Mic"
+                                    />
+                                  ) : isChat ? (
+                                    <img
+                                      src="/images/mic-border-icon-v2.svg"
+                                      style={{
+                                        width: "12px",
+                                        maxWidth: "12px",
+                                      }}
+                                      alt="Mic"
+                                    />
+                                  ) : (
+                                    <img
+                                      src="/images/mic-border-icon.svg"
+                                      style={{
+                                        width: "12px",
+                                        maxWidth: "12px",
+                                      }}
+                                      alt="Mic"
+                                    />
+                                  )}
+                                </Box>
+                              )}
                             </IconButton>
 
                             {isMicActive ? (
@@ -331,12 +360,16 @@ const MessageInputBox = ({
                 </Box>
                 {inputLoading && isHomePage && (
                   <Box
-                    sx={{ position: "absolute", right: `${isSticky ? "80px" : "15px"}`, top: "15px" }}
+                    sx={{
+                      position: "absolute",
+                      right: `${isSticky ? "80px" : "15px"}`,
+                      top: "15px",
+                    }}
                   >
                     <CircularProgress
                       size={20}
                       color="inherit"
-                      sx={{ color: `${!isSticky ? "#fff" : "#000"}`}}
+                      sx={{ color: `${!isSticky ? "#fff" : "#000"}` }}
                     />
                   </Box>
                 )}
