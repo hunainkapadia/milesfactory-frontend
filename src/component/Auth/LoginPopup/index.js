@@ -32,7 +32,7 @@ const LoginPopup = ({ isChat }) => {
   const LoginError = useSelector((state) => state.login.LoginError);
 
   console.log("LoginError", LoginError?.other);
-  
+
   /// isform submit redirect to home
   const isFormSupmit = useSelector((state) => state.login.loginUser);
   const router = useRouter();
@@ -66,9 +66,9 @@ const LoginPopup = ({ isChat }) => {
   }, [isuserLogin]);
   // for button enable when all fields fill
   const isFormValid = email && password;
-  
+
   const currentUser = useSelector((state) => state.base?.currentUser);
-    
+
   return (
     <Dialog
       open={isLoginPopup}
@@ -113,9 +113,7 @@ const LoginPopup = ({ isChat }) => {
             position={"relative"}
           >
             <Box textAlign={"center"} mb={2}>
-              <h3 className="">
-              Welcome back!
-              </h3>
+              <h3 className="">Welcome back!</h3>
             </Box>
 
             {/* LoginPopup  */}
@@ -178,8 +176,8 @@ const LoginPopup = ({ isChat }) => {
                       </Typography>
                     </Box>
                     <Typography className="error" color="red">
-                        {LoginError?.other}
-                      </Typography>
+                      {LoginError?.other}
+                    </Typography>
                   </Box>
                 </Box>
                 <Box component={"section"}>
@@ -190,12 +188,11 @@ const LoginPopup = ({ isChat }) => {
                       className="btn btn-primary btn-md btn-round"
                       sx={{
                         width: { xs: "100%", lg: "100%", md: "100%" },
-                        opacity: `${isFormValid ? "100%" : "50%"}`,
                       }}
                       onClick={handleLogin}
                       variant="contained"
                       color="success"
-                      disabled={isloading} // Disable when loading
+                      disabled={!isFormValid ? "disabled" : "" } // Disable when loading
                     >
                       {isloading ? (
                         <ButtonLoading />

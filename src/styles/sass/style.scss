@@ -1650,40 +1650,7 @@ body {
   }
 
   &.btn-disabled,
-  &:disabled {
-    &.btn-primary {
-      pointer-events: none; // disables clicks
-      cursor: not-allowed; // optional: shows disabled cursor
-      border-radius: 8px;
-      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
-      background: $lightgray2;
-      cursor: inherit;
-      letter-spacing: 0px;
-      color: $white !important;
-      font-weight: 500;
-
-      
-    }
-
-    &.btn-round {
-      height: 40px;
-      font-size: 12px;
-      border-radius: 100px;
-      box-shadow: none;
-    }
-
-    &.no-rounded {
-      border-radius: 8px !important;
-    }
-
-    &.active:hover,
-    &.active,
-    &.active:focus {
-      background: $basecolor2;
-      border-color: $basecolor2;
-      color: $white;
-    }
-  }
+  
 
   &.btn-white {
     border-radius: 8px;
@@ -1698,9 +1665,19 @@ body {
   }
   &.btn-primary {
     &.disabled {
-      pointer-events: none; // disables clicks
-      cursor: not-allowed; // optional: shows disabled cursor
+      background: $basecolor1;
       opacity: 0.5;
+      color: $white !important;
+      pointer-events: none; // disables clicks
+      &.btn-round {
+        font-size: 12px;
+        border-radius: 100px;
+        box-shadow: none;
+      }
+
+      &.no-rounded {
+        border-radius: 8px !important;
+      }
     }
     &.btn-lg-x {
       padding: 7px 36px 8px;

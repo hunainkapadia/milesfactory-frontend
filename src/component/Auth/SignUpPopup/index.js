@@ -308,13 +308,12 @@ const SignUpPopup = ({ isChat }) => {
                         onClick={handleSignUp}
                         variant="contained"
                         color="success"
-                        disabled={isLoading} // Disable when loading
+                        disabled={!isFormValid ? "disabled" : "" } // Disable when loading
                         width={"100%"}
                         type="submit" // Important!
                         className="btn btn-primary btn-md btn-round" // Important!
                         sx={{
                           width: { xs: "100%", lg: "100%", md: "100%" },
-                          opacity: `${isFormValid ? "100%" : "50%"}`,
                         }}
                       >
                         {isLoading ? (

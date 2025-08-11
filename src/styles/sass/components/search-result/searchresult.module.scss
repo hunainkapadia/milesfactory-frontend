@@ -430,11 +430,12 @@
       
       .flightOfferCard {
         .selectFlightBtn {
-          padding: 9px 40px 8px;
+          width: 150px !important;
+          padding: 9px 40px 9px;
           white-space: nowrap;
           height: 30px;
         }
-        .IsSelected {padding: 9px 40px 8px;height: 30px;}
+        .IsSelected {padding: 9px 40px 9px;height: 30px;}
         
         .logoCol .airlineLogo {@include scale(36px, 36px);}
         // for horizontal scroll
