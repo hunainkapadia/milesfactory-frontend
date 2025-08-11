@@ -55,15 +55,20 @@ const UserPopup = (isChat) => {
   };
   const currentUser = useSelector((state) => state.base?.currentUser);
   const theme = useTheme();
-      const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-    const loginState =  useSelector((state) => state?.login?.loginState); 
-      console.log("loginState", loginState);
-      console.log("isUserPopup", isUserPopup);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const loginState = useSelector((state) => state?.login?.loginState);
+  console.log("loginState", loginState);
+  console.log("isUserPopup", isUserPopup);
+  console.log("isChat_isChat", isChat?.isChat && loginState);
 
-      
   return (
     <Dialog
-      open={isUserPopup || (isChat?.isChat && loginState)}
+      isUserPopup
+      open={
+        isChat?.isChat
+          ? isChat?.isChat && loginState //this is for only chat page restrik chat
+          : isUserPopup //this is for only everywhere except chat page on clcik open
+      }
       onClose={
         isChat?.isChat && !currentUser
           ? undefined //  Don't allow closing
@@ -97,17 +102,19 @@ const UserPopup = (isChat) => {
         }}
       >
         <Box mb={2} textAlign={"center"}>
-          <h3 sx={{mb:"12px"}}>
-          {isChat?.isChat ? (
-            isMobile ? "Don't loose your trip!" : "Don't loose your trip details!"
-          ) : (
-            "Welcome back!"
-          )}
+          <h3 sx={{ mb: "12px" }}>
+            {isChat?.isChat
+              ? isMobile
+                ? "Don't loose your trip!"
+                : "Don't loose your trip details!"
+              : "Welcome back!"}
           </h3>
-          
+
           {isChat?.isChat && (
             <Typography>
-            {isMobile ? "Log in to save your trip details" : "Log in to save and find your information faster"}
+              {isMobile
+                ? "Log in to save your trip details"
+                : "Log in to save and find your information faster"}
             </Typography>
           )}
         </Box>

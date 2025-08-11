@@ -128,11 +128,10 @@ const ThreadDrawer = () => {
   const geturlUUID = useSelector((state) => state?.sendMessage?.threadUuid);
   const activeUUID = geturlUUID || router.query?.uuid;
 
-  
   const handleSingleThread = (threaduuid) => {
     if (threaduuid) {
       window.location.href = `/chat/${threaduuid}`; // full browser reload
-      dispatch(CreatesingleThread(threaduuid))
+      dispatch(CreatesingleThread(threaduuid));
     }
   };
 
@@ -167,7 +166,7 @@ const ThreadDrawer = () => {
             ></i>
           </Box>
           <Box className={styles.Logo}>
-            <Link href={"/"} >
+            <Link href={"/"}>
               <Box
                 sx={{ width: { xs: 53 } }}
                 className="d-flex align-items-center imggroup"
@@ -230,7 +229,6 @@ const ThreadDrawer = () => {
                     <Box px={"14px"}>
                       {records.map((item, i) => (
                         <>
-                        
                           <Link
                             sx={{ px: "10px" }}
                             className={`${

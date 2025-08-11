@@ -53,7 +53,10 @@ const HeaderUser = ({
     const access_token = Cookies.get("access_token");
     const refresh_token = Cookies.get("refresh_token");
 
-    if (cookieUserString && access_token && refresh_token) {
+    console.log("cookieUserString", cookieUserString);
+    
+
+    if (cookieUserString) {
       const cookieUser = JSON.parse(cookieUserString);
 
       dispatch(

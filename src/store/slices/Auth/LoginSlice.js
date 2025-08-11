@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/apiEndpoints"; // Fixed import
 import api from "../../api";
+import { setMobileNaveDrawer } from "../Base/baseSlice";
 
 const initialState = {
   loginUser: null,
@@ -75,8 +76,9 @@ export const loginUser = (params) => (dispatch) => {
 
         // 3. Store tokens in separate cookies (optional: set secure attributes)
         Cookies.set("access_token", access);
-
         Cookies.set("refresh_token", refresh);
+        dispatch(setLoginState(false))
+        dispatch(setMobileNaveDrawer(false))
       }
     })
     .catch((error) => {
@@ -134,12 +136,9 @@ export const googleLoginUser = (code) => (dispatch) => {
             userPopup: false,
           })
         );
-
-        
-
+        dispatch(setLoginState(false))
+        dispatch(setMobileNaveDrawer(false))
         // 2. Store user info (without tokens) in cookie
-
-        
         Cookies.set(
           "set-user",
           JSON.stringify({
@@ -198,6 +197,8 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
       Cookies.set("access_token", access);
       Cookies.set("refresh_token", refresh);
+      dispatch(setLoginState(false))
+      dispatch(setMobileNaveDrawer(false))
     })
     .catch((error) => {
       dispatch(
@@ -214,11 +215,13 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
 export const Logout = () => (dispatch) => {
   const refreshToken = Cookies.get("refresh_token"); // Correct method
-  
 
+  
+  console.log("refreshToken", refreshToken);
+  
   api.post("/api/v1/logout/", { refresh: refreshToken })
-    .then((res) => {
-      
+  .then((res) => {
+    
       dispatch(setLogoutUser(res.data));
 
       Cookies.remove("set-user");
