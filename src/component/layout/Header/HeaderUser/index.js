@@ -53,10 +53,23 @@ const HeaderUser = ({
     const access_token = Cookies.get("access_token");
     const refresh_token = Cookies.get("refresh_token");
 
+    
+
+    // If any one is missing, remove all
+    console.log("removed", cookieUserString, access_token);
+    if (!cookieUserString || !access_token || !refresh_token) {
+      Cookies.remove("set-user");
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+
+        dispatch(Logout()); // if this already resets loginUser, isUser, etc.
+        dispatch(setCurrentUser(null));
+        dispatch(setLoginUser(null));
+        dispatch(setIsSignupUser(null));
+      
+    }
+
     console.log("cookieUserString", cookieUserString);
-    
-    
-    
 
     if (cookieUserString) {
       const cookieUser = JSON.parse(cookieUserString);
@@ -90,10 +103,9 @@ const HeaderUser = ({
           status: 200,
         })
       );
-      dispatch(setLoginState(false))
+      dispatch(setLoginState(false));
     }
   }, [dispatch]);
-
 
   // Sync latest user to currentUser state
   useEffect(() => {
