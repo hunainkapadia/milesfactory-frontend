@@ -93,7 +93,7 @@
                width: 40px;
                height: 40px;
                z-index: 2;
-               background-color: $btn-gradient-basecolor1;
+               background: $btn-gradient-basecolor1;
                @include border-radius(100px);
                color: $white;
 
