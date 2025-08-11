@@ -47,13 +47,15 @@ const HeaderUser = ({
 
   // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
   // Set user to Redux on initial mount from cookies
-
+  console.log("currentUser", currentUser);
   useEffect(() => {
     const cookieUserString = Cookies.get("set-user");
     const access_token = Cookies.get("access_token");
     const refresh_token = Cookies.get("refresh_token");
 
     console.log("cookieUserString", cookieUserString);
+    
+    
     
 
     if (cookieUserString) {
@@ -90,7 +92,8 @@ const HeaderUser = ({
       );
       dispatch(setLoginState(false))
     }
-  }, []);
+  }, [dispatch]);
+
 
   // Sync latest user to currentUser state
   useEffect(() => {
