@@ -29,6 +29,8 @@ const ThreadDrawer = () => {
   const ThreadDrawerOpen = useSelector((state) => state.base.ThreadDrawer);
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
 
+  console.log("ThreadData", ThreadData);
+
   const HandlecloseDrawer = () => {
     dispatch(setThreadDrawer(false));
   };
@@ -212,6 +214,18 @@ const ThreadDrawer = () => {
               py={10}
             >
               <CircularProgress color="primary" />
+            </Box>
+          ) : ThreadData?.length === 0 ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+              py={10}
+            >
+              <Typography variant="body2" color="textSecondary">
+                You don’t have any threads yet.
+              </Typography>
             </Box>
           ) : (
             <Box>
