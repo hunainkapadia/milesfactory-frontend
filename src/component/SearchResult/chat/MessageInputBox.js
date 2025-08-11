@@ -291,7 +291,7 @@ const MessageInputBox = ({
                           </Box>
                           <Box className={inputStyles.BoxButtons}>
                             <IconButton
-                              className={inputStyles.MicButton}
+                              className={`${inputStyles.MicButton} ${isMicActive ? inputStyles.isMicActive : inputStyles.MicButton}`}
                               onClick={handleVoiceInput}
                               disabled={isLoading}
                             >
@@ -310,7 +310,7 @@ const MessageInputBox = ({
                                     />
                                   ) : isChat ? (
                                     <img
-                                      src="/images/mic-border-icon-v2.svg"
+                                      src="/images/search-mic-icon.svg"
                                       style={{
                                         width: "12px",
                                         maxWidth: "12px",

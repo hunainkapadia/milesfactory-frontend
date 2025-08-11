@@ -114,20 +114,14 @@
                z-index: 2;
                background-color: $white;
                @include border-radius(100px);
-               border: solid 1px $lightgray3;
-               color: #656565;
 
-               i {
-               font-size: 20px;
+               .fa {
+                  font-size: 20px;
+               }
+               &.isMicActive {
+                  i {font-size: 16px;}
                }
 
-               &:hover {
-               background-color: $basecolor1;
-               color: $white;
-                  img {
-                       filter: grayscale(100%) brightness(1000%);
-                  }
-               }
             }
          }
       }
