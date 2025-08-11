@@ -93,7 +93,7 @@
                width: 40px;
                height: 40px;
                z-index: 2;
-               background-color: $basecolor1;
+               background-color: $btn-gradient-basecolor1;
                @include border-radius(100px);
                color: $white;
 
@@ -195,7 +195,8 @@
                }
       
                .SearchButton {
-                  color: $white;
+                  color: $white !important;
+                  i {margin-top: 2px !important;}
                }
       
                .SearchButtonBox {
@@ -302,11 +303,12 @@
             .SearchButton {
                width: 25px;
                height: 25px;
-               background-color: $basecolor1;
+               background:$btn-gradient-basecolor1;
                @include border-radius(100px);
                color: $black;
                font-size: $bfsize;
-               i {margin-top: 4px;}
+               
+               i {margin-top: 0px;}
             }
             .MicButton {
                width: 25px;
