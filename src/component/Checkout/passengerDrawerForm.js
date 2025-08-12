@@ -388,7 +388,7 @@ const PassengerDrawerForm = () => {
             </Box>
             <Divider />
           </Box>
-          <Box className={styles.checkoutDrowerBody}>
+          <Box className={`${styles.checkoutDrowerBody} ${styles.PassengerFormDrowerBody}`}>
             <Box py={3} px={3}>
               <Box
                 sx={{ pt: { lg: 2, md: 2 } }}

@@ -1,6 +1,7 @@
 @import "../../variables";
 
 
+
 .BaggageBox:not(:last-child) {
    margin-bottom: 24px;
 }
@@ -93,6 +94,9 @@
             overflow-y: auto;
             padding-bottom: 18px; // optional, space before footer
             padding-top: 18px; // optional, space before footer
+            &.PassengerFormDrowerBody {
+               padding-top: 0;
+            padding-bottom: 0;}
          }
       }
    }
