@@ -5,7 +5,7 @@ const initialState = {
   LoginError: "",
   ThreadDrawer: false,
   ThreadData: null,
-  currentUser: "",
+  currentUser: null,
   feedbackDialog: false,
   contactDialog: false,
   isloading: false,
@@ -20,12 +20,16 @@ const initialState = {
   IsBuilderDialog: false,
   sidebarTab: "overview",
   Chatscroll: false,
+  mobileNaveDrawer: false,
 };
 
 const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    setMobileNaveDrawer: (state, action) => {
+      state.mobileNaveDrawer = action.payload;
+    },
     setChatscroll: (state, action) => {
       state.Chatscroll = action.payload;
     },
@@ -103,8 +107,10 @@ export const feedBack=()=> {
 }
 export const thread = () => (dispatch, getState) => {
   
+  
   dispatch(seIsloading(true))
   api.get("/api/v1/chat/thread/all").then((res)=> {
+    console.log("getAllthread", res.data);
     dispatch(setThreadData(res.data))
     dispatch(seIsloading(false))
   }).catch((error)=> {
@@ -246,6 +252,7 @@ export const {
   setIsBuilderDialog,
   setSidebarTab,
   setChatscroll,
+  setMobileNaveDrawer
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Box,
-  DialogContent,
-  Drawer,
-  Slide,
-  
-} from "@mui/material";
+import { Box, DialogContent, Drawer, Slide } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsBuilderDialog } from "@/src/store/slices/Base/baseSlice";
 import YourTripSedebarCard from "../../YourTripSedebarCard";
@@ -16,6 +10,7 @@ import styles from "@/src/styles/sass/components/input-box/mobileBuilder.module.
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import MobileBuilder from "../mobileBuilderBUtton";
 import SidebarTabs from "../../YourTripSedebarCard/SidebarTabs";
+import Header from "@/src/component/layout/Header";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -40,23 +35,33 @@ const MobileBuilderDialoge = () => {
 
   return (
     <Drawer
+      className={styles.BuilderDrawer + " BuilderDrawer"}
       anchor="right"
       open={isBuilderDialoge}
       onClose={BuilderDialogeClose}
+      ModalProps={{
+        hideBackdrop: true,
+        keepMounted: true,
+      }}
       PaperProps={{
         sx: {
+          position: "absolute",
+          top: "50px", // shift drawer down 50px
+          height: "calc(100% - 50px)", // adjust height so it doesn't overflow
           width: "100%",
-          maxWidth: "480px",
+          maxWidth: "100%",
           boxShadow: "none",
-          borderLeft: "1px solid #E6EEEE",
+          borderTop: "1px solid #E6EEEE",
+          overflow: "hidden", // keep scroll only in content area
+          zIndex:4,
         },
       }}
       SlideProps={{
-        timeout: 300, // optional: controls animation duration
+        timeout: 300,
       }}
     >
-      <DialogContent sx={{ px: 0, py: "18px" }} className="asasas">
-        <Box>
+      <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
+        <Box className="1111" py={"18px"}>
           <YourTripSedebarCard getBuilder={getBuilder} />
         </Box>
       </DialogContent>

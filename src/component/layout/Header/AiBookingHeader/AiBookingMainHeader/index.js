@@ -31,7 +31,6 @@ import { useRouter } from "next/router";
 import ThreadDrawer from "@/src/component/SearchResult/ThreadDrawer";
 import {
   setCurrentUser,
-  setThreadDrawer,
   thread,
 } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
@@ -103,11 +102,7 @@ const AiBookingMainHeader = ({
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
   };
-  const handleThreadDrawer = () => {
-    dispatch(thread());
-    dispatch(setThreadDrawer(true)); // opens the drawer
-  };
-
+  
   const HandlePopup = () => {
     dispatch(setisUserPopup(true));
   };

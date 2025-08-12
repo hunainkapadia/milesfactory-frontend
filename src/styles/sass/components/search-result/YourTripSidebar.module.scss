@@ -16,9 +16,13 @@
   gap: 12px;
   
   
+  border-radius: 8px;
+  
   background: rgba(0, 196, 204, 0.05);
   border: 1px solid rgba(197, 218, 222, 0.4);
-  border-radius: 8px;
+
+
+  
 }
 
 
@@ -37,12 +41,15 @@
 
   }
 
-.tripDetails .tripDetailsCol {
-  border-right: 1px solid $black;
-  margin-right: 5px;
-  padding-right: 5px;
-  &:last-child {
-    border-right: none;
+.tripDetails {margin-top: 4px;
+  .tripDetailsCol {
+    line-height: 1;
+    border-right: 1px solid $black;
+    margin-right: 5px;
+    padding-right: 5px;
+    &:last-child {
+      border-right: none;
+    }
   }
 }
 // tabs
@@ -221,7 +228,7 @@
     box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
     border-radius: 24px;
     .CardHeader {
-      padding: 20px 24px 10px 30px;
+      padding: 8px 24px 0 24px;
       border-radius: 24px 24px 0  0;
     }
     .Footer {border-radius: 0 0 24px 24px;}

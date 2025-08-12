@@ -4,6 +4,7 @@ import {
   closeDrawer,
   fetchflightDetail,
   setflightDetail,
+  setOfferkeyforDetail,
   setOpenDrawer,
   setSelectedFlightKey,
   setSelectFlightKey,
@@ -48,13 +49,13 @@ const OfferCardSidebar = ({ index, slice }) => {
   );
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-  
+
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id ?? null;
 
   const HandleSelectDrawer = () => {
     if (getselectedFlight?.id) {
-      dispatch(setSeeDetailButton("Builder"))
+      dispatch(setSeeDetailButton("Builder"));
       dispatch(setOpenDrawer(getselectedFlight.id));
       dispatch(setflightDetail(getselectedFlight));
     }
@@ -68,6 +69,7 @@ const OfferCardSidebar = ({ index, slice }) => {
     dispatch(setMessage({ ai: { passengerFlowRes: false } }));
     dispatch(bookFlight(null)); // Pass flight ID to bookFlight
     dispatch(setSingleFlightData(null));
+    dispatch(setOfferkeyforDetail(null)); //  offerkey clear key (for detail)
   };
 
   return (
@@ -78,45 +80,46 @@ const OfferCardSidebar = ({ index, slice }) => {
           justifyContent={"space-between"}
           alignItems={"center"}
         >
-          {index === 0 ? (
-            <Box display={"flex"}>
-              <Typography className="f12 semibold">Departing flight</Typography>
-            </Box>
-          ) : (
-            <Box display={"flex"}>
-              <Typography className="f12 semibold">Return flight</Typography>
-            </Box>
-          )}
           <Box display={"flex"} gap={2} alignItems={"center"}>
-            {PaymentStatus?.is_complete === "yes" &&
-            PaymentStatus?.status === "success" ? (
-              <Box
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                className={TripStyles.BookedLabel + " chip chipPrimary sm"}
-              >
-                Booked
+            {index === 0 ? (
+              <Box display={"flex"}>
+                <Typography className="f12 semibold">
+                  Departing flight
+                </Typography>
               </Box>
-            ) : getselectedFlight ? (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                className={TripStyles.SelectedLabel + " chip chipYellow sm"}
-              >
-                Selected
+            ) : (
+              <Box display={"flex"}>
+                <Typography className="f12 semibold">Return flight</Typography>
               </Box>
-            ) : null}
-
+            )}
             <FontAwesomeIcon
               className="basecolor1-50"
               cursor="pointer"
               onClick={handleClearFlight}
               icon={faClose}
-              fontSize={18}
+              fontSize={20}
             />
           </Box>
+          {PaymentStatus?.is_complete === "yes" &&
+          PaymentStatus?.status === "success" ? (
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              className={TripStyles.BookedLabel + " chip chipPrimary sm"}
+            >
+              Booked
+            </Box>
+          ) : getselectedFlight ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              className={TripStyles.SelectedLabel + " chip chipYellow sm"}
+            >
+              Selected
+            </Box>
+          ) : null}
         </Box>
 
         <Box
@@ -138,7 +141,7 @@ const OfferCardSidebar = ({ index, slice }) => {
               className={TripStyles.airlineLogo}
             />
             <Box>
-              <Typography className="f14 mb-0 bold black ">
+              <Typography lineHeight={1} className="f14 mb-0 bold black ">
                 {slice?.segments[0]?.marketing_carrier?.name}
               </Typography>
               <Typography
@@ -155,7 +158,7 @@ const OfferCardSidebar = ({ index, slice }) => {
               className="text-decoration-none cursor-pointer"
             >
               <Box
-                gap={1}
+                gap={"4px"}
                 alignItems={"center"}
                 display={"flex"}
                 className=" basecolor1 semibold f12"
@@ -250,8 +253,8 @@ const OfferCardSidebar = ({ index, slice }) => {
               justifyContent={"space-between"}
               mb={"8px"}
             >
-              <Stack direction="row" spacing={1} alignItems={"center"}>
-                <Box pt={0}>
+              <Stack direction="row" spacing={"4px"} alignItems={"center"}>
+                <Box pt={"3px"}>
                   <svg
                     width="13"
                     height="13"
@@ -288,13 +291,13 @@ const OfferCardSidebar = ({ index, slice }) => {
 
           <Stack
             direction="row"
-            spacing={1}
+            spacing={"4px"}
             alignItems="center"
             component="section"
             justifyContent={"space-between"}
           >
-            <Stack direction="row" spacing={1} alignItems={"center"}>
-              <Box pt={0}>
+            <Stack direction="row" spacing={"4px"} alignItems={"center"}>
+              <Box pt={"3px"}>
                 <svg
                   width="13"
                   height="13"

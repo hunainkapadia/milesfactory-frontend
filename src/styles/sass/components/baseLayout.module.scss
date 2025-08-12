@@ -3,19 +3,22 @@
 
 
 // search share dropdown header
+
 .ShareDropdown {
    @include transition(all 0.2s ease-in-out);
    padding: 0px;
    position: relative;
 
-
+      .ShareDropdownHandle {
+         padding: 10px 0;
+      }
    
 
    .DropdownItems {
       width: 100%;
       position: absolute;
       height: auto;
-      top: 25px;
+      top: 40px;
       left: -50px;
       display: flex;
       justify-content: center;
@@ -239,6 +242,7 @@
       }
       .ShareDropdownHandle
        {
+         padding: 0;
          height: 60px;
       }
    }
@@ -316,7 +320,7 @@
             padding-right: 15px;
          }
          .leftCol .Logo {
-            width: 94px;
+            width: auto;
          }
          .HeaderRightCol {gap: 0 24px;
             position: absolute;

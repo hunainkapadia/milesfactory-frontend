@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
+import { setAddBuilder } from "./sendMessageSlice";
 
 const initialState = {
   chatActive: false,
@@ -11,12 +12,24 @@ const initialState = {
   refreshSearch: "",
   SearchHistoryGet: null,
   topOfferUrl: null,
+  
 };
 
 const GetMessagesSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    
+    clearGetMessages: (state) => {
+      state.SearchHistory
+      state.messages = [];
+      state.error = null;
+      state.isLoading = false;
+      state.flightExpire = "";
+      state.refreshSearch = "";
+      state.SearchHistoryGet = null;
+      state.topOfferUrl = null;
+    },
     setGetMessageUUID: (state, action)=> {
       console.log("action_000", action);
       
@@ -32,7 +45,12 @@ const GetMessagesSlice = createSlice({
     setRefreshSearch: (state, action)=> {
       state.refreshSearch = action.payload;
     },
+    setMessages: (state, action) => {
+  state.messages = action.payload;  // Replace entire messages array
+},
     setMessage: (state, action) => {
+      console.log("thread_action", action);
+      
       //console.log("actiontest", action);
       
       state.messages.push(action.payload);
@@ -54,31 +72,40 @@ const GetMessagesSlice = createSlice({
   },
 });
 
-export const fetchMessages = () => (dispatch, getState) => {
+export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
   const state = getState();
-  const uuid =  state?.getMessages?.getMessageUUID
+  const threadUuid =  state?.sendMessage?.threadUuid
+  const uuid = getthreaduuid || threadUuid;  
   
+  // Get the current URL path
+  // const pathname = window.location.pathname;
+
+  // // Extract only the UUID after /chat/ and remove anything after it
+  // const threadUUID = pathname.split("/chat/")[1]?.split("/")[0]?.split("?")[0] || "";
+   if (!uuid) {
+    console.error("No thread UUID found!");
+    return;
+  }
   
   dispatch(setIsLoading(true));
-  const localUUID = sessionStorage.getItem("chat_thread_uuid");
   
-  
-  const threadUrl = `${API_ENDPOINTS.CHAT.GET_MESSAGE}${uuid}`
-  console.log("state_getmess", threadUrl);
+  // Use only the UUID in the API URL
+  const threadUrl = `/api/v1/chat/get-messages/${uuid}`;
   
   api
   .get(threadUrl)
-  .then((response) => {
-    console.log("get_test12", response);
-    
+  .then((response) => {    
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
       }
       response?.data.forEach((item) => {
         // is function true start search result flow
-        console.log("allFlightSearchApi", item);
+        if (item?.silent_is_function) {
+          dispatch(setAddBuilder(item));
+        }
         if (item?.is_function) {
+          // builder for get
           
           
           // const topFlightSearchApi =
@@ -201,6 +228,9 @@ export const {
   setRefreshSearch,
   setSearchHistoryGet,
   setTopOfferUrl,
-  setGetMessageUUID
+  setGetMessageUUID,
+  clearGetMessages,
+  setMessages,
+  
 } = GetMessagesSlice.actions;
 export default GetMessagesSlice.reducer;

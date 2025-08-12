@@ -39,7 +39,7 @@ const RightTopSection = ({
             className="text-decoration-none basecolor1"
           >
             <Box
-              gap={1.5}
+              gap={"4px"}
               alignItems={"center"}
               display={"flex"}
               className=" bold f12"

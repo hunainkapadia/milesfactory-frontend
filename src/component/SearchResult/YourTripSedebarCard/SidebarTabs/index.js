@@ -5,8 +5,24 @@ import { useDispatch, useSelector } from "react-redux";
 
 const SidebarTabs = () => {
   const dispatch = useDispatch();
-  const handleTabClick = (tabId) => {
+  const handleTabClick = (tabId, sectionId) => {
+    console.log("sectionId", sectionId);
+    
     dispatch(setSidebarTab(tabId));
+    setTimeout(() => {
+      const drawerContent = document.querySelector(".asasas"); // your scroll container
+      const section = drawerContent?.querySelector(`#${sectionId}`);
+
+      if (drawerContent && section) {
+        const sectionTop = section.offsetTop;
+        const scrollOffset = 60; // Adjust this to match your fixed header height
+
+        drawerContent.scrollTo({
+          top: sectionTop - scrollOffset,
+          behavior: "smooth",
+        });
+      }
+    }, 100); // small delay ensures DOM has rendered
   };
   const activeTab = useSelector((state) => state?.base?.sidebarTab);
   console.log("activeTab", activeTab);
@@ -19,7 +35,10 @@ const SidebarTabs = () => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
+  const slices = getselectedFlight?.slices || [];
 
+  console.log("getBuilder", getBuilder?.flight_type);
+  
   return (
     <Box
       width={"100%"}
@@ -28,31 +47,70 @@ const SidebarTabs = () => {
         borderRadius: "8px",
         padding: "4px",
         display: "flex",
-        gap: 2,
+        gap: "4px",
       }}
       className={`${TripStyles.customTabs} customTabs`}
     >
-      <a
-        href="#overview"
-        onClick={() => handleTabClick("overview")}
-        style={{ textDecoration: "none" }}
-      >
-        <Box
-          className={`${TripStyles.inactiveTab} ${
-            activeTab === "overview" ? TripStyles.activeTab : ""
-          }`}
-          display="flex"
-          alignItems="center"
-          gap={1}
+      {/* // Conditional rendering of tabs based on flight type. Assume return by default  */}
+      {getBuilder?.flight_type ===  "one-way" ? (
+        <a
+          href="#offer-card"
+          onClick={() => handleTabClick("overview", "offer-card")}
+          style={{ textDecoration: "none" }}
         >
-          <Typography className="f12">Outbound</Typography>
-        </Box>
-      </a>
+          <Box
+            className={`${TripStyles.inactiveTab} ${
+              activeTab === "overview" ? TripStyles.activeTab : ""
+            }`}
+            display="flex"
+            alignItems="center"
+            gap={1}
+          >
+            <Typography className="f12">Departure</Typography>
+          </Box>
+        </a>
+      ) : (
+        <>
+          <a
+            href="#offer-card"
+            onClick={() => handleTabClick("overview", "offer-card")}
+            style={{ textDecoration: "none" }}
+          >
+            <Box
+              className={`${TripStyles.inactiveTab} ${
+                activeTab === "overview" ? TripStyles.activeTab : ""
+              }`}
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Typography className="f12">Departure</Typography>
+            </Box>
+          </a>
+          <a
+            href="#offer-card-return"
+            onClick={() => handleTabClick("flights", "offer-card-return")}
+            style={{ textDecoration: "none" }}
+          >
+            <Box
+              className={`${TripStyles.inactiveTab} ${
+                activeTab === "flights" ? TripStyles.activeTab : ""
+              }`}
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Typography className="f12">Return</Typography>
+            </Box>
+          </a>
+        </>
+      )}
+
       {getBuilder?.itinerary_text && (
         <>
           <a
             href="#itinerary-section"
-            onClick={() => handleTabClick("itinerary")}
+            onClick={() => handleTabClick("itinerary", "itinerary-section")}
             style={{ textDecoration: "none" }}
           >
             <Box
@@ -66,26 +124,6 @@ const SidebarTabs = () => {
               <Typography className="f12">Itinerary</Typography>
             </Box>
           </a>
-        </>
-      )}
-      {getselectedFlight && (
-        <>
-        <a
-          href="#offer-card-return"
-          onClick={() => handleTabClick("flights")}
-          style={{ textDecoration: "none" }}
-        >
-          <Box
-            className={`${TripStyles.inactiveTab} ${
-              activeTab === "flights" ? TripStyles.activeTab : ""
-            }`}
-            display="flex"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography className="f12">Return</Typography>
-          </Box>
-        </a>
         </>
       )}
     </Box>

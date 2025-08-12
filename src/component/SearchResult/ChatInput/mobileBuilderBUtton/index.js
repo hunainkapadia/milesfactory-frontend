@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/input-box/mobileBuilder.module.scss";
 import { setIsBuilderDialog } from "@/src/store/slices/Base/baseSlice";
@@ -9,51 +8,71 @@ import { event } from "@/src/utils/utils";
 
 const MobileBuilder = () => {
   const dispatch = useDispatch();
-  const handleToggle = () => {
-    if (!isBuilderArgument) return; // 
+  const isBuilder = useSelector((state) => state?.base?.IsBuilderDialog);
+  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
+  const isBuilderArgument = getBuilder?.silent_function_template?.[0];
 
-    //ga_event
+  const handleTabClick = (tab) => {
+    if (!isBuilderArgument) return;
+
+    // GA event
     event({
       action: 'click',
       category: 'engagement',
       label: 'Builder Toggle Mobile Clicked',
     });
+
     console.log("Builder Toggle Mobile Clicked");
-
-    dispatch(setIsBuilderDialog(!isBuilder));
+    dispatch(setIsBuilderDialog(tab === "builder"));
   };
-  const isBuilder = useSelector((state) => state?.base?.IsBuilderDialog);
 
-  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
-  // getBuilder?.silent_function_template?.[0]?.function?.arguments
-  const isBuilderArgument = getBuilder?.silent_function_template?.[0]
-  //console.log("getBuilder", isBuilderArgument)
+  console.log("isBuilder", isBuilder);
+  
 
   return (
     <>
       {isBuilderArgument && (
-      <Box className={styles.switchWrapper} onClick={handleToggle}>
-        {/* Switch Slider */}
-        <Box className={`${styles.slider} ${isBuilder ? styles.right : ""}`} />
-
-        {/* Chat Label */}
         <Box
-          className={
-            styles.label + " " + (isBuilder ? styles.active : styles.inactive)
-          }
+          className={`${styles.switchWrapper} customTabs`}
+          sx={{
+            backgroundColor: "#F2F7F8",
+            borderRadius: "8px",
+            padding: "4px",
+            display: "flex",
+            gap: "4px",
+            width: "100%",
+          }}
         >
-          <Typography variant="body2">Chat</Typography>
-        </Box>
+          {/* Chat Tab */}
+          <Box
+            className={`${styles.label} ${
+              !isBuilder ? styles.active : styles.inactive
+            }`}
+            onClick={() => handleTabClick("chat")}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            flex={1}
+            sx={{ cursor: "pointer" }}
+          >
+            <Typography variant="body2">Chat</Typography>
+          </Box>
 
-        {/* Builder Label */}
-        <Box
-          className={
-            styles.label + " " + (!isBuilder ? styles.active : styles.inactive)
-          }
-        >
-          <Typography variant="body2">Builder</Typography>
+          {/* Builder Tab */}
+          <Box
+            className={`${styles.label} ${
+              isBuilder ? styles.active : styles.inactive
+            }`}
+            onClick={() => handleTabClick("builder")}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            flex={1}
+            sx={{ cursor: "pointer" }}
+          >
+            <Typography variant="body2">Builder</Typography>
+          </Box>
         </Box>
-      </Box>
       )}
     </>
   );

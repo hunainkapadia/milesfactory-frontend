@@ -222,9 +222,7 @@ p {
   line-height: 1.7em;
   font-family: $secondary-font !important;
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+  
 }
 
 // debug class
@@ -649,7 +647,7 @@ label,
 }
 
 .main-body {
-  padding-top: 60px;
+  
 }
 
 .MainDrower {
@@ -1190,9 +1188,17 @@ body {
 .MuiDialog-container{ padding: 0 18px;}
   .formGroup {
     margin-bottom: 22px;
+    .formControl.select {
+      .fa {
+        right: 20px;
+        position: absolute;
+        font-size: 14px;
+        pointer-events: none;
+      }
+    }
     label.MuiInputLabel-formControl {
         color: #8C8C7A !important;
-        top: -3px;
+        top: 0px;
       }
 
     .formLabel {}
@@ -1215,7 +1221,7 @@ body {
 
   .formControl.description .MuiInputBase-root {
     min-height: 80px;
-    padding-top: 50px;
+    padding-top: 12px;
   }
 
 
@@ -1497,8 +1503,9 @@ body {
   justify-content: center;
   align-items: center;
   background-color: $white;
-  border: 1px solid rgba(197, 218, 222, 0.3);
+  border: 1px solid $lightgray1;
   border-radius: 100px;
+  color: $lightgray1;
   &.lg {
     width: 40px;
     height: 40px;
@@ -1627,7 +1634,7 @@ body {
 
   &.btn-black {
     @include border-radius(4px);
-    padding: 4px 10px;
+    padding: 5px 10px 5px;
     background: $darkgray;
     color: $white;
     font-weight: $bold;
@@ -1644,45 +1651,12 @@ body {
   }
 
   &.btn-disabled,
-  &:disabled {
-    &.btn-primary {
-      pointer-events: none; // disables clicks
-      cursor: not-allowed; // optional: shows disabled cursor
-      border-radius: 8px;
-      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
-      background: $lightgray2;
-      cursor: inherit;
-      letter-spacing: 1.2px !important;
-      color: $white !important;
-      font-weight: 500;
-
-      
-    }
-
-    &.btn-round {
-      height: 40px;
-      font-size: 12px;
-      border-radius: 100px;
-      box-shadow: none;
-    }
-
-    &.no-rounded {
-      border-radius: 8px !important;
-    }
-
-    &.active:hover,
-    &.active,
-    &.active:focus {
-      background: $basecolor2;
-      border-color: $basecolor2;
-      color: $white;
-    }
-  }
+  
 
   &.btn-white {
     border-radius: 8px;
     background: $white;
-    letter-spacing: 1.2px !important;
+    letter-spacing: 0 !important;
     color: $basecolor1;
     font-weight: 500;
     border: solid 1px #E2ECEF !important;
@@ -1692,9 +1666,19 @@ body {
   }
   &.btn-primary {
     &.disabled {
-      pointer-events: none; // disables clicks
-      cursor: not-allowed; // optional: shows disabled cursor
+      background: $basecolor1;
       opacity: 0.5;
+      color: $white !important;
+      pointer-events: none; // disables clicks
+      &.btn-round {
+        font-size: 12px;
+        border-radius: 100px;
+        box-shadow: none;
+      }
+
+      &.no-rounded {
+        border-radius: 8px !important;
+      }
     }
     &.btn-lg-x {
       padding: 7px 36px 8px;
@@ -1722,7 +1706,7 @@ body {
 
     border-radius: 8px;
     background: $basecolor1;
-    letter-spacing: 1.2px !important;
+    letter-spacing: 0 !important;
     color: $white;
     font-weight: 500;
 
@@ -1922,10 +1906,12 @@ body {
 
 hr {
   margin: 20px 0;
-  border-top: solid 0px $lightgray4 !important;
+  border-top: solid 1px $lightgray4 !important;
   border-color: $lightgray4 !important;
 }
-
+.Divider {
+  border-width: 0;
+}
 .divider:not(.text) {
   border-top: solid 1px rgba($black, 0.1);
   margin: 30px 0;

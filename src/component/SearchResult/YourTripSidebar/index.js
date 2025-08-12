@@ -7,13 +7,14 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import YourTripSedebarCard from "../YourTripSedebarCard";
 import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 
 import Image from "next/image";
 import { currencySymbols } from "@/src/utils/utils";
 import ShareDropdown from "../../layout/Header/ShareDropdown";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
@@ -29,7 +30,10 @@ const YourTripSidebar = ({ isMessage }) => {
   );
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
-  
+  const dispatch= useDispatch();
+  const handleBookFlight = ()=> {
+    dispatch(setChatscroll(true)); // scrol lon click book
+  }
   return (
     <>
       {getBuilder && (
@@ -55,11 +59,12 @@ const YourTripSidebar = ({ isMessage }) => {
               pt={"20px"}
               pb={"13px"}
             >
-              <Box gap={1} display={"flex"} alignItems={"center"}>
+              <Box gap={"3px"} display={"flex"} alignItems={"center"}>
                 <Box className=" imggroup">
                   <img src="/images/builder-icon.svg" />
                 </Box>
-                <Typography className="basecolor1 mb-0 bold">
+                
+                <Typography sx={{pt:"6px"}} className="basecolor1 mb-0 exbold">
                   Builder
                 </Typography>
               </Box>
@@ -88,7 +93,7 @@ const YourTripSidebar = ({ isMessage }) => {
               py={"14px"}
               component={"footer"}
               className={YourtripStyles.Footer + " "}
-              sx={{ backgroundColor: "#F2F7F8" }}
+              sx={{ borderTop:" solid 1px  #E6EEEE" }}
             >
               <Box
                 display={"flex"}
@@ -113,7 +118,8 @@ const YourTripSidebar = ({ isMessage }) => {
                       : "No product added"}
                   </Typography>
                 </Box>
-                <Button
+                
+                <Button onClick={handleBookFlight}
                   className={`btn btn-primary btn-round btn-xs ${
                     !!orderSuccess || !getselectedFlight ? "disabled" : ""
                   }`}

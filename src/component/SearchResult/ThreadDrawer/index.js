@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -14,17 +14,33 @@ import { setThreadDrawer } from "@/src/store/slices/Base/baseSlice";
 import Link from "next/link";
 import api from "@/src/store/api";
 import { useRouter } from "next/router";
+import {
+  CreatesingleThread,
+  historySingleThread,
+  setThreadUuid,
+} from "@/src/store/slices/sendMessageSlice";
+import {
+  clearGetMessages,
+  fetchMessages,
+} from "@/src/store/slices/GestMessageSlice";
 
 const ThreadDrawer = () => {
   const dispatch = useDispatch();
   const ThreadDrawerOpen = useSelector((state) => state.base.ThreadDrawer);
   const ThreadData = useSelector((state) => state?.base?.ThreadData);
 
+  console.log("ThreadData", ThreadData);
+
   const HandlecloseDrawer = () => {
     dispatch(setThreadDrawer(false));
   };
 
   const groupRecordsByDate = (data) => {
+    // Sort by created_date DESC so newest is first
+    const sortedData = [...data].sort(
+      (a, b) => new Date(b.created_date) - new Date(a.created_date)
+    );
+
     const today = new Date();
 
     const startOfToday = new Date(
@@ -52,10 +68,9 @@ const ThreadDrawer = () => {
       older: [],
     };
 
-    data.forEach((item) => {
+    sortedData.forEach((item) => {
       const itemDate = new Date(item.created_date);
 
-      // Normalize itemDate to local timezone before truncating to midnight
       const localDate = new Date(
         itemDate.getTime() + itemDate.getTimezoneOffset() * 60000
       );
@@ -66,25 +81,19 @@ const ThreadDrawer = () => {
       );
 
       if (itemDay.getTime() === startOfToday.getTime()) {
-        
         group.today.push(item);
       } else if (itemDay.getTime() === startOfYesterday.getTime()) {
-        
         group.yesterday.push(item);
       } else if (itemDay >= startOf7DaysAgo) {
-        
         group.last7Days.push(item);
       } else if (itemDay >= startOf30DaysAgo) {
-        
         group.last30Days.push(item);
       } else if (
         itemDay.getMonth() === lastMonth.getMonth() &&
         itemDay.getFullYear() === lastMonth.getFullYear()
       ) {
-        
         group.lastMonth.push(item);
       } else {
-        
         group.older.push(item);
       }
     });
@@ -104,26 +113,31 @@ const ThreadDrawer = () => {
   };
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString("en-US", {
+    return new Date(date).toLocaleString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true, // 12-hour format, set to false for 24-hour
     });
   };
-
   const theme = useTheme();
   // Check if the screen size is "small" or below (mobile)
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const router = useRouter();
-  const HandleSingleThread = (threaduuid) => {
-    dispatch(setThreadDrawer(false));
+  const geturlUUID = useSelector((state) => state?.sendMessage?.threadUuid);
+  const activeUUID = geturlUUID || router.query?.uuid;
+
+  const handleSingleThread = (threaduuid) => {
     if (threaduuid) {
-      router.replace(`/chat/${threaduuid}?reload=${Date.now()}`);
+      window.location.href = `/chat/${threaduuid}`; // full browser reload
+      dispatch(CreatesingleThread(threaduuid));
     }
   };
+
   const isloading = useSelector((state) => state.base.isloading);
-  
 
   return (
     <Drawer
@@ -142,9 +156,9 @@ const ThreadDrawer = () => {
           alignItems={"center"}
           sx={{ display: { lg: "none", md: "none", xs: "flex" } }}
           gap={2}
-          px={2}
           pt={1}
           pb={3}
+          px={"24px"}
         >
           {/* Close Button */}
           <Box fontSize={"20px"}>
@@ -168,7 +182,6 @@ const ThreadDrawer = () => {
           <Grid
             container
             className={styles.checkoutDrowerHeder}
-            px={3}
             alignItems="center"
             justifyContent="space-between"
             sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
@@ -178,7 +191,8 @@ const ThreadDrawer = () => {
                 display="flex"
                 justifyContent="flex-end"
                 alignItems="center"
-                pt={3}
+                pt={"19px"}
+                px={"24px"}
               >
                 <Box
                   onClick={HandlecloseDrawer}
@@ -201,32 +215,56 @@ const ThreadDrawer = () => {
             >
               <CircularProgress color="primary" />
             </Box>
+          ) : ThreadData?.length === 0 ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+              py={10}
+            >
+              <Typography variant="body2" color="textSecondary">
+                You don’t have any threads yet.
+              </Typography>
+            </Box>
           ) : (
-            <Box px={3}>
+            <Box>
               {Object.keys(groupedRecords).map((groupKey) => {
                 const records = groupedRecords[groupKey];
                 if (records.length === 0) return null;
 
                 return (
                   <Box key={groupKey} pb={3}>
-                    <Typography className="f12 exbold" pb={2}>
-                      {groupLabels[groupKey]}
-                    </Typography>
-                    {records.map((item, i) => (
-                      <>
-                        <Box
-                          key={item.uuid}
-                          onClick={() => HandleSingleThread(item.uuid)}
-                          className={"cursor-pointer"}
-                          sx={{ textDecoration: "none" }}
-                          pb={2}
-                        >
-                          <Typography className="f12">
-                            {formatDate(item.created_date)}
-                          </Typography>
-                        </Box>
-                      </>
-                    ))}
+                    <Box px={"24px"}>
+                      <Typography className="f12 exbold" pb={2}>
+                        {groupLabels[groupKey]}
+                      </Typography>
+                    </Box>
+                    <Box px={"14px"}>
+                      {records.map((item, i) => (
+                        <>
+                          <Link
+                            sx={{ px: "10px" }}
+                            className={`${
+                              styles.ThreadDrawerItem
+                            } cursor-pointer text-decuration-none ${
+                              activeUUID === item.uuid ? styles.active : ""
+                            }`}
+                            href={`/chat/${item.uuid}`}
+                            key={item.uuid}
+                            onClick={(e) => {
+                              e.preventDefault(); // prevent immediate navigation
+                              handleSingleThread(item.uuid); // will push and refresh
+                            }}
+                          >
+                            <Typography className="f12">
+                              {formatDate(item.created_date)}
+                            </Typography>
+                            {/* <Typography>{item.uuid}</Typography> */}
+                          </Link>
+                        </>
+                      ))}
+                    </Box>
                   </Box>
                 );
               })}

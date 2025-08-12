@@ -66,8 +66,6 @@ const YourTripSedebarCard = ({
   // );
   // const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  //console.log("SearchHistorySend", SearchHistory);
-  
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -129,9 +127,13 @@ const YourTripSedebarCard = ({
   return (
     <>
       {/* Open drawer only for the selected flight */}
-      <Box component={"section"} className="Tabs" px={"18px"} pb={1}>
-        {isSidebar ? <SidebarTabs /> : ""}
-      </Box>
+      {isSidebar ? (
+        <Box component={"section"} className="Tabs" px={"18px"} pb={1}>
+          <SidebarTabs />
+        </Box>
+      ) : (
+        ""
+      )}
 
       <Box
         className={TripStyles.TripBody}
@@ -151,31 +153,30 @@ const YourTripSedebarCard = ({
           <Box>
             <Box>
               {BuilderArguments?.to_destination &&
-              BuilderArguments?.trip_length &&
-              BuilderArguments?.from_destination ? (
+              BuilderArguments?.trip_length ? (
                 <Typography
                   component="h4"
                   sx={{ fontSize: { xs: "16px", md: "20px" } }}
-                  className="font-semibold text-black mb-0"
+                  className="bold black mb-0"
                 >
-                  My {BuilderArguments.trip_length} day(s) travel to{" "}
-                  {BuilderArguments.to_destination} from{" "}
-                  {BuilderArguments.from_destination}
+                  My {BuilderArguments.trip_length} day
+                  {BuilderArguments.trip_length > 1 ? "s" : ""} travel to{" "}
+                  {BuilderArguments.to_destination}
                 </Typography>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.trip_length ? (
-                <h4 className="semibold black mb-0">
-                  My {BuilderArguments.trip_length} day(s) travel to{" "}
+                <h4 className="bold black mb-0">
+                  My {BuilderArguments.trip_length} day
+                  {BuilderArguments.trip_length > 1 ? "s" : ""} travel to{" "}
                   {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination &&
                 BuilderArguments?.from_destination ? (
-                <h4 className="semibold black mb-0">
-                  My travel to {BuilderArguments.to_destination} from{" "}
-                  {BuilderArguments.from_destination}
+                <h4 className="bold black mb-0">
+                  My travel to {BuilderArguments.to_destination}
                 </h4>
               ) : BuilderArguments?.to_destination ? (
-                <h4 className="semibold black mb-0">
+                <h4 className="bold black mb-0">
                   My travel to {BuilderArguments.to_destination}
                 </h4>
               ) : null}
@@ -189,9 +190,7 @@ const YourTripSedebarCard = ({
                 BuilderArguments?.to_destination && (
                   <Box
                     sx={{}}
-                    className={
-                      TripStyles.tripDetailsCol + " f12 black semibold"
-                    }
+                    className={TripStyles.tripDetailsCol + " f12 black bold"}
                   >
                     {BuilderArguments.from_destination} -{" "}
                     {BuilderArguments.to_destination}
@@ -202,7 +201,7 @@ const YourTripSedebarCard = ({
                 BuilderArguments?.return_date) && (
                 <Box
                   sx={{}}
-                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
+                  className={TripStyles.tripDetailsCol + " f12 black bold"}
                 >
                   {BuilderArguments?.departure_date && (
                     <>
@@ -231,9 +230,7 @@ const YourTripSedebarCard = ({
               {(BuilderArguments?.passengers?.adults ||
                 BuilderArguments?.passengers?.children?.length > 0 ||
                 BuilderArguments?.passengers?.infants?.length > 0) && (
-                <Box
-                  className={TripStyles.tripDetailsCol + " f12 black semibold"}
-                >
+                <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
                   {[
                     BuilderArguments?.passengers?.adults > 0 &&
                       `${BuilderArguments.passengers.adults} ${
@@ -302,8 +299,9 @@ const YourTripSedebarCard = ({
                                   month: "short",
                                 })}
                               </Typography>
-                              <Typography className="f12 semibold">
-                                {BuilderArguments?.from_destination} - {BuilderArguments?.to_destination}
+                              <Typography className="f12 bold">
+                                {BuilderArguments?.from_destination} -{" "}
+                                {BuilderArguments?.to_destination}
                               </Typography>
                             </Box>
                           </Box>
@@ -320,7 +318,7 @@ const YourTripSedebarCard = ({
                               alignItems={"center"}
                               gap={"12px"}
                             >
-                              <Typography 
+                              <Typography
                                 className={
                                   TripStyles.onewayReturn +
                                   " btn btn-xs btn-black"
@@ -335,8 +333,9 @@ const YourTripSedebarCard = ({
                                   month: "short",
                                 })}
                               </Typography>
-                              <Typography className="f12 semibold">
-                                {BuilderArguments?.to_destination} - {BuilderArguments?.from_destination}
+                              <Typography className="f12 bold">
+                                {BuilderArguments?.to_destination} -{" "}
+                                {BuilderArguments?.from_destination}
                               </Typography>
                             </Box>
                           </Box>
@@ -348,10 +347,7 @@ const YourTripSedebarCard = ({
                     </Box>
                     {/* offer card  */}
                     <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
-                      <OfferCardSidebar
-                        index={index}
-                        slice={slice}
-                      />
+                      <OfferCardSidebar index={index} slice={slice} />
                     </Box>
                     {/*  */}
                     {BuilderArguments?.itinerary_text && (
@@ -481,7 +477,7 @@ const YourTripSedebarCard = ({
           {/* <Box display="flex" alignItems="center" gap={2}>
                 <Box>🌤️</Box>
                 <Box>
-                  <Typography className="f12 semibold black">
+                  <Typography className="f12 bold black">
                     32° 27° Partly Cloudy
                   </Typography>
                   <Typography className="f12 black">
@@ -496,7 +492,6 @@ const YourTripSedebarCard = ({
       </Box>
       {/* Extra Info bottom */}
 
-      <Divider />
       {/* <Box
         component={"footer"}
         className={TripStyles.TripFooter}

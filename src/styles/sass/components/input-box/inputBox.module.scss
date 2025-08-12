@@ -63,9 +63,7 @@
          @include scrollbar-light;
        }
    
-      i {
-         line-height: 2;
-      }  
+      
       // button area
       .SearchButtonBox {
          position: relative;
@@ -95,7 +93,7 @@
                width: 40px;
                height: 40px;
                z-index: 2;
-               background-color: $basecolor1;
+               background: $btn-gradient-basecolor1;
                @include border-radius(100px);
                color: $white;
 
@@ -103,9 +101,7 @@
                background-color: $lightgray1;
                }
 
-               i {
-               font-size: 20px;
-               }
+               i {font-size: 20px;line-height: 1;}
 
                &:hover {
                background-color: $basecolor1;
@@ -118,17 +114,14 @@
                z-index: 2;
                background-color: $white;
                @include border-radius(100px);
-               border: solid 1px $lightgray3;
-               color: #656565;
 
-               i {
-               font-size: 20px;
+               .fa {
+                  font-size: 20px;
+               }
+               &.isMicActive {
+                  i {font-size: 16px;}
                }
 
-               &:hover {
-               background-color: $basecolor1;
-               color: $white;
-               }
             }
          }
       }
@@ -196,7 +189,8 @@
                }
       
                .SearchButton {
-                  color: $white;
+                  color: $white !important;
+                  i {margin-top: 2px !important;}
                }
       
                .SearchButtonBox {
@@ -207,8 +201,12 @@
                   .BoxButtons {
                      padding:0;
       
-                     .MicButton {
-                        color: $gray;
+                     .MicButton {color: $gray;
+                        &:hover {
+                           img {
+                              filter: grayscale(100%) brightness(1000%);
+                           }
+                        }
                      }
                   }
                }
@@ -299,10 +297,12 @@
             .SearchButton {
                width: 25px;
                height: 25px;
-               background-color: $basecolor1;
+               background:$btn-gradient-basecolor1;
                @include border-radius(100px);
                color: $black;
                font-size: $bfsize;
+               
+               i {margin-top: 0px;}
             }
             .MicButton {
                width: 25px;
@@ -405,6 +405,7 @@
          .SearchButtonBox .BoxButtons {
             top: 8px;
             .SearchButton {
+               
             }
          }
          

@@ -40,9 +40,7 @@ const Home = () => {
   // }, [0]);
   
   // 1st creat thread befor befor message from home 
-  useEffect(() => {
-    dispatch(createThread());
-  }, [dispatch]);
+  
 
   return (
     <>

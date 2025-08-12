@@ -113,7 +113,7 @@ const LoginWithOptions = ({ options }) => {
         alignItems="center"
         justifyContent="center"
         gap={2}
-        sx={{ my: 2 }}
+        sx={{ my: 0 }}
         px={4}
       >
         <hr style={{ flex: 1 }} />

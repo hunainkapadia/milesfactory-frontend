@@ -290,6 +290,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
       region: captainParams.region,
     };
     
+    console.log("getParams", getParams);
   
     setTimeout(() => {
       api
@@ -313,7 +314,6 @@ export const getPassPofile = () => (dispatch, getState) => {
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
-      console.log("pass_profile_res", profile_res.data);
       dispatch(ViewPassengers());
       dispatch(setPassProfile(profile_res.data))
     })

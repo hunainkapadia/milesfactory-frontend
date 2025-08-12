@@ -53,16 +53,13 @@ const Messages = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
+
+  console.log("getmessages", getmessages);
+  
   
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
   {console.log("messages_test", sendMessages)}
-
-  const handleSearch = () => {
-    if (!userMessage.trim()) return;
-    dispatch(sendMessage(userMessage)); //  Sends message to API (POST)
-    setUserMessage(""); //  Clears input after sending
-  };
   const getselectedFlight = useSelector(
     (state) => state.booking.setselectedFlighDetail
   );

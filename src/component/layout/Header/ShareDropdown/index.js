@@ -33,9 +33,9 @@ export default function ShareDropdown() {
       <Box
         display={"flex"}
         alignItems={"center"}
-        gap={1}
+        gap={"4px"}
         className={`${styles.ShareDropdownHandle} basecolor1`}
-        sx={{ cursor: "pointer" }}
+        sx={{ cursor: "pointer",  }}
       >
         <Box className="imggroup">
           <Image
@@ -45,7 +45,7 @@ export default function ShareDropdown() {
             alt="Share Icon"
           />
         </Box>
-        <Typography className="bold">Share</Typography>
+        <Typography sx={{mb:"2px"}} className="bold">Share</Typography>
       </Box>
 
       {/* Dropdown Content */}
@@ -66,13 +66,13 @@ export default function ShareDropdown() {
           }}
         >
           {/* Show success message */}
-          <Stack flexDirection={"column"} gap={"10px"}>
+          <Stack flexDirection={"column"} alignItems={"center"} gap={"10px"}>
             {copied && (
               <Stack
                 gap="6px"
                 flexDirection="row"
                 alignItems="center"
-                sx={{ pl: "6px" }}
+                
               >
                 <Image
                   width={15}
@@ -89,7 +89,6 @@ export default function ShareDropdown() {
               gap="4px"
               flexDirection="row"
               alignItems="center"
-              pl="12px"
               sx={{ cursor: "pointer" }}
               onClick={handleCopyLink}
             >

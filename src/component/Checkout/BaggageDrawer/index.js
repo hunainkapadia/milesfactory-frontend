@@ -190,7 +190,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                       style={{ width: 16, height: 16 }} // optional: control image size
                     />
                     <Typography className="basecolor-dark">
-                      Outbound flight
+                      Departing flight
                     </Typography>
                   </Box>
                 }

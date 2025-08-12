@@ -32,11 +32,13 @@ import { useRouter } from "next/router";
 import ThreadDrawer from "../../SearchResult/ThreadDrawer";
 import {
   setCurrentUser,
+  setMobileNaveDrawer,
   setThreadDrawer,
   thread,
 } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
 import {
+  createThread,
   createThreadAndRedirect,
   deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
@@ -55,13 +57,24 @@ import InviteEmailDialog from "../InviteEmailDialog";
 import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
+import MobileBuilderDialoge from "../../SearchResult/ChatInput/MobileBuilderDialoge";
 
-const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
+const Header = ({
+  isMessage,
+  IsActive,
+  isHome,
+  isChat,
+  isUser,
+  isLandingPages,
+}) => {
+
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
-
+  const isBuilderDialoge = useSelector((state) => state?.base?.IsBuilderDialog);
+  console.log("isBuilderDialoge", isBuilderDialoge);
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 50); // Sticky header after 50px
@@ -74,8 +87,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+  const handleMobileNav = () => {
+    dispatch(setMobileNaveDrawer(true))
   };
   // for login dialog
   const HandleBookTrip = () => {
@@ -91,28 +104,43 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
   // book a trip new thread
 
   const HandleBookThread = () => {
-    dispatch(createThreadAndRedirect(router));
+    dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
+
   };
 
   // delete and create thread and show message chat clear
+  // const {uuid} = router.query
+  // console.log("router_test", uuid);
+  
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+
+  useEffect(() => {
+  if (uuid && (isHome || isChat)) {
+    router.replace(`/chat/${uuid}`); // replace to avoid extra history entries
+  }
+}, [uuid]);
+
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
   };
+
+  
   const handleThreadDrawer = () => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
 
-  const HandlePopup = () => {
-    dispatch(setisUserPopup(true));
-  };
+  // const HandlePopup = () => {
+  //   dispatch(setisUserPopup(true));
+  // }; force sign
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
   return (
     <>
       <Head></Head>
-      <ThreadDrawer />
+      
       <Box
         component={"header"}
         className={`
@@ -120,6 +148,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
           ${isMessage ? styles.isMessage : ""} // if message header change
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           ${isHome ? styles.isHome : ""} // if sticky or login
+          
           
           `}
       >
@@ -150,7 +179,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                     fontSize={"24px"}
                   >
                     <i
-                      onClick={toggleDrawer}
+                      onClick={handleMobileNav}
                       className={`fa fa-bars ${
                         isSticky | IsActive || isMessage
                           ? " basecolor "
@@ -178,7 +207,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                     </Box>
                   </Box>
                 </Box>
-                {isMessage && isMobile ? <ShareDropdown /> : ""}
+                {isMessage && isMobile && isChat ? <ShareDropdown /> : ""}
 
                 <Box
                   sx={{
@@ -316,7 +345,7 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                         justifyContent="center"
                         gap={1}
                         component="button"
-                        onClick={currentUser ? HandleBookThread : HandlePopup}
+                        onClick={HandleBookThread}
                       >
                         <Box>Book a trip</Box>
                       </Box>
@@ -325,7 +354,8 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
                 </Box>
                 {/*  */}
               </Box>
-              {isChat && <SearchFilterBar />}
+              {isChat && !isBuilderDialoge && <SearchFilterBar />}
+
               {isHome ? (
                 <MessageInputBox
                   isSticky={InputSticky}
@@ -340,22 +370,22 @@ const Header = ({ isMessage, IsActive, isHome, isChat, isUser }) => {
       </Box>
 
       {/* extra content for  */}
+      
+      <MobileBuilderDialoge />
       <MobileNavDrawer
-        isDrawerOpen={isDrawerOpen}
-        toggleDrawer={toggleDrawer}
-        MobileNavDrawer={MobileNavDrawer}
         isChat={isChat}
       />
 
-      <UserPopup />
+      <UserPopup isChat={isChat} />
       {/* logoin popup */}
 
-      <LoginPopup />
-      <RegisterPopup />
-      <SignUpPopup />
+      <LoginPopup isChat={isChat} />
+      <RegisterPopup isChat={isChat} />
+      <SignUpPopup isChat={isChat} />
       <Feedback />
       <ContactDialog />
       <InviteEmailDialog />
+      <ThreadDrawer />
     </>
   );
 };
