@@ -235,6 +235,43 @@ export const Logout = () => (dispatch) => {
     });
 };
 
+export const LoginWithApple = (code) => (dispatch) => {
+  dispatch(setisLoading(true));
+  console.log("apple_test", res);
+  
+  api.post("/api/auth/apple/", { code })
+  .then((res) => {
+    const { user, access, refresh } = res.data;
+
+      dispatch(setLoginUser({ user: res.data, status: res.status }));
+      dispatch(setLoginState(false));
+      dispatch(setMobileNaveDrawer(false));
+
+      Cookies.set(
+        "set-user",
+        JSON.stringify({
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+        })
+      );
+
+      Cookies.set("access_token", access);
+      Cookies.set("refresh_token", refresh);
+    })
+    .catch((error) => {
+      dispatch(
+        setLoginError({
+          other: error?.response?.data?.detail || "Apple login failed",
+        })
+      );
+    })
+    .finally(() => {
+      dispatch(setisLoading(false));
+    });
+};
+
+
 export const {
   setLoginPopup,
   setLoginCloseDrawer,

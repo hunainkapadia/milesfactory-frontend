@@ -47,7 +47,6 @@ const HeaderUser = ({
 
   // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
   // Set user to Redux on initial mount from cookies
-  console.log("currentUser", currentUser);
   useEffect(() => {
     const cookieUserString = Cookies.get("set-user");
     const access_token = Cookies.get("access_token");
@@ -56,7 +55,6 @@ const HeaderUser = ({
     
 
     // If any one is missing, remove all
-    console.log("removed", cookieUserString, access_token);
     if (!cookieUserString || !access_token || !refresh_token) {
       Cookies.remove("set-user");
       Cookies.remove("access_token");
@@ -69,7 +67,6 @@ const HeaderUser = ({
       
     }
 
-    console.log("cookieUserString", cookieUserString);
 
     if (cookieUserString) {
       const cookieUser = JSON.parse(cookieUserString);
