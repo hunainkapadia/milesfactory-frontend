@@ -99,11 +99,9 @@ const TripDetailPage = () => {
                   className={styles.checkoutDrower + " white-bg"}
                   width={480}
                 >
-                  <Box className={styles.checkoutDrowerSection + " white-bg"}>
+                  <Box className={`${styles.checkoutDrowerSection} ${styles.MyTripDrowerSection} white-bg`}>
                     <Box
                       component={"header"}
-                      className={styles.checkoutDrowerHeder}
-                      pb={3}
                       px={0}
                       display="flex"
                       justifyContent="space-between"
