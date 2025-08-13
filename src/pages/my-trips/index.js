@@ -54,7 +54,7 @@ const MyTrips = () => {
 
   return (
     <>
-      <Header isMessage={"isMessage"}  />
+      <Header isMytrip={"isMytrip"}  />
       <Box component={"main"} className={styles.TripBody + " main-body "}>
         <Box
           component={"section"}
