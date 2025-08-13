@@ -332,16 +332,16 @@
    }
    .SearchBoxSectionHome { 
       &.HeaderInput {
-         &.InputSticky {
-            .Content {
-               background-color: $white;
-               padding: 4px 15px 5px;
-               @include border-radius(0px 0px 12px 12px);
-               .SearchForm {
-                  padding: 0 ;
-                  height: inherit;
-               }
+         .Content {
+            background-color: $white;
+            padding: 4px 15px 5px;
+            @include border-radius(0px 0px 12px 12px);
+            .SearchForm {
+               padding: 0 ;
+               height: inherit;
             }
+         }
+         &.InputSticky {
          }
       }
       .SearchBoxContainer {
