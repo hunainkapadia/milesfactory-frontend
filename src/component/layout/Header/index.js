@@ -119,7 +119,6 @@ const Header = ({
   
   useEffect(() => {
     if (uuid) {
-    console.log("uuid_test123", uuid);
     router.replace(`/chat/${uuid}`); // replace to avoid extra history entries
   }
 }, [uuid]);
@@ -288,7 +287,14 @@ const Header = ({
                         alignItems={"center"}
                         sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
                       >
-                        <Link href={"/my-trips"}>
+                        <Box
+  display="flex"
+  alignItems="center"
+  justifyContent="center"
+  height={24}
+  className={styles.ChatIcon + " imggroup"}
+  onClick={() => { window.location.href = "/my-trips"; }}
+>
                           <Box
                             display="flex"
                             alignItems="center"
@@ -307,7 +313,7 @@ const Header = ({
                               alt="book trip"
                             />
                           </Box>
-                        </Link>
+                        </Box>
                       </Box>
                       <Box
                         className=" cursor-pointer"
