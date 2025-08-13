@@ -51,11 +51,11 @@ const TripDetailPage = () => {
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
         <Header isMessage="isMessage" />
-        <Box sx={{ backgroundColor: "#e6f5ee" }} py={6}>
+        <Box sx={{ backgroundColor: "#e6f5ee" }} py={4}>
           {/* Hero section */}
           <Box
           component={"header"}
-          pb={4}
+          pb={2}
             sx={{
                
               backgroundImage: "url('/plane-wing.jpg')", // put image in /public
@@ -73,10 +73,10 @@ const TripDetailPage = () => {
               Hi, {tripDetail?.passengers[0]?.given_name}{" "}
               {tripDetail?.passengers[0]?.family_name}
             </Typography>
-            <Typography variant="h4" fontWeight="bold">
+            <h3>
               In {daysLeft} days,{" "}
               {offer?.slices[0]?.segments[0].destination?.city_name} is yours.
-            </Typography>
+            </h3>
           </Box>
           {/* Trip Detail Card */}
           <Container maxWidth="sm">
@@ -118,59 +118,49 @@ const TripDetailPage = () => {
                     </Box>
                     <Box className={styles.checkoutDrowerBody}>
                       {/* Header Section */}
-                      <Grid
-                        container
-                        px={0}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="space-between"
+                      <Box mb={3}
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
                       >
-                        <Grid xs={12}>
-                          <Box
-                            display={"flex"}
-                            justifyContent={"space-between"}
-                            alignItems={"center"}
-                          >
-                            <Box>
-                              <h4 className={styles.title + " mb-0"}>
-                                {offer?.slices[0]?.origin.city_name} to{" "}
-                                {offer?.slices[0]?.destination.city_name}
-                              </h4>
-                              <Typography className=" f14 bold">
-                                {offer?.slices
-                                  .slice(0, 2)
-                                  .map((slice) =>
-                                    new Date(
-                                      slice.departing_at
-                                    ).toLocaleDateString("en-GB", {
-                                      day: "2-digit",
-                                      month: "short",
-                                    })
-                                  )
-                                  .join(" - ")}
-                              </Typography>
-                              
-                              {offer?.slices?.length <= 1 ? (
-                                <Typography className={"f14 gray"}>
-                                  {"One way"},{" "}
-                                  {
-                                    offer?.slices[0]?.segments[0]?.passengers[0]
-                                      .cabin_class_marketing_name
-                                  }
-                                </Typography>
-                              ) : (
-                                <Typography className={"f14 gray"}>
-                                  {"Return"},{" "}
-                                  {
-                                    offer?.slices[0]?.segments[0]?.passengers[0]
-                                      .cabin_class_marketing_name
-                                  }
-                                </Typography>
-                              )}
-                            </Box>
-                          </Box>
-                        </Grid>
-                      </Grid>
+                        <Box>
+                          <h4 className={styles.title + " mb-0"}>
+                            {offer?.slices[0]?.origin.city_name} to{" "}
+                            {offer?.slices[0]?.destination.city_name}
+                          </h4>
+                          <Typography className=" f14 bold">
+                            {offer?.slices
+                              .slice(0, 2)
+                              .map((slice) =>
+                                new Date(
+                                  slice.departing_at
+                                ).toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "short",
+                                })
+                              )
+                              .join(" - ")}
+                          </Typography>
+                          
+                          {offer?.slices?.length <= 1 ? (
+                            <Typography className={"f14 gray"}>
+                              {"One way"},{" "}
+                              {
+                                offer?.slices[0]?.segments[0]?.passengers[0]
+                                  .cabin_class_marketing_name
+                              }
+                            </Typography>
+                          ) : (
+                            <Typography className={"f14 gray"}>
+                              {"Return"},{" "}
+                              {
+                                offer?.slices[0]?.segments[0]?.passengers[0]
+                                  .cabin_class_marketing_name
+                              }
+                            </Typography>
+                          )}
+                        </Box>
+                      </Box>
 
                       <Box
                         className={
