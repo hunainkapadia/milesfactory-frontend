@@ -221,7 +221,6 @@ export const Logout = () => (dispatch) => {
   api.post("/api/v1/logout/", { refresh: refreshToken })
   .then((res) => {
     console.log("refreshToken", refreshToken);
-    alert("asas")
     
       dispatch(setLogoutUser(res.data));
 
