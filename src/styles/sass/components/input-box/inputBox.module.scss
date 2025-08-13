@@ -164,7 +164,7 @@
                flex-direction: row;
             }
 
-            padding: 10px 15px 10px 16px;
+            padding: 10px 15px 0px 16px;
             background-color: $white;
             align-items: flex-start;
             display: flex;              
@@ -188,7 +188,7 @@
          }
 
          .SearchButtonBox {
-            padding: 0;
+            padding: 0 0 10px;
             width: auto;
             height: 100%;
 
