@@ -115,8 +115,11 @@ const Header = ({
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
+  
+  
   useEffect(() => {
-  if (uuid && (isHome || isChat)) {
+    if (uuid) {
+    console.log("uuid_test123", uuid);
     router.replace(`/chat/${uuid}`); // replace to avoid extra history entries
   }
 }, [uuid]);
