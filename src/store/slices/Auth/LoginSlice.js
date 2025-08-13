@@ -217,10 +217,11 @@ export const Logout = () => (dispatch) => {
   const refreshToken = Cookies.get("refresh_token"); // Correct method
 
   
-  console.log("refreshToken", refreshToken);
   
   api.post("/api/v1/logout/", { refresh: refreshToken })
   .then((res) => {
+    console.log("refreshToken", refreshToken);
+    alert("asas")
     
       dispatch(setLogoutUser(res.data));
 
