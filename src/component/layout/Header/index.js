@@ -80,7 +80,7 @@ const Header = ({
       setIsSticky(window.scrollY > 50); // Sticky header after 50px
 
       // Separate logic for input sticky (e.g., after 200px)
-      setInputSticky(window.scrollY > 400);
+      setInputSticky(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -140,7 +140,7 @@ const Header = ({
   return (
     <>
       <Head></Head>
-      
+
       <Box
         component={"header"}
         className={`
@@ -355,26 +355,19 @@ const Header = ({
                 {/*  */}
               </Box>
               {isChat && !isBuilderDialoge && <SearchFilterBar />}
-
-              {isHome ? (
-                <MessageInputBox
-                  isSticky={InputSticky}
-                  HeaderInput={"HeaderInput"}
-                />
-              ) : (
-                ""
-              )}
             </Grid>
           </Grid>
         </Container>
       </Box>
 
       {/* extra content for  */}
-      
+      {isHome ? (
+        <MessageInputBox isSticky={InputSticky} HeaderInput={"HeaderInput"} />
+      ) : (
+        ""
+      )}
       <MobileBuilderDialoge />
-      <MobileNavDrawer
-        isChat={isChat}
-      />
+      <MobileNavDrawer isChat={isChat} />
 
       <UserPopup isChat={isChat} />
       {/* logoin popup */}
