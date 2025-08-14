@@ -227,6 +227,7 @@ const ChatByUUID = () => {
                     display: { xs: "none", md: "block", lg: "block" },
                   }}
                 >
+                
                   <YourTripSidebar isMessage={isMessage} />
                 </Grid>
               </Grid>

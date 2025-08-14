@@ -1532,6 +1532,10 @@ body {
     color: $white;
     background: #FFC107;
   }
+  &.chipGray {
+    color: $white;
+    background: #ADB5BD;
+  }
 }
 .btn {
   text-transform: none;

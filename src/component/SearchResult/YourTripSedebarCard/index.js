@@ -35,12 +35,13 @@ import FilterParams from "../YourTripSidebar/FilterParams";
 import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
+import HotelCard from "./HotelCard";
 
 const YourTripSedebarCard = ({
   FlightExpire,
   filterParams,
   getBuilder,
-  isSidebar
+  isSidebar,
 }) => {
   const [tabValue, setTabValue] = useState(0);
   const BuilderArguments =
@@ -49,7 +50,11 @@ const YourTripSedebarCard = ({
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
-  
+
+  const getHotels = useSelector((state) => state?.sendMessage?.allhotels);
+
+  console.log("getHotels", getHotels);
+
   console.log("getselectedFlight", getselectedFlight);
 
   const dispatch = useDispatch();
@@ -71,7 +76,8 @@ const YourTripSedebarCard = ({
   );
 
   const personQuantity = getselectedFlight?.passengers.length;
-  const Passengers = Number(getselectedFlight?.per_passenger_amount) * personQuantity;
+  const Passengers =
+    Number(getselectedFlight?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;
   const totalAmount = Math.round(WithtaxAmount);
 
@@ -121,8 +127,6 @@ const YourTripSedebarCard = ({
 
     return result;
   }
-
-  
 
   return (
     <>
@@ -349,6 +353,7 @@ const YourTripSedebarCard = ({
                     <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
                       <OfferCardSidebar index={index} slice={slice} />
                     </Box>
+                    <Box></Box>
                     {/*  */}
                     {BuilderArguments?.itinerary_text && (
                       <Box id="itinerary-section" mb={3}>
@@ -396,6 +401,12 @@ const YourTripSedebarCard = ({
           ) : (
             ""
           )}
+
+          {getHotels?.hotels?.hotels?.slice(0, 1)?.map((gethotel, index) => (
+            <Box key={index}>
+              <HotelCard hotelsData={getHotels?.hotels} gethotel={gethotel} />
+            </Box>
+          ))}
 
           {/* {BuilderArguments.from_destination &&
                 BuilderArguments.to_destination && (

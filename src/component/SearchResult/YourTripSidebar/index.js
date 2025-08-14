@@ -21,7 +21,8 @@ const YourTripSidebar = ({ isMessage }) => {
     (state) => state?.booking?.singleFlightData
   );
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-  console.log("orderSuccess", orderSuccess);
+  
+  
   
 
 
@@ -36,6 +37,7 @@ const YourTripSidebar = ({ isMessage }) => {
   }
   return (
     <>
+    
       {getBuilder && (
         <Box
           className={YourtripStyles.YourTripSidebar}
@@ -82,6 +84,7 @@ const YourTripSidebar = ({ isMessage }) => {
               </Box> */}
               {isMessage && <ShareDropdown />}
             </Box>
+            
             <YourTripSedebarCard
               isSidebar
               offerData={getselectedFlight}
