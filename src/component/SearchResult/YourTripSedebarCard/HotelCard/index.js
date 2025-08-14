@@ -127,7 +127,7 @@ const HotelCard = ({ gethotel, hotelsData }) => {
 
               {/* Hotel Info */}
               <Box textAlign="right">
-                <Typography className="f14 bold">{hotel.name}</Typography>
+                <Typography mb={"6px"} className="f14 bold">{hotel.name}</Typography>
                 <Typography className="f12 bold">
                   <Typography className="f12 bold">
                     {[
