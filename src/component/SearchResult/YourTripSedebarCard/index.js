@@ -348,9 +348,7 @@ const YourTripSedebarCard = ({
                     {/* offer card  */}
                     <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
                       <OfferCardSidebar index={index} slice={slice} />
-                    </Box>
-                    {/*  */}
-                    {BuilderArguments?.itinerary_text && (
+                    {BuilderArguments?.itinerary_text && index === 0 && (
                       <Box id="itinerary-section" mb={3}>
                         <Box mb={1}>
                           <Box
@@ -389,6 +387,9 @@ const YourTripSedebarCard = ({
                         </Typography>
                       </Box>
                     )}
+                    </Box>
+                    {/*  */}
+
                   </>
                 ))}
               </Box>
