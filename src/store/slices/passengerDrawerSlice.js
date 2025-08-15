@@ -164,7 +164,10 @@ export const PassengerForm = () => (dispatch, getState) => {
   const flightId = states?.booking?.flightDetail?.id;
   const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
   dispatch(setisLoading(true))
-
+  dispatch(
+    setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } }) 
+    // loading and status set in chat for pasenger flow
+  );
   api.post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
@@ -172,7 +175,10 @@ export const PassengerForm = () => (dispatch, getState) => {
       console.log("order_response", response.data );
       dispatch(setOrderUuid(OrderUUId));
       // dispatch(setIsPassengerflow(true))
-      dispatch(setMessage({ ai: { passengerFlowRes: true } }))
+      dispatch(
+        setMessage({ ai: { passengerFlowRes: { status: true, isloading: false } } })
+        // loading and status set in chat for pasenger flow
+      )
       if (OrderUUId) {
         dispatch(ViewPassengers());
       }
@@ -180,8 +186,10 @@ export const PassengerForm = () => (dispatch, getState) => {
     .catch((error) => {
       console.error(error);
     }).finally (()=> {
-          dispatch(setisLoading(false)); // 🔁 Again setting it to false
-
+        dispatch(
+          setMessage({ ai: { passengerFlowRes: { status: true, isloading: false } } })
+          // loading and status set in chat for pasenger flow
+        )
     });
 };
 

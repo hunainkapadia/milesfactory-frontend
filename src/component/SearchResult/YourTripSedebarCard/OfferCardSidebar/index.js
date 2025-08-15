@@ -67,6 +67,12 @@ const OfferCardSidebar = ({ index, slice }) => {
     dispatch(setViewPassengers([])); // Clear passengers array
     dispatch(setOrderUuid(null)); // Clear order UUID
     dispatch(setMessage({ ai: { passengerFlowRes: false } }));
+
+    dispatch(
+      setMessage({
+        ai: { passengerFlowRes: { status: false, isloading: false } },
+      })
+    );
     dispatch(bookFlight(null)); // Pass flight ID to bookFlight
     dispatch(setSingleFlightData(null));
     dispatch(setOfferkeyforDetail(null)); //  offerkey clear key (for detail)
