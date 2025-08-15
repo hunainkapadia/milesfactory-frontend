@@ -26,14 +26,12 @@ import {
 import { useRouter } from "next/router";
 import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 
-const MobileNavDrawer = ({isChat, isAiBooking }) => {
+const MobileNavDrawer = ({ isChat, isAiBooking }) => {
   const isdrawerOpen = useSelector((state) => state.base?.mobileNaveDrawer);
   console.log("isdrawerOpen", isdrawerOpen);
-  
 
   const HandleBookTrip = () => {
     // Your booking logic here
-    
   };
   const dispatch = useDispatch();
   const handleThreadDrawerMobile = () => {
@@ -42,7 +40,7 @@ const MobileNavDrawer = ({isChat, isAiBooking }) => {
   };
   const logoutHandle = () => {
     dispatch(Logout());
-    dispatch(setMobileNaveDrawer(false))
+    dispatch(setMobileNaveDrawer(false));
   };
   const currentUser = useSelector((state) => state.base?.currentUser);
   const feedbackHandle = () => {
@@ -67,9 +65,9 @@ const MobileNavDrawer = ({isChat, isAiBooking }) => {
   const inviteEmailHandle = () => {
     dispatch(setInviteEmailDialog(true));
   };
-  const handleIsDrawerClose =()=> {
-    dispatch(setMobileNaveDrawer(false))
-  }
+  const handleIsDrawerClose = () => {
+    dispatch(setMobileNaveDrawer(false));
+  };
   return (
     <>
       {/* Trigger button (optional) */}
@@ -355,8 +353,8 @@ const MobileNavDrawer = ({isChat, isAiBooking }) => {
                         href="/my-trips"
                         className="text-decuration-none"
                         onClick={() => {
-                          dispatch(setMobileNaveDrawer(false));
-                        }}
+                            window.location.href = "/my-trips";
+                          }}
                       >
                         <Box
                           className={`${styles.Login} darkgray cursor-pointer`}

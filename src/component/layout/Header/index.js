@@ -199,7 +199,11 @@ const Header = ({
                           <img src="/images/chat-logo-2.svg" />
                         ) : (
                           <>
-                            {!isHome || isMytrip || isSticky || isMessage || IsActive ? (
+                            {!isHome ||
+                            isMytrip ||
+                            isSticky ||
+                            isMessage ||
+                            IsActive ? (
                               <img src="/images/logo-color2.svg" />
                             ) : (
                               <img src="/images/logo-white2.svg" />
@@ -288,13 +292,15 @@ const Header = ({
                         sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
                       >
                         <Box
-  display="flex"
-  alignItems="center"
-  justifyContent="center"
-  height={24}
-  className={styles.ChatIcon + " imggroup"}
-  onClick={() => { window.location.href = "/my-trips"; }}
->
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          height={24}
+                          className={styles.ChatIcon + " imggroup"}
+                          onClick={() => {
+                            window.location.href = "/my-trips";
+                          }}
+                        >
                           <Box
                             display="flex"
                             alignItems="center"
@@ -362,8 +368,7 @@ const Header = ({
                     </Box>
                   )}
 
-
-                  {isMytrip && (
+                  {isMytrip && !isMobile && (
                     <>
                       <Box
                         className=" cursor-pointer"
@@ -386,7 +391,6 @@ const Header = ({
                       </Box>
                     </>
                   )}
-
                 </Box>
                 {/*  */}
               </Box>
