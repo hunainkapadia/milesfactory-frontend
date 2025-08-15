@@ -38,12 +38,8 @@ const sendMessageSlice = createSlice({
     AddBuilder: null,
     noMoreFlights:false,
     threadUuid: null,
-    allhotels: null,
   },
   reducers: {
-    setAllhotels: (state, action) => {
-      state.allhotels = action.payload;
-    },
     setInputLoading: (state, action) => {
       state.inputLoading = action.payload;
     },
@@ -253,16 +249,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const allFlightSearchUuid =
           response?.response?.results?.view_all_flight_result_api?.uuid;
         console.log("allFlightSearchUuid", allFlightSearchApi);
-
-        // hotel url
-        const hotelsUrl =
-          response?.response?.results?.view_hotel_search_api?.url;
-          console.log("hotelsUrl", hotelsUrl);
-          
-        api.get(hotelsUrl).then((hotelRes)=> {
-          console.log("hotelRes", hotelRes.data.hotels);
-          dispatch(setAllhotels(hotelRes.data))
-        })
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(allFlightSearchUuid));
@@ -547,7 +533,6 @@ export const {
   setAddBuilder,
   setNoMoreFlights,
   setInputLoading,
-  setNewChatLoading,
-  setAllhotels
+  setNewChatLoading
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

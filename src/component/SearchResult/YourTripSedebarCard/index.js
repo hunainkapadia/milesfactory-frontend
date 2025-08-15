@@ -35,13 +35,12 @@ import FilterParams from "../YourTripSidebar/FilterParams";
 import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
-import HotelCard from "./HotelCard";
 
 const YourTripSedebarCard = ({
   FlightExpire,
   filterParams,
   getBuilder,
-  isSidebar,
+  isSidebar
 }) => {
   const [tabValue, setTabValue] = useState(0);
   const BuilderArguments =
@@ -50,11 +49,7 @@ const YourTripSedebarCard = ({
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
-
-  const getHotels = useSelector((state) => state?.sendMessage?.allhotels);
-
-  console.log("getHotels", getHotels);
-
+  
   console.log("getselectedFlight", getselectedFlight);
 
   const dispatch = useDispatch();
@@ -76,8 +71,7 @@ const YourTripSedebarCard = ({
   );
 
   const personQuantity = getselectedFlight?.passengers.length;
-  const Passengers =
-    Number(getselectedFlight?.per_passenger_amount) * personQuantity;
+  const Passengers = Number(getselectedFlight?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;
   const totalAmount = Math.round(WithtaxAmount);
 
@@ -127,6 +121,8 @@ const YourTripSedebarCard = ({
 
     return result;
   }
+
+  
 
   return (
     <>
@@ -352,47 +348,48 @@ const YourTripSedebarCard = ({
                     {/* offer card  */}
                     <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
                       <OfferCardSidebar index={index} slice={slice} />
-                      {BuilderArguments?.itinerary_text && index === 0 && (
-                        <Box id="itinerary-section" mb={3}>
-                          <Box mb={1}>
-                            <Box
-                              display={"flex"}
-                              alignItems={"center"}
-                              gap={"12px"}
-                            >
-                              <Typography
-                                className={
-                                  TripStyles.onewayReturn +
-                                  " btn btn-xs btn-black"
-                                }
-                              >
-                                Itinerary for {BuilderArguments?.to_destination}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Typography
-                            className="f12"
-                            sx={{ whiteSpace: "pre-line" }}
+                    {BuilderArguments?.itinerary_text && index === 0 && (
+                      <Box id="itinerary-section" mb={3}>
+                        <Box mb={1}>
+                          <Box
+                            display={"flex"}
+                            alignItems={"center"}
+                            gap={"12px"}
                           >
                             <Typography
-                              className="formateContent f12 mt-0"
-                              component="div"
-                              variant="body1"
-                              dangerouslySetInnerHTML={{
-                                __html: formatTextToHtmlList(
-                                  convertMarkdownToHtml(
-                                    sanitizeResponse(
-                                      BuilderArguments?.itinerary_text
-                                    )
-                                  )
-                                ),
-                              }}
-                            />
-                          </Typography>
+                              className={
+                                TripStyles.onewayReturn +
+                                " btn btn-xs btn-black"
+                              }
+                            >
+                              Itinerary for {BuilderArguments?.to_destination}
+                            </Typography>
+                          </Box>
                         </Box>
-                      )}
+                        <Typography
+                          className="f12"
+                          sx={{ whiteSpace: "pre-line" }}
+                        >
+                          <Typography
+                            className="formateContent f12 mt-0"
+                            component="div"
+                            variant="body1"
+                            dangerouslySetInnerHTML={{
+                              __html: formatTextToHtmlList(
+                                convertMarkdownToHtml(
+                                  sanitizeResponse(
+                                    BuilderArguments?.itinerary_text
+                                  )
+                                )
+                              ),
+                            }}
+                          />
+                        </Typography>
+                      </Box>
+                    )}
                     </Box>
                     {/*  */}
+
                   </>
                 ))}
               </Box>
@@ -400,12 +397,6 @@ const YourTripSedebarCard = ({
           ) : (
             ""
           )}
-
-          {getHotels?.hotels?.hotels?.slice(0, 1)?.map((gethotel, index) => (
-            <Box key={index}>
-              <HotelCard hotelsData={getHotels?.hotels} gethotel={gethotel} />
-            </Box>
-          ))}
 
           {/* {BuilderArguments.from_destination &&
                 BuilderArguments.to_destination && (
