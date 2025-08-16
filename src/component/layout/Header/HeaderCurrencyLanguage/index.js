@@ -37,10 +37,11 @@ const HeaderCurrencyLanguage = ({
   forHeader,
   formobileDrawer,
   isMytrip,
-  isHome
+  isHome,
+  isAiBooking
 }) => {
 
-  console.log("isMytrip", isMytrip);
+  console.log("isAiBooking", isAiBooking);
   
   const dispatch = useDispatch();
   const [languageAnchor, setLanguageAnchor] = useState(null);
@@ -175,11 +176,7 @@ const HeaderCurrencyLanguage = ({
             alignItems="center"
             // onClick={handleCurrencyClick}
             sx={{ cursor: "pointer", gap: 0 }}
-            className={`${
-              isMytrip || isSticky || IsActive || isMessage || !isHome
-                ? " basecolor1-dark2 "
-                : " white "
-            }`}
+            className={isMytrip || isSticky || IsActive || isMessage || !isHome ? "basecolor1-dark2" : "white"}
           >
             <Typography variant="body2">{selectedCurrency.icon}</Typography>
             {/* <FontAwesomeIcon

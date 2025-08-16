@@ -144,6 +144,7 @@ const AiBookingMainHeader = ({
                 // isSticky={isSticky}
                 IsActive={IsActive}
                 isMessage={isMessage}
+                isHome={"isHome"}
               />
 
               {/* User section: visible on home, user page, or chat (desktop only) */}
