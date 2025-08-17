@@ -66,6 +66,7 @@ const Header = ({
   isChat,
   isUser,
   isLandingPages,
+  isMytrip,
 }) => {
 
   const [isSticky, setIsSticky] = useState(false);
@@ -80,7 +81,7 @@ const Header = ({
       setIsSticky(window.scrollY > 50); // Sticky header after 50px
 
       // Separate logic for input sticky (e.g., after 200px)
-      setInputSticky(window.scrollY > 400);
+      setInputSticky(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -114,8 +115,10 @@ const Header = ({
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
+  
+  
   useEffect(() => {
-  if (uuid && (isHome || isChat)) {
+    if (uuid) {
     router.replace(`/chat/${uuid}`); // replace to avoid extra history entries
   }
 }, [uuid]);
@@ -140,7 +143,7 @@ const Header = ({
   return (
     <>
       <Head></Head>
-      
+
       <Box
         component={"header"}
         className={`
@@ -148,7 +151,7 @@ const Header = ({
           ${isMessage ? styles.isMessage : ""} // if message header change
           ${isSticky || IsActive ? styles.Sticky : ""} // if sticky or login
           ${isHome ? styles.isHome : ""} // if sticky or login
-          
+          ${isMytrip ? styles.isMytrip : ""} // if sticky or login
           
           `}
       >
@@ -181,7 +184,7 @@ const Header = ({
                     <i
                       onClick={handleMobileNav}
                       className={`fa fa-bars ${
-                        isSticky | IsActive || isMessage
+                        isMytrip || isSticky | IsActive || isMessage
                           ? " basecolor "
                           : " white"
                       }`}
@@ -196,7 +199,11 @@ const Header = ({
                           <img src="/images/chat-logo-2.svg" />
                         ) : (
                           <>
-                            {isSticky || isMessage || IsActive ? (
+                            {!isHome ||
+                            isMytrip ||
+                            isSticky ||
+                            isMessage ||
+                            IsActive ? (
                               <img src="/images/logo-color2.svg" />
                             ) : (
                               <img src="/images/logo-white2.svg" />
@@ -235,10 +242,12 @@ const Header = ({
                     isSticky={isSticky}
                     IsActive={IsActive}
                     isMessage={isMessage}
+                    isMytrip={isMytrip}
+                    isHome={isHome}
                   />
                   {/*  */}
                   {/* show for home desk and mobiel chat for dektop only  */}
-                  {isUser || isHome || (isChat && !isMobile) ? (
+                  {isMytrip || isUser || isHome || (isChat && !isMobile) ? (
                     <HeaderUser
                       forHader={"forHader"}
                       isSticky={isSticky}
@@ -282,7 +291,16 @@ const Header = ({
                         alignItems={"center"}
                         sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
                       >
-                        <Link href={"/my-trips"}>
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          height={24}
+                          className={styles.ChatIcon + " imggroup"}
+                          onClick={() => {
+                            window.location.href = "/my-trips";
+                          }}
+                        >
                           <Box
                             display="flex"
                             alignItems="center"
@@ -294,14 +312,14 @@ const Header = ({
                             <img
                               width={24}
                               src={`${
-                                isSticky | IsActive || isMessage
+                                isMytrip || isSticky | IsActive || isMessage
                                   ? "/images/book-trip-icon.svg"
                                   : "/images/book-trip-icon-white.svg"
                               }`}
                               alt="book trip"
                             />
                           </Box>
-                        </Link>
+                        </Box>
                       </Box>
                       <Box
                         className=" cursor-pointer"
@@ -319,7 +337,7 @@ const Header = ({
                         >
                           <img
                             src={`${
-                              isSticky | IsActive || isMessage
+                              isMytrip || isSticky | IsActive || isMessage
                                 ? "/images/chat-history-icon-black-v3.svg"
                                 : "/images/chat-history-icon-white-v2.svg"
                             }`}
@@ -331,9 +349,7 @@ const Header = ({
                   ) : (
                     ""
                   )}
-                  {isMessage ? (
-                    <></>
-                  ) : (
+                  {isHome && (
                     <Box
                       sx={{ display: { xs: "none", md: "flex" } }}
                       display={"flex"}
@@ -351,30 +367,47 @@ const Header = ({
                       </Box>
                     </Box>
                   )}
+
+                  {isMytrip && !isMobile && (
+                    <>
+                      <Box
+                        className=" cursor-pointer"
+                        onClick={HandleNewThread}
+                        display={"flex"}
+                        alignItems={"center"}
+                      >
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          height={24}
+                          className={styles.ChatIcon + " imggroup"}
+                        >
+                          <img
+                            src="/images/chat-new-icon.svg"
+                            alt="Chat Icon"
+                          />
+                        </Box>
+                      </Box>
+                    </>
+                  )}
                 </Box>
                 {/*  */}
               </Box>
               {isChat && !isBuilderDialoge && <SearchFilterBar />}
-
-              {isHome ? (
-                <MessageInputBox
-                  isSticky={InputSticky}
-                  HeaderInput={"HeaderInput"}
-                />
-              ) : (
-                ""
-              )}
             </Grid>
           </Grid>
         </Container>
       </Box>
 
       {/* extra content for  */}
-      
+      {isHome ? (
+        <MessageInputBox isSticky={InputSticky} HeaderInput={"HeaderInput"} />
+      ) : (
+        ""
+      )}
       <MobileBuilderDialoge />
-      <MobileNavDrawer
-        isChat={isChat}
-      />
+      <MobileNavDrawer isChat={isChat} />
 
       <UserPopup isChat={isChat} />
       {/* logoin popup */}

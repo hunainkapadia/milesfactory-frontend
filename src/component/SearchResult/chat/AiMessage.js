@@ -18,31 +18,29 @@ import PriceSummary from "../../Checkout/PriceSummary";
 import PollingMessage from "../PollingMessage/PollingMessage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
+import PassengerFlowBlock from "../PassengerFlowBlock";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
-  
-
 
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
 
   const getMessages = useSelector((state) => state.getMessages?.messages);
   console.log("getMessages", getMessages.length > 0);
-  
+
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
-
 
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
   console.log("FlightExpire", FlightExpire);
-  
+
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
@@ -63,11 +61,15 @@ const AiMessage = ({ aiMessage }) => {
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
     : aiMessage?.ai?.offers;
 
-    {console.log("displayedGetFlights", aiMessage)}
+  {
+    console.log("displayedGetFlights", aiMessage);
+  }
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
+
+  console.log("paymentSuccess", paymentSuccess);
 
   useEffect(() => {
     if (paymentSuccess) {
@@ -81,7 +83,7 @@ const AiMessage = ({ aiMessage }) => {
   const Selectloading = useSelector((state) => state.booking.isLoading);
 
   console.log("Selectloading", Selectloading);
-  
+
   // track for send message loading
 
   const aiboxRef = useRef(null); //  Add this ref
@@ -116,11 +118,8 @@ const AiMessage = ({ aiMessage }) => {
 
   // Find message with ai.offers
   // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
-  const noMoreFlights = useSelector(
-    (state) => state.sendMessage.noMoreFlights
-  );
+  const noMoreFlights = useSelector((state) => state.sendMessage.noMoreFlights);
   console.log("noMoreFlights", noMoreFlights);
-  
 
   const handleSeeMoreFlights = () => {
     if (!showAllFlight) {
@@ -129,8 +128,10 @@ const AiMessage = ({ aiMessage }) => {
     dispatch(loadNextFlights());
   };
 
-  const isLoadingPassenger = useSelector((state) => state?.passengerDrawer?.isPassengerLoading);
-  
+  const isLoadingPassenger = useSelector(
+    (state) => state?.passengerDrawer?.isPassengerLoading
+  );
+
   return (
     <Box
       ref={aiboxRef}
@@ -139,50 +140,9 @@ const AiMessage = ({ aiMessage }) => {
       display="flex"
       justifyContent="flex-start"
     >
-      {/* Passenger Flow */}
-
-      {/* <Box className={searchResultStyles.AiMessage}>
-              <Typography fontWeight="semibold">
-                You have selected the flight option below.
-              </Typography>
-            </Box> */}
-
-      {/* Selected flight preview */}
-      {/* <Box mt={2}>
-              <SearchCard
-                offerData={getselectedFlight}
-                FlightExpire={FlightExpire}
-              />
-            </Box> */}
-
-      {/* Show passenger form or loading */}
-
       {/* If all passengers are filled, show payment components */}
 
-      {aiMessage?.ai?.passengerFlowRes &&
-        Array.isArray(GetViewPassengers) &&
-        GetViewPassengers.length > 0 && (
-          <>
-            <PassengerInfo getdata={GetViewPassengers} />
-            {Array.isArray(filledPassenger) &&
-              filledPassenger.length === GetViewPassengers.length && (
-                <>
-                  {orderDetail ? (
-                    <PriceSummary />
-                  ) : (
-                    <Box my={3}>
-                      <LoadingArea />
-                    </Box>
-                  )}
-
-                  <PaymentDrawer />
-                  <PaymentAddCard />
-
-                  {paymentSuccess && <PaymentSuccess />}
-                </>
-              )}
-          </>
-        )}
+      
 
       {displayedGetFlights?.length > 0 ? (
         <>
@@ -347,6 +307,15 @@ const AiMessage = ({ aiMessage }) => {
         </>
       )}
 
+      {/* passenger flow start */}
+      <PassengerFlowBlock
+        aiMessage={aiMessage}
+        GetViewPassengers={GetViewPassengers}
+        filledPassenger={filledPassenger}
+        orderDetail={orderDetail}
+        paymentSuccess={paymentSuccess}
+      />
+      {/* passenger flow end */}
       {/* Scroll anchor */}
       <div ref={messagesEndRef} />
     </Box>

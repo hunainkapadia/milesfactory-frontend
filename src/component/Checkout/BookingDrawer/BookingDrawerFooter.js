@@ -1,5 +1,5 @@
   import React from "react";
-  import { Box, Typography, Divider } from "@mui/material";
+  import { Box, Typography, Divider, Button } from "@mui/material";
   import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
   import { useDispatch, useSelector } from "react-redux";
   import {
@@ -186,13 +186,13 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
               display="flex"
               justifyContent="flex-end"
               alignItems="center"
-              gap={3}
+              gap={0}
             >
               {/* Close Button */}
               <Box
                 display="flex"
                 alignItems="center"
-                gap={2}
+                textAlign={"center"}
                 className="gray f14"
                 style={{ cursor: "pointer" }}
                 onClick={HandlecloseDrawer}
@@ -229,7 +229,7 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
                   ""
                 )} */}
                 {!getselectedFlight && (
-                  <button
+                  <Button sx={{ml:3}}
                     className={
                       styles.selectFlightBtn + " btn btn-primary btn-round btn-lg-x"
                     }
@@ -238,7 +238,7 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
                     <Box display="flex" gap={1}>
                       <Box>Select flight</Box>
                     </Box>
-                  </button>
+                  </Button>
                 )}
               </Box>
             </Box>

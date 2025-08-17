@@ -7,6 +7,7 @@ import {
   googleLoginUser,
   LoginWithFacebook,
 } from "@/src/store/slices/Auth/LoginSlice";
+import AppleLoginButton from "./AppleLoginButton";
 
 const LoginWithOptions = ({ options }) => {
   const dispatch = useDispatch();
@@ -73,6 +74,9 @@ const LoginWithOptions = ({ options }) => {
         alignItems="center"
         flexDirection="column"
       >
+      
+      {/* <AppleLoginButton /> */}
+      {/* apple login */}
         {/* Google Login */}
         <Box
           display="flex"
@@ -104,6 +108,7 @@ const LoginWithOptions = ({ options }) => {
           <i className="f20 fa-brands fa-facebook"></i>
           <Typography fontWeight="bold">{options} Facebook</Typography>
         </Box>
+        
       </Box>
 
       {/* OR Divider */}

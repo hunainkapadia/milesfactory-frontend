@@ -73,10 +73,10 @@ const PaymentDrawer = ({ getFlightDetail }) => {
     >
       <Box className={styles.checkoutDrower + " white-bg"} width={480}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
-          <Box className={styles.checkoutDrowerBody}>
+          <Box className={`${styles.checkoutDrowerBody} ${styles.checkoutPaymentBody}`}>
             <Box className={styles.checkoutDrowerHeder} px={3}>
               <Box
-                py={3}
+                pb={3}
                 display="flex"
                 alignItems="center"
                 justifyContent="space-between"

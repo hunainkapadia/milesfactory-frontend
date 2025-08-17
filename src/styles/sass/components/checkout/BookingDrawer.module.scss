@@ -1,6 +1,7 @@
 @import "../../variables";
 
 
+
 .BaggageBox:not(:last-child) {
    margin-bottom: 24px;
 }
@@ -88,11 +89,23 @@
 
          flex: 1 1 auto;
          overflow: hidden;
+         &.MyTripDrowerSection {height: auto;
+            .checkoutDrowerBody {
+               padding-bottom: 0;
+            }
+         }
          .checkoutDrowerBody {
             flex: 1 1 auto;
             overflow-y: auto;
             padding-bottom: 18px; // optional, space before footer
             padding-top: 18px; // optional, space before footer
+            &.PassengerFormDrowerBody {
+               padding-top: 0;
+            padding-bottom: 0;}
+            &.checkoutPaymentBody {
+               padding-top: 0;
+            padding-bottom: 0;
+            }
          }
       }
    }
@@ -323,7 +336,7 @@
          top: inherit;
          @include border-radius(0);
          .checkoutDrowerBody .detailsSection {
-            padding: 0 24px 150px;
+            padding: 0 24px 20px;
          }
       }
    }

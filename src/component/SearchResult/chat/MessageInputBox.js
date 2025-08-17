@@ -44,6 +44,7 @@ const MessageInputBox = ({
   isAiBooking, // for aibook page
   aiBookingMessage,
   isChat,
+  forInputSticky
 }) => {
   const inputRef = useRef(null);
   const theme = useTheme();
@@ -180,7 +181,9 @@ const MessageInputBox = ({
           isMessageHome
             ? inputStyles.SearchBoxSectionActive
             : inputStyles.SearchBoxSectionHome
-        } ${HeaderInput ? inputStyles.HeaderInput : ""} ${
+        } ${HeaderInput ? inputStyles.HeaderInput : ""} 
+        ${forInputSticky && inputStyles.forInputSticky }
+        ${
           isSticky ? inputStyles.InputSticky : inputStyles.noInputSticky
         }`}
       >

@@ -64,13 +64,13 @@ const FromAndToDetail = ({
             </Box>
             <Box>
               <Box
-                className="cursor-pointer text-decoration-none basecolor1 f12"
+                className="cursor-pointer text-decoration-none basecolor1 f12 bold"
                 onClick={() => toggleBaggage(flightType)}
               >
-                <Box gap={"4px"} alignItems="center" display="flex">
+                <Box gap={"8px"} alignItems="center" display="flex">
                   {flightDetail ? (
                     <>
-                      <span>See details</span>
+                      <span>Show details</span>
                       <i className="fa-angle-down fa fas"></i>
                     </>
                   ) : (

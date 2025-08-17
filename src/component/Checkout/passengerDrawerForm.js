@@ -388,16 +388,16 @@ const PassengerDrawerForm = () => {
             </Box>
             <Divider />
           </Box>
-          <Box className={styles.checkoutDrowerBody}>
-            <Box py={3} px={3}>
+          <Box className={`${styles.checkoutDrowerBody} ${styles.PassengerFormDrowerBody}`}>
+            <Box px={3}>
               <Box
-                sx={{ pt: { lg: 2, md: 2 } }}
-                pb={4}
+                pt={3}
+                pb={"36px"}
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
-                gap={2}
+                gap={"22px"}
               >
                 <Box className="imggroup">
                   <img
@@ -408,13 +408,12 @@ const PassengerDrawerForm = () => {
                 </Box>
                 <Box>
                   {given_name || family_name ? (
-                    <Typography
-                      className="h3"
-                      component={"h3"}
+                    <h4 
+                      className="mb-0"
                       textTransform={"capitalize"}
                     >
                       {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
-                    </Typography>
+                    </h4>
                   ) : (
                     <h4>New traveller</h4>
                   )}
@@ -422,7 +421,7 @@ const PassengerDrawerForm = () => {
               </Box>
 
               {/* === Form Fields === */}
-              <Box py={2}>
+              <Box>
                 {/* Gender */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">
