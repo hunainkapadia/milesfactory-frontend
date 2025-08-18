@@ -28,7 +28,7 @@ import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 
 const MobileNavDrawer = ({ isChat, isAiBooking }) => {
   const isdrawerOpen = useSelector((state) => state.base?.mobileNaveDrawer);
-  console.log("isdrawerOpen", isdrawerOpen);
+  console.log("isAiBooking", isAiBooking);
 
   const HandleBookTrip = () => {
     // Your booking logic here

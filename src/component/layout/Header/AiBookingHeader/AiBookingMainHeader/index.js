@@ -263,12 +263,7 @@ const AiBookingMainHeader = ({
       </Box>
 
       {/* extra content for  */}
-      <MobileNavDrawer
-        isDrawerOpen={isDrawerOpen}
-        toggleDrawer={toggleDrawer}
-        MobileNavDrawer={MobileNavDrawer}
-        isAiBooking={"isAiBooking"}
-      />
+    
 
       <UserPopup />
       {/* logoin popup */}

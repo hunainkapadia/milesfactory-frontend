@@ -67,7 +67,9 @@ const Header = ({
   isUser,
   isLandingPages,
   isMytrip,
+  isAiBooking
 }) => {
+  {console.log("isAiBooking22", isAiBooking)}
 
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
@@ -407,7 +409,8 @@ const Header = ({
         ""
       )}
       <MobileBuilderDialoge />
-      <MobileNavDrawer isChat={isChat} />
+      
+      <MobileNavDrawer isAiBooking={isAiBooking} isChat={isChat} />
 
       <UserPopup isChat={isChat} />
       {/* logoin popup */}

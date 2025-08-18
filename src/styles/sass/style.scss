@@ -1724,6 +1724,9 @@ body {
     letter-spacing: 0 !important;
     color: $white;
     font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &.active:hover,
     &.active,

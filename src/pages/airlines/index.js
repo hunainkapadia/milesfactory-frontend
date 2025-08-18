@@ -35,7 +35,7 @@ const Home = () => {
     <>
       <Box>
         <Box sx={{display:"none"}}> 
-          <Header />
+          <Header isAiBooking={"isAiBooking"} />
         </Box>
         {/* header function only works but hidden */}
         <AiBookingFrontHeader />
