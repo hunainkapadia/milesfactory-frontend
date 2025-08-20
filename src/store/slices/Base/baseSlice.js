@@ -8,6 +8,7 @@ const initialState = {
   currentUser: null,
   feedbackDialog: false,
   contactDialog: false,
+  powerAirlineDialog: false,
   isloading: false,
   InviteEmailDialog: false,
   inputLabelTexts: [
@@ -27,6 +28,7 @@ const baseSlice = createSlice({
   name: "base",
   initialState,
   reducers: {
+    
     setMobileNaveDrawer: (state, action) => {
       state.mobileNaveDrawer = action.payload;
     },
@@ -96,7 +98,7 @@ const baseSlice = createSlice({
       state.sectionActive = action.payload; // Update active section
     },
     setPowerAirlineDialog: (state, action) => {
-      state.PowerAirlineDialog = action.payload;
+      state.powerAirlineDialog = action.payload;
       state.contactData = null;
     },
   },
@@ -130,6 +132,23 @@ export const handleSubmitContact = (params) => (dispatch, getState) => {
     dispatch(setContactData(res));
     setTimeout(() => {
       dispatch(setContactDialog(false));      
+    }, 5000);
+  }).catch((error)=> {
+    console.log(error);
+    
+  }).finally(()=> {
+    console.log();
+    
+  })
+};
+
+export const PowerAirlineContact = (params) => (dispatch, getState) => {
+  
+  api.post("/api/v1/company/contact-us", params).then((res)=> {
+    
+    dispatch(setContactData(res));
+    setTimeout(() => {
+      dispatch(setPowerAirlineDialog(false));      
     }, 5000);
   }).catch((error)=> {
     console.log(error);

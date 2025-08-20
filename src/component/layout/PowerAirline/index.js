@@ -16,6 +16,7 @@ import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import Link from "next/link";
 import {
   handleSubmitContact,
+  PowerAirlineContact,
   setContactData,
   setContactDialog,
   setPowerAirlineDialog,
@@ -23,8 +24,10 @@ import {
 
 const PowerAirline = () => {
   const dispatch = useDispatch();
-  const PowerAirline = useSelector((state) => state?.base?.PowerAirlineDialog);
+  const PowerAirline = useSelector((state) => state?.base?.powerAirlineDialog);
   const contactSuccess = useSelector((state) => state?.base?.contactData?.data);
+  console.log("PowerAirline", PowerAirline);
+  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -72,11 +75,10 @@ const PowerAirline = () => {
       name: name,
       email: email,
       company: company,
-      comment,
-      comment,
+      additional_comment : comment,
     };
 
-    dispatch(handleSubmitContact(params)); // This is the Redux action
+    dispatch(PowerAirlineContact(params)); // This is the Redux action
 
     // Optionally reset form
   };
