@@ -48,17 +48,19 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
     (p) => p.given_name && p.family_name
   );
   //   for selct flight detail
-  const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
+  const CartOffer = useSelector(
+    (state) => state?.booking?.cartOffer?.raw_data
   );
+  console.log("CartOffer", CartOffer);
+  
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
 
 
   const HandleSelectDrawer = () => {
-    // if (getselectedFlight?.id) {
+    // if (CartOffer?.id) {
     //   dispatch(setSeeDetailButton("Builder"));
-    //   dispatch(setflightDetail(getselectedFlight));
+    //   dispatch(setflightDetail(CartOffer));
     // }
     // dispatch(getItems?.raw_data)
     dispatch(setBookingDrawer(true));
@@ -109,7 +111,7 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
             >
               Booked
             </Box>
-          ) : getselectedFlight ? (
+          ) : CartOffer ? (
             <Box
               display="flex"
               justifyContent="center"
@@ -322,7 +324,7 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
                   {(() => {
                     const baggageMap = new Map();
 
-                    getselectedFlight?.slices.forEach((slice) => {
+                    CartOffer?.slices.forEach((slice) => {
                       slice?.segments?.forEach((segment) => {
                         segment?.passengers?.forEach((passenger) => {
                           passenger?.baggages?.forEach((baggage) => {
@@ -339,7 +341,7 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
 
                     const uniqueBaggages = Array.from(baggageMap.values());
 
-                    return getselectedFlight?.slices.map(
+                    return CartOffer?.slices.map(
                       (slice, sliceIndex) => {
                         const baggageSummary = uniqueBaggages
                           .filter((baggage) => baggage.quantity > 0)
@@ -353,7 +355,7 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
                           <span key={sliceIndex}>
                             {baggageSummary || "No baggage info"}
                             {sliceIndex === 0 &&
-                            getselectedFlight?.slices.length > 1
+                            CartOffer?.slices.length > 1
                               ? " / "
                               : ""}
                           </span>

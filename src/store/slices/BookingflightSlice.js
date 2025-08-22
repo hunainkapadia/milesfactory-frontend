@@ -28,6 +28,7 @@ const initialState = {
   getListCart: null,
   getCartDetail: null,
   bookingDrawer: false,
+  cartOffer: null,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -35,6 +36,9 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setCartOffer:(state, action) => {
+      state.cartOffer = action.payload;
+    },
     setIsLoadingSelect: (state, action) => {
       state.isLoadingSelect = action.payload;
     },
@@ -173,9 +177,15 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
 
   try {
     const res = await api.get(apiUrl);
-    
-
     dispatch(setGetCartDetail(res.data));
+
+    console.log("selected_flight_11", res?.data?.items);
+      const CartOfferDetail = res?.data?.items;
+      const flightOffer = CartOfferDetail?.[0];
+      console.log("CartDetails_redux", flightOffer);
+      dispatch(setCartOffer(flightOffer))
+      
+    
   } catch (error) {
     console.error("ListCart Error:", error);
   } finally {
@@ -229,6 +239,7 @@ export const {
   setGetListCart,
   setGetCartDetail,
   setBookingDrawer,
-  setIsLoadingSelect
+  setIsLoadingSelect,
+  setCartOffer
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

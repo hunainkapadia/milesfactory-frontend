@@ -36,13 +36,8 @@ const YourTripSidebar = ({ isMessage }) => {
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const dispatch= useDispatch();
-  const handleBookFlight = ()=> {
-    dispatch(setChatscroll(true)); // scrol lon click book
-    dispatch(PassengerForm());
-  }
-
   
-    const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail?.items);
+  const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail?.items);
   const CartDetails = CartOfferDetail?.[0];
   console.log("CartOfferDetail", CartOfferDetail);
   
