@@ -430,7 +430,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setflightDetail(null));
         dispatch(setViewPassengers([]));
         dispatch(setOrderUuid(null));
-        dispatch(bookFlight(null));
         dispatch(setSingleFlightData(null));
 
         // Optional: placeholder for new thread

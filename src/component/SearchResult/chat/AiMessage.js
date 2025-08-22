@@ -153,12 +153,15 @@ const AiMessage = ({ aiMessage }) => {
             <Box className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
-                <SearchCard
-                  key={`post-${i}-${offer.id}`}
-                  offerData={offer}
-                  offerkey={`${i}-${offer.id}`}
-                  FlightExpire={FlightExpire}
-                />
+                <>
+                  <SearchCard
+                    key={i}
+                    offerData={offer}
+                    offerkey={`${offer.id}`}
+                    FlightExpire={FlightExpire}
+                  />
+
+                </>
               ))}
 
               {/* Render GET flight offers */}

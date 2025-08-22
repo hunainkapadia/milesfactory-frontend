@@ -15,12 +15,16 @@ import Image from "next/image";
 import { currencySymbols } from "@/src/utils/utils";
 import ShareDropdown from "../../layout/Header/ShareDropdown";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import { useEffect } from "react";
+import { CartDetail, ListCart } from "@/src/store/slices/BookingflightSlice";
+import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 
 const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
+  
   
   
   
@@ -34,10 +38,31 @@ const YourTripSidebar = ({ isMessage }) => {
   const dispatch= useDispatch();
   const handleBookFlight = ()=> {
     dispatch(setChatscroll(true)); // scrol lon click book
+    dispatch(PassengerForm());
   }
+
+  
+    const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail?.items);
+  const CartDetails = CartOfferDetail?.[0];
+  
+
+  console.log("CartDetails33", CartOfferDetail);
+  
+  
+
+  const threadUuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  console.log("get__uuid", threadUuid);
+  
+  
+  useEffect(() => {
+  if (threadUuid) {
+    dispatch(CartDetail(threadUuid));
+  }
+}, [threadUuid, dispatch]);
+
+
   return (
     <>
-    
       {getBuilder && (
         <Box
           className={YourtripStyles.YourTripSidebar}
@@ -45,10 +70,7 @@ const YourTripSidebar = ({ isMessage }) => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <Box
-            className={YourtripStyles.YourTripCard}
-            p={0}
-          >
+          <Box className={YourtripStyles.YourTripCard} p={0}>
             <Box
               component={"header"}
               className={YourtripStyles.CardHeader}
@@ -65,8 +87,11 @@ const YourTripSidebar = ({ isMessage }) => {
                 <Box className=" imggroup">
                   <img src="/images/builder-icon.svg" />
                 </Box>
-                
-                <Typography sx={{pt:"6px"}} className="basecolor1 mb-0 exbold">
+
+                <Typography
+                  sx={{ pt: "6px" }}
+                  className="basecolor1 mb-0 exbold"
+                >
                   Builder
                 </Typography>
               </Box>
@@ -84,19 +109,15 @@ const YourTripSidebar = ({ isMessage }) => {
               </Box> */}
               {isMessage && <ShareDropdown />}
             </Box>
-            
-            <YourTripSedebarCard
-              isSidebar
-              offerData={getselectedFlight}
-              getBuilder={getBuilder}
-            />
+
+            <YourTripSedebarCard isSidebar getBuilder={getBuilder} />
 
             <Box
               px={"18px"}
               py={"14px"}
               component={"footer"}
               className={YourtripStyles.Footer + " "}
-              sx={{ borderTop:" solid 1px  #E6EEEE" }}
+              sx={{ borderTop: " solid 1px  #E6EEEE" }}
             >
               <Box
                 display={"flex"}
@@ -105,29 +126,23 @@ const YourTripSidebar = ({ isMessage }) => {
               >
                 <Box>
                   <h4 className="exbold mb-0">
-                    {getselectedFlight?.per_passenger_amount != null
-                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
-                          getselectedFlight?.tax_currency) +
-                        Math.round(getselectedFlight?.per_passenger_amount)
-                      : "-"}
+                    {CartDetails ? (
+                      <>
+                        {currencySymbols[CartDetails.currency] ||
+                          CartDetails.currency}
+                        {Math.round(CartDetails.price)}
+                      </>
+                    ) : (
+                      "-"
+                    )}
                   </h4>
 
-                  <Typography className="gray f12">
-                    {getselectedFlight?.total_amount != null
-                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
-                          getselectedFlight?.tax_currency) +
-                        Math.round(getselectedFlight?.total_amount) +
-                        " total"
-                      : "No product added"}
-                  </Typography>
+                  <Typography className="gray f12">total</Typography>
                 </Box>
-                
-                <Button onClick={handleBookFlight}
-                  className={`btn btn-primary btn-round btn-xs ${
-                    !!orderSuccess || !getselectedFlight ? "disabled" : ""
-                  }`}
-                    
-                  // onClick={HandleSelectDrawer}
+                <Button
+                  onClick={handleBookFlight}
+                  className="btn btn-primary btn-round btn-xs"
+                  disabled={orderSuccess || !CartOfferDetail?.length > 0}
                 >
                   Book now
                 </Button>

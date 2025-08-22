@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
-import { setAddBuilder } from "./sendMessageSlice";
+import { setAddBuilder, setThreadUuid } from "./sendMessageSlice";
 
 const initialState = {
   chatActive: false,
@@ -76,6 +76,7 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
   const state = getState();
   const threadUuid =  state?.sendMessage?.threadUuid
   const uuid = getthreaduuid || threadUuid;  
+  dispatch(setThreadUuid(uuid)); // set for 1st chat url 
   
   // Get the current URL path
   // const pathname = window.location.pathname;

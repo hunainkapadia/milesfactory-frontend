@@ -1,10 +1,9 @@
 import { Box, Typography, Avatar, Stack } from "@mui/material";
 import {
   bookFlight,
-  closeDrawer,
   DeleteCart,
+  closeDrawer,
   fetchflightDetail,
-  setBookingDrawer,
   setflightDetail,
   setOfferkeyforDetail,
   setOpenDrawer,
@@ -30,11 +29,10 @@ import {
   ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
+import { useEffect } from "react";
 
-const OfferCardSidebar = ({ index, slice,  getItems }) => {
-  console.log("getItems222", getItems?.raw_data);
-  
-  const GetViewPassengers = useSelector(
+const CartItemCard = ({ index, getItems}) => {
+    const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
@@ -57,24 +55,41 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id ?? null;
 
+  console.log("getselectedFlight", getselectedFlight);
+  
+
   const HandleSelectDrawer = () => {
-    // if (getselectedFlight?.id) {
-    //   dispatch(setSeeDetailButton("Builder"));
-    //   dispatch(setflightDetail(getselectedFlight));
-    // }
-    // dispatch(getItems?.raw_data)
-    dispatch(setBookingDrawer(true));
-    dispatch(setSingleFlightData(getItems?.raw_data))
+    if (getselectedFlight?.id) {
+      dispatch(setSeeDetailButton("Builder"));
+      dispatch(setOpenDrawer(getselectedFlight.id));
+      dispatch(setflightDetail(getselectedFlight));
+    }
   };
 
-  const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  console.log("threaduuid_222", threaduuid);
-  console.log("threaduuid_001", getItems);
-  
-  
-  const handleDeleteCart = ()=> {
-    dispatch(DeleteCart(threaduuid, getItems?.uuid))
-  }
+  const handleClearFlight = () => {
+    
+  };
+
+
+   console.log("getItems_getItems", getItems);
+   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
+   const allPassengerFill = useSelector((state) => state?.passengerDrawer?.allPassengerFill);
+
+   console.log("allPassenger_222", getItems);
+
+   // useEffect(()=> {
+   //    if (allPassengerFill) {
+   //       dispatch(DeleteCart(threaduuid, getItems?.uuid))
+   //    }
+   // },[])
+
+   console.log("uuid_555", threaduuid);
+   
+   
+   const handleDeleteCart = ()=> {
+      dispatch(DeleteCart(threaduuid, getItems?.uuid))
+   }
+
 
   return (
     <>
@@ -445,4 +460,4 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
   );
 };
 
-export default OfferCardSidebar;
+export default CartItemCard;

@@ -4,16 +4,13 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
+import { setBookingDrawer, setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols,event } from "@/src/utils/utils";
 import Link from "next/link";
-const BookingDrawer = ({ getFlightDetail }) => {
-  
-  //console.log("getFlightDetail", getFlightDetail);
-  
+const BookingDrawer = ({ }) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
-    dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
+    dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
   };
   const SearchHistoryGet = useSelector(
     (state) => state.getMessages.SearchHistory
@@ -22,16 +19,18 @@ const BookingDrawer = ({ getFlightDetail }) => {
     (state) => state.sendMessage.SearchHistory
   );
   const searchHistory = SearchHistoryGet || SearchHistorySend;
-  const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
+  
   const seeDetail = useSelector(
-          (state) => state.passengerDrawer.SeeDetailButton
-        );
-        
-    console.log("seeDetail", seeDetail);
+    (state) => state.passengerDrawer.SeeDetailButton
+  );
+  const getFlightDetail = useSelector((state) => state.booking?.singleFlightData);
+  const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
+  console.log("getSingleData", getFlightDetail);
+  
   return (
     <Drawer
       anchor="right"
-      open={getFlightKey}
+      open={IsOpendrawer}
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}

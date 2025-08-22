@@ -1,37 +1,10 @@
-import {
-  Box,
-  Card,
-  Typography,
-  Avatar,
-  CardContent,
-  Grid,
-  Divider,
-  Tabs,
-  Tab,
-  Button,
-  Stack,
-  Chip,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 // import TripStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  closeDrawer,
-  fetchflightDetail,
-  setflightDetail,
-  setOpenDrawer,
-  setSelectFlightKey,
-} from "@/src/store/slices/BookingflightSlice";
 
 import { useEffect, useState } from "react";
-import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
-import {
-  currencySymbols,
-  formatTextToHtmlList,
-  sanitizeResponse,
-} from "@/src/utils/utils";
-import Link from "next/link";
-import FilterParams from "../YourTripSidebar/FilterParams";
+import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
@@ -40,58 +13,29 @@ const YourTripSedebarCard = ({
   FlightExpire,
   filterParams,
   getBuilder,
-  isSidebar
+  isSidebar,
 }) => {
-  const [tabValue, setTabValue] = useState(0);
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
+
+  const CartDetails = useSelector((state) => state.booking?.getCartDetail);
 
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
-  
-  console.log("getselectedFlight", getselectedFlight);
+
+  console.log("CartDetailsIn", CartDetails);
 
   const dispatch = useDispatch();
-  const offerkey = getselectedFlight?.id;
-  const isPassenger = useSelector(
-    (state) => state?.passengerDrawer?.ViewPassengers
-  );
-
-  // const SearchHistoryGet = useSelector(
-  //   (state) => state.getMessages.SearchHistory
-  // );
-  // const SearchHistorySend = useSelector(
-  //   (state) => state.sendMessage?.SearchHistorySend
-  // );
-  // const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
   const personQuantity = getselectedFlight?.passengers.length;
-  const Passengers = Number(getselectedFlight?.per_passenger_amount) * personQuantity;
+  const Passengers =
+    Number(getselectedFlight?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;
-  const totalAmount = Math.round(WithtaxAmount);
-
-  const validPassengers = GetViewPassengers?.filter(
-    (p) => p.given_name && p.family_name
-  );
-  // const totalTravelers =
-  //   (SearchHistory.adults || 0) +
-  //   (SearchHistory.children || 0) +
-  //   (SearchHistory.infants || 0);
-
-  const TripTags = [
-    "city lover",
-    "family friendly",
-    "street food",
-    "direct flight",
-    "temples",
-    "urban adventure",
-    "local experience",
-  ];
 
   const departureDate = BuilderArguments?.departure_date
     ? new Date(BuilderArguments.departure_date)
@@ -121,8 +65,6 @@ const YourTripSedebarCard = ({
 
     return result;
   }
-
-  
 
   return (
     <>
@@ -259,22 +201,27 @@ const YourTripSedebarCard = ({
           </Box>
         </Box>
         {/* filter row */}
+
         {/*  */}
-        {!getselectedFlight ? (
+        {!CartDetails?.items?.length > 0 && (
           <SidebarTripDetails id="itinerary-section" />
+        )}
+
+        {/* {!getselectedFlight ? (
         ) : (
           ""
-        )}
+        )} */}
 
         <Box>
           {/*  */}
 
-          {getselectedFlight ? (
+          {CartDetails?.items?.map((getItems, index) => (
             <>
-              <Box>
+              <Box key={index}>
                 {/* footer */}
-                {getselectedFlight?.slices.map((slice, index) => (
+                {getItems?.raw_data?.slices.map((slice, index) => (
                   <>
+                    {console.log("getItems000", slice)}
                     <Box mb={3}>
                       {index === 0 ? (
                         <>
@@ -346,57 +293,59 @@ const YourTripSedebarCard = ({
                       )}
                     </Box>
                     {/* offer card  */}
+
                     <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
-                      <OfferCardSidebar index={index} slice={slice} />
-                    {BuilderArguments?.itinerary_text && index === 0 && (
-                      <Box id="itinerary-section" mb={3}>
-                        <Box mb={1}>
-                          <Box
-                            display={"flex"}
-                            alignItems={"center"}
-                            gap={"12px"}
+                      <OfferCardSidebar
+                        index={index}
+                        slice={slice}
+                        getItems={getItems}
+                      />
+                      {BuilderArguments?.itinerary_text && index === 0 && (
+                        <Box id="itinerary-section" mb={3}>
+                          <Box mb={1}>
+                            <Box
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={"12px"}
+                            >
+                              <Typography
+                                className={
+                                  TripStyles.onewayReturn +
+                                  " btn btn-xs btn-black"
+                                }
+                              >
+                                Itinerary for {BuilderArguments?.to_destination}
+                              </Typography>
+                            </Box>
+                          </Box>
+                          <Typography
+                            className="f12"
+                            sx={{ whiteSpace: "pre-line" }}
                           >
                             <Typography
-                              className={
-                                TripStyles.onewayReturn +
-                                " btn btn-xs btn-black"
-                              }
-                            >
-                              Itinerary for {BuilderArguments?.to_destination}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Typography
-                          className="f12"
-                          sx={{ whiteSpace: "pre-line" }}
-                        >
-                          <Typography
-                            className="formateContent f12 mt-0"
-                            component="div"
-                            variant="body1"
-                            dangerouslySetInnerHTML={{
-                              __html: formatTextToHtmlList(
-                                convertMarkdownToHtml(
-                                  sanitizeResponse(
-                                    BuilderArguments?.itinerary_text
+                              className="formateContent f12 mt-0"
+                              component="div"
+                              variant="body1"
+                              dangerouslySetInnerHTML={{
+                                __html: formatTextToHtmlList(
+                                  convertMarkdownToHtml(
+                                    sanitizeResponse(
+                                      BuilderArguments?.itinerary_text
+                                    )
                                   )
-                                )
-                              ),
-                            }}
-                          />
-                        </Typography>
-                      </Box>
-                    )}
+                                ),
+                              }}
+                            />
+                          </Typography>
+                        </Box>
+                      )}
                     </Box>
                     {/*  */}
-
                   </>
                 ))}
               </Box>
             </>
-          ) : (
-            ""
-          )}
+          ))}
 
           {/* {BuilderArguments.from_destination &&
                 BuilderArguments.to_destination && (

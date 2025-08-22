@@ -2,8 +2,10 @@ import { Box, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/search-result/SearchFilterBar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setBookingDrawer,
   setflightDetail,
   setOpenDrawer,
+  setSingleFlightData,
 } from "@/src/store/slices/BookingflightSlice";
 import FilterParams from "../YourTripSidebar/FilterParams";
 import { setSeeDetailButton } from "@/src/store/slices/passengerDrawerSlice";
@@ -18,23 +20,20 @@ const SearchFilterBar = () => {
     (state) => state.sendMessage?.SearchHistorySend
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
+  const dispatch = useDispatch();
 
   //   for selct flight detail
-  const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
-  );
-  const dispatch = useDispatch();
-  const offerkey = getselectedFlight?.id;
+  
+  
+  const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail?.items);
+  const CartDetails = CartOfferDetail?.[0];
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
-    if (offerkey) {
-      dispatch(setSeeDetailButton("Chat"))
-      dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
-      dispatch(setflightDetail(getselectedFlight)); // Store flight details
-    }
+    dispatch(setBookingDrawer(true));
+    dispatch(setSingleFlightData(CartDetails?.raw_data))
   };
-  console.log("SearchHistory2", SearchHistory);
 
+  
 
   //   for selct flight detail end
 
@@ -62,7 +61,7 @@ const SearchFilterBar = () => {
                 alignItems={"center"}
               >
                 <Box className=" imggroup">
-                  {offerkey ? (
+                  {CartOfferDetail?.length > 0 ? (
                     <img
                       width={20}
                       height={20}
@@ -155,7 +154,7 @@ const SearchFilterBar = () => {
                 )}
               </Box>
               <Box>
-                {offerkey && (
+                {CartOfferDetail?.length > 0 && (
                   <Box style={{ cursor: "pointer" }}>
                     <Box
                       onClick={HandleSelectDrawer}

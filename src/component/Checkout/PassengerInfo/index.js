@@ -100,6 +100,8 @@ const PassengerInfo = ({ getdata }) => {
   const IsServices = useSelector(
     (state) => state?.booking?.singleFlightData?.available_services
   );
+  console.log("IsServices", filledPassengerUUIDs);
+  
   
 
   if (!IsServices?.length) {

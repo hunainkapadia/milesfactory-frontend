@@ -5,6 +5,7 @@
   import {
     bookFlight,
     closeDrawer,
+    setBookingDrawer,
     setCloseDrawer,
     setflightDetail,
     setselectedFlighDetail,
@@ -18,10 +19,9 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
   const BookingDrawerFooter = ({ getFlightDetails }) => {
     const dispatch = useDispatch();
+    const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
     const HandlecloseDrawer = () => {
-      
-      dispatch(setCloseDrawer()); // Pass an empty value to close the drawer
-
+      dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
     };
     console.log("getFlightDetails", getFlightDetails);
     

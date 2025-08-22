@@ -32,7 +32,7 @@ const RightTopSection = ({
       width={"100%"}
       className={searchResultStyles.RightTopSection + " RightTopSection"}
     >
-      {(!selectedFlightKey || selected) && (
+      
         <Box style={{ cursor: "pointer" }}>
           <Box
             onClick={SelectDrawer}
@@ -52,7 +52,7 @@ const RightTopSection = ({
             </Box>
           </Box>
         </Box>
-      )}
+      
       {/*  */}
       {/* for mobile baggage start */}
       {isMobile ? ( // Only show for round trips

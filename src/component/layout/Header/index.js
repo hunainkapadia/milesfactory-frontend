@@ -117,6 +117,8 @@ const Header = ({
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
+  console.log("uuid_000", uuid);
+  
   
   
   useEffect(() => {
