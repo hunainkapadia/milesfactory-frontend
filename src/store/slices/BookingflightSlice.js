@@ -201,6 +201,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     const res = await api.delete(apiUrl);
 
     dispatch(setGetCartDetail(res.data));
+    dispatch(setCartOffer(null))
 
     dispatch(setSelectedFlightKey(null));
     dispatch(setflightDetail(null));

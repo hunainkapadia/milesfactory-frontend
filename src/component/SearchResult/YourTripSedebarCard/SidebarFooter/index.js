@@ -12,6 +12,10 @@ const SidebarFooter = () => {
     (state) => state.booking?.getCartDetail?.items
   );
   const CartDetails = CartOfferDetail?.[0];
+
+  const offerDetail = useSelector((state) => state.booking?.cartOffer);
+  console.log("offerDetail", offerDetail);
+  
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const dispatch = useDispatch();
   const handleBookFlight = () => {
@@ -51,9 +55,9 @@ const SidebarFooter = () => {
           </Box>
           <Button
             onClick={handleBookFlight}
-            className={`btn btn-primary btn-round btn-xs ${
-              orderSuccess || !CartOfferDetail?.length > 0 ? " disabled " : ""
-            }`}
+            className={`btn btn-primary btn-round btn-xs `}
+            disabled={orderSuccess || !offerDetail}
+
           >
             Book now
           </Button>
