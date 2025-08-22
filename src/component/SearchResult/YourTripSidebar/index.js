@@ -44,6 +44,7 @@ const YourTripSidebar = ({ isMessage }) => {
   
     const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail?.items);
   const CartDetails = CartOfferDetail?.[0];
+  console.log("CartOfferDetail", CartOfferDetail);
   
 
   
@@ -109,43 +110,7 @@ const YourTripSidebar = ({ isMessage }) => {
             </Box>
 
             <YourTripSedebarCard isSidebar getBuilder={getBuilder} />
-
-            <Box
-              px={"18px"}
-              py={"14px"}
-              component={"footer"}
-              className={YourtripStyles.Footer + " "}
-              sx={{ borderTop: " solid 1px  #E6EEEE" }}
-            >
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Box>
-                  <h4 className="exbold mb-0">
-                    {CartDetails ? (
-                      <>
-                        {currencySymbols[CartDetails.currency] ||
-                          CartDetails.currency}
-                        {Math.round(CartDetails.price)}
-                      </>
-                    ) : (
-                      "-"
-                    )}
-                  </h4>
-
-                  <Typography className="gray f12">total</Typography>
-                </Box>
-                <Button
-                  onClick={handleBookFlight}
-                  className="btn btn-primary btn-round btn-xs"
-                  disabled={orderSuccess || !CartOfferDetail?.length > 0}
-                >
-                  Book now
-                </Button>
-              </Box>
-            </Box>
+            
           </Box>
         </Box>
       )}

@@ -161,7 +161,10 @@ export const PassengerForm = () => (dispatch, getState) => {
 
   if (!finalOfferId) return;
 
-  const flightId = states?.booking?.flightDetail?.id;
+  const CartDetails = states?.booking?.getCartDetail?.items;
+  const flightId = CartDetails?.[0]?.offer_id;
+  console.log("flightId", flightId);
+  
   const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
   dispatch(setisLoading(true))
   dispatch(

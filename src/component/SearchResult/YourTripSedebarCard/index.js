@@ -8,6 +8,7 @@ import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
+import SidebarFooter from "./SidebarFooter";
 
 const YourTripSedebarCard = ({
   FlightExpire,
@@ -438,6 +439,7 @@ const YourTripSedebarCard = ({
         </Box>
         {/*  */}
       </Box>
+      <SidebarFooter />
       {/* Extra Info bottom */}
 
       {/* <Box

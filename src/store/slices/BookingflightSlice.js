@@ -3,6 +3,7 @@ import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import { setMessage } from "./sendMessageSlice";
+import { setIsBuilderDialog } from "./Base/baseSlice";
 
 const initialState = {
   flightDetail: null,
@@ -120,20 +121,26 @@ export const bookFlight = () => (dispatch, getState) => {
 
 // Add to Cart
 export const AddToCart = (params, uuid) => async (dispatch, getState) => {
-  
-
   dispatch(setIsLoadingSelect(true));
 
   try {
+    // delay before API call (500ms = 0.5s)
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     const res = await api.post(`/api/v1/cart/add`, params);
-    
+
     dispatch(setIsLoadingSelect(false));
     dispatch(setAddCart(res.data));
-    //  if API returns uuid, immediately fetch cart items
 
+    // if API returns uuid, immediately fetch cart items
     if (res.data) {
-      // dispatch(CartDetail(uuid));
       dispatch(CartDetail(uuid));
+    }
+    // ✅ detect mobile view
+    if (window.innerWidth <= 768) {
+      // Option 1: dispatch to open mobile drawer
+      dispatch(setIsBuilderDialog(true));
+      // OR Option 2: show an alert
     }
   } catch (error) {
     console.error("AddToCart Error:", error);

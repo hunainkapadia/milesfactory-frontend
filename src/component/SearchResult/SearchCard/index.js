@@ -113,14 +113,6 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
       raw_data: {},
     };
     dispatch(AddToCart(params, uuid));
-    if (selected) {
-      setHideSelectButton(true);
-    }
-    if (offerkey) {
-      dispatch(setflightDetail(offerData)); // Store flight details
-      dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
-    }
-    
   };
   // const handleBookFlight = () => {
   //   dispatch(setChatscroll(true))
@@ -244,6 +236,8 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       offerData={offerData}
                       selected={selected}
                       selectedFlightKey={selectedFlightKey}
+                      isInCart={isInCart}   // only true for the flight in cart
+
                     />
                   </Box>
                   {/*  */}

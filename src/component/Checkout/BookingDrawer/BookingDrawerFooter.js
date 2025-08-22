@@ -1,111 +1,91 @@
-  import React from "react";
-  import { Box, Typography, Divider, Button } from "@mui/material";
-  import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
-  import { useDispatch, useSelector } from "react-redux";
-  import {
-    bookFlight,
-    closeDrawer,
-    setBookingDrawer,
-    setCloseDrawer,
-    setflightDetail,
-    setselectedFlighDetail,
-    setSelectedFlightKey,
-    setSelectFlightKey,
-  } from "@/src/store/slices/BookingflightSlice";
-  import { setMessage } from "@/src/store/slices/sendMessageSlice";
-  import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
-  import { currencySymbols,event } from "@/src/utils/utils";
+import React from "react";
+import { Box, Typography, Divider, Button } from "@mui/material";
+import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AddToCart,
+  bookFlight,
+  closeDrawer,
+  setBookingDrawer,
+  setCloseDrawer,
+  setflightDetail,
+  setselectedFlighDetail,
+  setSelectedFlightKey,
+  setSelectFlightKey,
+  setSingleFlightData,
+} from "@/src/store/slices/BookingflightSlice";
+import { setMessage } from "@/src/store/slices/sendMessageSlice";
+import {
+  PassengerForm,
+  setisLoading,
+  setPassengerData,
+} from "@/src/store/slices/passengerDrawerSlice";
+import { currencySymbols, event } from "@/src/utils/utils";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
-  const BookingDrawerFooter = ({ getFlightDetails }) => {
-    const dispatch = useDispatch();
-    const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
-    const HandlecloseDrawer = () => {
-      dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
-    };
-    
-    const orderSuccess = useSelector(
-      (state) => state?.payment?.OrderConfirm
-    ); //from order api
-    const passengerSelected = useSelector(
-      (state) => state?.sendMessage
-    );
-    const getselectedFlight = useSelector(
-        (state) => state?.booking?.singleFlightData
-      );
-      
-    const offerkey = useSelector(
-      (state) => state?.booking?.offerkeyforDetail
-    );
-    
-    const handleBookFlight = () => {
-      event({
-        action: 'click',
-        category: 'engagement',
-        label: 'Select Flight Drawer',
-        value: getFlightDetails?.total_amount_rounded,
-      });
-      
-      dispatch(setChatscroll(true))
-      dispatch(setisLoading(true));
-      // if(selected) {
-      //   setHideSelectButton(true);
-      // };
-      if (offerkey) {
-        dispatch(setflightDetail(offerkey)); // Store flight details
-        dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
-      }
-      
-      dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
-      dispatch(PassengerForm());
+const BookingDrawerFooter = ({ getFlightDetails }) => {
+  const dispatch = useDispatch();
+  const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
+  const HandlecloseDrawer = () => {
+    dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
+  };
+
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
+  const passengerSelected = useSelector((state) => state?.sendMessage);
+  const getselectedFlight = useSelector(
+    (state) => state?.booking?.singleFlightData
+  );
+
+  const offerkey = useSelector((state) => state?.booking?.offerkeyforDetail);
+  // ✅ Move here (component scope)
+  const isCartItem = useSelector(
+    (state) => state.booking?.getCartDetail?.items
+  );
+  console.log("isCartItem", isCartItem);
   
-      dispatch(bookFlight());
-      if (getFlightDetails?.id) {
-        dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
-      } else {
-        ("");
-      }
-
-
-
-
-      
-      dispatch(setisLoading())
-      dispatch(setCloseDrawer()); //dispatch close
-      dispatch(PassengerForm())
-      
-      
-      
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  const handleBookFlight = () => {
+    dispatch(setBookingDrawer(false));
+    event({
+      action: "click",
+      category: "engagement",
+      label: "Select Flight Drawer",
+      value: getFlightDetails?.total_amount_rounded,
+    });
+    const params = {
+      chat_thread_uuid: uuid,
+      offer_type: "flight",
+      offer_id: getFlightDetails?.id,
+      price: getFlightDetails?.total_amount_plus_markup,
+      currency: getFlightDetails?.total_currency,
+      raw_data: {},
     };
+    dispatch(AddToCart(params, uuid));
+  };
 
-    const personQuantity = getFlightDetails?.passengers.length;
-    const Passengers = Number(getFlightDetails?.per_passenger_amount) * personQuantity;
-    const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
-    const totalAmount = Math.round(WithtaxAmount);
+  const personQuantity = getFlightDetails?.passengers.length;
+  const Passengers =
+    Number(getFlightDetails?.per_passenger_amount) * personQuantity;
+  const WithtaxAmount = Number(getFlightDetails?.tax_amount) + Passengers;
+  const totalAmount = Math.round(WithtaxAmount);
 
+  // for button show hide logic when normal message or flights
+  const isFunction_state = useSelector(
+    (state) => state?.sendMessage?.IsFunction?.status
+  );
 
-    // for button show hide logic when normal message or flights
-    const isFunction_state = useSelector(
-      (state) => state?.sendMessage?.IsFunction?.status
-    );
+  const IsPassengerflow = useSelector(
+    (state) => state?.passengerDrawer?.IsPassengerflow
+  );
 
-    const IsPassengerflow = useSelector(
-      (state) => state?.passengerDrawer?.IsPassengerflow
-    );
-    
-      
-    
-    
-    
-    return (
-      <>
-        <Divider className={`${styles.Divider} Divider`} />
+  return (
+    <>
+      <Divider className={`${styles.Divider} Divider`} />
       <Box
         px={3}
         className={styles.checkoutDrowerFooter + " test11"}
         width={"100%"}
       >
-
         {/* Footer Content */}
         <Box py={2} display="flex" flexDirection="column">
           {/* TODO: This will become dynamic based on airline cancellation policy */}
@@ -148,7 +128,11 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
             width={"100%"}
           >
             {/* Price Section */}
-            <Box display={"flex"} flexDirection="column" justifyContent={"center"}>
+            <Box
+              display={"flex"}
+              flexDirection="column"
+              justifyContent={"center"}
+            >
               <Box
                 className={styles.priceSection}
                 display="flex"
@@ -163,14 +147,14 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
                 </h4>
               </Box>
               {personQuantity > 1 && (
-              <Box className={styles.totalPersonPrice}>
-                <Typography variant="p" className=" gray f12">
-                  {currencySymbols[getFlightDetails?.tax_currency] ||
+                <Box className={styles.totalPersonPrice}>
+                  <Typography variant="p" className=" gray f12">
+                    {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
                     {Math.round(getFlightDetails?.total_amount_rounded)} total
-                </Typography>
-              </Box>
-                )}
+                  </Typography>
+                </Box>
+              )}
             </Box>
 
             {/* Actions Section */}
@@ -220,26 +204,27 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
                 ) : (
                   ""
                 )} */}
-                {!getselectedFlight && (
-                  <Button sx={{ml:3}}
-                    className={
-                      styles.selectFlightBtn + " btn btn-primary btn-round btn-lg-x"
-                    }
-                    onClick={handleBookFlight}
-                  >
-                    <Box display="flex" gap={1}>
-                      <Box>Select flight</Box>
-                    </Box>
-                  </Button>
-                )}
+
+                <Button
+                  sx={{ ml: 3 }}
+                  className={
+                    styles.selectFlightBtn +
+                    " btn btn-primary btn-round btn-sm"
+                  }
+                  onClick={handleBookFlight}
+                  disabled={isCartItem?.length > 0}
+                >
+                  <Box display="flex" gap={1}>
+                    <Box>Select flight</Box>
+                  </Box>
+                </Button>
               </Box>
             </Box>
           </Box>
         </Box>
       </Box>
+    </>
+  );
+};
 
-        </>
-    );
-  };
-
-  export default BookingDrawerFooter;
+export default BookingDrawerFooter;

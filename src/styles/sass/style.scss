@@ -1680,7 +1680,7 @@ body {
     }
   }
   &.btn-primary {
-    &:disabled {
+    &.disabled, &:disabled {
       background: $basecolor1;
       opacity: 0.5;
       color: $white !important;
