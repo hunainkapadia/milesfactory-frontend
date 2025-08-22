@@ -23,6 +23,8 @@ const BookingDrawer = ({ }) => {
   const seeDetail = useSelector(
     (state) => state.passengerDrawer.SeeDetailButton
   );
+  console.log("seeDetail_text", seeDetail);
+  
   const getFlightDetail = useSelector((state) => state.booking?.singleFlightData);
   const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
   return (

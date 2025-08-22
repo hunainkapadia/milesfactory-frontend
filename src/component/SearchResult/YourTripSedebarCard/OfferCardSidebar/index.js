@@ -59,10 +59,10 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
 
   const HandleSelectDrawer = () => {
     // if (CartOffer?.id) {
-    //   dispatch(setSeeDetailButton("Builder"));
-    //   dispatch(setflightDetail(CartOffer));
-    // }
-    // dispatch(getItems?.raw_data)
+      //   dispatch(setflightDetail(CartOffer));
+      // }
+      // dispatch(getItems?.raw_data)
+    dispatch(setSeeDetailButton("Builder"));
     dispatch(setBookingDrawer(true));
     dispatch(setSingleFlightData(getItems?.raw_data))
   };
