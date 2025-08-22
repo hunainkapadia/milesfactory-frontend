@@ -46,12 +46,10 @@ const YourTripSidebar = ({ isMessage }) => {
   const CartDetails = CartOfferDetail?.[0];
   
 
-  console.log("CartDetails33", CartOfferDetail);
   
   
 
   const threadUuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  console.log("get__uuid", threadUuid);
   
   
   useEffect(() => {

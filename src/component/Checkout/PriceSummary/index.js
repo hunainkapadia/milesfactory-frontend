@@ -32,14 +32,10 @@ const PriceSummary = ({ getdata }) => {
       category: 'engagement',
       label: 'Price Summary Click',
     });
-    console.log("Price Summary Click");
     // call captain api
     dispatch(setpriceSummary(true));
   };
   const priceSummary = useSelector((state) => state.payment.priceSummary);
-
-//console.log("priceSummary", priceSummary);
-
   // Step 2: useEffect to scroll when priceSummary becomes true
   useEffect(() => {
     if (priceSummary && priceSummaryRef.current) {

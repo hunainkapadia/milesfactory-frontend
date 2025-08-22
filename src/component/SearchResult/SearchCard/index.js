@@ -44,7 +44,6 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
-  console.log("key_001key", key);
 
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
@@ -87,10 +86,6 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     (state) => state.booking.selectedFlightKey
   );
   const selected = selectedFlightKey === offerkey;
-  console.log("selected", selectedFlightKey);
-
-  console.log("offerkey_2", offerkey);
-  console.log("selectedFlightKey_2", selectedFlightKey);
 
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
 
@@ -99,22 +94,15 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const isInCart = CartDetails?.items?.some(
     (item) => item?.offer_id === offerData?.id // or compare with offerkey if that's what API uses
   );
-  console.log("CartDetails_items", CartDetails);
-  console.log("offerkey_0001", offerkey);
-  console.log("selectedFlightKey", selectedFlightKey);
-  console.log("isInCart", isInCart);
-
+  
   const refreshHandle = () => {
     dispatch(RefreshHandle());
     dispatch(setRefreshSearch());
   };
-
-  console.log("selectedFlightKey", selectedFlightKey);
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const SelectOffer = useSelector((state) => state?.booking?.singleFlightData);
   const isLoadingSelect = useSelector((state) => state?.booking?.isLoadingSelect);
-  console.log("isLoadingSelect", isLoadingSelect);
-
+  
   const handleBookFlight = () => {
     const params = {
       chat_thread_uuid: uuid,
@@ -133,7 +121,6 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
       dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
     }
     
-    console.log("Select Flight", offerData?.total_amount_rounded);
   };
   // const handleBookFlight = () => {
   //   dispatch(setChatscroll(true))

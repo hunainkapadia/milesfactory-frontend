@@ -55,9 +55,6 @@ const CartItemCard = ({ index, getItems}) => {
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id ?? null;
 
-  console.log("getselectedFlight", getselectedFlight);
-  
-
   const HandleSelectDrawer = () => {
     if (getselectedFlight?.id) {
       dispatch(setSeeDetailButton("Builder"));
@@ -71,20 +68,16 @@ const CartItemCard = ({ index, getItems}) => {
   };
 
 
-   console.log("getItems_getItems", getItems);
    const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
    const allPassengerFill = useSelector((state) => state?.passengerDrawer?.allPassengerFill);
 
-   console.log("allPassenger_222", getItems);
-
+   
    // useEffect(()=> {
    //    if (allPassengerFill) {
    //       dispatch(DeleteCart(threaduuid, getItems?.uuid))
    //    }
    // },[])
 
-   console.log("uuid_555", threaduuid);
-   
    
    const handleDeleteCart = ()=> {
       dispatch(DeleteCart(threaduuid, getItems?.uuid))

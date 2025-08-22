@@ -23,8 +23,6 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
     const HandlecloseDrawer = () => {
       dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
     };
-    console.log("getFlightDetails", getFlightDetails);
-    
     
     const orderSuccess = useSelector(
       (state) => state?.payment?.OrderConfirm
@@ -35,13 +33,11 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
     const getselectedFlight = useSelector(
         (state) => state?.booking?.singleFlightData
       );
-      console.log("getselectedFlight", getselectedFlight);
+      
     const offerkey = useSelector(
       (state) => state?.booking?.offerkeyforDetail
     );
-    console.log("offerkeyforDetail", offerkey);
     
-
     const handleBookFlight = () => {
       event({
         action: 'click',
@@ -49,10 +45,6 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
         label: 'Select Flight Drawer',
         value: getFlightDetails?.total_amount_rounded,
       });
-      console.log("Select Flight Drawer", getFlightDetails?.total_amount_rounded);
-      
-      
-      
       
       dispatch(setChatscroll(true))
       dispatch(setisLoading(true));

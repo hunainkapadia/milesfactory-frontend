@@ -48,9 +48,7 @@ const GetMessagesSlice = createSlice({
     setMessages: (state, action) => {
   state.messages = action.payload;  // Replace entire messages array
 },
-    setMessage: (state, action) => {
-      console.log("thread_action", action);
-      
+    setMessage: (state, action) => {      
       //console.log("actiontest", action);
       
       state.messages.push(action.payload);
@@ -181,7 +179,6 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
               .finally(() => {});
           }
         } else {
-          console.log("item_response", item);
           dispatch(
             setMessage({ user: item.message, ai: { response: item?.response } })
           );

@@ -25,9 +25,7 @@ import {
 const PowerAirline = () => {
   const dispatch = useDispatch();
   const PowerAirline = useSelector((state) => state?.base?.powerAirlineDialog);
-  const contactSuccess = useSelector((state) => state?.base?.contactData?.data);
-  console.log("PowerAirline", PowerAirline);
-  
+  const contactSuccess = useSelector((state) => state?.base?.contactData?.data);  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

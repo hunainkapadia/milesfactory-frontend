@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const SidebarTabs = () => {
   const dispatch = useDispatch();
-  const handleTabClick = (tabId, sectionId) => {
-    console.log("sectionId", sectionId);
-    
+  const handleTabClick = (tabId, sectionId) => {    
     dispatch(setSidebarTab(tabId));
     setTimeout(() => {
       const drawerContent = document.querySelector(".asasas"); // your scroll container
@@ -25,8 +23,6 @@ const SidebarTabs = () => {
     }, 100); // small delay ensures DOM has rendered
   };
   const activeTab = useSelector((state) => state?.base?.sidebarTab);
-  console.log("activeTab", activeTab);
-
   const getBuilder = useSelector(
     (state) =>
       state?.sendMessage?.AddBuilder?.silent_function_template?.[0]?.function
@@ -37,8 +33,6 @@ const SidebarTabs = () => {
   );
   const slices = getselectedFlight?.slices || [];
 
-  console.log("getBuilder", getBuilder?.flight_type);
-  
   return (
     <Box
       width={"100%"}

@@ -69,14 +69,11 @@ const Header = ({
   isMytrip,
   isAiBooking
 }) => {
-  {console.log("isAiBooking22", isAiBooking)}
-
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
   const isBuilderDialoge = useSelector((state) => state?.base?.IsBuilderDialog);
-  console.log("isBuilderDialoge", isBuilderDialoge);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -113,12 +110,9 @@ const Header = ({
 
   // delete and create thread and show message chat clear
   // const {uuid} = router.query
-  // console.log("router_test", uuid);
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
-  console.log("uuid_000", uuid);
-  
   
   
   useEffect(() => {

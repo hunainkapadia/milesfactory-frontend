@@ -31,8 +31,6 @@ const ChatByUUID = () => {
   const dispatch = useDispatch();
 
   const { uuid } = router;
-  console.log("uuid_url", uuid);
-
   const messagesEndRef = useRef(null);
   const [hasFlightOffers, sethasFlightOffers] = useState(null);
   const chatBodyRef = useRef(null);
@@ -40,8 +38,7 @@ const ChatByUUID = () => {
   const [showArrow, setShowArrow] = useState(false);
   const [isUserScrollingUp, setIsUserScrollingUp] = useState(false);
 
-  console.log("showArrow", showArrow);
-
+  
   // Access your Redux messages
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
   const getMessages = useSelector((state) => state.getMessages?.messages);
@@ -49,8 +46,7 @@ const ChatByUUID = () => {
   const newChatLoading = useSelector(
     (state) => state.sendMessage?.newChatLoading
   );
-  console.log("getMessages", getMessages);
-
+  
   // scroll on click select direct
   const ChatScroll = useSelector((state) => state.base.Chatscroll);
   // Scroll if ChatScroll becomes true
@@ -149,8 +145,7 @@ const ChatByUUID = () => {
   const flightDetail = useSelector((state) => state.booking.flightDetail);
 
   const currentUser = useSelector((state) => state.base?.currentUser);
-  console.log("currentUser", currentUser);
-
+  
   useEffect(() => {
     if (currentUser) {
       dispatch(setisUserPopup(false)); // force login if not logged in
@@ -172,9 +167,7 @@ const ChatByUUID = () => {
 
 
   // for get message on page refresh
-    console.log("geturlUUID_000", router?.query?.uuid);
     
-
   return (
     <>
       <Box component={"main"}>

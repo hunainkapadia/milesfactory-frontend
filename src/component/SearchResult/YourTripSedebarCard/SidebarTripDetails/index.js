@@ -20,7 +20,6 @@ const SidebarTripDetails = ({ id }) => {
 
     return result;
   }
-  console.log("getBuilder", getBuilder);
   
 
   // Outbound journey text formatting

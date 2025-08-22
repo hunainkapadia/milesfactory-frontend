@@ -32,7 +32,7 @@ import {
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
 const OfferCardSidebar = ({ index, slice,  getItems }) => {
-  console.log("getItems222", getItems?.raw_data);
+  const dispatch = useDispatch();
   
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
@@ -54,8 +54,6 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
 
-  const dispatch = useDispatch();
-  const offerkey = getselectedFlight?.id ?? null;
 
   const HandleSelectDrawer = () => {
     // if (getselectedFlight?.id) {
@@ -68,9 +66,6 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
   };
 
   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  console.log("threaduuid_222", threaduuid);
-  console.log("threaduuid_001", getItems);
-  
   
   const handleDeleteCart = ()=> {
     dispatch(DeleteCart(threaduuid, getItems?.uuid))

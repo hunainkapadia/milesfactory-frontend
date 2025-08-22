@@ -120,19 +120,19 @@ export const bookFlight = () => (dispatch, getState) => {
 
 // Add to Cart
 export const AddToCart = (params, uuid) => async (dispatch, getState) => {
-  console.log("test_uuid", uuid);
+  
 
   dispatch(setIsLoadingSelect(true));
 
   try {
     const res = await api.post(`/api/v1/cart/add`, params);
-    console.log("cart_res", res);
+    
     dispatch(setIsLoadingSelect(false));
     dispatch(setAddCart(res.data));
     //  if API returns uuid, immediately fetch cart items
 
     if (res.data) {
-      dispatch(ListCart(uuid));
+      // dispatch(CartDetail(uuid));
       dispatch(CartDetail(uuid));
     }
   } catch (error) {
@@ -158,15 +158,15 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
 // };
 export const CartDetail = (threadUuid) => async (dispatch, getState) => {
   const uuid = getState()?.sendMessage?.threadUuid;
-  console.log("threaduuid_111", uuid);
+  
 
-  console.log("apiUrl");
+  
   dispatch(setLoading(true));
   const apiUrl = `/api/v1/cart/${threadUuid}`;
 
   try {
     const res = await api.get(apiUrl);
-    console.log("CartDetail", res.data);
+    
 
     dispatch(setGetCartDetail(res.data));
   } catch (error) {
@@ -178,12 +178,10 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
 
 export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
   const apiUrl = `api/v1/cart/${threaduuid}/items/${Itemsuuid}`;
-  console.log("apiUrl", apiUrl);
   dispatch(setLoading(true));
 
   try {
     const res = await api.delete(apiUrl);
-    console.log("itemdelete_res", res);
 
     dispatch(setGetCartDetail(res.data));
 

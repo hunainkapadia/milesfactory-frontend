@@ -24,7 +24,6 @@ const YourTripSedebarCard = ({
     (state) => state?.booking?.singleFlightData
   );
 
-  console.log("CartDetailsIn", CartDetails);
 
   const dispatch = useDispatch();
 
@@ -221,7 +220,6 @@ const YourTripSedebarCard = ({
                 {/* footer */}
                 {getItems?.raw_data?.slices.map((slice, index) => (
                   <>
-                    {console.log("getItems000", slice)}
                     <Box mb={3}>
                       {index === 0 ? (
                         <>

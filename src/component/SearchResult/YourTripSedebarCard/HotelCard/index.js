@@ -6,9 +6,6 @@ import { currencySymbols } from "@/src/utils/utils";
 
 const HotelCard = ({ gethotel, hotelsData }) => {
   // Static mock data
-
-  console.log("gethotel", gethotel?.name);
-
   return (
     <Box
       className={TripStyles.flightOfferCard}

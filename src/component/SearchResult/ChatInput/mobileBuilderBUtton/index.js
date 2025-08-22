@@ -21,13 +21,8 @@ const MobileBuilder = () => {
       category: 'engagement',
       label: 'Builder Toggle Mobile Clicked',
     });
-
-    console.log("Builder Toggle Mobile Clicked");
     dispatch(setIsBuilderDialog(tab === "builder"));
   };
-
-  console.log("isBuilder", isBuilder);
-  
 
   return (
     <>

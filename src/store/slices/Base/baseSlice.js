@@ -112,7 +112,6 @@ export const thread = () => (dispatch, getState) => {
   
   dispatch(seIsloading(true))
   api.get("/api/v1/chat/thread/all").then((res)=> {
-    console.log("getAllthread", res.data);
     dispatch(setThreadData(res.data))
     dispatch(seIsloading(false))
   }).catch((error)=> {

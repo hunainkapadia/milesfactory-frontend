@@ -113,7 +113,6 @@ const sendMessageSlice = createSlice({
     setMessage: (state, action) => {
       const newMessage = action.payload;
 
-      console.log("newMessage", newMessage?.ai?.passengerFlowRes);
       // STEP 1: If this is a passengerFlowRes message
       if (newMessage?.ai?.passengerFlowRes !== undefined) {
         // STEP 2: Remove all old passengerFlowRes messages
@@ -149,15 +148,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   const pathname = window.location.pathname;
   // Extract the UUID after /chat/
   const threadUUID = pathname.split("/chat/")[1];
-  console.log("pathname_00:", threadUUID);
   
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
 
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-    console.log("threadUUIdUrl", threadUUIdUrl);
-
+    
     api
       .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
       .then((res) => {
@@ -217,7 +214,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
-              console.log(" Polling complete:", response);
               dispatch(setpollingComplete(true));
               handleFinalResponse(response);
             })
@@ -237,7 +233,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
       // flight result [start]
-      console.log("is_function_test", response?.is_function);
       if (response?.is_function) {
         dispatch(setIsFunction({ status: true }));
       } else {
@@ -248,7 +243,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           response?.response?.results?.view_all_flight_result_api?.url;
         const allFlightSearchUuid =
           response?.response?.results?.view_all_flight_result_api?.uuid;
-        console.log("allFlightSearchUuid", allFlightSearchApi);
         if (allFlightSearchApi) {
           const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(allFlightSearchUuid));
@@ -263,22 +257,15 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .get(allFlightSearchApi)
               .then((flightRes) => {
                 const isComplete = flightRes?.data?.is_complete;
-                console.log("flightRes", flightRes);
-
-                console.log(
-                  " Final refreshed flightRes is_complete:",
-                  isComplete
-                );
-
+                
+                
                 if (isComplete === true) {
-                  console.log("Replacing with real flight results");
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
                     })
                   );
                 } else {
-                  console.log("Still not complete after polling");
 
                   dispatch(
                     setMessage({
@@ -299,7 +286,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(historyUrl)
                 .then((history_res) => {
                   const isComplete = history_res?.data?.search?.is_complete;
-                  console.log(" Polling: is_complete =", isComplete);
                   dispatch(setSearchHistorySend(history_res.data.search));
 
                   if (isComplete === true) {
@@ -308,7 +294,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     api
                       .get(allFlightSearchApi)
                       .then((flightRes) => {
-                        console.log("flightRes", flightRes);
                         dispatch(setSelectedFlightKey(null)); //  clear select flight key
 
                         const realFlightData = flightRes.data;
@@ -329,7 +314,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults(); // fetch and display the final results
-                    console.log("Not complete — showing placeholder once");
                     // alert(
                     //   "Showing placeholder flight result while search continues..."
                     // );
@@ -412,8 +396,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
   api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
-      console.log("newUuid", newUuid);
-      
       if (newUuid) {
         dispatch(setThreadUuid(newUuid));
         dispatch(setMobileNaveDrawer(false))
@@ -472,15 +454,12 @@ export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
 export const loadNextFlights = () => (dispatch, getState) => {
   const getpageNo = getState()?.sendMessage?.appendFlights?.nextPageNo;
   const getpageNo2 = getState()?.sendMessage;
-  console.log("getpageNo", getpageNo2);
-
+  
   const allOfferUrl = getState().sendMessage?.AllOfferUrl;
-  console.log("allOfferUrl", allOfferUrl);
-
+  
   const paginationSymbol = allOfferUrl.includes("?") ? "&" : "?";
   const nextPageUrl = `${allOfferUrl}${paginationSymbol}page=${getpageNo}`;
 
-  console.log("nextPageUrl", nextPageUrl);
   dispatch(setLoading(true));
 
   // console.log("nextPageUrl", nextPageUrl);

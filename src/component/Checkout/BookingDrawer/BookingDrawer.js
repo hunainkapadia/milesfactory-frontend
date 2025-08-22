@@ -25,8 +25,6 @@ const BookingDrawer = ({ }) => {
   );
   const getFlightDetail = useSelector((state) => state.booking?.singleFlightData);
   const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
-  console.log("getSingleData", getFlightDetail);
-  
   return (
     <Drawer
       anchor="right"

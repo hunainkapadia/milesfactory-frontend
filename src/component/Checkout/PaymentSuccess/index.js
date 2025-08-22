@@ -40,8 +40,6 @@ const PaymentSuccess = () => {
   // getting payment status
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
 
-  console.log("orderStatus_00", orderData?.order?.payment_status);
-  console.log("PaymentStatus_00", PaymentStatus?.is_complete, PaymentStatus?.status);
   
   
   useEffect(() => {

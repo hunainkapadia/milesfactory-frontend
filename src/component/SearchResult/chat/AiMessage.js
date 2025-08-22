@@ -29,8 +29,7 @@ const AiMessage = ({ aiMessage }) => {
   const messagesEndRef = useRef(null);
 
   const getMessages = useSelector((state) => state.getMessages?.messages);
-  console.log("getMessages", getMessages.length > 0);
-
+  
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
   );
@@ -39,8 +38,6 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
-  console.log("FlightExpire", FlightExpire);
-
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
@@ -61,16 +58,13 @@ const AiMessage = ({ aiMessage }) => {
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
     : aiMessage?.ai?.offers;
 
-  {
-    console.log("displayedGetFlights", aiMessage);
-  }
+  
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
 
-  console.log("paymentSuccess", paymentSuccess);
-
+  
   useEffect(() => {
     if (paymentSuccess) {
       setTimeout(() => {
@@ -82,8 +76,7 @@ const AiMessage = ({ aiMessage }) => {
   const isLoading = useSelector((state) => state.sendMessage?.isLoading);
   const Selectloading = useSelector((state) => state.booking.isLoading);
 
-  console.log("Selectloading", Selectloading);
-
+  
   // track for send message loading
 
   const aiboxRef = useRef(null); //  Add this ref
@@ -114,12 +107,10 @@ const AiMessage = ({ aiMessage }) => {
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );
-  console.log("isFunction", isFunction);
 
   // Find message with ai.offers
   // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
   const noMoreFlights = useSelector((state) => state.sendMessage.noMoreFlights);
-  console.log("noMoreFlights", noMoreFlights);
 
   const handleSeeMoreFlights = () => {
     if (!showAllFlight) {
@@ -239,11 +230,7 @@ const AiMessage = ({ aiMessage }) => {
               {aiMessage?.ai?.isPolling?.status && !isFunction && (
                 <>
                   <Box className={searchResultStyles.AiMessage + " aaa"}>
-                    {console.log(
-                      "aiMessage_polling",
-                      aiMessage?.ai?.isPolling?.argument
-                    )}
-
+                    
                     <PollingMessage
                       PollingData={aiMessage?.ai?.isPolling?.argument}
                     />
