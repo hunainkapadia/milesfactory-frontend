@@ -53,10 +53,11 @@ const SidebarFooter = () => {
 
             <Typography className="gray f12">total</Typography>
           </Box>
+          
           <Button
             onClick={handleBookFlight}
-            className={`btn btn-primary btn-round btn-xs `}
-            disabled={orderSuccess || !offerDetail}
+            className={`btn btn-primary btn-round btn-xs ${orderSuccess || !offerDetail ? " disabled " : ""}`}
+            // disabled={orderSuccess || !offerDetail}
 
           >
             Book now
