@@ -86,7 +86,7 @@ const PriceSummary = ({ getdata }) => {
         </Typography>
       </Box>
       {priceSummary ? (
-        <Box ref={priceSummaryRef} className={styles.Card + " Card white-bg"}>
+        <Box mb={3} ref={priceSummaryRef} className={styles.Card + " Card white-bg"}>
           <Box pb={2}>
             <h5 fontWeight={"regular"} className="regular mb-0">
               Price summary

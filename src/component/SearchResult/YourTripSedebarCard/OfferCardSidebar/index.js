@@ -51,10 +51,10 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
   const CartOffer = useSelector(
     (state) => state?.booking?.cartOffer?.raw_data
   );
-  console.log("CartOffer", CartOffer);
   
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
+  
 
 
   const HandleSelectDrawer = () => {
@@ -93,13 +93,15 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
                 <Typography className="f12 semibold">Return flight</Typography>
               </Box>
             )}
-            <FontAwesomeIcon
-              className="basecolor1-50"
-              cursor="pointer"
-              onClick={handleDeleteCart}
-              icon={faClose}
-              fontSize={20}
-            />
+            {!orderSuccess && (
+              <FontAwesomeIcon
+                className="basecolor1-50"
+                cursor="pointer"
+                onClick={handleDeleteCart}
+                icon={faClose}
+                fontSize={20}
+              />
+            )}
           </Box>
           {PaymentStatus?.is_complete === "yes" &&
           PaymentStatus?.status === "success" ? (
