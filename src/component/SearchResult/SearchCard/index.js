@@ -42,9 +42,9 @@ import {
 } from "@/src/store/slices/GestMessageSlice";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
-const SearchCard = ({ key, offerData, offerkey, FlightExpire}) => {
+const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
-  
+
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     //Push GA event
@@ -285,31 +285,29 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire}) => {
                     ) : (
                       ""
                     )}{" "} */}
-                    
-                    {selectedFlightKey === offerData.id ? (
-  <Button
-    disabled
-    className={
-      searchResultStyles.IsSelected +
-      " w-100 btn btn-primary btn-round btn-md "
-    }
-  >
-    <span>Selected</span>
-  </Button>
-) : (
-  <Button
-    className={
-      "w-100 btn btn-primary btn-round btn-md " +
-      searchResultStyles.selectFlightBtn
-    }
-    onClick={handleBookFlight}
-  >
-    Select
-  </Button>
-)}
-
-
-                    
+                    <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
+                      {selectedFlightKey === offerData.id ? (
+                        <Button
+                          disabled
+                          className={
+                            searchResultStyles.IsSelected +
+                            " w-100 btn btn-primary btn-round btn-md "
+                          }
+                        >
+                          <span>Selected</span>
+                        </Button>
+                      ) : (
+                        <Button
+                          className={
+                            "w-100 btn btn-primary btn-round btn-md " +
+                            searchResultStyles.selectFlightBtn
+                          }
+                          onClick={handleBookFlight}
+                        >
+                          Select
+                        </Button>
+                      )}
+                    </Box>
                   </Box>
                 </>
               )}

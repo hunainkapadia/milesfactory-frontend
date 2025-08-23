@@ -5,8 +5,11 @@ import { useSelector } from "react-redux";
 import { currencySymbols } from "@/src/utils/utils";
 
 const MobileLoading = () => {
-  const Slectedflight = useSelector((state) => state.booking.flightDetail);
+  const Slectedflight = useSelector((state) => state.booking?.cartOffer?.raw_data);
   const SlectedflightLoading = useSelector((state) => state.booking);
+
+  console.log("Slectedflight", Slectedflight);
+  
   
   
    const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
@@ -38,7 +41,7 @@ const MobileLoading = () => {
             justifyContent={"center"}
           >
             <Box display={"flex"} alignItems={"center"}>
-              <img width={24} src="/images/success-check.svg" />
+              aa<img width={24} src="/images/success-check.svg" />
             </Box>
             <Typography className="exbold f14">
               {currencySymbols[Slectedflight?.tax_currency] ||
