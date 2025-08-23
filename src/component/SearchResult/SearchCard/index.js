@@ -42,9 +42,9 @@ import {
 } from "@/src/store/slices/GestMessageSlice";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
-const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
+const SearchCard = ({ key, offerData, offerkey, FlightExpire}) => {
   const dispatch = useDispatch();
-
+  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     //Push GA event
@@ -58,8 +58,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
       dispatch(setOfferkeyforDetail(offerkey)); //  Store selected flight key for detail
       dispatch(setSeeDetailButton("Chat"));
 
-
-      dispatch(setSingleFlightData(offerData)) //for data
+      dispatch(setSingleFlightData(offerData)); //for data
       dispatch(setBookingDrawer(true)); //for drawer
     }
   };
@@ -94,16 +93,19 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const isInCart = CartDetails?.items?.some(
     (item) => item?.offer_id === offerData?.id // or compare with offerkey if that's what API uses
   );
-  
+
   const refreshHandle = () => {
     dispatch(RefreshHandle());
     dispatch(setRefreshSearch());
   };
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const SelectOffer = useSelector((state) => state?.booking?.singleFlightData);
-  const isLoadingSelect = useSelector((state) => state?.booking?.isLoadingSelect);
-  
-  const handleBookFlight = () => {
+  const isLoadingSelect = useSelector(
+    (state) => state?.booking?.isLoadingSelect
+  );
+
+  const handleBookFlight = (offerId) => {
+    console.log("offerId_00", offerId);
     const params = {
       chat_thread_uuid: uuid,
       offer_type: "flight",
@@ -236,8 +238,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       offerData={offerData}
                       selected={selected}
                       selectedFlightKey={selectedFlightKey}
-                      isInCart={isInCart}   // only true for the flight in cart
-
+                      isInCart={isInCart} // only true for the flight in cart
                     />
                   </Box>
                   {/*  */}
@@ -284,41 +285,31 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                     ) : (
                       ""
                     )}{" "} */}
+                    
+                    {selectedFlightKey === offerData.id ? (
+  <Button
+    disabled
+    className={
+      searchResultStyles.IsSelected +
+      " w-100 btn btn-primary btn-round btn-md "
+    }
+  >
+    <span>Selected</span>
+  </Button>
+) : (
+  <Button
+    className={
+      "w-100 btn btn-primary btn-round btn-md " +
+      searchResultStyles.selectFlightBtn
+    }
+    onClick={handleBookFlight}
+  >
+    Select
+  </Button>
+)}
 
-                    {isInCart ? (
-                      // Show "Selected" for the offer that is in cart
-                      <Box
-                        sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}
-                      >
-                        <Button
-                          disabled
-                          className={
-                            searchResultStyles.IsSelected +
-                            " w-100 btn btn-primary btn-round btn-md "
-                          }
-                        >
-                          <span>Selected</span>
-                        </Button>
-                      </Box>
-                    ) : CartDetails?.items?.length > 0 ? (
-                      // If cart already has another flight, hide the Select button
-                      <></>
-                    ) : (
-                      // Show Select button only when cart is empty
-                      <Box sx={{ width: { lg: "100%", md: "100%" } }}>
-                        <Button
-                          // disabled={isLoadingSelect} // disable while loading
-                          className={
-                            "w-100 btn btn-primary btn-round btn-md " +
-                            searchResultStyles.selectFlightBtn
-                          }
-                          onClick={handleBookFlight}
-                        >
-                          
-                          Select
-                        </Button>
-                      </Box>
-                    )}
+
+                    
                   </Box>
                 </>
               )}

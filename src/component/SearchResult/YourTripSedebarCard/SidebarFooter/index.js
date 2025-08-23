@@ -14,7 +14,6 @@ const SidebarFooter = () => {
   const CartDetails = CartOfferDetail?.[0];
 
   const offerDetail = useSelector((state) => state.booking?.cartOffer);
-  console.log("offerDetail", offerDetail);
   
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const dispatch = useDispatch();

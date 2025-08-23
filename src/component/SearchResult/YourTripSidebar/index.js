@@ -38,9 +38,7 @@ const YourTripSidebar = ({ isMessage }) => {
   const dispatch= useDispatch();
   
   const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail?.items);
-  const CartDetails = CartOfferDetail?.[0];
-  console.log("CartOfferDetail", CartOfferDetail);
-  
+  const CartDetails = CartOfferDetail?.[0];  
 
   
   

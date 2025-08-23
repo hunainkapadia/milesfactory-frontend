@@ -122,6 +122,7 @@ const AiMessage = ({ aiMessage }) => {
   const isLoadingPassenger = useSelector(
     (state) => state?.passengerDrawer?.isPassengerLoading
   );
+const [selectedOfferId, setSelectedOfferId] = useState(null);
 
   return (
     <Box

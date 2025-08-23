@@ -129,8 +129,6 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
 
   try {
     // delay before API call (500ms = 0.5s)
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     const res = await api.post(`/api/v1/cart/add`, params);
 
     dispatch(setIsLoadingSelect(false));
@@ -139,6 +137,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     // if API returns uuid, immediately fetch cart items
     if (res.data) {
       dispatch(CartDetail(uuid));
+      dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
     }
     // ✅ detect mobile view
     if (window.innerWidth <= 768) {
@@ -147,7 +146,8 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
       // OR Option 2: show an alert
     }
   } catch (error) {
-    console.error("AddToCart Error:", error);
+    console.error("AddToCart Error:", error?.message);
+    dispatch(setError(error?.message))
   } finally {
     dispatch(setIsLoadingSelect(false));
   }

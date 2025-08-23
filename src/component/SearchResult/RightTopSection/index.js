@@ -17,9 +17,7 @@ const RightTopSection = ({
   isInCart
 }) => {
   const CartDetails = useSelector((state) => state.booking.getCartDetail?.items);
-  console.log("CartDetails__0", CartDetails);
-  console.log("isInCart", isInCart);
-
+  
   
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only

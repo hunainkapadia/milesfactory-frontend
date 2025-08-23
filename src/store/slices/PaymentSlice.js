@@ -14,8 +14,12 @@ const PaymentSlice = createSlice({
     PaymentSessionId: null,
     PaymentSessionData: null,
     OrderConfirm: null,
+    error: null,
   },
   reducers: {
+    setError:(state, action)=> {
+      state.error = action.payload;
+    },
     setOrderData: (state, action)=> {
       state.OrderData = action.payload;
     },
@@ -158,7 +162,7 @@ export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
       }
     })
     .catch((error) => {
-      console.error("Failed to fetch order details:", error);
+      console.error("Failed to fetch order details:", error?.message);
       dispatch(
         setPaymentStatus({
           is_complete: "no",
@@ -166,6 +170,7 @@ export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
         })
       );
       dispatch(setIsloading(false));
+      dispatch(setError(error?.message));
     });
 };
 
@@ -264,5 +269,6 @@ export const {
   setPaymentSessionId,
   setPaymentSessionData,
   setOrderData,
+  setError
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;
