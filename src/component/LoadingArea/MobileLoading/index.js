@@ -34,16 +34,15 @@ const MobileLoading = () => {
         
 
         {paymentSuccess ? (
-          <Box
+           <Box
             display={"flex"}
             alignItems={"center"}
-            gap={2}
             justifyContent={"center"}
+            className={"basecolor1-light2-bg br-100"}
+            p={"2px 6px"}
           >
-            <Box display={"flex"} alignItems={"center"}>
-              aa<img width={24} src="/images/success-check.svg" />
-            </Box>
-            <Typography className="exbold f14">
+            <Typography className="exbold">
+            Paid{" . "}
               {currencySymbols[Slectedflight?.tax_currency] ||
                 Slectedflight?.tax_currency}
               {Math.round(Slectedflight?.total_amount)}
