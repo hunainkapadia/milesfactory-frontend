@@ -427,7 +427,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                         isSelected={isSelected} //  Pass selection status
                         passFilled={isPassFilled}
                         passDisabled={ispassDisabled}
-                        onDelete={() => handleDeletePassenger(passenger.uuid)}   // ✅ add this
+                        onDelete={() => handleDeletePassenger(passenger.uuid)}   //
 
                       />
                     );
