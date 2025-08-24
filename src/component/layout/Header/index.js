@@ -58,6 +58,7 @@ import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
 import MobileBuilderDialoge from "../../SearchResult/ChatInput/MobileBuilderDialoge";
+import HeaderUtils from "@/src/utils/headerUtils";
 
 const Header = ({
   isMessage,
@@ -108,19 +109,6 @@ const Header = ({
 
   };
 
-  // delete and create thread and show message chat clear
-  // const {uuid} = router.query
-  
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-
-  
-  
-  useEffect(() => {
-    if (uuid) {
-    router.replace(`/chat/${uuid}`); // replace to avoid extra history entries
-  }
-}, [uuid]);
-
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
   };
@@ -141,7 +129,7 @@ const Header = ({
   return (
     <>
       <Head></Head>
-
+      <HeaderUtils />
       <Box
         component={"header"}
         className={`
