@@ -22,7 +22,8 @@ const PassengerProfilecard = ({
   onClickProfileCard,
   passFilled,
   passDisabled,
-  isSelected
+  isSelected,
+  onDelete
 }) => {
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
@@ -226,7 +227,7 @@ const PassengerProfilecard = ({
                   <MenuItem
                     onClick={() => {
                       handleCloseMenu();
-                      // onDelete();
+                      onDelete();
                     }}
                   >
                     Delete Traveller

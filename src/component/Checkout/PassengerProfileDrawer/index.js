@@ -117,6 +117,20 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setPassengerUUID(passengerUuid));
     dispatch(PassengerForm());
   };
+  const handleDeletePassenger = (uuid) => {
+    console.log("pass_uuid", uuid);
+    
+    // Example: if you have a Redux action
+    dispatch({
+      type: "passengerDrawer/deletePassenger",
+      payload: uuid,
+    });
+
+    // OR if you just want to filter locally:
+    // dispatch(removePassengerFromList(uuid));
+
+    console.log("Deleted passenger with uuid:", uuid);
+  };
 
   const selectPassenger = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger
@@ -413,6 +427,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                         isSelected={isSelected} //  Pass selection status
                         passFilled={isPassFilled}
                         passDisabled={ispassDisabled}
+                        onDelete={() => handleDeletePassenger(passenger.uuid)}   // ✅ add this
+
                       />
                     );
                   })}
