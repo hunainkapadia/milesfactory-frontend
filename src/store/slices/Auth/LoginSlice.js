@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/apiEndpoints"; // Fixed import
 import api from "../../api";
+import { setMobileNaveDrawer } from "../Base/baseSlice";
 
 const initialState = {
   loginUser: null,
@@ -12,19 +13,20 @@ const initialState = {
   LoginCloseDrawer: false,
   IsUser: null,
   LogoutUser: null,
+  loginState: true,
 };
 
 const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
+    setLoginState:(state, action) => {
+      state.loginState = action.payload;
+    },
     setIsUser: (state, action) => {
-      
-      
       state.IsUser = action.payload;
     },
     setLoginUser: (state, action) => {
-      
       state.loginUser = action.payload;
       state.emailError = "";
       state.passwordError = "";
@@ -58,9 +60,8 @@ export const loginUser = (params) => (dispatch) => {
         // 1. Update Redux state
         dispatch(setLoginUser({ user: {user: res.data}, status: res.status }));
         dispatch(setLoginPopup(false));
-
+        dispatch(setLoginState(false))
         
-
         const { username, first_name, last_name, access, refresh } = res.data;
 
         // 2. Store basic user info (NO password, NO tokens)
@@ -75,8 +76,9 @@ export const loginUser = (params) => (dispatch) => {
 
         // 3. Store tokens in separate cookies (optional: set secure attributes)
         Cookies.set("access_token", access);
-
         Cookies.set("refresh_token", refresh);
+        dispatch(setLoginState(false))
+        dispatch(setMobileNaveDrawer(false))
       }
     })
     .catch((error) => {
@@ -134,12 +136,9 @@ export const googleLoginUser = (code) => (dispatch) => {
             userPopup: false,
           })
         );
-
-        
-
+        dispatch(setLoginState(false))
+        dispatch(setMobileNaveDrawer(false))
         // 2. Store user info (without tokens) in cookie
-
-        
         Cookies.set(
           "set-user",
           JSON.stringify({
@@ -198,6 +197,8 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
       Cookies.set("access_token", access);
       Cookies.set("refresh_token", refresh);
+      dispatch(setLoginState(false))
+      dispatch(setMobileNaveDrawer(false))
     })
     .catch((error) => {
       dispatch(
@@ -214,11 +215,13 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
 export const Logout = () => (dispatch) => {
   const refreshToken = Cookies.get("refresh_token"); // Correct method
-  
 
+  
+  
   api.post("/api/v1/logout/", { refresh: refreshToken })
-    .then((res) => {
-      
+  .then((res) => {
+    console.log("refreshToken", refreshToken);
+    
       dispatch(setLogoutUser(res.data));
 
       Cookies.remove("set-user");
@@ -232,6 +235,43 @@ export const Logout = () => (dispatch) => {
     });
 };
 
+export const LoginWithApple = (code) => (dispatch) => {
+  dispatch(setisLoading(true));
+  console.log("apple_test", res);
+  
+  api.post("/api/auth/apple/", { code })
+  .then((res) => {
+    const { user, access, refresh } = res.data;
+
+      dispatch(setLoginUser({ user: res.data, status: res.status }));
+      dispatch(setLoginState(false));
+      dispatch(setMobileNaveDrawer(false));
+
+      Cookies.set(
+        "set-user",
+        JSON.stringify({
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+        })
+      );
+
+      Cookies.set("access_token", access);
+      Cookies.set("refresh_token", refresh);
+    })
+    .catch((error) => {
+      dispatch(
+        setLoginError({
+          other: error?.response?.data?.detail || "Apple login failed",
+        })
+      );
+    })
+    .finally(() => {
+      dispatch(setisLoading(false));
+    });
+};
+
+
 export const {
   setLoginPopup,
   setLoginCloseDrawer,
@@ -241,6 +281,7 @@ export const {
   setLoginError,
   setisLoading,
   setIsUser,
+  setLoginState
 } = loginSlice.actions;
 
 export default loginSlice.reducer;

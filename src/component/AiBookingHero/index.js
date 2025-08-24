@@ -199,7 +199,7 @@ const handleTabChange = (event, newValue) => {
                         </Box>
                         
                           {switchOn ? (
-                            <MessageInputBox isAiBooking="isAiBooking" />
+                            <MessageInputBox isAiBooking="isAiBooking" isHomePage={"isHomePage"} />
                           ): (
                             <BookAiForm />
                           )}
@@ -249,7 +249,7 @@ const handleTabChange = (event, newValue) => {
                         </Box>
                         {switchOn ? (
                             
-                            <MessageInputBox isAiBooking={true}/>
+                            <MessageInputBox isAiBooking={true} isHomePage={"isHomePage"} />
                           ): (
                             <BookAiForm />
                           )}

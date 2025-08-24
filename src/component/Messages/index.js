@@ -22,7 +22,6 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import AiMessage from "../SearchResult/chat/AiMessage";
 import UserMessage from "../SearchResult/chat/UserMessage";
 import LoadingArea from "../LoadingArea";
-import BookingDrawer from "../Checkout/BookingDrawer/BookingDrawer";
 import inputStyles from "@/src/styles/sass/components/input-box/inputBox.module.scss";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
@@ -34,6 +33,7 @@ import Link from "next/link";
 import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
 import BaggageDrawer from "../Checkout/BaggageDrawer";
 import PassengerProfileDrawer from "../Checkout/PassengerProfileDrawer";
+import SearchFilterBar from "../SearchResult/SearchFilterBar";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -53,15 +53,13 @@ const Messages = () => {
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
+
+  console.log("getmessages", getmessages);
+  
   
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
-
-  const handleSearch = () => {
-    if (!userMessage.trim()) return;
-    dispatch(sendMessage(userMessage)); //  Sends message to API (POST)
-    setUserMessage(""); //  Clears input after sending
-  };
+  {console.log("messages_test", sendMessages)}
   const getselectedFlight = useSelector(
     (state) => state.booking.setselectedFlighDetail
   );
@@ -86,15 +84,29 @@ const Messages = () => {
     dispatch(setRefreshSearch());
   };
 
+  const SearchHistoryGet = useSelector(
+      (state) => state.getMessages.SearchHistory
+    );
+  
+    const SearchHistorySend = useSelector(
+      (state) => state.sendMessage?.SearchHistorySend
+    );
+    const SearchHistory = SearchHistorySend || SearchHistoryGet;
+    
+
   return (
     <>
       {messages.length ? (
-        <section>
-          <Box className={searchResultStyles.messageContent}>
+        <Box component={"section"}>
+          <Box
+            className={`${searchResultStyles.messageContent} ${
+              SearchHistory ? searchResultStyles.FilterActive : ""
+            }`}
+          >
             <Box className={searchResultStyles.messageContentIn}>
-                
               {messages.map((msg, index) => (
                 <Box key={index}>
+                  {console.log("msg_000", msg)}
                   {msg?.user && <UserMessage userMessage={msg.user} />}
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
@@ -108,17 +120,15 @@ const Messages = () => {
 
               {/*  */}
 
-              
               {!hasFlightOffers ? <Box ref={messagesEndRef} /> : ""}
               {/* booking flow start */}
 
-              <BookingDrawer getFlightDetail={flightDetail} />
+              
               <PassengerDrawerForm />
-              <PassengerProfileDrawer/>
-              <BaggageDrawer getFlightDetail={flightDetail} />
+              <PassengerProfileDrawer />
             </Box>
           </Box>
-        </section>
+        </Box>
       ) : (
         <></>
       )}

@@ -7,10 +7,23 @@
     
     overflow-y: auto;
     .ThreadDrawerBody {}
+    .ThreadDrawerItem {
+      padding: 10px 10px;
+      display: block;
+      margin-bottom: 4px;
+      &.active, &:hover {
+        background-color: $lightgray3;
+        border-radius: 20px;
+        color: $basecolor;
+      }
+    }
   }
 }
 .BaggageDrawer {
-   
+   .BaggageDrawerHeder {
+      padding: 18px 18px;
+      gap: 18px;
+   }
    .BaggageDrawerSection {
       overflow-y: auto;
          display: flex;
@@ -36,7 +49,6 @@
           }
        }
        .customTabs {
-         margin-top: 10px;
          min-height: auto;
          border-bottom: 1px solid #e0e0e0;
          

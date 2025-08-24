@@ -17,7 +17,7 @@ import Link from "next/link";
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import Head from "next/head";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { setPowerAirlineDialog } from "@/src/store/slices/Base/baseSlice";
+import { setMobileNaveDrawer, setPowerAirlineDialog } from "@/src/store/slices/Base/baseSlice";
 import PowerAirline from "../../PowerAirline";
 import { useDispatch } from "react-redux";
 import MobileNavDrawer from "../MobileNavDrawer";
@@ -36,6 +36,10 @@ const AiBookingFrontHeader = ({
   const PowerAirlineDialog = () => {
     dispatch(setPowerAirlineDialog(true));
   };
+  const handleMenueDrawer =()=> {
+    dispatch(setMobileNaveDrawer(true))
+  }
+  
   
   return (
     <>
@@ -65,6 +69,7 @@ const AiBookingFrontHeader = ({
                     sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                     fontSize={"24px"}
                     color={"#69707B"}
+                    onClick={handleMenueDrawer}
                   >
                     <i
                       className={`fa fa-bars`}

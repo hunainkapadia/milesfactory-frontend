@@ -30,19 +30,14 @@ const Home = () => {
   const uuid = useSelector((state) => state.sendMessage.ThreadUUIDsend); // <-- Adjust based on your store
 
   
-  
-  // useEffect(() => {
-  //   dispatch(OnlydeleteChatThread());
-  // }, [0]);
-  
-  // 1st creat thread befor befor message from home 
-  useEffect(() => {
-    dispatch(createThread());
-  }, [dispatch]);
 
   return (
     <>
       <Box>
+        <Box sx={{display:"none"}}> 
+          <Header isAiBooking={"isAiBooking"} />
+        </Box>
+        {/* header function only works but hidden */}
         <AiBookingFrontHeader />
         <Box className={styles.homeBody}>
           <Box component={"section"} id="fold1" className={styles.HomeBanner}>

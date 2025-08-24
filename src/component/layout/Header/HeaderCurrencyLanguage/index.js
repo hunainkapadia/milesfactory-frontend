@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 
 // Language list with flags
 const languageList = [
-  { code: "en", name: "English", flag: "https://flagcdn.com/w80/gb.png" },
+  { code: "en", name: "English", flag: "/images/logos/english-logo.png" },
   { code: "fr", name: "French", flag: "https://flagcdn.com/w80/fr.png" },
   { code: "de", name: "German", flag: "https://flagcdn.com/w80/de.png" },
   { code: "es", name: "Spanish", flag: "https://flagcdn.com/w80/es.png" },
@@ -20,7 +20,6 @@ const languageList = [
   { code: "jp", name: "Japanese", flag: "https://flagcdn.com/w80/jp.png" },
   { code: "ru", name: "Russian", flag: "https://flagcdn.com/w80/ru.png" },
 ];
-
 
 // Currency list
 const currencyList = [
@@ -37,8 +36,13 @@ const HeaderCurrencyLanguage = ({
   isMessage,
   forHeader,
   formobileDrawer,
+  isMytrip,
+  isHome,
+  isAiBooking
 }) => {
 
+  console.log("isAiBooking", isAiBooking);
+  
   const dispatch = useDispatch();
   const [languageAnchor, setLanguageAnchor] = useState(null);
   const [currencyAnchor, setCurrencyAnchor] = useState(null);
@@ -81,13 +85,15 @@ const HeaderCurrencyLanguage = ({
             className={`${styles.CurrencyItem} basecolor1-dark2`}
           >
             <Box display={"flex"} alignItems={"center"} gap={1}>
-              <Box className={styles.flagIcon} width={20} sx={{
-                backgroundImage: `url(${selectedLanguage.flag})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}>
-                
-              </Box>
+              <Box
+                className={styles.flagIcon}
+                width={20}
+                sx={{
+                  backgroundImage: `url(${selectedLanguage.flag})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              ></Box>
               <FontAwesomeIcon icon={faChevronDown} style={{ fontSize: 10 }} />
             </Box>
             <Typography pl={2} variant="body2">
@@ -117,7 +123,7 @@ const HeaderCurrencyLanguage = ({
             ))}
           </Menu>
           {/* currency start */}
-          <Box 
+          <Box
             display="flex"
             alignItems="center"
             // onClick={handleCurrencyClick}
@@ -170,17 +176,13 @@ const HeaderCurrencyLanguage = ({
             alignItems="center"
             // onClick={handleCurrencyClick}
             sx={{ cursor: "pointer", gap: 0 }}
-            className={`${
-              isSticky || IsActive || isMessage
-                ? " basecolor1-dark2 "
-                : " white "
-            }`}
+            className={isMytrip || isSticky || IsActive || isMessage || !isHome ? "basecolor1-dark2" : "white"}
           >
             <Typography variant="body2">{selectedCurrency.icon}</Typography>
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faChevronDown}
               style={{ marginLeft: 6, fontSize: 12 }}
-            />
+            /> */}
           </Box>
 
           <Menu
@@ -210,21 +212,22 @@ const HeaderCurrencyLanguage = ({
                 : " white "
             }`}
           >
-            <Box
-              className={styles.flagIcon + " imaggroup"}
-              width={20}
-              borderRadius={100}
-              sx={{
-                backgroundImage: `url(${selectedLanguage.flag})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
+            <Box>
+              <Box
+                className={styles.flagIcon + " imaggroup"}
+                width={20}
+                borderRadius={100}
+                sx={{
+                  backgroundImage: `url(${selectedLanguage.flag})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              ></Box>
             </Box>
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faChevronDown}
               style={{ marginLeft: 6, fontSize: 8 }}
-            />
+            /> */}
           </Box>
 
           <Menu

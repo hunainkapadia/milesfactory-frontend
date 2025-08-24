@@ -23,7 +23,8 @@ const PollingMessage = ({ PollingData }) => {
   return (
     <>
       <Typography component="div">
-        Looking for flights. Please wait...
+        Looking for flights. Feel free to further specify airlines, airports, cabin class, departure times, or direct flights. 
+        I can also sort the results by cheapest, fastest, or highest-rated options.
       </Typography>
       {!pollingComplete ? (
         <Box mt={3}>

@@ -10,7 +10,7 @@ import {
   setPaymentDrawer,
   setpriceSummary,
 } from "@/src/store/slices/PaymentSlice";
-import { currencySymbols } from "@/src/utils/utils";
+import { currencySymbols,event } from "@/src/utils/utils";
 
 const PriceSummary = ({ getdata }) => {
   const [isPrice, setIsPrice] = useState(false);
@@ -26,12 +26,19 @@ const PriceSummary = ({ getdata }) => {
   };
 
   const priceSummaryHandle = () => {
+    //ga_event
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'Price Summary Click',
+    });
+    console.log("Price Summary Click");
     // call captain api
     dispatch(setpriceSummary(true));
   };
   const priceSummary = useSelector((state) => state.payment.priceSummary);
 
-console.log("priceSummary", priceSummary);
+//console.log("priceSummary", priceSummary);
 
   // Step 2: useEffect to scroll when priceSummary becomes true
   useEffect(() => {

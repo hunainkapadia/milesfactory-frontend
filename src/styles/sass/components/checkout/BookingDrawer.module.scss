@@ -1,5 +1,7 @@
 @import "../../variables";
 
+
+
 .BaggageBox:not(:last-child) {
    margin-bottom: 24px;
 }
@@ -70,21 +72,41 @@
    background: #FFFFFF;
    border: 1px dashed #E6EAEB;
    border-radius: 8px;
-
 }
+
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
       padding: 0;
       flex: 1;
-      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
       .checkoutDrowerSection {
          background-color: #fff;
          display: flex;
          flex-direction: column;
          height: 100vh;
+
+         flex: 1 1 auto;
+         overflow: hidden;
+         &.MyTripDrowerSection {height: auto;
+            .checkoutDrowerBody {
+               padding-bottom: 0;
+            }
+         }
          .checkoutDrowerBody {
-            flex: 1; 
+            flex: 1 1 auto;
             overflow-y: auto;
+            padding-bottom: 18px; // optional, space before footer
+            padding-top: 18px; // optional, space before footer
+            &.PassengerFormDrowerBody {
+               padding-top: 0;
+            padding-bottom: 0;}
+            &.checkoutPaymentBody {
+               padding-top: 0;
+            padding-bottom: 0;
+            }
          }
       }
    }
@@ -125,8 +147,10 @@
       .checkoutDrowerBody {
          
          .detailsSection {
-            padding: 0 24px 144px;
+            padding: 0 25px 144px;
             .fromAndToBodyBottom {
+               padding-top: 18px;
+               border-top: solid 1px #E6EEEE;
                margin-bottom: 24px;
             }
             >div:last-child {
@@ -144,7 +168,7 @@
             .fromAndToContainer {
                border-bottom: none;
                &.isBaggage {
-                  border-bottom: solid 1px $lightgray2;
+                  border-bottom: solid 0px $lightgray4;
                   margin-bottom: 24px;
                }
             }
@@ -156,17 +180,17 @@
                   }
                }
                .fromAndToBodyTop {
-                  // border-bottom: solid 1px $lightgray2;
+                  // border-bottom: solid 1px $lightgray4;
                   // margin-bottom: 24px;
                   // padding-bottom: 0;
                }
             }
             .FromandToHeader {
-               padding: 0 0 24px ;
+               padding: 0 0 18px ;
             }
             .fromAndToRow {
                position: relative;
-               padding: 0 0 24px ;
+               padding: 0 0 18px ;
                .Col1, .Col2, .Col3 {
                   width: 30%;
                   &.Col3 {
@@ -174,11 +198,12 @@
                      justify-content: flex-end;
                   }
                   .Country {
-                     font-size: $f14;
+                     font-size: $f12;
                   }
                   .Dates {font-size: $f12;}
                }
                .fromAndToRowIn {
+                  gap: 16px;
                   &::before {
                      top: 8px;
                      content: "";
@@ -242,7 +267,7 @@
       
    }
    .checkoutDrowerFooter {
-      filter: drop-shadow(0px -1px 4px rgba(12, 12, 13, 0.05));
+      
       z-index: 3;
       bottom: 0;
       right: 0;
@@ -259,22 +284,17 @@
 
 }
 .checkoutDrower {
-      .ProfileDrowerSection  .checkoutDrowerHeder {
-         margin-bottom: 10px;
-      }
-      .checkoutDrowerHeder {
-         padding: 28px 24px 0;
-         gap: 24px;
-         margin-bottom: 24px;
-      }
+   .checkoutDrowerHeder {
+      padding: 18px 18px 0;
+      gap: 18px;
    }
+}
 @include for-mobile-large-screen {
    
    .checkoutDrower {
       .checkoutDrowerHeder {
-         padding: 22px 24px 0;
+         padding: 18px 18px 0;
          gap: 16px;
-         margin-bottom: 22px;
       }
       width: 100%;
       >div {
@@ -289,12 +309,12 @@
       padding-right: 20px !important;
     }
    .passengersCard {
-      padding: 12px;
+      padding: 10px;
       &.passengerProfileCard {
          padding: 18px 15px;
       }
       &.ExtraServices {
-         padding: 12px;
+         padding: 10px;
          margin-bottom: 0;
       }
    }
@@ -317,7 +337,7 @@
          top: inherit;
          @include border-radius(0);
          .checkoutDrowerBody .detailsSection {
-            padding: 0 24px 150px;
+            padding: 0 24px 20px;
          }
       }
    }

@@ -11,6 +11,7 @@ import {
   setAllPassengerFill,
   setCaptainSuccess,
   setFormSuccess,
+  setisLoading,
   setOpenPassengerDrawer,
   setPassengerAge,
   setPassengerPassport,
@@ -23,6 +24,7 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import ExtraServices from "../ExtraServices";
 import { setpriceSummary } from "@/src/store/slices/PaymentSlice";
+import { event } from "@/src/utils/utils";
 
 const PassengerInfo = ({ getdata }) => {
   const dispatch = useDispatch();
@@ -41,6 +43,14 @@ const PassengerInfo = ({ getdata }) => {
 
   // if passenger profile or not handle
   const handlePassengerClick = (uuid, isFilled, type, age, passportNumber, passenger) => {
+    //ga_event
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'Add Passenger Start',
+      value: passenger.type,
+    });
+    console.log("Add Passenger Start", passenger.type);
     if (passengerPofile?.length > 0) {
       dispatch(getPassPofile()); // call passenger profile
       dispatch(setPassProfileDrawer(true));
@@ -51,7 +61,6 @@ const PassengerInfo = ({ getdata }) => {
       dispatch(setSelectPassenger(passenger))
       
     } else {
-      
       
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       if (!isFilled) {

@@ -13,6 +13,7 @@ const PaymentSlice = createSlice({
     isloading: false,
     PaymentSessionId: null,
     PaymentSessionData: null,
+    OrderConfirm: null,
   },
   reducers: {
     setOrderData: (state, action)=> {

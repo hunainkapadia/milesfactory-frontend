@@ -1,5 +1,5 @@
   import React from "react";
-  import { Box, Typography, Divider } from "@mui/material";
+  import { Box, Typography, Divider, Button } from "@mui/material";
   import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
   import { useDispatch, useSelector } from "react-redux";
   import {
@@ -8,11 +8,13 @@
     setCloseDrawer,
     setflightDetail,
     setselectedFlighDetail,
+    setSelectedFlightKey,
     setSelectFlightKey,
   } from "@/src/store/slices/BookingflightSlice";
   import { setMessage } from "@/src/store/slices/sendMessageSlice";
   import { PassengerForm, setisLoading, setPassengerData } from "@/src/store/slices/passengerDrawerSlice";
-  import { currencySymbols } from "@/src/utils/utils";
+  import { currencySymbols,event } from "@/src/utils/utils";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
   const BookingDrawerFooter = ({ getFlightDetails }) => {
     const dispatch = useDispatch();
@@ -21,29 +23,67 @@
       dispatch(setCloseDrawer()); // Pass an empty value to close the drawer
 
     };
+    console.log("getFlightDetails", getFlightDetails);
+    
     
     const orderSuccess = useSelector(
       (state) => state?.payment?.OrderConfirm
     ); //from order api
     const passengerSelected = useSelector(
       (state) => state?.sendMessage
-    );    
-    const handleBookFlight = () => {
-      dispatch(setisLoading())
-      dispatch(setCloseDrawer()); //dispatch close
-      dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
-      dispatch(PassengerForm())
-      
-      // dispatch(bookFlight());
-      // dispatch(setPassengerData()); // pass data store in slice
+    );
+    const getselectedFlight = useSelector(
+        (state) => state?.booking?.singleFlightData
+      );
+      console.log("getselectedFlight", getselectedFlight);
+    const offerkey = useSelector(
+      (state) => state?.booking?.offerkeyforDetail
+    );
+    console.log("offerkeyforDetail", offerkey);
+    
 
+    const handleBookFlight = () => {
+      event({
+        action: 'click',
+        category: 'engagement',
+        label: 'Select Flight Drawer',
+        value: getFlightDetails?.total_amount_rounded,
+      });
+      console.log("Select Flight Drawer", getFlightDetails?.total_amount_rounded);
+      
+      
+      
+      
+      dispatch(setChatscroll(true))
+      dispatch(setisLoading(true));
+      // if(selected) {
+      //   setHideSelectButton(true);
+      // };
+      if (offerkey) {
+        dispatch(setflightDetail(offerkey)); // Store flight details
+        dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
+      }
+      
+      dispatch(setflightDetail(getFlightDetails)); //dispatch selected flight detail
+      dispatch(PassengerForm());
+  
+      dispatch(bookFlight());
       if (getFlightDetails?.id) {
         dispatch(bookFlight(getFlightDetails.id)); // Pass flight ID to bookFlight
-
       } else {
-        ""
+        ("");
       }
-      dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this si message trigger passenger flow active
+
+
+
+
+      
+      dispatch(setisLoading())
+      dispatch(setCloseDrawer()); //dispatch close
+      dispatch(PassengerForm())
+      
+      
+      
     };
 
     const personQuantity = getFlightDetails?.passengers.length;
@@ -61,11 +101,13 @@
       (state) => state?.passengerDrawer?.IsPassengerflow
     );
     
+      
+    
     
     
     return (
       <>
-        <Divider />
+        <Divider className={`${styles.Divider} Divider`} />
       <Box
         px={3}
         className={styles.checkoutDrowerFooter + " test11"}
@@ -114,7 +156,7 @@
             width={"100%"}
           >
             {/* Price Section */}
-            <Box display={"flex"} flexDirection="column">
+            <Box display={"flex"} flexDirection="column" justifyContent={"center"}>
               <Box
                 className={styles.priceSection}
                 display="flex"
@@ -144,13 +186,13 @@
               display="flex"
               justifyContent="flex-end"
               alignItems="center"
-              gap={3}
+              gap={0}
             >
               {/* Close Button */}
               <Box
                 display="flex"
                 alignItems="center"
-                gap={2}
+                textAlign={"center"}
                 className="gray f14"
                 style={{ cursor: "pointer" }}
                 onClick={HandlecloseDrawer}
@@ -186,16 +228,18 @@
                 ) : (
                   ""
                 )} */}
-                <button
-                  className={
-                    styles.selectFlightBtn + " btn btn-primary btn-round btn-lg-x"
-                  }
-                  onClick={handleBookFlight}
-                >
-                  <Box display="flex" gap={1}>
-                    <Box>Select flight</Box>
-                  </Box>
-                </button>
+                {!getselectedFlight && (
+                  <Button sx={{ml:3}}
+                    className={
+                      styles.selectFlightBtn + " btn btn-primary btn-round btn-lg-x"
+                    }
+                    onClick={handleBookFlight}
+                  >
+                    <Box display="flex" gap={1}>
+                      <Box>Select flight</Box>
+                    </Box>
+                  </Button>
+                )}
               </Box>
             </Box>
           </Box>

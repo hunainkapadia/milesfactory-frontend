@@ -15,9 +15,12 @@ import {
   DialogContent,
   InputAdornment,
 } from "@mui/material";
-import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+
+import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setisUserPopup,
   setSignupPopup,
   SignUpUser,
 } from "@/src/store/slices/Auth/SignupSlice";
@@ -26,7 +29,7 @@ import { setLoginPopup } from "@/src/store/slices/Auth/LoginSlice";
 import { LoadingButton } from "@mui/lab";
 import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
-const SignUpPopup = () => {
+const SignUpPopup = ({ isChat }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [firstName, setFirstName] = useState();
@@ -64,38 +67,48 @@ const SignUpPopup = () => {
 
   // for login popup
   const isSignupPopup = useSelector((state) => state?.signup?.SignupPopup);
+  const currentUser = useSelector((state) => state.base?.currentUser);
 
   const HandleSignupPopupClose = () => {
     dispatch(setSignupPopup(false));
   };
+  console.log("test_cond", isChat);
+  const HandleSigninPopup = () => {
+    dispatch(setSignupPopup(false));
+    dispatch(setLoginPopup(true)); // for close login popup
+  };
 
-  const isFormValid =
-  firstName &&
-  lastName &&
-  email &&
-  password &&
-  agreeTerms;
+  const isFormValid = firstName && lastName && email && password && agreeTerms;
   return (
     <Dialog
       open={isSignupPopup}
-      onClose={HandleSignupPopupClose}
+      onClose={
+        isChat && !currentUser
+          ? undefined //  Don't allow closing
+          : HandleSignupPopupClose // Allow closing only when not forced
+      }
       maxWidth="sm" // Set max width to 1280px
       fullWidth // Forces Dialog to expand to maxWidth
       className="modalDialog"
     >
-      <IconButton
-        aria-label="close"
-        onClick={HandleSignupPopupClose}
-        sx={{
-          position: "absolute",
-          right: 16,
-          zIndex: 1,
-          top: 8,
-          color: "#000", // Change color if needed
-        }}
-      >
-        <i className="fa fa-times" aria-hidden="true"></i>
-      </IconButton>
+      {!isChat && !currentUser ? (
+        <IconButton
+          aria-label="close"
+          onClick={HandleSignupPopupClose}
+          sx={{
+            position: "absolute",
+            right: 16,
+            zIndex: 1,
+            top: 8,
+            color: "#000", // Change color if needed
+          }}
+        >
+          <i className="fa fa-times" aria-hidden="true"></i>
+        </IconButton>
+      ) : (
+        ""
+      )}
+
       <DialogContent
         sx={{
           textAlign: { xs: "center", md: "left", lg: "left" },
@@ -295,13 +308,12 @@ const SignUpPopup = () => {
                         onClick={handleSignUp}
                         variant="contained"
                         color="success"
-                        disabled={isLoading} // Disable when loading
+                        disabled={!isFormValid ? "disabled" : "" } // Disable when loading
                         width={"100%"}
                         type="submit" // Important!
                         className="btn btn-primary btn-md btn-round" // Important!
                         sx={{
                           width: { xs: "100%", lg: "100%", md: "100%" },
-                          opacity: `${isFormValid ? "100%" : "50%"}`,
                         }}
                       >
                         {isLoading ? (
@@ -312,6 +324,30 @@ const SignUpPopup = () => {
                           </Box>
                         )}
                       </Button>
+                    </Box>
+
+                    <Box
+                      className={styles.orDivider}
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      gap={2}
+                      sx={{ my: { xs: 2, md: 2, lg: 2 } }}
+                      px={4}
+                    >
+                      <hr />
+                      <Typography>OR</Typography>
+                      <hr />
+                    </Box>
+
+                    <Box display={"flex"} justifyContent={"center"} gap={1}>
+                      <Typography>Log in with </Typography>
+                      <Typography
+                        onClick={HandleSigninPopup}
+                        className="basecolor1 cursor-pointer"
+                      >
+                        email
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>

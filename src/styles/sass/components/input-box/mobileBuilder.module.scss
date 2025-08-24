@@ -1,0 +1,76 @@
+@import "../../_variables.scss";
+
+.BuilderDrawer {
+   z-index: 4;
+}
+.builderFooter {
+   align-items: center;
+   border: 1px solid #E6EEEE;
+   box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
+   @include border-radius(30px 30px 0 0 );
+   background-color: $white;
+   padding: 20px 20 20px 31px;
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+}
+.switchWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: auto;
+  height: auto;
+  white-space: nowrap;
+  border-radius: 100px;
+  background-color: #F2F7F8;
+  cursor: pointer;
+  padding: 0;
+  gap: 0;
+
+  .slider {
+    position: absolute;
+    top: 0;
+    width: calc(50% - 0px);
+    height: 38px;
+    background-color: $white;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    left: 0;
+      background: $white;
+      border: 1px solid #C5DADE;
+      border-radius: 30px;
+
+
+    &.right {
+      left: calc(50% + 0px);
+    }
+  }
+
+  .label {
+    padding-left: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    p {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    &.inactive {
+      p {
+         font-weight: normal;
+         color: $basecolor; // uses MUI theme variable
+      }
+    }
+    padding: 14px 12px;
+    &.active {
+      background: $white;
+      border: 1px solid #C5DADE;
+      border-radius: 30px;
+      p {font-weight: $exbold;}
+      color: $basecolor1; // uses MUI theme variable
+    }
+  }
+}

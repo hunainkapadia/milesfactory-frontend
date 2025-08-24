@@ -22,7 +22,7 @@ import {
   setSignupPopup,
 } from "@/src/store/slices/Auth/SignupSlice";
 
-const LoginPopup = ({}) => {
+const LoginPopup = ({ isChat }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +30,9 @@ const LoginPopup = ({}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginError = useSelector((state) => state.login.LoginError);
+
+  console.log("LoginError", LoginError?.other);
+
   /// isform submit redirect to home
   const isFormSupmit = useSelector((state) => state.login.loginUser);
   const router = useRouter();
@@ -63,26 +66,37 @@ const LoginPopup = ({}) => {
   }, [isuserLogin]);
   // for button enable when all fields fill
   const isFormValid = email && password;
+
+  const currentUser = useSelector((state) => state.base?.currentUser);
+
   return (
     <Dialog
       open={isLoginPopup}
-      onClose={handleLoginPopupClose}
+      onClose={
+        isChat && !currentUser
+          ? undefined //  Don't allow closing
+          : handleLoginPopupClose // Allow closing only when not forced
+      }
       maxWidth="sm" // Set max width to 1280px
       fullWidth // Forces Dialog to expand to maxWidth
     >
-      <IconButton
-        aria-label="close"
-        onClick={handleLoginPopupClose}
-        sx={{
-          position: "absolute",
-          right: 16,
-          zIndex: 1,
-          top: 8,
-          color: "#000", // Change color if needed
-        }}
-      >
-        <i className="fa fa-times" aria-hidden="true"></i>
-      </IconButton>
+      {!isChat && !currentUser ? (
+        <IconButton
+          aria-label="close"
+          onClick={handleLoginPopupClose}
+          sx={{
+            position: "absolute",
+            right: 16,
+            zIndex: 1,
+            top: 8,
+            color: "#000", // Change color if needed
+          }}
+        >
+          <i className="fa fa-times" aria-hidden="true"></i>
+        </IconButton>
+      ) : (
+        ""
+      )}
 
       <DialogContent
         sx={{
@@ -157,11 +171,13 @@ const LoginPopup = ({}) => {
                           ),
                         }}
                       />
-                    <Typography className="error" color="red">
-                      {LoginError.password}
-                    </Typography>
+                      <Typography className="error" color="red">
+                        {LoginError.password}
+                      </Typography>
                     </Box>
-                    
+                    <Typography className="error" color="red">
+                      {LoginError?.other}
+                    </Typography>
                   </Box>
                 </Box>
                 <Box component={"section"}>
@@ -172,12 +188,11 @@ const LoginPopup = ({}) => {
                       className="btn btn-primary btn-md btn-round"
                       sx={{
                         width: { xs: "100%", lg: "100%", md: "100%" },
-                        opacity: `${isFormValid ? "100%" : "50%"}`,
                       }}
                       onClick={handleLogin}
                       variant="contained"
                       color="success"
-                      disabled={isloading} // Disable when loading
+                      disabled={!isFormValid ? "disabled" : "" } // Disable when loading
                     >
                       {isloading ? (
                         <ButtonLoading />
@@ -229,7 +244,7 @@ const LoginPopup = ({}) => {
                       pt={2}
                       gap={1}
                     >
-                      <Typography>Don’t have an account yet? </Typography>
+                      <Typography> Don’t have an account yet? </Typography>
                       <Typography
                         onClick={() => HandleSignup()}
                         className="basecolor1 cursor-pointer underline"

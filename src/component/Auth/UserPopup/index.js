@@ -5,6 +5,8 @@ import {
   Dialog,
   IconButton,
   DialogContent,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +22,7 @@ import ButtonLoading from "../../LoadingArea/ButtonLoading";
 import { useRouter } from "next/router";
 import LoginWithOptions from "../LoginWithOptions";
 
-const UserPopup = () => {
+const UserPopup = (isChat) => {
   const dispatch = useDispatch();
   const router = useRouter();
   // get error
@@ -51,61 +53,100 @@ const UserPopup = () => {
     dispatch(setisUserPopup(false));
     dispatch(setRegisterPopup(true));
   };
-  return (
-    <Dialog
-      open={isUserPopup || getUser}
-      onClose={handlePopupClose}
-      maxWidth="sm" // Set max width to 1280px
-      fullWidth // Forces Dialog to expand to maxWidth
-    >
-      <IconButton
-        aria-label="close"
-        onClick={handlePopupClose}
-        sx={{
-          position: "absolute",
-          right: 16,
-          zIndex: 1,
-          top: 8,
-          color: "#000", // Change color if needed
-        }}
-      >
-        <i className="fa fa-times" aria-hidden="true"></i>
-      </IconButton>
+  const currentUser = useSelector((state) => state.base?.currentUser);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const loginState = useSelector((state) => state?.login?.loginState);
+  console.log("loginState", loginState);
+  console.log("isUserPopup", isUserPopup);
+  console.log("isChat_isChat", isChat?.isChat && loginState);
 
-      <DialogContent
-        sx={{
-          textAlign: { xs: "center", md: "left", lg: "left" },
-          px: { lg: 10, md: 10, xs: 2 },
-        }}
-      >
-        <Box mb={2} textAlign={"center"}>
-          <h3 className="mb-0">Welcome back!</h3>
-        </Box>
-        <Box>
-          <LoginWithOptions options={"Continue with"} />
-        </Box>
-        <Box display={"flex"} flexDirection={"column"} gap={2}>
-          <Box display={"flex"} justifyContent={"center"} gap={1}>
-            <Typography>Or log in with </Typography>
-            <Typography
-              onClick={HandleSigninPopup}
-              className="basecolor1 cursor-pointer"
+  return (
+    <>
+      {(isChat?.isChat ? isChat?.isChat && loginState : isUserPopup) && (
+        <Dialog
+          open={
+            isChat?.isChat
+              ? isChat?.isChat && loginState //this is for only chat page restrik chat
+              : isUserPopup //this is for only everywhere except chat page on clcik open
+          }
+          onClose={
+            isChat?.isChat && !currentUser
+              ? undefined //  Don't allow closing
+              : handlePopupClose // Allow closing only when not forced
+          }
+          maxWidth="sm" // Set max width to 1280px
+          fullWidth // Forces Dialog to expand to maxWidth
+          keepMounted={false} // 🔹 This removes it from DOM when closed
+        >
+          {!isChat?.isChat && !currentUser ? (
+            <IconButton
+              aria-label="close"
+              onClick={handlePopupClose}
+              sx={{
+                position: "absolute",
+                right: 16,
+                zIndex: 1,
+                top: 8,
+                color: "#000",
+              }}
             >
-              email
-            </Typography>
-          </Box>
-          <Box display={"flex"} justifyContent={"center"} gap={1}>
-            <Typography>Don’t have an account yet? </Typography>
-            <Typography
-              onClick={HandleRegisterPopup}
-              className="basecolor1 cursor-pointer"
-            >
-              Sign up
-            </Typography>
-          </Box>
-        </Box>
-      </DialogContent>
-    </Dialog>
+              <i className="fa fa-times" aria-hidden="true"></i>
+            </IconButton>
+          ) : (
+            ""
+          )}
+
+          <DialogContent
+            sx={{
+              textAlign: { xs: "center", md: "left", lg: "left" },
+              px: { lg: 10, md: 10, xs: 2 },
+            }}
+          >
+            <Box mb={2} textAlign={"center"}>
+              <h3 sx={{ mb: "12px" }}>
+                {isChat?.isChat
+                  ? isMobile
+                    ? "Don't loose your trip!"
+                    : "Don't loose your trip details!"
+                  : "Welcome back!"}
+              </h3>
+
+              {isChat?.isChat && (
+                <Typography>
+                  {isMobile
+                    ? "Log in to save your trip details"
+                    : "Log in to save and find your information faster"}
+                </Typography>
+              )}
+            </Box>
+            <Box>
+              <LoginWithOptions options={"Continue with"} />
+            </Box>
+            <Box display={"flex"} flexDirection={"column"} gap={2}>
+              <Box display={"flex"} justifyContent={"center"} gap={1}>
+                <Typography>Or log in with </Typography>
+                <Typography
+                  onClick={HandleSigninPopup}
+                  className="basecolor1 cursor-pointer"
+                >
+                  email
+                </Typography>
+              </Box>
+              <Box display={"flex"} justifyContent={"center"} gap={1}>
+                <Typography>Don’t have an account yet? </Typography>
+                <Typography
+                  onClick={HandleRegisterPopup}
+                  className="basecolor1 cursor-pointer"
+                >
+                  Sign up
+                </Typography>
+              </Box>
+            </Box>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 };
 

@@ -6,6 +6,8 @@ import {
   setOpenDrawer,
 } from "@/src/store/slices/BookingflightSlice";
 import FilterParams from "../YourTripSidebar/FilterParams";
+import { setSeeDetailButton } from "@/src/store/slices/passengerDrawerSlice";
+import { event } from "@/src/utils/utils";
 
 const SearchFilterBar = () => {
   const SearchHistoryGet = useSelector(
@@ -19,18 +21,21 @@ const SearchFilterBar = () => {
 
   //   for selct flight detail
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
   const dispatch = useDispatch();
   const offerkey = getselectedFlight?.id;
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     if (offerkey) {
+      dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(getselectedFlight)); // Store flight details
     }
   };
-  console.log("SearchHistory2", offerkey);
+  console.log("SearchHistory2", SearchHistory);
+
+
   //   for selct flight detail end
 
   return (
@@ -40,7 +45,7 @@ const SearchFilterBar = () => {
           <Box
             component={"main"}
             className={styles.SearchFilterBar}
-            sx={{ display: { xs: "block", lg: "none", md: "none" } }}
+            sx={{ pb: { xs: 0, md: "10px" } }}
           >
             <Box
               component={"section"}
@@ -51,14 +56,29 @@ const SearchFilterBar = () => {
               justifyContent={"space-between"}
             >
               {/*  */}
-              <Box gap={"8px"} display={"flex"} alignItems={"center"}>
-                <Box className=" imggroup" sx={{ width: "28px" }}>
-                  <img width="28" src="/images/plane-icon-basecolor1.svg" />
+              <Box
+                sx={{ gap: { md: "12px", xs: "8px" } }}
+                display={"flex"}
+                alignItems={"center"}
+              >
+                <Box className=" imggroup">
+                  {offerkey ? (
+                    <img
+                      width={20}
+                      height={20}
+                      src="/images/success-check.svg"
+                    />
+                  ) : (
+                    <img width="28" src="/images/plane-icon-basecolor1.svg" />
+                  )}
                 </Box>
                 {SearchHistory ? (
                   <Box className={styles.Header2 + " aaa"}>
                     <Box mb={"2px"}>
-                      <Typography className="bold f10">
+                      <Typography
+                        className="bold"
+                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
+                      >
                         {SearchHistory?.from_title} - {SearchHistory?.to_title}
                       </Typography>
                     </Box>
@@ -142,10 +162,11 @@ const SearchFilterBar = () => {
                       className="text-decoration-none cursor-pointer"
                     >
                       <Box
-                        gap={1}
+                        gap={"4px"}
                         alignItems={"center"}
                         display={"flex"}
                         className=" basecolor1 semibold"
+                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
                       >
                         <span>See details</span>
                         <i className="fa-angle-right fa fas"></i>{" "}

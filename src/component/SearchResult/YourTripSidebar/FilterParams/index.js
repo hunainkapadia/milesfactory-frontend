@@ -12,14 +12,13 @@ const FilterParams = () => {
     airlineName: airlineName,
   };
 
-  console.log("getselectedFlight", filterParams);
+  //console.log("getselectedFlight", filterParams);
    return (
      <>
        <Box
          className=" filterBox"
-         sx={{
-           display: { lg: "block", md: "block", xs: "flex" },
-         }}
+         display={"flex"}
+         sx={{ flexDirection: { xs: "column", md: "row" } }}
        >
          <Typography
            className=" gray mb-0"

@@ -54,7 +54,9 @@
     padding: 0;
   }
 }
-
+.PagesBanner {
+  margin-top: -60px;
+}
 .HomeBanner {
   height: 100vh;
   top: 0;
@@ -67,8 +69,11 @@
   position: relative;
   background-size: cover;
   &.HomeBannerSm {
-    height: 40vh;
+    height: 50vh;
     background-position: center 20%;
+    .HeroSection {
+      padding: 30vh 0;
+    }
 
   }
 
@@ -219,7 +224,7 @@
 
 @media only screen and (max-width: 767px) {
   .ChatBullets {
-    gap: 6px;
+    gap: 6px 0px;
     .ChatBullet {
       padding-right: 6px;
     }
@@ -297,7 +302,7 @@
 
   .mainHeroSection.HeroSection {
     height: 95vh;
-    padding: 164px 0 26vh;
+    padding: 19vh 0 26vh;
 
     .Box .Content .ContentIn {
       &.ContentInSection1 {

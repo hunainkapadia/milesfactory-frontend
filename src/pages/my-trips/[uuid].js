@@ -11,6 +11,7 @@ import {
   Button,
   Divider,
   Grid,
+  capitalize,
 } from "@mui/material";
 // import styles from "@/src/styles/sass/components/MyTrips/Mytrips.module.scss";
 import Header from "@/src/component/layout/Header";
@@ -18,6 +19,7 @@ import FromAndToDetail from "@/src/component/Checkout/BookingDrawer/FromAndToDet
 // import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import tripStyles from "@/src/styles/sass/components/MyTrips/Mytrips.module.scss";
+import { currencySymbols } from "@/src/utils/utils";
 const TripDetailPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -50,14 +52,13 @@ const TripDetailPage = () => {
   return (
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
-        <Header isMessage="isMessage" isChat="isChat" />
-        <Box sx={{ backgroundColor: "#e6f5ee" }} py={6}>
+        <Header isMessage="isMessage" />
+        <Box sx={{ backgroundColor: "#e6f5ee" }} py={4}>
           {/* Hero section */}
           <Box
-          component={"header"}
-          pb={4}
+            component={"header"}
+            pb={2}
             sx={{
-               
               backgroundImage: "url('/plane-wing.jpg')", // put image in /public
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -69,11 +70,12 @@ const TripDetailPage = () => {
               textAlign: "center",
             }}
           >
-            <Typography variant="h6">
+            <Typography variant="h6" textTransform={"capitalize"}>
               Hi, {tripDetail?.passengers[0]?.given_name}{" "}
               {tripDetail?.passengers[0]?.family_name}
             </Typography>
-            <Typography variant="h4" fontWeight="bold">
+            <Typography variant="h3"  sx={{ textTransform: "capitalize" }}>
+
               In {daysLeft} days,{" "}
               {offer?.slices[0]?.segments[0].destination?.city_name} is yours.
             </Typography>
@@ -99,11 +101,11 @@ const TripDetailPage = () => {
                   className={styles.checkoutDrower + " white-bg"}
                   width={480}
                 >
-                  <Box className={styles.checkoutDrowerSection + " white-bg"}>
+                  <Box
+                    className={`${styles.checkoutDrowerSection} ${styles.MyTripDrowerSection} white-bg`}
+                  >
                     <Box
                       component={"header"}
-                      className={styles.checkoutDrowerHeder}
-                      pb={3}
                       px={0}
                       display="flex"
                       justifyContent="space-between"
@@ -120,59 +122,51 @@ const TripDetailPage = () => {
                     </Box>
                     <Box className={styles.checkoutDrowerBody}>
                       {/* Header Section */}
-                      <Grid
-                        container
-                        px={0}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="space-between"
+                      <Box
+                        mb={3}
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
                       >
-                        <Grid xs={12}>
-                          <Box
-                            display={"flex"}
-                            justifyContent={"space-between"}
-                            alignItems={"center"}
-                          >
-                            <Box>
-                              <h4 className={styles.title + " mb-0"}>
-                                {offer?.slices[0]?.origin.city_name} to{" "}
-                                {offer?.slices[0]?.destination.city_name}
-                              </h4>
-                              <Typography className=" f14 bold">
-                                {offer?.slices
-                                  .slice(0, 2)
-                                  .map((slice) =>
-                                    new Date(
-                                      slice.departing_at
-                                    ).toLocaleDateString("en-GB", {
-                                      day: "2-digit",
-                                      month: "short",
-                                    })
-                                  )
-                                  .join(" - ")}
-                              </Typography>
-                              
-                              {offer?.slices?.length <= 1 ? (
-                                <Typography className={"f14 gray"}>
-                                  {"One way"},{" "}
+                        <Box>
+                          <h4 className={styles.title + " mb-0"}>
+                            {offer?.slices[0]?.origin.city_name} to{" "}
+                            {offer?.slices[0]?.destination.city_name}
+                          </h4>
+                          <Typography className=" f14 bold">
+                            {offer?.slices
+                              .slice(0, 2)
+                              .map((slice) =>
+                                new Date(slice.departing_at).toLocaleDateString(
+                                  "en-GB",
                                   {
-                                    offer?.slices[0]?.segments[0]?.passengers[0]
-                                      .cabin_class_marketing_name
+                                    day: "2-digit",
+                                    month: "short",
                                   }
-                                </Typography>
-                              ) : (
-                                <Typography className={"f14 gray"}>
-                                  {"Return"},{" "}
-                                  {
-                                    offer?.slices[0]?.segments[0]?.passengers[0]
-                                      .cabin_class_marketing_name
-                                  }
-                                </Typography>
-                              )}
-                            </Box>
-                          </Box>
-                        </Grid>
-                      </Grid>
+                                )
+                              )
+                              .join(" - ")}
+                          </Typography>
+
+                          {offer?.slices?.length <= 1 ? (
+                            <Typography className={"f14 gray"}>
+                              {"One way"},{" "}
+                              {
+                                offer?.slices[0]?.segments[0]?.passengers[0]
+                                  .cabin_class_marketing_name
+                              }
+                            </Typography>
+                          ) : (
+                            <Typography className={"f14 gray"}>
+                              {"Return"},{" "}
+                              {
+                                offer?.slices[0]?.segments[0]?.passengers[0]
+                                  .cabin_class_marketing_name
+                              }
+                            </Typography>
+                          )}
+                        </Box>
+                      </Box>
 
                       <Box
                         className={
@@ -279,12 +273,13 @@ const TripDetailPage = () => {
                   <Typography variant="subtitle2">Payment info</Typography>
                   <Typography variant="body2">
                     Total cost:{" "}
+                    {currencySymbols[tripDetail?.duffel_order?.total_currency]}
                     <strong>
                       {
                         tripDetail?.amount_calculations
                           ?.total_amount_plus_markup_and_all_services
                       }
-                    </strong>
+                    </strong>{" "}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>

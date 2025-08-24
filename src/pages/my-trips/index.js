@@ -18,6 +18,7 @@ import { setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
 import {
   createThread,
   createThreadAndRedirect,
+  deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
 
@@ -33,7 +34,6 @@ const MyTrips = () => {
 
   useEffect(() => {
     dispatch(MyTripSlice());
-    dispatch(createThread());
   }, [dispatch]);
 
   const isLoading = useSelector((state) => state?.base?.isloading);
@@ -50,12 +50,14 @@ const MyTrips = () => {
   };
 
   const HandleBookThread = () => {
-    dispatch(createThreadAndRedirect(router));
-  };
+      dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
+  
+    };
+  
 
   return (
     <>
-        <Header isMessage={"isMessage"} isChat={"isChat"} />
+      <Header isMytrip={"isMytrip"}  />
       <Box component={"main"} className={styles.TripBody + " main-body "}>
         <Box
           component={"section"}
@@ -81,7 +83,7 @@ const MyTrips = () => {
               </Box>
 
               <Button
-                onClick={currentUser ? HandleBookThread : HandlePopup}
+                onClick={HandleBookThread}
                 sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                 className="btn btn-primary btn-round btn-sm"
               >

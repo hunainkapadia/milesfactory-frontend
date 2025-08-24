@@ -2,16 +2,16 @@ import React from "react";
 import { Container, Typography, Box, Link as MuiLink } from "@mui/material";
 import Header from "@/src/component/layout/Header";
 import Footer from "@/src/component/layout/Footer";
-import styles from "@/src/styles/sass/components/baseLayout.module.scss";
 import HerosectionSm from "@/src/component/layout/HerosectionSm";
+import styles from "@/src/styles/sass/components/Home.module.scss";
 
 const PrivacyPolicy = () => {
   return (
-    <main>
-      <Header isUser />
-      <section id="fold1" className={styles.HomeBanner}>
+    <Box component={"main"}>
+      <Header isUser isLandingPages={"isLandingPages"}  />
+      <Box component={"section"} id="fold1" className={` ${styles.PagesBanner}`}>
         <HerosectionSm heading={"Privacy"} />
-      </section>
+      </Box>
 
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
@@ -247,7 +247,7 @@ const PrivacyPolicy = () => {
         </Container>
       </Box>
       <Footer partnerLogos forLight />
-    </main>
+    </Box>
   );
 };
 

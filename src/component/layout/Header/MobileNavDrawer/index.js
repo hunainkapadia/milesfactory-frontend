@@ -9,6 +9,7 @@ import {
   setContactDialog,
   setFeedbackDialog,
   setInviteEmailDialog,
+  setMobileNaveDrawer,
   setThreadDrawer,
   thread,
 } from "@/src/store/slices/Base/baseSlice";
@@ -25,19 +26,21 @@ import {
 import { useRouter } from "next/router";
 import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 
-const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) => {
+const MobileNavDrawer = ({ isChat, isAiBooking }) => {
+  const isdrawerOpen = useSelector((state) => state.base?.mobileNaveDrawer);
+  console.log("isAiBooking", isAiBooking);
+
   const HandleBookTrip = () => {
     // Your booking logic here
-    
   };
   const dispatch = useDispatch();
-  const handleThreadDrawer = () => {
+  const handleThreadDrawerMobile = () => {
     dispatch(thread());
     dispatch(setThreadDrawer(true)); // opens the drawer
   };
   const logoutHandle = () => {
     dispatch(Logout());
-    toggleDrawer();
+    dispatch(setMobileNaveDrawer(false));
   };
   const currentUser = useSelector((state) => state.base?.currentUser);
   const feedbackHandle = () => {
@@ -50,24 +53,20 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
   const router = useRouter();
 
   const HandleBookThread = () => {
-    dispatch(createThreadAndRedirect(router));
+    dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
   };
   const HandleNewThread = () => {
-    setTimeout(() => {
-      const threaduuid = sessionStorage.getItem("chat_thread_uuid");
-      
-      if (threaduuid) {
-        router.replace(`/chat/${threaduuid}`);
-      }
-    }, 1000);
-    toggleDrawer(); // Close the drawer before creating a new thread
     dispatch(deleteAndCreateThread());
+    // const threaduuid = sessionStorage.getItem("chat_thread_uuid");
   };
   const contactHandle = () => {
     dispatch(setContactDialog(true));
   };
   const inviteEmailHandle = () => {
     dispatch(setInviteEmailDialog(true));
+  };
+  const handleIsDrawerClose = () => {
+    dispatch(setMobileNaveDrawer(false));
   };
   return (
     <>
@@ -77,16 +76,16 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
       <Drawer
         className={styles.MobileDrawer}
         anchor="left"
-        open={isDrawerOpen}
-        onClose={toggleDrawer}
+        open={isdrawerOpen}
+        onClose={handleIsDrawerClose}
       >
         {isAiBooking ? (
           <>
             <Box
               className={styles.HeaderDrawer}
               sx={{
-                px: { xs: 3 }, // Padding X (left & right)
-                py: 3, // Padding Y (top & bottom)
+                px: { xs: "15px" }, // Padding X (left & right)
+                py: "15px", // Padding Y (top & bottom)
               }}
               width={"280px"}
             >
@@ -100,7 +99,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                 {/* Close Button */}
                 <Box fontSize="20px">
                   <i
-                    onClick={toggleDrawer}
+                    onClick={handleIsDrawerClose}
                     className="fa fa-arrow-left basecolor"
                     style={{ cursor: "pointer" }}
                   ></i>
@@ -210,10 +209,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                       display="flex"
                       sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                     >
-                      <img
-                        src={"/images/mybook-icon.svg"}
-                        alt="chat history"
-                      />
+                      <img src={"/images/mybook-icon.svg"} alt="chat history" />
                     </Box>
                     <Typography
                       className="bold f16"
@@ -245,10 +241,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                       display="flex"
                       sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                     >
-                      <img
-                        src={"/images/info-icon.svg"}
-                        alt="chat history"
-                      />
+                      <img src={"/images/info-icon.svg"} alt="chat history" />
                     </Box>
                     <Typography
                       className="bold f16"
@@ -308,8 +301,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
             <Box
               className={styles.HeaderDrawer}
               sx={{
-                px: { xs: 3 }, // Padding X (left & right)
-                py: 3, // Padding Y (top & bottom)
+                py: "15px", // Padding Y (top & bottom)
               }}
               width={"280px"}
             >
@@ -318,12 +310,13 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                 component="header"
                 display="flex"
                 alignItems="center"
-                gap={2}
+                gap={"15px"}
+                px={"18px"}
               >
                 {/* Close Button */}
                 <Box fontSize="20px">
                   <i
-                    onClick={toggleDrawer}
+                    onClick={handleIsDrawerClose}
                     className="fa fa-arrow-left basecolor"
                     style={{ cursor: "pointer" }}
                   ></i>
@@ -343,15 +336,26 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
               </Box>
 
               {/* Navigation & CTA */}
-              <Box>
-                <Box pt={7} display={"flex"} flexDirection={"column"} gap={3}>
+              <Box component={"body"} px={2}>
+                <Box
+                  pt={"60px"}
+                  display={"flex"}
+                  flexDirection={"column"}
+                  gap={3}
+                >
                   <HeaderUser formobileDrawer={"formobileDrawer"} />
 
                   {/*  */}
 
                   {currentUser ? (
                     <>
-                      <Link href="/my-trips" className="text-decuration-none">
+                      <Link
+                        href="/my-trips"
+                        className="text-decuration-none"
+                        onClick={() => {
+                            window.location.href = "/my-trips";
+                          }}
+                      >
                         <Box
                           className={`${styles.Login} darkgray cursor-pointer`}
                           sx={{
@@ -393,7 +397,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                         }}
                         alignItems="center"
                         gap={2}
-                        onClick={handleThreadDrawer}
+                        onClick={handleThreadDrawerMobile}
                       >
                         <Box
                           className="imggroup"
@@ -508,7 +512,7 @@ const MobileNavDrawer = ({ isDrawerOpen, toggleDrawer, isChat, isAiBooking }) =>
                   <>
                     <Box display="flex">
                       <Box
-                        onClick={currentUser ? HandleBookThread : HandlePopup}
+                        onClick={HandleBookThread}
                         className="w-100 btn btn-primary btn-round btn-md cursor-pointer"
                       >
                         Book a trip

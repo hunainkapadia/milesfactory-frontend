@@ -31,7 +31,7 @@ import { useRouter } from "next/router";
 import ThreadDrawer from "@/src/component/SearchResult/ThreadDrawer";
 import {
   setCurrentUser,
-  setThreadDrawer,
+  setMobileNaveDrawer,
   thread,
 } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
@@ -103,16 +103,16 @@ const AiBookingMainHeader = ({
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
   };
-  const handleThreadDrawer = () => {
-    dispatch(thread());
-    dispatch(setThreadDrawer(true)); // opens the drawer
-  };
-
+  
   const HandlePopup = () => {
     dispatch(setisUserPopup(true));
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+
+  const handleMenueDrawer =()=> {
+    dispatch(setMobileNaveDrawer(true))
+  }
 
   return (
     <>
@@ -149,6 +149,7 @@ const AiBookingMainHeader = ({
                 // isSticky={isSticky}
                 IsActive={IsActive}
                 isMessage={isMessage}
+                isHome={"isHome"}
               />
 
               {/* User section: visible on home, user page, or chat (desktop only) */}
@@ -221,13 +222,13 @@ const AiBookingMainHeader = ({
                     fontSize={"24px"}
                   >
                     <i
-                      onClick={toggleDrawer}
+                      onClick={handleMenueDrawer}
                       className={`fa fa-bars`}
                       aria-hidden="true"
                     ></i>
                   </Box>
-                  <Box
-                    sx={{ display: { xs: "none", md: "block", lg: "block" } }}
+                  <Box  onClick={handleMenueDrawer}
+                    sx={{ display: { xs: "none", md: "block", lg: "block" }, cursor:"pointer" }}
                     fontSize={"24px"}
                   >
                     <i className={`fa fa-bars`} aria-hidden="true"></i>
@@ -262,12 +263,7 @@ const AiBookingMainHeader = ({
       </Box>
 
       {/* extra content for  */}
-      <MobileNavDrawer
-        isDrawerOpen={isDrawerOpen}
-        toggleDrawer={toggleDrawer}
-        MobileNavDrawer={MobileNavDrawer}
-        isAiBooking={"isAiBooking"}
-      />
+    
 
       <UserPopup />
       {/* logoin popup */}

@@ -21,13 +21,16 @@ Colors - start
 
 // Primary color 1
 $basecolor: #69707B;
+$btn-gradient-basecolor1: linear-gradient(180deg, #00C4CC 0%, #33DDE3 100%);
 $basecolor1-light: #F3FBF8;
 $basecolor1-dark: #D8F5F3;
 $basecolor1-sky: #B3EDEE ;
 $basecolor1-dark2: #0B1729;
 $basecolor-dark: #0B1729;
 $basecolor1-blue: #004AAD;
+$basecolor1-light2: #F2FCFC;
 $basecolor1: #00C4CC;
+$basecolor1-50: rgba(0, 196, 204, 0.6); 
 $bc1-light: #a49bb1;
 $bc1-lighter: #dfe8f4;
 $bc1-lightest: #ecf1f9;
@@ -56,12 +59,14 @@ $link: $basecolor1; // sub heading color
 $linkhover: darken($basecolor1, 20%); // sub heading color
 // Gray variations
 $gray: #7E7F7F;
+$black-50: rgba(0, 0, 0, 0.5);
 // DEE1E6
 $darkgray: #0B1729;
 $lightgray: #F2F2F7;
 $lightgray1: #B3B3B3;
 $lightgray2: #D3D3D3;
 $lightgray3: #F0F5F5;
+$lightgray4: #eeeeee;
 // blue color variation
 
 $bluedark2: #d9d9d9;
@@ -196,7 +201,7 @@ Misc - start
 ===================================================================*/
 
 
-$BoxContainerLg:59%;
+$BoxContainerLg:61%;
 $BoxContainerMd: 74%;
 $BoxContainerSm: 90%;
 $BoxContainerXs: 100%;

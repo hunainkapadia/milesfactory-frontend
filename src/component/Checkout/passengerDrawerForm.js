@@ -28,6 +28,7 @@ import {
 import dayjs from "dayjs";
 import PhoneInput from "react-phone-input-2";
 import ButtonLoading from "../LoadingArea/ButtonLoading";
+import { event } from "@/src/utils/utils";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -63,8 +64,6 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerFormError
   );
 
-  
-
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
   );
@@ -84,22 +83,15 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.PassengerType
   );
 
-  
-
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
   );
 
-  
-  
   // get select from whole pasenger detail card
-
 
   useEffect(() => {
     dispatch(NationalitData());
   }, [dispatch]);
-
-  
 
   useEffect(() => {
     dispatch(getPassPofile()); // pasenger profile call api
@@ -112,21 +104,14 @@ const PassengerDrawerForm = () => {
 
   // Load form data or reset on drawer open
 
-  
-
   useEffect(() => {
     if (isPassengerDrawerOpen) {
       setTimeout(() => {
-        
-        
-
         if (passengerPofile?.length && PassengersUuID) {
           const passengerData = passengerPofile.find(
             (getProfilepassenger) =>
               getProfilepassenger.uuid === selectedpassengerPofile?.uuid
           );
-
-          
 
           if (passengerData) {
             setgender(passengerData.gender || "");
@@ -182,20 +167,12 @@ const PassengerDrawerForm = () => {
   let maxDate = dayjs();
 
   const validateChildDOB = (dob, PassengerAge) => {
-    
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    
-    
-    
   };
   const validateInfantDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
-    
-
-    
-    
   };
   // child dat
   // infant age
@@ -206,12 +183,9 @@ const PassengerDrawerForm = () => {
     maxDate = today.subtract(18, "year");
   }
   if (PassengerType === "infant_without_seat") {
-    
     validateInfantDOB(born_on, PassengerAge);
   }
   if (PassengerType === "child") {
-    
-
     validateChildDOB(born_on, PassengerAge);
   } else {
     // fallback: adult
@@ -309,6 +283,14 @@ const PassengerDrawerForm = () => {
       nationality: nationality?.id || "",
       region,
     };
+    
+    //ga_event
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'Passenger Form Submit',
+    });
+    console.log("Passenger Form Submit");
 
     dispatch(PassengerFormSubmit(params));
 
@@ -327,19 +309,16 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
-  
 
   // if all passenger file logic
   const AllPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  
 
   const selectPassenger = useSelector(
-        (state) => state?.passengerDrawer?.SelectPassenger
-      );
-      
-  
+    (state) => state?.passengerDrawer?.SelectPassenger
+  );
+
   return (
     <Drawer
       anchor="right"
@@ -348,79 +327,77 @@ const PassengerDrawerForm = () => {
       className={`${styles.checkoutDrower} checkoutDrower00`}
       transitionDuration={300}
     >
-      <Box
-        className={`${styles.checkoutDrower} bbb white-bg ${styles.PassengerDrower}`}
-        width={480}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          SubmitPassenger();
+        }}
       >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            SubmitPassenger();
-          }}
+        <Box
+          className={styles.checkoutDrowerSection + " aa white-bg"}
+          width={463}
         >
-          <Box className={styles.checkoutDrowerSection + " aa white-bg"}>
+          <Box
+            px={3}
+            component={"header"}
+            className={"checkoutDrowerHeder"}
+            pt={3}
+            display="flex"
+            justifyContent="space-between"
+            flexDirection={"column"}
+            gap={3}
+          >
             <Box
-              px={3}
-              component={"header"}
-              className={styles.checkoutDrowerHeder}
-              py={3}
+              component={"section"}
+              gap={1}
+              alignItems="center"
+              display="flex"
+              className={" bold basecolor1 btn-link cursor-pointer"}
+              onClick={handleCloseDrawer}
+            >
+              <i className={`fa fa-arrow-left fas`}></i>{" "}
+              <Box component={"span"}>Back to Mylz Chat</Box>
+            </Box>
+            <Box
+              component={"section"}
               display="flex"
               justifyContent="space-between"
-              flexDirection={"column"}
-              gap={3}
+              alignItems={"center"}
             >
-              <Box
-                component={"section"}
-                gap={1}
-                alignItems="center"
-                display="flex"
-                className={" bold basecolor1 btn-link cursor-pointer"}
-                onClick={handleCloseDrawer}
-              >
-                <i className={`fa fa-arrow-left fas`}></i>{" "}
-                <Box component={"span"}>Back to Mylz Chat</Box>
+              <Box>
+                <h3 className="regular mb-0">
+                  Traveller details -{" "}
+                  <span className="capitalize">
+                    {selectPassenger?.type === "infant_without_seat" ? (
+                      <>
+                        Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
+                        {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
+                    ) : selectPassenger?.type === "child" ? (
+                      <>
+                        Child {selectPassenger?.age}{" "}
+                        {selectPassenger?.age > 1 ? "years" : "year"}
+                      </>
+                    ) : (
+                      <>{selectPassenger?.type} 18+ years</>
+                    )}
+                  </span>{" "}
+                </h3>
               </Box>
-              <Box
-                component={"section"}
-                display="flex"
-                justifyContent="space-between"
-                alignItems={"center"}
-              >
-                <Box>
-                  <h3 className="regular mb-0">
-                    Traveller details -{" "}
-                    <span className="capitalize">
-                      {selectPassenger?.type === "infant_without_seat" ? (
-                        <>
-                          Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
-                          {selectPassenger?.age}{" "}
-                          {selectPassenger?.age > 1 ? "years" : "year"}
-                        </>
-                      ) : selectPassenger?.type === "child" ? (
-                        <>
-                          Child {selectPassenger?.age}{" "}
-                          {selectPassenger?.age > 1 ? "years" : "year"}
-                        </>
-                      ) : (
-                        <>
-                          {selectPassenger?.type} 18+ years
-                        </>
-                      )}
-                    </span>{" "}
-                  </h3>
-                </Box>
-              </Box>
-              <Divider />
             </Box>
+            <Divider />
+          </Box>
+          <Box className={`${styles.checkoutDrowerBody} ${styles.PassengerFormDrowerBody}`}>
             <Box px={3}>
               <Box
-                sx={{ pt: { lg: 2, md: 2 } }}
-                pb={4}
+                pt={3}
+                pb={"36px"}
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
-                gap={2}
+                gap={"22px"}
               >
                 <Box className="imggroup">
                   <img
@@ -431,13 +408,12 @@ const PassengerDrawerForm = () => {
                 </Box>
                 <Box>
                   {given_name || family_name ? (
-                    <Typography
-                      className="h3"
-                      component={"h3"}
+                    <h4 
+                      className="mb-0"
                       textTransform={"capitalize"}
                     >
                       {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
-                    </Typography>
+                    </h4>
                   ) : (
                     <h4>New traveller</h4>
                   )}
@@ -445,7 +421,7 @@ const PassengerDrawerForm = () => {
               </Box>
 
               {/* === Form Fields === */}
-              <Box py={2}>
+              <Box>
                 {/* Gender */}
                 <Box className="formGroup">
                   <FormLabel className="bold formLabel">
@@ -666,7 +642,6 @@ const PassengerDrawerForm = () => {
                 </Box>
               </Box>
             </Box>
-
             {/* Footer */}
             <Box className={styles.passengerDrawerFooter}>
               <Divider />
@@ -702,8 +677,8 @@ const PassengerDrawerForm = () => {
               </Box>
             </Box>
           </Box>
-        </form>
-      </Box>
+        </Box>
+      </form>
     </Drawer>
   );
 };

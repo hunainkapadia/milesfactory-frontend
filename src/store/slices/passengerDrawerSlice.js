@@ -4,6 +4,7 @@ import api from "../api";
 import { setCloseDrawer } from "./BookingflightSlice";
 import {fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
+import { setMessage } from "./sendMessageSlice";
 
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
@@ -30,9 +31,15 @@ const passengerDrawerSlice = createSlice({
     captainParams: null,
     passProfileDrawer: false,
     selectedProfilePass: null,
-    IsPassengerflow: false,
+    IsPassengerflow: null,
+    IsorderSetup: null,
+    isPassengerLoading: false,
+    SeeDetailButton: "Chat",
   },
   reducers: {
+    setSeeDetailButton: (state, action) => {
+      state.SeeDetailButton = action.payload;
+    },
     setIsPassengerflow: (state, action) => {
       state.IsPassengerflow = action.payload;
     },
@@ -120,9 +127,10 @@ const passengerDrawerSlice = createSlice({
     setPassFormData: (state, action) => {
       state.PassFormData = action.payload;
     },
-    setisLoading: (state) => {
-      state.isLoading = true;
+    setisLoading: (state, action) => {
+      state.isLoading = action.payload;
     },
+    
     setIsFormLoading: (state) => {
       state.isFormLoading = false;
     },
@@ -142,6 +150,7 @@ export const NationalitData = () => (dispatch) => {
 };
 
 export const PassengerForm = () => (dispatch, getState) => {
+  
   const states = getState();
   const offerIdGet = states?.getMessages.topOfferUrl;
   const offerIdSend = states?.sendMessage?.TopOfferUrlSend;
@@ -154,18 +163,33 @@ export const PassengerForm = () => (dispatch, getState) => {
 
   const flightId = states?.booking?.flightDetail?.id;
   const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
-
+  dispatch(setisLoading(true))
+  dispatch(
+    setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } }) 
+    // loading and status set in chat for pasenger flow
+  );
   api.post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
-      
+
+      console.log("order_response", response.data );
       dispatch(setOrderUuid(OrderUUId));
+      // dispatch(setIsPassengerflow(true))
+      dispatch(
+        setMessage({ ai: { passengerFlowRes: { status: true, isloading: false } } })
+        // loading and status set in chat for pasenger flow
+      )
       if (OrderUUId) {
         dispatch(ViewPassengers());
       }
     })
     .catch((error) => {
-      
+      console.error(error);
+    }).finally (()=> {
+        dispatch(
+          setMessage({ ai: { passengerFlowRes: { status: true, isloading: false } } })
+          // loading and status set in chat for pasenger flow
+        )
     });
 };
 
@@ -174,16 +198,11 @@ export const ViewPassengers = () => (dispatch, getState) => {
   const orderUuid = states.passengerDrawer?.OrderUuid;
 
   if (!orderUuid) return;
-
   const viewPassengerUrl = `/api/v1/order/${orderUuid}/passengers`;
-
   dispatch(setLoading(true))
   api
     .get(viewPassengerUrl)
     .then((response) => {
-
-      dispatch(setIsPassengerflow(true));
-      
       dispatch(setViewPassengers(response?.data || []));
       dispatch(setisLoading(false))
     })
@@ -279,6 +298,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
       region: captainParams.region,
     };
     
+    console.log("getParams", getParams);
   
     setTimeout(() => {
       api
@@ -302,7 +322,6 @@ export const getPassPofile = () => (dispatch, getState) => {
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
-      console.log("pass_profile_res", profile_res.data);
       dispatch(ViewPassengers());
       dispatch(setPassProfile(profile_res.data))
     })
@@ -347,7 +366,9 @@ export const {
   setPassengerIndex,
   setPassengerPassport,
   setSelectPassenger,
-  setIsPassengerflow
+  setIsPassengerflow,
+  setisPassengerLoading,
+  setSeeDetailButton
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

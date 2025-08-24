@@ -115,8 +115,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                   >
                     <Box display="flex" justifyContent="space-between" gap={4}>
                       <Typography
-                        className="f12 basecolor-dark"
-                        fontWeight="bold"
+                        className="f12 basecolor-dark semibold"
                       >
                         {title}
                       </Typography>
@@ -199,7 +198,7 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
                                 className={styles.baggageLabel + " f11 gray"}
                               >
                                 {baggage.type === "personal"
-                                  ? "Handbag/laptop bag"
+                                  ? "Handbag"
                                   : baggage.type === "carry_on"
                                   ? "Carry-on bags"
                                   : baggage.type === "checked"

@@ -14,6 +14,9 @@ import {
   closeDrawer,
   fetchflightDetail,
   setflightDetail,
+  setLoading,
+  setOfferkey,
+  setOfferkeyforDetail,
   setOpenDrawer,
   setSelectedFlightKey,
   setSelectFlightKey,
@@ -21,22 +24,35 @@ import {
 
 import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
-import { currencySymbols } from "@/src/utils/utils";
+import { currencySymbols,event } from "@/src/utils/utils";
 import {
   PassengerForm,
-  setisLoading,
+  setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import FromAndTo from "../FromAndTo";
 import RightTopSection from "../RightTopSection";
 import { RefreshHandle, setRefreshSearch } from "@/src/store/slices/GestMessageSlice";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
 
+
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
+    //Push GA event
+    
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'See Flight Details',
+    });
+    console.log("See Flight Details");
+    
     if (offerkey) {
+      dispatch(setOfferkeyforDetail(offerkey)); //  Store selected flight key for detail
+      dispatch(setSeeDetailButton("Chat"))
       dispatch(setOpenDrawer(offerkey)); //setSelectFlightKey empty then close drawer
       dispatch(setflightDetail(offerData)); // Store flight details
     }
@@ -47,6 +63,8 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
 
   // selected flight detail get for send data in select button click
   const flightDetail = useSelector((state) => state.booking.flightDetail);
+  
+
   // get offerid from getmessage
   const offeridGet = useSelector((state) => state.getMessages.topOfferUrl);
   const offeridSend = useSelector((state) => state);
@@ -63,6 +81,13 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     (state) => state.booking.selectedFlightKey
   );
   const selected = selectedFlightKey === offerkey;
+  console.log("selected", selectedFlightKey);
+
+  console.log("offerkey_00", offerkey);
+  
+  console.log("selectedFlightKey_00", selectedFlightKey);
+  
+  
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());
@@ -71,8 +96,10 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
   
   
   
+  console.log("offerkey_11", offerkey)
   const handleBookFlight = () => {
-    dispatch(setisLoading(true));
+    dispatch(setChatscroll(true))
+    dispatch(setLoading(true));
     if(selected) {
       setHideSelectButton(true);
     };
@@ -90,13 +117,18 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
     } else {
       ("");
     }
-    dispatch(setMessage({ ai: { passengerFlowRes: "passengerFlowActive" } })); //this ai message trigger passenger flow active
+    event({
+      action: 'click',
+      category: 'engagement',
+      label: 'Select Flight',
+      value: offerData?.total_amount_rounded,
+    });
+    console.log("Select Flight", offerData?.total_amount_rounded);
   };
   return (
     <>
       {/* Open drawer only for the selected flight */}
 
-      {console.log("offerData_slice", offerData?.slices.length)}
       <Box
         className={`${searchResultStyles.flightOfferCard} ${
           offerData?.slices.length > 1
@@ -214,7 +246,7 @@ const SearchCard = ({ offerData, offerkey, FlightExpire }) => {
                           offerData?.tax_currency}
                         {Math.round(offerData?.per_passenger_amount_rounded)}
                       </h4>
-                      {console.log(offerData)}
+                      {/* {console.log(offerData)} */}
                       
                       {personQuantity > 1 && (
                       <Typography className="f12 gray">

@@ -226,7 +226,7 @@ const PassengerProfilecard = ({
                   <MenuItem
                     onClick={() => {
                       handleCloseMenu();
-                      onDelete();
+                      // onDelete();
                     }}
                   >
                     Delete Traveller

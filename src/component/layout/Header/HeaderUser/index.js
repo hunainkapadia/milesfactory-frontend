@@ -13,7 +13,12 @@ import {
   setisUserPopup,
 } from "@/src/store/slices/Auth/SignupSlice"; // adjust import paths based on your store structure
 import styles from "@/src/styles/sass/components/baseLayout.module.scss";
-import { Logout, setIsUser, setLoginUser } from "@/src/store/slices/Auth/LoginSlice";
+import {
+  Logout,
+  setIsUser,
+  setLoginState,
+  setLoginUser,
+} from "@/src/store/slices/Auth/LoginSlice";
 import { setCurrentUser } from "@/src/store/slices/Base/baseSlice";
 // import isMessage, isSticky, IsActive, HandlePopup as needed
 
@@ -29,7 +34,7 @@ const HeaderUser = ({
 
   // Select users from Redux
   const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
-  
+
   const isUserLogin = useSelector((state) => state?.login?.loginUser?.user);
   const isUserLoginGoogle = useSelector(
     (state) => state?.login?.loginUser?.user?.user
@@ -40,17 +45,31 @@ const HeaderUser = ({
   // Combine all sources to find current user
   const currentUser = isUserLogin;
 
-    // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
-    // Set user to Redux on initial mount from cookies
-    
-    useEffect(() => {
-      const cookieUserString = Cookies.get("set-user");
-      const access_token = Cookies.get("access_token");
-      const refresh_token = Cookies.get("refresh_token");
-      
-      if (cookieUserString && access_token && refresh_token) {
-        const cookieUser = JSON.parse(cookieUserString);
+  // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
+  // Set user to Redux on initial mount from cookies
+  useEffect(() => {
+    const cookieUserString = Cookies.get("set-user");
+    const access_token = Cookies.get("access_token");
+    const refresh_token = Cookies.get("refresh_token");
 
+    
+
+    // If any one is missing, remove all
+    if (!cookieUserString || !access_token || !refresh_token) {
+      Cookies.remove("set-user");
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+
+        dispatch(Logout()); // if this already resets loginUser, isUser, etc.
+        dispatch(setCurrentUser(null));
+        dispatch(setLoginUser(null));
+        dispatch(setIsSignupUser(null));
+      
+    }
+
+
+    if (cookieUserString) {
+      const cookieUser = JSON.parse(cookieUserString);
 
       dispatch(
         setIsSignupUser({
@@ -81,8 +100,9 @@ const HeaderUser = ({
           status: 200,
         })
       );
+      dispatch(setLoginState(false));
     }
-  }, []);
+  }, [dispatch]);
 
   // Sync latest user to currentUser state
   useEffect(() => {
@@ -92,7 +112,7 @@ const HeaderUser = ({
   }, [currentUser, dispatch]);
 
   const logoutHandle = () => {
-    dispatch(Logout())
+    dispatch(Logout());
   };
 
   const HandlePopup = () => {
@@ -101,7 +121,6 @@ const HeaderUser = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
-  
   return (
     <>
       {currentUser?.user ? (
@@ -230,10 +249,7 @@ const HeaderUser = ({
                   display="flex"
                   sx={{ width: { lg: 32, md: 32, xs: 24 } }}
                 >
-                  <img
-                    src={"/images/user-icon-darkgray.svg"}
-                    alt="User Icon"
-                  />
+                  <img src={"/images/user-icon-darkgray.svg"} alt="User Icon" />
                 </Box>
                 <Typography className="bold f16">Sign in</Typography>
               </Box>

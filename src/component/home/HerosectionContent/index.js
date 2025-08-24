@@ -14,23 +14,25 @@ const HerosectionContent = () => {
            <Box className="1111"
              sx={{ px: { xs: 0, lg: 2 } }}
            >
-             <h1 className="h1-lg test-444">
-               Stop the endless tabs.
-               <br />
-               Book trips in seconds.
-             </h1>
+           
+             <Typography component={"h1"}  sx={{lineHeight:"120%", display: { lg: "block", md: "block", xs: "none" }, mb:"6px", fontSize:{lg:"48px", md:"48px", xs:"36px"} }} className=" bold test-111">
+               Design trips. Book instantly.
+             </Typography>
+             <Typography  component={"h1"} sx={{lineHeight:"120%", display: { lg: "none", md: "none", xs: "block" }, mb:"6px", fontSize:{lg:"48px", md:"48px", xs:"36px"} }} className=" bold  test-444">
+               Design trips.<br />Book instantly.
+             </Typography>
              <Typography
                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                color="white"
                
              >
-               Mylz AI finds the cheapest flight prices with full airline protection.
+               Set your budget, time, and pace – Mylz AI builds real travel plans you can book.
              </Typography>
              <Typography
                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                color="white"
              >
-               Mylz AI finds you the cheapest flight<br/>prices with full airline protection.
+               Mylz builds real travel plans you can book.
              </Typography>
            </Box>
          </Box>

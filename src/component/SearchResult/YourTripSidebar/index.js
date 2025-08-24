@@ -1,89 +1,141 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
   Divider,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import YourTripSedebarCard from "../YourTripSedebarCard";
 import YourtripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
+
 import Image from "next/image";
+import { currencySymbols } from "@/src/utils/utils";
+import ShareDropdown from "../../layout/Header/ShareDropdown";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const YourTripSidebar = ({ isMessage }) => {
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.flightDetail
+    (state) => state?.booking?.singleFlightData
   );
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   
+  
+  
+
+
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
-  
-  
+  const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
+  const dispatch= useDispatch();
+  const handleBookFlight = ()=> {
+    dispatch(setChatscroll(true)); // scrol lon click book
+  }
   return (
     <>
-      <Box
-        className={YourtripStyles.YourTripSidebar}
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"center"}
-      >
-        <Box className={YourtripStyles.YourTripCard} p={0}>
+    
+      {getBuilder && (
+        <Box
+          className={YourtripStyles.YourTripSidebar}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
           <Box
-            component={"header"}
-            className={YourtripStyles.CardHeader}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-            px={3}
-            py={2}
+            className={YourtripStyles.YourTripCard}
+            p={0}
           >
-            <Box gap={2} display={"flex"} alignItems={"center"}>
-              <Box className=" imggroup">
-                <img src="/images/plane-icon-basecolor1.svg" />
+            <Box
+              component={"header"}
+              className={YourtripStyles.CardHeader}
+              display={"flex"}
+              alignItems={"center"}
+              position={"relative"}
+              zIndex={1}
+              justifyContent={"space-between"}
+              px={"18px"}
+              pt={"20px"}
+              pb={"13px"}
+            >
+              <Box gap={"3px"} display={"flex"} alignItems={"center"}>
+                <Box className=" imggroup">
+                  <img src="/images/builder-icon.svg" />
+                </Box>
+                
+                <Typography sx={{pt:"6px"}} className="basecolor1 mb-0 exbold">
+                  Builder
+                </Typography>
               </Box>
-              {paymentSuccess ? (
-                <Typography
-                  textTransform={"uppercase"}
-                  className=" f12 basecolor1 mb-0 bold"
-                >
-                  YOU’RE BOOKED
-                </Typography>
-              ) : (
-                <Typography className="basecolor1 mb-0 bold">
-                  Flights
-                </Typography>
-              )}
+
+              {/* <Box
+                display={"flex"}
+                alignItems={"center"}
+                className="basecolor1"
+                gap={1}
+              >
+                <Box className=" imggroup">
+                  <Image width={24} height={24} src="/images/share-icon.svg" />
+                </Box>
+                <Typography className="bold">Share</Typography>
+              </Box> */}
+              {isMessage && <ShareDropdown />}
             </Box>
-            {paymentSuccess ? (
-              <Image width={24} height={24} src="/images/success-check.svg" />
-            ) : (
-              ""
-            )}
-          </Box>
-          <Box px={3} component={"section"} pt={2.5} pb={3.5}>
+            
             <YourTripSedebarCard
+              isSidebar
               offerData={getselectedFlight}
+              getBuilder={getBuilder}
             />
 
-            {/* <Box py={2}
-              className=" Loading"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "8px",
-              }}
+            <Box
+              px={"18px"}
+              py={"14px"}
+              component={"footer"}
+              className={YourtripStyles.Footer + " "}
+              sx={{ borderTop:" solid 1px  #E6EEEE" }}
             >
-              <span className="dot"></span>
-              <span className="dot"></span>
-              <span className="dot"></span>
-            </Box> */}
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Box>
+                  <h4 className="exbold mb-0">
+                    {getselectedFlight?.per_passenger_amount != null
+                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
+                          getselectedFlight?.tax_currency) +
+                        Math.round(getselectedFlight?.per_passenger_amount)
+                      : "-"}
+                  </h4>
+
+                  <Typography className="gray f12">
+                    {getselectedFlight?.total_amount != null
+                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
+                          getselectedFlight?.tax_currency) +
+                        Math.round(getselectedFlight?.total_amount) +
+                        " total"
+                      : "No product added"}
+                  </Typography>
+                </Box>
+                
+                <Button onClick={handleBookFlight}
+                  className={`btn btn-primary btn-round btn-xs ${
+                    !!orderSuccess || !getselectedFlight ? "disabled" : ""
+                  }`}
+                    
+                  // onClick={HandleSelectDrawer}
+                >
+                  Book now
+                </Button>
+              </Box>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      )}
     </>
   );
 };
