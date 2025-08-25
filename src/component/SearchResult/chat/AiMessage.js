@@ -19,6 +19,7 @@ import PollingMessage from "../PollingMessage/PollingMessage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 import PassengerFlowBlock from "../PassengerFlowBlock";
+import HotelCard from "../HotelCard";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
@@ -41,6 +42,10 @@ const AiMessage = ({ aiMessage }) => {
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  const getHotels = aiMessage?.ai?.hotels?.hotels
+
+  console.log("aiMessage_hotel", getHotels);
+  
 
   useEffect(() => {
     if (GetViewPassengers.length > 0) {
@@ -296,6 +301,21 @@ const [selectedOfferId, setSelectedOfferId] = useState(null);
             ""
           )}
         </>
+      )}
+
+       {/* 🏨 Hotel Results */}
+      {Array.isArray(getHotels) && getHotels.length > 0 && (
+        <Box className={searchResultStyles.HotelCardWrapper}>
+          {/* <Typography variant="h6" sx={{ mb: 2 }}>
+            Hotel Results
+          </Typography> */}
+            {getHotels.slice(0, 1).map((hotel, idx) => (
+              <>
+              {console.log("hotel_test", hotel)}
+                <HotelCard key={hotel.code || idx} hotel={hotel} />
+              </>
+            ))}
+        </Box>
       )}
 
       {/* passenger flow start */}

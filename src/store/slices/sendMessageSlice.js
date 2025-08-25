@@ -7,11 +7,19 @@ import {
   setflightDetail,
   setSelectedFlightKey,
   setSingleFlightData,
-  offerkey
+  offerkey,
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { clearGetMessages, fetchMessages, setSearchHistoryGet } from "./GestMessageSlice";
-import { setIsBuilderDialog, setMobileNaveDrawer, setThreadDrawer } from "./Base/baseSlice";
+import {
+  clearGetMessages,
+  fetchMessages,
+  setSearchHistoryGet,
+} from "./GestMessageSlice";
+import {
+  setIsBuilderDialog,
+  setMobileNaveDrawer,
+  setThreadDrawer,
+} from "./Base/baseSlice";
 import { setPaymentFormSuccess } from "./PaymentSlice";
 
 const sendMessageSlice = createSlice({
@@ -37,7 +45,7 @@ const sendMessageSlice = createSlice({
       ai: "",
     },
     AddBuilder: null,
-    noMoreFlights:false,
+    noMoreFlights: false,
     threadUuid: null,
   },
   reducers: {
@@ -143,21 +151,20 @@ const sendMessageSlice = createSlice({
   },
 });
 
-
 export const sendMessage = (userMessage) => (dispatch, getState) => {
   dispatch(setInputLoading(true));
   const pathname = window.location.pathname;
   // Extract the UUID after /chat/
   const threadUUID = pathname.split("/chat/")[1];
-  
+
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
 
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-    
+
     api
-      .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
+      .post(threadUUIdUrl, { user_message: userMessage, background_job: false })
       .then((res) => {
         let response = res.data;
         const run_id = response.run_id;
@@ -233,119 +240,153 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
-      // flight result [start]
       if (response?.is_function) {
         dispatch(setIsFunction({ status: true }));
       } else {
         dispatch(setIsFunction({ status: false }));
       }
+
       if (response?.is_function) {
-        const allFlightSearchApi =
-          response?.response?.results?.view_all_flight_result_api?.url;
-        const allFlightSearchUuid =
-          response?.response?.results?.view_all_flight_result_api?.uuid;
-        if (allFlightSearchApi) {
-          const getallFlightId = allFlightSearchApi.split("/").pop();
-          dispatch(setTopOfferUrlSend(allFlightSearchUuid));
-          dispatch(setAllOfferUrl(allFlightSearchApi));
-          dispatch(setFilterUrl(allFlightSearchApi));
+        const funcName = response?.function_template?.[0]?.function?.name;
 
-          const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
-          let hasShownInitialMessage = false;
+        // for Flight Flow
+        if (funcName === "search_flight_result_func") {
+          const allFlightSearchApi =
+            response?.response?.results?.view_all_flight_result_api?.url;
+          const allFlightSearchUuid =
+            response?.response?.results?.view_all_flight_result_api?.uuid;
 
-          const showRealResults = () => {
-            api
-              .get(allFlightSearchApi)
-              .then((flightRes) => {
-                const isComplete = flightRes?.data?.is_complete;
-                
-                
-                if (isComplete === true) {
-                  dispatch(
-                    setMessage({
-                      ai: flightRes.data,
-                    })
-                  );
-                } else {
+          if (allFlightSearchApi) {
+            const getallFlightId = allFlightSearchApi.split("/").pop();
+            dispatch(setTopOfferUrlSend(allFlightSearchUuid));
+            dispatch(setAllOfferUrl(allFlightSearchApi));
+            dispatch(setFilterUrl(allFlightSearchApi));
 
-                  dispatch(
-                    setMessage({
-                      ai: flightRes.data,
-                      type: "flight_result",
-                    })
-                  );
-                }
-              })
-              .catch((err) => {
-                console.error("Error fetching final results", err);
-              });
-          };
+            const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
+            let hasShownInitialMessage = false;
 
-          const pollHistoryUntilComplete = () => {
-            const interval = setInterval(() => {
+            const showRealResults = () => {
               api
-                .get(historyUrl)
-                .then((history_res) => {
-                  const isComplete = history_res?.data?.search?.is_complete;
-                  dispatch(setSearchHistorySend(history_res.data.search));
-
+                .get(allFlightSearchApi)
+                .then((flightRes) => {
+                  const isComplete = flightRes?.data?.is_complete;
                   if (isComplete === true) {
-                    clearInterval(interval);
-                    // First fetch the new data
-                    api
-                      .get(allFlightSearchApi)
-                      .then((flightRes) => {
-                        dispatch(setSelectedFlightKey(null)); //  clear select flight key
-
-                        const realFlightData = flightRes.data;
-
-                        // First clear placeholders
-                        dispatch(setClearflight());
-
-                        // Then add final results
-                        dispatch(
-                          setMessage({
-                            ai: realFlightData,
-                          })
-                        );
-                      })
-                      .catch((err) => {
-                        console.error("Error fetching final results", err);
-                      });
-                  } else if (!hasShownInitialMessage) {
-                    hasShownInitialMessage = true;
-                    showRealResults(); // fetch and display the final results
-                    // alert(
-                    //   "Showing placeholder flight result while search continues..."
-                    // );
-
+                    dispatch(setMessage({ ai: flightRes.data }));
+                  } else {
                     dispatch(
                       setMessage({
-                        ai: { response: response?.response },
-                        type: "flight_placeholder", //if check clear
+                        ai: flightRes.data,
+                        type: "flight_result",
                       })
                     );
                   }
                 })
-                .catch((err) => {
-                  console.error(" Polling failed", err);
-                  clearInterval(interval);
-                });
-            }, 1000);
-          };
+                .catch((err) =>
+                  console.error("Error fetching final results", err)
+                );
+            };
 
-          // Start polling now
-          pollHistoryUntilComplete();
+            const pollHistoryUntilComplete = () => {
+              const interval = setInterval(() => {
+                api
+                  .get(historyUrl)
+                  .then((history_res) => {
+                    const isComplete = history_res?.data?.search?.is_complete;
+                    dispatch(setSearchHistorySend(history_res.data.search));
+
+                    if (isComplete === true) {
+                      clearInterval(interval);
+                      api.get(allFlightSearchApi).then((flightRes) => {
+                        dispatch(setSelectedFlightKey(null));
+                        dispatch(setClearflight());
+                        dispatch(setMessage({ ai: flightRes.data }));
+                      });
+                    } else if (!hasShownInitialMessage) {
+                      hasShownInitialMessage = true;
+                      showRealResults();
+                      dispatch(
+                        setMessage({
+                          ai: { response: response?.response },
+                          type: "flight_placeholder",
+                        })
+                      );
+                    }
+                  })
+                  .catch((err) => {
+                    console.error(" Polling failed", err);
+                    clearInterval(interval);
+                  });
+              }, 1000);
+            };
+
+            pollHistoryUntilComplete();
+          }
         }
 
-        // flight result [end]
+        // for Hotel Flow
+       else if (funcName === "search_hotel_result_func") {
+  const hotelSearchApi =
+    response?.response?.results?.view_hotel_search_api?.url;
+
+  console.log("hotelSearchApi", hotelSearchApi);
+
+  if (hotelSearchApi) {
+    // convert Dubai → DXB in URL
+    const updatedHotelSearchApi = hotelSearchApi.replace(
+      /destination=Dubai/gi,
+      "destination=DXB"
+    );
+
+    // show placeholder first
+    dispatch(
+      setMessage({
+        ai: { response: response?.response },
+        type: "hotel_placeholder",
+      })
+    );
+
+    // poll hotel API until complete
+    const pollHotelUntilComplete = () => {
+      const interval = setInterval(() => {
+        api
+          .get(updatedHotelSearchApi)
+          .then((hotelRes) => {
+            const isComplete = hotelRes?.data?.is_complete;
+
+            // ✅ stop polling as soon as any response arrives
+            if (hotelRes?.data) {
+              clearInterval(interval);
+
+              if (isComplete === true) {
+                // replace placeholder with final hotel results
+                dispatch(setClearflight());
+                dispatch(setMessage({ ai: hotelRes.data }));
+              } else {
+                // if not complete, still show current results once
+                dispatch(
+                  setMessage({
+                    ai: hotelRes.data,
+                    type: "hotel_result",
+                  })
+                );
+              }
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching hotel results", err);
+            clearInterval(interval);
+          });
+      }, 1000);
+    };
+
+    pollHotelUntilComplete();
+  }
+}
+
       } else {
-        // checking is function true before dufful flight
+        // 🌐 Normal response (not function)
         if (response?.run_status == "completed") {
-          // dispatch(setisPolling({
-          //   status: false,
-          //   argument: null,
-          // }));
+          // finished run
         }
         dispatch(
           setMessage({
@@ -364,8 +405,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res) => {
       const uuid = thread_res.data.uuid;
       dispatch(setInputLoading(false));
-      dispatch(setThreadUuid(uuid)); // set for 1st chat url 
-      sendToThread(uuid); // set in function for next chat flow 
+      dispatch(setThreadUuid(uuid)); // set for 1st chat url
+      sendToThread(uuid); // set in function for next chat flow
     });
   }
 };
@@ -388,25 +429,25 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 //     });
 // };
 
-
 // create thread api call
 
 // for chat page header plus  icon
 export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
   dispatch(setNewChatLoading(true));
-  api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+  api
+    .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
         dispatch(setThreadUuid(newUuid));
-        dispatch(setMobileNaveDrawer(false))
-        dispatch(setIsBuilderDialog(false))
+        dispatch(setMobileNaveDrawer(false));
+        dispatch(setIsBuilderDialog(false));
         dispatch(setPaymentFormSuccess(null));
         //  Clear old chat data in both slices
-        dispatch(setClearChat());     // from sendMessageSlice
-        dispatch(clearGetMessages());    // from getMessagesSlice
-        dispatch(setSearchHistorySend(null))
-        dispatch(setSearchHistoryGet(null))
+        dispatch(setClearChat()); // from sendMessageSlice
+        dispatch(clearGetMessages()); // from getMessagesSlice
+        dispatch(setSearchHistorySend(null));
+        dispatch(setSearchHistoryGet(null));
 
         dispatch(setAddBuilder(null));
         dispatch(setSelectedFlightKey(null));
@@ -420,7 +461,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
 
         //  Now fetch new messages for the new thread
         dispatch(setNewChatLoading(false));
-
       }
     })
     .catch((err) => {
@@ -430,7 +470,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
 
 export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(setThreadDrawer(false));
-  
+
   // Clear all first
   dispatch(setClearChat());
   dispatch(setAddBuilder(null));
@@ -446,18 +486,16 @@ export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(fetchMessages(threaduuid));
 
   // Optional: show "new thread" message placeholder
-}
-
-
+};
 
 // for delete thread
 
 export const loadNextFlights = () => (dispatch, getState) => {
   const getpageNo = getState()?.sendMessage?.appendFlights?.nextPageNo;
   const getpageNo2 = getState()?.sendMessage;
-  
+
   const allOfferUrl = getState().sendMessage?.AllOfferUrl;
-  
+
   const paginationSymbol = allOfferUrl.includes("?") ? "&" : "?";
   const nextPageUrl = `${allOfferUrl}${paginationSymbol}page=${getpageNo}`;
 
@@ -471,7 +509,7 @@ export const loadNextFlights = () => (dispatch, getState) => {
       const offers = flightData?.offers || [];
 
       if (offers.length === 0) {
-        dispatch(setNoMoreFlights(true))
+        dispatch(setNoMoreFlights(true));
         return;
       }
 
@@ -512,6 +550,6 @@ export const {
   setAddBuilder,
   setNoMoreFlights,
   setInputLoading,
-  setNewChatLoading
+  setNewChatLoading,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

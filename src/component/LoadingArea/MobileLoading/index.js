@@ -1,19 +1,32 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import style from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import LoadingArea from "..";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { currencySymbols } from "@/src/utils/utils";
+import {
+  setChatscroll,
+  setIsBuilderDialog,
+} from "@/src/store/slices/Base/baseSlice";
+import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 
 const MobileLoading = () => {
-  const Slectedflight = useSelector((state) => state.booking?.cartOffer?.raw_data);
+  const Slectedflight = useSelector(
+    (state) => state.booking?.cartOffer?.raw_data
+  );
   const SlectedflightLoading = useSelector((state) => state.booking);
 
   console.log("Slectedflight", Slectedflight);
-  
-  
-  
-   const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
-  
+
+  const paymentSuccess = useSelector(
+    (state) => state.payment.PaymentFormSuccess
+  );
+  const dispatch = useDispatch();
+  const handleBookFlight = () => {
+    dispatch(setIsBuilderDialog(false));
+    dispatch(setChatscroll(true)); // scrol lon click book
+    dispatch(PassengerForm());
+  };
+
   return (
     <Box
       className={style.MobileLoadingRow}
@@ -31,24 +44,8 @@ const MobileLoading = () => {
         justifyContent={"center"}
       >
         {/* <Typography className="f14">YOUR TRIP</Typography> */}
-        
 
         {paymentSuccess ? (
-           <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            className={"basecolor1-light2-bg br-100"}
-            p={"2px 6px"}
-          >
-            <Typography className="exbold">
-            Paid{" . "}
-              {currencySymbols[Slectedflight?.tax_currency] ||
-                Slectedflight?.tax_currency}
-              {Math.round(Slectedflight?.total_amount)}
-            </Typography>
-          </Box>
-        ) : Slectedflight ? (
           <Box
             display={"flex"}
             alignItems={"center"}
@@ -56,13 +53,29 @@ const MobileLoading = () => {
             className={"basecolor1-light2-bg br-100"}
             p={"2px 6px"}
           >
-            <Typography className="exbold f14">
-              Checkout . {" "}
+            <Typography className="exbold">
+              Paid{" . "}
               {currencySymbols[Slectedflight?.tax_currency] ||
                 Slectedflight?.tax_currency}
               {Math.round(Slectedflight?.total_amount)}
             </Typography>
           </Box>
+        ) : Slectedflight ? (
+          <Button
+            onClick={handleBookFlight}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            className={"basecolor1-light2-bg br-100 basecolor1"}
+            p={"2px 6px"}
+          >
+            <Typography className="exbold f14" textTransform={"capitalize"}>
+              Checkout .{" "}
+              {currencySymbols[Slectedflight?.tax_currency] ||
+                Slectedflight?.tax_currency}
+              {Math.round(Slectedflight?.total_amount)}
+            </Typography>
+          </Button>
         ) : (
           <>
             {/* <Box

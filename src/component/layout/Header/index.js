@@ -396,7 +396,7 @@ const Header = ({
       
       <MobileNavDrawer isAiBooking={isAiBooking} isChat={isChat} />
 
-      <UserPopup isChat={isChat} />
+      {/* <UserPopup isChat={isChat} /> */}
       {/* logoin popup */}
 
       <LoginPopup isChat={isChat} />
