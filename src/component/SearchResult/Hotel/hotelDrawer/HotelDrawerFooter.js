@@ -14,21 +14,22 @@ const HotelDrawerFooter = ({ hotel }) => {
     (state) => state.hotel?.selectedhotelKey
   );
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-
+  const allHotel = useSelector(
+    (state) => state?.booking?.cartOffer?.raw_data?.hotel
+  );
   // Calculate number of nights
-  const checkIn = new Date(hotel?.checkIn);
-  const checkOut = new Date(hotel?.checkOut);
+  const checkIn = new Date(allHotel?.checkIn);
+  const checkOut = new Date(allHotel?.checkOut);
+  const firstRate = hotel?.rooms?.[0]?.rates?.[0];
+
   const nights =
-    hotel?.checkIn && hotel?.checkOut
+    allHotel?.checkIn && allHotel?.checkOut
       ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24))
       : 1;
 
   // Prices
-  const totalPrice = Number(hotel?.totalNet) || 0;
+  const totalPrice = Number(firstRate?.net) || 0;
   const perNightPrice = nights > 0 ? totalPrice / nights : totalPrice;
-
-  console.log("hotel_minRate", hotel?.minRate);
-
   const handleSelectStay = () => {
     if (!hotel) return;
     const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;

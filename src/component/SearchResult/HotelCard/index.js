@@ -17,7 +17,10 @@ import {
 } from "@/src/store/slices/BookingflightSlice";
 import dayjs from "dayjs";
 import { currencySymbols } from "@/src/utils/utils";
-import { setSelectedhotelKey, setSinglehotel } from "@/src/store/slices/HotelSlice";
+import {
+  setSelectedhotelKey,
+  setSinglehotel,
+} from "@/src/store/slices/HotelSlice";
 
 const HotelCard = ({ hotel, allHotels }) => {
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
@@ -28,7 +31,7 @@ const HotelCard = ({ hotel, allHotels }) => {
     (state) => state.hotel?.selectedhotelKey
   );
   console.log("selectedhotelkey", selectedhotelkey);
-  
+
   const isCartItems = useSelector(
     (state) => state?.booking?.getCartDetail?.items
   );
@@ -36,9 +39,8 @@ const HotelCard = ({ hotel, allHotels }) => {
   const dispatch = useDispatch();
 
   const handleBookHotel = (gethotel) => {
-    
     const rateKey = gethotel?.rooms?.[0]?.rates?.[0]?.rateKey;
-    dispatch(setSelectedhotelKey(rateKey))
+    dispatch(setSelectedhotelKey(rateKey));
     console.log("gethotel_cart", rateKey);
     const price = hotel?.minRate;
 
@@ -79,20 +81,16 @@ const HotelCard = ({ hotel, allHotels }) => {
   }
 
   const handleHotelDrawer = (gethotel) => {
-    
     dispatch(setSinglehotel(gethotel));
 
     dispatch(setHotelDrawer(true));
   };
-
-  console.log("hotel_checkIn", hotel);
 
   // Calculate number of nights properly
   const checkInDate = allHotels?.checkIn ? new Date(allHotels.checkIn) : null;
   const checkOutDate = allHotels?.checkOut
     ? new Date(allHotels.checkOut)
     : null;
-
   const nights =
     checkInDate && checkOutDate
       ? Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24))
@@ -147,7 +145,10 @@ const HotelCard = ({ hotel, allHotels }) => {
                   {firstRate.offers[0].name}
                 </Typography>
               )}
-              <Typography textTransform={"capitalize"} className={" chip sm basecolor1-light"}>
+              <Typography
+                textTransform={"capitalize"}
+                className={" chip sm basecolor1-light"}
+              >
                 {hotel?.categoryName.toLowerCase()}
               </Typography>
             </Stack>
@@ -377,28 +378,27 @@ const HotelCard = ({ hotel, allHotels }) => {
               </Box>
 
               <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-              {selectedhotelkey === firstRate?.rateKey ? (
-                <Button
-                  disabled
-                  className={
-                    searchResultStyles.IsSelected +
-                    " w-100 btn btn-primary btn-round btn-md "
-                  }
-                >
-                  <span>Selected</span>
-                </Button>
-              ): (
-                <Button
-                  onClick={()=>handleBookHotel(hotel)}
-                  className={
-                    "w-100 btn btn-primary btn-round btn-md " +
-                    searchResultStyles.selectFlightBtn
-                  }
-                >
-                  Select
-                </Button>
-              )}
-
+                {selectedhotelkey === firstRate?.rateKey ? (
+                  <Button
+                    disabled
+                    className={
+                      searchResultStyles.IsSelected +
+                      " w-100 btn btn-primary btn-round btn-md "
+                    }
+                  >
+                    <span>Selected</span>
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleBookHotel(hotel)}
+                    className={
+                      "w-100 btn btn-primary btn-round btn-md " +
+                      searchResultStyles.selectFlightBtn
+                    }
+                  >
+                    Select
+                  </Button>
+                )}
               </Box>
             </Box>
           </Box>

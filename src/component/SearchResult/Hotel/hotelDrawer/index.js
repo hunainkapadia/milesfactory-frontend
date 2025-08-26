@@ -26,6 +26,7 @@ const HotelDrawer = ({}) => {
     (state) => state?.hotel?.singlehotel
   );
   
+  
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
   const stars = hotel?.categoryName ? parseInt(hotel.categoryName) : 0;
 
