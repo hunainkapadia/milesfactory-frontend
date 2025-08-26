@@ -1529,6 +1529,7 @@ body {
   }
 }
 .chip {
+  white-space: nowrap;
   &.sm {
     padding: 2px 8px;
     height: 18px;

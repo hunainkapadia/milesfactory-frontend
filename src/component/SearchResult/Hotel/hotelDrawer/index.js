@@ -23,8 +23,9 @@ const HotelDrawer = ({}) => {
   };
   const isDrawer = useSelector((state) => state.booking.hotelDrawer);
   const hotel = useSelector(
-    (state) => state?.booking?.addCart?.raw_data?.hotel
+    (state) => state?.hotel?.singlehotel
   );
+  
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
   const stars = hotel?.categoryName ? parseInt(hotel.categoryName) : 0;
 

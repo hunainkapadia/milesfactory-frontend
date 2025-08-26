@@ -17,17 +17,29 @@ import {
 } from "@/src/store/slices/BookingflightSlice";
 import dayjs from "dayjs";
 import { currencySymbols } from "@/src/utils/utils";
+import { setSelectedhotelKey, setSinglehotel } from "@/src/store/slices/HotelSlice";
 
 const HotelCard = ({ hotel, allHotels }) => {
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  const selectedFlightKey = useSelector(
+    (state) => state.booking.selectedFlightKey
+  );
+  const selectedhotelkey = useSelector(
+    (state) => state.hotel?.selectedhotelKey
+  );
+  console.log("selectedhotelkey", selectedhotelkey);
+  
   const isCartItems = useSelector(
     (state) => state?.booking?.getCartDetail?.items
   );
 
   const dispatch = useDispatch();
 
-  const handleBookHotel = () => {
-    const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;
+  const handleBookHotel = (gethotel) => {
+    
+    const rateKey = gethotel?.rooms?.[0]?.rates?.[0]?.rateKey;
+    dispatch(setSelectedhotelKey(rateKey))
+    console.log("gethotel_cart", rateKey);
     const price = hotel?.minRate;
 
     const params = {
@@ -66,7 +78,10 @@ const HotelCard = ({ hotel, allHotels }) => {
     }
   }
 
-  const handleHotelDrawer = () => {
+  const handleHotelDrawer = (gethotel) => {
+    
+    dispatch(setSinglehotel(gethotel));
+
     dispatch(setHotelDrawer(true));
   };
 
@@ -132,8 +147,8 @@ const HotelCard = ({ hotel, allHotels }) => {
                   {firstRate.offers[0].name}
                 </Typography>
               )}
-              <Typography className={" chip sm basecolor1-light"}>
-                {hotel?.categoryName}
+              <Typography textTransform={"capitalize"} className={" chip sm basecolor1-light"}>
+                {hotel?.categoryName.toLowerCase()}
               </Typography>
             </Stack>
 
@@ -220,37 +235,66 @@ const HotelCard = ({ hotel, allHotels }) => {
             </Stack>
 
             {/* Amenities (dummy icons, still dynamic if mapped later) */}
-            <Stack mt={"12px"} flexDirection={"row"} alignItems={"center"} gap={"13px"}>
-      <Tooltip title="Double room" placement="top" arrow>
-        <Box className="imggroup">
-          <img width={14} src="/images/hotel/hotel-bed-icon.svg" alt="Double room" />
-        </Box>
-      </Tooltip>
+            <Stack
+              mt={"12px"}
+              flexDirection={"row"}
+              alignItems={"center"}
+              gap={"13px"}
+            >
+              <Tooltip title="Double room" placement="top" arrow>
+                <Box className="imggroup">
+                  <img
+                    width={14}
+                    src="/images/hotel/hotel-bed-icon.svg"
+                    alt="Double room"
+                  />
+                </Box>
+              </Tooltip>
 
-      <Tooltip title="Breakfast included" placement="top" arrow>
-        <Box className="imggroup">
-          <img width={14} src="/images/hotel/breakfast-icon-icon.svg" alt="Breakfast" />
-        </Box>
-      </Tooltip>
+              <Tooltip title="Breakfast included" placement="top" arrow>
+                <Box className="imggroup">
+                  <img
+                    width={14}
+                    src="/images/hotel/breakfast-icon-icon.svg"
+                    alt="Breakfast"
+                  />
+                </Box>
+              </Tooltip>
 
-      <Tooltip title="Free wifi" placement="top" arrow>
-        <Box className="imggroup">
-          <img width={14} src="/images/hotel/hotel-wifi-icon.svg" alt="Wifi" />
-        </Box>
-      </Tooltip>
+              <Tooltip title="Free wifi" placement="top" arrow>
+                <Box className="imggroup">
+                  <img
+                    width={14}
+                    src="/images/hotel/hotel-wifi-icon.svg"
+                    alt="Wifi"
+                  />
+                </Box>
+              </Tooltip>
 
-      <Tooltip title="Daily housekeeping" placement="top" arrow>
-        <Box className="imggroup">
-          <img width={14} src="/images/hotel/hotel-leav-icon.svg" alt="Housekeeping" />
-        </Box>
-      </Tooltip>
+              <Tooltip title="Daily housekeeping" placement="top" arrow>
+                <Box className="imggroup">
+                  <img
+                    width={14}
+                    src="/images/hotel/hotel-leav-icon.svg"
+                    alt="Housekeeping"
+                  />
+                </Box>
+              </Tooltip>
 
-      <Tooltip title="Check-in: from 15:00 · Check-out: by 11:00" placement="top" arrow>
-        <Box className="imggroup">
-          <img width={14} src="/images/hotel/hotel-pay-icon.svg" alt="Checkin Checkout" />
-        </Box>
-      </Tooltip>
-    </Stack>
+              <Tooltip
+                title="Check-in: from 15:00 · Check-out: by 11:00"
+                placement="top"
+                arrow
+              >
+                <Box className="imggroup">
+                  <img
+                    width={14}
+                    src="/images/hotel/hotel-pay-icon.svg"
+                    alt="Checkin Checkout"
+                  />
+                </Box>
+              </Tooltip>
+            </Stack>
           </Box>
         </Grid>
 
@@ -281,7 +325,10 @@ const HotelCard = ({ hotel, allHotels }) => {
               }}
             >
               {/* See Details */}
-              <Box style={{ cursor: "pointer" }} onClick={handleHotelDrawer}>
+              <Box
+                style={{ cursor: "pointer" }}
+                onClick={() => handleHotelDrawer(hotel)}
+              >
                 <Box className="text-decoration-none basecolor1">
                   <Box
                     gap={"4px"}
@@ -330,27 +377,28 @@ const HotelCard = ({ hotel, allHotels }) => {
               </Box>
 
               <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                {isCartItems?.length > 0 ? (
-                  <Button
-                    disabled
-                    className={
-                      searchResultStyles.IsSelected +
-                      " w-100 btn btn-primary btn-round btn-md "
-                    }
-                  >
-                    <span>Selected</span>
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handleBookHotel}
-                    className={
-                      "w-100 btn btn-primary btn-round btn-md " +
-                      searchResultStyles.selectFlightBtn
-                    }
-                  >
-                    Select
-                  </Button>
-                )}
+              {selectedhotelkey === firstRate?.rateKey ? (
+                <Button
+                  disabled
+                  className={
+                    searchResultStyles.IsSelected +
+                    " w-100 btn btn-primary btn-round btn-md "
+                  }
+                >
+                  <span>Selected</span>
+                </Button>
+              ): (
+                <Button
+                  onClick={()=>handleBookHotel(hotel)}
+                  className={
+                    "w-100 btn btn-primary btn-round btn-md " +
+                    searchResultStyles.selectFlightBtn
+                  }
+                >
+                  Select
+                </Button>
+              )}
+
               </Box>
             </Box>
           </Box>
