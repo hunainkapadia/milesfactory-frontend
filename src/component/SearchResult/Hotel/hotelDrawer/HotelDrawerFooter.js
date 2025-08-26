@@ -2,13 +2,18 @@ import React from "react";
 import { Box, Typography, Divider, Button } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { currencySymbols } from "@/src/utils/utils";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-const HotelDrawerFooter = () => {
-  const hotel = useSelector(
-    (state) => state?.booking?.addCart?.raw_data?.hotel
+import { AddToCart } from "@/src/store/slices/BookingflightSlice";
+import { setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
+
+const HotelDrawerFooter = ({ hotel }) => {
+  const dispatch = useDispatch();
+
+  const selectedhotelkey = useSelector(
+    (state) => state.hotel?.selectedhotelKey
   );
-  console.log("hotel_maxRate", hotel);
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
   // Calculate number of nights
   const checkIn = new Date(hotel?.checkIn);
@@ -22,117 +27,69 @@ const HotelDrawerFooter = () => {
   const totalPrice = Number(hotel?.totalNet) || 0;
   const perNightPrice = nights > 0 ? totalPrice / nights : totalPrice;
 
+  console.log("hotel_minRate", hotel?.minRate);
+
+  const handleSelectStay = () => {
+    if (!hotel) return;
+    const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;
+    dispatch(setSelectedhotelKey(rateKey));
+
+    const params = {
+      chat_thread_uuid: uuid,
+      offer_type: "hotel",
+      offer_id: rateKey,
+      price: hotel?.minRate,
+      currency: hotel?.currency,
+      raw_data: {},
+    };
+    dispatch(AddToCart(params, uuid));
+  };
+
   return (
     <>
       <Divider className={`${styles.Divider} Divider`} />
-      <Box
-        px={3}
-        className={styles.checkoutDrowerFooter + " test11"}
-        width={"100%"}
-      >
-        {/* Footer Content */}
+      <Box px={3} className={styles.checkoutDrowerFooter} width={"100%"}>
         <Box py={2} display="flex" flexDirection="column">
-          {/* Hotel Policy Text */}
-          <Box
-            component={"section"}
-            display={"flex"}
-            alignItems={"center"}
-            pb={2}
-            gap={"5px"}
-          >
-            <Box className="imggroup" display={"flex"}>
-              <img
-                src="/images/protection-text-icon.svg"
-                alt="Protection Icon"
-                width="15"
-              />
-            </Box>
-            <Typography
-              variant="body2"
-              className="gray f12"
-              display={{ lg: "block", md: "block", xs: "none" }}
-            >
-              The hotel’s cancellation policy will apply if you decide to cancel
-              or modify your stay.
-            </Typography>
-            <Typography
-              variant="body2"
-              className="gray f12"
-              display={{ lg: "none", md: "none", xs: "block" }}
-            >
-              Exclusive direct rate – guaranteed lowest price online
-            </Typography>
-          </Box>
-
           {/* Price Row */}
           <Box
-            className={styles.priceRow + " aaa"}
+            className={styles.priceRow}
             display="flex"
             justifyContent={"space-between"}
             width={"100%"}
           >
             {/* Price Section */}
-            <Box
-              display={"flex"}
-              flexDirection="column"
-              justifyContent={"center"}
-            >
-              <Box
-                className={styles.priceSection}
-                display="flex"
-                alignItems="center"
-              >
-                <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                  <span>
-                    {currencySymbols[hotel?.currency]}{" "}
-                    {Math.round(perNightPrice)} / night
-                  </span>
-                </h4>
-              </Box>
-              <Box className={styles.totalPersonPrice}>
-                <Typography variant="body2" className=" gray f12">
-                  {currencySymbols[hotel?.currency]} {Math.round(totalPrice)}{" "}
-                  total ({nights} nights)
-                </Typography>
-              </Box>
+            <Box display="flex" flexDirection="column" justifyContent="center">
+              <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
+                {currencySymbols[hotel?.currency]} {Math.round(perNightPrice)} /
+                night
+              </h4>
+              <Typography variant="body2" className="gray f12">
+                {currencySymbols[hotel?.currency]} {Math.round(totalPrice)}{" "}
+                total ({nights} nights)
+              </Typography>
             </Box>
 
             {/* Actions Section */}
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              alignItems="center"
-              gap={0}
-            >
-              {/* Close Button */}
-              <Box
-                display="flex"
-                alignItems="center"
-                textAlign={"center"}
-                className="gray f14"
-                style={{ cursor: "pointer" }}
-              >
-                <span>Close</span>
-              </Box>
-
-              {/* Select Stay Button */}
-              <Box
-                display="flex"
-                alignItems="center"
-                gap={2}
-                className="basecolor1"
-              >
+            <Box display="flex" alignItems="center" gap={2}>
+              {selectedhotelkey === hotel?.rooms?.[0]?.rates?.[0]?.rateKey ? (
                 <Button
-                  sx={{ ml: 3 }}
+                  disabled
+                  className={
+                    styles.IsSelected + " btn btn-primary btn-round btn-sm"
+                  }
+                >
+                  Selected
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleSelectStay}
                   className={
                     styles.selectFlightBtn + " btn btn-primary btn-round btn-sm"
                   }
                 >
-                  <Box display="flex" gap={1}>
-                    <Box>Select stay</Box>
-                  </Box>
+                  Select stay
                 </Button>
-              </Box>
+              )}
             </Box>
           </Box>
         </Box>

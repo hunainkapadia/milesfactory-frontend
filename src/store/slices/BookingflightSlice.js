@@ -142,6 +142,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     if (res.data) {
       dispatch(CartDetail(uuid));
       dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
+      dispatch(setHotelDrawer(false))
     }
     // detect mobile view
     if (window.innerWidth <= 768) {

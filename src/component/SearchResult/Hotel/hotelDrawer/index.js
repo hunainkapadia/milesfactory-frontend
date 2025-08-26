@@ -220,7 +220,7 @@ const HotelDrawer = ({}) => {
                       </Typography>
                     </Stack>
 
-                    <Stack>
+                    <Stack mb={"18px"}>
                       <Typography
                         mb={"6px"}
                         className="bold "
@@ -472,7 +472,7 @@ const HotelDrawer = ({}) => {
           </Box>
         </Box>
         {/* Footer Section */}
-        <HotelDrawerFooter />
+        <HotelDrawerFooter hotel={hotel} />
       </Box>
     </Drawer>
   );
