@@ -4,6 +4,7 @@ import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import { setMessage } from "./sendMessageSlice";
 import { setIsBuilderDialog } from "./Base/baseSlice";
+import { setSelectedhotelKey } from "./HotelSlice";
 
 const initialState = {
   flightDetail: null,
@@ -204,7 +205,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
 
   try {
     const res = await api.delete(apiUrl);
-
+    dispatch(setSelectedhotelKey(null));
     dispatch(setGetCartDetail(res.data));
     dispatch(setCartOffer(null))
 
