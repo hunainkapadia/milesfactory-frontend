@@ -238,37 +238,7 @@ const HotelDrawer = ({}) => {
                     </Stack>
 
                     {/* Amenities (dummy icons, still dynamic if mapped later) */}
-                    <Stack
-                      mt={"12px"}
-                      flexDirection={"row"}
-                      alignItems={"center"}
-                      gap={"13px"}
-                    >
-                      {firstRate?.boardName === "BED AND BREAKFAST" && (
-                        <Tooltip
-                          title="Breakfast included"
-                          placement="top"
-                          arrow
-                        >
-                          <Box className="imggroup">
-                            <img
-                              width={14}
-                              src="/images/hotel/hotel-bed2-icon.svg"
-                              alt=""
-                            />
-                          </Box>
-                        </Tooltip>
-                      )}
-                      <Tooltip title="Free Wifi" placement="top" arrow>
-                        <Box className="imggroup">
-                          <img
-                            width={14}
-                            src="/images/hotel/hotel-wifi-icon.svg"
-                            alt=""
-                          />
-                        </Box>
-                      </Tooltip>
-                    </Stack>
+                    
 
                     <Stack>
                       <Typography
