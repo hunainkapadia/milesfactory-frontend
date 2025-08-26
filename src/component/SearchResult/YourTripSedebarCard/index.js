@@ -9,6 +9,7 @@ import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
 import SidebarFooter from "./SidebarFooter";
+import HotelCardSidebar from "./HotelCardSidebar";
 
 const YourTripSedebarCard = ({
   FlightExpire,
@@ -20,6 +21,11 @@ const YourTripSedebarCard = ({
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
 
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
+  const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
+
+  console.log("CartDetails_00", CartDetails?.uuid);
+  
+  
 
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
@@ -217,9 +223,10 @@ const YourTripSedebarCard = ({
 
           {CartDetails?.items?.map((getItems, index) => (
             <>
+              {/* flight */}
               <Box key={index}>
                 {/* footer */}
-                {getItems?.raw_data?.slices.map((slice, index) => (
+                {getItems?.raw_data?.slices?.map((slice, index) => (
                   <>
                     <Box mb={3}>
                       {index === 0 ? (
@@ -343,8 +350,20 @@ const YourTripSedebarCard = ({
                   </>
                 ))}
               </Box>
+
+              {/* get hotel */}
+              <Box key={index}>
+                {/* footer */}
+                <HotelCardSidebar
+                  hotel={getItems?.raw_data?.hotel}
+                  Carduuid={Carduuid}
+                />
+              </Box>
+
             </>
           ))}
+
+          
 
           {/* {BuilderArguments.from_destination &&
                 BuilderArguments.to_destination && (

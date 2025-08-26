@@ -1537,6 +1537,11 @@ body {
     font-size: 12px;
     line-height: 1;
   }
+  
+  &.basecolor1-light {
+    color: $white;
+    background: #80E1E5;
+  }
   &.chipPrimary {
     color: $white;
     background: $basecolor1;

@@ -324,65 +324,45 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         }
 
         // for Hotel Flow
-       else if (funcName === "search_hotel_result_func") {
-  const hotelSearchApi =
-    response?.response?.results?.view_hotel_search_api?.url;
+        else if (funcName === "search_hotel_result_func") {
+          const hotelSearchApi =
+            response?.response?.results?.view_hotel_search_api?.url;
 
-  console.log("hotelSearchApi", hotelSearchApi);
+          console.log("hotelSearchApi", hotelSearchApi);
 
-  if (hotelSearchApi) {
-    // convert Dubai → DXB in URL
-    const updatedHotelSearchApi = hotelSearchApi.replace(
-      /destination=Dubai/gi,
-      "destination=DXB"
-    );
+          if (hotelSearchApi) {
+            // convert Dubai → DXB in URL
+            const updatedHotelSearchApi = hotelSearchApi.replace(
+              /destination=Dubai/gi,
+              "destination=DXB"
+            );
 
-    // show placeholder first
-    dispatch(
-      setMessage({
-        ai: { response: response?.response },
-        type: "hotel_placeholder",
-      })
-    );
+            // 🔹 Fetch once directly (no polling)
+            api
+              .get(updatedHotelSearchApi)
+              .then((hotelRes) => {
+                const isComplete = hotelRes?.data?.is_complete;
 
-    // poll hotel API until complete
-    const pollHotelUntilComplete = () => {
-      const interval = setInterval(() => {
-        api
-          .get(updatedHotelSearchApi)
-          .then((hotelRes) => {
-            const isComplete = hotelRes?.data?.is_complete;
-
-            // ✅ stop polling as soon as any response arrives
-            if (hotelRes?.data) {
-              clearInterval(interval);
-
-              if (isComplete === true) {
-                // replace placeholder with final hotel results
-                dispatch(setClearflight());
-                dispatch(setMessage({ ai: hotelRes.data }));
-              } else {
-                // if not complete, still show current results once
-                dispatch(
-                  setMessage({
-                    ai: hotelRes.data,
-                    type: "hotel_result",
-                  })
-                );
-              }
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching hotel results", err);
-            clearInterval(interval);
-          });
-      }, 1000);
-    };
-
-    pollHotelUntilComplete();
-  }
-}
-
+                if (isComplete === true) {
+                  // final complete response
+                  dispatch(setClearflight());
+                  dispatch(setMessage({ ai: hotelRes.data }));
+                } else {
+                  // still return whatever data came back
+                  dispatch(
+                    setMessage({
+                      ai: hotelRes.data,
+                      type: "hotel_result",
+                    })
+                  );
+                }
+              })
+              .catch((err) => {
+                console.error("Error fetching hotel results", err);
+              });
+          }
+        }
+// end hotel
       } else {
         // 🌐 Normal response (not function)
         if (response?.run_status == "completed") {

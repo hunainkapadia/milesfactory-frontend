@@ -59,6 +59,7 @@ import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
 import MobileBuilderDialoge from "../../SearchResult/ChatInput/MobileBuilderDialoge";
 import HeaderUtils from "@/src/utils/headerUtils";
+import HotelDrawer from "../../SearchResult/Hotel/hotelDrawer";
 
 const Header = ({
   isMessage,
@@ -406,6 +407,7 @@ const Header = ({
       <ContactDialog />
       <InviteEmailDialog />
       <ThreadDrawer />
+      <HotelDrawer />
     </>
   );
 };

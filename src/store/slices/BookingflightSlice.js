@@ -29,6 +29,7 @@ const initialState = {
   getCartDetail: null,
   bookingDrawer: false,
   cartOffer: null,
+  hotelDrawer:false,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -36,6 +37,9 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setHotelDrawer:(state, action) => {
+      state.hotelDrawer = action.payload;
+    },
     setCartOffer:(state, action) => {
       state.cartOffer = action.payload;
     },
@@ -139,7 +143,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
       dispatch(CartDetail(uuid));
       dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
     }
-    // ✅ detect mobile view
+    // detect mobile view
     if (window.innerWidth <= 768) {
       // Option 1: dispatch to open mobile drawer
       dispatch(setIsBuilderDialog(true));
@@ -241,6 +245,7 @@ export const {
   setGetCartDetail,
   setBookingDrawer,
   setIsLoadingSelect,
-  setCartOffer
+  setCartOffer,
+  setHotelDrawer
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

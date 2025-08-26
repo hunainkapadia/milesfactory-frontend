@@ -101,6 +101,7 @@ const Messages = () => {
             }`}
           >
             <Box className={searchResultStyles.messageContentIn}>
+            {console.log("messages_hotel", messages)}
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}

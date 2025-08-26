@@ -42,9 +42,10 @@ const AiMessage = ({ aiMessage }) => {
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
-  const getHotels = aiMessage?.ai?.hotels?.hotels
+  const getHotels = aiMessage?.ai?.hotels
 
-  console.log("aiMessage_hotel", getHotels);
+  console.log("getHotels_00", getHotels);
+  
   
 
   useEffect(() => {
@@ -303,16 +304,16 @@ const [selectedOfferId, setSelectedOfferId] = useState(null);
         </>
       )}
 
-       {/* 🏨 Hotel Results */}
-      {Array.isArray(getHotels) && getHotels.length > 0 && (
+       {/* Hotel Results */}
+      {Array.isArray(getHotels?.hotels) && getHotels.hotels.length > 0 && (
         <Box className={searchResultStyles.HotelCardWrapper}>
           {/* <Typography variant="h6" sx={{ mb: 2 }}>
             Hotel Results
           </Typography> */}
-            {getHotels.slice(0, 1).map((hotel, idx) => (
+
+            {getHotels?.hotels.slice(0, 1).map((hotel, idx) => (
               <>
-              {console.log("hotel_test", hotel)}
-                <HotelCard key={hotel.code || idx} hotel={hotel} />
+                <HotelCard key={hotel.code || idx} hotel={hotel} price={getHotels?.total} allHotels={getHotels} />
               </>
             ))}
         </Box>

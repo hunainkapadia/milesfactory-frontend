@@ -73,6 +73,32 @@
    border-radius: 8px;
 }
 
+.hotelDrawer {
+   .HotelGallery {
+  display: flex;                 /* arrange thumbnails in a row */
+  gap: 8px;                      /* space between images */
+  overflow-x: auto;              /* enable horizontal scroll */
+  padding-bottom: 6px;           /* spacing for scroll area */
+  width: 420px;
+  -ms-overflow-style: none;      /* hide scrollbar on IE/Edge */
+  scrollbar-width: none;         /* hide scrollbar on Firefox */
+
+  &::-webkit-scrollbar {         /* hide scrollbar on Chrome/Safari */
+    display: none;
+  }
+
+  .HotelThumb {
+    flex: 0 0 auto;              /* prevent shrinking */
+    width: 106px;
+    height: 79px;
+    border-radius: 12px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}
+
+
+}
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
       padding: 0;
