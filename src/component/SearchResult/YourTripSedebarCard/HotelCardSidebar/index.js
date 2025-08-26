@@ -3,7 +3,7 @@ import TripStyles from "@/src/styles/sass/components/search-result/YourTripSideb
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { currencySymbols } from "@/src/utils/utils";
-import { DeleteCart } from "@/src/store/slices/BookingflightSlice";
+import { DeleteCart, setHotelDrawer } from "@/src/store/slices/BookingflightSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const HotelCardSidebar = ({ hotel, Carduuid }) => {
@@ -30,6 +30,10 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
   const adults = firstRate.adults;
   const infants = firstRate.children; // assuming children = infants
   const price = parseFloat(firstRate.net).toFixed(2);
+  const handleHotelDrawer = () => {
+      dispatch(setHotelDrawer(true));
+    };
+  
   return (
     <Box
       className={TripStyles.flightOfferCard}
@@ -94,7 +98,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           </Box>
         </Box>
         <Box style={{ cursor: "pointer" }}>
-          <Box className="text-decoration-none cursor-pointer">
+          <Box className="text-decoration-none cursor-pointer" onClick={handleHotelDrawer}>
             <Box
               gap="4px"
               alignItems="center"
