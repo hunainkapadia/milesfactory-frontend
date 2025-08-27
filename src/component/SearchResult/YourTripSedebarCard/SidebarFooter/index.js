@@ -7,19 +7,27 @@ import {
   setIsBuilderDialog,
 } from "@/src/store/slices/Base/baseSlice";
 import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // 👈 import helper
+
 const SidebarFooter = () => {
   const CartOfferDetail = useSelector(
     (state) => state.booking?.getCartDetail?.items
   );
   const CartDetails = CartOfferDetail?.[0];
-
   const offerDetail = useSelector((state) => state.booking?.cartOffer);
-  
-  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+
+  // 👇 if hotel, calculate pricing
+  const allHotel = useSelector((state) => state?.hotel?.allHotels);
+  const { nights, totalPrice, perNightPrice } =
+    CartDetails?.offer_type === "hotel"
+      ? calculateHotelPricing(CartDetails?.raw_data?.hotel, allHotel)
+      : {};
+
   const dispatch = useDispatch();
   const handleBookFlight = () => {
     dispatch(setIsBuilderDialog(false));
-    dispatch(setChatscroll(true)); // scrol lon click book
+    dispatch(setChatscroll(true));
     dispatch(PassengerForm());
   };
 
@@ -37,30 +45,57 @@ const SidebarFooter = () => {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Box>
-            <h4 className="exbold mb-0">
-              {CartDetails ? (
-                <>
-                  {currencySymbols[CartDetails.currency] ||
-                    CartDetails.currency}
-                  {Math.round(CartDetails.price)}
-                </>
-              ) : (
-                "-"
-              )}
-            </h4>
+          {CartDetails?.offer_type == "flight" ? (
+            <>
+              <Box>
+                <h4 className="exbold mb-0">
+                  {CartDetails ? (
+                    <>
+                      {currencySymbols[CartDetails.currency] ||
+                        CartDetails.currency}
+                      {Math.round(CartDetails.price)}
+                    </>
+                  ) : (
+                    "-"
+                  )}
+                </h4>
+                <Typography className="gray f12">total</Typography>
+              </Box>
 
-            <Typography className="gray f12">total</Typography>
-          </Box>
-          
-          <Button
-            onClick={handleBookFlight}
-            className={`btn btn-primary btn-round btn-xs ${orderSuccess || !offerDetail ? " disabled " : ""}`}
-            // disabled={orderSuccess || !offerDetail}
+              <Button
+                onClick={handleBookFlight}
+                className={`btn btn-primary btn-round btn-xs ${
+                  orderSuccess || !offerDetail ? " disabled " : ""
+                }`}
+              >
+                Book now
+              </Button>
+            </>
+          ) : CartDetails?.offer_type == "hotel" ? (
+            <>
+              <Box>
+                <h4 className="exbold mb-0">
+                  {currencySymbols[CartDetails.currency]}{" "}
+                  {Math.round(perNightPrice)} / night
+                </h4>
+                <Typography className="gray f12">
+                  {currencySymbols[CartDetails.currency]}{" "}
+                  {Math.round(totalPrice)} total ({nights} nights)
+                </Typography>
+              </Box>
 
-          >
-            Book now
-          </Button>
+              <Button
+                onClick={handleBookFlight}
+                className={`btn btn-primary btn-round btn-xs ${
+                  orderSuccess || !offerDetail ? " disabled " : ""
+                }`}
+              >
+                Book now
+              </Button>
+            </>
+          ) : (
+            ""
+          )}
         </Box>
       </Box>
     </>

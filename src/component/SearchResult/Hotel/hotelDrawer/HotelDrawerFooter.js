@@ -3,39 +3,25 @@ import { Box, Typography, Divider, Button } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { currencySymbols } from "@/src/utils/utils";
 import { useSelector, useDispatch } from "react-redux";
-
 import {
   AddToCart,
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
 import { setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // 👈 import utility
 
 const HotelDrawerFooter = ({ hotel }) => {
   const dispatch = useDispatch();
-
-  const selectedhotelkey = useSelector(
-    (state) => state.hotel?.selectedhotelKey
-  );
+  const selectedhotelkey = useSelector((state) => state.hotel?.selectedhotelKey);
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const allHotel = useSelector(
-    (state) => state?.hotel?.allHotels
+  const allHotel = useSelector((state) => state?.hotel?.allHotels);
+
+  // Use the helper function
+  const { nights, totalPrice, perNightPrice } = calculateHotelPricing(
+    hotel,
+    allHotel
   );
-  // Calculate number of nights
-  const checkIn = new Date(allHotel?.checkIn);
-  const checkOut = new Date(allHotel?.checkOut);
-  const firstRate = hotel?.rooms?.[0]?.rates?.[0];
 
-  const nights =
-    allHotel?.checkIn && allHotel?.checkOut
-      ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24))
-      : 1;
-
-      console.log("nights_00", allHotel?.checkIn);
-      
-
-  // Prices
-  const totalPrice = Number(firstRate?.net) || 0;
-  const perNightPrice = nights > 0 ? totalPrice / nights : totalPrice;
   const handleSelectStay = () => {
     if (!hotel) return;
     const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;
@@ -51,8 +37,9 @@ const HotelDrawerFooter = ({ hotel }) => {
     };
     dispatch(AddToCart(params, uuid));
   };
+
   const HandlecloseDrawer = () => {
-    dispatch(setHotelDrawer(false)); //setSelectFlightKey empty then close drawer
+    dispatch(setHotelDrawer(false));
   };
 
   return (
@@ -74,8 +61,8 @@ const HotelDrawerFooter = ({ hotel }) => {
                 night
               </h4>
               <Typography variant="body2" className="gray f12">
-                {currencySymbols[hotel?.currency]} {Math.round(totalPrice)}{" "}
-                total ({nights} nights)
+                {currencySymbols[hotel?.currency]} {Math.round(totalPrice)} total
+                ({nights} nights)
               </Typography>
             </Box>
 
