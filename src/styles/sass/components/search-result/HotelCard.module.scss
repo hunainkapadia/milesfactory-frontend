@@ -78,7 +78,11 @@ bottom: -5px;
 .CardLeft {
       
 }
-
+.CardRight {
+   border-left: solid 1px $lightgray3;
+   
+   .selectFlightBtn {}
+}
 .logoCol {
    .airlineLogo {
       border-radius: 0;
@@ -177,6 +181,9 @@ bottom: -5px;
 
 
 @include for-mobile-large-screen(){
+   .CardRight {
+      border-left: none;
+   }
    .HotelCard {
       height: auto;
       .HotelThumb {
