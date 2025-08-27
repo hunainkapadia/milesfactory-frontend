@@ -5,6 +5,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { currencySymbols } from "@/src/utils/utils";
 import { DeleteCart, setHotelDrawer } from "@/src/store/slices/BookingflightSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setSinglehotel } from "@/src/store/slices/HotelSlice";
 
 const HotelCardSidebar = ({ hotel, Carduuid }) => {
   // Static mock data
@@ -30,7 +31,8 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
   const adults = firstRate.adults;
   const infants = firstRate.children; // assuming children = infants
   const price = parseFloat(firstRate.net).toFixed(2);
-  const handleHotelDrawer = () => {
+  const handleHotelDrawer = (gethotel) => {
+      dispatch(setSinglehotel(gethotel));
       dispatch(setHotelDrawer(true));
     };
   
@@ -100,7 +102,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           </Box>
         </Box>
         <Box style={{ cursor: "pointer" }}>
-          <Box className="text-decoration-none cursor-pointer" onClick={handleHotelDrawer}>
+          <Box className="text-decoration-none cursor-pointer" onClick={()=>handleHotelDrawer(hotel)}>
             <Box
               gap="4px"
               alignItems="center"
