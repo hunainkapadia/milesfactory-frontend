@@ -336,14 +336,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
           if (hotelSearchApi) {
             // convert Dubai → DXB in URL
-            const updatedHotelSearchApi = hotelSearchApi.replace(
-              /destination=Dubai/gi,
-              "destination=DXB"
-            );
-
+            
             // 🔹 Fetch once directly (no polling)
             api
-              .get(updatedHotelSearchApi)
+              .get(hotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
 
