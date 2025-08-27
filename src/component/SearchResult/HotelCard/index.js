@@ -124,7 +124,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                 className="bold mb-1 f12"
                 textTransform={"capitalize"}
               >
-                {hotel?.name}
+                {hotel?.name?.split(" ").slice(0, 4).join(" ")}
               </Typography>
               {firstRate?.offers?.[0] && (
                 <Box display={{ xs: "none", md: "flex" }}>
@@ -206,7 +206,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                 className="bold mb-1 f10"
                 textTransform={"capitalize"}
               >
-                {hotel?.rooms?.[0]?.name} · {firstRate?.adults} adults
+                {hotel?.rooms?.[0]?.name?.split(" ").slice(0, 3).join(" ")} · {firstRate?.adults} adults
               </Typography>
               <Typography component="span" className="f10 black-50">
                 {dayjs(allHotels?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
