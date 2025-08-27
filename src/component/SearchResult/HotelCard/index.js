@@ -67,24 +67,7 @@ const HotelCard = ({ hotel, allHotels }) => {
   const firstRate = hotel?.rooms?.[0]?.rates?.[0];
 
   // Extract dates from rateKey if available
-  let checkIn = "";
-  let checkOut = "";
-  if (firstRate?.rateKey) {
-    const parts = firstRate.rateKey.split("|");
-    if (parts.length > 2) {
-      const inDate = parts[0];
-      const outDate = parts[1];
-      checkIn = `${inDate.slice(6, 8)}-${inDate.slice(4, 6)}-${inDate.slice(
-        0,
-        4
-      )}`;
-      checkOut = `${outDate.slice(6, 8)}-${outDate.slice(4, 6)}-${outDate.slice(
-        0,
-        4
-      )}`;
-    }
-  }
-
+  
   const handleHotelDrawer = (gethotel) => {
     dispatch(setAllHotels(allHotels));
     dispatch(setSinglehotel(gethotel));
@@ -97,6 +80,9 @@ const HotelCard = ({ hotel, allHotels }) => {
     hotel,
     allHotels
   );
+
+  console.log("allHotels", allHotels);
+  
 
   return (
     <Box className={`${searchResultStyles.HotelCard}`}>
@@ -223,8 +209,8 @@ const HotelCard = ({ hotel, allHotels }) => {
                 {hotel?.rooms?.[0]?.name} · {firstRate?.adults} adults
               </Typography>
               <Typography component="span" className="f10 black-50">
-                {dayjs(checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
-                {dayjs(checkOut, "DD-MM-YYYY").format("DD MMM")}
+                {dayjs(allHotels?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
+                {dayjs(allHotels?.checkOut, "DD-MM-YYYY").format("DD MMM")}
               </Typography>
             </Stack>
             <Stack display={{ md: "flex", xs: "none" }}>

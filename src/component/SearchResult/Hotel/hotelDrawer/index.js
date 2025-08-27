@@ -34,24 +34,8 @@ const HotelDrawer = ({}) => {
   const firstRate = hotel?.rooms?.[0]?.rates?.[0];
 
   // Extract dates from rateKey if available
-  let checkIn = "";
-  let checkOut = "";
-  if (firstRate?.rateKey) {
-    const parts = firstRate.rateKey.split("|");
-    if (parts.length > 2) {
-      const inDate = parts[0];
-      const outDate = parts[1];
-      checkIn = `${inDate.slice(6, 8)}-${inDate.slice(4, 6)}-${inDate.slice(
-        0,
-        4
-      )}`;
-      checkOut = `${outDate.slice(6, 8)}-${outDate.slice(4, 6)}-${outDate.slice(
-        0,
-        4
-      )}`;
-    }
-  }
-
+  const allHotel = useSelector((state) => state?.hotel?.allHotels);
+  
   console.log("hotel", hotel);
   const images = [
     "https://cf.bstatic.com/xdata/images/hotel/max1024x768/108437040.jpg?k=8b7d88be5a0a7ea5a7bb24425ae6472f392a1f641eee26f392c7528b959c76b1&o=&hp=1",
@@ -216,8 +200,8 @@ const HotelDrawer = ({}) => {
                         {hotel?.rooms?.[0]?.name} · {firstRate?.adults} adults
                       </Typography>
                       <Typography component="span" className="f10 black-50">
-                        {dayjs(checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
-                        {dayjs(checkOut, "DD-MM-YYYY").format("DD MMM")}
+                        {dayjs(allHotel?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
+                        {dayjs(allHotel?.checkOut, "DD-MM-YYYY").format("DD MMM")}
                       </Typography>
                     </Stack>
 

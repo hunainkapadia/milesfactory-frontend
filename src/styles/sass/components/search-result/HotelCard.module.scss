@@ -13,11 +13,11 @@ margin-bottom: 10px;
 
 /* image 29 */
 
-   .HotelThumb {
-      width: 94px;
-      height: 94px;
-      border-radius: 12px;
-   }
+.HotelThumb {
+   width: 94px;
+   height: 94px;
+   border-radius: 12px;
+}
 .selectFlightBtn {
    height: 30px;
    font-size: 12px;
@@ -181,14 +181,20 @@ bottom: -5px;
 
 @include for-mobile-large-screen(){
    .HotelCard {
+      .HotelThumb {
+         width: 96px;
+         height: 96px;
+      }
       .selectFlightBtn {
          height: 30px;
          font-size: 12px;
          line-height: 0.8; 
          width: 150px !important;
       }
-      .IsSelected {width: 150px !important;height: 30px;
+      .IsSelected {
+         width: 150px !important; 
+         height: 30px;
          font-size: 12px;
-         }
+      }
    }
 }
