@@ -47,8 +47,12 @@ const sendMessageSlice = createSlice({
     AddBuilder: null,
     noMoreFlights: false,
     threadUuid: null,
+    functionType: null,
   },
   reducers: {
+    setFunctionType: (state, action) => {
+      state.functionType = action.payload;
+    },
     setInputLoading: (state, action) => {
       state.inputLoading = action.payload;
     },
@@ -248,6 +252,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
       if (response?.is_function) {
         const funcName = response?.function_template?.[0]?.function?.name;
+        dispatch(setFunctionType(funcName));
 
         // for Flight Flow
         if (funcName === "search_flight_result_func") {
@@ -327,7 +332,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         else if (funcName === "search_hotel_result_func") {
           const hotelSearchApi =
             response?.response?.results?.view_hotel_search_api?.url;
-
           console.log("hotelSearchApi", hotelSearchApi);
 
           if (hotelSearchApi) {
@@ -342,6 +346,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .get(updatedHotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
+
+                
+                
 
                 if (isComplete === true) {
                   // final complete response
@@ -531,5 +538,6 @@ export const {
   setNoMoreFlights,
   setInputLoading,
   setNewChatLoading,
+  setFunctionType
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

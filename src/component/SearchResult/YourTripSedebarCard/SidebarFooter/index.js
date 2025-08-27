@@ -19,6 +19,10 @@ const SidebarFooter = () => {
 
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
+  const functionType = useSelector((state) => state?.sendMessage?.functionType);
+
+  console.log("functionType_22", functionType);
+
   const { nights, totalPrice, perNightPrice } =
     CartDetails?.offer_type === "hotel"
       ? calculateHotelPricing(CartDetails?.raw_data?.hotel, allHotel)
@@ -45,15 +49,16 @@ const SidebarFooter = () => {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          {CartDetails?.offer_type == "flight" ? (
+          {/* functionType?.search_hotel_result_func functionType?.search_flight_result_func */}
+          {functionType == "search_flight_result_func" ? (
             <>
               <Box>
                 <h4 className="exbold mb-0">
                   {CartDetails ? (
                     <>
-                      {currencySymbols[CartDetails.currency] ||
-                        CartDetails.currency}
-                      {Math.round(CartDetails.price)}
+                      {currencySymbols[CartDetails?.currency] ||
+                        CartDetails?.currency}
+                      {Math.round(CartDetails?.price)}
                     </>
                   ) : (
                     "-"
@@ -71,16 +76,28 @@ const SidebarFooter = () => {
                 Book now
               </Button>
             </>
-          ) : CartDetails?.offer_type == "hotel" ? (
+          ) : functionType == "search_hotel_result_func" ? (
             <>
               <Box>
                 <h4 className="exbold mb-0">
-                  {currencySymbols[CartDetails.currency]}{" "}
-                  {Math.round(perNightPrice)} / night
+                  {CartDetails ? (
+                    <>
+                      {currencySymbols[CartDetails?.currency]}{" "}
+                      {Math.round(perNightPrice)} / night
+                    </>
+                  ) : (
+                    "-"
+                  )}
                 </h4>
                 <Typography className="gray f12">
-                  {currencySymbols[CartDetails.currency]}{" "}
-                  {Math.round(totalPrice)} total ({nights} nights)
+                  {CartDetails ? (
+                    <>
+                      {currencySymbols[CartDetails?.currency]}{" "}
+                      {Math.round(totalPrice)} total ({nights} nights)
+                    </>
+                  ) : (
+                    "-"
+                  )}
                 </Typography>
               </Box>
 
