@@ -93,7 +93,7 @@ const MobileLoading = () => {
               {perNightPrice && (
                 <>
                   {currencySymbols[CartDetails.currency]}
-                  {Math.round(perNightPrice)} / night
+                  {Math.round(perNightPrice)}/night
                 </>
               )}
             </Typography>
