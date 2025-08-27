@@ -8,6 +8,7 @@ import {
   setIsBuilderDialog,
 } from "@/src/store/slices/Base/baseSlice";
 import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
 
 const MobileLoading = () => {
   const Slectedflight = useSelector(
@@ -20,12 +21,22 @@ const MobileLoading = () => {
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
+  const CartOfferDetail = useSelector(
+    (state) => state.booking?.getCartDetail?.items
+  );
+  const CartDetails = CartOfferDetail?.[0];
   const dispatch = useDispatch();
   const handleBookFlight = () => {
     dispatch(setIsBuilderDialog(false));
     dispatch(setChatscroll(true)); // scrol lon click book
     dispatch(PassengerForm());
   };
+
+  const allHotel = useSelector((state) => state?.hotel?.allHotels);
+  const { nights, totalPrice, perNightPrice } =
+    CartDetails?.offer_type === "hotel"
+      ? calculateHotelPricing(CartDetails?.raw_data?.hotel, allHotel)
+      : {};
 
   return (
     <Box
@@ -71,9 +82,20 @@ const MobileLoading = () => {
           >
             <Typography className="exbold f14" textTransform={"capitalize"}>
               Checkout .{" "}
-              {currencySymbols[Slectedflight?.tax_currency] ||
-                Slectedflight?.tax_currency}
-              {Math.round(Slectedflight?.total_amount)}
+              {Slectedflight?.total_amount && (
+                <>
+                  {currencySymbols[Slectedflight?.tax_currency] ||
+                    Slectedflight?.tax_currency}
+                  {Math.round(Slectedflight?.total_amount)}
+                </>
+              )}
+              {/* for hotel price pernight */}
+              {perNightPrice && (
+                <>
+                  {currencySymbols[CartDetails.currency]}{" "}
+                  {Math.round(perNightPrice)} / night
+                </>
+              )}
             </Typography>
           </Button>
         ) : (

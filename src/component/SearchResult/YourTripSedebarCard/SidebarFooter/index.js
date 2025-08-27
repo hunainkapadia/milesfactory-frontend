@@ -17,7 +17,7 @@ const SidebarFooter = () => {
   const offerDetail = useSelector((state) => state.booking?.cartOffer);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
 
-  // 👇 if hotel, calculate pricing
+  // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const { nights, totalPrice, perNightPrice } =
     CartDetails?.offer_type === "hotel"
