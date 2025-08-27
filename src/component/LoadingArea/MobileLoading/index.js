@@ -92,7 +92,7 @@ const MobileLoading = () => {
               {/* for hotel price pernight */}
               {perNightPrice && (
                 <>
-                  {currencySymbols[CartDetails.currency]}{" "}
+                  {currencySymbols[CartDetails.currency]}
                   {Math.round(perNightPrice)} / night
                 </>
               )}
