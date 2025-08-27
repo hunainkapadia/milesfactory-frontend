@@ -111,7 +111,7 @@ const HotelCard = ({ hotel, allHotels }) => {
             }}
           />
 
-          <Box component={"section"} width={"70%"}>
+          <Box component={"section"} flex={1}>
             <Stack
               className="Row1"
               mb={"4px"}
