@@ -8,6 +8,7 @@ import {
   Tooltip,
   Rating,
   capitalize,
+  Divider,
 } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/HotelCard.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,7 @@ import {
 import dayjs from "dayjs";
 import { currencySymbols } from "@/src/utils/utils";
 import {
+  setAllHotels,
   setSelectedhotelKey,
   setSinglehotel,
 } from "@/src/store/slices/HotelSlice";
@@ -40,6 +42,8 @@ const HotelCard = ({ hotel, allHotels }) => {
 
   const handleBookHotel = (gethotel) => {
     const rateKey = gethotel?.rooms?.[0]?.rates?.[0]?.rateKey;
+    dispatch(setAllHotels(allHotels));
+
     dispatch(setSelectedhotelKey(rateKey));
     console.log("gethotel_cart", rateKey);
     const price = hotel?.minRate;
@@ -81,6 +85,7 @@ const HotelCard = ({ hotel, allHotels }) => {
   }
 
   const handleHotelDrawer = (gethotel) => {
+    dispatch(setAllHotels(allHotels));
     dispatch(setSinglehotel(gethotel));
 
     dispatch(setHotelDrawer(true));
@@ -102,10 +107,11 @@ const HotelCard = ({ hotel, allHotels }) => {
 
   return (
     <Box className={`${searchResultStyles.HotelCard}`}>
-      <Grid container>
+      <Grid container p={{ xs: "10px", md: "0" }}>
         {/* Left Section */}
         <Grid
           className={searchResultStyles.CardLeft}
+          p={{ md: "18px", xs: "8px 0" }}
           lg={9}
           md={9}
           xs={12}
@@ -126,13 +132,14 @@ const HotelCard = ({ hotel, allHotels }) => {
             }}
           />
 
-          <Box component={"section"}>
+          <Box component={"section"} width={"70%"}>
             <Stack
               className="Row1"
               mb={"4px"}
               flexDirection={"row"}
               gap={"6px"}
               alignItems={"center"}
+              justifyContent={{ md: "flex-start", xs: "space-between" }}
             >
               <Typography
                 className="bold mb-1 f12"
@@ -141,49 +148,58 @@ const HotelCard = ({ hotel, allHotels }) => {
                 {hotel?.name}
               </Typography>
               {firstRate?.offers?.[0] && (
-                <Typography className={" chip sm chipGray"}>
-                  {firstRate.offers[0].name}
-                </Typography>
+                <Box display={{ xs: "none", md: "flex" }}>
+                  <Typography className={" chip sm chipGray"}>
+                    {firstRate.offers[0].name}
+                  </Typography>
+                </Box>
               )}
-              <Typography
-                textTransform={"capitalize"}
-                className={" chip sm basecolor1-light"}
-              >
-                {hotel?.categoryName.toLowerCase()}
-              </Typography>
+              <Box>
+                <Typography
+                  textTransform={"capitalize"}
+                  className={" chip sm basecolor1-light"}
+                >
+                  {hotel?.categoryName.toLowerCase()}
+                </Typography>
+              </Box>
             </Stack>
-
             <Stack
-              className="Row2"
-              mb={"10px"}
-              flexDirection={"row"}
-              alignItems="center"
-              gap={"3px"}
+              mb={{ md: "10px", xs: "6px" }}
+              flexDirection={{ md: "row", xs: "column" }}
+              alignItems={{ md: "center", xs: "flex-start" }}
+              gap={"2px"}
             >
-              {/* Rating Stars */}
+              <Stack
+                className="Row2"
+                mb={{ md: "0px", xs: "0" }}
+                flexDirection={"row"}
+                alignItems="center"
+                gap={"3px"}
+              >
+                {/* Rating Stars */}
 
-              <Rating
-                name="feedback-rating"
-                value={stars} // dynamic stars
-                precision={0.5}
-                readOnly
-                sx={{
-                  fontSize: "10px",
-                  "& .MuiRating-iconFilled": { color: "#FFCC33" },
-                  "& .MuiRating-iconEmpty": { color: "#E0E0E0" },
-                }}
-              />
+                <Rating
+                  name="feedback-rating"
+                  value={stars} // dynamic stars
+                  precision={0.5}
+                  readOnly
+                  sx={{
+                    fontSize: "10px",
+                    "& .MuiRating-iconFilled": { color: "#FFCC33" },
+                    "& .MuiRating-iconEmpty": { color: "#E0E0E0" },
+                  }}
+                />
 
-              {/* Numeric Rating */}
-              <Typography className="f8 black" variant="body2">
-                {stars?.toFixed(1)}
-              </Typography>
+                {/* Numeric Rating */}
+                <Typography className="f8 black" variant="body2">
+                  {stars?.toFixed(1)}
+                </Typography>
 
-              {/* Review Count */}
-              <Typography component="span" className="f8 black-50">
-                ({firstRate?.allotment || 200}+ reviews)
-              </Typography>
-
+                {/* Review Count */}
+                <Typography component="span" className="f8 black-50">
+                  ({firstRate?.allotment || 200}+ reviews)
+                </Typography>
+              </Stack>
               {/* Location */}
               <Typography
                 component="span"
@@ -195,16 +211,17 @@ const HotelCard = ({ hotel, allHotels }) => {
                   alt="location"
                   style={{ width: 10, height: 10 }}
                 />
+                0.2km from search location ·{" "}
                 {hotel?.destinationName || "Unknown Location"}
               </Typography>
             </Stack>
 
             <Stack
               className="Row3"
-              mb={"4px"}
-              flexDirection={"row"}
-              gap={"6px"}
-              alignItems={"center"}
+              mb={{ md: "4px", xs: "6px" }}
+              flexDirection={{ md: "row", xs: "column" }}
+              gap={{ md: "6px", xs: 0 }}
+              alignItems={{ md: "center", xs: "flex-start" }}
             >
               <Typography
                 className="bold mb-1 f10"
@@ -217,7 +234,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                 {dayjs(checkOut, "DD-MM-YYYY").format("DD MMM")}
               </Typography>
             </Stack>
-            <Stack>
+            <Stack display={{ md: "flex", xs: "none" }}>
               <Typography
                 className="black-50 f10"
                 variant="body2"
@@ -240,65 +257,88 @@ const HotelCard = ({ hotel, allHotels }) => {
               mt={"12px"}
               flexDirection={"row"}
               alignItems={"center"}
-              gap={"13px"}
+              justifyContent={{ md: "flex-start", xs: "space-between" }}
             >
-              <Tooltip title="Double room" placement="top" arrow>
-                <Box className="imggroup">
-                  <img
-                    width={14}
-                    src="/images/hotel/hotel-bed-icon.svg"
-                    alt="Double room"
-                  />
-                </Box>
-              </Tooltip>
+              <Stack flexDirection={"row"} alignItems={"center"} gap={"13px"}>
+                <Tooltip title="Double room" placement="top" arrow>
+                  <Box className="imggroup">
+                    <img
+                      width={14}
+                      src="/images/hotel/hotel-bed-icon.svg"
+                      alt="Double room"
+                    />
+                  </Box>
+                </Tooltip>
 
-              <Tooltip title="Breakfast included" placement="top" arrow>
-                <Box className="imggroup">
-                  <img
-                    width={14}
-                    src="/images/hotel/breakfast-icon-icon.svg"
-                    alt="Breakfast"
-                  />
-                </Box>
-              </Tooltip>
+                <Tooltip title="Breakfast included" placement="top" arrow>
+                  <Box className="imggroup">
+                    <img
+                      width={14}
+                      src="/images/hotel/breakfast-icon-icon.svg"
+                      alt="Breakfast"
+                    />
+                  </Box>
+                </Tooltip>
 
-              <Tooltip title="Free wifi" placement="top" arrow>
-                <Box className="imggroup">
-                  <img
-                    width={14}
-                    src="/images/hotel/hotel-wifi-icon.svg"
-                    alt="Wifi"
-                  />
-                </Box>
-              </Tooltip>
+                <Tooltip title="Free wifi" placement="top" arrow>
+                  <Box className="imggroup">
+                    <img
+                      width={14}
+                      src="/images/hotel/hotel-wifi-icon.svg"
+                      alt="Wifi"
+                    />
+                  </Box>
+                </Tooltip>
 
-              <Tooltip title="Daily housekeeping" placement="top" arrow>
-                <Box className="imggroup">
-                  <img
-                    width={14}
-                    src="/images/hotel/hotel-leav-icon.svg"
-                    alt="Housekeeping"
-                  />
-                </Box>
-              </Tooltip>
+                <Tooltip
+                  display={{ md: "block", xs: "none" }}
+                  title="Daily housekeeping"
+                  placement="top"
+                  arrow
+                >
+                  <Box className="imggroup">
+                    <img
+                      width={14}
+                      src="/images/hotel/hotel-leav-icon.svg"
+                      alt="Housekeeping"
+                    />
+                  </Box>
+                </Tooltip>
 
-              <Tooltip
-                title="Check-in: from 15:00 · Check-out: by 11:00"
-                placement="top"
-                arrow
+                <Tooltip
+                  display={{ md: "block", xs: "none" }}
+                  title="Check-in: from 15:00 · Check-out: by 11:00"
+                  placement="top"
+                  arrow
+                >
+                  <Box className="imggroup">
+                    <img
+                      width={14}
+                      src="/images/hotel/hotel-pay-icon.svg"
+                      alt="Checkin Checkout"
+                    />
+                  </Box>
+                </Tooltip>
+              </Stack>
+              <Box
+                onClick={() => handleHotelDrawer(hotel)}
+                className={
+                  " bold f12 cursor-pointer text-decoration-none basecolor1 "
+                }
+                gap={"4px"}
+                alignItems={"center"}
+                display={{ md: "none", xs: "flex" }}
+                sx={{ fontSize: { xs: "12px", md: "16px" } }}
               >
-                <Box className="imggroup">
-                  <img
-                    width={14}
-                    src="/images/hotel/hotel-pay-icon.svg"
-                    alt="Checkin Checkout"
-                  />
-                </Box>
-              </Tooltip>
+                <span>See details</span>
+                <i className="fa-angle-right fa fas"></i>
+              </Box>
             </Stack>
           </Box>
         </Grid>
-
+        <Box className={" w-100 "} display={{ md: "none", xs: "block" }}>
+          <Divider className={` Divider w-100 `} />
+        </Box>
         {/* Right Section (Price + Button) */}
         <Grid
           className={searchResultStyles.CardRight}
@@ -308,6 +348,7 @@ const HotelCard = ({ hotel, allHotels }) => {
           xs={12}
           gap={2}
           display={"flex"}
+          p={{ md: "18px", xs: "0" }}
           flexDirection={"column"}
         >
           <Box
@@ -318,6 +359,7 @@ const HotelCard = ({ hotel, allHotels }) => {
             }}
             justifyContent={"center"}
             height={"100%"}
+            ali
           >
             <Box
               sx={{
@@ -327,21 +369,17 @@ const HotelCard = ({ hotel, allHotels }) => {
             >
               {/* See Details */}
               <Box
-                style={{ cursor: "pointer" }}
                 onClick={() => handleHotelDrawer(hotel)}
+                className={
+                  " bold f12 cursor-pointer text-decoration-none basecolor1 "
+                }
+                gap={"4px"}
+                alignItems={"center"}
+                display={{ md: "flex", xs: "none" }}
+                sx={{ fontSize: { xs: "12px", md: "16px" } }}
               >
-                <Box className="text-decoration-none basecolor1">
-                  <Box
-                    gap={"4px"}
-                    alignItems={"center"}
-                    display={"flex"}
-                    className="bold f12"
-                    sx={{ fontSize: { xs: "12px", md: "16px" } }}
-                  >
-                    <span>See details</span>
-                    <i className="fa-angle-right fa fas"></i>
-                  </Box>
-                </Box>
+                <span>See details</span>
+                <i className="fa-angle-right fa fas"></i>
               </Box>
             </Box>
 
@@ -392,7 +430,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                   <Button
                     onClick={() => handleBookHotel(hotel)}
                     className={
-                      "w-100 btn btn-primary btn-round btn-md " +
+                      " w-100 btn btn-primary btn-round btn-md " +
                       searchResultStyles.selectFlightBtn
                     }
                   >

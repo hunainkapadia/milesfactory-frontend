@@ -165,7 +165,7 @@ const HotelDrawer = ({}) => {
                       gap={"3px"}
                     >
                       {/* Rating Stars */}
-                      <Box display={"flex"} alignItems={"center"}>
+                      <Box display={"flex"} alignItems={"center"} gap={"2px"}>
                         <Rating
                           name="feedback-rating"
                           value={stars} // dynamic stars
@@ -249,33 +249,32 @@ const HotelDrawer = ({}) => {
                       >
                         Photos
                       </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 2,
-                          overflowX: "auto",
-                          scrollSnapType: "x mandatory",
-                          padding: 1,
-                        }}
-                        className={styles.HotelGallery}
-                      >
-                        {images.map((img, idx) => (
-                          <Box
-                            key={idx}
-                            className={styles.HotelThumb}
-                            sx={{
-                              flex: "0 0 auto",
-                              width: 200,
-                              height: 140,
-                              borderRadius: 2,
-                              backgroundImage: `url("${img}")`,
-                              backgroundSize: "cover",
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              scrollSnapAlign: "start",
-                            }}
-                          />
-                        ))}
+                      <Box component={"section"} className={styles.HotelGallerySection}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 2,
+                            overflowX: "auto",
+                            scrollSnapType: "x mandatory",
+                          }}
+                          className={styles.HotelGallery}
+                        >
+                          {images.map((img, idx) => (
+                            <Box
+                              key={idx}
+                              className={styles.HotelThumb}
+                              sx={{
+                                flex: "0 0 auto",
+                                borderRadius: 2,
+                                backgroundImage: `url("${img}")`,
+                                backgroundSize: "cover",
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                scrollSnapAlign: "start",
+                              }}
+                            />
+                          ))}
+                        </Box>
                       </Box>
                     </Stack>
                     <Box py={2}>

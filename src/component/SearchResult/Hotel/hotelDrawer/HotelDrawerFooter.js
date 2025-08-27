@@ -4,7 +4,10 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import { currencySymbols } from "@/src/utils/utils";
 import { useSelector, useDispatch } from "react-redux";
 
-import { AddToCart } from "@/src/store/slices/BookingflightSlice";
+import {
+  AddToCart,
+  setHotelDrawer,
+} from "@/src/store/slices/BookingflightSlice";
 import { setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
 
 const HotelDrawerFooter = ({ hotel }) => {
@@ -15,7 +18,7 @@ const HotelDrawerFooter = ({ hotel }) => {
   );
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const allHotel = useSelector(
-    (state) => state?.booking?.cartOffer?.raw_data?.hotel
+    (state) => state?.hotel?.allHotels
   );
   // Calculate number of nights
   const checkIn = new Date(allHotel?.checkIn);
@@ -26,6 +29,9 @@ const HotelDrawerFooter = ({ hotel }) => {
     allHotel?.checkIn && allHotel?.checkOut
       ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24))
       : 1;
+
+      console.log("nights_00", allHotel?.checkIn);
+      
 
   // Prices
   const totalPrice = Number(firstRate?.net) || 0;
@@ -44,6 +50,9 @@ const HotelDrawerFooter = ({ hotel }) => {
       raw_data: {},
     };
     dispatch(AddToCart(params, uuid));
+  };
+  const HandlecloseDrawer = () => {
+    dispatch(setHotelDrawer(false)); //setSelectFlightKey empty then close drawer
   };
 
   return (
@@ -71,26 +80,45 @@ const HotelDrawerFooter = ({ hotel }) => {
             </Box>
 
             {/* Actions Section */}
-            <Box display="flex" alignItems="center" gap={2}>
-              {selectedhotelkey === hotel?.rooms?.[0]?.rates?.[0]?.rateKey ? (
-                <Button
-                  disabled
-                  className={
-                    styles.IsSelected + " btn btn-primary btn-round btn-sm"
-                  }
-                >
-                  Selected
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleSelectStay}
-                  className={
-                    styles.selectFlightBtn + " btn btn-primary btn-round btn-sm"
-                  }
-                >
-                  Select stay
-                </Button>
-              )}
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              alignItems="center"
+              gap={2}
+            >
+              {/* Close Button */}
+              <Box
+                display="flex"
+                alignItems="center"
+                textAlign={"center"}
+                className="gray f14"
+                style={{ cursor: "pointer" }}
+                onClick={HandlecloseDrawer}
+              >
+                <span>Close</span>
+              </Box>
+              <Box display="flex" alignItems="center" gap={2}>
+                {selectedhotelkey === hotel?.rooms?.[0]?.rates?.[0]?.rateKey ? (
+                  <Button
+                    disabled
+                    className={
+                      styles.IsSelected + " btn btn-primary btn-round btn-sm"
+                    }
+                  >
+                    Selected
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleSelectStay}
+                    className={
+                      styles.selectFlightBtn +
+                      " btn btn-primary btn-round btn-sm"
+                    }
+                  >
+                    Select stay
+                  </Button>
+                )}
+              </Box>
             </Box>
           </Box>
         </Box>

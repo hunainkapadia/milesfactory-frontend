@@ -320,9 +320,9 @@ const AiMessage = ({ aiMessage }) => {
               display="flex"
               alignItems="center"
               gap={1}
-              className="bold"
+              className="bold basecolor1"
             >
-              <span>See more hotels</span>
+              <span>Show more stays</span>
               <i className="fa fa-caret-right fas" />
             </Box>
           ) : (

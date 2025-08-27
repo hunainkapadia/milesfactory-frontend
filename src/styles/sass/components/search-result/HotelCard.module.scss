@@ -26,11 +26,8 @@ margin-bottom: 10px;
 }
 .IsSelected {
    height: 30px;
-   width: 150px !important;
-   padding: 0; 
-   white-space: nowrap;
-   line-height: 1;
-   font-size: 12px;
+    font-size: 12px;
+    line-height: 0.8;
    background-color: #DEE1E6;}
 .FromAndToRow {width: 100%;}
 &.Oneway {
@@ -78,10 +75,9 @@ bottom: -5px;
 }
 
 .CardLeft {
-   padding: 18px;
+      
 }
 .CardRight {
-   padding: 18px;
    border-left: solid 1px $lightgray3;
    
    .selectFlightBtn {}
@@ -180,4 +176,19 @@ bottom: -5px;
 .FlightTimingsCol {
    display: block;
 }
+}
+
+
+@include for-mobile-large-screen(){
+   .HotelCard {
+      .selectFlightBtn {
+         height: 30px;
+         font-size: 12px;
+         line-height: 0.8; 
+         width: 150px !important;
+      }
+      .IsSelected {width: 150px !important;height: 30px;
+         font-size: 12px;
+         }
+   }
 }

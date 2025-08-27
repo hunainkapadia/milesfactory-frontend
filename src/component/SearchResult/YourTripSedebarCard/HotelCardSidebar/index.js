@@ -83,17 +83,19 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
             className={TripStyles.airlineLogo}
           /> */}
           <Box>
-            <Typography lineHeight={1} className="f14 mb-0 bold black">
-              Check-in after{" "}
-              {hotel?.checkIn
-                ? new Date(hotel.checkIn)
-                    .toLocaleTimeString([], {
-                      hour: "numeric",
-                      minute: undefined,
-                      hour12: true,
-                    })
-                    .toLowerCase()
-                : ""}
+            <Typography lineHeight={1} className="f14 mb-0 black">
+              <Typography component={"span"} className="bold">
+                Check-in{" "}
+              </Typography>
+                after {hotel?.checkIn
+                  ? new Date(hotel.checkIn)
+                      .toLocaleTimeString([], {
+                        hour: "numeric",
+                        minute: undefined,
+                        hour12: true,
+                      })
+                      .toLowerCase()
+                  : ""}
             </Typography>
           </Box>
         </Box>
@@ -166,13 +168,15 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           alignItems="center"
           justifyContent="flex-end"
           mt={2}
+          gap={"2px"}
         >
           <Typography component="span" className="f11 bold black">
-            {currencySymbols[hotel?.currency]} {Math.round(hotel?.totalNet)},{" "}
+            {currencySymbols[hotel?.currency]}{Math.round(hotel?.totalNet)}, {" "}
           </Typography>
           <Typography component="span" className="f11 black">
-            suggested by Mylz ✨
+            suggested by Mylz
           </Typography>
+            <img src="/images/hotel/sugested-stars-icon.svg" />
         </Stack>
       </Box>
 
