@@ -327,7 +327,7 @@ const HotelCard = ({ hotel, allHotels }) => {
           xs={12}
           gap={2}
           display={"flex"}
-          p={{ md: "18px", xs: "0" }}
+          p={{ md: "18px", xs: "6px 0" }}
           flexDirection={"column"}
         >
           <Box
@@ -385,11 +385,11 @@ const HotelCard = ({ hotel, allHotels }) => {
                     searchResultStyles.flightPriceSection + " mb-0 black bold"
                   }
                 >
-                  {currencySymbols[hotel?.currency]} {Math.round(perNightPrice)}{" "}
+                  {currencySymbols[hotel?.currency]}{Math.round(perNightPrice)}{" "}
                   / night
                 </Typography>
                 <Typography className="f12 black-50">
-                  {currencySymbols[hotel?.currency]} {Math.round(totalPrice)}{" "}
+                  {currencySymbols[hotel?.currency]}{Math.round(totalPrice)}{" "}
                   total ({nights} nights)
                 </Typography>
               </Box>
