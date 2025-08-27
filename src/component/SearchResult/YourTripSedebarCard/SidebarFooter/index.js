@@ -28,6 +28,9 @@ const SidebarFooter = () => {
       ? calculateHotelPricing(CartDetails?.raw_data?.hotel, allHotel)
       : {};
 
+      console.log("CartDetails_test", CartDetails);
+      
+
   const dispatch = useDispatch();
   const handleBookFlight = () => {
     dispatch(setIsBuilderDialog(false));

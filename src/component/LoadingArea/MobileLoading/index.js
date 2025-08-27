@@ -80,7 +80,7 @@ const MobileLoading = () => {
             className={"basecolor1-light2-bg br-100 basecolor1"}
             p={"2px 6px"}
           >
-            <Typography className="exbold f14" textTransform={"capitalize"}>
+            <Typography className="exbold f12" textTransform={"capitalize"}>
               Checkout .{" "}
               {Slectedflight?.total_amount && (
                 <>
