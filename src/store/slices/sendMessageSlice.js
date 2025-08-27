@@ -168,7 +168,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
 
     api
-      .post(threadUUIdUrl, { user_message: userMessage, background_job: false })
+      .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
       .then((res) => {
         let response = res.data;
         const run_id = response.run_id;
@@ -335,16 +335,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           console.log("hotelSearchApi", hotelSearchApi);
 
           if (hotelSearchApi) {
-            // convert Dubai → DXB in URL
-            
             // 🔹 Fetch once directly (no polling)
             api
               .get(hotelSearchApi)
               .then((hotelRes) => {
-                const isComplete = hotelRes?.data?.is_complete;
-
-                
-                
+                const isComplete = hotelRes?.data?.is_complete;    
 
                 if (isComplete === true) {
                   // final complete response
