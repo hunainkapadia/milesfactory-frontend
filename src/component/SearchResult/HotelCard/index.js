@@ -23,6 +23,7 @@ import {
   setSelectedhotelKey,
   setSinglehotel,
 } from "@/src/store/slices/HotelSlice";
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
 
 const HotelCard = ({ hotel, allHotels }) => {
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
@@ -92,18 +93,10 @@ const HotelCard = ({ hotel, allHotels }) => {
   };
 
   // Calculate number of nights properly
-  const checkInDate = allHotels?.checkIn ? new Date(allHotels.checkIn) : null;
-  const checkOutDate = allHotels?.checkOut
-    ? new Date(allHotels.checkOut)
-    : null;
-  const nights =
-    checkInDate && checkOutDate
-      ? Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24))
-      : 1;
-
-  // Prices
-  const totalPrice = Number(firstRate?.net) || 0;
-  const perNightPrice = nights > 0 ? totalPrice / nights : totalPrice;
+  const { nights, totalPrice, perNightPrice } = calculateHotelPricing(
+    hotel,
+    allHotels
+  );
 
   return (
     <Box className={`${searchResultStyles.HotelCard}`}>
