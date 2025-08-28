@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const SidebarTabs = () => {
   const dispatch = useDispatch();
-  const handleTabClick = (tabId, sectionId) => {    
+  const handleTabClick = (tabId, sectionId) => {
     dispatch(setSidebarTab(tabId));
     setTimeout(() => {
       const drawerContent = document.querySelector(".asasas"); // your scroll container
@@ -32,6 +32,9 @@ const SidebarTabs = () => {
     (state) => state?.booking?.singleFlightData
   );
   const slices = getselectedFlight?.slices || [];
+  const isHotel = useSelector(
+    (state) => state?.booking?.cartOffer?.offer_type == "hotel"
+  );
 
   return (
     <Box
@@ -46,7 +49,7 @@ const SidebarTabs = () => {
       className={`${TripStyles.customTabs} customTabs`}
     >
       {/* // Conditional rendering of tabs based on flight type. Assume return by default  */}
-      {getBuilder?.flight_type ===  "one-way" ? (
+      {getBuilder?.flight_type === "one-way" ? (
         <a
           href="#offer-card"
           onClick={() => handleTabClick("overview", "offer-card")}
@@ -119,6 +122,24 @@ const SidebarTabs = () => {
             </Box>
           </a>
         </>
+      )}
+      {isHotel && (
+        <a
+          href="#hotel-section"
+          onClick={() => handleTabClick("hotel", "itinerary-section")}
+          style={{ textDecoration: "none" }}
+        >
+          <Box
+            className={`${TripStyles.inactiveTab} ${
+              activeTab === "hotel" ? TripStyles.activeTab : ""
+            }`}
+            display="flex"
+            alignItems="center"
+            gap={1}
+          >
+            <Typography className="f12">Hotel</Typography>
+          </Box>
+        </a>
       )}
     </Box>
   );

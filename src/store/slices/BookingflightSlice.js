@@ -148,7 +148,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     // detect mobile view
     if (window.innerWidth <= 768) {
       // Option 1: dispatch to open mobile drawer
-      dispatch(setIsBuilderDialog(true));
+      // dispatch(setIsBuilderDialog(true));
       // OR Option 2: show an alert
     }
   } catch (error) {

@@ -244,6 +244,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
     //  Common handler after response is finalized (immediate or polled)
     const handleFinalResponse = (response) => {
+      
       if (response?.is_function) {
         dispatch(setIsFunction({ status: true }));
       } else {
@@ -297,7 +298,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(historyUrl)
                   .then((history_res) => {
                     const isComplete = history_res?.data?.search?.is_complete;
-                    dispatch(setSearchHistorySend(history_res.data.search));
+                    dispatch(setSearchHistorySend({"flight" :history_res.data.search}));
 
                     if (isComplete === true) {
                       clearInterval(interval);
@@ -330,17 +331,19 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
         // for Hotel Flow
         else if (funcName === "search_hotel_result_func") {
+          
           const hotelSearchApi =
-            response?.response?.results?.view_hotel_search_api?.url;
-          console.log("hotelSearchApi", hotelSearchApi);
-
+          response?.response?.results?.view_hotel_search_api?.url;
+          const HotelArgument = response?.silent_function_template?.[0]?.function?.arguments || {};
+          dispatch(setSearchHistorySend({"hotel":{HotelArgument}}))
+          
+          console.log("HotelArgument", HotelArgument);
           if (hotelSearchApi) {
             // 🔹 Fetch once directly (no polling)
             api
               .get(hotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;    
-
                 if (isComplete === true) {
                   // final complete response
                   dispatch(setClearflight());
@@ -362,7 +365,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         }
 // end hotel
       } else {
-        // 🌐 Normal response (not function)
+        //  Normal response (not function)
         if (response?.run_status == "completed") {
           // finished run
         }

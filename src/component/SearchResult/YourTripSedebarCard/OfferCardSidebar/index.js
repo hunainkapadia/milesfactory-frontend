@@ -51,6 +51,8 @@ const OfferCardSidebar = ({ index, slice,  getItems }) => {
   const CartOffer = useSelector(
     (state) => state?.booking?.cartOffer?.raw_data
   );
+  console.log("CartOffer_test", CartOffer);
+  
   
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api

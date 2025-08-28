@@ -71,6 +71,9 @@ const YourTripSedebarCard = ({
 
     return result;
   }
+  
+
+  
 
   return (
     <>
@@ -352,7 +355,9 @@ const YourTripSedebarCard = ({
               </Box>
 
               {/* get hotel */}
-              <Box key={index}>
+              
+              
+              <Box id="hotel-section" key={index}>
                 {/* footer */}
                 <HotelCardSidebar
                   hotel={getItems?.raw_data?.hotel}
@@ -458,7 +463,7 @@ const YourTripSedebarCard = ({
         </Box>
         {/*  */}
       </Box>
-      <SidebarFooter />
+      {/* <SidebarFooter /> */}
       {/* Extra Info bottom */}
 
       {/* <Box
