@@ -67,10 +67,10 @@ const HotelCard = ({ hotel, allHotels }) => {
   const firstRate = hotel?.rooms?.[0]?.rates?.[0];
 
   console.log("firstRate", firstRate);
-  
+
 
   // Extract dates from rateKey if available
-  
+
   const handleHotelDrawer = (gethotel) => {
     dispatch(setAllHotels(allHotels));
     dispatch(setSinglehotel(gethotel));
@@ -85,7 +85,7 @@ const HotelCard = ({ hotel, allHotels }) => {
   );
 
   console.log("allHotels", allHotels);
-  
+
 
   return (
     <Box className={`${searchResultStyles.HotelCard}`}>
@@ -127,15 +127,15 @@ const HotelCard = ({ hotel, allHotels }) => {
                 className="bold mb-1 f12"
                 textTransform={"capitalize"}
               >
-                {hotel?.name?.split(" ").slice(0, 4).join(" ")}
+                {hotel?.name}
               </Typography>
-              {firstRate?.offers?.[0] && (
+              {/* {firstRate?.offers?.[0] && (
                 <Box display={{ xs: "none", md: "flex" }}>
                   <Typography className={" chip sm chipGray"}>
                     {firstRate.offers[0].name}
                   </Typography>
                 </Box>
-              )}
+              )} */}
               <Box>
                 <Typography
                   textTransform={"capitalize"}
@@ -162,7 +162,7 @@ const HotelCard = ({ hotel, allHotels }) => {
 
                 <Rating
                   name="feedback-rating"
-                  value={stars} // dynamic stars
+                  value={5} // dynamic stars
                   precision={0.5}
                   readOnly
                   sx={{
@@ -174,12 +174,12 @@ const HotelCard = ({ hotel, allHotels }) => {
 
                 {/* Numeric Rating */}
                 <Typography className="f8 black" variant="body2">
-                  {stars?.toFixed(1)}
+                  {5}
                 </Typography>
 
                 {/* Review Count */}
                 <Typography component="span" className="f8 black-50">
-                  ({firstRate?.allotment || 200}+ reviews)
+                  (200+ reviews)
                 </Typography>
               </Stack>
               {/* Location */}
@@ -230,7 +230,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                     day: "2-digit",
                     month: "short",
                   })}{" "}
-                Pay at hotel
+                {/* Pay at hotel */}
               </Typography>
             </Stack>
 
