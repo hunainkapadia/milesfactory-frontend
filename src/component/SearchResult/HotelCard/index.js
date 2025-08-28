@@ -66,6 +66,9 @@ const HotelCard = ({ hotel, allHotels }) => {
   // Extract first rate for board/offer/price
   const firstRate = hotel?.rooms?.[0]?.rates?.[0];
 
+  console.log("firstRate", firstRate);
+  
+
   // Extract dates from rateKey if available
   
   const handleHotelDrawer = (gethotel) => {

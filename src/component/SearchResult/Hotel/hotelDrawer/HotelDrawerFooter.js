@@ -57,11 +57,11 @@ const HotelDrawerFooter = ({ hotel }) => {
             {/* Price Section */}
             <Box display="flex" flexDirection="column" justifyContent="center">
               <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                {currencySymbols[hotel?.currency]} {Math.round(perNightPrice)} /
+                {currencySymbols[hotel?.currency]}{Math.round(perNightPrice)} /
                 night
               </h4>
               <Typography variant="body2" className="gray f12">
-                {currencySymbols[hotel?.currency]} {Math.round(totalPrice)} total
+                {currencySymbols[hotel?.currency]}{Math.round(totalPrice)} total
                 ({nights} nights)
               </Typography>
             </Box>
