@@ -168,7 +168,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
 
     api
-      .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
+      .post(threadUUIdUrl, { user_message: userMessage, background_job: false })
       .then((res) => {
         let response = res.data;
         const run_id = response.run_id;
@@ -329,53 +329,38 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         }
 
         // for Hotel Flow
-        // for Hotel Flow
         else if (funcName === "search_hotel_result_func") {
           const hotelSearchApi =
             response?.response?.results?.view_hotel_search_api?.url;
-          const runId = response?.run_id;
-          const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${runId}`;
-          let hasShownInitialHotelMessage = false;
+          console.log("hotelSearchApi", hotelSearchApi);
 
-          if (hotelSearchApi && runId) {
-            // same style as flight: poll until run_status completed
-            const pollHotelUntilComplete = () => {
-              const interval = setInterval(() => {
-                api
-                  .get(runStatusUrl)
-                  .then((resRun) => {
-                    const runData = resRun.data;
-                    if (runData.run_status === "completed") {
-                      clearInterval(interval);
-                      // fetch final hotel results
-                      api.get(hotelSearchApi).then((hotelRes) => {
-                        dispatch(setClearflight()); // reset flight store
-                        dispatch(setMessage({ ai: hotelRes.data }));
-                      });
-                    } else if (!hasShownInitialHotelMessage) {
-                      hasShownInitialHotelMessage = true;
-                      // show first batch of results while still polling
-                      api.get(hotelSearchApi).then((hotelRes) => {
-                        dispatch(
-                          setMessage({
-                            ai: hotelRes.data,
-                            type: "hotel_result",
-                          })
-                        );
-                      });
-                    }
-                  })
-                  .catch((err) => {
-                    console.error("Hotel polling failed", err);
-                    clearInterval(interval);
-                  });
-              }, 1000);
-            };
+          if (hotelSearchApi) {
+            // 🔹 Fetch once directly (no polling)
+            api
+              .get(hotelSearchApi)
+              .then((hotelRes) => {
+                const isComplete = hotelRes?.data?.is_complete;    
 
-            pollHotelUntilComplete();
+                if (isComplete === true) {
+                  // final complete response
+                  dispatch(setClearflight());
+                  dispatch(setMessage({ ai: hotelRes.data }));
+                } else {
+                  // still return whatever data came back
+                  dispatch(
+                    setMessage({
+                      ai: hotelRes.data,
+                      type: "hotel_result",
+                    })
+                  );
+                }
+              })
+              .catch((err) => {
+                console.error("Error fetching hotel results", err);
+              });
           }
         }
-        // end hotel
+// end hotel
       } else {
         // 🌐 Normal response (not function)
         if (response?.run_status == "completed") {
@@ -544,6 +529,6 @@ export const {
   setNoMoreFlights,
   setInputLoading,
   setNewChatLoading,
-  setFunctionType,
+  setFunctionType
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
