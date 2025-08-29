@@ -22,7 +22,7 @@ const AppleLoginButton = ({ label = "Sign in with Apple" }) => {
   "com.milesfactory.gomylz",
       scope: "name email",
       redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI ||
-  "https://demo.gomylz.com/api/auth/apple/callback",
+  "https://hotels.gomylz.com/api/auth/apple/callback",
 
         usePopup: true,
       });
