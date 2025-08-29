@@ -205,9 +205,15 @@ const YourTripSedebarCard = ({
           </Box>
         </Box>
         {/* filter row */}
+        {CartDetails?.items?.some((i) => {
+          console.log("i_testhotel", i);
+          return i.raw_data?.hotel;
+        })}
 
         {/*  */}
-        {!CartDetails?.items?.length > 0 && (
+        {console.log("CartDetails_000", CartDetails)}
+        {(!CartDetails?.items?.length ||
+          CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
           <SidebarTripDetails id="itinerary-section" />
         )}
 
@@ -231,31 +237,31 @@ const YourTripSedebarCard = ({
                       <Box mb={2}>
                         {index === 0 ? (
                           <>
-                              <Box
-                                display={"flex"}
-                                alignItems={"center"}
-                                gap={"12px"}
+                            <Box
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={"12px"}
+                            >
+                              <Typography
+                                className={
+                                  TripStyles.onewayReturn +
+                                  " btn btn-xs btn-black "
+                                }
                               >
-                                <Typography
-                                  className={
-                                    TripStyles.onewayReturn +
-                                    " btn btn-xs btn-black "
-                                  }
-                                >
-                                  Departing |{" "}
-                                  {new Date(
-                                    BuilderArguments?.departure_date
-                                  ).toLocaleDateString("en-GB", {
-                                    weekday: "short",
-                                    day: "2-digit",
-                                    month: "short",
-                                  })}
-                                </Typography>
-                                <Typography className="f12 bold">
-                                  {BuilderArguments?.from_destination} -{" "}
-                                  {BuilderArguments?.to_destination}
-                                </Typography>
-                              </Box>
+                                Departing |{" "}
+                                {new Date(
+                                  BuilderArguments?.departure_date
+                                ).toLocaleDateString("en-GB", {
+                                  weekday: "short",
+                                  day: "2-digit",
+                                  month: "short",
+                                })}
+                              </Typography>
+                              <Typography className="f12 bold">
+                                {BuilderArguments?.from_destination} -{" "}
+                                {BuilderArguments?.to_destination}
+                              </Typography>
+                            </Box>
                           </>
                         ) : (
                           <>

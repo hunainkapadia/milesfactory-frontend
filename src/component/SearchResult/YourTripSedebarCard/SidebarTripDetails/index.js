@@ -239,7 +239,7 @@ const SidebarTripDetails = ({ id }) => {
           // ELSE, show this sentence.
           // Using Typography for consistent styling is a good practice.
           <Typography className="f12" variant="body1">
-            Ask Mylz to generate an itinerary for this trip in the chat.
+            aaAsk Mylz to generate an itinerary for this trip in the chat.
           </Typography>
         )}
       </Box>
