@@ -10,8 +10,7 @@ import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
 
 const SidebarFooter = () => {
-  const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail);
-  const offerDetail = useSelector((state) => state.booking?.cartOffer);
+  const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
 
   // if hotel, calculate pricing
@@ -20,20 +19,20 @@ const SidebarFooter = () => {
 
   // Get all flights from cart items
   const CartFlights =
-    CartOfferDetail?.items?.filter((item) => item?.raw_data?.slices) || [];
+    CartData?.items?.filter((item) => item?.raw_data?.slices) || [];
 
   // Get all hotels from cart items
   const CartHotels =
-    CartOfferDetail?.items?.filter((item) => item?.raw_data?.hotel) || [];
+    CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
 
-  console.log("CartDetails_00", CartOfferDetail);
+  console.log("CartDetails_00", CartData);
   console.log("CartHotels", CartHotels);
   
   // For displaying in footer, just take the first matching item
   const CartFlight = CartFlights[0];
   const CartHotel = CartHotels[0];
   
-  console.log("CartFlights_000", CartOfferDetail?.total_price);
+  console.log("CartFlights_000", CartData?.total_price);
   // Hotel price calculation
   let nights, totalPrice, perNightPrice;
   if (CartHotel) {
@@ -70,7 +69,7 @@ const SidebarFooter = () => {
               <h4 className="exbold mb-0">
                 {currencySymbols[CartFlight?.currency] ||
                   CartFlight?.currency}
-                {Math.round(CartOfferDetail?.total_price)}
+                {Math.round(CartData?.total_price)}
               </h4>
               <Typography className="gray f12">total</Typography>
             </Box>
@@ -78,7 +77,7 @@ const SidebarFooter = () => {
             <Button
               onClick={handleBookFlight}
               className={`btn btn-primary btn-round btn-xs ${
-                orderSuccess || !offerDetail ? " disabled " : ""
+                orderSuccess || !CartData ? " disabled " : ""
               }`}
             >
               Book now
@@ -95,15 +94,15 @@ const SidebarFooter = () => {
                 {Math.round(perNightPrice)} / night
               </h4>
               <Typography className="gray f12">
-                {currencySymbols[CartHotel?.currency]}{" "}
-                {Math.round(CartOfferDetail?.total_price)} total ({nights} nights)
+                {currencySymbols[CartHotel?.currency]}
+                {Math.round(CartData?.total_price)} total ({nights} nights)
               </Typography>
             </Box>
 
             <Button
               onClick={handleBookFlight}
               className={`btn btn-primary btn-round btn-xs ${
-                orderSuccess || !offerDetail ? " disabled " : ""
+                orderSuccess || !CartData ? " disabled " : ""
               }`}
             >
               Book now
