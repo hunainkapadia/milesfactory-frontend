@@ -19,7 +19,7 @@ const AppleLoginButton = ({ label = "Sign in with Apple" }) => {
       
       window.AppleID.auth.init({
       clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID ||
-  "com.milesfactory.gomylz",
+  "com.gomylz.mylz",
       scope: "name email",
       redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI ||
   "https://hotels.gomylz.com/api/auth/apple/callback",
