@@ -258,12 +258,12 @@ const SearchFilterBar = () => {
                   >
                     {SearchHistory?.flight && <FilterParams />}
 
-                      <Typography
+                      {/* <Typography
                         className=" gray mb-0"
                         sx={{ fontSize: { xs: "8px", lg: "12px", md: "12px" } }}
                       >
                         Extra: breakfast
-                      </Typography>
+                      </Typography> */}
                   </Box>
                 </Box>
               </Box>
