@@ -7,29 +7,40 @@ import {
   setIsBuilderDialog,
 } from "@/src/store/slices/Base/baseSlice";
 import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
-import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // 👈 import helper
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
 
 const SidebarFooter = () => {
-  const CartOfferDetail = useSelector(
-    (state) => state.booking?.getCartDetail?.items
-  );
-  const CartDetails = CartOfferDetail?.[0];
-  const offerDetail = useSelector((state) => state.booking?.cartOffer);
+  const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
 
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
 
-  console.log("functionType_22", functionType);
+  // Get all flights from cart items
+  const CartFlights =
+    CartData?.items?.filter((item) => item?.raw_data?.slices) || [];
 
-  const { nights, totalPrice, perNightPrice } =
-    CartDetails?.offer_type === "hotel"
-      ? calculateHotelPricing(CartDetails?.raw_data?.hotel, allHotel)
-      : {};
+  // Get all hotels from cart items
+  const CartHotels =
+    CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
 
-      console.log("CartDetails_test", CartDetails);
-      
+  console.log("CartDetails_00", CartData);
+  console.log("CartHotels", CartHotels);
+  
+  // For displaying in footer, just take the first matching item
+  const CartFlight = CartFlights[0];
+  const CartHotel = CartHotels[0];
+  
+  console.log("CartFlights_000", CartData?.total_price);
+  // Hotel price calculation
+  let nights, totalPrice, perNightPrice;
+  if (CartHotel) {
+    ({ nights, totalPrice, perNightPrice } = calculateHotelPricing(
+      CartHotel?.raw_data?.hotel,
+      allHotel
+    ));
+  }
 
   const dispatch = useDispatch();
   const handleBookFlight = () => {
@@ -39,86 +50,67 @@ const SidebarFooter = () => {
   };
 
   return (
-    <>
+    <Box
+      px={"18px"}
+      py={"14px"}
+      component={"footer"}
+      className={YourtripStyles.Footer + " "}
+      sx={{ borderTop: " solid 1px  #E6EEEE" }}
+    >
       <Box
-        px={"18px"}
-        py={"14px"}
-        component={"footer"}
-        className={YourtripStyles.Footer + " "}
-        sx={{ borderTop: " solid 1px  #E6EEEE" }}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
       >
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-          {/* functionType?.search_hotel_result_func functionType?.search_flight_result_func */}
-          {functionType == "search_flight_result_func" ? (
-            <>
-              <Box>
-                <h4 className="exbold mb-0">
-                  {CartDetails ? (
-                    <>
-                      {currencySymbols[CartDetails?.currency] ||
-                        CartDetails?.currency}
-                      {Math.round(CartDetails?.price)}
-                    </>
-                  ) : (
-                    "-"
-                  )}
-                </h4>
-                <Typography className="gray f12">total</Typography>
-              </Box>
+        {/* Flight footer */}
+        {functionType === "search_flight_result_func" && CartFlight ? (
+          <>
+            <Box>
+              <h4 className="exbold mb-0">
+                {currencySymbols[CartFlight?.currency] ||
+                  CartFlight?.currency}
+                {Math.round(CartData?.total_price)}
+              </h4>
+              <Typography className="gray f12">total</Typography>
+            </Box>
 
-              <Button
-                onClick={handleBookFlight}
-                className={`btn btn-primary btn-round btn-xs ${
-                  orderSuccess || !offerDetail ? " disabled " : ""
-                }`}
-              >
-                Book now
-              </Button>
-            </>
-          ) : functionType == "search_hotel_result_func" ? (
-            <>
-              <Box>
-                <h4 className="exbold mb-0">
-                  {CartDetails ? (
-                    <>
-                      {currencySymbols[CartDetails?.currency]}{" "}
-                      {Math.round(perNightPrice)} / night
-                    </>
-                  ) : (
-                    "-"
-                  )}
-                </h4>
-                <Typography className="gray f12">
-                  {CartDetails ? (
-                    <>
-                      {currencySymbols[CartDetails?.currency]}{" "}
-                      {Math.round(totalPrice)} total ({nights} nights)
-                    </>
-                  ) : (
-                    "-"
-                  )}
-                </Typography>
-              </Box>
+            <Button
+              onClick={handleBookFlight}
+              className={`btn btn-primary btn-round btn-xs ${
+                orderSuccess || !CartData ? " disabled " : ""
+              }`}
+            >
+              Book now
+            </Button>
+          </>
+        ) : null}
 
-              <Button
-                onClick={handleBookFlight}
-                className={`btn btn-primary btn-round btn-xs ${
-                  orderSuccess || !offerDetail ? " disabled " : ""
-                }`}
-              >
-                Book now
-              </Button>
-            </>
-          ) : (
-            ""
-          )}
-        </Box>
+        {/* Hotel footer */}
+        {functionType === "search_hotel_result_func" && CartHotel ? (
+          <>
+            <Box>
+              <h4 className="exbold mb-0">
+                {currencySymbols[CartHotel?.currency]}{" "}
+                {Math.round(perNightPrice)} / night
+              </h4>
+              <Typography className="gray f12">
+                {currencySymbols[CartHotel?.currency]}
+                {Math.round(CartData?.total_price)} total ({nights} nights)
+              </Typography>
+            </Box>
+
+            <Button
+              onClick={handleBookFlight}
+              className={`btn btn-primary btn-round btn-xs ${
+                orderSuccess || !CartData ? " disabled " : ""
+              }`}
+            >
+              Book now
+            </Button>
+          </>
+        ) : null}
       </Box>
-    </>
+    </Box>
   );
 };
 
