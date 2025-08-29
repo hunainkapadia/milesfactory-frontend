@@ -180,7 +180,7 @@ const AiMessage = ({ aiMessage }) => {
                     display="flex"
                     className="bold"
                   >
-                    <span>See more flights</span>
+                    <Typography className="bold" lineHeight={1} component={"span"}>See more flights</Typography>
                     <i className="fa fa-caret-right fas" />
                   </Box>
                 </Box>
@@ -322,7 +322,7 @@ const AiMessage = ({ aiMessage }) => {
               gap={1}
               className="bold basecolor1"
             >
-              <span>Show more stays</span>
+              <Typography className="bold" lineHeight={1} component={"span"}>Show more stays</Typography>
               <i className="fa fa-caret-right fas" />
             </Box>
           ) : (
