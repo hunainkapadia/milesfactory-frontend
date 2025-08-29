@@ -29,15 +29,15 @@ const SidebarTabs = () => {
         ?.arguments
   );
   console.log("getBuilder_00", getBuilder);
-  
+
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
   const slices = getselectedFlight?.slices || [];
-  const cartItems = useSelector(
-    (state) => state?.booking?.cartOffer?.items
-  );
+  const cartItems = useSelector((state) => state?.booking?.cartOffer?.items);
   const isHotel = cartItems?.some((item) => item.offer_type === "hotel");
+
+  console.log("isHotel_cart", isHotel);
   
 
   return (
@@ -53,7 +53,7 @@ const SidebarTabs = () => {
       className={`${TripStyles.customTabs} customTabs`}
     >
       {/* // Conditional rendering of tabs based on flight type. Assume return by default  */}
-      
+
       {getBuilder?.flight_type === "one-way" ? (
         <a
           href="#offer-card"
@@ -128,24 +128,27 @@ const SidebarTabs = () => {
           </a>
         </>
       )}
-      {getBuilder?.trip_components?.some(component => component === "hotel") && (
-        <a
-          href="#hotel-section"
-          onClick={() => handleTabClick("hotel", "itinerary-section")}
-          style={{ textDecoration: "none" }}
-        >
-          <Box
-            className={`${TripStyles.inactiveTab} ${
-              activeTab === "hotel" ? TripStyles.activeTab : ""
-            }`}
-            display="flex"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography className="f12">Hotel</Typography>
-          </Box>
-        </a>
-      )}
+      {(isHotel || getBuilder?.trip_components?.some(
+  component => component === "hotel"
+)) && (
+  <a
+    href="#hotel-section"
+    onClick={() => handleTabClick("hotel", "itinerary-section")}
+    style={{ textDecoration: "none" }}
+  >
+    <Box
+      className={`${TripStyles.inactiveTab} ${
+        activeTab === "hotel" ? TripStyles.activeTab : ""
+      }`}
+      display="flex"
+      alignItems="center"
+      gap={1}
+    >
+      <Typography className="f12">Hotel</Typography>
+    </Box>
+  </a>
+)}
+
     </Box>
   );
 };
