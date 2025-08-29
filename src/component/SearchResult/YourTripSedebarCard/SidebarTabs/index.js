@@ -128,7 +128,7 @@ const SidebarTabs = () => {
           </a>
         </>
       )}
-      {getBuilder?.trip_components[0] == "hotel" && (
+      {getBuilder?.trip_components?.some(component => component === "hotel") && (
         <a
           href="#hotel-section"
           onClick={() => handleTabClick("hotel", "itinerary-section")}

@@ -268,7 +268,7 @@ const FromAndTo = ({ offerData }) => {
 
           {index !== 0 && (
             <Box width="100%" py={"12px"}>
-              <Divider />
+              <Divider sx={{borderWidth:0}} className={searchResultStyles.divider} />
             </Box>
           )}
         </>
@@ -280,7 +280,7 @@ const FromAndTo = ({ offerData }) => {
           pt={"12px"}
           pb={"10px"}
         >
-          <Divider sx={{ borderColor: "#F3F7F7" }} />
+          <Divider className={searchResultStyles.divider} sx={{borderWidth:0, borderColor: "#F3F7F7" }} />
         </Box>
       ) : (
         <Box
