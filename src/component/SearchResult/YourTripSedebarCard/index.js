@@ -19,20 +19,16 @@ const YourTripSedebarCard = ({
 }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
-    console.log("BuilderArguments", BuilderArguments);
-    
+  console.log("BuilderArguments", BuilderArguments);
 
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
 
   console.log("CartDetails_00", CartDetails?.uuid);
-  
-  
 
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
-
 
   const dispatch = useDispatch();
 
@@ -73,9 +69,6 @@ const YourTripSedebarCard = ({
 
     return result;
   }
-  
-
-  
 
   return (
     <>
@@ -225,7 +218,29 @@ const YourTripSedebarCard = ({
 
         <Box>
           {/*  */}
-
+          <Box id="itinerary-section" mb={2}>
+            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+              <Typography
+                className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+              >
+                Hotel for {BuilderArguments?.to_destination}
+              </Typography>
+            </Box>
+            <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+              <Typography
+                className="formateContent f12 mt-0"
+                component="div"
+                variant="body1"
+                dangerouslySetInnerHTML={{
+                  __html: formatTextToHtmlList(
+                    convertMarkdownToHtml(
+                      sanitizeResponse(BuilderArguments?.itinerary_text)
+                    )
+                  ),
+                }}
+              />
+            </Typography>
+          </Box>
           {CartDetails?.items?.map((getItems, index) => (
             <>
               {/* flight */}
@@ -233,8 +248,8 @@ const YourTripSedebarCard = ({
                 <>
                   {getItems?.raw_data?.slices?.map((slice, index) => (
                     <>
-              {console.log("getItems_caslice", slice)}
-                    
+                      {console.log("getItems_caslice", slice)}
+
                       <Box mb={3}>
                         {index === 0 ? (
                           <>

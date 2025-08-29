@@ -28,6 +28,8 @@ const SidebarTabs = () => {
       state?.sendMessage?.AddBuilder?.silent_function_template?.[0]?.function
         ?.arguments
   );
+  console.log("getBuilder", getBuilder?.trip_components[0]);
+  
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
@@ -53,6 +55,7 @@ const SidebarTabs = () => {
       className={`${TripStyles.customTabs} customTabs`}
     >
       {/* // Conditional rendering of tabs based on flight type. Assume return by default  */}
+      
       {getBuilder?.flight_type === "one-way" ? (
         <a
           href="#offer-card"
