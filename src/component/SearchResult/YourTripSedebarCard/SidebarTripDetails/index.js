@@ -129,13 +129,14 @@ const SidebarTripDetails = ({ id }) => {
 
         <Stack
           direction="row"
-          flexWrap="wrap"
+          flexWrap="nowrap"
           alignItems="flex-start"
+          gap={1}
           justifyContent={"space-between"}
         >
-          <Stack alignItems="center" textAlign={"center"}>
+          <Stack whiteSpace={"nowrap"} alignItems="center" textAlign={"center"}>
             <Typography className="f12">Departure</Typography>
-            <Typography className="f12 black bold">
+            <Typography whiteSpace={"nowrap"} className="f12 black bold">
               {getBuilder?.departure_date &&
                 new Date(getBuilder?.departure_date).toLocaleDateString(
                   "en-GB",
@@ -149,7 +150,7 @@ const SidebarTripDetails = ({ id }) => {
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Return</Typography>
-            <Typography className="f12 black bold">
+            <Typography whiteSpace={"nowrap"} className="f12 black bold">
               {getBuilder?.return_date && // This is the condition
                 new Date(getBuilder.return_date).toLocaleDateString(
                   "en-GB",
@@ -164,7 +165,7 @@ const SidebarTripDetails = ({ id }) => {
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Class</Typography>
-            <Typography className="f12 black bold">{getBuilder?.cabin_class}</Typography>
+            <Typography whiteSpace={"nowrap"} className="f12 black bold">{getBuilder?.cabin_class}</Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
@@ -239,7 +240,7 @@ const SidebarTripDetails = ({ id }) => {
           // ELSE, show this sentence.
           // Using Typography for consistent styling is a good practice.
           <Typography className="f12" variant="body1">
-            aaAsk Mylz to generate an itinerary for this trip in the chat.
+            Ask Mylz to generate an itinerary for this trip in the chat.
           </Typography>
         )}
       </Box>
@@ -296,13 +297,14 @@ const SidebarTripDetails = ({ id }) => {
 
         <Stack
           direction="row"
-          flexWrap="wrap"
+          flexWrap="nowrap"
           alignItems="flex-start"
           justifyContent={"space-between"}
+          gap={1}
         >
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Departure</Typography>
-            <Typography className="f12 black bold">
+            <Typography whiteSpace={"nowrap"} className="f12 black bold">
               {getBuilder?.departure_date &&
                 new Date(getBuilder?.departure_date).toLocaleDateString(
                   "en-GB",
@@ -316,7 +318,7 @@ const SidebarTripDetails = ({ id }) => {
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Return</Typography>
-            <Typography className="f12 black bold">
+            <Typography whiteSpace={"nowrap"} className="f12 black bold">
               {getBuilder?.return_date && // This is the condition
                 new Date(getBuilder.return_date).toLocaleDateString(
                   "en-GB",
@@ -331,7 +333,7 @@ const SidebarTripDetails = ({ id }) => {
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Class</Typography>
-            <Typography className="f12 black bold">{getBuilder?.cabin_class}</Typography>
+            <Typography whiteSpace={"nowrap"} className="f12 black bold">{getBuilder?.cabin_class}</Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
