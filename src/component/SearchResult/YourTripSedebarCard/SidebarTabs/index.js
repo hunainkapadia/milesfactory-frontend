@@ -28,7 +28,7 @@ const SidebarTabs = () => {
       state?.sendMessage?.AddBuilder?.silent_function_template?.[0]?.function
         ?.arguments
   );
-  console.log("getBuilder", getBuilder?.trip_components[0]);
+  console.log("getBuilder_00", getBuilder);
   
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
@@ -38,8 +38,6 @@ const SidebarTabs = () => {
     (state) => state?.booking?.cartOffer?.items
   );
   const isHotel = cartItems?.some((item) => item.offer_type === "hotel");
-
-  console.log("isHotel_0", isHotel);
   
 
   return (
@@ -130,7 +128,7 @@ const SidebarTabs = () => {
           </a>
         </>
       )}
-      {isHotel && (
+      {getBuilder?.trip_components[0] == "hotel" && (
         <a
           href="#hotel-section"
           onClick={() => handleTabClick("hotel", "itinerary-section")}
