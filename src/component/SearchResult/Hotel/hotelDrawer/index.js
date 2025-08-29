@@ -22,11 +22,12 @@ const HotelDrawer = ({}) => {
     dispatch(setHotelDrawer(false)); //setSelectFlightKey empty then close drawer
   };
   const isDrawer = useSelector((state) => state.booking.hotelDrawer);
-  const hotel = useSelector(
-    (state) => state?.hotel?.singlehotel
-  );
+  const hotel = useSelector((state) => state?.hotel?.singlehotel);
+
+  console.log("singlehotel", hotel);
   
   
+
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
   const stars = hotel?.categoryName ? parseInt(hotel.categoryName) : 0;
 
@@ -35,7 +36,7 @@ const HotelDrawer = ({}) => {
 
   // Extract dates from rateKey if available
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
-  
+
   console.log("hotel", hotel);
   const images = [
     "https://cf.bstatic.com/xdata/images/hotel/max1024x768/108437040.jpg?k=8b7d88be5a0a7ea5a7bb24425ae6472f392a1f641eee26f392c7528b959c76b1&o=&hp=1",
@@ -47,7 +48,7 @@ const HotelDrawer = ({}) => {
   ];
 
   console.log("hotel_name", hotel);
-  
+
   return (
     <Drawer
       anchor="right"
@@ -202,8 +203,13 @@ const HotelDrawer = ({}) => {
                         {hotel?.rooms?.[0]?.name} · {firstRate?.adults} adults
                       </Typography>
                       <Typography component="span" className="f10 black-50">
-                        {dayjs(allHotel?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
-                        {dayjs(allHotel?.checkOut, "DD-MM-YYYY").format("DD MMM")}
+                        {dayjs(allHotel?.checkIn, "DD-MM-YYYY").format(
+                          "DD MMM"
+                        )}{" "}
+                        -{" "}
+                        {dayjs(allHotel?.checkOut, "DD-MM-YYYY").format(
+                          "DD MMM"
+                        )}
                       </Typography>
                     </Stack>
 
@@ -225,7 +231,6 @@ const HotelDrawer = ({}) => {
                     </Stack>
 
                     {/* Amenities (dummy icons, still dynamic if mapped later) */}
-                    
 
                     <Stack>
                       <Typography
@@ -235,7 +240,10 @@ const HotelDrawer = ({}) => {
                       >
                         Photos
                       </Typography>
-                      <Box component={"section"} className={styles.HotelGallerySection}>
+                      <Box
+                        component={"section"}
+                        className={styles.HotelGallerySection}
+                      >
                         <Box
                           sx={{
                             display: "flex",

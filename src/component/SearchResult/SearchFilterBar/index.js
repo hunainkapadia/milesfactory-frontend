@@ -38,8 +38,10 @@ const SearchFilterBar = () => {
   //   for selct flight detail end
 
   const getCartHotel = useSelector(
-    (state) => state?.booking?.cartOffer?.raw_data?.hotel
+    (state) => state?.booking?.addCart?.raw_data?.hotel
   );
+  console.log("getCartHotel", getCartHotel);
+  
   const handleHotelDrawer = () => {
     dispatch(setSinglehotel(getCartHotel));
     dispatch(setHotelDrawer(true));
