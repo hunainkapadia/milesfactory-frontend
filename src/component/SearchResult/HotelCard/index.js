@@ -400,7 +400,7 @@ const HotelCard = ({ hotel, allHotels }) => {
               <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
                 {selectedhotelkey === firstRate?.rateKey ? (
                   <Button
-                    disabled
+                    
                     className={
                       searchResultStyles.IsSelected +
                       " w-100 btn btn-primary btn-round btn-md "

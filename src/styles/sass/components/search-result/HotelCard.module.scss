@@ -1,6 +1,5 @@
 @import "../../_variables.scss";
 
-
 .HotelCard {
    justify-content: center;
    height: 130px;
@@ -27,6 +26,7 @@
    
 }
 .IsSelected {
+   pointer-events: none;
    height: 30px;
     font-size: 12px;
     line-height: 0.8;

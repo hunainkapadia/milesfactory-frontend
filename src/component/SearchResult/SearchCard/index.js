@@ -290,9 +290,9 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         <Button
                           disabled
                           className={
-                            searchResultStyles.IsSelected +
-                            " w-100 btn btn-primary btn-round btn-md "
-                          }
+                      searchResultStyles.IsSelected +
+                      " w-100 btn btn-primary btn-round btn-md "
+                    }
                         >
                           <span>Selected</span>
                         </Button>
