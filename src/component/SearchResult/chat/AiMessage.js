@@ -178,7 +178,7 @@ const AiMessage = ({ aiMessage }) => {
                     gap={2}
                     alignItems="center"
                     display="flex"
-                    className="bold"
+                    className="bold basecolor1"
                   >
                     <Typography className="bold" lineHeight={1} component={"span"}>See more flights</Typography>
                     <i className="fa fa-caret-right fas" />

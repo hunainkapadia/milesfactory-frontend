@@ -90,7 +90,7 @@ const YourTripSedebarCard = ({
       >
         <Box
           id="overview"
-          mb={3}
+          mb={2}
           className={TripStyles.Header2 + " aaa"}
           display={"flex"}
           alignItems={"flex-start"}
@@ -218,29 +218,7 @@ const YourTripSedebarCard = ({
 
         <Box>
           {/*  */}
-          <Box id="itinerary-section" mb={2}>
-            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-              <Typography
-                className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
-              >
-                Hotel for {BuilderArguments?.to_destination}
-              </Typography>
-            </Box>
-            <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
-              <Typography
-                className="formateContent f12 mt-0"
-                component="div"
-                variant="body1"
-                dangerouslySetInnerHTML={{
-                  __html: formatTextToHtmlList(
-                    convertMarkdownToHtml(
-                      sanitizeResponse(BuilderArguments?.itinerary_text)
-                    )
-                  ),
-                }}
-              />
-            </Typography>
-          </Box>
+
           {CartDetails?.items?.map((getItems, index) => (
             <>
               {/* flight */}
@@ -250,10 +228,9 @@ const YourTripSedebarCard = ({
                     <>
                       {console.log("getItems_caslice", slice)}
 
-                      <Box mb={3}>
+                      <Box mb={2}>
                         {index === 0 ? (
                           <>
-                            <Box mb={1}>
                               <Box
                                 display={"flex"}
                                 alignItems={"center"}
@@ -279,40 +256,33 @@ const YourTripSedebarCard = ({
                                   {BuilderArguments?.to_destination}
                                 </Typography>
                               </Box>
-                            </Box>
-                            <Typography className="f12">
-                              {/* Arrive in Bangkok and unwind – check-in opens at
-                            4pm. */}
-                            </Typography>
                           </>
                         ) : (
                           <>
-                            <Box mb={1}>
-                              <Box
-                                display={"flex"}
-                                alignItems={"center"}
-                                gap={"12px"}
+                            <Box
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={"12px"}
+                            >
+                              <Typography
+                                className={
+                                  TripStyles.onewayReturn +
+                                  " btn btn-xs btn-black"
+                                }
                               >
-                                <Typography
-                                  className={
-                                    TripStyles.onewayReturn +
-                                    " btn btn-xs btn-black"
-                                  }
-                                >
-                                  Return |{" "}
-                                  {new Date(
-                                    BuilderArguments?.return_date
-                                  ).toLocaleDateString("en-GB", {
-                                    weekday: "short",
-                                    day: "2-digit",
-                                    month: "short",
-                                  })}
-                                </Typography>
-                                <Typography className="f12 bold">
-                                  {BuilderArguments?.to_destination} -{" "}
-                                  {BuilderArguments?.from_destination}
-                                </Typography>
-                              </Box>
+                                Return |{" "}
+                                {new Date(
+                                  BuilderArguments?.return_date
+                                ).toLocaleDateString("en-GB", {
+                                  weekday: "short",
+                                  day: "2-digit",
+                                  month: "short",
+                                })}
+                              </Typography>
+                              <Typography className="f12 bold">
+                                {BuilderArguments?.to_destination} -{" "}
+                                {BuilderArguments?.from_destination}
+                              </Typography>
                             </Box>
                             {/* <Typography className="f12">
                             Add airport name and flight number here.
@@ -331,7 +301,7 @@ const YourTripSedebarCard = ({
                           getItems={getItems}
                         />
                         {BuilderArguments?.itinerary_text && index === 0 && (
-                          <Box id="itinerary-section" mb={3}>
+                          <Box id="itinerary-section" mb={2}>
                             <Box mb={1}>
                               <Box
                                 display={"flex"}
@@ -381,6 +351,31 @@ const YourTripSedebarCard = ({
 
               {getItems?.raw_data?.hotel && (
                 <Box id="hotel-section" key={index}>
+                  <Box id="itinerary-section" mb={2}>
+                    <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                      <Typography
+                        className={
+                          TripStyles.onewayReturn + " btn btn-xs btn-black"
+                        }
+                      >
+                        Hotel for {BuilderArguments?.to_destination}
+                      </Typography>
+                    </Box>
+                    <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+                      <Typography
+                        className="formateContent f12 mt-0"
+                        component="div"
+                        variant="body1"
+                        dangerouslySetInnerHTML={{
+                          __html: formatTextToHtmlList(
+                            convertMarkdownToHtml(
+                              sanitizeResponse(BuilderArguments?.itinerary_text)
+                            )
+                          ),
+                        }}
+                      />
+                    </Typography>
+                  </Box>
                   <HotelCardSidebar
                     hotel={getItems?.raw_data?.hotel}
                     Carduuid={Carduuid}
@@ -396,12 +391,12 @@ const YourTripSedebarCard = ({
                     className="imggroup"
                     borderRadius={"16px"}
                     overflow={"hidden"}
-                    mb={3}
+                    mb={2}
                   >
                     <img src="/images/trip-map-png.png" />
                   </Box>
                 )} */}
-          {/* <Box mb={3}>
+          {/* <Box mb={2}>
                 <Typography className="f12">
                   You’ve booked a return flight from London to Bangkok with
                   Qatar Airways, arriving on 20 June and returning on 26 June.
@@ -413,7 +408,7 @@ const YourTripSedebarCard = ({
           {/*  */}
 
           {/* <Box
-                mb={3}
+                mb={2}
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
@@ -443,7 +438,7 @@ const YourTripSedebarCard = ({
                 </Box>
               </Box> */}
           {/*  */}
-          {/* <Box display={"flex"} alignItems={"center"} mb={3} gap={"12px"}>
+          {/* <Box display={"flex"} alignItems={"center"} mb={2} gap={"12px"}>
                 <Typography
                   className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
                 >
