@@ -29,6 +29,8 @@ const SearchFilterBar = () => {
     (state) => state.booking?.getCartDetail?.items
   );
   const CartDetails = CartOfferDetail?.[0];
+  console.log("CartDetails_111", CartOfferDetail);
+  
   const HandleSelectDrawer = () => {
     // Dispatch flight detail and open drawer
     dispatch(setBookingDrawer(true));
