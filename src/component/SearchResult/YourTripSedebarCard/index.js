@@ -205,13 +205,8 @@ const YourTripSedebarCard = ({
           </Box>
         </Box>
         {/* filter row */}
-        {CartDetails?.items?.some((i) => {
-          console.log("i_testhotel", i);
-          return i.raw_data?.hotel;
-        })}
-
+        
         {/*  */}
-        {console.log("CartDetails_000", CartDetails)}
         {(!CartDetails?.items?.length ||
           CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
           <SidebarTripDetails id="itinerary-section" />
