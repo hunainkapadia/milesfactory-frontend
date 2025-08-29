@@ -27,13 +27,13 @@ const SidebarFooter = () => {
     CartOfferDetail?.items?.filter((item) => item?.raw_data?.hotel) || [];
 
   console.log("CartDetails_00", CartOfferDetail);
-  console.log("CartFlights_000", CartFlights);
   console.log("CartHotels", CartHotels);
-
+  
   // For displaying in footer, just take the first matching item
   const CartFlight = CartFlights[0];
   const CartHotel = CartHotels[0];
-
+  
+  console.log("CartFlights_000", CartOfferDetail?.total_price);
   // Hotel price calculation
   let nights, totalPrice, perNightPrice;
   if (CartHotel) {
@@ -70,7 +70,7 @@ const SidebarFooter = () => {
               <h4 className="exbold mb-0">
                 {currencySymbols[CartFlight?.currency] ||
                   CartFlight?.currency}
-                {Math.round(CartFlight?.price)}
+                {Math.round(CartOfferDetail?.total_price)}
               </h4>
               <Typography className="gray f12">total</Typography>
             </Box>
@@ -96,7 +96,7 @@ const SidebarFooter = () => {
               </h4>
               <Typography className="gray f12">
                 {currencySymbols[CartHotel?.currency]}{" "}
-                {Math.round(totalPrice)} total ({nights} nights)
+                {Math.round(CartOfferDetail?.total_price)} total ({nights} nights)
               </Typography>
             </Box>
 
