@@ -31,8 +31,8 @@ import {
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 import { useEffect } from "react";
 
-const CartItemCard = ({ index, getItems}) => {
-    const GetViewPassengers = useSelector(
+const CartItemCard = ({ index, getItems }) => {
+  const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
@@ -63,26 +63,22 @@ const CartItemCard = ({ index, getItems}) => {
     }
   };
 
-  const handleClearFlight = () => {
-    
+  const handleClearFlight = () => {};
+
+  const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  const allPassengerFill = useSelector(
+    (state) => state?.passengerDrawer?.allPassengerFill
+  );
+
+  // useEffect(()=> {
+  //    if (allPassengerFill) {
+  //       dispatch(DeleteCart(threaduuid, getItems?.uuid))
+  //    }
+  // },[])
+
+  const handleDeleteCart = () => {
+    dispatch(DeleteCart(threaduuid, getItems?.uuid));
   };
-
-
-   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
-   const allPassengerFill = useSelector((state) => state?.passengerDrawer?.allPassengerFill);
-
-   
-   // useEffect(()=> {
-   //    if (allPassengerFill) {
-   //       dispatch(DeleteCart(threaduuid, getItems?.uuid))
-   //    }
-   // },[])
-
-   
-   const handleDeleteCart = ()=> {
-      dispatch(DeleteCart(threaduuid, getItems?.uuid))
-   }
-
 
   return (
     <>

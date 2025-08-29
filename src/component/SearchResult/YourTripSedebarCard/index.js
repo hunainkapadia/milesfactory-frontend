@@ -19,6 +19,8 @@ const YourTripSedebarCard = ({
 }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
+    console.log("BuilderArguments", BuilderArguments);
+    
 
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
@@ -227,148 +229,151 @@ const YourTripSedebarCard = ({
           {CartDetails?.items?.map((getItems, index) => (
             <>
               {/* flight */}
-              <Box key={index}>
-                {/* footer */}
-                {getItems?.raw_data?.slices?.map((slice, index) => (
-                  <>
-                    <Box mb={3}>
-                      {index === 0 ? (
-                        <>
-                          <Box mb={1}>
-                            <Box
-                              display={"flex"}
-                              alignItems={"center"}
-                              gap={"12px"}
-                            >
-                              <Typography
-                                className={
-                                  TripStyles.onewayReturn +
-                                  " btn btn-xs btn-black "
-                                }
+              {getItems?.raw_data?.slices && (
+                <>
+                  {getItems?.raw_data?.slices?.map((slice, index) => (
+                    <>
+              {console.log("getItems_caslice", slice)}
+                    
+                      <Box mb={3}>
+                        {index === 0 ? (
+                          <>
+                            <Box mb={1}>
+                              <Box
+                                display={"flex"}
+                                alignItems={"center"}
+                                gap={"12px"}
                               >
-                                Departing |{" "}
-                                {new Date(
-                                  BuilderArguments?.departure_date
-                                ).toLocaleDateString("en-GB", {
-                                  weekday: "short",
-                                  day: "2-digit",
-                                  month: "short",
-                                })}
-                              </Typography>
-                              <Typography className="f12 bold">
-                                {BuilderArguments?.from_destination} -{" "}
-                                {BuilderArguments?.to_destination}
-                              </Typography>
+                                <Typography
+                                  className={
+                                    TripStyles.onewayReturn +
+                                    " btn btn-xs btn-black "
+                                  }
+                                >
+                                  Departing |{" "}
+                                  {new Date(
+                                    BuilderArguments?.departure_date
+                                  ).toLocaleDateString("en-GB", {
+                                    weekday: "short",
+                                    day: "2-digit",
+                                    month: "short",
+                                  })}
+                                </Typography>
+                                <Typography className="f12 bold">
+                                  {BuilderArguments?.from_destination} -{" "}
+                                  {BuilderArguments?.to_destination}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </Box>
-                          <Typography className="f12">
-                            {/* Arrive in Bangkok and unwind – check-in opens at
+                            <Typography className="f12">
+                              {/* Arrive in Bangkok and unwind – check-in opens at
                             4pm. */}
-                          </Typography>
-                        </>
-                      ) : (
-                        <>
-                          <Box mb={1}>
-                            <Box
-                              display={"flex"}
-                              alignItems={"center"}
-                              gap={"12px"}
-                            >
-                              <Typography
-                                className={
-                                  TripStyles.onewayReturn +
-                                  " btn btn-xs btn-black"
-                                }
+                            </Typography>
+                          </>
+                        ) : (
+                          <>
+                            <Box mb={1}>
+                              <Box
+                                display={"flex"}
+                                alignItems={"center"}
+                                gap={"12px"}
                               >
-                                Return |{" "}
-                                {new Date(
-                                  BuilderArguments?.return_date
-                                ).toLocaleDateString("en-GB", {
-                                  weekday: "short",
-                                  day: "2-digit",
-                                  month: "short",
-                                })}
-                              </Typography>
-                              <Typography className="f12 bold">
-                                {BuilderArguments?.to_destination} -{" "}
-                                {BuilderArguments?.from_destination}
-                              </Typography>
+                                <Typography
+                                  className={
+                                    TripStyles.onewayReturn +
+                                    " btn btn-xs btn-black"
+                                  }
+                                >
+                                  Return |{" "}
+                                  {new Date(
+                                    BuilderArguments?.return_date
+                                  ).toLocaleDateString("en-GB", {
+                                    weekday: "short",
+                                    day: "2-digit",
+                                    month: "short",
+                                  })}
+                                </Typography>
+                                <Typography className="f12 bold">
+                                  {BuilderArguments?.to_destination} -{" "}
+                                  {BuilderArguments?.from_destination}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </Box>
-                          {/* <Typography className="f12">
+                            {/* <Typography className="f12">
                             Add airport name and flight number here.
                           </Typography> */}
-                        </>
-                      )}
-                    </Box>
-                    {/* offer card  */}
+                          </>
+                        )}
+                      </Box>
+                      {/* offer card  */}
 
-                    <Box id={index === 1 ? "offer-card-return" : "offer-card"}>
-                      <OfferCardSidebar
-                        index={index}
-                        slice={slice}
-                        getItems={getItems}
-                      />
-                      {BuilderArguments?.itinerary_text && index === 0 && (
-                        <Box id="itinerary-section" mb={3}>
-                          <Box mb={1}>
-                            <Box
-                              display={"flex"}
-                              alignItems={"center"}
-                              gap={"12px"}
+                      <Box
+                        id={index === 1 ? "offer-card-return" : "offer-card"}
+                      >
+                        <OfferCardSidebar
+                          index={index}
+                          slice={slice}
+                          getItems={getItems}
+                        />
+                        {BuilderArguments?.itinerary_text && index === 0 && (
+                          <Box id="itinerary-section" mb={3}>
+                            <Box mb={1}>
+                              <Box
+                                display={"flex"}
+                                alignItems={"center"}
+                                gap={"12px"}
+                              >
+                                <Typography
+                                  className={
+                                    TripStyles.onewayReturn +
+                                    " btn btn-xs btn-black"
+                                  }
+                                >
+                                  Itinerary for{" "}
+                                  {BuilderArguments?.to_destination}
+                                </Typography>
+                              </Box>
+                            </Box>
+                            <Typography
+                              className="f12"
+                              sx={{ whiteSpace: "pre-line" }}
                             >
                               <Typography
-                                className={
-                                  TripStyles.onewayReturn +
-                                  " btn btn-xs btn-black"
-                                }
-                              >
-                                Itinerary for {BuilderArguments?.to_destination}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Typography
-                            className="f12"
-                            sx={{ whiteSpace: "pre-line" }}
-                          >
-                            <Typography
-                              className="formateContent f12 mt-0"
-                              component="div"
-                              variant="body1"
-                              dangerouslySetInnerHTML={{
-                                __html: formatTextToHtmlList(
-                                  convertMarkdownToHtml(
-                                    sanitizeResponse(
-                                      BuilderArguments?.itinerary_text
+                                className="formateContent f12 mt-0"
+                                component="div"
+                                variant="body1"
+                                dangerouslySetInnerHTML={{
+                                  __html: formatTextToHtmlList(
+                                    convertMarkdownToHtml(
+                                      sanitizeResponse(
+                                        BuilderArguments?.itinerary_text
+                                      )
                                     )
-                                  )
-                                ),
-                              }}
-                            />
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
-                    {/*  */}
-                  </>
-                ))}
-              </Box>
+                                  ),
+                                }}
+                              />
+                            </Typography>
+                          </Box>
+                        )}
+                      </Box>
+                      {/*  */}
+                    </>
+                  ))}
+                </>
+              )}
 
               {/* get hotel */}
-              
-              
-              <Box id="hotel-section" key={index}>
-                {/* footer */}
-                <HotelCardSidebar
-                  hotel={getItems?.raw_data?.hotel}
-                  Carduuid={Carduuid}
-                />
-              </Box>
 
+              {getItems?.raw_data?.hotel && (
+                <Box id="hotel-section" key={index}>
+                  <HotelCardSidebar
+                    hotel={getItems?.raw_data?.hotel}
+                    Carduuid={Carduuid}
+                  />
+                </Box>
+              )}
             </>
           ))}
-
-          
 
           {/* {BuilderArguments.from_destination &&
                 BuilderArguments.to_destination && (

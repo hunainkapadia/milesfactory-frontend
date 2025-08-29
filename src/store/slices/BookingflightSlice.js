@@ -184,12 +184,8 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
   try {
     const res = await api.get(apiUrl);
     dispatch(setGetCartDetail(res.data));
-
-    console.log("selected_flight_11", res?.data?.items);
-      const CartOfferDetail = res?.data?.items;
-      const flightOffer = CartOfferDetail?.[0];
-      console.log("CartDetails_redux", flightOffer);
-      dispatch(setCartOffer(flightOffer))
+    const CartOfferDetail = res?.data;
+    dispatch(setCartOffer(CartOfferDetail))
       
     
   } catch (error) {
