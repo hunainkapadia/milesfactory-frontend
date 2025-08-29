@@ -25,29 +25,43 @@ const SearchFilterBar = () => {
   const dispatch = useDispatch();
   //   for selct flight detail
 
-  const CartOfferDetail = useSelector(
-    (state) => state.booking?.getCartDetail?.items
-  );
-  const CartDetails = CartOfferDetail?.[0];
-  console.log("CartDetails_111", CartOfferDetail);
-  
-  const HandleSelectDrawer = () => {
-    // Dispatch flight detail and open drawer
-    dispatch(setBookingDrawer(true));
-    dispatch(setSingleFlightData(CartDetails?.raw_data));
-  };
-
   //   for selct flight detail end
-
+  
   const getCartHotel = useSelector(
     (state) => state?.booking?.addCart?.raw_data?.hotel
   );
-  console.log("getCartHotel", getCartHotel);
   
-  const handleHotelDrawer = () => {
-    dispatch(setSinglehotel(getCartHotel));
+  
+
+
+
+
+  const CartOfferDetail = useSelector(
+  (state) => state.booking?.getCartDetail?.items
+);
+
+// filter flight + hotel separately
+const CartFlight = CartOfferDetail?.find(item => item?.raw_data?.slices);
+const CartHotel = CartOfferDetail?.find(item => item?.raw_data?.hotel);
+
+console.log("CartHotel", CartFlight);
+
+const HandleSelectDrawer = () => {
+  if (CartFlight) {
+    dispatch(setBookingDrawer(true));
+    dispatch(setSingleFlightData(CartFlight.raw_data));
+  }
+};
+
+const handleHotelDrawer = () => {
+  if (CartHotel) {
+    dispatch(setSinglehotel(CartHotel.raw_data?.hotel));
     dispatch(setHotelDrawer(true));
-  };
+  }
+};
+
+
+
   console.log("SearchHistory_hotel", SearchHistory?.hotel?.HotelArgument);
   
   return (

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { setMessage } from "./sendMessageSlice";
+import { setMessage, setSearchHistorySend } from "./sendMessageSlice";
 import { setIsBuilderDialog } from "./Base/baseSlice";
 import { setSelectedhotelKey } from "./HotelSlice";
 
@@ -201,6 +201,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
 
   try {
     const res = await api.delete(apiUrl);
+    // dispatch(setSearchHistorySend(null));
     dispatch(setSelectedhotelKey(null));
     dispatch(setGetCartDetail(res.data));
     dispatch(setCartOffer(null))
