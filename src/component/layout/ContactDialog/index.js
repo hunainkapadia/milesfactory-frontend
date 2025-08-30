@@ -222,17 +222,16 @@ const ContactDialog = () => {
                           value={currentUser.name}
                         />
                       ) : (
-             <TextField
-  error={!!nameError}
-  helperText={nameError}
-  className="formControl customPlaceholder"
-  fullWidth
-  placeholder="Name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  sx={{ mb: 2 }}
-/>
-
+                        <TextField
+                          error={!!nameError}
+                          helperText={nameError}
+                          className="formControl customPlaceholder"
+                          fullWidth
+                          placeholder="Name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          sx={{ mb: 2 }}
+                        />
                       )}
                     </Box>
 
@@ -327,7 +326,7 @@ const ContactDialog = () => {
                       <Button
                         variant="contained"
                         onClick={handleSubmitContactForm}
-                        className="btn btn-primary xs btn-sm btn-round"
+                        className="btn btn-primary btn-sm btn-round"
                       >
                         Send message
                       </Button>
