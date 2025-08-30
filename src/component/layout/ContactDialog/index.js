@@ -24,7 +24,6 @@ const ContactDialog = () => {
   const dispatch = useDispatch();
   const contactDialog = useSelector((state) => state?.base?.contactDialog);
   const contactSuccess = useSelector((state) => state?.base?.contactData?.data);
-  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -94,33 +93,36 @@ const ContactDialog = () => {
 
     // Optionally reset form
   };
- 
-// 
+
+  //
   const currentUser = useSelector((state) => state.base?.currentUser);
+  console.log("currentUser", currentUser);
+
   const logoutHandle = () => {
     dispatch(Logout());
   };
 
-   useEffect(() => {
-  if (contactSuccess) {
-    setName("");
-    setEmail("");
-    setTopic("");
-    setDescription("");
-    return;
-  }
+  useEffect(() => {
+    if (contactSuccess) {
+      setName("");
+      setEmail("");
+      setTopic("");
+      setDescription("");
+      return;
+    }
 
-  if (currentUser?.user) {
-  const fullName = `${currentUser.user.first_name || ""} ${currentUser.user.last_name || ""}`.trim();
-  setName(fullName);
-  setEmail(currentUser.user.email || "");
-} else {
-  setName("");
-  setEmail("");
-}
-}, [contactSuccess, currentUser]);
+    if (currentUser?.user) {
+      const fullName = `${currentUser.user.first_name || ""} ${
+        currentUser.user.last_name || ""
+      }`.trim();
+      setName(fullName);
+      setEmail(currentUser.user.email || "");
+    } else {
+      setName("");
+      setEmail("");
+    }
+  }, [contactSuccess, currentUser]);
 
-    
   return (
     <>
       <Dialog
@@ -153,31 +155,31 @@ const ContactDialog = () => {
                 >
                   <Box mb={2}>
                     <Box
-                      component={"h4"}
-                      mb={1}
-                      sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                      sx={{
+                        display: { lg: "block", md: "block", xs: "none" },
+                        mb: { md: "10px", xs: "10px" },
+                      }}
                     >
-                      Need help? Contact us!
+                      <h3 className="mb-0">Need help? Contact us!</h3>
                     </Box>
                     <Box
-                      component={"h4"}
                       mb={1}
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                     >
-                      Need help?
+                      <h3 className="mb-0">Need help?</h3>
                     </Box>
 
                     <Typography
                       sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                       variant="body1"
-                      mt={1}
+                      mb={"10px"}
                     >
                       Tell us what issue you have and we will reach out!
                     </Typography>
                     <Typography
                       sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                       variant="body1"
-                      mt={1}
+                      mb={"10px"}
                     >
                       Tell us what issue you
                       <br />
@@ -185,7 +187,7 @@ const ContactDialog = () => {
                     </Typography>
 
                     {currentUser ? (
-                      <Typography variant="body1" mt={1}>
+                      <Typography className="f14" variant="body1">
                         Signed in as{" "}
                         <Typography
                           component={"span"}
@@ -211,31 +213,51 @@ const ContactDialog = () => {
                   </Box>
 
                   <Box component="form" noValidate autoComplete="off">
-                    <Box className=" formGroup">
-                      <TextField
-                        error={!!nameError}
-                        helperText={nameError}
-                        className="formControl"
-                        fullWidth
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        sx={{ mb: 2 }}
-                      />
+                    <Box className="formGroup">
+                      {/* if logged in → hidden field, else → visible TextField */}
+                      {currentUser ? (
+                        <input
+                          type="hidden"
+                          name="name"
+                          value={currentUser.name}
+                        />
+                      ) : (
+             <TextField
+  error={!!nameError}
+  helperText={nameError}
+  className="formControl customPlaceholder"
+  fullWidth
+  placeholder="Name"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  sx={{ mb: 2 }}
+/>
+
+                      )}
                     </Box>
-                    <Box className=" formGroup">
-                      <TextField
-                        error={!!emailError}
-                        helperText={emailError}
-                        className="formControl"
-                        fullWidth
-                        placeholder="Email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        sx={{ mb: 2 }}
-                      />
+
+                    <Box className="formGroup">
+                      {currentUser ? (
+                        <input
+                          type="hidden"
+                          name="email"
+                          value={currentUser.email}
+                        />
+                      ) : (
+                        <TextField
+                          error={!!emailError}
+                          helperText={emailError}
+                          className="formControl"
+                          fullWidth
+                          placeholder="Email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          sx={{ mb: 2 }}
+                        />
+                      )}
                     </Box>
+
                     <Box className="formGroup">
                       <TextField
                         error={!!topicError}

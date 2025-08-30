@@ -1201,6 +1201,7 @@ body {
     width: 100%;
     border: 0;
   }
+  
 .MuiDialog-container{ padding: 0 18px;}
   .formGroup {
     margin-bottom: 22px;
@@ -1212,8 +1213,27 @@ body {
         pointer-events: none;
       }
     }
+    .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: inherit !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: inherit !important;
+}
+    
+        .formControl .MuiInputBase-input::placeholder {
+          color: #8F8F8F;
+          /* default placeholder color */
+          opacity: 1;
+          /* ensure it's fully visible */
+        }
+    
+        .formControl.Mui-error .MuiInputBase-input::placeholder {
+          color: red;
+          /* placeholder turns red if error */
+        }
     label.MuiInputLabel-formControl {
-        color: #8C8C7A !important;
+        color: #8F8F8F !important;
         top: 0px;
       }
 
