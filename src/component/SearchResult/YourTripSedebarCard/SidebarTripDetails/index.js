@@ -21,7 +21,6 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
 
     return result;
   }
-  
 
   // Outbound journey text formatting
   // This function formats the outbound journey text based on the provided arguments.
@@ -78,7 +77,6 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
 
   return (
     <>
-      
       <Box mb={3}>
         <Box mb={1}>
           <Box display={"flex"} alignItems={"center"} gap={"12px"}>
@@ -87,13 +85,14 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
             >
               Departure |{" "}
               {getBuilder?.departure_date &&
-                new Date(
-                  getBuilder?.departure_date
-                ).toLocaleDateString("en-GB", {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                })}
+                new Date(getBuilder?.departure_date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  }
+                )}
             </Typography>
             <Typography className="f12 bold">
               {formatJourneyTextOutbound(getBuilder)}
@@ -104,7 +103,6 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
           {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
         </Typography>
       </Box>
-
 
       <Box
         className={`${TripStyles.PaddDetailCard} PaddDetailCard`}
@@ -124,9 +122,7 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
             size="small"
           />
         </Box>
-        <Typography className="f12 bold">
-          Need help finding flights?
-        </Typography>
+        <Typography className="f12 bold">Need help finding flights?</Typography>
 
         <Stack
           direction="row"
@@ -153,20 +149,19 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
             <Typography className="f12">Return</Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
               {getBuilder?.return_date && // This is the condition
-                new Date(getBuilder.return_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
+                new Date(getBuilder.return_date).toLocaleDateString("en-GB", {
+                  weekday: "short",
+                  day: "2-digit",
+                  month: "short",
+                })}
             </Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">Class</Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">{getBuilder?.cabin_class}</Typography>
+            <Typography whiteSpace={"nowrap"} className="f12 black bold">
+              {getBuilder?.cabin_class}
+            </Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
@@ -175,15 +170,11 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
               {(getBuilder?.passengers?.adults ||
                 getBuilder?.passengers?.children?.length > 0 ||
                 getBuilder?.passengers?.infants?.length > 0) && (
-                <Box
-                  className={TripStyles.tripDetailsCol + " f12 black bold"}
-                >
+                <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
                   {[
                     getBuilder?.passengers?.adults > 0 &&
                       `${getBuilder.passengers.adults} ${
-                        getBuilder.passengers.adults === 1
-                          ? "adult"
-                          : "adults"
+                        getBuilder.passengers.adults === 1 ? "adult" : "adults"
                       }`,
                     getBuilder?.passengers?.children?.length > 0 &&
                       `${getBuilder.passengers.children.length} ${
@@ -247,45 +238,45 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
       </Box>
       {/* hotel cart */}
       {CartDetails?.items?.map((getItems, index) => (
-                  <>
-                    {/* get hotel */}
-      
-                    {getItems?.raw_data?.hotel && (
-                      <Box id="hotel-section" key={index}>
-                        <Box id="itinerary-section" mb={2}>
-                          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-                            <Typography
-                              className={
-                                TripStyles.onewayReturn + " btn btn-xs btn-black"
-                              }
-                            >
-                              Hotel for {getBuilder?.to_destination}
-                            </Typography>
-                          </Box>
-                          <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
-                            <Typography
-                              className="formateContent f12 mt-0"
-                              component="div"
-                              variant="body1"
-                              dangerouslySetInnerHTML={{
-                                __html: formatTextToHtmlList(
-                                  convertMarkdownToHtml(
-                                    sanitizeResponse(getBuilder?.itinerary_text)
-                                  )
-                                ),
-                              }}
-                            />
-                          </Typography>
-                        </Box>
-                        <HotelCardSidebar
-                          hotel={getItems?.raw_data?.hotel}
-                          Carduuid={Carduuid}
-                        />
-                      </Box>
-                    )}
-                  </>
-                ))}
-      
+        <>
+          {/* get hotel */}
+
+          {getItems?.raw_data?.hotel && (
+            <Box id="hotel-section" key={index}>
+              <Box id="itinerary-section" mb={2}>
+                <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                  <Typography
+                    className={
+                      TripStyles.onewayReturn + " btn btn-xs btn-black"
+                    }
+                  >
+                    Hotel for {getBuilder?.to_destination}
+                  </Typography>
+                </Box>
+                <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+                  <Typography
+                    className="formateContent f12 mt-0"
+                    component="div"
+                    variant="body1"
+                    dangerouslySetInnerHTML={{
+                      __html: formatTextToHtmlList(
+                        convertMarkdownToHtml(
+                          sanitizeResponse(getBuilder?.itinerary_text)
+                        )
+                      ),
+                    }}
+                  />
+                </Typography>
+              </Box>
+              <HotelCardSidebar
+                hotel={getItems?.raw_data?.hotel}
+                Carduuid={Carduuid}
+              />
+            </Box>
+          )}
+        </>
+      ))}
+
       {/*  */}
       {getBuilder?.flight_type !== "one-way" && (
         <Box mb={3}>
@@ -296,14 +287,11 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
               >
                 Return |{" "}
                 {getBuilder?.return_date && // This is the condition
-                  new Date(getBuilder.return_date).toLocaleDateString(
-                    "en-GB",
-                    {
-                      weekday: "short",
-                      day: "2-digit",
-                      month: "short",
-                    }
-                  )}
+                  new Date(getBuilder.return_date).toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  })}
               </Typography>
               <Typography className="f12 bold">
                 {formatJourneyTextReturn(getBuilder)}
@@ -316,109 +304,108 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
         </Box>
       )}
       {getBuilder?.flight_type !== "one-way" && (
-      <Box
-        className={`${TripStyles.PaddDetailCard} PaddDetailCard`}
-        mb={3}
-        display={"flex"}
-        flexDirection={"column"}
-      >
-        <Box>
-          <Chip
-            variant="outlined"
-            label="Flights"
-            sx={{
-              backgroundColor: "#fff",
-              borderRadius: "4px",
-              borderColor: "#DEE1E6",
-            }}
-            size="small"
-          />
-        </Box>
-        <Typography className="f12 bold">
-          Need help finding flights?
-        </Typography>
-
-        <Stack
-          direction="row"
-          flexWrap="nowrap"
-          alignItems="flex-start"
-          justifyContent={"space-between"}
-          gap={1}
+        <Box
+          className={`${TripStyles.PaddDetailCard} PaddDetailCard`}
+          mb={3}
+          display={"flex"}
+          flexDirection={"column"}
         >
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Departure</Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {getBuilder?.departure_date &&
-                new Date(getBuilder?.departure_date).toLocaleDateString(
-                  "en-GB",
-                  {
+          <Box>
+            <Chip
+              variant="outlined"
+              label="Flights"
+              sx={{
+                backgroundColor: "#fff",
+                borderRadius: "4px",
+                borderColor: "#DEE1E6",
+              }}
+              size="small"
+            />
+          </Box>
+          <Typography className="f12 bold">
+            Need help finding flights?
+          </Typography>
+
+          <Stack
+            direction="row"
+            flexWrap="nowrap"
+            alignItems="flex-start"
+            justifyContent={"space-between"}
+            gap={1}
+          >
+            <Stack alignItems="center" textAlign={"center"}>
+              <Typography className="f12">Departure</Typography>
+              <Typography whiteSpace={"nowrap"} className="f12 black bold">
+                {getBuilder?.departure_date &&
+                  new Date(getBuilder?.departure_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )}
+              </Typography>
+            </Stack>
+            <Stack alignItems="center" textAlign={"center"}>
+              <Typography className="f12">Return</Typography>
+              <Typography whiteSpace={"nowrap"} className="f12 black bold">
+                {getBuilder?.return_date && // This is the condition
+                  new Date(getBuilder.return_date).toLocaleDateString("en-GB", {
                     weekday: "short",
                     day: "2-digit",
                     month: "short",
-                  }
-                )}
-            </Typography>
-          </Stack>
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Return</Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {getBuilder?.return_date && // This is the condition
-                new Date(getBuilder.return_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
-            </Typography>
-          </Stack>
+                  })}
+              </Typography>
+            </Stack>
 
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Class</Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">{getBuilder?.cabin_class}</Typography>
-          </Stack>
+            <Stack alignItems="center" textAlign={"center"}>
+              <Typography className="f12">Class</Typography>
+              <Typography whiteSpace={"nowrap"} className="f12 black bold">
+                {getBuilder?.cabin_class}
+              </Typography>
+            </Stack>
 
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Travellers</Typography>
-            <Typography className="f12 black bold">
-              {(getBuilder?.passengers?.adults ||
-                getBuilder?.passengers?.children?.length > 0 ||
-                getBuilder?.passengers?.infants?.length > 0) && (
-                <Box
-                  className={TripStyles.tripDetailsCol + " f12 black bold"}
-                >
-                  {[
-                    getBuilder?.passengers?.adults > 0 &&
-                      `${getBuilder.passengers.adults} ${
-                        getBuilder.passengers.adults === 1
-                          ? "adult"
-                          : "adults"
-                      }`,
-                    getBuilder?.passengers?.children?.length > 0 &&
-                      `${getBuilder.passengers.children.length} ${
-                        getBuilder.passengers.children.length === 1
-                          ? "child"
-                          : "children"
-                      }`,
-                    getBuilder?.passengers?.infants?.length > 0 &&
-                      `${getBuilder.passengers.infants.length} ${
-                        getBuilder.passengers.infants.length === 1
-                          ? "infant"
-                          : "infants"
-                      }`,
-                  ]
-                    .filter(Boolean)
-                    .join(", ")}
-                </Box>
-              )}
-            </Typography>
+            <Stack alignItems="center" textAlign={"center"}>
+              <Typography className="f12">Travellers</Typography>
+              <Typography className="f12 black bold">
+                {(getBuilder?.passengers?.adults ||
+                  getBuilder?.passengers?.children?.length > 0 ||
+                  getBuilder?.passengers?.infants?.length > 0) && (
+                  <Box
+                    className={TripStyles.tripDetailsCol + " f12 black bold"}
+                  >
+                    {[
+                      getBuilder?.passengers?.adults > 0 &&
+                        `${getBuilder.passengers.adults} ${
+                          getBuilder.passengers.adults === 1
+                            ? "adult"
+                            : "adults"
+                        }`,
+                      getBuilder?.passengers?.children?.length > 0 &&
+                        `${getBuilder.passengers.children.length} ${
+                          getBuilder.passengers.children.length === 1
+                            ? "child"
+                            : "children"
+                        }`,
+                      getBuilder?.passengers?.infants?.length > 0 &&
+                        `${getBuilder.passengers.infants.length} ${
+                          getBuilder.passengers.infants.length === 1
+                            ? "infant"
+                            : "infants"
+                        }`,
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </Box>
+                )}
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
-        {/* <Box display={"flex"} justifyContent={"flex-end"}>
+          {/* <Box display={"flex"} justifyContent={"flex-end"}>
             <Button className="btn btn-white btn-sm btn-round">Search flights in Chat</Button>
           </Box> */}
-      </Box>
+        </Box>
       )}
     </>
   );
