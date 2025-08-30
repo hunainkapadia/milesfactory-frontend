@@ -2,8 +2,9 @@ import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useSelector } from "react-redux";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
+import HotelCardSidebar from "../HotelCardSidebar";
 
-const SidebarTripDetails = ({ id }) => {
+const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
   const Addbuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const getBuilder =
     Addbuilder?.silent_function_template?.[0]?.function?.arguments;
@@ -244,6 +245,48 @@ const SidebarTripDetails = ({ id }) => {
           </Typography>
         )}
       </Box>
+      {/* hotel cart */}
+      {CartDetails?.items?.map((getItems, index) => (
+                  <>
+                    {/* get hotel */}
+      
+                    {getItems?.raw_data?.hotel && (
+                      <Box id="hotel-section" key={index}>
+                        <Box id="itinerary-section" mb={2}>
+                          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                            <Typography
+                              className={
+                                TripStyles.onewayReturn + " btn btn-xs btn-black"
+                              }
+                            >
+                              Hotel for {getBuilder?.to_destination}
+                            </Typography>
+                          </Box>
+                          <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+                            <Typography
+                              className="formateContent f12 mt-0"
+                              component="div"
+                              variant="body1"
+                              dangerouslySetInnerHTML={{
+                                __html: formatTextToHtmlList(
+                                  convertMarkdownToHtml(
+                                    sanitizeResponse(getBuilder?.itinerary_text)
+                                  )
+                                ),
+                              }}
+                            />
+                          </Typography>
+                        </Box>
+                        <HotelCardSidebar
+                          hotel={getItems?.raw_data?.hotel}
+                          Carduuid={Carduuid}
+                        />
+                      </Box>
+                    )}
+                  </>
+                ))}
+      
+      {/*  */}
       {getBuilder?.flight_type !== "one-way" && (
         <Box mb={3}>
           <Box mb={1}>

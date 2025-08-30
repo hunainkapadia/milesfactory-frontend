@@ -17,6 +17,9 @@ const SidebarFooter = () => {
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
 
+  console.log("functionType", functionType);
+  
+
   // Get all flights from cart items
   const CartFlights =
     CartData?.items?.filter((item) => item?.raw_data?.slices) || [];
@@ -25,14 +28,14 @@ const SidebarFooter = () => {
   const CartHotels =
     CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
 
-  console.log("CartDetails_00", CartData);
+  console.log("CartDetails_00", CartData?.total_price);
   console.log("CartHotels", CartHotels);
   
   // For displaying in footer, just take the first matching item
   const CartFlight = CartFlights[0];
   const CartHotel = CartHotels[0];
   
-  console.log("CartFlights_000", CartData?.total_price);
+  console.log("CartFlights_000", CartData);
   // Hotel price calculation
   let nights, totalPrice, perNightPrice;
   if (CartHotel) {

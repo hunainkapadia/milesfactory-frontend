@@ -209,7 +209,7 @@ const YourTripSedebarCard = ({
         {/*  */}
         {(!CartDetails?.items?.length ||
           CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
-          <SidebarTripDetails id="itinerary-section" />
+          <SidebarTripDetails id="itinerary-section" CartDetails={CartDetails} Carduuid={Carduuid} />
         )}
 
         {/* {!getselectedFlight ? (
@@ -223,6 +223,7 @@ const YourTripSedebarCard = ({
           {CartDetails?.items?.map((getItems, index) => (
             <>
               {/* flight */}
+              {console.log("getItems_000", getItems)}
               {getItems?.raw_data?.slices && (
                 <>
                   {getItems?.raw_data?.slices?.map((slice, index) => (
@@ -350,39 +351,6 @@ const YourTripSedebarCard = ({
 
               {/* get hotel */}
 
-              {getItems?.raw_data?.hotel && (
-                <Box id="hotel-section" key={index}>
-                  <Box id="itinerary-section" mb={2}>
-                    <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-                      <Typography
-                        className={
-                          TripStyles.onewayReturn + " btn btn-xs btn-black"
-                        }
-                      >
-                        Hotel for {BuilderArguments?.to_destination}
-                      </Typography>
-                    </Box>
-                    <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
-                      <Typography
-                        className="formateContent f12 mt-0"
-                        component="div"
-                        variant="body1"
-                        dangerouslySetInnerHTML={{
-                          __html: formatTextToHtmlList(
-                            convertMarkdownToHtml(
-                              sanitizeResponse(BuilderArguments?.itinerary_text)
-                            )
-                          ),
-                        }}
-                      />
-                    </Typography>
-                  </Box>
-                  <HotelCardSidebar
-                    hotel={getItems?.raw_data?.hotel}
-                    Carduuid={Carduuid}
-                  />
-                </Box>
-              )}
             </>
           ))}
 
