@@ -140,8 +140,8 @@ const HotelDrawer = ({}) => {
                           {firstRate.offers[0].name}
                         </Typography>
                       )}
-                      <Typography className={" chip sm basecolor1-light"}>
-                        {hotel?.categoryName}
+                      <Typography textTransform={"capitalize"} className={" chip sm basecolor1-light"}>
+                        {hotel?.categoryName.toLowerCase()}
                       </Typography>
                     </Stack>
 
