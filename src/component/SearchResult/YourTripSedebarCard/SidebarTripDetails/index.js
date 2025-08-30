@@ -216,7 +216,7 @@ const SidebarTripDetails = ({ id }) => {
               className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
             >
               {getBuilder?.to_destination
-                ? `Itinerary aa for ${getBuilder.to_destination}`
+                ? `Itinerary for ${getBuilder.to_destination}`
                 : "Itinerary"}
             </Typography>
           </Box>
