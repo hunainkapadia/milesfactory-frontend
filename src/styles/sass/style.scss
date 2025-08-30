@@ -1202,6 +1202,10 @@ body {
     border: 0;
   }
   
+  .css-kw13he-MuiDialogContent-root {
+    padding: 18px 18px;
+  }
+  
 .MuiDialog-container{ padding: 0 18px;}
   .formGroup {
     margin-bottom: 22px;
@@ -1214,12 +1218,12 @@ body {
       }
     }
     .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  border-color: inherit !important;
-}
+      border-color: inherit !important;
+    }
 
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: inherit !important;
-}
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: inherit !important;
+    }
     
         .formControl .MuiInputBase-input::placeholder {
           color: #8F8F8F;
