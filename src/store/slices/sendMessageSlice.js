@@ -277,7 +277,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(historyUrl)
                 .then((history_res) => {
                   const isComplete = history_res?.data?.search?.is_complete;
-                  dispatch(setSearchHistorySend(history_res.data.search)); // ✅ fixed payload
+                  dispatch(setSearchHistorySend({"flight" :history_res.data.search}));
+                  
 
                   if (isComplete === true) {
                     clearInterval(interval);
@@ -313,7 +314,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             response?.response?.results?.view_hotel_search_api?.url;
           const HotelArgument =
             response?.silent_function_template?.[0]?.function?.arguments || {};
+            console.log("HotelArgument", HotelArgument);
+            
           dispatch(setSearchHistorySend({ hotel: HotelArgument }));
+
 
           if (hotelSearchApi) {
             api

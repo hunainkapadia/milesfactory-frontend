@@ -62,11 +62,12 @@ const handleHotelDrawer = () => {
 
 
 
-  console.log("SearchHistory_hotel", SearchHistory);
+  console.log("SearchHistory_hotel22", SearchHistory?.hotel);
+  console.log("SearchHistory_flight", SearchHistory);
+  
   
   return (
     <>
-        
       {SearchHistory?.flight ? (
         <>
           <Box
@@ -211,7 +212,7 @@ const handleHotelDrawer = () => {
             {/*  */}
           </Box>
         </>
-      ) : SearchHistory?.hotel?.HotelArgument ? (
+      ) : SearchHistory?.hotel ? (
         <>
           <Box
             component={"main"}
