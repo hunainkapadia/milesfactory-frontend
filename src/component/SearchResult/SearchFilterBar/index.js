@@ -62,10 +62,11 @@ const handleHotelDrawer = () => {
 
 
 
-  console.log("SearchHistory_hotel", SearchHistory?.hotel?.HotelArgument);
+  console.log("SearchHistory_hotel", SearchHistory);
   
   return (
     <>
+        
       {SearchHistory?.flight ? (
         <>
           <Box

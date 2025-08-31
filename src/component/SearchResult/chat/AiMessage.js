@@ -20,6 +20,7 @@ import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 import PassengerFlowBlock from "../PassengerFlowBlock";
 import HotelCard from "../HotelCard";
+import NotfoundCard from "./NotfoundCard";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
@@ -62,6 +63,12 @@ const AiMessage = ({ aiMessage }) => {
   const getNextFlight = useSelector(
     (state) => state.sendMessage?.appendFlights?.ai
   );
+  const filterUrl = useSelector((state) => state.sendMessage?.FilterUrl);
+  // check if filter is applied
+  const isFilter = filterUrl && filterUrl.includes("?");
+  console.log("isFilter", isFilter);
+  
+
 
   const displayedGetFlights = showAllFlight
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
@@ -164,38 +171,42 @@ const AiMessage = ({ aiMessage }) => {
           </Box>
 
           {/* Toggle button */}
-          {!getMessages.length > 0 && (
-            <>
-              {!noMoreFlights &&
-              (aiMessage?.ai?.next_page_number ||
-                getNextFlight?.next_page_number) ? (
-                <Box
-                  onClick={handleSeeMoreFlights}
-                  style={{ cursor: "pointer" }}
-                >
-                  <Box
-                    sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-                    gap={2}
-                    alignItems="center"
-                    display="flex"
-                    className="bold basecolor1"
-                  >
-                    <Typography className="bold" lineHeight={1} component={"span"}>See more flights</Typography>
-                    <i className="fa fa-caret-right fas" />
-                  </Box>
-                </Box>
-              ) : (
-                <Box
-                  sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-                  gap={2}
-                  alignItems="center"
-                  display="flex"
-                  className="bold"
-                >
-                  No more flights found.
-                </Box>
-              )}
-            </>
+
+          {console.log(
+            "getNextFlight_next_page_number",
+            getNextFlight?.offers?.length
+          )}
+          {getNextFlight?.offers?.length === 6 && !isFilter ? (
+            // Do nothing (hide both)
+            <NotfoundCard />
+            
+          ) : !noMoreFlights &&
+            (aiMessage?.ai?.next_page_number ||
+              getNextFlight?.next_page_number) ? (
+            // Show "See more flights"
+            <Box onClick={handleSeeMoreFlights} style={{ cursor: "pointer" }}>
+              <Box
+                sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+                gap={2}
+                alignItems="center"
+                display="flex"
+                className="bold"
+              >
+                <span>See more flights</span>
+                <i className="fa fa-caret-right fas" />
+              </Box>
+            </Box>
+          ) : (
+            // Show "No more flights found."
+            <Box
+              sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+              gap={2}
+              alignItems="center"
+              display="flex"
+              className="bold"
+            >
+              No more flights found.
+            </Box>
           )}
         </>
       ) : (
