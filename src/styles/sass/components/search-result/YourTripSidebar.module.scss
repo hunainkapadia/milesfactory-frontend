@@ -1,8 +1,17 @@
 @import "../../_variables.scss";
 
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 
-/* Frame 316126439 */
-/* Frame 316126414 */
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .PaddDetailCard {
   padding: 12px;
   border: 1px dashed rgba(197, 218, 222, 0.4);
@@ -11,7 +20,7 @@
   
 }
 .flightOfferCard {
-
+  animation: slideInRight 0.5s ease forwards;
   padding: 14px 12px;
   gap: 12px;
   
@@ -196,17 +205,6 @@
   }
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 
 .YourTripSidebar {
   z-index: 6;
