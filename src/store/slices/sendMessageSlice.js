@@ -36,7 +36,7 @@ const sendMessageSlice = createSlice({
       ai: "",
     },
     AddBuilder: null,
-    noMoreFlights:false,
+    noMoreFlights: false,
     threadUuid: null,
   },
   reducers: {
@@ -59,24 +59,32 @@ const sendMessageSlice = createSlice({
       state.threadUuid = action.payload;
     },
     setAppendFlights: (state, action) => {
+      // RESET CASE
+      if (!action.payload) {
+        state.appendFlights = {
+          nextPageNo: 2,
+          ai: "",
+        };
+        return;
+      }
+
+      // APPEND CASE
       const { ai, nextPageNo } = action.payload;
 
-      // If first time loading flights
       if (!state.appendFlights.ai || !state.appendFlights.ai.offers) {
         state.appendFlights.ai = ai;
       } else {
         const existingOffers = state.appendFlights.ai.offers || [];
         const newOffers = ai?.offers || [];
 
-        // Append offers
         state.appendFlights.ai.offers = [...existingOffers, ...newOffers];
       }
 
-      // Always update page number from API response or passed payload
       if (nextPageNo) {
         state.appendFlights.nextPageNo = nextPageNo;
       }
     },
+
     setNextMessage: (state, action) => {
       state.NextMessage = action.payload;
     },
@@ -415,6 +423,10 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
       console.log("newUuid", newUuid);
       
       if (newUuid) {
+        // next flight reset         
+        dispatch(setAppendFlights(null));
+
+
         dispatch(setThreadUuid(newUuid));
         dispatch(setMobileNaveDrawer(false))
         dispatch(setIsBuilderDialog(false))

@@ -138,6 +138,22 @@
   opacity: 0.5;
 }
 .ChatBody .ChatBodyLeft {max-width: 674px;}
+.NotfoundCard {
+  border-radius: 12px;
+  max-width: 100%;
+  background: $white;
+  border: 1px solid #E6EEEE;
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s ease-in-out;
+  margin-bottom: 10px;
+  .CardLeft {
+    
+  }
+  .CardRight {
+    border-left: solid 1px $lightgray3;
+  }
+}
 .SearchCardWrapper {
   .SearchCardGrid {
     .flightOfferCard {
@@ -360,6 +376,11 @@
 }
 
 @include for-mobile-large-screen {
+  .NotfoundCard {
+    .CardRight {
+      border-left: none;
+    }
+  }
   .BaggageCol {opacity: 0.5;}
   .ChatBody .ChatBodyLeft {max-width: 100%;}
   
