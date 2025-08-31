@@ -28,7 +28,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
     const CartFlight = CartFlights[0];
     const CartHotel = CartHotels[0];
     console.log("CartDetails_00", CartData?.total_price);
-    console.log("CartHotel2222", CartFlight);
+    console.log("CartHotel2222", CartHotel);
     
   // Hotel pricing if the cart contains hotel
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
@@ -97,18 +97,22 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
               Checkout .{" "}
               {CartData?.total_price && (
                 <>
-                  {currencySymbols[CartFlight?.currency] || CartFlight?.currency}
+                  {currencySymbols[CartFlight?.currency] ||
+                    currencySymbols[CartHotel?.currency] ||
+                    CartFlight?.currency ||
+                    CartHotel?.currency}
+
                   {Math.round(CartData?.total_price)}
                 </>
               )}
               {/*  Show per-night price only for hotels */}
-              {perNightPrice && (
+              {/* {perNightPrice && (
                 <>
                   {" / "}
-                  {currencySymbols[CartFlight?.currency] || CartFlight?.currency}
+                  currencySymbols[CartFlight?.currency] || CartFlight?.currency}
                   {Math.round(perNightPrice)}/night
                 </>
-              )}
+              )} */}
             </Typography>
           </Button>
         ) : null}
