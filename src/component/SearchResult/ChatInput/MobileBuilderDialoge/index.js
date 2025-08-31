@@ -61,7 +61,7 @@ const MobileBuilderDialoge = () => {
       }}
     >
       <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
-        <Box className="1111" py={"18px"}>
+        <Box className="1111" >
           <YourTripSedebarCard getBuilder={getBuilder} />
           
         </Box>

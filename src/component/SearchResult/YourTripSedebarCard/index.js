@@ -83,8 +83,7 @@ const YourTripSedebarCard = ({
 
       <Box
         className={TripStyles.TripBody}
-        sx={{ pt: { md: "18px", xs: 0 } }}
-        px={"18px"}
+        sx={{ pt: { md: "18px", xs: 0 }, px: { md: "18px", xs: "0" } }}
         component={"section"}
         pb={3}
       >
@@ -205,11 +204,15 @@ const YourTripSedebarCard = ({
           </Box>
         </Box>
         {/* filter row */}
-        
+
         {/*  */}
         {(!CartDetails?.items?.length ||
           CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
-          <SidebarTripDetails id="itinerary-section" CartDetails={CartDetails} Carduuid={Carduuid} />
+          <SidebarTripDetails
+            id="itinerary-section"
+            CartDetails={CartDetails}
+            Carduuid={Carduuid}
+          />
         )}
 
         {/* {!getselectedFlight ? (
@@ -350,7 +353,6 @@ const YourTripSedebarCard = ({
               )}
 
               {/* get hotel */}
-
             </>
           ))}
 
@@ -447,7 +449,6 @@ const YourTripSedebarCard = ({
         </Box>
         {/*  */}
       </Box>
-      <SidebarFooter />
       {/* Extra Info bottom */}
 
       {/* <Box
