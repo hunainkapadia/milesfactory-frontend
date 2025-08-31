@@ -57,8 +57,9 @@ const AiMessage = ({ aiMessage }) => {
   const getNextFlight = useSelector(
     (state) => state.sendMessage?.appendFlights?.ai
   );
-  const isFilter = useSelector((state) => state.sendMessage?.FilterUrl);
-
+  const filterUrl = useSelector((state) => state.sendMessage?.FilterUrl);
+  // check if filter is applied
+  const isFilter = filterUrl && filterUrl.includes("?");
   console.log("isFilter", isFilter);
   
 
@@ -175,7 +176,7 @@ const AiMessage = ({ aiMessage }) => {
             "getNextFlight_next_page_number",
             getNextFlight?.offers?.length
           )}
-          {getNextFlight?.offers?.length === 6 || !isFilter ? (
+          {getNextFlight?.offers?.length === 6 && !isFilter ? (
             // Do nothing (hide both)
             <NotfoundCard />
             
