@@ -25,7 +25,6 @@ const SearchFilterBar = () => {
   const dispatch = useDispatch();
   //   for selct flight detail
 
-  console.log("SearchHistory_222", SearchHistory);
   
   //   for selct flight detail end
   
@@ -46,8 +45,6 @@ const SearchFilterBar = () => {
 const CartFlight = CartOfferDetail?.find(item => item?.raw_data?.slices);
 const CartHotel = CartOfferDetail?.find(item => item?.raw_data?.hotel);
 
-console.log("CartHotel", CartFlight);
-
 const HandleSelectDrawer = () => {
   if (CartFlight) {
     dispatch(setBookingDrawer(true));
@@ -62,11 +59,6 @@ const handleHotelDrawer = () => {
   }
 };
 
-
-
-  console.log("SearchHistory_hotel22", SearchHistory?.hotel);
-  console.log("SearchHistory_flight", SearchHistory);
-  
   
   return (
     <>

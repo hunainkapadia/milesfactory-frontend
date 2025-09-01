@@ -45,9 +45,7 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
   const getHotels = aiMessage?.ai?.hotels;
-
-  console.log("getHotels_00", getHotels);
-  const handleSeeMoreHotels = () => {
+ const handleSeeMoreHotels = () => {
     setHotelsToShow((prev) => prev + 10); // load 10 more each click
   };
   // end hotel
@@ -66,9 +64,7 @@ const AiMessage = ({ aiMessage }) => {
   const filterUrl = useSelector((state) => state.sendMessage?.FilterUrl);
   // check if filter is applied
   const isFilter = filterUrl && filterUrl.includes("?");
-  console.log("isFilter", isFilter);
   
-
 
   const displayedGetFlights = showAllFlight
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
@@ -172,10 +168,7 @@ const AiMessage = ({ aiMessage }) => {
 
           {/* Toggle button */}
 
-          {console.log(
-            "getNextFlight_next_page_number",
-            getNextFlight?.offers?.length
-          )}
+          
           {getNextFlight?.offers?.length === 6 && !isFilter ? (
             // Do nothing (hide both)
             <NotfoundCard />

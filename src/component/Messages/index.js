@@ -91,8 +91,6 @@ const Messages = () => {
     const SearchHistory = SearchHistorySend || SearchHistoryGet;
     
 
-    console.log("SearchHistory_filter", SearchHistory);
-    
   return (
     <>
       {messages.length ? (
@@ -103,7 +101,6 @@ const Messages = () => {
             }`}
           >
             <Box className={searchResultStyles.messageContentIn}>
-            {console.log("messages_hotel", messages)}
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}

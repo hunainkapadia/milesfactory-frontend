@@ -19,13 +19,11 @@ const YourTripSedebarCard = ({
 }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
-  console.log("BuilderArguments", BuilderArguments);
-
+  
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
 
-  console.log("CartDetails_00", CartDetails?.uuid);
-
+  
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
@@ -229,13 +227,11 @@ const YourTripSedebarCard = ({
           {CartDetails?.items?.map((getItems, index) => (
             <>
               {/* flight */}
-              {console.log("getItems_000", getItems)}
               {getItems?.raw_data?.slices && (
                 <>
                   {getItems?.raw_data?.slices?.map((slice, index) => (
                     <>
-                      {console.log("getItems_caslice", slice)}
-
+                      
                       <Box mb={2}>
                         {index === 0 ? (
                           <>
