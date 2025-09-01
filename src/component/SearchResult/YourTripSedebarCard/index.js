@@ -449,6 +449,7 @@ const YourTripSedebarCard = ({
         </Box>
         {/*  */}
       </Box>
+      <SidebarFooter />
       {/* Extra Info bottom */}
 
       {/* <Box
