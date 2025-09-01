@@ -89,10 +89,10 @@ const NotfoundCard = () => {
             height={"100%"}
             
           >
-            <Typography  className={" mb-0 gray bold"}>
+            <Typography  className={" mb-0 black-50 bold"}>
               {flightcount.toLocaleString()} results
             </Typography>
-            <Typography className=" f11 gray">
+            <Typography className=" f11 black-50">
               Narrow down your search
             </Typography>
           </Box>
