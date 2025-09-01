@@ -1,12 +1,13 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 const NotfoundCard = () => {
+  const flightcount = useSelector(
+    (state) => state?.sendMessage?.appendFlights?.ai?.count
+  );
   return (
-    <Box
-      className={`${styles.NotfoundCard}`}
-      justifyContent={"center"}
-    >
+    <Box className={`${styles.NotfoundCard}`} justifyContent={"center"}>
       <Grid container>
         <Grid className={styles.CardLeft} lg={9} md={9} xs={12}>
           {/* footer */}
@@ -82,10 +83,19 @@ const NotfoundCard = () => {
                 lg: "column",
                 md: "column",
               },
+              textAlign: { md: "left", xs: "center" }
             }}
             justifyContent={"center"}
             height={"100%"}
-          ></Box>
+            
+          >
+            <Typography  className={" mb-0 gray bold"}>
+              {flightcount.toLocaleString()} results
+            </Typography>
+            <Typography className=" f11 gray">
+              Narrow down your search
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
     </Box>
