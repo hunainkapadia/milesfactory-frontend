@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 // import TripStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -70,6 +70,9 @@ const YourTripSedebarCard = ({
     return result;
   }
 
+  const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -449,7 +452,9 @@ const YourTripSedebarCard = ({
         </Box>
         {/*  */}
       </Box>
-      <SidebarFooter />
+      {!isMobile && <SidebarFooter />}
+      
+      
       {/* Extra Info bottom */}
 
       {/* <Box
