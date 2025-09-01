@@ -115,7 +115,9 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
               const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
               api.get(historyUrl)
                 .then((history_res)=> {
-                  dispatch(setSearchHistoryGet(history_res.data.search));
+                  dispatch(
+                    setSearchHistoryGet({ flight: history_res.data.search })
+                  );
                 })
                 .catch((error)=> {
                   console.log("error", error);

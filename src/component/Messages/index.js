@@ -91,6 +91,8 @@ const Messages = () => {
     const SearchHistory = SearchHistorySend || SearchHistoryGet;
     
 
+    console.log("SearchHistory_filter", SearchHistory);
+    
   return (
     <>
       {messages.length ? (

@@ -25,6 +25,8 @@ const SearchFilterBar = () => {
   const dispatch = useDispatch();
   //   for selct flight detail
 
+  console.log("SearchHistory_222", SearchHistory);
+  
   //   for selct flight detail end
   
   const getCartHotel = useSelector(
