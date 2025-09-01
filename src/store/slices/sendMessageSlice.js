@@ -152,6 +152,13 @@ const sendMessageSlice = createSlice({
       state.messages = [];
       state.ThreadUUIDsend = null;
     },
+    setResetAppendFlights: (state) => {
+      state.appendFlights = {
+        nextPageNo: 2, // reset back to default start
+        ai: "",
+      };
+      state.noMoreFlights = false;
+    },
   },
 });
 
@@ -392,6 +399,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
+        dispatch(setResetAppendFlights());
         dispatch(setThreadUuid(newUuid));
         dispatch(setMobileNaveDrawer(false));
         dispatch(setIsBuilderDialog(false));
@@ -504,6 +512,7 @@ export const {
   setNoMoreFlights,
   setInputLoading,
   setNewChatLoading,
-  setFunctionType
+  setFunctionType,
+  setResetAppendFlights
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
