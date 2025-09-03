@@ -558,3 +558,6 @@
     }
   }
 }
+@include for-tab (){
+  .ChatBody .ChatBodyLeft {max-width: 100%;}
+}

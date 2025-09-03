@@ -88,3 +88,10 @@
       }
    }
 }
+
+@include for-tab (){
+   .SearchFilterBar {
+          top: 45px;
+          width: 100%;
+   }
+}
