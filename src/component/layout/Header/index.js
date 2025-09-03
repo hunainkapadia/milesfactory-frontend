@@ -343,7 +343,7 @@ const Header = ({
                       alignItems={"center"}
                     >
                       <Box
-                        className="btn btn-primary btn-sm  btn-round btn-shadow"
+                        className="btn btn-primary btn-lg-x  btn-round btn-shadow"
                         alignItems="center"
                         justifyContent="center"
                         gap={1}
