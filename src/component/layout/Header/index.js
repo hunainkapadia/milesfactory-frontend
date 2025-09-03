@@ -60,6 +60,7 @@ import ShareDropdown from "./ShareDropdown";
 import MobileBuilderDialoge from "../../SearchResult/ChatInput/MobileBuilderDialoge";
 import HeaderUtils from "@/src/utils/headerUtils";
 import HotelDrawer from "../../SearchResult/Hotel/hotelDrawer";
+import useIsMobile from "@/src/hooks/Hooks";
 
 const Header = ({
   isMessage,
@@ -124,8 +125,7 @@ const Header = ({
   //   dispatch(setisUserPopup(true));
   // }; force sign
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const {isMobile} = useIsMobile();
 
   return (
     <>

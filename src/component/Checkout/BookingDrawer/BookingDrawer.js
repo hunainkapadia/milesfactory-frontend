@@ -157,7 +157,7 @@ const BookingDrawer = ({ }) => {
                   </>
                 ))}
                 <Box
-                  className="black opacity-50"
+                  className="black"
                   display={"flex"}
                   gap={2}
                   alignItems={"center"}
@@ -166,7 +166,7 @@ const BookingDrawer = ({ }) => {
                   <Box display={"flex"} alignItems={"center"}>
                     <img width={14} src="/images/leave-icon.svg" />
                   </Box>
-                  <Typography className={styles.normalOption + " f12 black"}>
+                  <Typography className={styles.normalOption + " f12 basecolor"}>
                     <span>
                       Emissions estimate: {getFlightDetail?.total_emissions_kg}{" "}
                       kg CO₂e

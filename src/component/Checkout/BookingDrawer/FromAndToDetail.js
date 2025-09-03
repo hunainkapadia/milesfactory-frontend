@@ -475,13 +475,13 @@ const FromAndToDetail = ({
                   className={styles.normalOption}
                 >
                   <Box
-                    className={styles.BaggageIcon + " opacity-50 "}
+                    className={styles.BaggageIcon + " basecolor "}
                     display={"flex"}
                     alignItems={"center"}
                   >
                     <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
-                  <Typography className="f12 black ">
+                  <Typography className="f12 basecolor   ">
                     {SearchHistoryGet?.adults} adult
                     {SearchHistoryGet?.adults > 1 ? "s" : ""}
                   </Typography>
@@ -504,7 +504,7 @@ const FromAndToDetail = ({
                     className={styles.normalOption}
                   >
                     <Box
-                      className={styles.BaggageIcon + " opacity-50 "}
+                      className={styles.BaggageIcon + "  "}
                       display={"flex"}
                       alignItems={"center"}
                     >
@@ -517,7 +517,7 @@ const FromAndToDetail = ({
                         }
                       />
                     </Box>
-                    <Typography className="f12 black opacity-50">
+                    <Typography className="f12 basecolor">
                       {baggage.quantity} {baggage.formatted_type}
                     </Typography>
                   </Box>
