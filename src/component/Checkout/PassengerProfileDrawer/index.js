@@ -230,7 +230,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
               })}
 
             {/*  */}
-            <Box px={3} pb={2} onClick={handleAddPassenger}>
+            <Box sx={{ px: { md: 3, xs: 2 } }}  pb={2} onClick={handleAddPassenger}>
               <Box
                 display={"flex"}
                 justifyContent={"center"}

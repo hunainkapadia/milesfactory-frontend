@@ -57,10 +57,7 @@ const UserPopup = (isChat) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   const loginState = useSelector((state) => state?.login?.loginState);
-  console.log("loginState", loginState);
-  console.log("isUserPopup", isUserPopup);
-  console.log("isChat_isChat", isChat?.isChat && loginState);
-
+  
   return (
     <>
       {(isChat?.isChat ? isChat?.isChat && loginState : isUserPopup) && (

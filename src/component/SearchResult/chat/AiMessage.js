@@ -19,17 +19,19 @@ import PollingMessage from "../PollingMessage/PollingMessage";
 import SearchProgressBar from "../../LoadingArea/SearchProgressBar";
 import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 import PassengerFlowBlock from "../PassengerFlowBlock";
+import HotelCard from "../HotelCard";
+import NotfoundCard from "./NotfoundCard";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
+  const [hotelsToShow, setHotelsToShow] = useState(10); // initial 10 hotels
 
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
 
   const getMessages = useSelector((state) => state.getMessages?.messages);
-  console.log("getMessages", getMessages.length > 0);
 
   const allFlightSearcCount = useSelector(
     (state) => state.sendMessage.allFlightSearchResults
@@ -39,11 +41,14 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.ViewPassengers
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
-  console.log("FlightExpire", FlightExpire);
-
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  const getHotels = aiMessage?.ai?.hotels;
+ const handleSeeMoreHotels = () => {
+    setHotelsToShow((prev) => prev + 10); // load 10 more each click
+  };
+  // end hotel
 
   useEffect(() => {
     if (GetViewPassengers.length > 0) {
@@ -56,20 +61,19 @@ const AiMessage = ({ aiMessage }) => {
   const getNextFlight = useSelector(
     (state) => state.sendMessage?.appendFlights?.ai
   );
+  const filterUrl = useSelector((state) => state.sendMessage?.FilterUrl);
+  // check if filter is applied
+  const isFilter = filterUrl && filterUrl.includes("?");
+  
 
   const displayedGetFlights = showAllFlight
     ? [...(aiMessage?.ai?.offers || []), ...(getNextFlight?.offers || [])]
     : aiMessage?.ai?.offers;
 
-  {
-    console.log("displayedGetFlights", aiMessage);
-  }
   // scroll payment success
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
-
-  console.log("paymentSuccess", paymentSuccess);
 
   useEffect(() => {
     if (paymentSuccess) {
@@ -81,8 +85,6 @@ const AiMessage = ({ aiMessage }) => {
   // scroll
   const isLoading = useSelector((state) => state.sendMessage?.isLoading);
   const Selectloading = useSelector((state) => state.booking.isLoading);
-
-  console.log("Selectloading", Selectloading);
 
   // track for send message loading
 
@@ -114,12 +116,10 @@ const AiMessage = ({ aiMessage }) => {
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );
-  console.log("isFunction", isFunction);
 
   // Find message with ai.offers
   // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
   const noMoreFlights = useSelector((state) => state.sendMessage.noMoreFlights);
-  console.log("noMoreFlights", noMoreFlights);
 
   const handleSeeMoreFlights = () => {
     if (!showAllFlight) {
@@ -131,6 +131,7 @@ const AiMessage = ({ aiMessage }) => {
   const isLoadingPassenger = useSelector(
     (state) => state?.passengerDrawer?.isPassengerLoading
   );
+  const [selectedOfferId, setSelectedOfferId] = useState(null);
 
   return (
     <Box
@@ -142,8 +143,6 @@ const AiMessage = ({ aiMessage }) => {
     >
       {/* If all passengers are filled, show payment components */}
 
-      
-
       {displayedGetFlights?.length > 0 ? (
         <>
           <Box className={searchResultStyles.SearchCardWrapper}>
@@ -153,12 +152,14 @@ const AiMessage = ({ aiMessage }) => {
             <Box className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
-                <SearchCard
-                  key={`post-${i}-${offer.id}`}
-                  offerData={offer}
-                  offerkey={`${i}-${offer.id}`}
-                  FlightExpire={FlightExpire}
-                />
+                <>
+                  <SearchCard
+                    key={i}
+                    offerData={offer}
+                    offerkey={`${offer.id}`}
+                    FlightExpire={FlightExpire}
+                  />
+                </>
               ))}
 
               {/* Render GET flight offers */}
@@ -166,38 +167,39 @@ const AiMessage = ({ aiMessage }) => {
           </Box>
 
           {/* Toggle button */}
-          {!getMessages.length > 0 && (
-            <>
-              {!noMoreFlights &&
-              (aiMessage?.ai?.next_page_number ||
-                getNextFlight?.next_page_number) ? (
-                <Box
-                  onClick={handleSeeMoreFlights}
-                  style={{ cursor: "pointer" }}
-                >
-                  <Box
-                    sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-                    gap={2}
-                    alignItems="center"
-                    display="flex"
-                    className="bold"
-                  >
-                    <span>See more flights</span>
-                    <i className="fa fa-caret-right fas" />
-                  </Box>
-                </Box>
-              ) : (
-                <Box
-                  sx={{ my: { lg: 2, md: 2, xs: 2 } }}
-                  gap={2}
-                  alignItems="center"
-                  display="flex"
-                  className="bold"
-                >
-                  No more flights found.
-                </Box>
-              )}
-            </>
+
+          
+          {getNextFlight?.offers?.length === 6 && !isFilter ? (
+            // Do nothing (hide both)
+            <NotfoundCard />
+            
+          ) : !noMoreFlights &&
+            (aiMessage?.ai?.next_page_number ||
+              getNextFlight?.next_page_number) ? (
+            // Show "See more flights"
+            <Box onClick={handleSeeMoreFlights} style={{ cursor: "pointer" }}>
+              <Box
+                sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+                gap={2}
+                alignItems="center"
+                display="flex"
+                className="bold"
+              >
+                <span>See more flights</span>
+                <i className="fa fa-caret-right fas" />
+              </Box>
+            </Box>
+          ) : (
+            // Show "No more flights found."
+            <Box
+              sx={{ my: { lg: 2, md: 2, xs: 2 } }}
+              gap={2}
+              alignItems="center"
+              display="flex"
+              className="bold"
+            >
+              No more flights found.
+            </Box>
           )}
         </>
       ) : (
@@ -236,11 +238,6 @@ const AiMessage = ({ aiMessage }) => {
               {aiMessage?.ai?.isPolling?.status && !isFunction && (
                 <>
                   <Box className={searchResultStyles.AiMessage + " aaa"}>
-                    {console.log(
-                      "aiMessage_polling",
-                      aiMessage?.ai?.isPolling?.argument
-                    )}
-
                     <PollingMessage
                       PollingData={aiMessage?.ai?.isPolling?.argument}
                     />
@@ -305,6 +302,44 @@ const AiMessage = ({ aiMessage }) => {
             ""
           )}
         </>
+      )}
+
+      {/* Hotel Results */}
+      {Array.isArray(getHotels?.hotels) && getHotels.hotels.length > 0 && (
+        <Box className={searchResultStyles.HotelCardWrapper}>
+          {getHotels.hotels.slice(0, hotelsToShow).map((hotel, idx) => (
+            <HotelCard
+              key={hotel.code || idx}
+              hotel={hotel}
+              price={getHotels?.total}
+              allHotels={getHotels}
+            />
+          ))}
+
+          {/* See more hotels button */}
+          {hotelsToShow < getHotels.hotels.length ? (
+            <Box
+              onClick={handleSeeMoreHotels}
+              sx={{ my: 2, cursor: "pointer" }}
+              display="flex"
+              alignItems="center"
+              gap={1}
+              className="bold basecolor1"
+            >
+              <Typography className="bold" lineHeight={1} component={"span"}>Show more stays</Typography>
+              <i className="fa fa-caret-right fas" />
+            </Box>
+          ) : (
+            <Box
+              sx={{ my: 2 }}
+              display="flex"
+              alignItems="center"
+              className="bold"
+            >
+              No more hotels found.
+            </Box>
+          )}
+        </Box>
       )}
 
       {/* passenger flow start */}

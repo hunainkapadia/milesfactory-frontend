@@ -15,6 +15,7 @@
    
 
    .DropdownItems {
+      display: none;
       width: 100%;
       position: absolute;
       height: auto;
@@ -357,6 +358,16 @@
             padding: 0px;  
          }
 
+      }
+   }
+ }
+
+ @include for-tab (){ 
+   .Header {
+      .Dropdown {
+         .DropdownItems {
+            left: -80px;
+         }
       }
    }
  }

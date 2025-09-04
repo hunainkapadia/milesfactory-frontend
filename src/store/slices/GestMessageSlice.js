@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
-import { setAddBuilder } from "./sendMessageSlice";
+import { setAddBuilder, setThreadUuid } from "./sendMessageSlice";
 
 const initialState = {
   chatActive: false,
@@ -48,9 +48,7 @@ const GetMessagesSlice = createSlice({
     setMessages: (state, action) => {
   state.messages = action.payload;  // Replace entire messages array
 },
-    setMessage: (state, action) => {
-      console.log("thread_action", action);
-      
+    setMessage: (state, action) => {      
       //console.log("actiontest", action);
       
       state.messages.push(action.payload);
@@ -74,113 +72,114 @@ const GetMessagesSlice = createSlice({
 
 export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
   const state = getState();
-  const threadUuid =  state?.sendMessage?.threadUuid
+  const threadUuid = state?.sendMessage?.threadUuid;
   const uuid = getthreaduuid || threadUuid;  
+  dispatch(setThreadUuid(uuid)); // set for 1st chat url 
   
-  // Get the current URL path
-  // const pathname = window.location.pathname;
-
-  // // Extract only the UUID after /chat/ and remove anything after it
-  // const threadUUID = pathname.split("/chat/")[1]?.split("/")[0]?.split("?")[0] || "";
-   if (!uuid) {
+  if (!uuid) {
     console.error("No thread UUID found!");
     return;
   }
   
   dispatch(setIsLoading(true));
   
-  // Use only the UUID in the API URL
   const threadUrl = `/api/v1/chat/get-messages/${uuid}`;
   
   api
-  .get(threadUrl)
-  .then((response) => {    
+    .get(threadUrl)
+    .then((response) => {    
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
       }
+
       response?.data.forEach((item) => {
-        // is function true start search result flow
         if (item?.silent_is_function) {
           dispatch(setAddBuilder(item));
         }
+
         if (item?.is_function) {
-          // builder for get
-          
-          
-          // const topFlightSearchApi =
-          // item?.response?.results?.view_top_flight_result_api?.url;
-          // if (topFlightSearchApi) {
-          //   api
-          //   .get(topFlightSearchApi)
-          //   .then((offerResponse) => {
-          //     console.log("get message", offerResponse);
-          //     dispatch(
-          //         setMessage({
-          //           user: item.message,
-          //           ai: offerResponse.data,
-          //           OfferId: topFlightSearchApi, // this is for passenger flow  offerID
-          //         })
-          //       );
-          //     })
-          //     .catch((searcherror) => {
-          //       dispatch(setError("Error fetching flight offer data"));
-          //     });
-          // }
+          const funcName = item?.function_template?.[0]?.function?.name;
 
-          
-          
-          
-          const allFlightSearchApi =
-          item?.response?.results?.view_all_flight_result_api?.url;
+          // 🔹 FLIGHT FLOW
+          if (funcName === "search_flight_result_func") {
+            const allFlightSearchApi =
+              item?.response?.results?.view_all_flight_result_api?.url;
+            const allFlightSearchUuid =
+              item?.response?.results?.view_all_flight_result_api?.uuid;
+            
+            if (allFlightSearchApi) {
+              dispatch(setTopOfferUrl(allFlightSearchUuid));
 
-          const allFlightSearchUuid =
-          item?.response?.results?.view_all_flight_result_api?.uuid;
-          
-          if (allFlightSearchApi) {
-            
-            
-            // flight history [start]
-            const getallFlightId = allFlightSearchApi.split('/').pop();
-            dispatch(setTopOfferUrl(allFlightSearchUuid)); // for passenger flow id dispatch
-            
-            
-             const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
-             api.get(historyUrl).then((history_res)=> {
-              //  console.log("historyUrl", history_res.data.search);
-               dispatch(setSearchHistoryGet(history_res.data.search))
-             }).catch((error)=> {
-              console.log("error", error);
-              
+              // Flight History
+              const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
+              api.get(historyUrl)
+                .then((history_res)=> {
+                  dispatch(
+                    setSearchHistoryGet({ flight: history_res.data.search })
+                  );
+                })
+                .catch((error)=> {
+                  console.log("error", error);
+                });
 
-             })
-             // flight history [end]
-            //  dispatch(
-            //    setMessage({ user: item.message, ai: { response: item?.response } })
-            //  );
-            
-            //console.log("allFlightSearch11", allFlightSearchApi);
-            api
-              .get(allFlightSearchApi)
-              .then((flightRes) => {
-                // dispatch(setAllFlightGetApi(flightRes?.data)); // Store but don't update AI message
-                dispatch(
-                  setMessage({
-                    user: item.message,
-                    ai: flightRes.data,
-                  })
-                );
-                //console.log("allFlightSearchApi11", flightRes.data);
-              })
-              .catch((flighterror) => {
-                
-
-                dispatch(setFlightExpire(flighterror?.response?.data?.error));
-              })
-              .finally(() => {});
+              // Flight Results
+              api.get(allFlightSearchApi)
+                .then((flightRes) => {
+                  dispatch(
+                    setMessage({
+                      user: item.message,
+                      ai: flightRes.data,
+                    })
+                  );
+                })
+                .catch((flighterror) => {
+                  dispatch(setFlightExpire(flighterror?.response?.data?.error));
+                });
+            }
           }
+
+          // 🔹 HOTEL FLOW
+          else if (funcName === "search_hotel_result_func") {
+            const hotelSearchApi =
+              item?.response?.results?.view_hotel_search_api?.url;
+
+            const HotelArgument =
+              item?.function_template?.[0]?.function?.arguments || {};
+            
+            // Save hotel search args to redux
+            dispatch(setSearchHistoryGet({ hotel: { HotelArgument } }));
+
+            if (hotelSearchApi) {
+              api.get(hotelSearchApi)
+                .then((hotelRes) => {
+                  const isComplete = hotelRes?.data?.is_complete;
+                  if (isComplete === true) {
+                    dispatch(setClearflight()); // clear flights if switching
+                    dispatch(
+                      setMessage({
+                        user: item.message,
+                        ai: hotelRes.data,
+                      })
+                    );
+                  } else {
+                    dispatch(
+                      setMessage({
+                        user: item.message,
+                        ai: hotelRes.data,
+                        type: "hotel_result",
+                      })
+                    );
+                  }
+                })
+                .catch((hotelError) => {
+                  console.error("Error fetching hotel results", hotelError);
+                });
+            }
+          }
+
         } else {
-          console.log("item_response", item);
+          // Normal AI message (not function call)
           dispatch(
             setMessage({ user: item.message, ai: { response: item?.response } })
           );
@@ -189,13 +188,13 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
     })
     .catch((error) => {
       console.log("thread_error", error);
-      
       dispatch(setError("Error fetching messages"));
     })
     .finally(() => {
       dispatch(setIsLoading(false));
     });
 };
+
 export const RefreshHandle = () => (dispatch, getState) => {
   const state = getState();
   const uuid = state?.getMessages?.SearchHistory?.uuid

@@ -1,26 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
+import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
+import { setMessage, setSearchHistorySend } from "./sendMessageSlice";
+import { setIsBuilderDialog } from "./Base/baseSlice";
+import { setSelectedhotelKey } from "./HotelSlice";
 
 const initialState = {
   flightDetail: null,
   isLoading: false,
+  isLoadingSelect: false,
   setError: null,
   selectedFlightId: null,
   selectedFlighDetail: null,
-  
+
   setSelectFlightKey: null,
   OpenDrawer: false,
   CloseDrawer: false,
   BookingSetupUrl: null,
   selectedFlightKey: null, //Store selected flight key
-  offerkeyforDetail: null, 
+  offerkeyforDetail: null,
   BaggageDrawer: false,
   baggageOptions: {}, // ← add this line
   selectedBaggage: [], // add in initialState
   baggageError: null,
-  singleFlightData:  null,
-
+  singleFlightData: null,
+  addCart: null,
+  getListCart: null,
+  getCartDetail: null,
+  bookingDrawer: false,
+  cartOffer: null,
+  hotelDrawer:false,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -28,23 +38,45 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
-    setOfferkeyforDetail:(state, action)=> {
-      state.offerkeyforDetail = action.payload
+    setHotelDrawer:(state, action) => {
+      state.hotelDrawer = action.payload;
     },
-    setSingleFlightData: (state, action)=> {
-      state.singleFlightData = action.payload
+    setCartOffer:(state, action) => {
+      state.cartOffer = action.payload;
     },
-    setSelectedFlightKey: (state, action) => { // New reducer for selected flight key      
+    setIsLoadingSelect: (state, action) => {
+      state.isLoadingSelect = action.payload;
+    },
+    setBookingDrawer: (state, action) => {
+      state.bookingDrawer = action.payload;
+    },
+    setGetListCart: (state, action) => {
+      state.getListCart = action.payload;
+    },
+    setGetCartDetail: (state, action) => {
+      state.getCartDetail = action.payload;
+    },
+    setAddCart: (state, action) => {
+      state.addCart = action.payload;
+    },
+    setOfferkeyforDetail: (state, action) => {
+      state.offerkeyforDetail = action.payload;
+    },
+    setSingleFlightData: (state, action) => {
+      state.singleFlightData = action.payload;
+    },
+    setSelectedFlightKey: (state, action) => {
+      // New reducer for selected flight key
       state.selectedFlightKey = action.payload;
     },
     setSelectFlightKey: (state, action) => {
       state.setSelectFlightKey = action.payload;
     },
     setflightDetail: (state, action) => {
-      state.flightDetail = action.payload; //payload comming in action 
+      state.flightDetail = action.payload; //payload comming in action
       state.selectedFlightId = action?.payload?.id;
     },
-    
+
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
@@ -57,15 +89,11 @@ const bookingflightsSlice = createSlice({
     //  select booking end
     //  start booking get flight and pass detaiul
     setCloseDrawer: (state, action) => {
-      
       state.setSelectFlightKey = action.payload;
     },
-    setBookingSetupUrl: (state,action)=> {
-      state.BookingSetupUrl= action.payload;
+    setBookingSetupUrl: (state, action) => {
+      state.BookingSetupUrl = action.payload;
     },
-    
-
-    
   },
 });
 
@@ -78,31 +106,124 @@ export const fetchflightDetail = (flightId) => (dispatch) => {
   });
 };
 
-
 // booking flo
 
-export const bookFlight = (flightId) => (dispatch, getState) => {
+export const bookFlight = () => (dispatch, getState) => {
   // {{BASE_URL}}/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options
   // const getPassenger =  `${/api/v1/passenger/order/f04e7c0d-3546-40f4-8140-cfbf13d98f99/baggage-options}`
   // {{BASE_URL}}/api/v1/search/single/result/off_0000AtoC3XiG43x9eXiVTE
   const FlightId = getState().booking.selectedFlightId;
-  dispatch(setLoading(true))
-  
+  dispatch(setLoading(true));
+
   api
     .get(`/api/v1/search/single/result/${FlightId}`)
     .then((res) => {
-      dispatch(setSingleFlightData(res.data))
+      dispatch(setSingleFlightData(res.data));
     })
     .catch((error) => {
       console.log(error);
-    }).finally (()=> {
-      dispatch(setLoading(false))
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
     });
+};
+
+// Add to Cart
+export const AddToCart = (params, uuid) => async (dispatch, getState) => {
+  dispatch(setIsLoadingSelect(true));
+
+  try {
+    // delay before API call (500ms = 0.5s)
+    const res = await api.post(`/api/v1/cart/add`, params);
+
+    dispatch(setIsLoadingSelect(false));
+    dispatch(setAddCart(res.data));
+
+    // if API returns uuid, immediately fetch cart items
+    if (res.data) {
+      dispatch(CartDetail(uuid));
+      dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
+      dispatch(setHotelDrawer(false))
+    }
+    // detect mobile view
+    if (window.innerWidth <= 768) {
+      // Option 1: dispatch to open mobile drawer
+      // dispatch(setIsBuilderDialog(true));
+      // OR Option 2: show an alert
+    }
+  } catch (error) {
+    console.error("AddToCart Error:", error?.message);
+    dispatch(setError(error?.message))
+  } finally {
+    dispatch(setIsLoadingSelect(false));
+  }
+};
+
+// List Cart
+// export const ListCart = (uuid) => async (dispatch) => {
+//   const apiUrl = `/api/v1/cart/${uuid}/items`;
+//   dispatch(setLoading(true));
+
+//   try {
+//     const res = await api.get(apiUrl);
+//     dispatch(setGetListCart(res.data));
+//   } catch (error) {
+//     console.error("ListCart Error:", error);
+//   } finally {
+//     dispatch(setLoading(false));
+//   }
+// };
+export const CartDetail = (threadUuid) => async (dispatch, getState) => {
+  const uuid = getState()?.sendMessage?.threadUuid;
   
+
   
-  // Extract only the UUID from the URL
-  
-  
+  dispatch(setLoading(true));
+  const apiUrl = `/api/v1/cart/${threadUuid}`;
+
+  try {
+    const res = await api.get(apiUrl);
+    dispatch(setGetCartDetail(res.data));
+    const CartOfferDetail = res?.data;
+    dispatch(setCartOffer(CartOfferDetail))
+      
+    
+  } catch (error) {
+    console.error("ListCart Error:", error);
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
+  const apiUrl = `api/v1/cart/${threaduuid}/items/${Itemsuuid}`;
+  dispatch(setLoading(true));
+
+  try {
+    const res = await api.delete(apiUrl);
+    // dispatch(setSearchHistorySend(null));
+    dispatch(setSelectedhotelKey(null));
+    dispatch(setGetCartDetail(res.data));
+    dispatch(setCartOffer(null))
+
+    dispatch(setSelectedFlightKey(null));
+    dispatch(setflightDetail(null));
+    dispatch(setViewPassengers([])); // Clear passengers array
+    dispatch(setOrderUuid(null)); // Clear order UUID
+    dispatch(setMessage({ ai: { passengerFlowRes: false } }));
+
+    dispatch(
+      setMessage({
+        ai: { passengerFlowRes: { status: false, isloading: false } },
+      })
+    );
+    dispatch(setSingleFlightData(null));
+    dispatch(setOfferkeyforDetail(null));
+  } catch (error) {
+    console.error("ListCart Error:", error);
+  } finally {
+    dispatch(setLoading(false));
+  }
 };
 
 export const {
@@ -118,5 +239,12 @@ export const {
   setSelectedFlightKey,
   setSingleFlightData,
   setOfferkeyforDetail,
+  setAddCart,
+  setGetListCart,
+  setGetCartDetail,
+  setBookingDrawer,
+  setIsLoadingSelect,
+  setCartOffer,
+  setHotelDrawer
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

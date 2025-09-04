@@ -31,7 +31,7 @@ const LoginPopup = ({ isChat }) => {
 
   const LoginError = useSelector((state) => state.login.LoginError);
 
-  console.log("LoginError", LoginError?.other);
+  
 
   /// isform submit redirect to home
   const isFormSupmit = useSelector((state) => state.login.loginUser);

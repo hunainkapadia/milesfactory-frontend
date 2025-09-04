@@ -4,16 +4,13 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
+import { setBookingDrawer, setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols,event } from "@/src/utils/utils";
 import Link from "next/link";
-const BookingDrawer = ({ getFlightDetail }) => {
-  
-  //console.log("getFlightDetail", getFlightDetail);
-  
+const BookingDrawer = ({ }) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
-    dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
+    dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
   };
   const SearchHistoryGet = useSelector(
     (state) => state.getMessages.SearchHistory
@@ -22,16 +19,17 @@ const BookingDrawer = ({ getFlightDetail }) => {
     (state) => state.sendMessage.SearchHistory
   );
   const searchHistory = SearchHistoryGet || SearchHistorySend;
-  const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
+  
   const seeDetail = useSelector(
-          (state) => state.passengerDrawer.SeeDetailButton
-        );
-        
-    console.log("seeDetail", seeDetail);
+    (state) => state.passengerDrawer.SeeDetailButton
+  );
+  
+  const getFlightDetail = useSelector((state) => state.booking?.singleFlightData);
+  const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
   return (
     <Drawer
       anchor="right"
-      open={getFlightKey}
+      open={IsOpendrawer}
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
@@ -159,7 +157,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                   </>
                 ))}
                 <Box
-                  className="black opacity-50"
+                  className="black"
                   display={"flex"}
                   gap={2}
                   alignItems={"center"}
@@ -168,7 +166,7 @@ const BookingDrawer = ({ getFlightDetail }) => {
                   <Box display={"flex"} alignItems={"center"}>
                     <img width={14} src="/images/leave-icon.svg" />
                   </Box>
-                  <Typography className={styles.normalOption + " f12 black"}>
+                  <Typography className={styles.normalOption + " f12 basecolor"}>
                     <span>
                       Emissions estimate: {getFlightDetail?.total_emissions_kg}{" "}
                       kg CO₂e

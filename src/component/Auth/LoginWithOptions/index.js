@@ -75,7 +75,7 @@ const LoginWithOptions = ({ options }) => {
         flexDirection="column"
       >
       
-      {/* <AppleLoginButton /> */}
+      <AppleLoginButton />
       {/* apple login */}
         {/* Google Login */}
         <Box

@@ -66,13 +66,36 @@
 }
 
 .addtravellerBtn {
-   padding: 0px 24px 0px 0px;
+   padding: 0px;
    height: 79px;
    background: #FFFFFF;
    border: 1px dashed #E6EAEB;
    border-radius: 8px;
 }
-
+.HotelGallerySection {
+   display: grid;
+      .HotelGallery {
+      display: flex;                 /* arrange thumbnails in a row */
+      gap: 8px;                      /* space between images */
+      overflow-x: auto;              /* enable horizontal scroll */
+      width: 100%;
+      -ms-overflow-style: none;      /* hide scrollbar on IE/Edge */
+      scrollbar-width: none;         /* hide scrollbar on Firefox */
+      
+      &::-webkit-scrollbar {         /* hide scrollbar on Chrome/Safari */
+         display: none;
+      }
+      
+      .HotelThumb {
+         flex: 0 0 auto;              /* prevent shrinking */
+         width: 106px;
+         height: 79px;
+         border-radius: 12px;
+         object-fit: cover;
+         cursor: pointer;
+      }
+   }
+}
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
       padding: 0;
@@ -163,6 +186,9 @@
                justify-content: space-between;
                font-size: 0.85rem;
                color: gray;
+               .divider {
+                  display: block;
+               }
             }
             .fromAndToContainer {
                border-bottom: none;
@@ -197,9 +223,9 @@
                      justify-content: flex-end;
                   }
                   .Country {
-                     font-size: $f12;
+                     font-size: $f14;
                   }
-                  .Dates {font-size: $f12;}
+                  .Dates {font-size: $f14;}
                }
                .fromAndToRowIn {
                   gap: 16px;

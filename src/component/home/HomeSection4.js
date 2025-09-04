@@ -51,7 +51,7 @@ const HomeSection4 = (props) => {
               </Box>
             </Box>
             <Grid container spacing={{ xs: 2, md: 4 }}>
-              <Grid item xs={12} md className={styles.IdeaCard}>
+              <Grid item xs={12} sm={4} lg={4} md={4} className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
                   variant="outlined"
@@ -72,7 +72,7 @@ const HomeSection4 = (props) => {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} md className={styles.IdeaCard}>
+              <Grid item xs={12} sm={4} lg={4} md={4} className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
                   variant="outlined"
@@ -93,7 +93,7 @@ const HomeSection4 = (props) => {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} md className={styles.IdeaCard}>
+              <Grid item xs={12} sm={4} lg={4} md={4} className={styles.IdeaCard}>
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
                   variant="outlined"

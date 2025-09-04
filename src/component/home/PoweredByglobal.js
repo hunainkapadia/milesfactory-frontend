@@ -24,16 +24,13 @@ const PoweredByglobal = (props) => {
             justifyContent={"center"}
           >
             <Box className={``} sx={{ mb: { lg: 6, md: 6, xs: 0 } }}>
-              <Box
-                
-                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
-              >
+              <Box sx={{ display: { lg: "block", md: "block", xs: "none" } }}>
                 <h2 className=" semibold white align-center mb-0">
                   More than 1m+ travel partners
                 </h2>
               </Box>
-              <Box mb={3}
-                
+              <Box
+                mb={3}
                 sx={{ display: { lg: "none", md: "none", xs: "block" } }}
               >
                 <h2 className=" semibold white align-center mb-0">
@@ -42,24 +39,15 @@ const PoweredByglobal = (props) => {
               </Box>
             </Box>
           </Box>
-          <Grid
-            width={"100%"}
-            item
-            xs={12}
-            md={12}
-            container
-            sx={{
-              gap: { lg: 0, md: 0, xs: 3 },
-            }}
-          >
-            <Grid item xs={12} lg={4} md={4}>
+          <Grid container spacing={0} sx={{ gap: { xs: 3, sm: 0 } }}>
+            <Grid  xs={12} sm={4} lg={4} md={4}>
               <Box
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{ mb: { lg: 4, md: 4, xs: 0 } }} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, sm:4, xs: 4 } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -75,14 +63,14 @@ const PoweredByglobal = (props) => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} lg={4} md={4}>
+            <Grid  xs={12} sm={4} lg={4} md={4}>
               <Box
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{ mb: { lg: 4, md: 4, xs: 0 } }} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, sm:4, xs: 4 } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -99,14 +87,14 @@ const PoweredByglobal = (props) => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} lg={4} md={4}>
+            <Grid  xs={12} sm={4} lg={4} md={4}>
               <Box
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{ mb: { lg: 4, md: 4, xs: 0 } }} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, sm:4, xs: 4 } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"

@@ -411,8 +411,8 @@ $cancel-circle: "\f104";
 
 /* Large Screen*/
 
-@mixin for-computer-only {
-  @media only screen and (min-width: 991px) {
+@mixin for-tab {
+  @media only screen and (max-width: 991px) {
     @content;
   }
 }

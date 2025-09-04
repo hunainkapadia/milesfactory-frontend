@@ -3,9 +3,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import LoadingArea from "../../LoadingArea";
 import { useSelector } from "react-redux";
 
-const PollingMessage = ({ PollingData }) => {
-  console.log("PollingData", PollingData);
-  
+const PollingMessage = ({ PollingData }) => {  
   const SearchHistorySend = useSelector(
     (state) => state.sendMessage?.SearchHistorySend
   );
@@ -13,9 +11,6 @@ const PollingMessage = ({ PollingData }) => {
       (state) => state.getMessages.SearchHistory
     );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
-
-  console.log("SearchHistory_poll", SearchHistory);
-  
   const pollingComplete = useSelector((state)=> state.sendMessage.pollingComplete);
   
   

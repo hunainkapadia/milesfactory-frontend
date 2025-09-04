@@ -14,6 +14,7 @@ import { Box } from "@mui/material";
 import AiBookingHero from "@/src/component/AiBookingHero";
 import AiBookingHeader from "@/src/component/layout/Header/AiBookingHeader";
 import AiBookingFrontHeader from "@/src/component/layout/Header/AiBookingHeader";
+import HeaderUtils from "@/src/utils/headerUtils";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -33,10 +34,8 @@ const Home = () => {
 
   return (
     <>
+      <HeaderUtils />
       <Box>
-        <Box sx={{display:"none"}}> 
-          <Header isAiBooking={"isAiBooking"} />
-        </Box>
         {/* header function only works but hidden */}
         <AiBookingFrontHeader />
         <Box className={styles.homeBody}>

@@ -58,6 +58,9 @@ import SearchFilterBar from "../../SearchResult/SearchFilterBar";
 import Image from "next/image";
 import ShareDropdown from "./ShareDropdown";
 import MobileBuilderDialoge from "../../SearchResult/ChatInput/MobileBuilderDialoge";
+import HeaderUtils from "@/src/utils/headerUtils";
+import HotelDrawer from "../../SearchResult/Hotel/hotelDrawer";
+import useIsMobile from "@/src/hooks/Hooks";
 
 const Header = ({
   isMessage,
@@ -69,14 +72,11 @@ const Header = ({
   isMytrip,
   isAiBooking
 }) => {
-  {console.log("isAiBooking22", isAiBooking)}
-
   const [isSticky, setIsSticky] = useState(false);
   const [InputSticky, setInputSticky] = useState(false);
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
   const isBuilderDialoge = useSelector((state) => state?.base?.IsBuilderDialog);
-  console.log("isBuilderDialoge", isBuilderDialoge);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -111,20 +111,6 @@ const Header = ({
 
   };
 
-  // delete and create thread and show message chat clear
-  // const {uuid} = router.query
-  // console.log("router_test", uuid);
-  
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-
-  
-  
-  useEffect(() => {
-    if (uuid) {
-    router.replace(`/chat/${uuid}`); // replace to avoid extra history entries
-  }
-}, [uuid]);
-
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
   };
@@ -139,13 +125,12 @@ const Header = ({
   //   dispatch(setisUserPopup(true));
   // }; force sign
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const {isMobile} = useIsMobile();
 
   return (
     <>
       <Head></Head>
-
+      <HeaderUtils />
       <Box
         component={"header"}
         className={`
@@ -358,7 +343,7 @@ const Header = ({
                       alignItems={"center"}
                     >
                       <Box
-                        className="btn btn-primary btn-sm  btn-round btn-shadow"
+                        className="btn btn-primary btn-lg-x  btn-round btn-shadow"
                         alignItems="center"
                         justifyContent="center"
                         gap={1}
@@ -422,6 +407,7 @@ const Header = ({
       <ContactDialog />
       <InviteEmailDialog />
       <ThreadDrawer />
+      <HotelDrawer />
     </>
   );
 };

@@ -67,7 +67,6 @@ const MessageInputBox = ({
   
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
   
-  console.log("inputLoading", isHomePage);
   
 
   const inputValue = useSelector((state) => state.base.inputValue); //get input value
@@ -114,7 +113,7 @@ const MessageInputBox = ({
   
 
 
-  console.log("listening", listening);
+  
   const handleVoiceInput = () => {
     if (!browserSupportsSpeechRecognition) {
       alert("Your browser does not support speech recognition.");
@@ -135,7 +134,7 @@ const MessageInputBox = ({
       category: 'engagement',
       label: 'voice_input_used',
     });
-    console.log("voince_input_used");
+    
   };
 
   // check  polling true and start new chat
