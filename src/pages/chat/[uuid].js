@@ -145,6 +145,8 @@ const ChatByUUID = () => {
   const flightDetail = useSelector((state) => state.booking.flightDetail);
 
   const currentUser = useSelector((state) => state.base?.currentUser);
+  console.log("currentUser_uuid", currentUser);
+  
   
   useEffect(() => {
     if (currentUser) {

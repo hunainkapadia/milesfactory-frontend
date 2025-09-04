@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/apiEndpoints"; // Fixed import
 import api from "../../api";
-import { setMobileNaveDrawer } from "../Base/baseSlice";
+import { setCurrentUser, setMobileNaveDrawer } from "../Base/baseSlice";
 
 const initialState = {
   loginUser: null,
@@ -214,26 +214,28 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
 
 export const Logout = () => (dispatch) => {
-  const refreshToken = Cookies.get("refresh_token"); // Correct method
+  const refreshToken = Cookies.get("refresh_token"); // get the token string
 
-  
-  
-  api.post("/api/v1/logout/", { refresh: refreshToken })
-  .then((res) => {
-    console.log("refreshToken", refreshToken);
-    
+  console.log("refreshToken_logout_1", refreshToken);
+
+  api
+    .post("/api/v1/logout/", { refresh: refreshToken }) // <-- send string, not object
+    .then((res) => {
+      console.log("refreshToken_logout_2", refreshToken);
+
       dispatch(setLogoutUser(res.data));
+      dispatch(setCurrentUser(null));
 
       Cookies.remove("set-user");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
-      window.location.reload();
-
+      // window.location.reload();
     })
     .catch((err) => {
       console.error("Logout failed:", err.response?.data || err.message);
     });
 };
+
 
 export const LoginWithApple = (code) => (dispatch) => {
   dispatch(setisLoading(true));

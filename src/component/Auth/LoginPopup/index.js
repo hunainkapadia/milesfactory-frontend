@@ -64,6 +64,14 @@ const LoginPopup = ({ isChat }) => {
       dispatch(setLoginPopup(false));
     }
   }, [isuserLogin]);
+  // reset on open
+  useEffect(() => {
+    if (isLoginPopup) {
+      setEmail("");
+      setPassword("");
+    }
+  }, [isLoginPopup]);
+  
   // for button enable when all fields fill
   const isFormValid = email && password;
 
