@@ -25,6 +25,7 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 import BookingDrawer from "@/src/component/Checkout/BookingDrawer/BookingDrawer";
 import BaggageDrawer from "@/src/component/Checkout/BaggageDrawer";
 import { setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
+import CartErrorDialog from "@/src/component/SearchResult/chat/CartErrorDialog";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -167,6 +168,10 @@ const ChatByUUID = () => {
     }
   }, [router.isReady, router.query.uuid, sendMessages.length, dispatch]);
 
+  const cartError = useSelector((state)=> state.booking.cartError);
+  console.log("cartError_0", cartError);
+  
+
 
   // for get message on page refresh
     
@@ -265,6 +270,7 @@ const ChatByUUID = () => {
           </Box>
         </Box>
       </Box>
+      <CartErrorDialog />
       <BookingDrawer getFlightDetail={flightDetail} />
       <BaggageDrawer getFlightDetail={flightDetail} />
     </>

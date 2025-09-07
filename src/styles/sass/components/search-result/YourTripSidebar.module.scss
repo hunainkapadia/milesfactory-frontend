@@ -63,6 +63,7 @@
 }
 // tabs
 .customTabs {
+  padding: 4px;
   height: auto;
   min-height: inherit;
 }
@@ -74,7 +75,6 @@
 
 .inactiveTab {
   margin-right: 4px;
-  min-height: 30px;
   height: 30px;
   display: flex;
   flex-direction: row;
@@ -260,5 +260,14 @@
     .flightRoute {
       font-weight: $bold;
     }
+  }
+}
+@include for-mobile-large-screen(){
+  .customTabs {
+    padding: 0;
+  }
+  .inactiveTab {
+    margin-right: 4px;
+    height: 35px;
   }
 }

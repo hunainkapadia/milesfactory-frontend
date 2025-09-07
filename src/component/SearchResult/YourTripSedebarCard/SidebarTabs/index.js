@@ -46,7 +46,6 @@ const SidebarTabs = () => {
       sx={{
         backgroundColor: "#F2F7F8",
         borderRadius: "8px",
-        padding: "4px",
         display: "flex",
         gap: "4px",
       }}

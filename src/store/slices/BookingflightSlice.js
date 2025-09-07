@@ -31,6 +31,7 @@ const initialState = {
   bookingDrawer: false,
   cartOffer: null,
   hotelDrawer:false,
+  cartError: false,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -38,6 +39,9 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setCartError:(state, action) => {
+      state.cartError = action.payload;
+    },
     setHotelDrawer:(state, action) => {
       state.hotelDrawer = action.payload;
     },
@@ -135,7 +139,8 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
   try {
     // delay before API call (500ms = 0.5s)
     const res = await api.post(`/api/v1/cart/add`, params);
-
+    console.log("cart_res", res);
+    
     dispatch(setIsLoadingSelect(false));
     dispatch(setAddCart(res.data));
 
@@ -152,8 +157,8 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
       // OR Option 2: show an alert
     }
   } catch (error) {
-    console.error("AddToCart Error:", error?.message);
-    dispatch(setError(error?.message))
+    console.error("AddToCart_error", error?.response?.data?.error);
+    dispatch(setCartError(true));
   } finally {
     dispatch(setIsLoadingSelect(false));
   }
@@ -245,6 +250,7 @@ export const {
   setBookingDrawer,
   setIsLoadingSelect,
   setCartOffer,
-  setHotelDrawer
+  setHotelDrawer,
+  setCartError
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

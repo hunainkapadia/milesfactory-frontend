@@ -164,7 +164,7 @@ const BookingDrawer = ({ }) => {
                   mb={3}
                 >
                   <Box display={"flex"} alignItems={"center"}>
-                    <img width={14} src="/images/leave-icon.svg" />
+                    <img width={14} src="/images/leave-icon-drawer.svg" />
                   </Box>
                   <Typography className={styles.normalOption + " f12 basecolor"}>
                     <span>
@@ -184,7 +184,7 @@ const BookingDrawer = ({ }) => {
                         <Box display={"flex"} alignItems={"center"}>
                           <img
                             width={14}
-                            src="/images/flexible-change-with-fee.svg"
+                            src="/images/flexible-change-with-fee-drawer.svg"
                             alt="Change with Fee"
                           />
                         </Box>
@@ -214,7 +214,7 @@ const BookingDrawer = ({ }) => {
                         <Box display={"flex"} alignItems={"center"}>
                           <img
                             width={14}
-                            src="/images/flexible-change-icon.svg"
+                            src="/images/flexible-change-icon-drawer.svg"
                             alt="Free Change"
                           />
                         </Box>
@@ -233,7 +233,7 @@ const BookingDrawer = ({ }) => {
                         <Box display={"flex"} alignItems={"center"}>
                           <img
                             width={14}
-                            src="/images/refund-with-fee.svg"
+                            src="/images/refund-with-fee-drawer.svg"
                             alt="Refund with Fee"
                           />
                         </Box>
@@ -263,7 +263,7 @@ const BookingDrawer = ({ }) => {
                         <Box display={"flex"} alignItems={"center"}>
                           <img
                             width={14}
-                            src="/images/refund-icon.svg"
+                            src="/images/refund-icon-drawer.svg"
                             alt="Free Refund"
                           />
                         </Box>

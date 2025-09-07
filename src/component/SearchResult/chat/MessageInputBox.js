@@ -312,7 +312,7 @@ const MessageInputBox = ({
                                     />
                                   ) : isChat ? (
                                     <img
-                                      src="/images/search-mic-icon.svg"
+                                      src="/images/search-mic-icon2.svg"
                                       style={{
                                         width: "12px",
                                         maxWidth: "12px",

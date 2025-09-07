@@ -60,7 +60,7 @@
 
     &.inactive {
       p {
-         font-weight: normal;
+         font-weight: $light;
          color: $basecolor; // uses MUI theme variable
       }
     }
