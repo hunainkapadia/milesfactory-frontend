@@ -409,6 +409,7 @@ const MessageInputBox = ({
                 </Box>
               )}
             </Box>
+            
           </Box>
         </Box>
       </Box>
