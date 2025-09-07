@@ -168,8 +168,7 @@ const ChatByUUID = () => {
     }
   }, [router.isReady, router.query.uuid, sendMessages.length, dispatch]);
 
-  const cartError = useSelector((state)=> state.booking.cartError);
-  console.log("cartError_0", cartError);
+  
   
 
 
@@ -270,7 +269,7 @@ const ChatByUUID = () => {
           </Box>
         </Box>
       </Box>
-      <CartErrorDialog />
+      {/* <CartErrorDialog /> */}
       <BookingDrawer getFlightDetail={flightDetail} />
       <BaggageDrawer getFlightDetail={flightDetail} />
     </>
