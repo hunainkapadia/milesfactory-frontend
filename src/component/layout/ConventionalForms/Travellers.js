@@ -27,7 +27,7 @@ export default function Travellers({ travellers, setTravellers }) {
           inputRef={ref}
           onClick={(e) => setAnchorEl(e.currentTarget)}
           variant="outlined"
-          placeholder="All travellers"
+          placeholder="Travellers"
           size="small"
           sx={{ width: "150px", cursor: "pointer" }}
           className={`${styles.formControl} ${styles.travellers} formControl`}

@@ -163,6 +163,7 @@ const sendMessageSlice = createSlice({
 });
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
+  
   dispatch(setInputLoading(true));
   const pathname = window.location.pathname;
   const threadUUID = pathname.split("/chat/")[1];

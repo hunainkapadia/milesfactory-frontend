@@ -16,7 +16,10 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { fetchAirports, submitTravelForm } from "@/src/store/slices/TravelSlice";
+import {
+  fetchAirports,
+  submitTravelForm,
+} from "@/src/store/slices/TravelSlice";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
@@ -105,8 +108,6 @@ const TravelForm = () => {
           display="flex"
           justifyContent="flex-start"
           flexDirection="row"
-          columnGap="12px"
-          rowGap="16px"
           flexWrap="wrap"
         >
           {/* Trip Type */}
@@ -141,11 +142,11 @@ const TravelForm = () => {
               loading={loadingOrigin}
               getOptionLabel={(option) =>
                 option?.name
-                  ? `${option.city_name} (${option.iata_code}) - ${option.name}`
+                  ? `${option.city_name} (${option.name}) - ${option.name}`
                   : ""
               }
               onInputChange={(e, value) => handleAirportSearch(value, "origin")}
-              onChange={(e, value) => setOrigin(value?.iata_code || "")}
+              onChange={(e, value) => setOrigin(value?.name || "")}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -166,16 +167,16 @@ const TravelForm = () => {
               loading={loadingOrigin}
               getOptionLabel={(option) =>
                 option?.name
-                  ? `${option.city_name} (${option.iata_code}) - ${option.name}`
+                  ? `${option.city_name} (${option.name}) - ${option.name}`
                   : ""
               }
               onInputChange={(e, value) => handleAirportSearch(value, "origin")}
-              onChange={(e, value) => setOrigin(value?.iata_code || "")}
+              onChange={(e, value) => setDestination(value?.name || "")}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="outlined"
-                  placeholder="Departing from"
+                  placeholder="Arriving at"
                   size="small"
                   value={origin}
                   onChange={(e) => setDestination(e.target.value)}
@@ -193,9 +194,9 @@ const TravelForm = () => {
               value={
                 tripType === "oneway"
                   ? dayjs(singleDate).format("DD MMM")
-                  : `${dayjs(dateRange[0].startDate).format("DD MMM")} - ${dayjs(
-                      dateRange[0].endDate
-                    ).format("DD MMM")}`
+                  : `${dayjs(dateRange[0].startDate).format(
+                      "DD MMM"
+                    )} - ${dayjs(dateRange[0].endDate).format("DD MMM")}`
               }
               onClick={() => setShowCalendar(!showCalendar)}
               className={`${styles.formControl} ${styles.dates} formControl`}
@@ -207,12 +208,6 @@ const TravelForm = () => {
                   <img
                     src="/images/calendar-icon-light.svg"
                     alt="Calendar"
-                    style={{
-                      width: "18px",
-                      height: "18px",
-                      cursor: "pointer",
-                      marginRight: "8px",
-                    }}
                     onClick={() => setShowCalendar(!showCalendar)}
                   />
                 ),
@@ -231,9 +226,16 @@ const TravelForm = () => {
                   editableDateInputs
                   onChange={(item) => {
                     setDateRange([item.selection]);
+
                     if (tripType === "oneway") {
                       setSingleDate(item.selection.startDate);
                       setShowCalendar(false);
+                    } else if (tripType === "roundtrip") {
+                      const { startDate, endDate } = item.selection;
+                      if (endDate && startDate && endDate > startDate) {
+                        // Close only when user picked a valid return date
+                        setShowCalendar(false);
+                      }
                     }
                   }}
                   moveRangeOnFirstSelection={false}

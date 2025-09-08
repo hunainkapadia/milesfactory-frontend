@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "@/src/store/api";
 import dayjs from "dayjs";
+import { sendMessage } from "./sendMessageSlice";
 
 const initialState = {
   originOptions: [],
@@ -31,14 +32,6 @@ const travelSlice = createSlice({
     },
   },
 });
-
-export const {
-  setOriginOptions,
-  setDestinationOptions,
-  setLoadingOrigin,
-  setLoadingDestination,
-  setTravelMessage,
-} = travelSlice.actions;
 
 // ===== THUNKS =====
 
@@ -71,46 +64,57 @@ export const fetchDestinationAirports = (term) => async (dispatch) => {
 };
 
 // Submit Travel Form
+
 export const submitTravelForm = (formData) => (dispatch) => {
-   console.log("formData_00", formData);
-   
-//   const { origin, destination, dateRange, tripType, travellers, tripClass } = formData;
+  console.log("formData_00", formData);
 
-//   if (!origin || !destination) {
-//     alert("Please select both origin and destination");
-//     return;
-//   }
+  const {
+    tripType,
+    origin,
+    destination,
+    departureDate,
+    returnDate,
+    travellers,
+    tripClass,
+  } = formData;
 
-//   const startDate = dateRange[0].startDate;
-//   const endDate = dateRange[0].endDate;
+  let message = "";
 
-//   let message = "";
-
-//   if (tripType === "roundtrip") {
-//     message = `Need a return flight from ${origin} to ${destination} from ${dayjs(
-//       startDate
-//     ).format("DD MMM")} to ${dayjs(endDate).format("DD MMM")} for ${
-//       travellers.adults
-//     } adult${travellers.adults > 1 ? "s" : ""}${
-//       travellers.children > 0 ? `, ${travellers.children} children` : ""
-//     } in ${tripClass || "Economy"}`;
-//   } else {
-//     message = `Need a one way flight from ${origin} to ${destination} on ${dayjs(
-//       startDate
-//     ).format("DD MMM")} for ${travellers.adults} adult${
-//       travellers.adults > 1 ? "s" : ""
-//     }${travellers.children > 0 ? `, ${travellers.children} children` : ""} in ${
-//       tripClass || "Economy"
-//     }`;
-//   }
+  if (tripType === "roundtrip") {
+    message = `Need a return flight from ${origin} to ${destination} from ${dayjs(
+      departureDate
+    ).format("DD MMM")} to ${dayjs(returnDate).format("DD MMM")} for ${
+      travellers.adults
+    } adult${travellers.adults > 1 ? "s" : ""}${
+      travellers.children > 0 ? `, ${travellers.children} children` : ""
+    } in ${tripClass || "Economy"}`;
+  } else {
+    message = `Need a one way flight from ${origin} to ${destination} on ${dayjs(
+      departureDate
+    ).format("DD MMM")} for ${travellers.adults} adult${
+      travellers.adults > 1 ? "s" : ""
+    }${travellers.children > 0 ? `, ${travellers.children} children` : ""} in ${
+      tripClass || "Economy"
+    }`;
+  }
 
   // Save in travel state
-//   dispatch(setTravelMessage(message));
+  dispatch(setTravelMessage(message));
+  dispatch(sendMessage(message))
 
   // Push into chat messages
 //   dispatch(addMessage({ text: message, sender: "user" }));
 
-//   console.log("Travel form submitted:", message);
+  console.log("travel_message:", message);
 };
+
+
+export const {
+  setOriginOptions,
+  setDestinationOptions,
+  setLoadingOrigin,
+  setLoadingDestination,
+  setTravelMessage,
+} = travelSlice.actions;
 
 export default travelSlice.reducer;
