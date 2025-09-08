@@ -14,10 +14,10 @@
    justify-content: space-between;
    width: 100%;
 }
-.isMobileBuilder {
-  margin-right: 8px;
-}
 .switchWrapper {
+  &.isMobileBuilder {
+    margin-right: 8px;
+  }
   display: flex;
   align-items: center;
   position: relative;
