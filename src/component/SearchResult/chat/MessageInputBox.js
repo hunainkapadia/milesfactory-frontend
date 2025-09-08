@@ -280,7 +280,7 @@ const MessageInputBox = ({
                                 " newChatBtn lg cursor-pointer"
                               }
                             >
-                              <FontAwesomeIcon icon={faPlus} />
+                              <FontAwesomeIcon className="basecolor" icon={faPlus} />
                             </Box>
                           </Box>
                             <Box display={"flex"} justifyContent={"center"} className={inputStyles.centerCol} sx={{ opacity: !getBuilder ? 0.5 : 1 }}>
