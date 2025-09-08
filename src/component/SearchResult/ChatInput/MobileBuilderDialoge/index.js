@@ -78,7 +78,7 @@ const MobileBuilderDialoge = () => {
         <Box width={"100%"} mb={1}>
           <SidebarTabs />
         </Box>
-        <MobileBuilder />
+        <MobileBuilder isMobileBuilder />
       </Box>
     </Drawer>
   );
