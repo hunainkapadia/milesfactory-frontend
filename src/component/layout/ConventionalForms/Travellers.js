@@ -8,10 +8,14 @@ import {
 } from "@mui/material";
 import { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import styles from "@/src/styles/sass/components/AiBooking/AiBookingForm.module.scss";
+import {
+  faAngleDown,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 
-export default function AiTravellers() {
+export default function Travellers() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [travelers, setTravelers] = useState({
     adults: 1,
@@ -48,7 +52,6 @@ export default function AiTravellers() {
           inputRef={ref}
           onClick={handleClick}
           variant="outlined"
-          label="Travellers"
           placeholder="All travellers"
           size="small"
           sx={{ width: "150px", cursor: "pointer" }}
@@ -59,7 +62,15 @@ export default function AiTravellers() {
               ? "" // shows placeholder when only 1 adult
               : `Travellers: ${totalTravelers}`
           }
-          InputProps={{ readOnly: true }}
+          InputProps={{
+            readOnly: true,
+            endAdornment: (
+              <FontAwesomeIcon
+                icon={faAngleDown}
+                style={{ color: "#6C6F76", pointerEvents: "none" }}
+              />
+            ),
+          }}
         />
 
         <Popover
@@ -68,6 +79,10 @@ export default function AiTravellers() {
           onClose={handleClose}
           anchorOrigin={{
             vertical: "bottom",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
             horizontal: "left",
           }}
           className={styles.dropdownWrapper}

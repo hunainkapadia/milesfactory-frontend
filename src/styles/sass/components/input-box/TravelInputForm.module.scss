@@ -1,178 +1,307 @@
 @import "../../_variables.scss";
 
+.SearchBoxSectionHome {
+   .SearchBoxContainer {
+      position: relative;
+      width: 100%;
+      min-height: $ChatInputHeightMd;
+      padding: 0px 12px 12px 32px;
+      background: #0B1729;
+      border: 1px solid #F7F7F7;
+      @include border-radius(18px);
+      display: flex;
+      width: 100%;
+      background: #0B1729;
+      border: 1px solid rgba(246, 246, 246, 0.5);
+      border-radius: 18px;
+      flex-direction: column;
+      align-items: flex-start;
+   }
+      .AllTabs {
+         margin-bottom: 0;
+         min-height: inherit;
+
+         .Tab {
+            margin-right: 1px;
+            min-width: 53px !important;
+            min-height: 18px !important;
+            width: 53px;
+            height: 18px;
+            padding: 8px 12px;
+            opacity: 1;
+            transition: all 0.3s ease;
+            align-items: center;
+            padding: 5px 20px;
+            gap: 10px;
+
+            background: #142033;
+            border-radius: 0px 0px 8px 8px;
+
+
+            &:hover {
+               opacity: 0.8;
+               transform: scale(1.05);
+            }
+         }
+
+         .tabSelected {
+            opacity: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 20px;
+            background: $basecolor1;
+
+         }
+         }
+
+         /* Hide the default underline indicator */
+         .noIndicator {
+         display: none !important;
+         }
+
+
+
+}
 
 // tavellers
 .triggerButton {
-  width: 150px;
-  text-transform: none;
-  font-size: 14px;
-  padding: 8px 12px;
-  justify-content: space-between;
+   width: 150px;
+   text-transform: none;
+   font-size: 14px;
+   padding: 8px 12px;
+   justify-content: space-between;
 }
 
 .dropdownMenu {
-  padding: 16px;
-  width: 250px;
+   padding: 16px;
+   width: 250px;
 }
 
 .numberInput {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 12px;
 }
 
 .label {
-  font-weight: 500;
-  text-transform: capitalize;
+   font-weight: 500;
+   text-transform: capitalize;
 }
 
 .sublabel {
-  font-size: 12px;
-  color: #888;
+   font-size: 12px;
+   color: #888;
 }
 
 .counter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+   display: flex;
+   align-items: center;
+   gap: 8px;
 }
 
 .count {
-  min-width: 20px;
-  text-align: center;
+   min-width: 20px;
+   text-align: center;
 }
 
 // travellers
 
 .bookingFormWrapper {
-  display: flex;
-  flex-direction: column;
+   display: flex;
+   flex-direction: column;
 
-  @media (min-width: 768px) {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 26px;
-  }
+   @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+   }
 
-  gap: 12px;
-  position: relative;
+   gap: 12px;
+   position: relative;
 }
 
 .SearchBoxContainer {
-  width: 100%;
+   width: 100%;
 }
 
 .formRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  align-items: center;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 12px;
+   justify-content: center;
+   align-items: center;
 
-  @media (min-width: 768px) {
-    gap: 26px;
-  }
+   @media (min-width: 768px) {
+      gap: 26px;
+   }
 }
 
 .formGroup {
-  min-width: 100px;
-  width: auto;
+   min-width: 100px;
+   width: auto;
 }
+
 .Seperator {
    right: 44%;
    z-index: 2;
    top: 13px;
 }
+
+.SearchButton {
+   width: 32px;
+   height: 32px;
+   background: $btn-gradient-basecolor1;
+   @include border-radius(100px);
+   color: $white !important;
+   font-size: $bfsize;
+
+   i {
+      margin-top: 0px;
+   }
+}
+
 body {
 
    .formControl {
-      height: 50px;
-     border-radius: 12px !important;
-     color: #0B172980 !important;
-     width: 100px;
-     border: solid 2px red($color: #000000);
-     >div {font-size: 14px !important;}
-     &.dates,
-     &.travellers {
-       width: 150px;
-     }
-     &.Return {
-        > div {
-           > div {padding-right: 0 !important;}
-           color: #0B172980 !important;
+      height: 35px;
+      border-radius: 12px !important;
+      color: #C8C8C9 !important;
+
+      /* Remove hover border effect on all MUI outlined inputs */
+      >div:hover div {
+         border-color: transparent !important;
+         /* removes hover border */
+      }
+
+      input::placeholder {
+         color: #C8C8C9 !important;
+         opacity: 1 !important; // removes the faded look
+      }
+
+      >div {
+         font-size: 14px !important;
+         min-height: 35px !important;
+
+         fieldset {
+            border: solid 1px #384659;
+            border-color: #384659 !important;
+         }
+
+         color: #C8C8C9 !important;
+         height: 35px;
+         background: #101724;
+         border: 1px solid #384659;
+         border-radius: 8px;
+      }
+
+      &.dates,
+      &.travellers {
+         >div {
+            width: 220px;
          }
       }
-     
-   
-     .MuiOutlinedInput-root {
-       border-radius: 12px;
-     }
-   
-     label {
-       color: $basecolor-dark !important;
-     }
-   
-     label.Mui-focused {
-       color: #1539cf;
-     }
+
+      &.from,
+      &.to {
+         >div {
+            width: 220px;
+         }
+      }
+
+      &.TripClass,
+      &.TripType {
+         >div {
+            width: 130px;
+
+            >div {
+               padding-right: 10px !important;
+            }
+         }
+      }
+
+      svg {
+         right: 12px;
+      }
+
+
+      .MuiOutlinedInput-root {
+         border-radius: 12px;
+      }
+
+      label {
+         color: $basecolor-dark !important;
+      }
+
+      label.Mui-focused {
+         color: #C8C8C9;
+      }
    }
 }
 
 .swapIcon {
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+   border: 1px solid #ccc;
+   border-radius: 50%;
+   width: 36px;
+   height: 36px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
 .searchButtonBox {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
+   width: 100%;
+   display: flex;
+   justify-content: flex-end;
 
-  @media (min-width: 600px) {
-    justify-content: flex-start;
-  }
+   @media (min-width: 600px) {
+      justify-content: flex-start;
+   }
 }
 
 
-@include for-mobile-large-screen (){
+@include for-mobile-large-screen () {
    .bookingFormWrapper {
       gap: 0;
       align-items: flex-end;
    }
+
    .SearchBoxContainer {
       flex-direction: column;
       justify-content: center;
    }
+
    .Seperator {
       right: 45.5%;
       top: 13px;
    }
-      body {
-   
-         .formControl {
-            height: 50px;
-            border-radius: 12px !important;
-            color: #0B172980 !important;
-            width: 134px;
-            border: solid 2px red($color: #000000);
-            margin-bottom: 18px;
-            &.destination, &.origin {
-               width: 50%;
-            }
-            &.Return {
-               width: 100px;
-            }
-            &.dates,
-            &.travellers {
-               width: 100%;
-            }
+
+   body {
+
+      .formControl {
+         height: 50px;
+         border-radius: 12px !important;
+         color: #0B172980 !important;
+         width: 134px;
+         border: solid 2px red($color: #000000);
+         margin-bottom: 18px;
+
+         &.destination,
+         &.origin {
+            width: 50%;
+         }
+
+         &.Return {
+            width: 100px;
+         }
+
+         &.dates,
+         &.travellers {
+            width: 100%;
          }
       }
+   }
 }

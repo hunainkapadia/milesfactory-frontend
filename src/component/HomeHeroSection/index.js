@@ -5,7 +5,7 @@ import styles from "@/src/styles/sass/components/Home.module.scss";
 import Footer from "../layout/Footer";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
-import TravelInputForm from "../layout/TravelInputForm";
+import ConventionalForms from "../layout/ConventionalForms";
 
 const HomeHeroSection = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -88,7 +88,7 @@ const HomeHeroSection = () => {
                         }
                       >
                         <Box className={styles.ContentIn}>
-                          <TravelInputForm />
+                          <ConventionalForms />
                         </Box>
                       </Box>
                     )}
