@@ -37,44 +37,10 @@ const HomeHeroSection = () => {
             {!isMessage.length && <HerosectionContent />}
 
             <Container>
-              {/* ---------------- Tabs ---------------- */}
-              <Tabs
-                value={tabValue}
-                onChange={handleTabChange}
-                TabIndicatorProps={{ style: { display: "none" } }}
-                className={styles.customTabs}
-              >
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Typography className="basecolor-dark f12">
-                        Plan with Mylz AI
-                      </Typography>
-                    </Box>
-                  }
-                  className={`${
-                    tabValue === 0 ? styles.activeTab : styles.inactiveTab
-                  }`}
-                />
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Typography className="basecolor-dark f12">
-                        Other Tab
-                      </Typography>
-                    </Box>
-                  }
-                  className={`${
-                    tabValue === 1 ? styles.activeTab : styles.inactiveTab
-                  }`}
-                />
-              </Tabs>
-
               {/* ---------------- Tab Content ---------------- */}
               <Box
                 className={styles.TabSection + " "}
                 position="relative"
-                mt={2}
               >
                 {tabValue === 0 && (
                   <>
@@ -108,7 +74,7 @@ const HomeHeroSection = () => {
                     justifyContent={"center"}
                     flexDirection={"column"}
                   >
-                    <Box display="flex" alignItems="center" gap={2} mt={3}>
+                    <Box display="flex" alignItems="center" gap={1} mt={3}>
                       <Typography className="f14 white">
                         Plan with Mylz AI
                       </Typography>
@@ -116,8 +82,8 @@ const HomeHeroSection = () => {
                       <Box
                         onClick={() => setSwitchOn(!switchOn)}
                         sx={{
-                          width: { xs: 48, md: 48, lg: 50 },
-                          height: { xs: 24, md: 24, lg: 28 },
+                          width: { xs: 38, md: 38, lg: 38 },
+                          height: { xs: 24, md: 24, lg: 24 },
                           borderRadius: "999px",
                           background: switchOn
                             ? "linear-gradient(90deg, #6DA3FF, #00C4CC)"
@@ -125,17 +91,19 @@ const HomeHeroSection = () => {
                           position: "relative",
                           cursor: "pointer",
                           transition: "background 0.3s",
+                          border: "2px solid white",
                         }}
                       >
                         <Box
                           sx={{
-                            width: 20,
-                            height: 20,
+                            width: 10,
+                            height: 10,
                             borderRadius: "50%",
-                            backgroundColor: "#fff",
+                            backgroundColor: "none",
+                            border: "2px solid white",
                             position: "absolute",
                             top: "50%",
-                            left: switchOn ? "26px" : "4px",
+                            left: switchOn ? "18px" : "6px",
                             transform: "translateY(-50%)",
                             transition: "left 0.3s",
                           }}

@@ -13,9 +13,14 @@
       width: 100%;
       background: #0B1729;
       border: 1px solid rgba(246, 246, 246, 0.5);
-      border-radius: 18px;
       flex-direction: column;
       align-items: flex-start;
+   }
+   .travelForm {
+       flex-direction: row;
+       flex: 1;
+       margin-top: 34px;
+
    }
       .AllTabs {
          margin-bottom: 0;
@@ -170,6 +175,7 @@ body {
       height: 35px;
       border-radius: 12px !important;
       color: #C8C8C9 !important;
+      margin-bottom: 0;
 
       /* Remove hover border effect on all MUI outlined inputs */
       >div:hover div {
@@ -220,6 +226,17 @@ body {
             >div {
                padding-right: 10px !important;
             }
+         }
+      }
+      // hotel
+      &.Hoteltravellers, &.where {
+         >div {
+            width: 220px;
+         }
+      }
+      &.priceRange, &.roomType, &.chechOut, &.chechIn {
+            >div {
+            width: 175px;
          }
       }
 

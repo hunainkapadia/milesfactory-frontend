@@ -1,17 +1,42 @@
+import {
+  Box,
+  ClickAwayListener,
+  Popover,
+  Typography,
+  TextField,
+  IconButton,
+} from "@mui/material";
+import { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, ClickAwayListener, IconButton, Popover, TextField, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import {
+  faAngleDown,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
-import { faAngleDown, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-export default function Travellers({ travellers, setTravellers }) {
+export default function HotelTravellers() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [travelers, setTravelers] = useState({
+    adults: 1,
+    children: 0,
+    infants: 0,
+  });
+
+  const totalTravelers =
+    travelers.adults + travelers.children + travelers.infants;
   const ref = useRef(null);
 
-  const totalTravelers = travellers.adults + travellers.children + travellers.infants;
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const updateCount = (type, delta) => {
-    setTravellers((prev) => {
+    setTravelers((prev) => {
       const newValue = Math.max(
         0,
         type === "adults" ? Math.max(1, prev[type] + delta) : prev[type] + delta
@@ -21,19 +46,20 @@ export default function Travellers({ travellers, setTravellers }) {
   };
 
   return (
-    <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
+    <ClickAwayListener onClickAway={handleClose}>
       <Box className={styles.formGroup}>
         <TextField
           inputRef={ref}
-          onClick={(e) => setAnchorEl(e.currentTarget)}
+          onClick={handleClick}
           variant="outlined"
           placeholder="All travellers"
           size="small"
           sx={{ width: "150px", cursor: "pointer" }}
-          className={`${styles.formControl} ${styles.travellers} formControl`}
+          className={`${styles.formControl} ${styles.Hoteltravellers} formControl`}
+          InputLabelProps={{ shrink: true }}
           value={
             totalTravelers === 1
-              ? ""
+              ? "" // shows placeholder when only 1 adult
               : `Travellers: ${totalTravelers}`
           }
           InputProps={{
@@ -50,7 +76,16 @@ export default function Travellers({ travellers, setTravellers }) {
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={ref.current}
-          onClose={() => setAnchorEl(null)}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          className={styles.dropdownWrapper}
         >
           <Box className={styles.dropdownMenu}>
             {["adults", "children", "infants"].map((type) => (
@@ -71,19 +106,16 @@ export default function Travellers({ travellers, setTravellers }) {
                     size="small"
                     disabled={
                       type === "adults"
-                        ? travellers[type] <= 1
-                        : travellers[type] <= 0
+                        ? travelers[type] <= 1
+                        : travelers[type] <= 0
                     }
                   >
                     <FontAwesomeIcon icon={faMinus} />
                   </IconButton>
                   <Typography className={styles.count}>
-                    {travellers[type]}
+                    {travelers[type]}
                   </Typography>
-                  <IconButton
-                    onClick={() => updateCount(type, 1)}
-                    size="small"
-                  >
+                  <IconButton onClick={() => updateCount(type, 1)} size="small">
                     <FontAwesomeIcon icon={faPlus} />
                   </IconButton>
                 </Box>

@@ -1559,6 +1559,12 @@ body {
     height: 40px;
 
   }
+  &.dark {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(197, 218, 222, 0.3);
+    background-color: $basecolor1-dark2;
+  }
 }
 .chip {
   white-space: nowrap;

@@ -1,27 +1,104 @@
-import { Box, Stack, TextField, MenuItem, IconButton } from "@mui/material";
+import {
+  Box,
+  Stack,
+  TextField,
+  MenuItem,
+  IconButton,
+  Autocomplete,
+} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { DateRange } from "react-date-range";
 import dayjs from "dayjs";
-import Travellers from "./Travellers"; // your existing component
+import Travellers from "./Travellers";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { fetchAirports, submitTravelForm } from "@/src/store/slices/TravelSlice";
 
-const TravelForm = ({
-  origin,
-  setOrigin,
-  destination,
-  setDestination,
-  dateRange,
-  setDateRange,
-  showCalendar,
-  setShowCalendar,
-  tripClass,
-  setTripClass,
-  handleSearch,
-  isLoading,
-}) => {
+const TravelForm = () => {
+  const dispatch = useDispatch();
+
+  // ===== Local States =====
+  const [tripType, setTripType] = useState("oneway"); // oneway | roundtrip
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  const [singleDate, setSingleDate] = useState(new Date()); // for oneway
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [tripClass, setTripClass] = useState("");
+  const [travellers, setTravellers] = useState({
+    adults: 1,
+    children: 0,
+    infants: 0,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  // ===== Redux States =====
+  const {
+    originOptions,
+    destinationOptions,
+    loadingOrigin,
+    loadingDestination,
+  } = useSelector((state) => state.travel);
+
+  // ===== Handle Search =====
+  const handleSearch = () => {
+    if (!origin || !destination) {
+      alert("Please select both origin and destination airports.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const searchData = {
+      tripType,
+      origin,
+      destination,
+      departureDate: dayjs(
+        tripType === "oneway" ? singleDate : dateRange?.[0]?.startDate
+      ).format("YYYY-MM-DD"),
+      returnDate:
+        tripType === "roundtrip" && dateRange?.[0]?.endDate
+          ? dayjs(dateRange[0].endDate).format("YYYY-MM-DD")
+          : null,
+      travellers,
+      tripClass,
+    };
+
+    console.log("searchData:", searchData);
+
+    // ✅ Pass data to Redux thunk
+    dispatch(submitTravelForm(searchData));
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  // ===== Handle Airport Search =====
+  const handleAirportSearch = (value, field) => {
+    if (value && value.length > 2) {
+      dispatch(fetchAirports(value, field));
+    }
+  };
+
   return (
-    <Stack className={styles.travelForm} component="section" flexDirection="row" flex={1} mt="34px">
+    <Stack
+      className={styles.travelForm}
+      component="section"
+      flexDirection="row"
+      flex={1}
+      mt="34px"
+    >
       <Box>
         <Stack
           className={styles.SearchBoxContainerLeft}
@@ -36,45 +113,75 @@ const TravelForm = ({
           <Box className={styles.formGroup}>
             <TextField
               select
-              value=""
+              value={tripType}
+              onChange={(e) => setTripType(e.target.value)}
               className={`${styles.formControl} ${styles.TripType} formControl`}
-              sx={{ width: "100px" }}
+              sx={{ width: "120px" }}
               SelectProps={{
                 displayEmpty: true,
                 IconComponent: (props) => (
-                  <FontAwesomeIcon icon={faAngleDown} style={{ color: "#6C6F76" }} {...props} />
+                  <FontAwesomeIcon
+                    icon={faAngleDown}
+                    style={{ color: "#6C6F76" }}
+                    {...props}
+                  />
                 ),
               }}
             >
-              <MenuItem value="" disabled sx={{ color: "#0B172980" }}>
-                Trip type
-              </MenuItem>
-              <MenuItem value="One way">One way</MenuItem>
-              <MenuItem value="return">Round trip</MenuItem>
+              <MenuItem value="oneway">One way</MenuItem>
+              <MenuItem value="roundtrip">Round trip</MenuItem>
             </TextField>
           </Box>
 
           {/* Origin */}
           <Box className={styles.formGroup}>
-            <TextField
-              variant="outlined"
-              placeholder="Departing from"
-              size="small"
-              value={origin}
-              onChange={(e) => setOrigin(e.target.value)}
-              className={`${styles.formControl} ${styles.from} formControl`}
+            <Autocomplete
+              freeSolo
+              options={originOptions}
+              loading={loadingOrigin}
+              getOptionLabel={(option) =>
+                option?.name
+                  ? `${option.city_name} (${option.iata_code}) - ${option.name}`
+                  : ""
+              }
+              onInputChange={(e, value) => handleAirportSearch(value, "origin")}
+              onChange={(e, value) => setOrigin(value?.iata_code || "")}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Departing from"
+                  size="small"
+                  value={origin}
+                  onChange={(e) => setOrigin(e.target.value)}
+                  className={`${styles.formControl} ${styles.from} formControl`}
+                />
+              )}
             />
           </Box>
-
-          {/* Destination */}
           <Box className={styles.formGroup}>
-            <TextField
-              variant="outlined"
-              placeholder="Arriving at"
-              size="small"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              className={`${styles.formControl} ${styles.to} formControl`}
+            <Autocomplete
+              freeSolo
+              options={originOptions}
+              loading={loadingOrigin}
+              getOptionLabel={(option) =>
+                option?.name
+                  ? `${option.city_name} (${option.iata_code}) - ${option.name}`
+                  : ""
+              }
+              onInputChange={(e, value) => handleAirportSearch(value, "origin")}
+              onChange={(e, value) => setOrigin(value?.iata_code || "")}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Departing from"
+                  size="small"
+                  value={origin}
+                  onChange={(e) => setDestination(e.target.value)}
+                  className={`${styles.formControl} ${styles.from} formControl`}
+                />
+              )}
             />
           </Box>
 
@@ -83,9 +190,13 @@ const TravelForm = ({
             <TextField
               variant="outlined"
               placeholder="Travel dates"
-              value={`${dayjs(dateRange[0].startDate).format("DD MMM")} - ${dayjs(
-                dateRange[0].endDate
-              ).format("DD MMM")}`}
+              value={
+                tripType === "oneway"
+                  ? dayjs(singleDate).format("DD MMM")
+                  : `${dayjs(dateRange[0].startDate).format("DD MMM")} - ${dayjs(
+                      dateRange[0].endDate
+                    ).format("DD MMM")}`
+              }
               onClick={() => setShowCalendar(!showCalendar)}
               className={`${styles.formControl} ${styles.dates} formControl`}
               size="small"
@@ -96,7 +207,12 @@ const TravelForm = ({
                   <img
                     src="/images/calendar-icon-light.svg"
                     alt="Calendar"
-                    style={{ width: "18px", height: "18px", cursor: "pointer", marginRight: "8px" }}
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      cursor: "pointer",
+                      marginRight: "8px",
+                    }}
                     onClick={() => setShowCalendar(!showCalendar)}
                   />
                 ),
@@ -104,10 +220,22 @@ const TravelForm = ({
             />
 
             {showCalendar && (
-              <Box position="absolute" zIndex={10} top="55px" left={0} boxShadow="0 0 10px rgba(0,0,0,0.1)">
+              <Box
+                position="absolute"
+                zIndex={10}
+                top="55px"
+                left={0}
+                boxShadow="0 0 10px rgba(0,0,0,0.1)"
+              >
                 <DateRange
                   editableDateInputs
-                  onChange={(item) => setDateRange([item.selection])}
+                  onChange={(item) => {
+                    setDateRange([item.selection]);
+                    if (tripType === "oneway") {
+                      setSingleDate(item.selection.startDate);
+                      setShowCalendar(false);
+                    }
+                  }}
                   moveRangeOnFirstSelection={false}
                   ranges={dateRange}
                   rangeColors={["#1539CF"]}
@@ -118,7 +246,7 @@ const TravelForm = ({
           </Box>
 
           {/* Travellers */}
-          <Travellers />
+          <Travellers travellers={travellers} setTravellers={setTravellers} />
 
           {/* Trip Class */}
           <Box className={styles.formGroup}>
@@ -131,7 +259,11 @@ const TravelForm = ({
               SelectProps={{
                 displayEmpty: true,
                 IconComponent: (props) => (
-                  <FontAwesomeIcon icon={faAngleDown} style={{ color: "#6C6F76" }} {...props} />
+                  <FontAwesomeIcon
+                    icon={faAngleDown}
+                    style={{ color: "#6C6F76" }}
+                    {...props}
+                  />
                 ),
               }}
             >
@@ -147,8 +279,13 @@ const TravelForm = ({
         </Stack>
       </Box>
 
+      {/* Search Button */}
       <Box display="flex" alignItems="flex-end">
-        <IconButton className={styles.SearchButton} onClick={handleSearch} disabled={isLoading}>
+        <IconButton
+          className={styles.SearchButton}
+          onClick={handleSearch}
+          disabled={isLoading}
+        >
           <i className="fa fa-arrow-right"></i>
         </IconButton>
       </Box>

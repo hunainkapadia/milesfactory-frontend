@@ -2,7 +2,7 @@ import { Box, Stack, TextField, MenuItem, IconButton } from "@mui/material";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import Travellers from "./Travellers"; // optional
+import HotelTravellers from "./HotelTravellers";
 
 const HotelForm = ({
   location,
@@ -20,7 +20,7 @@ const HotelForm = ({
   handleHotelSearch,
 }) => {
   return (
-    <Stack className="hotelForm" component="section" flexDirection="row" mt="34px">
+    <Stack className={styles.travelForm} component="section">
       <Box>
         <Stack
           className={styles.SearchBoxContainerLeft}
@@ -39,7 +39,7 @@ const HotelForm = ({
               size="small"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className={`${styles.formControl} formControl`}
+              className={`${styles.formControl} ${styles.where} formControl`}
               sx={{ width: "180px" }}
             />
           </Box>
@@ -53,7 +53,7 @@ const HotelForm = ({
               size="small"
               value={checkIn}
               onChange={(e) => setCheckIn(e.target.value)}
-              className={`${styles.formControl} formControl`}
+              className={`${styles.formControl} ${styles.chechOut} formControl`}
               InputLabelProps={{ shrink: true }}
             />
           </Box>
@@ -67,13 +67,13 @@ const HotelForm = ({
               size="small"
               value={checkOut}
               onChange={(e) => setCheckOut(e.target.value)}
-              className={`${styles.formControl} formControl`}
+              className={`${styles.formControl} ${styles.chechIn} formControl`}
               InputLabelProps={{ shrink: true }}
             />
           </Box>
 
           {/* Travellers */}
-          <Travellers travellers={travellers} setTravellers={setTravellers} />
+          <HotelTravellers travellers={travellers} setTravellers={setTravellers} />
 
           {/* Room type */}
           <Box className={styles.formGroup}>
@@ -81,7 +81,7 @@ const HotelForm = ({
               select
               value={roomType}
               onChange={(e) => setRoomType(e.target.value)}
-              className={`${styles.formControl} formControl`}
+              className={`${styles.formControl} ${styles.roomType} formControl`}
               size="small"
               sx={{ width: "160px" }}
               SelectProps={{
@@ -106,7 +106,7 @@ const HotelForm = ({
               select
               value={priceRange}
               onChange={(e) => setPriceRange(e.target.value)}
-              className={`${styles.formControl} formControl`}
+              className={`${styles.formControl} ${styles.priceRange} formControl`}
               size="small"
               sx={{ width: "160px" }}
               SelectProps={{

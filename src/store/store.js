@@ -9,6 +9,8 @@ import baseReducer from "./slices/Base/baseSlice";
 import paymentReducer from "./slices/PaymentSlice";
 import baggageReducer from "./slices/BaggageSlice";
 import hotelReducer from "./slices/HotelSlice";
+import travelReducer from "./slices/Travel/travelSlice";
+
 
 
 const store = configureStore({
@@ -23,6 +25,7 @@ const store = configureStore({
     base: baseReducer,
     bagage: baggageReducer,
     hotel: hotelReducer,
+    travel: travelReducer,
     
 
   },
