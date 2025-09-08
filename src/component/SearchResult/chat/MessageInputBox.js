@@ -269,6 +269,10 @@ const MessageInputBox = ({
                       >
                         {isChat && isMobile ? (
                           <>
+                          <Box className={
+                                inputStyles.leftCol +
+                                ""
+                              }>
                             <Box
                               onClick={HandleNewThread}
                               className={
@@ -278,7 +282,8 @@ const MessageInputBox = ({
                             >
                               <FontAwesomeIcon icon={faPlus} />
                             </Box>
-                            <Box sx={{ opacity: !getBuilder ? 0.5 : 1 }}>
+                          </Box>
+                            <Box display={"flex"} justifyContent={"center"} className={inputStyles.centerCol} sx={{ opacity: !getBuilder ? 0.5 : 1 }}>
                               <MobileBuilder />
                             </Box>
                           </>

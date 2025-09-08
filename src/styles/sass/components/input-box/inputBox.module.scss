@@ -375,6 +375,9 @@
             justify-content: space-between;
             align-items: center;
             .BoxButtons {align-items: flex-end;}
+            .leftCol {width: 25%;}
+            .centerCol {width: 50%;}
+            .rightCol {width: 25%;}
          }
          
          .SearchForm {

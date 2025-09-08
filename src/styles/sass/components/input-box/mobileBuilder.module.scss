@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  width: auto;
+  width: 140px;
   height: auto;
   white-space: nowrap;
   border-radius: 100px;
@@ -53,6 +53,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
+    text-align: center;
     p {
       font-size: 16px;
       line-height: 1;
