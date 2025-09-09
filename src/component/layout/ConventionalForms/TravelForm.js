@@ -29,7 +29,7 @@ const TravelForm = () => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   console.log("destination_00", destination);
-  
+
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
@@ -108,8 +108,8 @@ const TravelForm = () => {
 
   // ===== Handle Airport Search =====
   const handleAirportSearch = (value, field) => {
-   console.log("dd_value", value);
-   
+    console.log("dd_value", value);
+
     if (value && value.length > 2) {
       dispatch(fetchAirports(value, field));
     }
@@ -167,7 +167,6 @@ const TravelForm = () => {
                   : ""
               }
               onInputChange={(e, value) => handleAirportSearch(value, "origin")}
-              
               onChange={(e, value) => setOrigin(value?.city_name || "")}
               renderInput={(params) => (
                 <TextField
@@ -179,8 +178,7 @@ const TravelForm = () => {
                   onChange={(e) => setOrigin(e.target.value)}
                   className={`${styles.formControl} ${styles.from} formControl`}
                   error={!!errors.origin}
-                  helperText={errors.origin}   // this shows the error text
-
+                  helperText={errors.origin} // this shows the error text
                 />
               )}
             />
@@ -246,14 +244,14 @@ const TravelForm = () => {
 
             {showCalendar && (
               <Box
-  position="absolute"
-  zIndex={10}
-  top="40px"
-  boxShadow="0 0 10px rgba(0,0,0,0.1)"
-  sx={{
-    left: { xs: "-180px", md: 0 }, // ✅ responsive syntax
-  }}
->
+                position="absolute"
+                zIndex={10}
+                top="40px"
+                boxShadow="0 0 10px rgba(0,0,0,0.1)"
+                sx={{
+                  left: { xs: "-180px", md: 0 }, //responsive syntax
+                }}
+              >
                 <DateRange
                   editableDateInputs
                   onChange={(item) => {

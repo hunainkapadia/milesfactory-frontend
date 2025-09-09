@@ -1149,6 +1149,16 @@ pre {
 }
 
 body {
+  .rdrSelected, .rdrInRange, .rdrStartEdge, .rdrEndEdge {
+      background-color: $basecolor1;
+    }
+    .rdrDayToday .rdrDayNumber span:after {
+      display: none;
+    }
+    .rdrDateDisplayItemActive, 
+    .rdrDayStartPreview, .rdrDayInPreview, .rdrDayEndPreview{
+      border-color:$basecolor1 !important; /* your hover border color */    
+    }
 
   a,
   a:focus,
@@ -1285,7 +1295,7 @@ body {
     width: 100%;
     margin-top: 0;
     
-
+    
     &.Calendar {
       &::after {
         content: "\f133";
