@@ -30,7 +30,7 @@ const MobileBuilder = ({isMobileBuilder}) => {
     <>
       {isBuilderArgument && (
         <Box
-          className={`${styles.switchWrapper} ${isMobileBuilder ? styles.isMobileBuilder : ""} customTabs`}
+          className={`${styles.switchWrapper} ${isMobileBuilder ? styles.isMobileBuilder : ""} customTabs TapNone`}
           sx={{
             backgroundColor: "#F2F7F8",
             borderRadius: "8px",
@@ -45,7 +45,7 @@ const MobileBuilder = ({isMobileBuilder}) => {
           <Box
             className={`${styles.label} ${
               !isBuilder ? styles.active : styles.inactive
-            }`}
+            } TapNone`}
             onClick={() => handleTabClick("chat")}
             display="flex"
             alignItems="center"
@@ -63,7 +63,7 @@ const MobileBuilder = ({isMobileBuilder}) => {
           <Box
             className={`${styles.label} ${
               isBuilder ? styles.active : styles.inactive
-            }`}
+            } TapNone`}
             onClick={() => handleTabClick("builder")}
             display="flex"
             alignItems="center"

@@ -67,7 +67,7 @@
   height: auto;
   min-height: inherit;
   a {
-    -webkit-tap-highlight-color: transparent; /* removes blue on Android / gray on iOS */
+    @include TapNone;
   }
 }
 

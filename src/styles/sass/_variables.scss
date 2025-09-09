@@ -248,7 +248,11 @@ Mixins - start
 ===================================================================*/
 
 //Instead of typing width:200px; height:200px; just type @include size(200px); or @include size(20px,35px);
-
+@mixin TapNone {
+  -webkit-tap-highlight-color: transparent; /* no blue/gray glow */
+  -webkit-touch-callout: none; /* prevents iOS "copy/share" popup on long press */
+  -webkit-user-select: none;   /* prevents text selection highlight */
+}
 @mixin size($width, $height: $width) {
   width: $width;
   height: $height;
