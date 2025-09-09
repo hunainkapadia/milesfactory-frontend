@@ -10,7 +10,10 @@ export default function Travellers({ travellers, setTravellers }) {
 
   const totalTravelers = travellers.adults + travellers.children + travellers.infants;
 
+  
+  
   const updateCount = (type, delta) => {
+    console.log("totalTravelers", delta);
     setTravellers((prev) => {
       const newValue = Math.max(
         0,
