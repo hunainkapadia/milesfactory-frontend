@@ -38,6 +38,7 @@ const MobileBuilder = ({isMobileBuilder}) => {
             display: "flex",
             gap: "4px",
             width: "100%",
+            WebkitTapHighlightColor: "transparent", // removes blue/gray tap color
           }}
         >
           {/* Chat Tab */}
@@ -50,7 +51,10 @@ const MobileBuilder = ({isMobileBuilder}) => {
             alignItems="center"
             justifyContent="center"
             flex={1}
-            sx={{ cursor: "pointer" }}
+            sx={{ 
+              cursor: "pointer", 
+              WebkitTapHighlightColor: "transparent", // removes blue/gray tap color
+             }}
           >
             <Typography variant="body2">Chat</Typography>
           </Box>
@@ -65,7 +69,7 @@ const MobileBuilder = ({isMobileBuilder}) => {
             alignItems="center"
             justifyContent="center"
             flex={1}
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: "pointer", WebkitTapHighlightColor: "transparent", }}
           >
             <Typography variant="body2">Builder</Typography>
           </Box>
