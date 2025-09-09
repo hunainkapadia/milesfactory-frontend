@@ -16,61 +16,65 @@
       flex-direction: column;
       align-items: flex-start;
    }
+
    .travelForm {
-       flex-direction: row;
-       flex: 1;
-       margin-top: 34px;
-       .SearchBoxContainerLeft {
-          row-gap: 16px;
-          column-gap: 12px;
-       }
+      flex-direction: row;
+      flex: 1;
+      margin-top: 34px;
+
+      .SearchBoxContainerLeft {
+         row-gap: 16px;
+         column-gap: 12px;
+      }
 
    }
-      .AllTabs {
-         margin-bottom: 0;
-         min-height: inherit;
 
-         .Tab {
-            margin-right: 1px;
-            min-width: 53px !important;
-            min-height: 18px !important;
-            width: 53px;
-            height: 18px;
-            padding: 8px 12px;
-            opacity: 1;
-            transition: all 0.3s ease;
-            align-items: center;
-            padding: 5px 20px;
-            gap: 10px;
+   .AllTabs {
+      margin-bottom: 0;
+      min-height: inherit;
 
-            background: #142033;
-            border-radius: 0px 0px 8px 8px;
+      .Tab {
+         margin-right: 1px;
+         min-width: 53px !important;
+         min-height: 18px !important;
+         width: 53px;
+         height: 18px;
+         padding: 8px 12px;
+         opacity: 1;
+         transition: all 0.3s ease;
+         align-items: center;
+         padding: 5px 20px;
+         gap: 10px;
+
+         background: #142033;
+         border-radius: 0px 0px 8px 8px;
 
 
-            &:hover {
-               opacity: 0.8;
-               transform: scale(1.05);
-            }
+         &:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+         }
+      }
+
+      .tabSelected {
+         opacity: 1;
+         display: flex;
+         flex-direction: row;
+         justify-content: center;
+         align-items: center;
+         padding: 5px 20px;
+         background: $basecolor1;
+         img {
+            filter: grayscale(100%) brightness(0%) contrast(100%);
          }
 
-         .tabSelected {
-            opacity: 1;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            padding: 5px 20px;
-            background: $basecolor1;
+      }
+   }
 
-         }
-         }
-
-         /* Hide the default underline indicator */
-         .noIndicator {
-         display: none !important;
-         }
-
-
+   /* Hide the default underline indicator */
+   .noIndicator {
+      display: none !important;
+   }
 
 }
 
@@ -176,10 +180,12 @@
 body {
 
    .formControl {
-      height: 35px;
+      min-height: 35px;
       border-radius: 12px !important;
       color: #C8C8C9 !important;
       margin-bottom: 0;
+      
+      > div {min-height: 35px !important;}
       &:hover fieldset {
          border-color: #384659 !important;
       }

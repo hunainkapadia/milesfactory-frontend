@@ -330,6 +330,9 @@
       top: -58px;
    }
    .SearchBoxSectionHome { 
+      .SearchBoxContainer {
+         min-height:$ChatInputHeightXs;
+      }
       &.HeaderInput {
          .Content {
             background-color: $white;

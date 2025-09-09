@@ -77,9 +77,7 @@ export const submitTravelForm = (formData) => (dispatch) => {
     travellers,
     tripClass,
   } = formData;
-
   let message = "";
-
   if (tripType === "roundtrip") {
     message = `Need a return flight from ${origin} to ${destination} from ${dayjs(
       departureDate
@@ -97,15 +95,8 @@ export const submitTravelForm = (formData) => (dispatch) => {
       tripClass || "Economy"
     }`;
   }
-
-  // Save in travel state
-  dispatch(setTravelMessage(message));
+  //  message send to sendmessge user redux
   dispatch(sendMessage(message))
-
-  // Push into chat messages
-//   dispatch(addMessage({ text: message, sender: "user" }));
-
-  console.log("travel_message:", message);
 };
 
 

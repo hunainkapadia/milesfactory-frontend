@@ -1,9 +1,10 @@
-import { Box, Tabs, Tab } from "@mui/material";
+import { Box, Tabs, Tab, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import TravelForm from "./TravelForm";
 import HotelForm from "./HotelForm";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 const ConventionalForms = () => {
   const [tab, setTab] = useState(0);
@@ -25,7 +26,9 @@ const ConventionalForms = () => {
   const [travellers, setTravellers] = useState(1);
   const [roomType, setRoomType] = useState("");
   const [priceRange, setPriceRange] = useState("");
-
+  const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
+  console.log("inputLoading", inputLoading);
+  
   const handleSearch = () => {
     console.log("Travel search:", {
       origin,
@@ -57,8 +60,7 @@ const ConventionalForms = () => {
     <Box className={styles.SearchBoxSectionHome}>
       <Box className={styles.SearchBoxContainer}>
         {/* Tabs */}
-        <Box>
-
+        <Box sx={{ pl: { md: "0", xs: "14px" } }}>
           <Tabs
             value={tab}
             onChange={(_, newValue) => setTab(newValue)}
@@ -74,6 +76,7 @@ const ConventionalForms = () => {
                     alt={item.label}
                     width={24}
                     height={24}
+                    style={{ color: "#0B1729" }}
                   />
                 }
                 aria-label={item.label}
@@ -85,7 +88,21 @@ const ConventionalForms = () => {
             ))}
           </Tabs>
         </Box>
-
+        {inputLoading && (
+          <Box
+            sx={{
+              position: "absolute",
+              right: `15px`,
+              top: "15px",
+            }}
+          >
+            <CircularProgress
+              size={20}
+              color="inherit"
+              sx={{ color: `#fff` }}
+            />
+          </Box>
+        )}
 
         {/* Tab Panels */}
         {tab === 0 && (
@@ -105,7 +122,22 @@ const ConventionalForms = () => {
           />
         )}
 
-        {tab === 1 && <Box mt={3}>Travel Luggage form here</Box>}
+        {tab === 1 && (
+          <TravelForm
+            origin={origin}
+            setOrigin={setOrigin}
+            destination={destination}
+            setDestination={setDestination}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            showCalendar={showCalendar}
+            setShowCalendar={setShowCalendar}
+            tripClass={tripClass}
+            setTripClass={setTripClass}
+            handleSearch={handleSearch}
+            isLoading={isLoading}
+          />
+        )}
 
         {tab === 2 && (
           <HotelForm
@@ -125,7 +157,23 @@ const ConventionalForms = () => {
           />
         )}
 
-        {tab === 3 && <Box mt={3}>Hotel Camera form here</Box>}
+        {tab === 3 && (
+          <HotelForm
+            location={location}
+            setLocation={setLocation}
+            checkIn={checkIn}
+            setCheckIn={setCheckIn}
+            checkOut={checkOut}
+            setCheckOut={setCheckOut}
+            travellers={travellers}
+            setTravellers={setTravellers}
+            roomType={roomType}
+            setRoomType={setRoomType}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            handleHotelSearch={handleHotelSearch}
+          />
+        )}
       </Box>
     </Box>
   );
