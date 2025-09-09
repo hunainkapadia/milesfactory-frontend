@@ -305,12 +305,12 @@ body {
          flex: 1;
          .formControl {
             width: 100% !important;
-            height: 30px !important;
+            min-height: 30px !important;
             &.dates img {
                margin-right: 4px;
             }
             > div {
-               min-height:30px;
+               min-height:30px !important;
                height: 30px !important;
               width: 100% !important;
               font-size: 12px !important;
