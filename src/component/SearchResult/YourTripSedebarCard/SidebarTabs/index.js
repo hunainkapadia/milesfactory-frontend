@@ -49,7 +49,7 @@ const SidebarTabs = () => {
         display: "flex",
         gap: "4px",
       }}
-      className={`${TripStyles.customTabs} customTabs`}
+      className={`${TripStyles.customTabs} customTabs tap-none`}
     >
       {/* // Conditional rendering of tabs based on flight type. Assume return by default  */}
 

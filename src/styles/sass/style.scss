@@ -7,6 +7,9 @@
 // tags [star]
 
 // tags
+.TapNone {
+  @include TapNone;
+}
 
 .paymentInviteBox {
   .ReactTags__tags {

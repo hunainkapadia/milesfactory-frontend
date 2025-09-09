@@ -66,6 +66,9 @@
   padding: 4px;
   height: auto;
   min-height: inherit;
+  a {
+    @include TapNone;
+  }
 }
 
 .TabSection {
