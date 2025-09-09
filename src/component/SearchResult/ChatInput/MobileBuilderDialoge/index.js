@@ -46,8 +46,8 @@ const MobileBuilderDialoge = () => {
       PaperProps={{
         sx: {
           position: "absolute",
-          top: "50px", // shift drawer down 50px
-          height: "calc(100% - 50px)", // adjust height so it doesn't overflow
+          top: "45px", // shift drawer down 50px
+          height: "calc(100% - 45px)", // adjust height so it doesn't overflow
           width: "100%",
           maxWidth: "100%",
           boxShadow: "none",
