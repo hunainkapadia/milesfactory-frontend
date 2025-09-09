@@ -56,7 +56,7 @@ export default function Travellers({ travellers, setTravellers }) {
           onClose={() => setAnchorEl(null)}
         >
           <Box className={styles.dropdownMenu}>
-            {["adults", "children", "infants"].map((type) => (
+            {["adults", "children"].map((type) => (
               <Box key={type} className={styles.numberInput}>
                 <Box>
                   <Typography className={styles.label}>{type}</Typography>
@@ -65,7 +65,7 @@ export default function Travellers({ travellers, setTravellers }) {
                       ? "12y+"
                       : type === "children"
                       ? "2-12y"
-                      : "under 2y"}
+                      : ""}
                   </Typography>
                 </Box>
                 <Box className={styles.counter}>

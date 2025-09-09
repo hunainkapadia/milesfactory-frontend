@@ -91,7 +91,7 @@ export const submitTravelForm = (formData) => (dispatch) => {
       departureDate
     ).format("DD MMM")} for ${travellers.adults} adult${
       travellers.adults > 1 ? "s" : ""
-    }${travellers.children > 0 ? `, ${travellers.children} children` : ""}${travellers.infants > 0 ? `, ${travellers.infants} Infants` : ""} in ${
+    }${travellers.children > 0 ? `, ${travellers.children} children` : ""} in ${
       tripClass || "Economy"
     }`;
   }
