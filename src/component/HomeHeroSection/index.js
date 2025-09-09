@@ -25,7 +25,7 @@ const HomeHeroSection = () => {
 
   return (
     <>
-      <section>
+      <Box component={"section"}>
         <Box
           className={`${styles.HeroSection} ${styles.mainHeroSection} ${
             isMessage.length ? styles.Active : ""
@@ -126,7 +126,7 @@ const HomeHeroSection = () => {
             ""
           )}
         </Box>
-      </section>
+      </Box>
     </>
   );
 };

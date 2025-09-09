@@ -10,6 +10,7 @@ const HomeSection3 = (props) => {
       className={styles.HomeBanner}
       style={{ backgroundImage: "url('/images/section-2-bg.png')" }}
       position={"relative"}
+      zIndex={0}
     >
       <Container>
         <Box className={styles.HeroSection + " "} position={"relative"}>

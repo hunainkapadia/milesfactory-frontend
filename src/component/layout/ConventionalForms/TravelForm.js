@@ -246,12 +246,14 @@ const TravelForm = () => {
 
             {showCalendar && (
               <Box
-                position="absolute"
-                zIndex={10}
-                top="55px"
-                left={0}
-                boxShadow="0 0 10px rgba(0,0,0,0.1)"
-              >
+  position="absolute"
+  zIndex={10}
+  top="40px"
+  boxShadow="0 0 10px rgba(0,0,0,0.1)"
+  sx={{
+    left: { xs: "-180px", md: 0 }, // ✅ responsive syntax
+  }}
+>
                 <DateRange
                   editableDateInputs
                   onChange={(item) => {

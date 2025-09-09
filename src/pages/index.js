@@ -48,9 +48,9 @@ const Home = () => {
         <Header isHome={"isHome"} />
         <Box  className={styles.homeBody}>
 
-          <section id="fold1" className={styles.HomeBanner}>
+          <Box component={"section"} id="fold1" className={styles.HomeBanner} zIndex={1}>
             <HomeHeroSection />
-          </section>
+          </Box>
           <HomeSection3 id={"HomeSection3"} />
           <HomeSection4 id={"HomeSection4"} />
           <HomeSection2 id={"HomeSection2"} />
