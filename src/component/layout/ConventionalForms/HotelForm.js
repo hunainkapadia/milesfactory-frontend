@@ -17,6 +17,11 @@ import dayjs from "dayjs";
 import { submitHotelForm } from "@/src/store/slices/HotelSlice";
 import { fetchAirports } from "@/src/store/slices/TravelSlice";
 
+// ✅ calendar imports
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+
 const HotelForm = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.hotel);
@@ -25,9 +30,15 @@ const HotelForm = () => {
   const { originOptions, loadingOrigin } = useSelector((state) => state.travel);
 
   // ===== Local States =====
-  const [location, setLocation] = useState(null); // store full option object
-  const [checkIn, setCheckIn] = useState(dayjs().format("YYYY-MM-DD"));
-  const [checkOut, setCheckOut] = useState(dayjs().add(1, "day").format("YYYY-MM-DD"));
+  const [location, setLocation] = useState(null);
+
+  // separate check-in / check-out states
+  const [checkIn, setCheckIn] = useState(dayjs().toDate());
+  const [checkOut, setCheckOut] = useState(dayjs().add(1, "day").toDate());
+
+  // track which field calendar is for
+  const [showCalendar, setShowCalendar] = useState(null); // "checkIn" | "checkOut" | null
+
   const [travellers, setTravellers] = useState({
     adults: 1,
     children: 0,
@@ -67,9 +78,9 @@ const HotelForm = () => {
 
     setErrors({});
     const searchData = {
-      location: location?.city_name || "", // ✅ only send city name
-      checkIn,
-      checkOut,
+      location: location?.city_name || "",
+      checkIn: dayjs(checkIn).format("YYYY-MM-DD"),
+      checkOut: dayjs(checkOut).format("YYYY-MM-DD"),
       travellers,
       roomType,
       priceRange,
@@ -97,9 +108,7 @@ const HotelForm = () => {
               freeSolo
               options={
                 originOptions
-                  ? Array.from(
-                      new Map(originOptions.map((o) => [o.city_name, o])).values()
-                    ) // ✅ deduplicate by city
+                  ? Array.from(new Map(originOptions.map((o) => [o.city_name, o])).values())
                   : []
               }
               loading={loadingOrigin}
@@ -124,35 +133,107 @@ const HotelForm = () => {
           </Box>
 
           {/* Check-in */}
-          <Box className={styles.formGroup}>
+          <Box className={styles.formGroup} position="relative">
             <TextField
               variant="outlined"
-              type="date"
-              label="Check-in"
+              placeholder="Check-in"
+              value={dayjs(checkIn).format("DD MMM YYYY")}
+              onClick={() => setShowCalendar("checkIn")}
+              className={`${styles.formControl} ${styles.checkIn} formControl`}
               size="small"
-              value={checkIn}
-              onChange={(e) => setCheckIn(e.target.value)}
-              className={`${styles.formControl} formControl`}
-              InputLabelProps={{ shrink: true }}
+              sx={{ width: "160px", cursor: "pointer" }}
+              InputProps={{
+                readOnly: true,
+                endAdornment: (
+                  <img
+                    src="/images/calendar-icon-light.svg"
+                    alt="Calendar"
+                    onClick={() => setShowCalendar("checkIn")}
+                  />
+                ),
+              }}
               error={!!errors.checkIn}
               helperText={errors.checkIn}
             />
+
+            {showCalendar === "checkIn" && (
+              <Box
+                position="absolute"
+                zIndex={10}
+                top="40px"
+                boxShadow="0 0 10px rgba(0,0,0,0.1)"
+              >
+                <DateRange
+                  editableDateInputs
+                  onChange={(item) => {
+                    setCheckIn(item.selection.startDate);
+                    if (item.selection.startDate) setShowCalendar(null);
+                  }}
+                  moveRangeOnFirstSelection={false}
+                  ranges={[
+                    {
+                      startDate: checkIn,
+                      endDate: checkIn,
+                      key: "selection",
+                    },
+                  ]}
+                  rangeColors={["#1539CF"]}
+                  minDate={new Date()}
+                />
+              </Box>
+            )}
           </Box>
 
           {/* Check-out */}
-          <Box className={styles.formGroup}>
+          <Box className={styles.formGroup} position="relative">
             <TextField
               variant="outlined"
-              type="date"
-              label="Check-out"
+              placeholder="Check-out"
+              value={dayjs(checkOut).format("DD MMM YYYY")}
+              onClick={() => setShowCalendar("checkOut")}
+              className={`${styles.formControl} ${styles.checkOut} formControl`}
               size="small"
-              value={checkOut}
-              onChange={(e) => setCheckOut(e.target.value)}
-              className={`${styles.formControl} formControl`}
-              InputLabelProps={{ shrink: true }}
+              sx={{ width: "160px", cursor: "pointer" }}
+              InputProps={{
+                readOnly: true,
+                endAdornment: (
+                  <img
+                    src="/images/calendar-icon-light.svg"
+                    alt="Calendar"
+                    onClick={() => setShowCalendar("checkOut")}
+                  />
+                ),
+              }}
               error={!!errors.checkOut}
               helperText={errors.checkOut}
             />
+
+            {showCalendar === "checkOut" && (
+              <Box
+                position="absolute"
+                zIndex={10}
+                top="40px"
+                boxShadow="0 0 10px rgba(0,0,0,0.1)"
+              >
+                <DateRange
+                  editableDateInputs
+                  onChange={(item) => {
+                    setCheckOut(item.selection.startDate);
+                    if (item.selection.startDate) setShowCalendar(null);
+                  }}
+                  moveRangeOnFirstSelection={false}
+                  ranges={[
+                    {
+                      startDate: checkOut,
+                      endDate: checkOut,
+                      key: "selection",
+                    },
+                  ]}
+                  rangeColors={["#1539CF"]}
+                  minDate={dayjs(checkIn).add(1, "day").toDate()}
+                />
+              </Box>
+            )}
           </Box>
 
           {/* Travellers */}
@@ -181,7 +262,9 @@ const HotelForm = () => {
                 ),
               }}
             >
-              <MenuItem value="" disabled>Room type</MenuItem>
+              <MenuItem value="" disabled>
+                Room type
+              </MenuItem>
               <MenuItem value="Standard">Standard</MenuItem>
               <MenuItem value="Deluxe">Deluxe</MenuItem>
               <MenuItem value="Suite">Suite</MenuItem>
@@ -206,7 +289,9 @@ const HotelForm = () => {
                 ),
               }}
             >
-              <MenuItem value="" disabled>Price range</MenuItem>
+              <MenuItem value="" disabled>
+                Price range
+              </MenuItem>
               <MenuItem value="Budget">$50 - $100</MenuItem>
               <MenuItem value="Mid">$100 - $200</MenuItem>
               <MenuItem value="Luxury">$200+</MenuItem>
