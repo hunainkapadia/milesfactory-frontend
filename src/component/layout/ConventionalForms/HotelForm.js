@@ -110,7 +110,15 @@ const HotelForm = () => {
     console.log("hotel_searchData:", searchData);
     dispatch(submitHotelForm(searchData));
   };
-  console.log("hotel_searchData", location);
+
+  const handlePrice = (e) => {
+    let value = e.target.value.replace(/,/g, ""); // remove commas
+    if (!isNaN(value) && value !== "") {
+      setPriceRange(Number(value).toLocaleString()); // add commas
+    } else {
+      setPriceRange("");
+    }
+  };
 
   return (
     <Stack className={styles.travelForm} component="section">
@@ -192,6 +200,9 @@ const HotelForm = () => {
                 zIndex={10}
                 top="40px"
                 boxShadow="0 0 10px rgba(0,0,0,0.1)"
+                sx={{
+                  left: { xs: "-180px", md: 0 }, //responsive syntax
+                }}
               >
                 <DateRange
                   editableDateInputs
@@ -245,6 +256,9 @@ const HotelForm = () => {
                 zIndex={10}
                 top="40px"
                 boxShadow="0 0 10px rgba(0,0,0,0.1)"
+                sx={{
+                  left: { xs: "-10px", md: 0 }, //responsive syntax
+                }}
               >
                 <DateRange
                   editableDateInputs
@@ -310,17 +324,15 @@ const HotelForm = () => {
           </Box>
 
           {/* Price range */}
-          <Box className={styles.formGroup}>
+          <Box>
             <TextField
               value={priceRange}
-              placeholder="Price range"
-              onChange={(e) => setPriceRange(e.target.value)}
               className={`${styles.formControl} ${styles.priceRange} formControl`}
+              placeholder="Price range"
+              onChange={handlePrice}
               size="small"
               sx={{ width: "160px" }}
-              error={!!errors.priceRange}
-              helperText={errors.priceRange}
-              autoComplete="off" // 🔹 disables previous input history
+              autoComplete="off"
               InputProps={{
                 endAdornment: (
                   <FontAwesomeIcon
