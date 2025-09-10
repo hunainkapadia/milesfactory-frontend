@@ -45,15 +45,10 @@
          align-items: center;
          padding: 5px 20px;
          gap: 10px;
-
          background: #142033;
          border-radius: 0px 0px 8px 8px;
 
 
-         &:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
-         }
       }
 
       .tabSelected {
@@ -65,7 +60,7 @@
          padding: 5px 20px;
          background: $basecolor1;
          img {
-            filter: grayscale(100%) brightness(0%) contrast(100%);
+            
          }
 
       }

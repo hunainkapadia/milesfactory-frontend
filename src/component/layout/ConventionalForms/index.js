@@ -28,7 +28,7 @@ const ConventionalForms = () => {
   const [priceRange, setPriceRange] = useState("");
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
   console.log("inputLoading", inputLoading);
-  
+
   const handleSearch = () => {
     console.log("Travel search:", {
       origin,
@@ -48,12 +48,27 @@ const ConventionalForms = () => {
       priceRange,
     });
   };
-
   const tabItems = [
-    { icon: "/images/travel-tab-icon.svg", label: "Travel" },
-    { icon: "/images/travel-luggage-tab-icon.svg", label: "Travel Luggage" },
-    { icon: "/images/hotel-tab-icon.svg", label: "Hotel" },
-    { icon: "/images/hotel-camera-icon.svg", label: "Hotel Camera" },
+    {
+      icon: "/images/travel-tab-icon.svg",
+      darkIcon: "/images/travel-tab-dark-icon.svg",
+      label: "Travel",
+    },
+    {
+      icon: "/images/travel-luggage-tab-icon.svg",
+      darkIcon: "/images/travel-luggage-tab-dark-icon.svg",
+      label: "Travel Luggage",
+    },
+    {
+      icon: "/images/hotel-tab-icon.svg",
+      darkIcon: "/images/hotel-tab-dark-icon.svg",
+      label: "Hotel",
+    },
+    {
+      icon: "/images/hotel-camera-icon.svg",
+      darkIcon: "/images/hotel-camera-dark-icon.svg",
+      label: "Hotel Camera",
+    },
   ];
 
   return (
@@ -72,11 +87,10 @@ const ConventionalForms = () => {
                 key={index}
                 icon={
                   <Image
-                    src={item.icon}
+                    src={tab === index ? item.darkIcon : item.icon}
                     alt={item.label}
                     width={24}
                     height={24}
-                    style={{ color: "#0B1729" }}
                   />
                 }
                 aria-label={item.label}
