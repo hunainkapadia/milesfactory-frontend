@@ -11,7 +11,7 @@ import styles from "@/src/styles/sass/components/input-box/TravelInputForm.modul
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faDollar } from "@fortawesome/free-solid-svg-icons";
 import HotelTravellers from "./HotelTravellers";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 
@@ -32,12 +32,11 @@ const HotelForm = () => {
   // ===== Local States =====
   const [location, setLocation] = useState(null);
 
-  // separate check-in / check-out states
-  const [checkIn, setCheckIn] = useState(dayjs().toDate());
+  const [checkIn, setCheckIn] = useState(dayjs().add(1, "day").toDate()); // default tomorrow
   const [checkOut, setCheckOut] = useState(dayjs().add(1, "day").toDate());
 
-  // track which field calendar is for
   const [showCalendar, setShowCalendar] = useState(null); // "checkIn" | "checkOut" | null
+  const calendarRef = useRef(null);
 
   const [travellers, setTravellers] = useState({
     adults: 1,
@@ -46,6 +45,29 @@ const HotelForm = () => {
   const [roomType, setRoomType] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [errors, setErrors] = useState({});
+
+  // ===== Close calendar when clicking outside =====
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target) &&
+        !(event.target.closest(".checkIn") || event.target.closest(".checkOut"))
+      ) {
+        setShowCalendar(null);
+      }
+    }
+
+    if (showCalendar) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showCalendar]);
 
   // ===== Handle City Search (reuse airports API) =====
   const handleAirportSearch = (value) => {
@@ -134,7 +156,6 @@ const HotelForm = () => {
                   className={`${styles.formControl} ${styles.where} formControl`}
                   error={!!errors.location}
                   helperText={errors.location}
-                  
                 />
               )}
             />
@@ -166,6 +187,7 @@ const HotelForm = () => {
 
             {showCalendar === "checkIn" && (
               <Box
+                ref={calendarRef}
                 position="absolute"
                 zIndex={10}
                 top="40px"
@@ -186,8 +208,7 @@ const HotelForm = () => {
                     },
                   ]}
                   rangeColors={["#1539CF"]}
-                  //  Start from tomorrow only
-                  minDate={dayjs().add(1, "day").toDate()}
+                  minDate={dayjs().add(1, "day").toDate()} // today disabled, earliest = tomorrow
                 />
               </Box>
             )}
@@ -219,6 +240,7 @@ const HotelForm = () => {
 
             {showCalendar === "checkOut" && (
               <Box
+                ref={calendarRef}
                 position="absolute"
                 zIndex={10}
                 top="40px"
@@ -239,7 +261,6 @@ const HotelForm = () => {
                     },
                   ]}
                   rangeColors={["#1539CF"]}
-                  //  Must be after check-in
                   minDate={dayjs(checkIn).add(1, "day").toDate()}
                 />
               </Box>
@@ -299,13 +320,12 @@ const HotelForm = () => {
               sx={{ width: "160px" }}
               error={!!errors.priceRange}
               helperText={errors.priceRange}
-              SelectProps={{
-                displayEmpty: true,
-                IconComponent: (props) => (
+              autoComplete="off" // 🔹 disables previous input history
+              InputProps={{
+                endAdornment: (
                   <FontAwesomeIcon
                     icon={faDollar}
-                    style={{ color: "#6C6F76" }}
-                    {...props}
+                    style={{ color: "#6C6F76", marginRight: "5px" }}
                   />
                 ),
               }}
