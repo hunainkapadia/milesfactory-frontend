@@ -318,37 +318,44 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
         // --------- ✅ Hotel Flow
         else if (funcName === "search_hotel_result_func") {
-          const hotelSearchApi =
-            response?.response?.results?.view_hotel_search_api?.url;
-          const HotelArgument =
-            response?.silent_function_template?.[0]?.function?.arguments || {};
-            console.log("HotelArgument", HotelArgument);
-            
-          dispatch(setSearchHistorySend({ hotel: HotelArgument }));
+  const hotelSearchApi =
+    response?.response?.results?.view_hotel_search_api?.url;
 
+  const HotelArgument =
+    response?.silent_function_template?.[0]?.function?.arguments || {};
+  console.log("HotelArgument", HotelArgument);
 
-          if (hotelSearchApi) {
-            api
-              .get(hotelSearchApi)
-              .then((hotelRes) => {
-                const isComplete = hotelRes?.data?.is_complete;
-                if (isComplete === true) {
-                  dispatch(setClearflight());
-                  dispatch(setMessage({ ai: hotelRes.data }));
-                } else {
-                  dispatch(
-                    setMessage({
-                      ai: hotelRes.data,
-                      type: "hotel_result",
-                    })
-                  );
-                }
-              })
-              .catch((err) => {
-                console.error("Error fetching hotel results", err);
-              });
-          }
+  dispatch(setSearchHistorySend({ hotel: HotelArgument }));
+  console.log("hotelSearchApi (raw)", hotelSearchApi);
+
+  if (hotelSearchApi) {
+    // ✅ Static fix: replace "dubai" with "dxb"
+    const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
+
+    console.log("hotelSearchApi (fixed)", finalUrl);
+
+    api
+      .get(finalUrl)
+      .then((hotelRes) => {
+        const isComplete = hotelRes?.data?.is_complete;
+        if (isComplete === true) {
+          dispatch(setClearflight());
+          dispatch(setMessage({ ai: hotelRes.data }));
+        } else {
+          dispatch(
+            setMessage({
+              ai: hotelRes.data,
+              type: "hotel_result",
+            })
+          );
         }
+      })
+      .catch((err) => {
+        console.error("Error fetching hotel results", err);
+      });
+  }
+}
+
       } else {
         // Normal response
         if (response?.run_status === "completed") {

@@ -106,28 +106,32 @@ export const submitHotelForm = (formData) => (dispatch) => {
     formData;
 
   // ✅ Generate hotel message (like flight message)
-  const message = `Looking for a hotel in ${location} from ${dayjs(checkIn).format(
+  const message = `Need a Hotel in ${location} from ${dayjs(checkIn).format(
     "DD MMM"
   )} to ${dayjs(checkOut).format("DD MMM")} for ${travellers.adults} adult${
     travellers.adults > 1 ? "s" : ""
-  }${travellers.children > 0 ? `, ${travellers.children} children` : ""}${
-    travellers.infants > 0 ? `, ${travellers.infants} infant${travellers.infants > 1 ? "s" : ""}` : ""
-  } in a ${roomType || "Standard"} room within ${
-    priceRange || "any budget"
-  } range`;
+  }${
+    travellers.children > 0
+      ? `, ${travellers.children} child${travellers.children > 1 ? "ren" : ""}`
+      : ""
+  }${
+    travellers.infants > 0
+      ? `, ${travellers.infants} infant${travellers.infants > 1 ? "s" : ""}`
+      : ""
+  } · ${roomType || "Standard"} room · Budget: ${
+    priceRange ? priceRange : "Any"
+  }`;
+
 
   // Save message to redux
-  dispatch(setHotelMessage(message));
-
+  console.log('hotel_message', message);
+  
+  
   // Send to chat system
-  dispatch(sendMessage(message));
+  dispatch(sendMessage(message))
 
   // Simulate results for now
-  dispatch(setLoading(true));
-  setTimeout(() => {
-    dispatch(setHotelResults([{ id: 1, name: "Sample Hotel", location }]));
-    dispatch(setLoading(false));
-  }, 1000);
+  
 };
 
 

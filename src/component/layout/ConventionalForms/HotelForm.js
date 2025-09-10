@@ -9,15 +9,15 @@ import {
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faDollar } from "@fortawesome/free-solid-svg-icons";
 import HotelTravellers from "./HotelTravellers";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { submitHotelForm } from "@/src/store/slices/HotelSlice";
-import { fetchAirports } from "@/src/store/slices/TravelSlice";
 
-// ✅ calendar imports
+import { fetchAirports, submitHotelForm } from "@/src/store/slices/TravelSlice";
+
+//  calendar imports
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -42,7 +42,6 @@ const HotelForm = () => {
   const [travellers, setTravellers] = useState({
     adults: 1,
     children: 0,
-    infants: 0,
   });
   const [roomType, setRoomType] = useState("");
   const [priceRange, setPriceRange] = useState("");
@@ -78,7 +77,7 @@ const HotelForm = () => {
 
     setErrors({});
     const searchData = {
-      location: location?.city_name || "",
+      location: location || "",
       checkIn: dayjs(checkIn).format("YYYY-MM-DD"),
       checkOut: dayjs(checkOut).format("YYYY-MM-DD"),
       travellers,
@@ -86,9 +85,10 @@ const HotelForm = () => {
       priceRange,
     };
 
-    console.log("hotel searchData:", searchData);
+    console.log("hotel_searchData:", searchData);
     dispatch(submitHotelForm(searchData));
   };
+  console.log("hotel_searchData", location);
 
   return (
     <Stack className={styles.travelForm} component="section">
@@ -108,25 +108,33 @@ const HotelForm = () => {
               freeSolo
               options={
                 originOptions
-                  ? Array.from(new Map(originOptions.map((o) => [o.city_name, o])).values())
+                  ? Array.from(
+                      new Map(
+                        originOptions.map((o) => [o.city_name, o])
+                      ).values()
+                    )
                   : []
               }
               loading={loadingOrigin}
-              value={location}
               getOptionLabel={(option) =>
-                typeof option === "string" ? option : option?.city_name || ""
+                option?.city_name ? `${option.city_name}` : ""
               }
-              onInputChange={(e, value) => handleAirportSearch(value)}
-              onChange={(e, value) => setLocation(value)}
+              onInputChange={(e, value) =>
+                handleAirportSearch(value, "location")
+              }
+              onChange={(e, value) => setLocation(value?.city_name || "")}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="outlined"
                   placeholder="Where"
                   size="small"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
                   className={`${styles.formControl} ${styles.where} formControl`}
                   error={!!errors.location}
                   helperText={errors.location}
+                  
                 />
               )}
             />
@@ -178,7 +186,8 @@ const HotelForm = () => {
                     },
                   ]}
                   rangeColors={["#1539CF"]}
-                  minDate={new Date()}
+                  //  Start from tomorrow only
+                  minDate={dayjs().add(1, "day").toDate()}
                 />
               </Box>
             )}
@@ -230,6 +239,7 @@ const HotelForm = () => {
                     },
                   ]}
                   rangeColors={["#1539CF"]}
+                  //  Must be after check-in
                   minDate={dayjs(checkIn).add(1, "day").toDate()}
                 />
               </Box>
@@ -237,7 +247,10 @@ const HotelForm = () => {
           </Box>
 
           {/* Travellers */}
-          <HotelTravellers travellers={travellers} setTravellers={setTravellers} />
+          <HotelTravellers
+            travellers={travellers}
+            setTravellers={setTravellers}
+          />
           {errors.travellers && (
             <Typography color="error" variant="caption">
               {errors.travellers}
@@ -258,7 +271,11 @@ const HotelForm = () => {
               SelectProps={{
                 displayEmpty: true,
                 IconComponent: (props) => (
-                  <FontAwesomeIcon icon={faAngleDown} style={{ color: "#6C6F76" }} {...props} />
+                  <FontAwesomeIcon
+                    icon={faAngleDown}
+                    style={{ color: "#6C6F76" }}
+                    {...props}
+                  />
                 ),
               }}
             >
@@ -274,8 +291,8 @@ const HotelForm = () => {
           {/* Price range */}
           <Box className={styles.formGroup}>
             <TextField
-              select
               value={priceRange}
+              placeholder="Price range"
               onChange={(e) => setPriceRange(e.target.value)}
               className={`${styles.formControl} ${styles.priceRange} formControl`}
               size="small"
@@ -285,17 +302,14 @@ const HotelForm = () => {
               SelectProps={{
                 displayEmpty: true,
                 IconComponent: (props) => (
-                  <FontAwesomeIcon icon={faAngleDown} style={{ color: "#6C6F76" }} {...props} />
+                  <FontAwesomeIcon
+                    icon={faDollar}
+                    style={{ color: "#6C6F76" }}
+                    {...props}
+                  />
                 ),
               }}
-            >
-              <MenuItem value="" disabled>
-                Price range
-              </MenuItem>
-              <MenuItem value="Budget">$50 - $100</MenuItem>
-              <MenuItem value="Mid">$100 - $200</MenuItem>
-              <MenuItem value="Luxury">$200+</MenuItem>
-            </TextField>
+            />
           </Box>
         </Stack>
       </Box>

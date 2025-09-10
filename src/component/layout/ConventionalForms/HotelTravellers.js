@@ -20,11 +20,10 @@ export default function HotelTravellers() {
   const [travelers, setTravelers] = useState({
     adults: 1,
     children: 0,
-    infants: 0,
   });
 
   const totalTravelers =
-    travelers.adults + travelers.children + travelers.infants;
+    travelers.adults + travelers.children;
   const ref = useRef(null);
 
   const handleClick = (event) => {
@@ -88,7 +87,7 @@ export default function HotelTravellers() {
           className={styles.dropdownWrapper}
         >
           <Box className={styles.dropdownMenu}>
-            {["adults", "children", "infants"].map((type) => (
+            {["adults", "children"].map((type) => (
               <Box key={type} className={styles.numberInput}>
                 <Box>
                   <Typography className={styles.label}>{type}</Typography>
