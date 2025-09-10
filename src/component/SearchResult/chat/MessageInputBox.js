@@ -334,21 +334,23 @@ const MessageInputBox = ({
                                 arrow
                                 placement="bottom"
                                 componentsProps={{
-    tooltip: {
-      sx: {
-        bgcolor: "#222", // Change background color here
-        color: "#fff",       // Tooltip text color
-        fontSize: "14px",
-        padding: "8px",
-      },
-    },
-  }}
+                                  tooltip: {
+                                    sx: {
+                                      bgcolor: "#222", // Change background color here
+                                      color: "#fff", // Tooltip text color
+                                      fontSize: "14px",
+                                      padding: "8px",
+                                    },
+                                  },
+                                }}
                               >
                                 <Box
                                   className={`${styles.newChatBtn} ${styles.publicBtn} newChatBtn auto cursor-pointer`}
                                   whiteSpace={"nowrap"}
-                                  gap={"6px"}
+                                  gap={"4px"}
                                   px={"12px"}
+                                  display={"flex"}
+                                  alignItems={"center"}
                                 >
                                   <svg
                                     width="10"
@@ -362,7 +364,12 @@ const MessageInputBox = ({
                                       fill="white"
                                     />
                                   </svg>
-                                  <Typography>Public</Typography>
+                                  <Typography
+                                    className="f12"
+                                    sx={{ pt: "4px" }}
+                                  >
+                                    Public
+                                  </Typography>
                                 </Box>
                               </Tooltip>
                             </Stack>

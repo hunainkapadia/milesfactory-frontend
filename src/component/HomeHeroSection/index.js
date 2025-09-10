@@ -74,7 +74,7 @@ const HomeHeroSection = () => {
                     justifyContent={"center"}
                     flexDirection={"column"}
                   >
-                    <Box display="flex" alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}}>
+                    <Box display="flex" alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}} px={"12px"} >
                       <Typography className="f14 white">
                         Plan with Mylz AI
                       </Typography>
