@@ -180,11 +180,11 @@
                flex-direction: row;
             }
 
-            padding: 10px 15px 0px 16px;
+            padding: 10px 15px 10px 16px;
             background-color: $white;
             align-items: flex-start;
             display: flex;
-            max-height: 130px;
+            max-height: 43px;
             min-height: 43px;
             overflow: hidden;
          }
@@ -207,7 +207,8 @@
          }
 
          .SearchButtonBox {
-            padding: 0 0 10px;
+            margin-bottom: -5px;
+            padding: 0;
             width: auto;
             height: 100%;
 
@@ -230,7 +231,7 @@
       &.InputSticky {
          opacity: 1;
          transition: transform 0.4s ease, opacity 0.4s ease;
-         transform: translateY(50px);
+         transform: translateY($headerHeightMd);
       }
 
    }
@@ -385,6 +386,25 @@
 
          &.InputSticky {
             transform: translateY(44px);
+         }
+         .Content {
+            .SearchBoxContainer {
+               max-height: 40px;
+               min-height: 40px;
+            }
+            .SearchButtonBox {margin-bottom: -7px;
+               .BoxButtons {
+                  .MicButton {
+                     width: 24px;
+                     height: 24px;
+                  }
+                  .SearchButton {
+                     width: 24px;
+                     height: 24px;
+                     i {font-size: 14px;}
+                  }
+               }
+            } 
          }
       }
 

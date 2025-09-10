@@ -147,7 +147,9 @@ const HotelForm = () => {
               }
               loading={loadingOrigin}
               getOptionLabel={(option) =>
-                option?.city_name ? `${option.city_name}` : ""
+                option?.name
+                  ? `${option.city_name} (${option.name}) - ${option.name}`
+                  : ""
               }
               onInputChange={(e, value) =>
                 handleAirportSearch(value, "location")
