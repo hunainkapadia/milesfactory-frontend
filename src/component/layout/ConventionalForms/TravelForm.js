@@ -15,7 +15,7 @@ import styles from "@/src/styles/sass/components/input-box/TravelInputForm.modul
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   fetchAirports,
   submitTravelForm,
@@ -30,16 +30,16 @@ const TravelForm = () => {
   const [destination, setDestination] = useState("");
   console.log("destination_00", destination);
 
+  const [singleDate, setSingleDate] = useState(dayjs().add(1, "day").toDate()); // for oneway
   const [dateRange, setDateRange] = useState([
     {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: singleDate, // use tomorrow
+      endDate: singleDate, // same as startDate for one-way
       key: "selection",
     },
   ]);
   const [errors, setErrors] = useState({});
 
-  const [singleDate, setSingleDate] = useState(new Date()); // for oneway
   const [showCalendar, setShowCalendar] = useState(false);
   const [tripClass, setTripClass] = useState("");
   const [travellers, setTravellers] = useState({
@@ -114,6 +114,30 @@ const TravelForm = () => {
       dispatch(fetchAirports(value, field));
     }
   };
+
+  const calendarRef = useRef(null);
+  // useEffect stays mostly same
+useEffect(() => {
+  function handleClickOutside(event) {
+    if (
+      calendarRef.current &&
+      !calendarRef.current.contains(event.target)
+    ) {
+      setShowCalendar(false); // <-- use false instead of null
+    }
+  }
+
+  if (showCalendar) {
+    document.addEventListener("mousedown", handleClickOutside);
+  } else {
+    document.removeEventListener("mousedown", handleClickOutside);
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [showCalendar]);
+
 
   return (
     <Stack
@@ -244,6 +268,8 @@ const TravelForm = () => {
 
             {showCalendar && (
               <Box
+               ref={calendarRef} // attach here
+
                 position="absolute"
                 zIndex={10}
                 top="40px"
@@ -271,7 +297,7 @@ const TravelForm = () => {
                   moveRangeOnFirstSelection={false}
                   ranges={dateRange}
                   rangeColors={["#1539CF"]}
-                  minDate={new Date()}
+                  minDate={dayjs().add(1, "day").toDate()} // today disabled, earliest = tomorrow
                 />
               </Box>
             )}
