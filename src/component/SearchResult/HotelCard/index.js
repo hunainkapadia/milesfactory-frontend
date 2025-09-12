@@ -26,6 +26,9 @@ import {
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
 
 const HotelCard = ({ hotel, allHotels }) => {
+  const imageBaseUrl = "https://photos.hotelbeds.com/giata/";
+  console.log("hotel_get11", `${imageBaseUrl}${hotel?.content?.images[0].path}`);
+  
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
@@ -107,7 +110,11 @@ const HotelCard = ({ hotel, allHotels }) => {
           <Box
             className={searchResultStyles.HotelThumb}
             sx={{
-              backgroundImage: `url("/images/hotel-bedroom.jpg")`,
+              backgroundImage: `url(${
+                hotel?.content?.images[0].path === undefined
+                  ? "/images/hotel-nothumb.png"
+                  : `${imageBaseUrl}${hotel?.content?.images[0].path}`
+              })`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
@@ -209,7 +216,8 @@ const HotelCard = ({ hotel, allHotels }) => {
                 className="bold mb-1 f10"
                 textTransform={"capitalize"}
               >
-                {hotel?.rooms?.[0]?.name?.split(" ").slice(0, 3).join(" ")} · {firstRate?.adults} adults
+                {hotel?.rooms?.[0]?.name?.split(" ").slice(0, 3).join(" ")} ·{" "}
+                {firstRate?.adults} adults
               </Typography>
               <Typography component="span" className="f10 black-50">
                 {dayjs(allHotels?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
@@ -388,19 +396,18 @@ const HotelCard = ({ hotel, allHotels }) => {
                     searchResultStyles.flightPriceSection + " mb-0 black bold"
                   }
                 >
-                  {currencySymbols[hotel?.currency]}{Math.round(perNightPrice)}{" "}
-                  / night
+                  {currencySymbols[hotel?.currency]}
+                  {Math.round(perNightPrice)} / night
                 </Typography>
                 <Typography className="f12 black-50">
-                  {currencySymbols[hotel?.currency]}{Math.round(totalPrice)}{" "}
-                  total ({nights} nights)
+                  {currencySymbols[hotel?.currency]}
+                  {Math.round(totalPrice)} total ({nights} nights)
                 </Typography>
               </Box>
 
               <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
                 {selectedhotelkey === firstRate?.rateKey ? (
                   <Button
-                    
                     className={
                       searchResultStyles.IsSelected +
                       " w-100 btn btn-primary btn-round btn-md "

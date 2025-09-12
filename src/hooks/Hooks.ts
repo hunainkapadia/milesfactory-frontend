@@ -1,5 +1,6 @@
 import { useTheme, useMediaQuery } from "@mui/material";
 
+export const HOTEL_IMAGE_BASE_URL = "https://photos.hotelbeds.com/giata/";
 const useIsMobile = () => {
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs")); // mobile

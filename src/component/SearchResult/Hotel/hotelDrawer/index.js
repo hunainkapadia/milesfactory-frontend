@@ -16,6 +16,7 @@ import Link from "next/link";
 import { setHotelDrawer } from "@/src/store/slices/BookingflightSlice";
 import dayjs from "dayjs";
 import HotelDrawerFooter from "./HotelDrawerFooter";
+import { HOTEL_IMAGE_BASE_URL } from "@/src/hooks/Hooks";
 const HotelDrawer = ({}) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
@@ -47,7 +48,7 @@ const HotelDrawer = ({}) => {
     "/images/hotel-bedroom.jpg",
   ];
 
-  console.log("hotel_name", hotel);
+  console.log("hotel_name", `${HOTEL_IMAGE_BASE_URL}${hotel?.content?.images[0]?.path}`);
 
   return (
     <Drawer
@@ -140,7 +141,10 @@ const HotelDrawer = ({}) => {
                           {firstRate.offers[0].name}
                         </Typography>
                       )}
-                      <Typography textTransform={"capitalize"} className={" chip sm basecolor1-light"}>
+                      <Typography
+                        textTransform={"capitalize"}
+                        className={" chip sm basecolor1-light"}
+                      >
                         {hotel?.categoryName.toLowerCase()}
                       </Typography>
                     </Stack>
@@ -253,20 +257,26 @@ const HotelDrawer = ({}) => {
                           }}
                           className={styles.HotelGallery}
                         >
-                          {images.map((img, idx) => (
-                            <Box
-                              key={idx}
-                              className={styles.HotelThumb}
-                              sx={{
-                                flex: "0 0 auto",
-                                borderRadius: 2,
-                                backgroundImage: `url("${img}")`,
-                                backgroundSize: "cover",
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center",
-                                scrollSnapAlign: "start",
-                              }}
-                            />
+                          {hotel?.content?.images.map((img, idx) => (
+                            <>
+                              <Box
+                                key={idx}
+                                className={styles.HotelThumb}
+                                sx={{
+                                  flex: "0 0 auto",
+                                  borderRadius: 2,
+                                  backgroundImage: `url(${
+                                    img?.path === undefined
+                                      ? "images/hotel-nothumb.png"
+                                      : `${HOTEL_IMAGE_BASE_URL}${img?.path}`
+                                  })`,
+                                  backgroundSize: "cover",
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  scrollSnapAlign: "start",
+                                }}
+                              />
+                            </>
                           ))}
                         </Box>
                       </Box>
