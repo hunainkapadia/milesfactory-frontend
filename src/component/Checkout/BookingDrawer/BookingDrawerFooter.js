@@ -9,7 +9,6 @@ import {
   setBookingDrawer,
   setCloseDrawer,
   setflightDetail,
-  setselectedFlighDetail,
   setSelectedFlightKey,
   setSelectFlightKey,
   setSingleFlightData,

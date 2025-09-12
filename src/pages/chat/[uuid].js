@@ -269,7 +269,7 @@ const ChatByUUID = () => {
           </Box>
         </Box>
       </Box>
-      {/* <CartErrorDialog /> */}
+      <CartErrorDialog />
       <BookingDrawer getFlightDetail={flightDetail} />
       <BaggageDrawer getFlightDetail={flightDetail} />
     </>

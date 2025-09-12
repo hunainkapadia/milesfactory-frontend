@@ -12,7 +12,7 @@ const initialState = {
   isLoadingSelect: false,
   setError: null,
   selectedFlightId: null,
-  selectedFlighDetail: null,
+  selectedFlight: null,
 
   setSelectFlightKey: null,
   OpenDrawer: false,
@@ -32,6 +32,8 @@ const initialState = {
   cartOffer: null,
   hotelDrawer:false,
   cartError: false,
+  cartErrorDialog: false,
+  flightUnavailable: false,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -39,6 +41,15 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setFlightUnavailable:(state, action) => {
+      state.flightUnavailable = action.payload;
+    },
+    setSelectedFlight:(state, action) => {
+      state.selectedFlight = action.payload;
+    },
+    setCartErrorDialog:(state, action) => {
+      state.cartErrorDialog = action.payload;
+    },
     setCartError:(state, action) => {
       state.cartError = action.payload;
     },
@@ -158,7 +169,12 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     }
   } catch (error) {
     console.error("AddToCart_error", error?.response?.data?.error);
-    dispatch(setCartError(true));
+    console.error("AddToCart_error2", error?.response?.data?.error);
+    const geterror = error?.response?.data?.error;
+    if (geterror === "Failed to fetch flight offer: airline_error: Requested offer is no longer available: Please select another offer, or create a new offer request to get the latest availability.") {
+      dispatch(setCartError(true));
+      dispatch(setCartErrorDialog(true))
+    }
   } finally {
     dispatch(setIsLoadingSelect(false));
   }
@@ -234,7 +250,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
 export const {
   selectFlightReducer,
   setflightDetail,
-  setselectedFlighDetail,
+  setSelectedFlight,
   setLoading,
   setError,
   setSelectFlightKey,
@@ -251,6 +267,8 @@ export const {
   setIsLoadingSelect,
   setCartOffer,
   setHotelDrawer,
-  setCartError
+  setCartError,
+  setFlightUnavailable,
+  setCartErrorDialog
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

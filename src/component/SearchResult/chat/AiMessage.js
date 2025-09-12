@@ -93,6 +93,10 @@ const AiMessage = ({ aiMessage }) => {
   // Add class when all flights are shown
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
+  const isUpdateOffer = useSelector((state) => state?.sendMessage?.isUpdateOffer);
+  console.log("isUpdateOffer", isUpdateOffer);
+  
+
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";
@@ -206,7 +210,7 @@ const AiMessage = ({ aiMessage }) => {
         // Default AI response
         <>
           {Array.isArray(displayedGetFlights) &&
-            displayedGetFlights.length === 0 && (
+            displayedGetFlights.length === 0  && isUpdateOffer && (
               <Box
                 mb={3}
                 elevation={0}

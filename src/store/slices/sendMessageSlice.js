@@ -48,6 +48,7 @@ const sendMessageSlice = createSlice({
     noMoreFlights: false,
     threadUuid: null,
     functionType: null,
+    isUpdateOffer: false,
   },
   reducers: {
     setFunctionType: (state, action) => {
@@ -137,6 +138,24 @@ const sendMessageSlice = createSlice({
       // STEP 3: Push the new message
       state.messages.push(newMessage);
     },
+    setIsUpdateOffer: (state, action)=> {
+      state.isUpdateOffer = action.payload
+    },
+    setUpdateOffer: (state) => {
+      state.messages = state.messages.map((msg) => {
+        if (msg.ai?.offers) {
+          return {
+            ...msg,
+            ai: {
+              ...msg.ai,
+              offers: [], // null ki jagah empty array rakhen to handle karna easy rahega
+            },
+          };
+        }
+        return msg;
+      });
+    },
+
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
     },
@@ -521,6 +540,8 @@ export const {
   setInputLoading,
   setNewChatLoading,
   setFunctionType,
-  setResetAppendFlights
+  setResetAppendFlights,
+  setUpdateOffer,
+  setIsUpdateOffer
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

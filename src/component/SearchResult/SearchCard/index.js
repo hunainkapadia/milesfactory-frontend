@@ -12,17 +12,9 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddToCart,
-  bookFlight,
-  closeDrawer,
-  fetchflightDetail,
   setBookingDrawer,
-  setflightDetail,
-  setLoading,
-  setOfferkey,
   setOfferkeyforDetail,
-  setOpenDrawer,
-  setSelectedFlightKey,
-  setSelectFlightKey,
+  setSelectedFlight,
   setSingleFlightData,
 } from "@/src/store/slices/BookingflightSlice";
 
@@ -84,6 +76,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
+  
   const selected = selectedFlightKey === offerkey;
 
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
@@ -99,13 +92,13 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     dispatch(setRefreshSearch());
   };
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const SelectOffer = useSelector((state) => state?.booking?.singleFlightData);
+  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);
+
   const isLoadingSelect = useSelector(
     (state) => state?.booking?.isLoadingSelect
   );
 
-  const handleBookFlight = (offerId) => {
-    console.log("offerId_00", offerId);
+  const handleBookFlight = (getflight) => {
     const params = {
       chat_thread_uuid: uuid,
       offer_type: "flight",
@@ -115,7 +108,11 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
       raw_data: {},
     };
     dispatch(AddToCart(params, uuid));
+    dispatch(setSelectedFlight(getflight));
   };
+  const isFlightAvailable = useSelector((state)=> state?.booking?.flightUnavailable);
+  
+  
   // const handleBookFlight = () => {
   //   dispatch(setChatscroll(true))
   //   dispatch(setLoading(true));
@@ -136,12 +133,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   //   } else {
   //     ("");
   //   }
-  //   event({
-  //     action: 'click',
-  //     category: 'engagement',
-  //     label: 'Select Flight',
-  //     value: offerData?.total_amount_rounded,
-  //   });
+  
   //   console.log("Select Flight", offerData?.total_amount_rounded);
   // };
   return (
@@ -290,11 +282,21 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         <Button
                           disabled
                           className={
-                      searchResultStyles.IsSelected +
-                      " w-100 btn btn-primary btn-round btn-md "
-                    }
+                            searchResultStyles.IsSelected +
+                            " w-100 btn btn-primary btn-round btn-md "
+                          }
                         >
                           <span>Selected</span>
+                        </Button>
+                      ) : (selectedFlight?.id === offerData.id && isFlightAvailable) ? (
+                        <Button
+                          disabled
+                          className={
+                            searchResultStyles.IsSelected +
+                            " w-100 btn btn-primary btn-round btn-md "
+                          }
+                        >
+                          <span>Not Available</span>
                         </Button>
                       ) : (
                         <Button
@@ -302,7 +304,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                             "w-100 btn btn-primary btn-round btn-md " +
                             searchResultStyles.selectFlightBtn
                           }
-                          onClick={handleBookFlight}
+                          onClick={() => handleBookFlight(offerData)}
                         >
                           Select
                         </Button>

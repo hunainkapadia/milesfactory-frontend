@@ -57,9 +57,8 @@ const Messages = () => {
   
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
-  const getselectedFlight = useSelector(
-    (state) => state.booking.setselectedFlighDetail
-  );
+  console.log("messages_000", messages);
+  
 
   // for bookingdrawer selector
   const flightDetail = useSelector((state) => state.booking.flightDetail);

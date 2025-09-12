@@ -8,7 +8,6 @@ const initialState = {
   setLoading: null,
   setError: null,
   selectedFlightId: null,
-  selectedFlighDetail: null,
   
   setSelectFlightKey: null,
   OpenDrawer: false,

@@ -11,54 +11,75 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
-import { setCartError } from "@/src/store/slices/BookingflightSlice";
+import {
+  setCartError,
+  setCartErrorDialog,
+  setFlightUnavailable,
+} from "@/src/store/slices/BookingflightSlice";
 import { fetchMessages } from "@/src/store/slices/GestMessageSlice";
+import api from "@/src/store/api";
+import {
+  loadNextFlights,
+  setAllOfferUrl,
+  setClearChat,
+  setClearflight,
+  setIsUpdateOffer,
+  setMessage,
+  setResetAppendFlights,
+  setUpdateOffer,
+} from "@/src/store/slices/sendMessageSlice";
 
 const CartErrorDialog = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const cartError = useSelector((state) => state.booking.cartError);
-  const [openDialog, setOpenDialog] = useState(false);
-
-  useEffect(() => {
-    if (
-      cartError &&
-      typeof cartError === "string" &&
-      cartError.includes("Requested offer is no longer available")
-    ) {
-      setOpenDialog(true);
-    }
-  }, [cartError]);
+  const isCartErrorDialog = useSelector(
+    (state) => state.booking.cartErrorDialog
+  );
 
   const handleClose = () => {
-    dispatch(setCartError(false));
+    dispatch(setCartErrorDialog(false));
   };
 
-   const handleYes = () => {
-    dispatch(setCartError(false)); // close popup
-    const { uuid } = router.query;
+  const allOfferSendUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
+  console.log("allOfferUrl222", allOfferSendUrl);
 
-    console.log("yes_uuid", uuid);
-    
-    if (uuid) {
-      // Re-run search with latest offers
-      dispatch(fetchMessages(uuid));
+  const handleYes = () => {
+    dispatch(setIsUpdateOffer(true)); // refresh start
+
+    dispatch(setUpdateOffer());
+    if (allOfferSendUrl) {
+      // Refresh latest flight offers only
+      api
+        .get(allOfferSendUrl)
+        .then((res) => {
+          const flightRes = res.data;
+          // clear old flight cards
+          dispatch(setClearflight());
+          // push new flight results
+          dispatch(setMessage({ ai: flightRes }));
+        })
+        .catch((err) => {
+          console.error("Error refreshing flight offers", err);
+        })
+        .finally(() => {
+          dispatch(setIsUpdateOffer(false));
+          dispatch(setCartErrorDialog(false)); // close dialog after refresh
+        });
     }
   };
 
   const handleNo = () => {
-    setOpenDialog(false);
-    // Add logic here to "grey out" the selected flight card
-    // Example: dispatch(setFlightUnavailable(selectedFlightId));
+    if (isCartErrorDialog) {
+      dispatch(setFlightUnavailable(true));
+      dispatch(setCartErrorDialog(false));
+    }
   };
-  const cartErrorDialog = useSelector((state)=> state.booking.cartError);
-  console.log("cartErrorDialog", cartErrorDialog);
-  
+  const iscartError = useSelector((state) => state.booking.cartError);
 
   return (
     <Dialog
-      open={cartErrorDialog}
+      open={isCartErrorDialog}
       onClose={handleClose}
       maxWidth="sm"
       fullWidth
@@ -86,18 +107,17 @@ const CartErrorDialog = () => {
             <Box mb={2}>
               <h3 className="mb-3">Flight Not Available</h3>
 
-              <Typography
-                variant="body1"
-                mb={"20px"}
-              >
+              <Typography variant="body1" mb={"20px"}>
                 Requested flight is no longer available.
                 <br />
                 Do you want to re-run the search?
               </Typography>
 
-              <DialogActions sx={{ justifyContent: "flex-start", gap: 1, p:0 }}>
+              <DialogActions
+                sx={{ justifyContent: "flex-start", gap: 1, p: 0 }}
+              >
                 <Button
-                  
+                  onClick={handleNo}
                   className="btn btn-primary btn-lg-x btn-round"
                 >
                   No

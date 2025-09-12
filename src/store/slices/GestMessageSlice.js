@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
-import { setAddBuilder, setThreadUuid } from "./sendMessageSlice";
+import { setAddBuilder, setAllOfferUrl, setThreadUuid } from "./sendMessageSlice";
 
 const initialState = {
   chatActive: false,
@@ -110,6 +110,7 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
             
             if (allFlightSearchApi) {
               dispatch(setTopOfferUrl(allFlightSearchUuid));
+              dispatch(setAllOfferUrl(allFlightSearchApi));
 
               // Flight History
               const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
