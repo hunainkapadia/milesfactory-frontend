@@ -6,6 +6,7 @@ import {
   IconButton,
   Typography,
   Autocomplete,
+  createFilterOptions,
 } from "@mui/material";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -119,6 +120,10 @@ const HotelForm = () => {
       setPriceRange("");
     }
   };
+  const filterOptions = createFilterOptions({
+      stringify: (option) =>
+        `${option.city_name} ${option.name} ${option.iata_code}`,
+    });
 
   return (
     <Stack className={styles.travelForm} component="section">
@@ -136,15 +141,8 @@ const HotelForm = () => {
           <Box className={styles.formGroup}>
             <Autocomplete
               freeSolo
-              options={
-                originOptions
-                  ? Array.from(
-                      new Map(
-                        originOptions.map((o) => [o.city_name, o])
-                      ).values()
-                    )
-                  : []
-              }
+              options={originOptions}
+              filterOptions={filterOptions}
               loading={loadingOrigin}
               getOptionLabel={(option) =>
                 option?.name

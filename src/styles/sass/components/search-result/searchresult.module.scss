@@ -89,9 +89,9 @@
     top: inherit;
     left: 48%;
   }
-    &.FilterActive .messageContentIn {
-      margin-top: 150px;
-    }
+    // &.FilterActive .messageContentIn {
+    //   margin-top: 150px;
+    // }
 
   .messageContentIn {
     padding: 0px 0 35px;
@@ -535,7 +535,7 @@
     justify-content: center;
     width: 100%;
     &.FilterActive .messageContentIn {
-      margin-top: 140px;
+      margin-top: 120px;
     }
     .messageContentIn {
       width: 100%;

@@ -381,7 +381,7 @@ const Header = ({
                 </Box>
                 {/*  */}
               </Box>
-              {isChat && !isBuilderDialoge && <SearchFilterBar />}
+              {isChat && !isBuilderDialoge && isMobile && <SearchFilterBar />}
             </Grid>
           </Grid>
         </Container>

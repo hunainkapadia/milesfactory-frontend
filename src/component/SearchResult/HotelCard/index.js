@@ -107,7 +107,7 @@ const HotelCard = ({ hotel, allHotels }) => {
           <Box
             className={searchResultStyles.HotelThumb}
             sx={{
-              backgroundImage: `url("https://cf.bstatic.com/xdata/images/hotel/max1024x768/108437040.jpg?k=8b7d88be5a0a7ea5a7bb24425ae6472f392a1f641eee26f392c7528b959c76b1&o=&hp=1")`,
+              backgroundImage: `url("/images/hotel-bedroom.jpg")`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",

@@ -5,6 +5,7 @@ import {
   MenuItem,
   IconButton,
   Autocomplete,
+  createFilterOptions,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -117,27 +118,28 @@ const TravelForm = () => {
 
   const calendarRef = useRef(null);
   // useEffect stays mostly same
-useEffect(() => {
-  function handleClickOutside(event) {
-    if (
-      calendarRef.current &&
-      !calendarRef.current.contains(event.target)
-    ) {
-      setShowCalendar(false); // <-- use false instead of null
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setShowCalendar(false); // <-- use false instead of null
+      }
     }
-  }
 
-  if (showCalendar) {
-    document.addEventListener("mousedown", handleClickOutside);
-  } else {
-    document.removeEventListener("mousedown", handleClickOutside);
-  }
+    if (showCalendar) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [showCalendar]);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showCalendar]);
 
+  const filterOptions = createFilterOptions({
+    stringify: (option) =>
+      `${option.city_name} ${option.name} ${option.iata_code}`,
+  });
 
   return (
     <Stack
@@ -183,12 +185,11 @@ useEffect(() => {
           <Box className={styles.formGroup}>
             <Autocomplete
               freeSolo
-              options={originOptions}
+              options={originOptions} // for show in dropodwon
               loading={loadingOrigin}
-              getOptionLabel={(option) =>
-                option?.name
-                  ? `${option.city_name} (${option.name})`
-                  : ""
+              filterOptions={filterOptions} // for type search in field with filter
+              getOptionLabel={(option) => // for show in dropdown
+                option?.name ? `${option.city_name} (${option.name})` : ""
               }
               onInputChange={(e, value) => handleAirportSearch(value, "origin")}
               onChange={(e, value) => setOrigin(value?.city_name || "")}
@@ -211,6 +212,7 @@ useEffect(() => {
           <Box className={styles.formGroup}>
             <Autocomplete
               freeSolo
+              filterOptions={filterOptions}
               options={originOptions}
               loading={loadingOrigin}
               getOptionLabel={(option) =>
@@ -268,8 +270,7 @@ useEffect(() => {
 
             {showCalendar && (
               <Box
-               ref={calendarRef} // attach here
-
+                ref={calendarRef} // attach here
                 position="absolute"
                 zIndex={10}
                 top="40px"

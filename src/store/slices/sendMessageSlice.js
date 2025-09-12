@@ -348,13 +348,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   console.log("hotelSearchApi (raw)", hotelSearchApi);
 
   if (hotelSearchApi) {
-    // ✅ Static fix: replace "dubai" with "dxb"
-    const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
+    // Static fix: replace "dubai" with "dxb"
+    // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
 
-    console.log("hotelSearchApi (fixed)", finalUrl);
+    // console.log("hotelSearchApi (fixed)", finalUrl);
 
     api
-      .get(finalUrl)
+      .get(hotelSearchApi)
       .then((hotelRes) => {
         const isComplete = hotelRes?.data?.is_complete;
         if (isComplete === true) {

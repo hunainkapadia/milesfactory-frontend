@@ -22,44 +22,40 @@ const SearchFilterBar = () => {
     (state) => state.sendMessage?.SearchHistorySend
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
+
+  console.log("SearchHistory_000", SearchHistory);
+
   const dispatch = useDispatch();
   //   for selct flight detail
 
-  
   //   for selct flight detail end
-  
+
   const getCartHotel = useSelector(
     (state) => state?.booking?.addCart?.raw_data?.hotel
   );
-  
-  
-
-
-
 
   const CartOfferDetail = useSelector(
-  (state) => state.booking?.getCartDetail?.items
-);
+    (state) => state.booking?.getCartDetail?.items
+  );
 
-// filter flight + hotel separately
-const CartFlight = CartOfferDetail?.find(item => item?.raw_data?.slices);
-const CartHotel = CartOfferDetail?.find(item => item?.raw_data?.hotel);
+  // filter flight + hotel separately
+  const CartFlight = CartOfferDetail?.find((item) => item?.raw_data?.slices);
+  const CartHotel = CartOfferDetail?.find((item) => item?.raw_data?.hotel);
 
-const HandleSelectDrawer = () => {
-  if (CartFlight) {
-    dispatch(setBookingDrawer(true));
-    dispatch(setSingleFlightData(CartFlight.raw_data));
-  }
-};
+  const HandleSelectDrawer = () => {
+    if (CartFlight) {
+      dispatch(setBookingDrawer(true));
+      dispatch(setSingleFlightData(CartFlight.raw_data));
+    }
+  };
 
-const handleHotelDrawer = () => {
-  if (CartHotel) {
-    dispatch(setSinglehotel(CartHotel.raw_data?.hotel));
-    dispatch(setHotelDrawer(true));
-  }
-};
+  const handleHotelDrawer = () => {
+    if (CartHotel) {
+      dispatch(setSinglehotel(CartHotel.raw_data?.hotel));
+      dispatch(setHotelDrawer(true));
+    }
+  };
 
-  
   return (
     <>
       {SearchHistory?.flight ? (
@@ -245,7 +241,7 @@ const handleHotelDrawer = () => {
                       className="bold black"
                       sx={{ fontSize: { md: "12px", xs: "10px" } }}
                     >
-                      London
+                      {SearchHistory?.hotel?.to_destination}
                     </Typography>
                   </Box>
 
@@ -256,10 +252,52 @@ const handleHotelDrawer = () => {
                     alignItems={"center"}
                   >
                     <Typography className="black regular">
-                      01 Sept - 10 Sept
+                      {new Date(
+                        SearchHistory?.hotel?.departure_date
+                      ).toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })}{" "}
+                      -{" "}
+                      {new Date(
+                        SearchHistory?.hotel?.return_date
+                      ).toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })}
                     </Typography>
                     <Typography className="black regular">
-                      2 adults, 2 children
+                      {[
+                        // Adults
+                        SearchHistory?.hotel?.passengers?.adults > 0 &&
+                          `${SearchHistory?.hotel?.passengers?.adults} ${
+                            SearchHistory?.hotel?.passengers?.adults === 1
+                              ? "adult"
+                              : "adults"
+                          }`,
+
+                        // Children (fix: use length instead of array itself)
+                        SearchHistory?.hotel?.passengers?.children?.length >
+                          0 &&
+                          `${
+                            SearchHistory?.hotel?.passengers?.children?.length
+                          } ${
+                            SearchHistory?.hotel?.passengers?.children
+                              ?.length === 1
+                              ? "child"
+                              : "children"
+                          }`,
+
+                        // Infants
+                        SearchHistory?.hotel?.passengers?.infants > 0 &&
+                          `${SearchHistory?.hotel?.passengers?.infants} ${
+                            SearchHistory?.hotel?.passengers?.infants === 1
+                              ? "infant"
+                              : "infants"
+                          }`,
+                      ]
+                        .filter(Boolean)
+                        .join(", ")}
                     </Typography>
                   </Box>
 
@@ -270,7 +308,7 @@ const handleHotelDrawer = () => {
                   >
                     {SearchHistory?.flight && <FilterParams />}
 
-                      {/* <Typography
+                    {/* <Typography
                         className=" gray mb-0"
                         sx={{ fontSize: { xs: "8px", lg: "12px", md: "12px" } }}
                       >
