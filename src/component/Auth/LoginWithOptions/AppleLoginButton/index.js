@@ -18,9 +18,11 @@ const AppleLoginButton = ({ label = "Sign in with Apple" }) => {
     if (appleSdkLoaded && window.AppleID) {
       
       window.AppleID.auth.init({
-      clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
+      clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID ||
+  "com.gomylz.mylz",
       scope: "name email",
-      redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI,
+      redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI ||
+  "https://hotels.gomylz.com/api/auth/apple/callback",
 
         usePopup: true,
       });

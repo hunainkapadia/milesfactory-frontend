@@ -72,7 +72,6 @@ const SignUpPopup = ({ isChat }) => {
   const HandleSignupPopupClose = () => {
     dispatch(setSignupPopup(false));
   };
-  console.log("test_cond", isChat);
   const HandleSigninPopup = () => {
     dispatch(setSignupPopup(false));
     dispatch(setLoginPopup(true)); // for close login popup

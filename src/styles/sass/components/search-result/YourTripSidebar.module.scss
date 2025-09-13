@@ -1,8 +1,17 @@
 @import "../../_variables.scss";
 
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 
-/* Frame 316126439 */
-/* Frame 316126414 */
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .PaddDetailCard {
   padding: 12px;
   border: 1px dashed rgba(197, 218, 222, 0.4);
@@ -11,7 +20,7 @@
   
 }
 .flightOfferCard {
-
+  
   padding: 14px 12px;
   gap: 12px;
   
@@ -54,8 +63,12 @@
 }
 // tabs
 .customTabs {
+  padding: 4px;
   height: auto;
   min-height: inherit;
+  a {
+    @include TapNone;
+  }
 }
 
 .TabSection {
@@ -65,7 +78,6 @@
 
 .inactiveTab {
   margin-right: 4px;
-  min-height: 30px;
   height: 30px;
   display: flex;
   flex-direction: row;
@@ -196,17 +208,6 @@
   }
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 
 .YourTripSidebar {
   z-index: 6;
@@ -262,5 +263,14 @@
     .flightRoute {
       font-weight: $bold;
     }
+  }
+}
+@include for-mobile-large-screen(){
+  .customTabs {
+    padding: 0;
+  }
+  .inactiveTab {
+    margin-right: 4px;
+    height: 35px;
   }
 }

@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 const SidebarTabs = () => {
   const dispatch = useDispatch();
   const handleTabClick = (tabId, sectionId) => {
-    console.log("sectionId", sectionId);
-    
     dispatch(setSidebarTab(tabId));
     setTimeout(() => {
       const drawerContent = document.querySelector(".asasas"); // your scroll container
@@ -25,34 +23,37 @@ const SidebarTabs = () => {
     }, 100); // small delay ensures DOM has rendered
   };
   const activeTab = useSelector((state) => state?.base?.sidebarTab);
-  console.log("activeTab", activeTab);
-
   const getBuilder = useSelector(
     (state) =>
       state?.sendMessage?.AddBuilder?.silent_function_template?.[0]?.function
         ?.arguments
   );
+  console.log("getBuilder_00", getBuilder);
+
   const getselectedFlight = useSelector(
     (state) => state?.booking?.singleFlightData
   );
   const slices = getselectedFlight?.slices || [];
+  const cartItems = useSelector((state) => state?.booking?.cartOffer?.items);
+  const isHotel = cartItems?.some((item) => item.offer_type === "hotel");
 
-  console.log("getBuilder", getBuilder?.flight_type);
+  console.log("isHotel_cart", isHotel);
   
+
   return (
     <Box
       width={"100%"}
       sx={{
         backgroundColor: "#F2F7F8",
         borderRadius: "8px",
-        padding: "4px",
         display: "flex",
         gap: "4px",
       }}
-      className={`${TripStyles.customTabs} customTabs`}
+      className={`${TripStyles.customTabs} customTabs tap-none`}
     >
       {/* // Conditional rendering of tabs based on flight type. Assume return by default  */}
-      {getBuilder?.flight_type ===  "one-way" ? (
+
+      {getBuilder?.flight_type === "one-way" ? (
         <a
           href="#offer-card"
           onClick={() => handleTabClick("overview", "offer-card")}
@@ -126,6 +127,27 @@ const SidebarTabs = () => {
           </a>
         </>
       )}
+      {(isHotel || getBuilder?.trip_components?.some(
+  component => component === "hotel"
+)) && (
+  <a
+    href="#hotel-section"
+    onClick={() => handleTabClick("hotel", "itinerary-section")}
+    style={{ textDecoration: "none" }}
+  >
+    <Box
+      className={`${TripStyles.inactiveTab} ${
+        activeTab === "hotel" ? TripStyles.activeTab : ""
+      }`}
+      display="flex"
+      alignItems="center"
+      gap={1}
+    >
+      <Typography className="f12">Hotel</Typography>
+    </Box>
+  </a>
+)}
+
     </Box>
   );
 };

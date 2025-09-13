@@ -21,6 +21,7 @@ Colors - start
 
 // Primary color 1
 $basecolor: #69707B;
+$homeInputButton: 32px;
 $btn-gradient-basecolor1: linear-gradient(180deg, #00C4CC 0%, #33DDE3 100%);
 $basecolor1-light: #F3FBF8;
 $basecolor1-dark: #D8F5F3;
@@ -201,12 +202,18 @@ Misc - start
 ===================================================================*/
 
 
-$BoxContainerLg:61%;
+$BoxContainerLg:700px;
+$InputHeightLg: 184px;
 $BoxContainerMd: 74%;
 $BoxContainerSm: 90%;
 $BoxContainerXs: 100%;
 
+$headerHeightMd: 60px;
+$headerHeightXs: 45px;
 $fldHeight: 50px;
+$ChatInputHeightMd: 184px;
+$ChatInputHeightXs: 214px;
+$ChatInputHeight: 185px;
 $header-padding-top: 0;
 $header-padding-top-mb: 0;
 $messageRight: 57px;
@@ -248,7 +255,11 @@ Mixins - start
 ===================================================================*/
 
 //Instead of typing width:200px; height:200px; just type @include size(200px); or @include size(20px,35px);
-
+@mixin TapNone {
+  -webkit-tap-highlight-color: transparent; /* no blue/gray glow */
+  -webkit-touch-callout: none; /* prevents iOS "copy/share" popup on long press */
+  -webkit-user-select: none;   /* prevents text selection highlight */
+}
 @mixin size($width, $height: $width) {
   width: $width;
   height: $height;
@@ -411,8 +422,8 @@ $cancel-circle: "\f104";
 
 /* Large Screen*/
 
-@mixin for-computer-only {
-  @media only screen and (min-width: 991px) {
+@mixin for-tab {
+  @media only screen and (max-width: 991px) {
     @content;
   }
 }

@@ -8,12 +8,13 @@ const initialState = {
   currentUser: null,
   feedbackDialog: false,
   contactDialog: false,
+  powerAirlineDialog: false,
   isloading: false,
   InviteEmailDialog: false,
   inputLabelTexts: [
     "Where do you want to go today?",
     "Explore one destination at a time.",
-    "Adventure is waiting for you!"
+    "Adventure is waiting for you!",
   ],
 
   inputValue: "",
@@ -96,57 +97,63 @@ const baseSlice = createSlice({
       state.sectionActive = action.payload; // Update active section
     },
     setPowerAirlineDialog: (state, action) => {
-      state.PowerAirlineDialog = action.payload;
+      state.powerAirlineDialog = action.payload;
       state.contactData = null;
     },
   },
 });
 
-export const feedBack=()=> {
-  
-}
+export const feedBack = () => {};
 export const thread = () => (dispatch, getState) => {
-  
-  
-  dispatch(seIsloading(true))
-  api.get("/api/v1/chat/thread/all").then((res)=> {
-    console.log("getAllthread", res.data);
-    dispatch(setThreadData(res.data))
-    dispatch(seIsloading(false))
-  }).catch((error)=> {
-    
-    
-  }).finally(()=> {
-    
-    
-  })
+  dispatch(seIsloading(true));
+  api
+    .get("/api/v1/chat/thread/all")
+    .then((res) => {
+      dispatch(setThreadData(res.data));
+      dispatch(seIsloading(false));
+    })
+    .catch((error) => {})
+    .finally(() => {});
 };
 
 export const handleSubmitContact = (params) => (dispatch, getState) => {
-  
-  
-  api.post("/api/v1/contact-us", params).then((res)=> {
-    
-    dispatch(setContactData(res));
-    setTimeout(() => {
-      dispatch(setContactDialog(false));      
-    }, 5000);
-  }).catch((error)=> {
-    console.log(error);
-    
-  }).finally(()=> {
-    console.log();
-    
-  })
+  api
+    .post("/api/v1/contact-us", params)
+    .then((res) => {
+      dispatch(setContactData(res));
+      setTimeout(() => {
+        dispatch(setContactDialog(false));
+      }, 5000);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      console.log();
+    });
 };
 
+export const PowerAirlineContact = (params) => (dispatch, getState) => {
+  api
+    .post("/api/v1/company/contact-us", params)
+    .then((res) => {
+      dispatch(setContactData(res));
+      setTimeout(() => {
+        dispatch(setPowerAirlineDialog(false));
+      }, 5000);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      console.log();
+    });
+};
 
 export const RatingSubmit = (params) => (dispatch, getState) => {
-  
   api
     .post("/api/v1/rating", params)
     .then((res) => {
-      
       dispatch(setRatingSumbitRequest(res.data)); // store response if needed
     })
     .catch((error) => {
@@ -158,11 +165,9 @@ export const RatingSubmit = (params) => (dispatch, getState) => {
 };
 
 export const InviteSubmit = (params) => (dispatch, getState) => {
-  
   api
     .post("/api/v1/invite", params)
     .then((res) => {
-      
       dispatch(setInviteSuccess(res.data)); // store response if needed
     })
     .catch((error) => {
@@ -174,11 +179,9 @@ export const InviteSubmit = (params) => (dispatch, getState) => {
 };
 
 export const InviteDialogSubmit = (params) => (dispatch, getState) => {
-  
   api
     .post("/api/v1/invite", params)
     .then((res) => {
-      
       dispatch(setInviteSuccess(res.data)); // store response if needed
       // dispatch(setInviteEmailDialog(false))
     })
@@ -192,20 +195,20 @@ export const InviteDialogSubmit = (params) => (dispatch, getState) => {
 
 // my trips
 export const MyTripSlice = () => (dispatch, getState) => {
-  
-  dispatch(seIsloading(true))
-  api.get("/api/v1/my/trips").then((res)=> {
-    dispatch(setTripData(res.data))
-    dispatch(seIsloading(false))
-  }).catch((error)=> {
-    console.log(error);
-    
-  }).finally(()=> {
-    console.log();
-    
-  })
+  dispatch(seIsloading(true));
+  api
+    .get("/api/v1/my/trips")
+    .then((res) => {
+      dispatch(setTripData(res.data));
+      dispatch(seIsloading(false));
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      console.log();
+    });
 };
-
 
 // baseSlice.js or wherever you define your thunks
 export const TripDetailSlice = (uuid) => (dispatch, getState) => {
@@ -214,8 +217,6 @@ export const TripDetailSlice = (uuid) => (dispatch, getState) => {
   api
     .get(`api/v1/my/trip/${uuid}/details`)
     .then((res) => {
-      
-      
       dispatch(setTripDetailData(res.data));
     })
     .catch((error) => {
@@ -225,10 +226,6 @@ export const TripDetailSlice = (uuid) => (dispatch, getState) => {
       dispatch(seIsloading(false));
     });
 };
-
-
-
-
 
 export const {
   setSectionActive,
@@ -244,15 +241,15 @@ export const {
   setTripData,
   setTripDetailData,
   setInviteEmailDialog,
-  resetInviteSuccess, 
+  resetInviteSuccess,
   setPowerAirlineDialog,
   setInputLabelTexts,
-  setInputValue, 
+  setInputValue,
   clearInputValue,
   setIsBuilderDialog,
   setSidebarTab,
   setChatscroll,
-  setMobileNaveDrawer
+  setMobileNaveDrawer,
 } = baseSlice.actions;
 
 export default baseSlice.reducer;

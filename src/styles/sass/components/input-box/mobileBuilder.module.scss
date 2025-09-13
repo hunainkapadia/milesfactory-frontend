@@ -15,10 +15,13 @@
    width: 100%;
 }
 .switchWrapper {
+  &.isMobileBuilder {
+    margin-right: 8px;
+  }
   display: flex;
   align-items: center;
   position: relative;
-  width: auto;
+  width: 140px;
   height: auto;
   white-space: nowrap;
   border-radius: 100px;
@@ -53,6 +56,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
+    text-align: center;
     p {
       font-size: 16px;
       line-height: 1;
@@ -60,11 +64,11 @@
 
     &.inactive {
       p {
-         font-weight: normal;
+         font-weight: $light;
          color: $basecolor; // uses MUI theme variable
       }
     }
-    padding: 14px 12px;
+    padding: 14px 10px;
     &.active {
       background: $white;
       border: 1px solid #C5DADE;

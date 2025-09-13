@@ -31,12 +31,11 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
 
   return (
     <>
-      <Box px={3} pb={2}>
-        <Box 
+      <Box sx={{ px: { md: 3, xs: 2 } }} pb={2}>
+        <Box
           className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
-            passFilled ? styles.isFilled : "" 
-          } ${
-            passDisabled ? styles.passDisabled : "" }`}
+            passFilled ? styles.isFilled : ""
+          } ${passDisabled ? styles.passDisabled : ""}`}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"space-between"}
@@ -62,7 +61,7 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
                 sx={{ m: 0, p: 0 }} // Zero padding & margin for FormControlLabel itself
               />
 
-              <Box className="imggroup">
+              <Box className="imggroup" display={"flex"} alignItems={"center"}>
                 <img src="/images/user-circle.svg" alt="User" />
               </Box>
               <Box p={0} m={0}>
@@ -112,7 +111,8 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
                             className="f12 red"
                           >
                             {years}
-                          </Typography> year{years !== 1 ? "s" : ""}{" "}
+                          </Typography>{" "}
+                          year{years !== 1 ? "s" : ""}{" "}
                         </>
                       ) : getdata.type === "child" ? (
                         <>
@@ -123,7 +123,8 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
                             className="f12 red"
                           >
                             {years}
-                          </Typography> year{years !== 1 ? "s" : ""}{" "}
+                          </Typography>{" "}
+                          year{years !== 1 ? "s" : ""}{" "}
                         </>
                       ) : getdata.type === "adult" ? (
                         <>
@@ -151,8 +152,8 @@ const PassengerProfilecard = ({ getdata, onClickCard, passFilled, passDisabled }
               display={"flex"}
             >
               <Typography
-                sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
-                className="f12 bold mb-0 basecolor1 cursor-pointer"
+                sx={{ fontSize: { lg: 14, md: 14, xs: 10 } }}
+                className="bold mb-0 basecolor1 cursor-pointer"
                 display="flex"
                 alignItems="center"
                 gap={1}

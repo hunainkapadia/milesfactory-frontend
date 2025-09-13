@@ -161,7 +161,10 @@ export const PassengerForm = () => (dispatch, getState) => {
 
   if (!finalOfferId) return;
 
-  const flightId = states?.booking?.flightDetail?.id;
+  const CartDetails = states?.booking?.getCartDetail?.items;
+  const flightId = CartDetails?.[0]?.offer_id;
+  console.log("flightId", flightId);
+  
   const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
   dispatch(setisLoading(true))
   dispatch(
@@ -171,8 +174,6 @@ export const PassengerForm = () => (dispatch, getState) => {
   api.post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
-
-      console.log("order_response", response.data );
       dispatch(setOrderUuid(OrderUUId));
       // dispatch(setIsPassengerflow(true))
       dispatch(
@@ -298,13 +299,11 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
       region: captainParams.region,
     };
     
-    console.log("getParams", getParams);
-  
+    
     setTimeout(() => {
       api
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
-          console.log("captain_res", cap_res);
           dispatch(fetchOrderDetail()); // for order detail API call
         })
         .catch((err) => {

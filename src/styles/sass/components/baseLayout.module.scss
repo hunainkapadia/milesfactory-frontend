@@ -15,6 +15,7 @@
    
 
    .DropdownItems {
+      display: none;
       width: 100%;
       position: absolute;
       height: auto;
@@ -63,7 +64,7 @@
    width: 100%;
    left: 0;
    z-index: 7;
-   height: 60px;
+   height: $headerHeightMd;
    
    &.AiBookingFrontHeader {position: relative; background-color: $white;}
    &.AiBookingMainHeaderRow1 {
@@ -79,7 +80,7 @@
       @include transition(all 0.2s ease-in-out);
       display: flex; 
       padding: 0px;
-      height: 60px;
+      height: $headerHeightMd;
       &:hover .DropdownItems {
          opacity: 1;
          visibility: visible;
@@ -116,7 +117,7 @@
       width: 62px;
    }
    &.Sticky {
-      height: 50px;
+      height: $headerHeightMd;
       background-color: $white;
       transition: all 0.3s ease-in-out;
       .Login {
@@ -259,7 +260,7 @@
       .ShareDropdownHandle
        {
          padding: 0;
-         height: 60px;
+         height: $headerHeightXs;
       }
    }
    .airlinepowerBtn {
@@ -295,7 +296,13 @@
     }
    
     .Header {
-      height: 50px;
+      &.Sticky {
+         height: $headerHeightXs;
+      }
+      height: $headerHeightXs;
+      
+        display: flex;
+        align-items: center;
        &.AiBookingMainHeaderRow2 {
          height: 40px;
       }
@@ -308,7 +315,7 @@
         flex-direction: row;
       }
       &.isMessage {padding-right: 0;
-         .Box {height: 54px;
+         .Box {
             z-index: 8;gap: 15px;
             justify-content: flex-start;
             position: relative;
@@ -316,12 +323,12 @@
          }
       }
       .Box {
-         height: 54px;
+         
       }
-      .Dropdown {padding: 20px 20px; height: 54px;
+      .Dropdown {padding: 20px 20px; height: $headerHeightXs;
          .DropdownItems {
             left: -90px;
-            top: 50px;
+            top: 45px;
          }
       }
       &.isHome {
@@ -357,6 +364,16 @@
             padding: 0px;  
          }
 
+      }
+   }
+ }
+
+ @include for-tab (){ 
+   .Header {
+      .Dropdown {
+         .DropdownItems {
+            left: -80px;
+         }
       }
    }
  }

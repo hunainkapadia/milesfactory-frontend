@@ -3,17 +3,16 @@ import { Box, Typography, Divider, Grid, Drawer } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
+import FlightChangeConditions from './FlightChangeConditions';
+import FlightRefundConditions from './FlightRefundConditions';
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
+import { setBookingDrawer, setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols,event } from "@/src/utils/utils";
 import Link from "next/link";
-const BookingDrawer = ({ getFlightDetail }) => {
-  
-  //console.log("getFlightDetail", getFlightDetail);
-  
+const BookingDrawer = ({ }) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
-    dispatch(setSelectFlightKey()); //setSelectFlightKey empty then close drawer
+    dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
   };
   const SearchHistoryGet = useSelector(
     (state) => state.getMessages.SearchHistory
@@ -22,16 +21,17 @@ const BookingDrawer = ({ getFlightDetail }) => {
     (state) => state.sendMessage.SearchHistory
   );
   const searchHistory = SearchHistoryGet || SearchHistorySend;
-  const getFlightKey = useSelector((state) => state.booking.setSelectFlightKey);
+  
   const seeDetail = useSelector(
-          (state) => state.passengerDrawer.SeeDetailButton
-        );
-        
-    console.log("seeDetail", seeDetail);
+    (state) => state.passengerDrawer.SeeDetailButton
+  );
+  
+  const getFlightDetail = useSelector((state) => state.booking?.singleFlightData);
+  const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
   return (
     <Drawer
       anchor="right"
-      open={getFlightKey}
+      open={IsOpendrawer}
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
@@ -159,16 +159,16 @@ const BookingDrawer = ({ getFlightDetail }) => {
                   </>
                 ))}
                 <Box
-                  className="black opacity-50"
+                  className="black"
                   display={"flex"}
                   gap={2}
                   alignItems={"center"}
                   mb={3}
                 >
                   <Box display={"flex"} alignItems={"center"}>
-                    <img width={14} src="/images/leave-icon.svg" />
+                    <img width={14} src="/images/leave-icon-drawer.svg" />
                   </Box>
-                  <Typography className={styles.normalOption + " f12 black"}>
+                  <Typography className={styles.normalOption + " f12 basecolor"}>
                     <span>
                       Emissions estimate: {getFlightDetail?.total_emissions_kg}{" "}
                       kg CO₂e
@@ -177,103 +177,17 @@ const BookingDrawer = ({ getFlightDetail }) => {
                 </Box>
                 {/*  */}
                 <Box component={"section"}>
-                  {/* Change with penalty */}
-                  {getFlightDetail?.conditions?.change_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.change_before_departure
-                      ?.penalty_amount > 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/flexible-change-with-fee.svg"
-                            alt="Change with Fee"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Changes allowed -{" "}
-                          {
-                            currencySymbols[
-                              getFlightDetail?.conditions
-                                ?.change_before_departure?.penalty_currency
-                            ]
-                          }
-                          {
-                            getFlightDetail?.conditions?.change_before_departure
-                              ?.penalty_amount
-                          }{" "}
-                          penalty applies
-                        </Typography>
-                      </Box>
-                    )}
+                  <FlightChangeConditions 
+                    changeCondition={getFlightDetail?.conditions?.change_before_departure}
+                    currencySymbols={currencySymbols}
+                  />
 
-                  {/* Change with no penalty */}
-                  {getFlightDetail?.conditions?.change_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.change_before_departure
-                      ?.penalty_amount === 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/flexible-change-icon.svg"
-                            alt="Free Change"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Changes allowed - no fee
-                        </Typography>
-                      </Box>
-                    )}
+                  <FlightRefundConditions 
+                    refundCondition={getFlightDetail?.conditions?.refund_before_departure}
+                    currencySymbols={currencySymbols}
+                  />
 
-                  {/* Refund with penalty */}
-                  {getFlightDetail?.conditions?.refund_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.refund_before_departure
-                      ?.penalty_amount > 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/refund-with-fee.svg"
-                            alt="Refund with Fee"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Refundable -{" "}
-                          {
-                            currencySymbols[
-                              getFlightDetail?.conditions
-                                ?.refund_before_departure?.penalty_currency
-                            ]
-                          }
-                          {
-                            getFlightDetail?.conditions?.refund_before_departure
-                              ?.penalty_amount
-                          }{" "}
-                          penalty applies
-                        </Typography>
-                      </Box>
-                    )}
 
-                  {/* Refund with no penalty */}
-                  {getFlightDetail?.conditions?.refund_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.refund_before_departure
-                      ?.penalty_amount === 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/refund-icon.svg"
-                            alt="Free Refund"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Refundable before departure - no fee
-                        </Typography>
-                      </Box>
-                    )}
                 </Box>
               </>
             </Box>

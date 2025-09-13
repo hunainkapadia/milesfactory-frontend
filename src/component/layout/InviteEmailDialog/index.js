@@ -49,8 +49,8 @@ const InviteEmailDialog = () => {
         onClick={inviteEmailClose}
         sx={{
           position: "absolute",
-          right: 16,
-          top: 8,
+          right: 4,
+          top: 0,
           color: "#000",
           zIndex: 1,
         }}

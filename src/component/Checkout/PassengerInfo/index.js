@@ -50,7 +50,6 @@ const PassengerInfo = ({ getdata }) => {
       label: 'Add Passenger Start',
       value: passenger.type,
     });
-    console.log("Add Passenger Start", passenger.type);
     if (passengerPofile?.length > 0) {
       dispatch(getPassPofile()); // call passenger profile
       dispatch(setPassProfileDrawer(true));
@@ -99,7 +98,7 @@ const PassengerInfo = ({ getdata }) => {
   );
   const IsServices = useSelector(
     (state) => state?.booking?.singleFlightData?.available_services
-  );
+  );  
   
 
   if (!IsServices?.length) {

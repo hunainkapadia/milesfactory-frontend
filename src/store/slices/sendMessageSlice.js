@@ -7,11 +7,20 @@ import {
   setflightDetail,
   setSelectedFlightKey,
   setSingleFlightData,
-  offerkey
+  offerkey,
 } from "./BookingflightSlice";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { clearGetMessages, fetchMessages, setSearchHistoryGet } from "./GestMessageSlice";
-import { setIsBuilderDialog, setMobileNaveDrawer, setThreadDrawer } from "./Base/baseSlice";
+import {
+  clearGetMessages,
+  fetchMessages,
+  setSearchHistoryGet,
+} from "./GestMessageSlice";
+import {
+  setIsBuilderDialog,
+  setMobileNaveDrawer,
+  setThreadDrawer,
+} from "./Base/baseSlice";
+import { setPaymentFormSuccess } from "./PaymentSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -36,10 +45,15 @@ const sendMessageSlice = createSlice({
       ai: "",
     },
     AddBuilder: null,
-    noMoreFlights:false,
+    noMoreFlights: false,
     threadUuid: null,
+    functionType: null,
+    isUpdateOffer: false,
   },
   reducers: {
+    setFunctionType: (state, action) => {
+      state.functionType = action.payload;
+    },
     setInputLoading: (state, action) => {
       state.inputLoading = action.payload;
     },
@@ -113,7 +127,6 @@ const sendMessageSlice = createSlice({
     setMessage: (state, action) => {
       const newMessage = action.payload;
 
-      console.log("newMessage", newMessage?.ai?.passengerFlowRes);
       // STEP 1: If this is a passengerFlowRes message
       if (newMessage?.ai?.passengerFlowRes !== undefined) {
         // STEP 2: Remove all old passengerFlowRes messages
@@ -125,6 +138,24 @@ const sendMessageSlice = createSlice({
       // STEP 3: Push the new message
       state.messages.push(newMessage);
     },
+    setIsUpdateOffer: (state, action)=> {
+      state.isUpdateOffer = action.payload
+    },
+    setUpdateOffer: (state) => {
+      state.messages = state.messages.map((msg) => {
+        if (msg.ai?.offers) {
+          return {
+            ...msg,
+            ai: {
+              ...msg.ai,
+              offers: [], // null ki jagah empty array rakhen to handle karna easy rahega
+            },
+          };
+        }
+        return msg;
+      });
+    },
+
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
     },
@@ -140,26 +171,30 @@ const sendMessageSlice = createSlice({
       state.messages = [];
       state.ThreadUUIDsend = null;
     },
+    setResetAppendFlights: (state) => {
+      state.appendFlights = {
+        nextPageNo: 2, // reset back to default start
+        ai: "",
+      };
+      state.noMoreFlights = false;
+    },
   },
 });
 
-
 export const sendMessage = (userMessage) => (dispatch, getState) => {
+  
   dispatch(setInputLoading(true));
   const pathname = window.location.pathname;
-  // Extract the UUID after /chat/
   const threadUUID = pathname.split("/chat/")[1];
-  console.log("pathname_00:", threadUUID);
-  
+
   dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
 
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-    console.log("threadUUIdUrl", threadUUIdUrl);
 
     api
-      .post(threadUUIdUrl, { user_message: userMessage, background_job: true })
+      .post(threadUUIdUrl, { user_message: userMessage, background_job: false })
       .then((res) => {
         let response = res.data;
         const run_id = response.run_id;
@@ -172,22 +207,18 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
         if (run_status === "requires_action") {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
-
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
 
           dispatch(setpollingComplete(false));
-
           dispatch(
             setMessage({
               ai: {
-                isPolling: {
-                  status: true,
-                  argument: gdata,
-                },
+                isPolling: { status: true, argument: gdata },
               },
             })
           );
+
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
               const interval = setInterval(() => {
@@ -195,12 +226,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(runStatusUrl)
                   .then((resRun) => {
                     const runData = resRun.data;
-                    // checking is function true before dufful flight
-
                     if (runData.run_status === "completed") {
-                      //console.log("runData_run_status", runData.run_status);
-                      console.log(runData.run_status);
-
                       clearInterval(interval);
                       resolve(runData);
                     }
@@ -213,19 +239,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             });
           };
 
-          // Wait for polling before continuing
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
-              console.log(" Polling complete:", response);
               dispatch(setpollingComplete(true));
               handleFinalResponse(response);
             })
-            .catch((error) => {
-              console.error(" Polling failed:", error);
-            });
+            .catch((error) => console.error("Polling failed:", error));
         } else {
-          // If no polling needed, use immediate response
           handleFinalResponse(response);
         }
       })
@@ -234,23 +255,21 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         dispatch(setLoading(false));
       });
 
-    //  Common handler after response is finalized (immediate or polled)
+    // Final Response Handler
     const handleFinalResponse = (response) => {
-      // flight result [start]
-      console.log("is_function_test", response?.is_function);
+      dispatch(setIsFunction({ status: !!response?.is_function }));
+
       if (response?.is_function) {
-        dispatch(setIsFunction({ status: true }));
-      } else {
-        dispatch(setIsFunction({ status: false }));
-      }
-      if (response?.is_function) {
+        const funcName = response?.function_template?.[0]?.function?.name;
+        dispatch(setFunctionType(funcName));
+
+        // --------- ✅ Flight Flow (Fixed)
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         const allFlightSearchUuid =
           response?.response?.results?.view_all_flight_result_api?.uuid;
-        console.log("allFlightSearchUuid", allFlightSearchApi);
+
         if (allFlightSearchApi) {
-          const getallFlightId = allFlightSearchApi.split("/").pop();
           dispatch(setTopOfferUrlSend(allFlightSearchUuid));
           dispatch(setAllOfferUrl(allFlightSearchApi));
           dispatch(setFilterUrl(allFlightSearchApi));
@@ -263,23 +282,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .get(allFlightSearchApi)
               .then((flightRes) => {
                 const isComplete = flightRes?.data?.is_complete;
-                console.log("flightRes", flightRes);
-
-                console.log(
-                  " Final refreshed flightRes is_complete:",
-                  isComplete
-                );
-
                 if (isComplete === true) {
-                  console.log("Replacing with real flight results");
-                  dispatch(
-                    setMessage({
-                      ai: flightRes.data,
-                    })
-                  );
+                  dispatch(setMessage({ ai: flightRes.data }));
                 } else {
-                  console.log("Still not complete after polling");
-
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -288,9 +293,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   );
                 }
               })
-              .catch((err) => {
-                console.error("Error fetching final results", err);
-              });
+              .catch((err) =>
+                console.error("Error fetching final flight results", err)
+              );
           };
 
           const pollHistoryUntilComplete = () => {
@@ -299,91 +304,99 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(historyUrl)
                 .then((history_res) => {
                   const isComplete = history_res?.data?.search?.is_complete;
-                  console.log(" Polling: is_complete =", isComplete);
-                  dispatch(setSearchHistorySend(history_res.data.search));
+                  dispatch(setSearchHistorySend({"flight" :history_res.data.search}));
+                  
 
                   if (isComplete === true) {
                     clearInterval(interval);
-                    // First fetch the new data
-                    api
-                      .get(allFlightSearchApi)
-                      .then((flightRes) => {
-                        console.log("flightRes", flightRes);
-                        dispatch(setSelectedFlightKey(null)); //  clear select flight key
-
-                        const realFlightData = flightRes.data;
-
-                        // First clear placeholders
-                        dispatch(setClearflight());
-
-                        // Then add final results
-                        dispatch(
-                          setMessage({
-                            ai: realFlightData,
-                          })
-                        );
-                      })
-                      .catch((err) => {
-                        console.error("Error fetching final results", err);
-                      });
+                    api.get(allFlightSearchApi).then((flightRes) => {
+                      dispatch(setSelectedFlightKey(null));
+                      dispatch(setClearflight());
+                      dispatch(setMessage({ ai: flightRes.data }));
+                    });
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
-                    showRealResults(); // fetch and display the final results
-                    console.log("Not complete — showing placeholder once");
-                    // alert(
-                    //   "Showing placeholder flight result while search continues..."
-                    // );
-
+                    showRealResults();
                     dispatch(
                       setMessage({
                         ai: { response: response?.response },
-                        type: "flight_placeholder", //if check clear
+                        type: "flight_placeholder",
                       })
                     );
                   }
                 })
                 .catch((err) => {
-                  console.error(" Polling failed", err);
+                  console.error("Polling failed", err);
                   clearInterval(interval);
                 });
             }, 1000);
           };
 
-          // Start polling now
           pollHistoryUntilComplete();
         }
 
-        // flight result [end]
-      } else {
-        // checking is function true before dufful flight
-        if (response?.run_status == "completed") {
-          // dispatch(setisPolling({
-          //   status: false,
-          //   argument: null,
-          // }));
+        // --------- ✅ Hotel Flow
+        else if (funcName === "search_hotel_result_func") {
+  const hotelSearchApi =
+    response?.response?.results?.view_hotel_search_api?.url;
+
+  const HotelArgument =
+    response?.silent_function_template?.[0]?.function?.arguments || {};
+  console.log("HotelArgument", HotelArgument);
+
+  dispatch(setSearchHistorySend({ hotel: HotelArgument }));
+  console.log("hotelSearchApi (raw)", hotelSearchApi);
+
+  if (hotelSearchApi) {
+    // Static fix: replace "dubai" with "dxb"
+    // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
+
+    // console.log("hotelSearchApi (fixed)", finalUrl);
+
+    api
+      .get(hotelSearchApi)
+      .then((hotelRes) => {
+        const isComplete = hotelRes?.data?.is_complete;
+        if (isComplete === true) {
+          dispatch(setClearflight());
+          dispatch(setMessage({ ai: hotelRes.data }));
+        } else {
+          dispatch(
+            setMessage({
+              ai: hotelRes.data,
+              type: "hotel_result",
+            })
+          );
         }
-        dispatch(
-          setMessage({
-            ai: { response: response?.response },
-          })
-        );
+      })
+      .catch((err) => {
+        console.error("Error fetching hotel results", err);
+      });
+  }
+}
+
+      } else {
+        // Normal response
+        if (response?.run_status === "completed") {
+          // done
+        }
+        dispatch(setMessage({ ai: { response: response?.response } }));
       }
     };
   };
 
-  //  Check if thread UUID already exists set from url to sendToThread
   if (threadUUID) {
-    sendToThread(threadUUID); // set in function for next chat flow
+    sendToThread(threadUUID);
   } else {
-    // Only create a new thread if one doesn't exist
     api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND).then((thread_res) => {
       const uuid = thread_res.data.uuid;
       dispatch(setInputLoading(false));
-      dispatch(setThreadUuid(uuid)); // set for 1st chat url 
-      sendToThread(uuid); // set in function for next chat flow 
+      dispatch(setThreadUuid(uuid));
+      sendToThread(uuid);
     });
   }
 };
+
 // close send messge
 
 // export const createThread = () => (dispatch) => {
@@ -403,34 +416,32 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 //     });
 // };
 
-
 // create thread api call
 
 // for chat page header plus  icon
 export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
   dispatch(setNewChatLoading(true));
-  api.post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
+  api
+    .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
-      console.log("newUuid", newUuid);
-      
       if (newUuid) {
+        dispatch(setResetAppendFlights());
         dispatch(setThreadUuid(newUuid));
-        dispatch(setMobileNaveDrawer(false))
-        dispatch(setIsBuilderDialog(false))
-
+        dispatch(setMobileNaveDrawer(false));
+        dispatch(setIsBuilderDialog(false));
+        dispatch(setPaymentFormSuccess(null));
         //  Clear old chat data in both slices
-        dispatch(setClearChat());     // from sendMessageSlice
-        dispatch(clearGetMessages());    // from getMessagesSlice
-        dispatch(setSearchHistorySend(null))
-        dispatch(setSearchHistoryGet(null))
+        dispatch(setClearChat()); // from sendMessageSlice
+        dispatch(clearGetMessages()); // from getMessagesSlice
+        dispatch(setSearchHistorySend(null));
+        dispatch(setSearchHistoryGet(null));
 
         dispatch(setAddBuilder(null));
         dispatch(setSelectedFlightKey(null));
         dispatch(setflightDetail(null));
         dispatch(setViewPassengers([]));
         dispatch(setOrderUuid(null));
-        dispatch(bookFlight(null));
         dispatch(setSingleFlightData(null));
 
         // Optional: placeholder for new thread
@@ -438,7 +449,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
 
         //  Now fetch new messages for the new thread
         dispatch(setNewChatLoading(false));
-
       }
     })
     .catch((err) => {
@@ -448,7 +458,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
 
 export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(setThreadDrawer(false));
-  
+
   // Clear all first
   dispatch(setClearChat());
   dispatch(setAddBuilder(null));
@@ -464,24 +474,19 @@ export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(fetchMessages(threaduuid));
 
   // Optional: show "new thread" message placeholder
-}
-
-
+};
 
 // for delete thread
 
 export const loadNextFlights = () => (dispatch, getState) => {
   const getpageNo = getState()?.sendMessage?.appendFlights?.nextPageNo;
   const getpageNo2 = getState()?.sendMessage;
-  console.log("getpageNo", getpageNo2);
 
   const allOfferUrl = getState().sendMessage?.AllOfferUrl;
-  console.log("allOfferUrl", allOfferUrl);
 
   const paginationSymbol = allOfferUrl.includes("?") ? "&" : "?";
   const nextPageUrl = `${allOfferUrl}${paginationSymbol}page=${getpageNo}`;
 
-  console.log("nextPageUrl", nextPageUrl);
   dispatch(setLoading(true));
 
   // console.log("nextPageUrl", nextPageUrl);
@@ -492,7 +497,7 @@ export const loadNextFlights = () => (dispatch, getState) => {
       const offers = flightData?.offers || [];
 
       if (offers.length === 0) {
-        dispatch(setNoMoreFlights(true))
+        dispatch(setNoMoreFlights(true));
         return;
       }
 
@@ -533,6 +538,10 @@ export const {
   setAddBuilder,
   setNoMoreFlights,
   setInputLoading,
-  setNewChatLoading
+  setNewChatLoading,
+  setFunctionType,
+  setResetAppendFlights,
+  setUpdateOffer,
+  setIsUpdateOffer
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

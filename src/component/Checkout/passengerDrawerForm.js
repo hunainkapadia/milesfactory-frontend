@@ -290,7 +290,6 @@ const PassengerDrawerForm = () => {
       category: 'engagement',
       label: 'Passenger Form Submit',
     });
-    console.log("Passenger Form Submit");
 
     dispatch(PassengerFormSubmit(params));
 

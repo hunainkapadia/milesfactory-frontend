@@ -8,7 +8,6 @@
     closeDrawer,
     setCloseDrawer,
     setflightDetail,
-    setselectedFlighDetail,
     setSelectFlightKey,
   } from "@/src/store/slices/BookingflightSlice";
   import { setMessage } from "@/src/store/slices/sendMessageSlice";
