@@ -65,7 +65,7 @@ api.interceptors.request.use(async (config) => {
 
         Cookies.set("access_token", newAccessToken);
         if (newRefreshToken) {
-          Cookies.set("refresh_token", newRefreshToken, { expires: 7 });
+          Cookies.set("refresh_token", newRefreshToken);
         }
 
         isRefreshing = false;
