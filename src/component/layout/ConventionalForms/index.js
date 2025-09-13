@@ -54,21 +54,21 @@ const ConventionalForms = () => {
       darkIcon: "/images/travel-tab-dark-icon.svg",
       label: "Travel",
     },
-    {
-      icon: "/images/travel-luggage-tab-icon.svg",
-      darkIcon: "/images/travel-luggage-tab-dark-icon.svg",
-      label: "Travel Luggage",
-    },
+    // {
+    //   icon: "/images/travel-luggage-tab-icon.svg",
+    //   darkIcon: "/images/travel-luggage-tab-dark-icon.svg",
+    //   label: "Travel Luggage",
+    // },
     {
       icon: "/images/hotel-tab-icon.svg",
       darkIcon: "/images/hotel-tab-dark-icon.svg",
       label: "Hotel",
     },
-    {
-      icon: "/images/hotel-camera-icon.svg",
-      darkIcon: "/images/hotel-camera-dark-icon.svg",
-      label: "Hotel Camera",
-    },
+    // {
+    //   icon: "/images/hotel-camera-icon.svg",
+    //   darkIcon: "/images/hotel-camera-dark-icon.svg",
+    //   label: "Hotel Camera",
+    // },
   ];
 
   return (
@@ -136,7 +136,7 @@ const ConventionalForms = () => {
           />
         )}
 
-        {tab === 1 && (
+        {/* {tab === 1 && (
           <TravelForm
             origin={origin}
             setOrigin={setOrigin}
@@ -151,9 +151,9 @@ const ConventionalForms = () => {
             handleSearch={handleSearch}
             isLoading={isLoading}
           />
-        )}
+        )} */}
 
-        {tab === 2 && (
+        {tab === 1 && (
           <HotelForm
             location={location}
             setLocation={setLocation}

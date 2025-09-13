@@ -132,28 +132,15 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
           justifyContent={"space-between"}
         >
           <Stack whiteSpace={"nowrap"} alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Departure</Typography>
+            <Typography className="f12">Departing</Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {getBuilder?.departure_date &&
-                new Date(getBuilder?.departure_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
+              {getBuilder?.from_destination}
             </Typography>
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Return</Typography>
+            <Typography className="f12">Arriving</Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {getBuilder?.return_date && // This is the condition
-                new Date(getBuilder.return_date).toLocaleDateString("en-GB", {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                })}
+              {getBuilder?.to_destination}
             </Typography>
           </Stack>
 
@@ -334,28 +321,15 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
             gap={1}
           >
             <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Departure</Typography>
+              <Typography className="f12">Departing</Typography>
               <Typography whiteSpace={"nowrap"} className="f12 black bold">
-                {getBuilder?.departure_date &&
-                  new Date(getBuilder?.departure_date).toLocaleDateString(
-                    "en-GB",
-                    {
-                      weekday: "short",
-                      day: "2-digit",
-                      month: "short",
-                    }
-                  )}
+                {getBuilder?.to_destination}
               </Typography>
             </Stack>
             <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Return</Typography>
+              <Typography className="f12">Arriving</Typography>
               <Typography whiteSpace={"nowrap"} className="f12 black bold">
-                {getBuilder?.return_date && // This is the condition
-                  new Date(getBuilder.return_date).toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  })}
+                {getBuilder?.from_destination}
               </Typography>
             </Stack>
 
