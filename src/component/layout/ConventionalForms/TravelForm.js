@@ -30,8 +30,8 @@ const TravelForm = () => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   console.log("destination_00", destination);
-const [originOption, setOriginOption] = useState(null); // store selected option object
-const [destinationOption, setDestinationOption] = useState(null); // store selected option object
+  const [originOption, setOriginOption] = useState(null); // store selected option object
+  const [destinationOption, setDestinationOption] = useState(null); // store selected option object
   const [singleDate, setSingleDate] = useState(dayjs().add(1, "day").toDate()); // for oneway
   const [dateRange, setDateRange] = useState([
     {
@@ -184,85 +184,82 @@ const [destinationOption, setDestinationOption] = useState(null); // store selec
 
           {/* Origin */}
           <Box className={styles.formGroup}>
-            
-
-<Autocomplete
-  freeSolo
-  options={originOptions}
-  loading={loadingOrigin}
-  filterOptions={filterOptions}
-  getOptionLabel={(option) =>
-    // Dropdown display
-    typeof option === "string"
-      ? option
-      : option?.name
-      ? `${option.name} - ${option.iata_code}`
-      : ""
-  }
-  value={originOption} // selected object
-  inputValue={origin} // input shows only IATA code
-  onInputChange={(e, value, reason) => {
-    if (reason === "input") {
-      setOrigin(value); // input shows IATA code typed
-      handleAirportSearch(value, "origin");
-    }
-  }}
-  onChange={(e, value) => {
-    setOriginOption(value); // store selected option object
-    setOrigin(value?.iata_code || ""); // display only IATA code in input
-  }}
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      variant="outlined"
-      placeholder="Departing from"
-      size="small"
-      className={`${styles.formControl} ${styles.from} formControl`}
-      error={!!errors.origin}
-      helperText={errors.origin}
-    />
-  )}
-/>
-
+            <Autocomplete
+              freeSolo
+              options={originOptions}
+              loading={loadingOrigin}
+              filterOptions={filterOptions}
+              getOptionLabel={(option) =>
+                // Dropdown display
+                typeof option === "string"
+                  ? option
+                  : option?.name
+                  ? `${option.name} - ${option.iata_code}`
+                  : ""
+              }
+              value={originOption} // selected object
+              inputValue={origin} // input shows only IATA code
+              onInputChange={(e, value, reason) => {
+                if (reason === "input") {
+                  setOrigin(value); // input shows IATA code typed
+                  handleAirportSearch(value, "origin");
+                }
+              }}
+              onChange={(e, value) => {
+                setOriginOption(value); // store selected option object
+                setOrigin(value?.iata_code || ""); // display only IATA code in input
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Departing from"
+                  size="small"
+                  className={`${styles.formControl} ${styles.from} formControl`}
+                  error={!!errors.origin}
+                  helperText={errors.origin}
+                />
+              )}
+            />
           </Box>
           {console.log("errors_origin", errors.origin)}
           <Box className={styles.formGroup}>
             <Autocomplete
-  freeSolo
-  options={originOptions} // you can change to destinationOptions if needed
-  loading={loadingOrigin} // use loadingDestination if you have separate loading
-  filterOptions={filterOptions}
-  getOptionLabel={(option) =>
-    typeof option === "string"
-      ? option
-      : option?.name
-      ? `${option.name} - ${option.iata_code}`
-      : ""
-  }
-  value={destinationOption} // selected object
-  inputValue={destination} // input shows only code
-  onInputChange={(e, value, reason) => {
-    if (reason === "input") {
-      setDestination(value); // update input
-      handleAirportSearch(value, "destination"); // search API
-    }
-  }}
-  onChange={(e, value) => {
-    setDestinationOption(value); // store selected object
-    setDestination(value?.iata_code || ""); // show only IATA code
-  }}
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      variant="outlined"
-      placeholder="Arriving at"
-      size="small"
-      className={`${styles.formControl} ${styles.from} formControl`}
-      error={!!errors.destination}
-      helperText={errors.destination}
-    />
-  )}
-/>
+              freeSolo
+              options={originOptions} // you can change to destinationOptions if needed
+              loading={loadingOrigin} // use loadingDestination if you have separate loading
+              filterOptions={filterOptions}
+              getOptionLabel={(option) =>
+                typeof option === "string"
+                  ? option
+                  : option?.name
+                  ? `${option.name} - ${option.iata_code}`
+                  : ""
+              }
+              value={destinationOption} // selected object
+              inputValue={destination} // input shows only code
+              onInputChange={(e, value, reason) => {
+                if (reason === "input") {
+                  setDestination(value); // update input
+                  handleAirportSearch(value, "destination"); // search API
+                }
+              }}
+              onChange={(e, value) => {
+                setDestinationOption(value); // store selected object
+                setDestination(value?.iata_code || ""); // show only IATA code
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Arriving at"
+                  size="small"
+                  className={`${styles.formControl} ${styles.from} formControl`}
+                  error={!!errors.destination}
+                  helperText={errors.destination}
+                />
+              )}
+            />
           </Box>
 
           {/* Dates */}
