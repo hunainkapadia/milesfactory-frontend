@@ -3,6 +3,8 @@ import { Box, Typography, Divider, Grid, Drawer } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import FromAndToDetail from "./FromAndToDetail";
 import BookingDrawerFooter from "./BookingDrawerFooter";
+import FlightChangeConditions from './FlightChangeConditions';
+import FlightRefundConditions from './FlightRefundConditions';
 import { useDispatch, useSelector } from "react-redux";
 import { setBookingDrawer, setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
 import { currencySymbols,event } from "@/src/utils/utils";
@@ -175,103 +177,17 @@ const BookingDrawer = ({ }) => {
                 </Box>
                 {/*  */}
                 <Box component={"section"}>
-                  {/* Change with penalty */}
-                  {getFlightDetail?.conditions?.change_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.change_before_departure
-                      ?.penalty_amount > 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/flexible-change-with-fee-drawer.svg"
-                            alt="Change with Fee"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Changes allowed -{" "}
-                          {
-                            currencySymbols[
-                              getFlightDetail?.conditions
-                                ?.change_before_departure?.penalty_currency
-                            ]
-                          }
-                          {
-                            getFlightDetail?.conditions?.change_before_departure
-                              ?.penalty_amount
-                          }{" "}
-                          penalty applies
-                        </Typography>
-                      </Box>
-                    )}
+                  <FlightChangeConditions 
+                    changeCondition={getFlightDetail?.conditions?.change_before_departure}
+                    currencySymbols={currencySymbols}
+                  />
 
-                  {/* Change with no penalty */}
-                  {getFlightDetail?.conditions?.change_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.change_before_departure
-                      ?.penalty_amount === 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/flexible-change-icon-drawer.svg"
-                            alt="Free Change"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Changes allowed - no fee
-                        </Typography>
-                      </Box>
-                    )}
+                  <FlightRefundConditions 
+                    refundCondition={getFlightDetail?.conditions?.refund_before_departure}
+                    currencySymbols={currencySymbols}
+                  />
 
-                  {/* Refund with penalty */}
-                  {getFlightDetail?.conditions?.refund_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.refund_before_departure
-                      ?.penalty_amount > 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/refund-with-fee-drawer.svg"
-                            alt="Refund with Fee"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Refundable -{" "}
-                          {
-                            currencySymbols[
-                              getFlightDetail?.conditions
-                                ?.refund_before_departure?.penalty_currency
-                            ]
-                          }
-                          {
-                            getFlightDetail?.conditions?.refund_before_departure
-                              ?.penalty_amount
-                          }{" "}
-                          penalty applies
-                        </Typography>
-                      </Box>
-                    )}
 
-                  {/* Refund with no penalty */}
-                  {getFlightDetail?.conditions?.refund_before_departure
-                    ?.allowed === true &&
-                    getFlightDetail?.conditions?.refund_before_departure
-                      ?.penalty_amount === 0 && (
-                      <Box display="flex" gap={2} alignItems="center" mb={1}>
-                        <Box display={"flex"} alignItems={"center"}>
-                          <img
-                            width={14}
-                            src="/images/refund-icon-drawer.svg"
-                            alt="Free Refund"
-                          />
-                        </Box>
-                        <Typography variant="body2" className="gray f12">
-                          Refundable before departure - no fee
-                        </Typography>
-                      </Box>
-                    )}
                 </Box>
               </>
             </Box>
