@@ -283,6 +283,14 @@ p {
 
 // a) Variable base classes - start
 
+.MuiAutocomplete-popper .MuiPaper-elevation1 ul {padding: 8px 0px;
+  li {
+    border-bottom: solid 1px #ddd;
+    padding:  0 6 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+}
 .MuiCheckbox-colorPrimary {
   margin: 0;
   padding: 0;

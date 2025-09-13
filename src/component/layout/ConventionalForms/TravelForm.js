@@ -21,6 +21,8 @@ import {
   fetchAirports,
   submitTravelForm,
 } from "@/src/store/slices/TravelSlice";
+import Cookies from "js-cookie";
+import FromAndTooFields from "./FromAndTooFields";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
@@ -30,7 +32,8 @@ const TravelForm = () => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   console.log("destination_00", destination);
-
+  const [originOption, setOriginOption] = useState(null); // store selected option object
+  const [destinationOption, setDestinationOption] = useState(null); // store selected option object
   const [singleDate, setSingleDate] = useState(dayjs().add(1, "day").toDate()); // for oneway
   const [dateRange, setDateRange] = useState([
     {
@@ -42,7 +45,7 @@ const TravelForm = () => {
   const [errors, setErrors] = useState({});
 
   const [showCalendar, setShowCalendar] = useState(false);
-  const [tripClass, setTripClass] = useState("");
+  const [tripClass, setTripClass] = useState("Economy");
   const [travellers, setTravellers] = useState({
     adults: 1,
     children: 0,
@@ -107,39 +110,7 @@ const TravelForm = () => {
     setTimeout(() => setIsLoading(false), 1000);
   };
 
-  // ===== Handle Airport Search =====
-  const handleAirportSearch = (value, field) => {
-    console.log("dd_value", value);
-
-    if (value && value.length > 2) {
-      dispatch(fetchAirports(value, field));
-    }
-  };
-
   const calendarRef = useRef(null);
-  // useEffect stays mostly same
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        setShowCalendar(false); // <-- use false instead of null
-      }
-    }
-
-    if (showCalendar) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showCalendar]);
-
-  const filterOptions = createFilterOptions({
-    stringify: (option) =>
-      `${option.city_name} ${option.name} ${option.iata_code}`,
-  });
 
   return (
     <Stack
@@ -181,63 +152,17 @@ const TravelForm = () => {
             </TextField>
           </Box>
 
-          {/* Origin */}
-          <Box className={styles.formGroup}>
-            <Autocomplete
-              freeSolo
-              options={originOptions} // for show in dropodwon
-              loading={loadingOrigin}
-              filterOptions={filterOptions} // for type search in field with filter
-              getOptionLabel={(option) => // for show in dropdown
-                option?.name ? `${option.city_name} (${option.name})` : ""
-              }
-              onInputChange={(e, value) => handleAirportSearch(value, "origin")}
-              onChange={(e, value) => setOrigin(value?.city_name || "")}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  placeholder="Departing from"
-                  size="small"
-                  value={origin}
-                  onChange={(e) => setOrigin(e.target.value)}
-                  className={`${styles.formControl} ${styles.from} formControl`}
-                  error={!!errors.origin}
-                  helperText={errors.origin} // this shows the error text
-                />
-              )}
-            />
-          </Box>
-          {console.log("errors_origin", errors.origin)}
-          <Box className={styles.formGroup}>
-            <Autocomplete
-              freeSolo
-              filterOptions={filterOptions}
-              options={originOptions}
-              loading={loadingOrigin}
-              getOptionLabel={(option) =>
-                option?.name
-                  ? `${option.city_name} (${option.name}) - ${option.name}`
-                  : ""
-              }
-              onInputChange={(e, value) => handleAirportSearch(value, "origin")}
-              onChange={(e, value) => setDestination(value?.city_name || "")}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  placeholder="Arriving at"
-                  size="small"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className={`${styles.formControl} ${styles.from} formControl`}
-                  error={!!errors.destination}
-                  helperText={errors.destination}
-                />
-              )}
-            />
-          </Box>
-
+          <FromAndTooFields
+            origin={origin}
+            setOrigin={setOrigin}
+            destination={destination}
+            setDestination={setDestination}
+            originOption={originOption}
+            setOriginOption={setOriginOption}
+            destinationOption={destinationOption}
+            setDestinationOption={setDestinationOption}
+            errors={errors}
+          />
           {/* Dates */}
           <Box className={styles.formGroup} position="relative">
             <TextField
@@ -333,9 +258,7 @@ const TravelForm = () => {
                 ),
               }}
             >
-              <MenuItem value="" disabled sx={{ color: "#0B172980" }}>
-                Trip class
-              </MenuItem>
+
               <MenuItem value="Economy">Economy</MenuItem>
               <MenuItem value="Premium Economy">Premium Economy</MenuItem>
               <MenuItem value="Business">Business</MenuItem>
