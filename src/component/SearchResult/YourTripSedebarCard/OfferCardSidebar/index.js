@@ -297,7 +297,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
             justifyContent={"space-between"}
           >
             <Stack direction="row" spacing={"4px"} alignItems={"center"}>
-              <Box pt={"3px"}>
+              <Box pt={"2px"}>
                 <svg
                   width="13"
                   height="13"
