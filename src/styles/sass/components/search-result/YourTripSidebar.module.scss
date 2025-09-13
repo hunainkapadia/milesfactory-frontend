@@ -38,7 +38,7 @@
 
 .airlineLogo {
     @include border-radius(0);
-    background: $white;
+    // background: $white;
     border: none;
     @include scale(40px, 40px);
 
