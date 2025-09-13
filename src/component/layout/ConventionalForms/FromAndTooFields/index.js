@@ -12,8 +12,6 @@ import Cookies from "js-cookie";
 
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { fetchAirports } from "@/src/store/slices/TravelSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuilding, faPlane } from "@fortawesome/free-solid-svg-icons";
 
 const FromAndTooFields = ({
   origin,
@@ -43,35 +41,11 @@ const FromAndTooFields = ({
     loadingDestination,
   } = useSelector((state) => state.travel);
 
-  // ✅ Convert airports → [city option + airport options]
-  const prepareOptions = (airports) => {
-    const grouped = {};
-    airports.forEach((a) => {
-      if (!grouped[a.city_name]) grouped[a.city_name] = [];
-      grouped[a.city_name].push(a);
-    });
-
-    const finalOptions = [];
-    Object.entries(grouped).forEach(([city, airports]) => {
-      finalOptions.push({
-        type: "city",
-        city_name: city,
-        iata_code: null,
-        name: city,
-      });
-      airports.forEach((a) => {
-        finalOptions.push({ ...a, type: "airport" });
-      });
-    });
-
-    return finalOptions;
-  };
-
   // Save selected airports in cookies
   useEffect(() => {
     if (originOption || destinationOption) {
-      Cookies.set("origin", originOption?.iata_code || originOption?.city_name || "");
-      Cookies.set("destination", destinationOption?.iata_code || destinationOption?.city_name || "");
+      Cookies.set("origin", originOption?.iata_code || "");
+      Cookies.set("destination", destinationOption?.iata_code || "");
     }
   }, [originOption, destinationOption]);
 
@@ -82,23 +56,19 @@ const FromAndTooFields = ({
 
     if (getOrigin) {
       setGetOriginCookie(getOrigin);
-      setOrigin(getOrigin);
+      setOrigin(getOrigin); // input text
       setOriginOption({
         iata_code: getOrigin,
-        name: getOrigin,
-        city_name: getOrigin,
-        type: "city",
+        name: getOrigin, // fallback until API fetch replaces
       });
     }
 
     if (getDestination) {
       setGetDestinationCookie(getDestination);
-      setDestination(getDestination);
+      setDestination(getDestination); // input text
       setDestinationOption({
         iata_code: getDestination,
-        name: getDestination,
-        city_name: getDestination,
-        type: "city",
+        name: getDestination, // fallback until API fetch replaces
       });
     }
   }, [dispatch]);
@@ -115,42 +85,28 @@ const FromAndTooFields = ({
       <Box className={styles.formGroup}>
         <Autocomplete
           freeSolo
-          options={prepareOptions(originOptions)}
+          options={originOptions}
           loading={loadingOrigin}
           filterOptions={filterOptions}
           getOptionLabel={(option) =>
-            option.type === "city"
-              ? option.city_name
-              : `${option.name} - ${option.iata_code}`
+            typeof option === "string"
+              ? option
+              : option?.name
+              ? `${option.name} - ${option.iata_code}`
+              : ""
           }
-          value={originOption}
-          inputValue={origin}
+          value={originOption} // selected object
+          inputValue={origin} // input shows only IATA code
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
-              setOrigin(value);
+              setOrigin(value); // input shows IATA code typed
               handleAirportSearch(value, "origin");
             }
           }}
           onChange={(e, value) => {
-            setOriginOption(value);
-            setOrigin(value?.iata_code || value?.city_name || "");
+            setOriginOption(value); // store selected option object
+            setOrigin(value?.iata_code || ""); // display only IATA code in input
           }}
-          renderOption={(props, option) => (
-            <li {...props} style={{ display: "flex", alignItems: "center" }}>
-              <FontAwesomeIcon
-                icon={option.type === "city" ? faBuilding : faPlane}
-                style={{
-                  marginRight: 8,
-                  color: option.type === "city" ? "#0B1729" : "#69707B",
-                }}
-              />
-              <span>
-                {option.type === "city"
-                  ? option.city_name
-                  : `${option.name} - ${option.iata_code}`}
-              </span>
-            </li>
-          )}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -169,15 +125,17 @@ const FromAndTooFields = ({
       <Box className={styles.formGroup}>
         <Autocomplete
           freeSolo
-          options={prepareOptions(originOptions)}
+          options={originOptions}
           loading={loadingDestination}
           filterOptions={filterOptions}
           getOptionLabel={(option) =>
-            option.type === "city"
-              ? option.city_name
-              : `${option.name} - ${option.iata_code}`
+            typeof option === "string"
+              ? option
+              : option?.name
+              ? `${option.name} - ${option.iata_code}`
+              : ""
           }
-          value={originOption}
+          value={destinationOption}
           inputValue={destination}
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
@@ -187,24 +145,8 @@ const FromAndTooFields = ({
           }}
           onChange={(e, value) => {
             setDestinationOption(value);
-            setDestination(value?.iata_code || value?.city_name || "");
+            setDestination(value?.iata_code || "");
           }}
-          renderOption={(props, option) => (
-            <li {...props} style={{ display: "flex", alignItems: "center" }}>
-              <FontAwesomeIcon
-                icon={option.type === "city" ? faBuilding : faPlane}
-                style={{
-                  marginRight: 8,
-                  color: option.type === "city" ? "#0B1729" : "#69707B",
-                }}
-              />
-              <span>
-                {option.type === "city"
-                  ? option.city_name
-                  : `${option.name} - ${option.iata_code}`}
-              </span>
-            </li>
-          )}
           renderInput={(params) => (
             <TextField
               {...params}
