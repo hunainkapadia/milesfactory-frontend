@@ -355,7 +355,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
             </Stack>
           </Stack>
         </Box>
-        {!validPassengers?.length && (
+        {/* {!validPassengers?.length && (
           <>
             <Box
               component={"section"}
@@ -392,7 +392,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               </Box>
             </Box>
           </>
-        )}
+        )} */}
         {/* {flightOrder ? (
           <>
             <Box
