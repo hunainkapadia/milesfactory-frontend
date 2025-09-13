@@ -59,11 +59,11 @@ const ConventionalForms = () => {
     //   darkIcon: "/images/travel-luggage-tab-dark-icon.svg",
     //   label: "Travel Luggage",
     // },
-    {
-      icon: "/images/hotel-tab-icon.svg",
-      darkIcon: "/images/hotel-tab-dark-icon.svg",
-      label: "Hotel",
-    },
+    // {
+    //   icon: "/images/hotel-tab-icon.svg",
+    //   darkIcon: "/images/hotel-tab-dark-icon.svg",
+    //   label: "Hotel",
+    // },
     // {
     //   icon: "/images/hotel-camera-icon.svg",
     //   darkIcon: "/images/hotel-camera-dark-icon.svg",
