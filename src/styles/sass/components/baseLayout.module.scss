@@ -217,6 +217,7 @@
 }
  .FooterForLight  {position: relative;z-index: 1;
    padding: 0px 0;
+   
    .FooterBox {
       border-top: solid 1px $lightgray2;
       .FooterBoxRight {
@@ -253,6 +254,14 @@
          
    }
  @include for-mobile-large-screen () {
+   .FooterForLight  {
+      .footerClientLogos {
+         .footerClientLogo {
+            height: 32px;
+            width: 64px;
+         }
+      }
+   }
    .ShareDropdown {
       .DropdownItems {
          top: 60px;

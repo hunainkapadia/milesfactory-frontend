@@ -44,7 +44,7 @@ const Footer = ({
           <Container>
             {!partnerLogos ? (
               <>
-                <Box
+                <Box className={styles.footerClientLogos}
                   display={"flex"}
                   alignItems={"center"}
                   sx={{
@@ -58,8 +58,8 @@ const Footer = ({
                     alignItems={"center"}
                     justifyContent={"center"}
                     flexDirection={"column"}
-                    className="imggroup"
-                    sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
+                    
+                    className={styles.footerClientLogo + " imggroup"}
                   >
                     <img src="/images/trust-pilot-v2.svg" />
                   </Box>
@@ -68,8 +68,8 @@ const Footer = ({
                     alignItems={"flex-start"}
                     justifyContent={"center"}
                     flexDirection={"column"}
-                    className="imggroup"
-                    sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
+                    
+                    className={styles.footerClientLogo + " imggroup"}
                   >
                     <img src="/images/google-review-v2.svg" />
                   </Box>
@@ -78,10 +78,30 @@ const Footer = ({
                     alignItems={"center"}
                     justifyContent={"center"}
                     flexDirection={"column"}
-                    className="imggroup"
-                    sx={{ height: { lg: "100%", md: "100%", xs: "32px" } }}
+                    
+                    className={styles.footerClientLogo + " imggroup"}
                   >
                     <img src="/images/iat_logo.svg" />
+                  </Box>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    flexDirection={"column"}
+                    
+                    className={styles.footerClientLogo + " imggroup"}
+                  >
+                    <img src="/images/insead-logo.png" />
+                  </Box>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    flexDirection={"column"}
+                    
+                    className={styles.footerClientLogo + " imggroup"}
+                  >
+                    <img src="/images/aws-activate-logo.png" />
                   </Box>
                 </Box>
               </>
