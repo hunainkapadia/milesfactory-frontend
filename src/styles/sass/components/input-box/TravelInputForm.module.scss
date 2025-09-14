@@ -312,6 +312,12 @@ body {
 
 
 @include for-mobile-large-screen () {
+   .countryDropdown {
+      li {
+         p {font-size: 10px;}
+         svg {width: 10px;}
+      }
+   }
    
    body {
       .formGroup {
