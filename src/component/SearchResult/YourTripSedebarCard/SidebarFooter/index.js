@@ -90,7 +90,7 @@ const SidebarFooter = () => {
                   orderSuccess || !CartData ? " disabled " : ""
                 }`}
               >
-                Book now
+                Checkout
               </Button>
             )}
           </>
