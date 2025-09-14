@@ -74,13 +74,13 @@ const HomeHeroSection = () => {
                     justifyContent={"center"}
                     flexDirection={"column"}
                   >
-                    <Box display="flex" alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}} px={"12px"} >
-                      <Typography className="f14 white">
+                    <Box onClick={() => setSwitchOn(!switchOn)}  display="flex" alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}} px={"12px"} >
+                      <Typography className="white bold cursor-pointer">
                         Plan with Mylz AI
                       </Typography>
                       {/* Switch Button */}
                       <Box
-                        onClick={() => setSwitchOn(!switchOn)}
+                        
                         sx={{
                           width: { xs: 38, md: 38, lg: 38 },
                           height: { xs: 24, md: 24, lg: 24 },

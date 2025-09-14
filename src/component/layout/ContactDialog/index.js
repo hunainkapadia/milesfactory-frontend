@@ -193,10 +193,7 @@ const ContactDialog = () => {
                           component={"span"}
                           textTransform={"capitalize"}
                         >
-                          {currentUser?.user?.first_name
-                            .charAt(0)
-                            .toUpperCase()}
-                          . {currentUser?.user?.last_name}
+                        {currentUser?.user?.first_name}
                         </Typography>
                         . Not you?{" "}
                         <Typography
