@@ -181,7 +181,7 @@ const AiMessage = ({ aiMessage }) => {
             (aiMessage?.ai?.next_page_number ||
               getNextFlight?.next_page_number) ? (
             // Show "See more flights"
-            <Box onClick={handleSeeMoreFlights} style={{ cursor: "pointer" }}>
+            <Box onClick={handleSeeMoreFlights} className="basecolor1" style={{ cursor: "pointer" }}>
               <Box
                 sx={{ my: { lg: 2, md: 2, xs: 2 } }}
                 gap={2}
@@ -189,8 +189,7 @@ const AiMessage = ({ aiMessage }) => {
                 display="flex"
                 className="bold"
               >
-                <span>See more flights</span>
-                <i className="fa fa-caret-right fas" />
+                <span>See 6 more flight options</span>
               </Box>
             </Box>
           ) : (
@@ -331,7 +330,6 @@ const AiMessage = ({ aiMessage }) => {
               className="bold basecolor1"
             >
               <Typography className="bold" lineHeight={1} component={"span"}>Show more stays</Typography>
-              <i className="fa fa-caret-right fas" />
             </Box>
           ) : (
             <Box
