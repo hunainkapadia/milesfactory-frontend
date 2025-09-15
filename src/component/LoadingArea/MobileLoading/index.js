@@ -115,20 +115,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
               )} */}
             </Typography>
           </Button>
-        ) : (
-          <Button
-            onClick={handleBookFlight}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            className={style.CheckoutBtn + " btn btn-primary disabled btn-xs btn-round"}
-            p="2px 6px"
-          >
-            <Typography className="exbold" textTransform="capitalize">
-              Checkout · £0
-            </Typography>
-          </Button>
-        )}
+        ) : null}
       </Box>
     </Box>
   );
