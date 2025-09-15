@@ -19,9 +19,13 @@ const YourTripSedebarCard = ({
 }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
+    const builderType = BuilderArguments?.trip_components[0]
   
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
+
+  console.log("BuilderArguments", builderType);
+  
 
   
   const getselectedFlight = useSelector(
@@ -206,13 +210,15 @@ const YourTripSedebarCard = ({
         </Box>
         {/* filter row */}
 
-        {/*  */}
+        {/*   */}
+        
         {(!CartDetails?.items?.length ||
           CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
           <SidebarTripDetails
             id="itinerary-section"
             CartDetails={CartDetails}
             Carduuid={Carduuid}
+            builderType={builderType}
           />
         )}
 

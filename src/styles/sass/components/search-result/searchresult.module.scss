@@ -561,3 +561,9 @@
 @include for-tab (){
   .ChatBody .ChatBodyLeft {max-width: 100%;}
 }
+
+@media only screen and (max-width: 360px) {
+  .CheckoutBtn p {
+    font-size: 12px !important;
+  }
+}

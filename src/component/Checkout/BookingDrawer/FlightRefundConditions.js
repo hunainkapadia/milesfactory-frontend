@@ -49,7 +49,7 @@ const FlightRefundConditions = ({ refundCondition, currencySymbols }) => {
     : "Refunds allowed - no fee";
 
   return (
-    <Box display="flex" gap={2} alignItems="center" mb={1}>
+    <Box display="flex" gap={{ md: 9, xs: "4px" }} alignItems="center" mb={1}>
       <Box display="flex" alignItems="center">
         <img width={14} src={iconSrc} alt={altText} />
       </Box>

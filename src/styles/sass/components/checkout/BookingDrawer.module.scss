@@ -247,7 +247,7 @@
 
                .FromRow {
                   position: relative;
-                  padding: 0 30px;
+                  padding-left: 30px;
 
                   &::before {
                      top: 6px;
@@ -268,7 +268,7 @@
                }
                .ToRow {
                   position: relative;
-                  padding: 0 30px;
+                  padding-left: 30px;
 
                   &::before {
                      bottom: 6px;
@@ -361,8 +361,18 @@
          border: 0;
          top: inherit;
          @include border-radius(0);
-         .checkoutDrowerBody .detailsSection {
-            padding: 0 24px 20px;
+         .checkoutDrowerBody {
+            .detailsSection {
+               .fromAndToRow {
+                  .ToRow, .FromRow {
+                     padding-left: 23px;
+                  }
+                  .Col1, .Col2, .Col3 {
+                     width: 30%;
+                     .Country, .Dates {font-size: $f12;}
+                  }
+               }
+            }
          }
       }
    }

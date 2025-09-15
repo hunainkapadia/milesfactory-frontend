@@ -2881,6 +2881,9 @@ body .BuilderDialoge .MuiDialog-container {padding: 0;
 
 
   .btn {
+    &.btn-xs {
+        padding: 6px 11px;
+    }
     &.btn-md {
       &.sm {
         padding: 10px 20px;

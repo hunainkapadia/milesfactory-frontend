@@ -12,6 +12,7 @@ import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import h
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+  
 
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);

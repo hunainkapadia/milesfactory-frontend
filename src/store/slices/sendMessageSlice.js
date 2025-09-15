@@ -20,7 +20,7 @@ import {
   setMobileNaveDrawer,
   setThreadDrawer,
 } from "./Base/baseSlice";
-import { setPaymentFormSuccess } from "./PaymentSlice";
+import { setOrderConfirm, setPaymentFormSuccess } from "./PaymentSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -426,6 +426,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
+
         dispatch(setResetAppendFlights());
         dispatch(setThreadUuid(newUuid));
         dispatch(setMobileNaveDrawer(false));
@@ -441,6 +442,9 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setSelectedFlightKey(null));
         dispatch(setflightDetail(null));
         dispatch(setViewPassengers([]));
+
+        // order clear
+        dispatch(setOrderConfirm(null));
         dispatch(setOrderUuid(null));
         dispatch(setSingleFlightData(null));
 

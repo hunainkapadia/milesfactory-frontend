@@ -49,10 +49,10 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
   );
   //   for selct flight detail
   const CartOffer = useSelector((state) => state?.booking?.cartOffer);
-  console.log("CartOffer_test", slice);
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
+  
 
   const HandleSelectDrawer = () => {
     // if (CartOffer?.id) {
