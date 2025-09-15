@@ -61,6 +61,8 @@ import MobileBuilderDialoge from "../../SearchResult/ChatInput/MobileBuilderDial
 import HeaderUtils from "@/src/utils/headerUtils";
 import HotelDrawer from "../../SearchResult/Hotel/hotelDrawer";
 import useIsMobile from "@/src/hooks/Hooks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const Header = ({
   isMessage,
@@ -168,15 +170,15 @@ const Header = ({
                     sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                     fontSize={"24px"}
                   >
-                    <i
+                    <FontAwesomeIcon
                       onClick={handleMobileNav}
-                      className={`fa fa-bars ${
+                      icon={faBars}
+                      className={`cursor-pointer ${
                         isMytrip || isSticky | IsActive || isMessage
                           ? " basecolor "
                           : " white"
                       }`}
-                      aria-hidden="true"
-                    ></i>
+                    />
                   </Box>
 
                   <Box className={styles.Logo + " cursor-pointer"}>
