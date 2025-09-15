@@ -221,7 +221,7 @@ const Header = ({
                   <Box
                     sx={{ display: { xs: "block", md: "none", lg: "none" } }}
                   >
-                    <MobileLoading />
+                    {isChat && <MobileLoading />}
                   </Box>
 
                   <HeaderCurrencyLanguage
@@ -394,7 +394,7 @@ const Header = ({
         ""
       )}
       <MobileBuilderDialoge />
-      
+
       <MobileNavDrawer isAiBooking={isAiBooking} isChat={isChat} />
 
       <UserPopup isChat={isChat} />
