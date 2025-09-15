@@ -2,7 +2,7 @@ import { Box, Chip, Stack, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 
 const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
-  console.log("forHotel", getBuilder);
+  console.log("forHotel_0", getBuilder);
 
   return (
     <>
@@ -63,7 +63,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">
-              {forHotel ? "Check-out" : "Arrivinga"}
+              {forHotel ? "Check-out" : "Arriving"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
               {forHotel
