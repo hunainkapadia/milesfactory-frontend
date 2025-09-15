@@ -1,7 +1,7 @@
 import { Box, Chip, Stack, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 
-const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel }) => {
+const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
   console.log("forHotel", getBuilder);
 
   return (
@@ -17,9 +17,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel }) => {
             variant="outlined"
             label={`${forHotel ? "Hotel" : "Flights"}`}
             className={`${TripStyles.BuilderChip} wjite-bg bold `}
-            sx={{
-              
-            }}
+            sx={{}}
             size="small"
           />
         </Box>
@@ -41,23 +39,47 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel }) => {
               {forHotel ? "Check-in" : "Departing"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {forReturn
+              {forHotel
+                ? new Date(getBuilder?.departure_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )
+                : forOneway
+                ? getBuilder?.from_destination
+                : forReturn
+                ? getBuilder?.to_destination
+                : "-"}
+
+              {/* {forReturn
                 ? getBuilder?.to_destination
                 : forHotel
                 ? getBuilder?.departure_date
-                : getBuilder?.from_destination}
+                : getBuilder?.from_destination} */}
             </Typography>
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
             <Typography className="f12">
-              {forHotel ? "Check-out" : "Arriving"}
+              {forHotel ? "Check-out" : "Arrivinga"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {forReturn
+              {forHotel
+                ? new Date(getBuilder?.return_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )
+                : forOneway
+                ? getBuilder?.to_destination
+                : forReturn
                 ? getBuilder?.from_destination
-                  ? forHotel
-                  : getBuilder?.return_date
-                : getBuilder?.to_destination}
+                : "-"}
             </Typography>
           </Stack>
 
@@ -66,7 +88,13 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel }) => {
               {forHotel ? "Rooms" : "Class"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {forHotel ? 1 : getBuilder?.cabin_class}
+              {forHotel
+                ? 1
+                : forOneway
+                ? getBuilder?.cabin_class
+                : forReturn
+                ? getBuilder?.cabin_class
+                : "-"}
             </Typography>
           </Stack>
 

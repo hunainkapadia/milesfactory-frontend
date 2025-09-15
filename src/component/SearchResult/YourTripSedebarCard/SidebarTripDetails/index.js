@@ -104,7 +104,7 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
           {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
         </Typography>
       </Box>
-      <BuilderHelpingCard getBuilder={getBuilder} />
+      <BuilderHelpingCard getBuilder={getBuilder} forOneway />
       <Box mb={3}>
         <Box id={id} mb={1}>
           <Box display={"flex"} alignItems={"center"} gap={"12px"}>
@@ -209,7 +209,7 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
       )}
       {getBuilder?.flight_type !== "one-way" && (
         <>
-          <BuilderHelpingCard forReturn getBuilder={getBuilder} />
+          <BuilderHelpingCard getBuilder={getBuilder} forReturn />
         </>
       )}
       {builderType == "hotel" && (
