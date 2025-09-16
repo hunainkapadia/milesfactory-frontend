@@ -100,6 +100,7 @@ const PassengerInfo = ({ getdata }) => {
     (state) => state?.booking?.singleFlightData?.available_services
   );  
   
+  
 
   if (!IsServices?.length) {
     dispatch(setpriceSummary(true));

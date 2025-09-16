@@ -18,6 +18,9 @@ const SidebarFooter = () => {
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
   const searchType = useSelector((state) => state?.sendMessage?.SearchHistorySend);
+  const functionTypeGet = useSelector((state) => state?.getMessages?.SearchHistory);
+  console.log("functionTypeGet", functionTypeGet);
+  
 
   console.log("functionType", searchType);
 
@@ -68,7 +71,7 @@ const SidebarFooter = () => {
       >
         {/* Flight footer */}
         {/* Flight footer */}
-        {searchType?.flight ? (
+        {searchType?.flight || functionTypeGet?.flight ? (
           <>
             <Box>
               <h4 className="exbold mb-0">
@@ -98,7 +101,7 @@ const SidebarFooter = () => {
         ) : null}
 
         {/* Hotel footer */}
-        {searchType?.hotel ? (
+        {searchType?.hotel || functionTypeGet?.hotel ? (
           <>
             <Box>
               <h4 className="exbold mb-0">
