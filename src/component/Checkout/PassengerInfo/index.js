@@ -100,6 +100,7 @@ const PassengerInfo = ({ getdata }) => {
     (state) => state?.booking?.singleFlightData?.available_services
   );  
   
+  
 
   if (!IsServices?.length) {
     dispatch(setpriceSummary(true));
@@ -128,7 +129,7 @@ const PassengerInfo = ({ getdata }) => {
     <>
       <Box py={2}>
         <Typography fontWeight={"semibold"}>
-          Ready to fly? Let's add traveller details.
+          Your flight has been added to the Builder! Let's now confirm who’s flying.
         </Typography>
       </Box>
       <Box variant="outlined" className={searchResultStyles.PassengersSection}>

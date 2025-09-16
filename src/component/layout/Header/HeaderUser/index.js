@@ -45,6 +45,9 @@ const HeaderUser = ({
   // Combine all sources to find current user
   const currentUser = isUserLogin;
 
+  console.log("isUserLogin", isUserLogin);
+  
+
   // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
   // Set user to Redux on initial mount from cookies
   useEffect(() => {
@@ -55,17 +58,7 @@ const HeaderUser = ({
     
 
     // If any one is missing, remove all
-    if (!cookieUserString || !access_token || !refresh_token) {
-      Cookies.remove("set-user");
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
-
-        dispatch(Logout()); // if this already resets loginUser, isUser, etc.
-        dispatch(setCurrentUser(null));
-        dispatch(setLoginUser(null));
-        dispatch(setIsSignupUser(null));
-      
-    }
+    
 
 
     if (cookieUserString) {

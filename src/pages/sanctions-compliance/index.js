@@ -16,7 +16,7 @@ const SanctionsPolicy = () => {
       <Box>
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-            Last Modified: May 18th, 2025
+            Last Modified: Aug 29th, 2025
           </Typography>
           <Typography paragraph>
             Milesfactory LTD, trading as Mylz (“Mylz”, “we”, “our”), is committed to complying with all applicable international sanctions
@@ -55,9 +55,10 @@ const SanctionsPolicy = () => {
               <li>Territories of Ukraine: Crimea, Donetsk (DNR), and Luhansk (LNR)</li>
             </Typography>
             <Typography paragraph>
-              While certain flights to or from these regions may be technically available via our third-party 
-              booking partners, Mylz reserves the right to block platform access or cancel bookings if we determine they pose a 
-              sanctions or regulatory compliance risk.
+              Mylz strictly prohibits and will automatically block any product bookings to, from, or transiting 
+              through sanctioned jurisdictions, regardless of availability shown via third-party partners. 
+              This restriction applies universally to all product categories offered on the Mylz platform, 
+              including but not limited to flights, trains, buses, ferries, hotels, activities, and insurance products.
             </Typography>
 
             <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
@@ -90,8 +91,9 @@ const SanctionsPolicy = () => {
             </Typography>
             <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
               <li>IP-based geolocation filtering to restrict access from high-risk or sanctioned regions</li>
-              <li>Transaction monitoring to detect potential sanctions violations or suspicious activity</li>
-              <li>Screening of user identities, where applicable, using third-party compliance tools and regulated partners</li>
+              <li>Agent-level product filtering, where Mylz AI agents proactively restrict the visibility, 
+                selection, and booking of any travel product (including flights, trains, stays, or activities) 
+                involving travel to, from, or transiting through sanctioned destinations. </li>
               <li>Use of third-party regulated partners (e.g. Stripe, Duffel, HBX) who operate their own compliance controls and screening layers</li>
             </Typography>
             <Typography paragraph >
@@ -103,8 +105,9 @@ const SanctionsPolicy = () => {
               4. Enforcement and Termination
             </Typography>
             <Typography paragraph>
-              Mylz reserves the right to take any of the following actions, at its sole discretion and without prior notice, 
-              in response to actual or suspected sanctions violations:
+              Mylz enforces a strict zero-tolerance policy for any actual or suspected breach of applicable sanctions 
+              laws. We reserve the right to take any of the following actions, at our sole discretion and without prior 
+              notice, in response to violations or attempted circumvention of this policy:
             </Typography>
             <Typography gutterBottom component="ul" sx={{ pl: 3 }}>
               <li>Block or restrict platform access from sanctioned regions or IP addresses</li>

@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/apiEndpoints"; // Fixed import
 import api from "../../api";
 import { setCurrentUser, setMobileNaveDrawer } from "../Base/baseSlice";
+import { setIsSignupUser } from "./SignupSlice";
 
 const initialState = {
   loginUser: null,
@@ -229,6 +230,9 @@ export const Logout = () => (dispatch) => {
       Cookies.remove("set-user");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
+      dispatch(setCurrentUser(null));
+      dispatch(setLoginUser(null));
+      dispatch(setIsSignupUser(null));
       // window.location.reload();
     })
     .catch((err) => {

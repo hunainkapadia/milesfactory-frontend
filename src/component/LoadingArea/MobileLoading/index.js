@@ -67,6 +67,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
         alignItems="center"
         justifyContent="center"
       >
+        
         {paymentSuccess ? (
           //  If payment is done
           <Box
@@ -90,11 +91,11 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
             display="flex"
             alignItems="center"
             justifyContent="center"
-            className="basecolor1-light2-bg br-100 basecolor1"
+            className={style.CheckoutBtn + " btn btn-primary btn-xs btn-round"}
             p="2px 6px"
           >
-            <Typography className="exbold f12" textTransform="capitalize">
-              Checkout .{" "}
+            <Typography className="exbold" textTransform="capitalize">
+              aaCheckout .{" "}
               {CartData?.total_price && (
                 <>
                   {currencySymbols[CartFlight?.currency] ||
@@ -115,7 +116,20 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
               )} */}
             </Typography>
           </Button>
-        ) : null}
+        ) : (
+          <Button
+            onClick={handleBookFlight}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            className={style.CheckoutBtn + " btn btn-primary disabled btn-xs btn-round"}
+            p="2px 6px"
+          >
+            <Typography className="exbold" textTransform="capitalize">
+              Checkout · £0
+            </Typography>
+          </Button>
+        )}
       </Box>
     </Box>
   );

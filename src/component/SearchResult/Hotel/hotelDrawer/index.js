@@ -286,8 +286,8 @@ const HotelDrawer = ({}) => {
                     </Box>
                     <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
                       <Box>
-                        <Typography className="bold f12 mb-0 h4">
-                          Included in this ticket
+                        <Typography className="exbold f12 mb-0 h4">
+                          Included in this booking
                         </Typography>
                       </Box>
                       <Stack gap={"10px"}>

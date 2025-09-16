@@ -21,8 +21,12 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
     dispatch(setBaggageDrawer(true)); //for open drawer
   };
 
-  const singleflight = useSelector((state) => state.booking.singleFlightData);
-
+  
+  const singleflight = useSelector(
+      (state) => state?.booking?.singleFlightData
+    );  
+  console.log("selectedFlight_11", selectedFlight);
+  
   return (
     <Grid
       item

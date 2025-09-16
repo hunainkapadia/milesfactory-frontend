@@ -1,27 +1,43 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, ClickAwayListener, IconButton, Popover, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  ClickAwayListener,
+  Popover,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useRef, useState } from "react";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
-import { faAngleDown, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 export default function Travellers({ travellers, setTravellers }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  console.log("anchorEl", travellers);
+  
   const ref = useRef(null);
 
-  const totalTravelers = travellers.adults + travellers.children + travellers.infants;
+  // Total travellers calculation
+  const totalTravelers =
+    travellers.adults + travellers.children;
 
-  
-  
+  // Update function for increment/decrement
   const updateCount = (type, delta) => {
-    console.log("totalTravelers", delta);
     setTravellers((prev) => {
-      const newValue = Math.max(
-        0,
-        type === "adults" ? Math.max(1, prev[type] + delta) : prev[type] + delta
-      );
+      const newValue =
+        type === "adults"
+          ? Math.max(1, prev[type] + delta) // at least 1 adult
+          : Math.max(0, prev[type] + delta); // others can be 0
       return { ...prev, [type]: newValue };
     });
   };
+
+  // Passenger rows config
+  const PassRow = [
+    { title: "Adult (18+ years)", type: "adults" },
+    { title: "Child (2-11 years)", type: "children" },
+  ];
+  
 
   return (
     <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
@@ -35,9 +51,7 @@ export default function Travellers({ travellers, setTravellers }) {
           sx={{ width: "150px", cursor: "pointer" }}
           className={`${styles.formControl} ${styles.travellers} formControl`}
           value={
-            totalTravelers === 1
-              ? ""
-              : `Travellers: ${totalTravelers}`
+            totalTravelers === 1 ? "1 Adult" : `Travellers: ${totalTravelers}`
           }
           InputProps={{
             readOnly: true,
@@ -50,48 +64,101 @@ export default function Travellers({ travellers, setTravellers }) {
           }}
         />
 
+        {/* Popover Dropdown */}
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={ref.current}
           onClose={() => setAnchorEl(null)}
         >
           <Box className={styles.dropdownMenu}>
-            {["adults", "children"].map((type) => (
-              <Box key={type} className={styles.numberInput}>
-                <Box>
-                  <Typography className={styles.label}>{type}</Typography>
-                  <Typography className={styles.sublabel}>
-                    {type === "adults"
-                      ? "12y+"
-                      : type === "children"
-                      ? "2-12y"
-                      : ""}
-                  </Typography>
+            <Stack
+              className={`${styles.Passrow} ${styles.header}`}
+              flexDirection={"row"}
+              mb={"18px"}
+              display={"flex"}
+              justifyContent={"space-between"}
+            >
+              <Box className={styles.leftCol}>
+                <Typography className={`${styles.label}`}>
+                  Passengers
+                </Typography>
+              </Box>
+              <Stack flexDirection={"row"} className={styles.RightCol}>
+                <Box
+                  className={styles.CounterIcon + " cursor-pointer"}
+                >
+                  <img src="/images/user-sm-icon-dark.svg" />
                 </Box>
                 <Box className={styles.counter}>
-                  <IconButton
-                    onClick={() => updateCount(type, -1)}
-                    size="small"
-                    disabled={
-                      type === "adults"
-                        ? travellers[type] <= 1
-                        : travellers[type] <= 0
-                    }
-                  >
-                    <FontAwesomeIcon icon={faMinus} />
-                  </IconButton>
-                  <Typography className={styles.count}>
-                    {travellers[type]}
+                  <Typography className={styles.counterValue}>
+                    {totalTravelers}
                   </Typography>
-                  <IconButton
-                    onClick={() => updateCount(type, 1)}
-                    size="small"
-                  >
-                    <FontAwesomeIcon icon={faPlus} />
-                  </IconButton>
                 </Box>
-              </Box>
+                <Box
+                  className={styles.CounterIcon + " cursor-pointer"}
+                  
+                ></Box>
+              </Stack>
+              {/*  */}
+            </Stack>
+
+            {/* Passenger Rows */}
+            {PassRow.map((getpass) => (
+              <Stack
+                key={getpass.type}
+                className={styles.Passrow}
+                flexDirection="row"
+                mb="12px"
+                justifyContent="space-between"
+              >
+                <Box className={styles.leftCol}>
+                  <Typography className={styles.label}>
+                    {getpass.title}
+                  </Typography>
+                </Box>
+                <Stack flexDirection="row" className={styles.RightCol}>
+                  {/* Minus */}
+                  <Box
+                    className={styles.CounterIcon + " cursor-pointer"}
+                    onClick={() => updateCount(getpass.type, -1)}
+                  >
+                    <img src="/images/minus-quantity-icon.svg" />
+                  </Box>
+                  {/* Value */}
+                  <Box className={styles.counter}>
+                    <Typography className={styles.counterValue}>
+                      {travellers[getpass.type]}
+                    </Typography>
+                  </Box>
+                  {/* Plus */}
+                  <Box
+                    className={styles.CounterIcon + " cursor-pointer"}
+                    onClick={() => updateCount(getpass.type, 1)}
+                  >
+                    <img src="/images/plus-quantity-icon.svg" />
+                  </Box>
+                </Stack>
+              </Stack>
             ))}
+
+            {/* Footer */}
+            <Stack
+              mt="26px"
+              flexDirection="row"
+              justifyContent="space-between"
+              className={styles.Footer}
+            >
+              <Box className={styles.leftCol}></Box>
+              <Stack flexDirection="row" justifyContent="center" className={styles.RightCol}>
+                <Typography
+                  className="semibold basecolor"
+                  onClick={() => setAnchorEl(null)}
+                  style={{ cursor: "pointer" }}
+                >
+                  Done
+                </Typography>
+              </Stack>
+            </Stack>
           </Box>
         </Popover>
       </Box>

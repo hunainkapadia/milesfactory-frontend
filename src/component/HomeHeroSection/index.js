@@ -1,4 +1,4 @@
-import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Container, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/src/styles/sass/components/Home.module.scss";
@@ -74,13 +74,14 @@ const HomeHeroSection = () => {
                     justifyContent={"center"}
                     flexDirection={"column"}
                   >
-                    <Box display="flex" alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}} px={"12px"} >
-                      <Typography className="f14 white">
+                  <Stack flexDirection={"row"}>
+                    <Stack onClick={() => setSwitchOn(!switchOn)}  display="flex" flexDirection={"row"} alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}} px={"12px"} >
+                      <Typography className="white bold cursor-pointer">
                         Plan with Mylz AI
                       </Typography>
                       {/* Switch Button */}
                       <Box
-                        onClick={() => setSwitchOn(!switchOn)}
+                        
                         sx={{
                           width: { xs: 38, md: 38, lg: 38 },
                           height: { xs: 24, md: 24, lg: 24 },
@@ -109,7 +110,8 @@ const HomeHeroSection = () => {
                           }}
                         />
                       </Box>
-                    </Box>
+                    </Stack>
+                  </Stack>
                   </Box>
                 </Box>
               </Box>

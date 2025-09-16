@@ -3,8 +3,9 @@ import TripStyles from "@/src/styles/sass/components/search-result/YourTripSideb
 import { useSelector } from "react-redux";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 import HotelCardSidebar from "../HotelCardSidebar";
+import BuilderHelpingCard from "../BuilderHelpingCard";
 
-const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
+const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
   const Addbuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const getBuilder =
     Addbuilder?.silent_function_template?.[0]?.function?.arguments;
@@ -103,91 +104,7 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
           {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
         </Typography>
       </Box>
-
-      <Box
-        className={`${TripStyles.PaddDetailCard} PaddDetailCard`}
-        mb={3}
-        display={"flex"}
-        flexDirection={"column"}
-      >
-        <Box>
-          <Chip
-            variant="outlined"
-            label="Flights"
-            sx={{
-              backgroundColor: "#fff",
-              borderRadius: "4px",
-              borderColor: "#DEE1E6",
-            }}
-            size="small"
-          />
-        </Box>
-        <Typography className="f12 bold">Need help finding flights?</Typography>
-
-        <Stack
-          direction="row"
-          flexWrap="nowrap"
-          alignItems="flex-start"
-          gap={1}
-          justifyContent={"space-between"}
-        >
-          <Stack whiteSpace={"nowrap"} alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Departing</Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {getBuilder?.from_destination}
-            </Typography>
-          </Stack>
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Arriving</Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {getBuilder?.to_destination}
-            </Typography>
-          </Stack>
-
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Class</Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {getBuilder?.cabin_class}
-            </Typography>
-          </Stack>
-
-          <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Travellers</Typography>
-            <Typography className="f12 black bold">
-              {(getBuilder?.passengers?.adults ||
-                getBuilder?.passengers?.children?.length > 0 ||
-                getBuilder?.passengers?.infants?.length > 0) && (
-                <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
-                  {[
-                    getBuilder?.passengers?.adults > 0 &&
-                      `${getBuilder.passengers.adults} ${
-                        getBuilder.passengers.adults === 1 ? "adult" : "adults"
-                      }`,
-                    getBuilder?.passengers?.children?.length > 0 &&
-                      `${getBuilder.passengers.children.length} ${
-                        getBuilder.passengers.children.length === 1
-                          ? "child"
-                          : "children"
-                      }`,
-                    getBuilder?.passengers?.infants?.length > 0 &&
-                      `${getBuilder.passengers.infants.length} ${
-                        getBuilder.passengers.infants.length === 1
-                          ? "infant"
-                          : "infants"
-                      }`,
-                  ]
-                    .filter(Boolean)
-                    .join(", ")}
-                </Box>
-              )}
-            </Typography>
-          </Stack>
-        </Stack>
-        {/* <Box display={"flex"} justifyContent={"flex-end"}>
-            <Button className="btn btn-white btn-sm btn-round">Search flights in Chat</Button>
-          </Box> */}
-      </Box>
-
+      <BuilderHelpingCard getBuilder={getBuilder} forOneway />
       <Box mb={3}>
         <Box id={id} mb={1}>
           <Box display={"flex"} alignItems={"center"} gap={"12px"}>
@@ -291,95 +208,14 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
         </Box>
       )}
       {getBuilder?.flight_type !== "one-way" && (
-        <Box
-          className={`${TripStyles.PaddDetailCard} PaddDetailCard`}
-          mb={3}
-          display={"flex"}
-          flexDirection={"column"}
-        >
-          <Box>
-            <Chip
-              variant="outlined"
-              label="Flights"
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: "4px",
-                borderColor: "#DEE1E6",
-              }}
-              size="small"
-            />
-          </Box>
-          <Typography className="f12 bold">
-            Need help finding flights?
-          </Typography>
-
-          <Stack
-            direction="row"
-            flexWrap="nowrap"
-            alignItems="flex-start"
-            justifyContent={"space-between"}
-            gap={1}
-          >
-            <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Departing</Typography>
-              <Typography whiteSpace={"nowrap"} className="f12 black bold">
-                {getBuilder?.to_destination}
-              </Typography>
-            </Stack>
-            <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Arriving</Typography>
-              <Typography whiteSpace={"nowrap"} className="f12 black bold">
-                {getBuilder?.from_destination}
-              </Typography>
-            </Stack>
-
-            <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Class</Typography>
-              <Typography whiteSpace={"nowrap"} className="f12 black bold">
-                {getBuilder?.cabin_class}
-              </Typography>
-            </Stack>
-
-            <Stack alignItems="center" textAlign={"center"}>
-              <Typography className="f12">Travellers</Typography>
-              <Typography className="f12 black bold">
-                {(getBuilder?.passengers?.adults ||
-                  getBuilder?.passengers?.children?.length > 0 ||
-                  getBuilder?.passengers?.infants?.length > 0) && (
-                  <Box
-                    className={TripStyles.tripDetailsCol + " f12 black bold"}
-                  >
-                    {[
-                      getBuilder?.passengers?.adults > 0 &&
-                        `${getBuilder.passengers.adults} ${
-                          getBuilder.passengers.adults === 1
-                            ? "adult"
-                            : "adults"
-                        }`,
-                      getBuilder?.passengers?.children?.length > 0 &&
-                        `${getBuilder.passengers.children.length} ${
-                          getBuilder.passengers.children.length === 1
-                            ? "child"
-                            : "children"
-                        }`,
-                      getBuilder?.passengers?.infants?.length > 0 &&
-                        `${getBuilder.passengers.infants.length} ${
-                          getBuilder.passengers.infants.length === 1
-                            ? "infant"
-                            : "infants"
-                        }`,
-                    ]
-                      .filter(Boolean)
-                      .join(", ")}
-                  </Box>
-                )}
-              </Typography>
-            </Stack>
-          </Stack>
-          {/* <Box display={"flex"} justifyContent={"flex-end"}>
-            <Button className="btn btn-white btn-sm btn-round">Search flights in Chat</Button>
-          </Box> */}
-        </Box>
+        <>
+          <BuilderHelpingCard getBuilder={getBuilder} forReturn />
+        </>
+      )}
+      {builderType == "hotel" && (
+        <>
+          <BuilderHelpingCard getBuilder={getBuilder} forHotel/>
+        </>
       )}
     </>
   );

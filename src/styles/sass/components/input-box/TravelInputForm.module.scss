@@ -1,5 +1,31 @@
 @import "../../_variables.scss";
 
+.countryDropdown {
+   padding: 8px 0px;
+  li {
+    border-bottom: solid 1px #ddd;
+    padding:  0 6px 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+   li {
+      display: flex;
+      align-items: center;
+      padding-bottom: 10px;
+      cursor: pointer;
+   }
+   .parent svg {
+      margin-left: 0;
+      margin-right: 8px;
+      color: $basecolor-dark;
+   }
+   .child svg {
+      margin-right: 8px;
+      margin-left: 8px;
+      color: $basecolor;
+   }
+}
+
 .SearchBoxSectionHome {
    .SearchBoxContainer {
       position: relative;
@@ -83,21 +109,35 @@
 }
 
 .dropdownMenu {
-   padding: 16px;
-   width: 250px;
+   padding: 16px 16px 26px;
+   width: 320px;
+   .header {
+    .counterValue {
+         font-weight: $semibold;
+      }  
+   }
+   .CounterIcon {width: 20px;}
+   .Footer .RightCol {
+      justify-content: center;
+   }
+   .RightCol {
+      align-items: center;
+      gap: 18px;
+      width: 35%;
+      justify-content: space-between;
+   }
+   .numberInput {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+   }
+   
+   .label {
+      text-transform: capitalize;
+   }
 }
 
-.numberInput {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   margin-bottom: 12px;
-}
-
-.label {
-   font-weight: 500;
-   text-transform: capitalize;
-}
 
 .sublabel {
    font-size: 12px;
@@ -293,6 +333,12 @@ body {
 
 
 @include for-mobile-large-screen () {
+   .countryDropdown {
+      li {
+         p {font-size: 10px;}
+         svg {width: 10px;}
+      }
+   }
    
    body {
       .formGroup {

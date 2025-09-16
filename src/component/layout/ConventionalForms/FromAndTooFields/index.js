@@ -6,12 +6,15 @@ import {
   TextField,
   Autocomplete,
   createFilterOptions,
+  Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { fetchAirports } from "@/src/store/slices/TravelSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBuilding, faPlane } from "@fortawesome/free-solid-svg-icons";
 
 const FromAndTooFields = ({
   origin,
@@ -79,10 +82,12 @@ const FromAndTooFields = ({
     }
   };
 
+  const [alwaysOpen, setAlwaysOpen] = useState(true);
+
   return (
     <>
       {/* Origin Field */}
-      <Box className={styles.formGroup}>
+      <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
         <Autocomplete
           freeSolo
           options={originOptions}
@@ -99,7 +104,7 @@ const FromAndTooFields = ({
           inputValue={origin} // input shows only IATA code
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
-              setOrigin(value); // input shows IATA code typed
+              setOrigin(value);
               handleAirportSearch(value, "origin");
             }
           }}
@@ -107,6 +112,19 @@ const FromAndTooFields = ({
             setOriginOption(value); // store selected option object
             setOrigin(value?.iata_code || ""); // display only IATA code in input
           }}
+          ListboxProps={{
+            className: styles.countryDropdown + " countryDropdown",
+          }}
+          renderOption={(props, option) => (
+            //   console.log("props_000", option)
+            <li {...props} className={`${option?.is_city ? styles.parent : styles.child}`}>
+              <FontAwesomeIcon
+                icon={option?.is_city ? faBuilding : faPlane}
+                
+              />
+              <Typography>{option.name} - {option.iata_code}</Typography>
+            </li>
+          )}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -122,7 +140,7 @@ const FromAndTooFields = ({
       </Box>
 
       {/* Destination Field */}
-      <Box className={styles.formGroup}>
+      <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
         <Autocomplete
           freeSolo
           options={originOptions}
@@ -147,6 +165,17 @@ const FromAndTooFields = ({
             setDestinationOption(value);
             setDestination(value?.iata_code || "");
           }}
+          ListboxProps={{
+            className: styles.countryDropdown + " countryDropdown",
+          }}
+          renderOption={(props, option) => (
+            <li {...props} className={`${option?.is_city ? styles.parent : styles.child}`}>
+              <FontAwesomeIcon
+                icon={option?.is_city ? faBuilding : faPlane}
+              />
+              <Typography>{option.name} - {option.iata_code}</Typography>
+            </li>
+          )}
           renderInput={(params) => (
             <TextField
               {...params}

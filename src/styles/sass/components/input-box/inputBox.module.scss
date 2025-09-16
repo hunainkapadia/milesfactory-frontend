@@ -200,10 +200,6 @@
 
          .SearchButton {
             color: $white !important;
-
-            i {
-               margin-top: 2px !important;
-            }
          }
 
          .SearchButtonBox {
@@ -324,14 +320,10 @@
             .SearchButton {
                width: $homeInputButton;
                height: $homeInputButton;
-               background: $btn-gradient-basecolor1;
+               background: $basecolor1;
                @include border-radius(100px);
                color: $white !important;
                font-size: $bfsize;
-
-               i {
-                  margin-top: 1px;
-               }
             }
 
             .MicButton {
