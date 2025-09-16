@@ -6,6 +6,8 @@ const NotfoundCard = () => {
   const flightcount = useSelector(
     (state) => state?.sendMessage?.appendFlights?.ai?.count
   );
+  console.log("flightcount", flightcount);
+  
   return (
     <Box className={`${styles.NotfoundCard}`} justifyContent={"center"}>
       <Grid container>
@@ -90,7 +92,7 @@ const NotfoundCard = () => {
             
           >
             <Typography  className={" mb-0 black-50 bold"}>
-              {flightcount.toLocaleString()} results
+              {flightcount?.toLocaleString()} results
             </Typography>
             <Typography className=" f11 black-50">
               Narrow down your search

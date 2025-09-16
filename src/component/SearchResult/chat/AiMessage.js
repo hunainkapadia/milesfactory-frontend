@@ -137,6 +137,8 @@ const AiMessage = ({ aiMessage }) => {
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
 
+  console.log("aiMessage_ai_0", aiMessage?.ai === "isNotFound");
+  
   return (
     <Box
       ref={aiboxRef}
@@ -172,16 +174,18 @@ const AiMessage = ({ aiMessage }) => {
 
           {/* Toggle button */}
 
-          
           {getNextFlight?.offers?.length === 6 && !isFilter ? (
             // Do nothing (hide both)
             <NotfoundCard />
-            
           ) : !noMoreFlights &&
             (aiMessage?.ai?.next_page_number ||
               getNextFlight?.next_page_number) ? (
             // Show "See more flights"
-            <Box onClick={handleSeeMoreFlights} className="basecolor1" style={{ cursor: "pointer" }}>
+            <Box
+              onClick={handleSeeMoreFlights}
+              className="basecolor1"
+              style={{ cursor: "pointer" }}
+            >
               <Box
                 sx={{ my: { lg: 2, md: 2, xs: 2 } }}
                 gap={2}
@@ -208,31 +212,30 @@ const AiMessage = ({ aiMessage }) => {
       ) : (
         // Default AI response
         <>
-          {Array.isArray(displayedGetFlights) &&
-            displayedGetFlights.length === 0  && isUpdateOffer && (
-              <Box
-                mb={3}
-                elevation={0}
-                sx={{
-                  width: "100%",
-                  p: 3,
-                  textAlign: "center",
-                  borderRadius: "12px",
-                  border: "1px solid #e0e0e0",
-                }}
+          {aiMessage?.ai === "isNotFound" && (
+            <Box
+              mb={3}
+              elevation={0}
+              sx={{
+                width: "100%",
+                p: 3,
+                textAlign: "center",
+                borderRadius: "12px",
+                border: "1px solid #e0e0e0",
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ color: "#1e293b", fontWeight: 600, mb: 1 }}
               >
-                <Typography
-                  variant="h6"
-                  sx={{ color: "#1e293b", fontWeight: 600, mb: 1 }}
-                >
-                  No flights found
-                </Typography>
-                <Typography variant="body2" sx={{ color: "#6b7280" }}>
-                  Looks like there are no flights available right now. Please
-                  search again with new options.
-                </Typography>
-              </Box>
-            )}
+                No flights found
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#6b7280" }}>
+                Looks like there are no flights available right now. Please
+                search again with new options.
+              </Typography>
+            </Box>
+          )}
           {!aiMessage?.ai?.response?.results ||
           aiMessage?.ai?.newThread ||
           aiMessage?.ai?.deleteThread ? (
@@ -329,7 +332,9 @@ const AiMessage = ({ aiMessage }) => {
               gap={1}
               className="bold basecolor1"
             >
-              <Typography className="bold" lineHeight={1} component={"span"}>Show more stays</Typography>
+              <Typography className="bold" lineHeight={1} component={"span"}>
+                Show more stays
+              </Typography>
             </Box>
           ) : (
             <Box

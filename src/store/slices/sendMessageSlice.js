@@ -138,8 +138,8 @@ const sendMessageSlice = createSlice({
       // STEP 3: Push the new message
       state.messages.push(newMessage);
     },
-    setIsUpdateOffer: (state, action)=> {
-      state.isUpdateOffer = action.payload
+    setIsUpdateOffer: (state, action) => {
+      state.isUpdateOffer = action.payload;
     },
     setUpdateOffer: (state) => {
       state.messages = state.messages.map((msg) => {
@@ -182,7 +182,6 @@ const sendMessageSlice = createSlice({
 });
 
 export const sendMessage = (userMessage) => (dispatch, getState) => {
-  
   dispatch(setInputLoading(true));
   const pathname = window.location.pathname;
   const threadUUID = pathname.split("/chat/")[1];
@@ -281,6 +280,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
+                
+                
                 const isComplete = flightRes?.data?.is_complete;
                 if (isComplete === true) {
                   dispatch(setMessage({ ai: flightRes.data }));
@@ -304,12 +305,18 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(historyUrl)
                 .then((history_res) => {
                   const isComplete = history_res?.data?.search?.is_complete;
-                  dispatch(setSearchHistorySend({"flight" :history_res.data.search}));
-                  
+                  dispatch(
+                    setSearchHistorySend({ flight: history_res.data.search })
+                  );
 
                   if (isComplete === true) {
                     clearInterval(interval);
                     api.get(allFlightSearchApi).then((flightRes) => {
+                      console.log("flightRes", flightRes);
+                      if (flightRes?.data?.count === 0 && Array.isArray(flightRes?.data?.offers) && flightRes?.data?.offers.length === 0) {
+                        alert("asas")
+                        dispatch(setMessage({ ai: "isNotFound" }));
+                      }
                       dispatch(setSelectedFlightKey(null));
                       dispatch(setClearflight());
                       dispatch(setMessage({ ai: flightRes.data }));
@@ -337,44 +344,43 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
         // --------- ✅ Hotel Flow
         else if (funcName === "search_hotel_result_func") {
-  const hotelSearchApi =
-    response?.response?.results?.view_hotel_search_api?.url;
+          const hotelSearchApi =
+            response?.response?.results?.view_hotel_search_api?.url;
 
-  const HotelArgument =
-    response?.silent_function_template?.[0]?.function?.arguments || {};
-  console.log("HotelArgument", HotelArgument);
+          const HotelArgument =
+            response?.silent_function_template?.[0]?.function?.arguments || {};
+          console.log("HotelArgument", HotelArgument);
 
-  dispatch(setSearchHistorySend({ hotel: HotelArgument }));
-  console.log("hotelSearchApi (raw)", hotelSearchApi);
+          dispatch(setSearchHistorySend({ hotel: HotelArgument }));
+          console.log("hotelSearchApi (raw)", hotelSearchApi);
 
-  if (hotelSearchApi) {
-    // Static fix: replace "dubai" with "dxb"
-    // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
+          if (hotelSearchApi) {
+            // Static fix: replace "dubai" with "dxb"
+            // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
 
-    // console.log("hotelSearchApi (fixed)", finalUrl);
+            // console.log("hotelSearchApi (fixed)", finalUrl);
 
-    api
-      .get(hotelSearchApi)
-      .then((hotelRes) => {
-        const isComplete = hotelRes?.data?.is_complete;
-        if (isComplete === true) {
-          dispatch(setClearflight());
-          dispatch(setMessage({ ai: hotelRes.data }));
-        } else {
-          dispatch(
-            setMessage({
-              ai: hotelRes.data,
-              type: "hotel_result",
-            })
-          );
+            api
+              .get(hotelSearchApi)
+              .then((hotelRes) => {
+                const isComplete = hotelRes?.data?.is_complete;
+                if (isComplete === true) {
+                  dispatch(setClearflight());
+                  dispatch(setMessage({ ai: hotelRes.data }));
+                } else {
+                  dispatch(
+                    setMessage({
+                      ai: hotelRes.data,
+                      type: "hotel_result",
+                    })
+                  );
+                }
+              })
+              .catch((err) => {
+                console.error("Error fetching hotel results", err);
+              });
+          }
         }
-      })
-      .catch((err) => {
-        console.error("Error fetching hotel results", err);
-      });
-  }
-}
-
       } else {
         // Normal response
         if (response?.run_status === "completed") {
@@ -426,7 +432,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
-
         dispatch(setResetAppendFlights());
         dispatch(setThreadUuid(newUuid));
         dispatch(setMobileNaveDrawer(false));
@@ -546,6 +551,6 @@ export const {
   setFunctionType,
   setResetAppendFlights,
   setUpdateOffer,
-  setIsUpdateOffer
+  setIsUpdateOffer,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;
