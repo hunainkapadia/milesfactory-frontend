@@ -103,20 +103,34 @@
 
 .dropdownMenu {
    padding: 16px;
-   width: 250px;
+   width: 320px;
+   .header {
+    .counterValue {
+         font-weight: $semibold;
+      }  
+   }
+   .CounterIcon {width: 20px;}
+   .Footer .RightCol {
+      justify-content: center;
+   }
+   .RightCol {
+      align-items: center;
+      gap: 18px;
+      width: 35%;
+      justify-content: space-between;
+   }
+   .numberInput {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+   }
+   
+   .label {
+      text-transform: capitalize;
+   }
 }
 
-.numberInput {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   margin-bottom: 12px;
-}
-
-.label {
-   font-weight: 500;
-   text-transform: capitalize;
-}
 
 .sublabel {
    font-size: 12px;

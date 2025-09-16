@@ -93,10 +93,7 @@ const AiMessage = ({ aiMessage }) => {
   // Add class when all flights are shown
 
   const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
-  const isUpdateOffer = useSelector((state) => state?.sendMessage?.isUpdateOffer);
-  console.log("isUpdateOffer", isUpdateOffer);
   
-
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";
