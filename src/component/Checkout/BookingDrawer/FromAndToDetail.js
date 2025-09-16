@@ -444,7 +444,7 @@ const FromAndToDetail = ({
       {/* === Baggage Info === */}
       <Box className={styles.fromAndToBodyBottom + " "}>
         <Box mb={2}>
-          <Typography className="bold f12 mb-0 h4">
+          <Typography className="exbold f12 mb-0 h4">
             Included in this ticket
           </Typography>
         </Box>
