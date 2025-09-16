@@ -469,10 +469,10 @@ const FromAndToDetail = ({
               {SearchHistoryGet?.adults && (
                 <Box
                   display="flex"
-                  gap={{ md: 9, xs: "4px" }}
+                  
                   alignItems="center"
                   mb={1}
-                  className={styles.normalOption}
+                  className={`${styles.normalOption} ${styles.includeWraper}`}
                 >
                   <Box
                     className={styles.BaggageIcon + " basecolor "}
@@ -498,10 +498,10 @@ const FromAndToDetail = ({
                   <Box
                     key={index}
                     display="flex"
-                    gap={{ md: 9, xs: "4px" }}
+                    
                     alignItems="center"
                     mb={2}
-                    className={styles.normalOption}
+                    className={`${styles.normalOption} ${styles.includeWraper}`}
                   >
                     <Box
                       className={styles.BaggageIcon + "  "}

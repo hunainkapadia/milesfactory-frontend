@@ -1,6 +1,7 @@
 // FlightRefundConditions.jsx
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss"
 
 const FlightRefundConditions = ({ refundCondition, currencySymbols }) => {
   // If refundCondition is null/undefined, show no data message
@@ -23,7 +24,7 @@ const FlightRefundConditions = ({ refundCondition, currencySymbols }) => {
 
   if (!refundCondition.allowed) {
     return (
-      <Box display="flex" gap={2} alignItems="center" mb={1}>
+      <Box className={styles.includeWraper} display="flex" gap={2} alignItems="center" mb={1}>
         <Box display="flex" alignItems="center">
           <img
             width={14}
@@ -49,7 +50,7 @@ const FlightRefundConditions = ({ refundCondition, currencySymbols }) => {
     : "Refunds allowed - no fee";
 
   return (
-    <Box display="flex" gap={{ md: 9, xs: "4px" }} alignItems="center" mb={1}>
+    <Box display="flex" className={styles.includeWraper} alignItems="center" mb={1}>
       <Box display="flex" alignItems="center">
         <img width={14} src={iconSrc} alt={altText} />
       </Box>

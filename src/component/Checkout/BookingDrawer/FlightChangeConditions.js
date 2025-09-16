@@ -1,12 +1,12 @@
 // FlightChangeConditions.jsx
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-
+import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss"
 const FlightChangeConditions = ({ changeCondition, currencySymbols }) => {
   // If changeCondition is null/undefined, show no data message
   if (changeCondition === null || changeCondition === undefined) {
     return (
-      <Box display="flex" gap={{ md: 9, xs: "4px" }} alignItems="center" mb={1}>
+      <Box  display="flex" className={styles.includeWraper} alignItems="center" mb={1}>
         <Box display="flex" alignItems="center">
           <img
             width={14}
@@ -23,7 +23,7 @@ const FlightChangeConditions = ({ changeCondition, currencySymbols }) => {
 
   if (!changeCondition.allowed) {
     return (
-      <Box display="flex" gap={{ md: 9, xs: "4px" }} alignItems="center" mb={1}>
+      <Box display="flex" className={styles.includeWraper} alignItems="center" mb={1}>
         <Box display="flex" alignItems="center">
           <img
             width={14}
@@ -49,7 +49,7 @@ const FlightChangeConditions = ({ changeCondition, currencySymbols }) => {
     : "Changes allowed - no fee";
 
   return (
-    <Box display="flex" gap={{ md: 9, xs: "4px" }} alignItems="center" mb={1}>
+    <Box display="flex" className={styles.includeWraper} alignItems="center" mb={1}>
       <Box display="flex" alignItems="center">
         <img width={14} src={iconSrc} alt={altText} />
       </Box>

@@ -159,9 +159,8 @@ const BookingDrawer = ({ }) => {
                   </>
                 ))}
                 <Box
-                  className="black"
+                  className={styles.includeWraper + " black"} 
                   display={"flex"}
-                  gap={{ md: 9, xs: "4px" }}
                   alignItems={"center"}
                   mb={3}
                 >

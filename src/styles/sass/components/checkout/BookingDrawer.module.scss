@@ -14,6 +14,9 @@
 .BaggageCol:not(:last-child) {
    border-right: solid 1px $lightgray3;
 }
+.includeWraper {
+   gap: 11px;
+}
 .passengersCard {
    background: #FFFFFF;
    border: 1px solid #E6EEEE;
@@ -315,6 +318,9 @@
    }
 }
 @include for-mobile-large-screen {
+   .includeWraper {
+      
+   }
    
    .checkoutDrower {
       .checkoutDrowerHeder {
