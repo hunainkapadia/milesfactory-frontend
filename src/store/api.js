@@ -28,7 +28,7 @@ const processQueue = (error, token = null) => {
 api.interceptors.request.use(async (config) => {
   const accessToken = Cookies.get("access_token");
   const refreshToken = Cookies.get("refresh_token");
-
+  const cookieUser = Cookies.get("set-user");
   //console.log("Access Token:", accessToken);
   //console.log("Refresh Token:", refreshToken);
 
@@ -40,7 +40,7 @@ api.interceptors.request.use(async (config) => {
   if (accessToken && isTokenExpired(accessToken)) {
     //console.log("Access token expired. Refreshing...");
 
-    if (!refreshToken) {
+    if (!refreshToken || cookieUser) {
       console.warn("No refresh token available. Logging out...");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");

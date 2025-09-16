@@ -67,6 +67,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
         alignItems="center"
         justifyContent="center"
       >
+        
         {paymentSuccess ? (
           //  If payment is done
           <Box
@@ -94,7 +95,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
             p="2px 6px"
           >
             <Typography className="exbold" textTransform="capitalize">
-              Checkout .{" "}
+              aaCheckout .{" "}
               {CartData?.total_price && (
                 <>
                   {currencySymbols[CartFlight?.currency] ||
