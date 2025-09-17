@@ -120,7 +120,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   GetViewPassengers?.forEach((passenger) => {
     const passengerUUID = passenger?.uuid;
     const passengerData = baggageOptions?.[passengerUUID];
-    console.log("totalInitialBaggage_11", passengerData);
 
     if (passengerData) {
       const checkedAmount =
@@ -131,9 +130,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     }
   });
   // calculate totalInitialBaggagePrice [end]
-
-  
-console.log("totalBaggageCount", totalBaggageCount);
 
   return (
     <Drawer

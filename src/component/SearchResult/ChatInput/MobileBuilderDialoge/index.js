@@ -25,7 +25,7 @@ const MobileBuilderDialoge = () => {
   const dispatch = useDispatch();
   const isBuilderDialoge = useSelector((state) => state?.base?.IsBuilderDialog);
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
+    (state) => state?.booking?.addCart?.raw_data
   );
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
 

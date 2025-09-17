@@ -38,6 +38,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
 
   const HandleSelectDrawer = () => {
+    alert("asas")
     // Dispatch flight detail and open drawer
     //Push GA event
 

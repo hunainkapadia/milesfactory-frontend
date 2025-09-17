@@ -125,7 +125,6 @@ export const addBaggage = (uuid) => (dispatch, getState) => {
 export const removeBaggage = (uuid) => (dispatch, getState) => {
   const state = getState();
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
-  console.log("selectedBaggagesUUID", uuid);
   
 
   const removeUrl = `/api/v1/passenger/baggage/${uuid}/remove`;

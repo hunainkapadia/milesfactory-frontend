@@ -31,9 +31,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const passengerSelected = useSelector((state) => state?.sendMessage);
-  const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
-  );
+
 
   const offerkey = useSelector((state) => state?.booking?.offerkeyforDetail);
   // ✅ Move here (component scope)

@@ -314,7 +314,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     api.get(allFlightSearchApi).then((flightRes) => {
                       console.log("flightRes", flightRes);
                       if (flightRes?.data?.count === 0 && Array.isArray(flightRes?.data?.offers) && flightRes?.data?.offers.length === 0) {
-                        alert("asas")
                         dispatch(setMessage({ ai: "isNotFound" }));
                       }
                       dispatch(setSelectedFlightKey(null));

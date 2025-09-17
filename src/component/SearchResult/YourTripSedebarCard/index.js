@@ -29,8 +29,10 @@ const YourTripSedebarCard = ({
 
   
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
+    (state) => state?.booking?.addCart?.raw_data
   );
+  console.log("getselectedFlight", getselectedFlight);
+  
 
   const dispatch = useDispatch();
 
@@ -38,7 +40,7 @@ const YourTripSedebarCard = ({
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const personQuantity = getselectedFlight?.passengers.length;
+  const personQuantity = getselectedFlight?.passengers?.length;
   const Passengers =
     Number(getselectedFlight?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;

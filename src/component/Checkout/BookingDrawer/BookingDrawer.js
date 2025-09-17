@@ -10,6 +10,7 @@ import { setBookingDrawer, setSelectFlightKey } from "@/src/store/slices/Booking
 import { currencySymbols,event } from "@/src/utils/utils";
 import Link from "next/link";
 const BookingDrawer = ({ }) => {
+  
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setBookingDrawer(false)); //setSelectFlightKey empty then close drawer
@@ -27,6 +28,8 @@ const BookingDrawer = ({ }) => {
   );
   
   const getFlightDetail = useSelector((state) => state.booking?.singleFlightData);
+  console.log("getFlightDetail", getFlightDetail);
+  
   const IsOpendrawer = useSelector((state) => state.booking.bookingDrawer);
   return (
     <Drawer

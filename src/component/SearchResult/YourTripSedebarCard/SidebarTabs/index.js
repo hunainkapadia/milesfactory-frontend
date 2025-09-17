@@ -31,7 +31,7 @@ const SidebarTabs = () => {
   console.log("getBuilder_00", getBuilder);
 
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
+    (state) => state?.booking?.addCart?.raw_data
   );
   const slices = getselectedFlight?.slices || [];
   const cartItems = useSelector((state) => state?.booking?.cartOffer?.items);
