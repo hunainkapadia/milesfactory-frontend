@@ -126,6 +126,9 @@ export const googleLoginUser = (code) => (dispatch) => {
   api
     .post("/api/auth/google/", { code })
     .then((res) => {
+
+      console.log("google_res", res);
+      
       if (res.status === 200) {
         const { user, access, refresh } = res.data;
 
@@ -178,6 +181,9 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
     .post("/api/auth/facebook/", { access_token }) // Your backend endpoint
     .then((res) => {
       const { user, access, refresh } = res.data;
+
+      console.log("fb_res", res);
+      
 
       dispatch(
         setLoginUser({

@@ -233,6 +233,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setViewPassengers([])); // Clear passengers array
     dispatch(setOrderUuid(null)); // Clear order UUID
     dispatch(setMessage({ ai: { passengerFlowRes: false } }));
+    dispatch(setSelectedFlight(null));
 
     dispatch(
       setMessage({
