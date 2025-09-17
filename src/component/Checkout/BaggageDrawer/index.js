@@ -49,6 +49,8 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   
 
   const handleIncrement = (uuid, passengerId) => {
+    console.log("add_uuid", uuid);
+    
     const currentCount = baggageCount[passengerId]?.[uuid] || 0;
 
     if (currentCount >= 1) return; // Allow only one increment
@@ -74,10 +76,12 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     
 
     dispatch(setAddSelectedBaggage(uuid));
-    dispatch(addBaggage()); //
+    dispatch(addBaggage(uuid)); //
   };
 
+  
   const handleDecrement = (uuid, passengerId) => {
+    
     setBaggageCount((prev) => {
       const currentPassengerBaggage = prev[passengerId] || {};
       const currentCount = currentPassengerBaggage[uuid] || 0;
@@ -90,7 +94,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
         },
       };
     });
-    dispatch(removeBaggage());
+    dispatch(removeBaggage(uuid));
   };
 
   const totalBaggageCount = Object.values(baggageCount).reduce(
@@ -116,6 +120,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   GetViewPassengers?.forEach((passenger) => {
     const passengerUUID = passenger?.uuid;
     const passengerData = baggageOptions?.[passengerUUID];
+    console.log("totalInitialBaggage_11", passengerData);
 
     if (passengerData) {
       const checkedAmount =
@@ -126,6 +131,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
     }
   });
   // calculate totalInitialBaggagePrice [end]
+
+  
+console.log("totalBaggageCount", totalBaggageCount);
 
   return (
     <Drawer
@@ -254,7 +262,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                       const filteredPassengerIds = passengerIds.filter(
                         (id) => id === passengerUUID
                       );
-                      
 
                       // Initialize checkedBagOptions
                       let checkedBagOptions = [];
@@ -264,8 +271,6 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                         const matchingPassengerId = filteredPassengerIds[0];
                         const passengerData =
                           baggageOptions[matchingPassengerId];
-                        
-                        
 
                         checkedBagOptions =
                           passengerData?.checked_bag_options?.filter(
@@ -464,7 +469,9 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   <Box py={2} display="flex" justifyContent="space-between">
                     <Typography>Price of added bags</Typography>
 
-                    <Typography className="bold basecolor1">
+                    <Typography
+                      className={styles.priceRow + " bold basecolor1"}
+                    >
                       {currencySymbols[getFlightDetail?.tax_currency]}
                       {totalInitialBaggagePrice.toFixed(0)}
                     </Typography>
@@ -474,7 +481,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
                   </Box>
                 </>
               )}
-              
+
               <Box py={2}>
                 {baggageAddData?.request_type === "remove" ? (
                   <Alert severity="success" className="f12">

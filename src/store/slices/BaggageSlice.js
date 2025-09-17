@@ -101,11 +101,11 @@ export const baggage = (flightId) => (dispatch, getState) => {
   // Extract only the UUID from the URL
 };
 // for add baggage
-export const addBaggage = () => (dispatch, getState) => {
+export const addBaggage = (uuid) => (dispatch, getState) => {
   const state = getState();
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
 
-  const addUrl = `/api/v1/passenger/baggage/${selectedBaggagesUUID}/add`;
+  const addUrl = `/api/v1/passenger/baggage/${uuid}/add`;
   
   api
     .post(addUrl)
@@ -122,11 +122,13 @@ export const addBaggage = () => (dispatch, getState) => {
     });
 };
 // for add baggage
-export const removeBaggage = () => (dispatch, getState) => {
+export const removeBaggage = (uuid) => (dispatch, getState) => {
   const state = getState();
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
+  console.log("selectedBaggagesUUID", uuid);
+  
 
-  const removeUrl = `/api/v1/passenger/baggage/${selectedBaggagesUUID}/remove`;
+  const removeUrl = `/api/v1/passenger/baggage/${uuid}/remove`;
   
 
   api

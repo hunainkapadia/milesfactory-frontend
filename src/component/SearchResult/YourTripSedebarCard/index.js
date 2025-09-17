@@ -19,7 +19,7 @@ const YourTripSedebarCard = ({
 }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
-    const builderType = BuilderArguments?.trip_components[0]
+    const builderType = BuilderArguments?.trip_components?.[0] || null;
   
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;

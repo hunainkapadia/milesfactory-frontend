@@ -212,7 +212,7 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
       
     
   } catch (error) {
-    console.error("ListCart Error:", error);
+    console.error("ListCart Error:", error?.message);
   } finally {
     dispatch(setLoading(false));
   }
