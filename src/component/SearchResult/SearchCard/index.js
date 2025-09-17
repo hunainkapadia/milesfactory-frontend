@@ -95,7 +95,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);
 
-  console.log("selectedFlight", selectedFlight?.id);
+  console.log("selectedFlight_00", selectedFlight?.id);
   
 
   const isLoadingSelect = useSelector(

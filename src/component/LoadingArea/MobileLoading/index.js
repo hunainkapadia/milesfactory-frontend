@@ -95,7 +95,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
             p="2px 6px"
           >
             <Typography className="exbold" textTransform="capitalize">
-              aaCheckout .{" "}
+              Checkout .{" "}
               {CartData?.total_price && (
                 <>
                   {currencySymbols[CartFlight?.currency] ||
