@@ -67,7 +67,6 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
   const handleDeleteCart = () => {
-    alert("Asas")
     dispatch(DeleteCart(threaduuid, getItems?.uuid));
     
   };

@@ -78,7 +78,7 @@ const SidebarFooter = () => {
               <h4 className="exbold mb-0">
                 {CartData?.total_price ? (
                   <>
-                    {currencySymbols[CartData?.items[0]?.currency] ||
+                    {currencySymbols[CartData?.items?.[0]?.currency] ||
                       CartData?.items[0]?.currency}
                     {Math.round(CartData?.total_price)}
                   </>
