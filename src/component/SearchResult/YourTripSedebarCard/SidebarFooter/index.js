@@ -33,14 +33,10 @@ const SidebarFooter = () => {
     CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
     
 
-  console.log("CartDetails_00", CartData?.total_price);
-  console.log("CartData_0000", CartData?.items[0]?.currency);
 
   // For displaying in footer, just take the first matching item
   const CartFlight = CartFlights[0];
   const CartHotel = CartHotels[0];
-
-  console.log("CartFlights_000", CartData?.items?.length > 0 ? "true" : "false");
   // Hotel price calculation
   let nights, totalPrice, perNightPrice;
   if (CartHotel) {
@@ -79,7 +75,7 @@ const SidebarFooter = () => {
                 {CartData?.total_price ? (
                   <>
                     {currencySymbols[CartData?.items?.[0]?.currency] ||
-                      CartData?.items[0]?.currency}
+                      CartData?.items?.[0]?.currency}
                     {Math.round(CartData?.total_price)}
                   </>
                 ) : (
