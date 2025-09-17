@@ -206,6 +206,8 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
   try {
     const res = await api.get(apiUrl);
     dispatch(setGetCartDetail(res.data));
+    console.log(res);
+    
     const CartOfferDetail = res?.data;
     dispatch(setCartOffer(CartOfferDetail))
       
@@ -234,6 +236,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setOrderUuid(null)); // Clear order UUID
     dispatch(setMessage({ ai: { passengerFlowRes: false } }));
     dispatch(setSelectedFlight(null));
+    dispatch(CartDetail(threaduuid));
 
     dispatch(
       setMessage({
@@ -243,7 +246,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setSingleFlightData(null));
     dispatch(setOfferkeyforDetail(null));
   } catch (error) {
-    console.error("ListCart Error:", error);
+    console.error("ListCart Error:", error.message);
   } finally {
     dispatch(setLoading(false));
   }

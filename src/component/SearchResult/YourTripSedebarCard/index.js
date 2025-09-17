@@ -25,6 +25,8 @@ const YourTripSedebarCard = ({
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
 
   console.log("BuilderArguments", builderType);
+  console.log("CartDetails_000", CartDetails);
+  
   
 
   
