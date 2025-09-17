@@ -216,9 +216,6 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
 export const Logout = () => (dispatch) => {
   const refreshToken = Cookies.get("refresh_token"); // get the token string
-
-  console.log("refreshToken_logout_1", refreshToken);
-
   api
     .post("/api/v1/logout/", { refresh: refreshToken }) // <-- send string, not object
     .then((res) => {
@@ -226,7 +223,6 @@ export const Logout = () => (dispatch) => {
 
       dispatch(setLogoutUser(res.data));
       dispatch(setCurrentUser(null));
-
       Cookies.remove("set-user");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");

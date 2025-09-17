@@ -44,6 +44,7 @@ api.interceptors.request.use(async (config) => {
       console.warn("No refresh token available. Logging out...");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
+      Cookies.remove("set-user");
       store.dispatch(Logout());
       return Promise.reject("No refresh token found");
     }
@@ -79,7 +80,7 @@ api.interceptors.request.use(async (config) => {
         //console.log("🔴 Refresh error:", error?.response?.data);
 
         Cookies.remove("access_token");
-        Cookies.remove("refresh_token");
+        Cookies.remove("set-user");
         store.dispatch(Logout());
 
         isRefreshing = false;
