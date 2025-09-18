@@ -42,10 +42,6 @@ const UserPopup = (isChat) => {
   };
   // popup  close when user login
   const getUser = useSelector((state) => state?.login?.loginUser?.userPopup);
-  const getUser2 = useSelector((state) => state?.login?.loginUser);
-
-  console.log("getUser_11", getUser2);
-  
   useEffect(() => {
     if (getUser === false) {
       dispatch(setisUserPopup(false)); // Closes the dialog
