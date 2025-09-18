@@ -20,16 +20,8 @@ import { CartDetail, ListCart } from "@/src/store/slices/BookingflightSlice";
 import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 
 const YourTripSidebar = ({ isMessage }) => {
-  const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
-  );
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   
-  
-  
-  
-
-
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );

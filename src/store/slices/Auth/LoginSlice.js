@@ -126,6 +126,9 @@ export const googleLoginUser = (code) => (dispatch) => {
   api
     .post("/api/auth/google/", { code })
     .then((res) => {
+
+      console.log("google_res", res);
+      
       if (res.status === 200) {
         const { user, access, refresh } = res.data;
 
@@ -179,6 +182,9 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
     .then((res) => {
       const { user, access, refresh } = res.data;
 
+      console.log("fb_res", res);
+      
+
       dispatch(
         setLoginUser({
           user: res.data,
@@ -216,9 +222,6 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
 export const Logout = () => (dispatch) => {
   const refreshToken = Cookies.get("refresh_token"); // get the token string
-
-  console.log("refreshToken_logout_1", refreshToken);
-
   api
     .post("/api/v1/logout/", { refresh: refreshToken }) // <-- send string, not object
     .then((res) => {
@@ -226,7 +229,6 @@ export const Logout = () => (dispatch) => {
 
       dispatch(setLogoutUser(res.data));
       dispatch(setCurrentUser(null));
-
       Cookies.remove("set-user");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");

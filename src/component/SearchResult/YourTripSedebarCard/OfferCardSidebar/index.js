@@ -68,6 +68,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
 
   const handleDeleteCart = () => {
     dispatch(DeleteCart(threaduuid, getItems?.uuid));
+    
   };
 
   return (

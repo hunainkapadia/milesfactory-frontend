@@ -31,15 +31,12 @@ const SidebarFooter = () => {
   // Get all hotels from cart items
   const CartHotels =
     CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
+    
 
-  console.log("CartDetails_00", CartData?.total_price);
-  console.log("CartHotels", CartHotels);
 
   // For displaying in footer, just take the first matching item
   const CartFlight = CartFlights[0];
   const CartHotel = CartHotels[0];
-
-  console.log("CartFlights_000", CartData?.items?.length > 0 ? "true" : "false");
   // Hotel price calculation
   let nights, totalPrice, perNightPrice;
   if (CartHotel) {
@@ -55,6 +52,8 @@ const SidebarFooter = () => {
     dispatch(setChatscroll(true));
     dispatch(PassengerForm());
   };
+  console.log("CartData_total_price", CartData?.total_price);
+  
 
   return (
     <Box
@@ -71,14 +70,12 @@ const SidebarFooter = () => {
       >
         {/* Flight footer */}
         {/* Flight footer */}
-        {searchType?.flight || functionTypeGet?.flight ? (
-          <>
             <Box>
               <h4 className="exbold mb-0">
-                {CartFlight ? (
+                {CartData?.total_price ? (
                   <>
-                    {currencySymbols[CartFlight?.currency] ||
-                      CartFlight?.currency}
+                    {currencySymbols[CartData?.items?.[0]?.currency] ||
+                      CartData?.items?.[0]?.currency}
                     {Math.round(CartData?.total_price)}
                   </>
                 ) : (
@@ -97,46 +94,9 @@ const SidebarFooter = () => {
                 Checkout
               </Button>
             )}
-          </>
-        ) : null}
 
         {/* Hotel footer */}
-        {searchType?.hotel || functionTypeGet?.hotel ? (
-          <>
-            <Box>
-              <h4 className="exbold mb-0">
-                {CartHotel ? (
-                  <>
-                    {currencySymbols[CartHotel?.currency]}
-                    {Math.round(perNightPrice)} / night
-                  </>
-                ) : (
-                  "-"
-                )}
-              </h4>
-              <Typography className="gray f12">
-                {CartHotel ? (
-                  <>
-                    {currencySymbols[CartHotel?.currency]}
-                    {Math.round(CartData?.total_price)} total ({nights} nights)
-                  </>
-                ) : (
-                  "-"
-                )}
-              </Typography>
-            </Box>
-            {CartData?.items?.length > 0 && (
-              <Button
-                onClick={handleBookFlight}
-                className={`btn btn-primary btn-round btn-xs ${
-                  orderSuccess || !CartData ? " disabled " : ""
-                }`}
-              >
-                Book now
-              </Button>
-            )}
-          </>
-        ) : null}
+        
       </Box>
     </Box>
   );

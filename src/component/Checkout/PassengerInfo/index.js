@@ -96,9 +96,12 @@ const PassengerInfo = ({ getdata }) => {
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
+  
   const IsServices = useSelector(
-    (state) => state?.booking?.singleFlightData?.available_services
+    (state) => state?.booking?.addCart?.raw_data?.available_services
   );  
+  console.log("IsServices2", IsServices);
+  
   
   
 

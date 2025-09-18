@@ -19,18 +19,22 @@ const YourTripSedebarCard = ({
 }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template?.[0]?.function?.arguments;
-    const builderType = BuilderArguments?.trip_components[0]
+    const builderType = BuilderArguments?.trip_components?.[0] || null;
   
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
 
   console.log("BuilderArguments", builderType);
+  console.log("CartDetails_000", CartDetails);
+  
   
 
   
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
+    (state) => state?.booking?.addCart?.raw_data
   );
+  console.log("getselectedFlight", getselectedFlight);
+  
 
   const dispatch = useDispatch();
 
@@ -38,7 +42,7 @@ const YourTripSedebarCard = ({
     (state) => state?.passengerDrawer?.ViewPassengers
   );
 
-  const personQuantity = getselectedFlight?.passengers.length;
+  const personQuantity = getselectedFlight?.passengers?.length;
   const Passengers =
     Number(getselectedFlight?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;

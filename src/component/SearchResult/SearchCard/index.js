@@ -33,6 +33,7 @@ import {
   setRefreshSearch,
 } from "@/src/store/slices/GestMessageSlice";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import { LoadingButton } from "@mui/lab";
 
 const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
@@ -94,11 +95,16 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);
 
+  console.log("selectedFlight_00", selectedFlight?.id);
+  
+
   const isLoadingSelect = useSelector(
     (state) => state?.booking?.isLoadingSelect
   );
 
   const handleBookFlight = (getflight) => {
+    console.log("getflight", getflight?.id);
+    
     const params = {
       chat_thread_uuid: uuid,
       offer_type: "flight",
@@ -288,7 +294,8 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         >
                           <span>Selected</span>
                         </Button>
-                      ) : (selectedFlight?.id === offerData.id && isFlightAvailable) ? (
+                      ) : selectedFlight?.id === offerData.id &&
+                        isFlightAvailable ? (
                         <Button
                           disabled
                           className={
@@ -299,15 +306,22 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                           <span>Not Available</span>
                         </Button>
                       ) : (
-                        <Button
+                        <LoadingButton
                           className={
                             "w-100 btn btn-primary btn-round btn-md " +
                             searchResultStyles.selectFlightBtn
                           }
                           onClick={() => handleBookFlight(offerData)}
+                          loading={selectedFlight?.id === offerData?.id} // true when booking this flight
+                          loadingIndicator={
+                            <CircularProgress
+                              size={18}
+                              sx={{ color: "#fff" }}
+                            />
+                          } // optional custom spinner
                         >
-                          Select
-                        </Button>
+                          {selectedFlight?.id !== offerData?.id && "Select"}
+                        </LoadingButton>
                       )}
                     </Box>
                   </Box>

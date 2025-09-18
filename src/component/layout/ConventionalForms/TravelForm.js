@@ -6,6 +6,7 @@ import {
   IconButton,
   Autocomplete,
   createFilterOptions,
+  capitalize,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +24,7 @@ import {
 } from "@/src/store/slices/TravelSlice";
 import Cookies from "js-cookie";
 import FromAndTooFields from "./FromAndTooFields";
+import { capitalizeFirstWord } from "@/src/utils/utils";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
@@ -111,6 +113,10 @@ const TravelForm = () => {
   };
 
   const calendarRef = useRef(null);
+  const tripTypeLabels = {
+    oneway: "one way",
+    roundtrip: "Round trip"
+  }
 
   return (
     <Stack
@@ -144,6 +150,10 @@ const TravelForm = () => {
                     style={{ color: "#6C6F76" }}
                     {...props}
                   />
+                ),
+                renderValue: (selected) => (
+                  // console.log("selected_props", selected)
+                    selected ? capitalizeFirstWord(tripTypeLabels[selected]) : "Select trip type",
                 ),
               }}
             >
