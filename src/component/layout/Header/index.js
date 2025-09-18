@@ -39,7 +39,6 @@ import {
 import MessageInputBox from "../../SearchResult/chat/MessageInputBox";
 import {
   createThread,
-  createThreadAndRedirect,
   deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
 import RegisterPopup from "../../Auth/RegisterPopup";
