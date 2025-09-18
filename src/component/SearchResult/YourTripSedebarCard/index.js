@@ -17,24 +17,21 @@ const YourTripSedebarCard = ({
   getBuilder,
   isSidebar,
 }) => {
-  const BuilderArguments =
-    getBuilder?.silent_function_template?.[0]?.function?.arguments;
-    const builderType = BuilderArguments?.trip_components?.[0] || null;
+  
+const BuilderArguments = getBuilder?.silent_function_template[0]?.function.arguments || {};
+const builderType = BuilderArguments?.trip_components?.[0] || null;
+    
+
+    console.log("BuilderArgument2", builderType);
+    
+
   
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
-
-  console.log("BuilderArguments", builderType);
-  console.log("CartDetails_000", CartDetails);
-  
-  
-
   
   const getselectedFlight = useSelector(
     (state) => state?.booking?.addCart?.raw_data
   );
-  console.log("getselectedFlight", getselectedFlight);
-  
 
   const dispatch = useDispatch();
 
