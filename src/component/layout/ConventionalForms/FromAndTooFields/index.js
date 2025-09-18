@@ -15,6 +15,7 @@ import styles from "@/src/styles/sass/components/input-box/TravelInputForm.modul
 import { fetchAirports } from "@/src/store/slices/TravelSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faPlane } from "@fortawesome/free-solid-svg-icons";
+import { capitalizeFirstWord } from "@/src/utils/utils";
 
 const FromAndTooFields = ({
   origin,
@@ -101,7 +102,7 @@ const FromAndTooFields = ({
               : ""
           }
           value={originOption} // selected object
-          inputValue={origin} // input shows only IATA code
+          inputValue={capitalizeFirstWord(origin)} // input shows only IATA code
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
               setOrigin(value);
@@ -117,12 +118,14 @@ const FromAndTooFields = ({
           }}
           renderOption={(props, option) => (
             //   console.log("props_000", option)
-            <li {...props} className={`${option?.is_city ? styles.parent : styles.child}`}>
-              <FontAwesomeIcon
-                icon={option?.is_city ? faBuilding : faPlane}
-                
-              />
-              <Typography>{option.name} - {option.iata_code}</Typography>
+            <li
+              {...props}
+              className={`${option?.is_city ? styles.parent : styles.child}`}
+            >
+              <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
+              <Typography>
+                {option.name} - {option.iata_code}
+              </Typography>
             </li>
           )}
           renderInput={(params) => (
@@ -154,7 +157,7 @@ const FromAndTooFields = ({
               : ""
           }
           value={destinationOption}
-          inputValue={destination}
+          inputValue={capitalizeFirstWord(destination)}
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
               setDestination(value);
@@ -169,11 +172,14 @@ const FromAndTooFields = ({
             className: styles.countryDropdown + " countryDropdown",
           }}
           renderOption={(props, option) => (
-            <li {...props} className={`${option?.is_city ? styles.parent : styles.child}`}>
-              <FontAwesomeIcon
-                icon={option?.is_city ? faBuilding : faPlane}
-              />
-              <Typography>{option.name} - {option.iata_code}</Typography>
+            <li
+              {...props}
+              className={`${option?.is_city ? styles.parent : styles.child}`}
+            >
+              <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
+              <Typography>
+                {option.name} - {option.iata_code}
+              </Typography>
             </li>
           )}
           renderInput={(params) => (
