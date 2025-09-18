@@ -149,8 +149,7 @@ const TravelForm = () => {
                   />
                 ),
                 renderValue: (selected) => (
-                  // console.log("selected_props", selected)
-                    selected ? capitalizeFirstWord(tripTypeLabels[selected]) : "Select trip type",
+                    selected ? capitalizeFirstWord(tripTypeLabels[selected]) : "Select trip type"
                 ),
               }}
             >
