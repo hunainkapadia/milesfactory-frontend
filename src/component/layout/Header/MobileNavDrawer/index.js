@@ -20,7 +20,6 @@ import {
 } from "@/src/store/slices/Auth/SignupSlice";
 import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
 import {
-  createThreadAndRedirect,
   deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";

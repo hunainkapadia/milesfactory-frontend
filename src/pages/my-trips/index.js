@@ -17,7 +17,6 @@ import styles from "@/src/styles/sass/components/MyTrips/Mytrips.module.scss";
 import { setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
 import {
   createThread,
-  createThreadAndRedirect,
   deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
