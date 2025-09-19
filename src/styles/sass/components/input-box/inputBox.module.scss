@@ -23,6 +23,7 @@
       font-size: 16px;
       color: rgba(0, 0, 0, 0.4);
       pointer-events: none;
+      left: 62px;
 
 
    }
@@ -48,7 +49,7 @@
          box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
          @include border-radius(36px);
          background-color: $white;
-         padding: 20px 20 20px 31px;
+         padding: 0px 12px;
          display: flex;
          justify-content: space-between;
          width: 100%;
@@ -59,7 +60,7 @@
          display: flex;
          min-height: 66px;
          align-items: flex-start;
-         padding: 20px 20px 20px 31px;
+         padding: 20px 20px 20px 10px;
 
          &:focus,
          &:focus-visible {
@@ -82,7 +83,7 @@
          width: 100%;
          height: auto;
          align-items: flex-end;
-         padding: 15px 15px 15px 0;
+         padding: 15px 0px 15px 0;
          gap: 0 10px;
          @include border-radius(36px);
 
@@ -367,8 +368,12 @@
       &.HeaderInput {
          .Content {
             background-color: $white;
-            padding: 4px 15px 5px;
+            padding: 4px 7px 5px;
             @include border-radius(0px 0px 12px 12px);
+            height: 53px;
+            .SearchBoxContainer {
+               padding: 8px 9px;
+            }
 
             .SearchForm {
                padding: 0;
@@ -402,6 +407,7 @@
 
       .SearchBoxContainer {
          .label {
+            left: 10px;
             font-size: 14px;
          }
 
@@ -409,6 +415,9 @@
    }
 
    .SearchBoxSectionActive {
+      .PlaceholderText {
+         left: 20px;
+      }
 
       .SearchBoxContainer {
          padding: 0;
@@ -436,7 +445,7 @@
             align-items: center;
 
             .BoxButtons {
-               align-items: flex-end;
+               justify-content: flex-end;
             }
 
             .leftCol {

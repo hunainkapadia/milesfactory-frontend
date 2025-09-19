@@ -18,7 +18,7 @@ const FilterParams = () => {
        <Box
          className=" filterBox"
          display={"flex"}
-         sx={{ flexDirection: { xs: "column", md: "row" } }}
+         sx={{ flexDirection: { xs: "row", md: "row" } }}
        >
          <Typography
            className=" gray mb-0"

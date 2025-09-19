@@ -64,11 +64,16 @@
    }
 }
 
-
+@include for-tab (){
+   .SearchFilterBar {
+          top: 50px;
+          width: 100%;
+   }
+}
 @include for-mobile-large-screen () {
    .SearchFilterBar {
       width: 100%;
-      top: 50px;
+      top: 44px;
       left: 0px;
       padding-top: 0;
       .Content {
@@ -89,9 +94,3 @@
    }
 }
 
-@include for-tab (){
-   .SearchFilterBar {
-          top: 45px;
-          width: 100%;
-   }
-}
