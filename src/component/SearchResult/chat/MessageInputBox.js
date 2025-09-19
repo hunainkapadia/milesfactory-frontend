@@ -203,6 +203,18 @@ const MessageInputBox = ({
             >
               <Box className={inputStyles.SearchBoxContainer}>
                 <Box className={inputStyles.SearchBoxIn}>
+                  {isChat && !isMobile && (
+                    <Box>
+                      <Box
+                        onClick={HandleNewThread}
+                        className={
+                          styles.newChatBtn + " newChatBtn lg cursor-pointer"
+                        }
+                      >
+                        <FontAwesomeIcon className="basecolor" icon={faPlus} />
+                      </Box>
+                    </Box>
+                  )}
                   {(!isMobile || (isMobile && !isSticky)) &&
                   !isMessageHome &&
                   !inputValue.trim() &&
@@ -245,7 +257,7 @@ const MessageInputBox = ({
                     <Box
                       sx={{
                         position: "absolute",
-                        left: { md: "35px", xs: "20px" },
+
                       }}
                       className={inputStyles.PlaceholderText}
                     >
@@ -321,21 +333,32 @@ const MessageInputBox = ({
                                     placement="bottom"
                                     title={
                                       <>
-                                      <Stack gap={1} p={1}>
-                                        <Typography variant="body2" className="bluelighter">
-                                          1. Share documents
-                                        </Typography>
-                                        <Typography variant="body2" className="bluelighter">
-                                          2. Change the privacy of your trip
-                                        </Typography>
-                                        <Typography variant="body2" className="bluelighter">
-                                          3. Record a message
-                                        </Typography>
-                                        <Typography variant="body2" className="bluelighter">
-                                          4. Start your trip now!
-                                        </Typography>
-
-                                      </Stack>
+                                        <Stack gap={1} p={1}>
+                                          <Typography
+                                            variant="body2"
+                                            className="bluelighter"
+                                          >
+                                            1. Share documents
+                                          </Typography>
+                                          <Typography
+                                            variant="body2"
+                                            className="bluelighter"
+                                          >
+                                            2. Change the privacy of your trip
+                                          </Typography>
+                                          <Typography
+                                            variant="body2"
+                                            className="bluelighter"
+                                          >
+                                            3. Record a message
+                                          </Typography>
+                                          <Typography
+                                            variant="body2"
+                                            className="bluelighter"
+                                          >
+                                            4. Start your trip now!
+                                          </Typography>
+                                        </Stack>
                                       </>
                                     }
                                     componentsProps={{
