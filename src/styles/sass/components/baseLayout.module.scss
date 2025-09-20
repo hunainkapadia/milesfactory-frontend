@@ -256,9 +256,11 @@
  @include for-mobile-large-screen () {
    .FooterForLight  {
       .footerClientLogos {
+         flex-wrap: wrap;
+         gap: 12px;
          .footerClientLogo {
-            height: 32px;
-            width: 64px;
+            // height: 32px;
+            // width: 64px;
          }
       }
    }

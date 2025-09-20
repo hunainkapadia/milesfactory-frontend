@@ -44,64 +44,84 @@ const Footer = ({
           <Container>
             {!partnerLogos ? (
               <>
-                <Box className={styles.footerClientLogos}
-                  display={"flex"}
-                  alignItems={"center"}
+                <Box
+                  className={styles.footerClientLogos}
+                  display="flex"
+                  alignItems="center"
                   sx={{
-                    justifyContent: { xs: "center", lg: "left", md: "left" },
-                    pb: { lg: 7, md: 7, xs: 3 },
-                    gap: { lg: 6, md: 6, xs: 2.3 },
+                    justifyContent: { xs: "center", md: "flex-start" },
+                    pb: { xs: 3, md: 7 },
+                    gap: { xs: 0, md: 6 },
                   }}
                 >
                   <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    flexDirection={"column"}
-                    
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    flexDirection="column"
                     className={styles.footerClientLogo + " imggroup"}
+                    sx={{
+                      width: { xs: "74px", md: "auto" },
+                      height: { xs: "36px", md: "auto" },
+                    }}
                   >
                     <img src="/images/trust-pilot-v2.svg" />
                   </Box>
+
                   <Box
-                    display={"flex"}
-                    alignItems={"flex-start"}
-                    justifyContent={"center"}
-                    flexDirection={"column"}
-                    
+                    display="flex"
+                    alignItems="flex-start"
+                    justifyContent="center"
+                    flexDirection="column"
                     className={styles.footerClientLogo + " imggroup"}
+                    sx={{
+                      width: { xs: "40px", md: "auto" },
+                      height: { xs: "36px", md: "auto" },
+                    }}
                   >
                     <img src="/images/google-review-v2.svg" />
                   </Box>
+
                   <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    flexDirection={"column"}
-                    
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    flexDirection="column"
                     className={styles.footerClientLogo + " imggroup"}
+                    sx={{
+                      width: { xs: "50px", md: "auto" },
+                      height: { xs: "36px", md: "auto" },
+                    }}
                   >
-                    <img src="/images/iat_logo.svg" />
+                    <img src="/images/iat-logo-v2.svg" />
                   </Box>
+
                   <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    flexDirection={"column"}
-                    
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    flexDirection="column"
                     className={styles.footerClientLogo + " imggroup"}
+                    sx={{
+                      width: { xs: "48px", md: "auto" },
+                      height: { xs: "36px", md: "auto" },
+                    }}
                   >
-                    <img src="/images/insead-logo.png" />
+                    <img src="/images/insead-icon-v2.svg" />
                   </Box>
+
                   <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    flexDirection={"column"}
-                    
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    flexDirection="column"
                     className={styles.footerClientLogo + " imggroup"}
+                    sx={{
+                      width: { xs: "65px", md: "auto" },
+                      height: { xs: "36px", md: "auto" },
+                    }}
                   >
-                    <img src="/images/aws-activate-logo.png" />
+                    <img src="/images/aws-active-cion-v2.svg" />
                   </Box>
                 </Box>
               </>
@@ -128,39 +148,29 @@ const Footer = ({
                 sx={{
                   justifyContent: { xs: "center", md: "space-between" },
                   flexWrap: { xs: "wrap", md: "" },
-                  columnGap: { lg: 4, md: 4, xs: 3 },
                   rowGap: { lg: 4, md: 4, xs: 2 },
+                  columnGap: { lg: "35px", md: "35px", xs: 3 },
                 }}
               >
-                <Box
-                  display={"flex"}
-                  sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
-                >
-                  <Box>
-                    <Link className="link" href={"/"}>
-                      © 2025 Milesfactory
-                    </Link>
-                  </Box>
-                  <Box>
-                    <Link className="link" href={"/terms-and-conditions"}>
-                      Terms & Conditions
-                    </Link>
-                  </Box>
+                <Box>
+                  <Link className="link" href={"/"}>
+                    © 2025 Milesfactory
+                  </Link>
                 </Box>
-                <Box
-                  display={"flex"}
-                  sx={{ columnGap: { lg: 4, md: 4, xs: 3 } }}
-                >
-                  <Box>
-                    <Link className="link" href={"/privacy"}>
-                      Privacy
-                    </Link>
-                  </Box>
-                  <Box>
-                    <Link className="link" href={"/sanctions-compliance"}>
-                      Sanctions Compliance
-                    </Link>
-                  </Box>
+                <Box>
+                  <Link className="link" href={"/terms-and-conditions"}>
+                    Terms & Conditions
+                  </Link>
+                </Box>
+                <Box>
+                  <Link className="link" href={"/privacy"}>
+                    Privacy
+                  </Link>
+                </Box>
+                <Box>
+                  <Link className="link" href={"/sanctions-compliance"}>
+                    Sanctions Compliance
+                  </Link>
                 </Box>
               </Box>
               <Box
@@ -333,9 +343,7 @@ const Footer = ({
                     display={"flex"}
                     textAlign={"center"}
                   >
-                    <Box
-                      sx={{ display: { xs: "", lg: "block", md: "block" } }}
-                    >
+                    <Box sx={{ display: { xs: "", lg: "block", md: "block" } }}>
                       <i className="fa-arrow-down fa fas"></i>{" "}
                     </Box>
                     <Typography
