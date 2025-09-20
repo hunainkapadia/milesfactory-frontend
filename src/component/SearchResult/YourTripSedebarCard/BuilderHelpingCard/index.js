@@ -87,7 +87,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
             <Typography className="f12">
               {forHotel ? "Rooms" : "Class"}
             </Typography>
-            <Typography whiteSpace={"nowrap"} className="f12 black bold">
+            <Typography whiteSpace={"nowrap"} className="f12 black bold capitalize">
               {forHotel
                 ? 1
                 : forOneway
