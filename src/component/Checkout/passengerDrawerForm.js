@@ -29,7 +29,7 @@ import dayjs from "dayjs";
 import PhoneInput from "react-phone-input-2";
 import ButtonLoading from "../LoadingArea/ButtonLoading";
 import { event } from "@/src/utils/utils";
-import { passengerCaptainHotel, PassengerFormHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
+import { getPassPofileHotel, passengerCaptainHotel, PassengerFormHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -96,13 +96,7 @@ const PassengerDrawerForm = () => {
     dispatch(NationalitData());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (searchType?.flight) {
-      dispatch(getPassPofile()); // pasenger profile call api
-    } else if (searchType?.hotel){
-      dispatch(getPassPofile()); // pasenger profile call api
-    }
-  }, []); //
+   //
   useEffect(() => {
     if (captainSuccess && formSuccess) {
       dispatch(setisPassengerDrawer(false));

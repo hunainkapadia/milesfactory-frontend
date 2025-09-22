@@ -6,9 +6,9 @@ import {
   setChatscroll,
   setIsBuilderDialog,
 } from "@/src/store/slices/Base/baseSlice";
-import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
+import { getPassPofile, PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
-import { PassengerSetup } from "@/src/store/slices/passengerDrawerHotelSlice";
+import { getPassPofileHotel, PassengerSetup } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
@@ -53,8 +53,10 @@ const SidebarFooter = () => {
     if (searchType?.flight) {
       dispatch(setIsBuilderDialog(false));
       dispatch(PassengerForm());
+      dispatch(getPassPofile());
     } else if (searchType?.hotel) {
       dispatch(PassengerSetup())
+      dispatch(getPassPofileHotel());
       
     } else {
       ""

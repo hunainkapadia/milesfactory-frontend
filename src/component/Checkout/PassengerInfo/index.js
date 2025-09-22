@@ -42,50 +42,54 @@ const PassengerInfo = ({ getdata }) => {
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
+  console.log("passengerPofile", passengerPofile);
+  
 const searchType = useSelector((state) => 
     state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
   // if passenger profile or not handle
-  const handlePassengerClick = (uuid, isFilled, type, age, passportNumber, passenger) => {
-    //ga_event
+  
+  const handlePassengerClick = async (
+    uuid,
+    isFilled,
+    type,
+    age,
+    passportNumber,
+    passenger
+  ) => {
+    // ga_event
     event({
-      action: 'click',
-      category: 'engagement',
-      label: 'Add Passenger Start',
+      action: "click",
+      category: "engagement",
+      label: "Add Passenger Start",
       value: passenger.type,
     });
-    console.log("passengerPofile", passengerPofile?.length);
-    
-    //for save profile
+
+    console.log("passengerPofile before fetch:", passengerPofile?.length);
+    //  Get updated passenger profile after API call
+
+    //  If saved profiles exist → open profile drawer
     if (passengerPofile?.length > 0) {
-      if (searchType?.flight) {
-        dispatch(getPassPofile());
-      } else if (searchType?.hotel) {
-        dispatch(getPassPofileHotel());
-      }
-      
-       // call passenger profile
       dispatch(setPassProfileDrawer(true));
-      dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
+      dispatch(setPassengerUUID(uuid));
       dispatch(setPassengerType(type));
       dispatch(setPassengerAge(age));
-      dispatch(setPassengerPassport(passportNumber))
-      dispatch(setSelectPassenger(passenger))
-      
-      //for non save profile normal
-    } else { 
-      dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
+      dispatch(setPassengerPassport(passportNumber));
+      dispatch(setSelectPassenger(passenger));
+    }
+    // If no saved profile → open new passenger drawer
+    else {
+      dispatch(setPassengerUUID(uuid));
       if (!isFilled) {
-        dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
         dispatch(setPassengerType(type));
         dispatch(setPassengerAge(age));
-        dispatch(setPassengerPassport(passportNumber))
-         // call PassengerForm thunk (calls APIs)
-        dispatch(setisPassengerDrawer(true)); // open drawer
-        dispatch(setSelectPassenger(passenger))
+        dispatch(setPassengerPassport(passportNumber));
+        dispatch(setisPassengerDrawer(true)); // open drawer for new passenger
+        dispatch(setSelectPassenger(passenger));
       }
     }
   };
+
 
   const handlePassengerAdd = () => {
     if (selectedPassenger) {

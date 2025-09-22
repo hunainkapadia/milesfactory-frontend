@@ -175,7 +175,7 @@ export const getPassPofileHotel = () => (dispatch, getState) => {
       dispatch(setPassProfile(profile_res.data));
     })
     .catch((error) => {
-      console.error(error);
+      console.error(error?.response?.data?.detail);
     });
 };
 
