@@ -21,8 +21,7 @@ const passengerDrawerSlice = createSlice({
     PassFormData: null,
     isLoading: false,
     filledPassengerUUIDs: [],
-    ClosePassengerDrawer: false,
-    OpenPassengerDrawer: false,
+    isPassengerDrawer: false,
     PassengerFormError: null,
     isFormLoading: false,
     PassengerType: null,
@@ -88,11 +87,8 @@ const passengerDrawerSlice = createSlice({
         state.filledPassengerUUIDs.push(action.payload);
       }
     },
-    setOpenPassengerDrawer: (state) => {
-      state.OpenPassengerDrawer = true;
-    },
-    setClosePassengerDrawer: (state) => {
-      state.OpenPassengerDrawer = false;
+    setisPassengerDrawer: (state, action) => {
+      state.isPassengerDrawer = action.payload;
     },
     bookFlight: (state, action) => {
       state.passengerDetails = action.payload;
@@ -149,23 +145,23 @@ export const NationalitData = () => (dispatch) => {
     .catch(() => {});
 };
 
-export const PassengerForm = () => (dispatch, getState) => {
-  
+export const PassengerForm = (offerId) => (dispatch, getState) => {
   const states = getState();
   const offerIdGet = states?.getMessages.topOfferUrl;
   const offerIdSend = states?.sendMessage?.TopOfferUrlSend;
-  const finalOfferId = offerIdSend || offerIdGet;
+  const allOfferId = offerIdSend || offerIdGet;
   const Passtype = getState();
   
+  const threadUuid = states?.sendMessage?.threadUuid;
+  
+  console.log("threadId_00", threadUuid);
   
 
-  if (!finalOfferId) return;
+  if (!allOfferId) return;
 
   const CartDetails = states?.booking?.getCartDetail?.items;
-  const flightId = CartDetails?.[0]?.offer_id;
-  console.log("flightId", flightId);
   
-  const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
+  const bookingSetupUrl = `/api/v1/setup/flight/${allOfferId}/order/thread/${threadUuid}`;
   dispatch(setisLoading(true))
   dispatch(
     setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } }) 
@@ -213,7 +209,7 @@ export const ViewPassengers = () => (dispatch, getState) => {
 };
 
 
-export const PassengerFormSubmit = (params) => async (dispatch, getState) => {  
+export const PassengerFormFlight = (params) => async (dispatch, getState) => {  
   dispatch(setIsFormLoading(true));
   
   const state = getState();
@@ -266,13 +262,13 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
         dispatch(ViewPassengers());
         dispatch(getPassPofile())
       }, 500);
-      dispatch(setClosePassengerDrawer());
+      dispatch(setisPassengerDrawer(false));
       
     })
     .catch((error) => {
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
-      dispatch(setOpenPassengerDrawer(true));
+      dispatch(setisPassengerDrawer(true));
       
     })
     .finally(() => {
@@ -281,8 +277,7 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
     });
 };
 
-export const passengerCaptain = (params) => (dispatch, getState) => {
-  
+export const passengerCaptain = (params) => (dispatch, getState) => {  
   
   const state = getState();
   const captainParams = state.passengerDrawer?.captainParams;
@@ -316,8 +311,6 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
 
 
 export const getPassPofile = () => (dispatch, getState) => {
-  
-  
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
@@ -339,8 +332,6 @@ export const PassengerProfileDrawer = ()=> ()=> {
 export const {
   setLoading,
   setError,
-  setOpenPassengerDrawer,
-  setClosePassengerDrawer,
   bookFlight,
   setCountries,
   setOfferId,
@@ -367,7 +358,8 @@ export const {
   setSelectPassenger,
   setIsPassengerflow,
   setisPassengerLoading,
-  setSeeDetailButton
+  setSeeDetailButton,
+  setisPassengerDrawer
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

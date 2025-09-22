@@ -8,11 +8,12 @@ import {
   getPassPofile,
   passengerCaptain,
   PassengerForm,
+  PassengerFormFlight,
   setAllPassengerFill,
   setCaptainSuccess,
   setFormSuccess,
   setisLoading,
-  setOpenPassengerDrawer,
+  setisPassengerDrawer,
   setPassengerAge,
   setPassengerPassport,
   setPassengerType,
@@ -25,6 +26,7 @@ import {
 import ExtraServices from "../ExtraServices";
 import { setpriceSummary } from "@/src/store/slices/PaymentSlice";
 import { event } from "@/src/utils/utils";
+import { getPassPofileHotel, passengerCaptainHotel, PassengerFormHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const PassengerInfo = ({ getdata }) => {
   const dispatch = useDispatch();
@@ -40,7 +42,9 @@ const PassengerInfo = ({ getdata }) => {
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-
+const searchType = useSelector((state) => 
+    state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
+  );
   // if passenger profile or not handle
   const handlePassengerClick = (uuid, isFilled, type, age, passportNumber, passenger) => {
     //ga_event
@@ -50,8 +54,17 @@ const PassengerInfo = ({ getdata }) => {
       label: 'Add Passenger Start',
       value: passenger.type,
     });
+    console.log("passengerPofile", passengerPofile?.length);
+    
+    //for save profile
     if (passengerPofile?.length > 0) {
-      dispatch(getPassPofile()); // call passenger profile
+      if (searchType?.flight) {
+        dispatch(getPassPofile());
+      } else if (searchType?.hotel) {
+        dispatch(getPassPofileHotel());
+      }
+      
+       // call passenger profile
       dispatch(setPassProfileDrawer(true));
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       dispatch(setPassengerType(type));
@@ -59,16 +72,16 @@ const PassengerInfo = ({ getdata }) => {
       dispatch(setPassengerPassport(passportNumber))
       dispatch(setSelectPassenger(passenger))
       
-    } else {
-      
+      //for non save profile normal
+    } else { 
       dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
       if (!isFilled) {
         dispatch(setPassengerUUID(uuid)); // set selected passenger UUID
         dispatch(setPassengerType(type));
         dispatch(setPassengerAge(age));
         dispatch(setPassengerPassport(passportNumber))
-        dispatch(PassengerForm()); // call PassengerForm thunk (calls APIs)
-        dispatch(setOpenPassengerDrawer()); // open drawer
+         // call PassengerForm thunk (calls APIs)
+        dispatch(setisPassengerDrawer(true)); // open drawer
         dispatch(setSelectPassenger(passenger))
       }
     }
@@ -79,7 +92,7 @@ const PassengerInfo = ({ getdata }) => {
       // Ensure a passenger is selected
       dispatch(PassengerForm()); //must need to knw redux export const PassengerForm
       dispatch(setPassengerUUID(selectedPassenger));
-      dispatch(setOpenPassengerDrawer());
+      dispatch(setisPassengerDrawer(true));
     } else {
     }
   };
@@ -101,32 +114,30 @@ const PassengerInfo = ({ getdata }) => {
     (state) => state?.booking?.addCart?.raw_data?.available_services
   );  
   console.log("IsServices2", IsServices);
-  
-  
-  
 
+  
   if (!IsServices?.length) {
     dispatch(setpriceSummary(true));
   }
   const istLoading = useSelector((state) => state?.passengerDrawer?.isLoading);
   
-
+  
+    
   // for captain
   useEffect(() => {
     if (filledPassengerUUIDs?.length === getdata?.length) {
-      dispatch(passengerCaptain()); /// for get  fill pasenger boolean
-      dispatch(setAllPassengerFill(true));
+      if (searchType?.flight) {
+        dispatch(passengerCaptain()); /// for get  fill pasenger boolean
+        dispatch(setAllPassengerFill(true));
+      } else if (searchType?.hotel) {
+        dispatch(passengerCaptainHotel()); /// for get  fill pasenger boolean
+        dispatch(setAllPassengerFill(true));
+      }
     } else {
       dispatch(setAllPassengerFill(false));
     }
   }, [filledPassengerUUIDs, getdata, dispatch]);
 
-  
-
-  
-  
-
-  
 
   return (
     <>

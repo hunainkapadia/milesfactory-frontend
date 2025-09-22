@@ -28,7 +28,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import {
   PassengerForm,
-  setOpenPassengerDrawer,
+  setisPassengerDrawer,
   setPassengerAge,
   setPassengerType,
   setPassengerUUID,
@@ -75,8 +75,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
-    dispatch(setOpenPassengerDrawer()); // open drawer
-
+    dispatch(setisPassengerDrawer(true)); // open drawer
     dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
   };
   const getFillPass = useSelector(
@@ -95,7 +94,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   
 
   const handleAddPassenger = () => {
-    dispatch(setOpenPassengerDrawer()); // open drawer
+    dispatch(setisPassengerDrawer()); // open drawer
     dispatch(ViewPassengers());
     dispatch(setPassengerUUID(passengerUuid));
     dispatch(PassengerForm());

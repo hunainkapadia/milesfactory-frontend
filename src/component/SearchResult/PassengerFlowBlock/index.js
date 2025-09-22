@@ -15,6 +15,8 @@ const PassengerFlowBlock = ({
   paymentSuccess,
 }) => {
   
+  console.log("ai_pass_res", aiMessage?.ai?.passengerFlowRes);
+  
   // Passenger info
   return (
     <>

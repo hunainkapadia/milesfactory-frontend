@@ -114,6 +114,9 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.payment?.OrderConfirm?.order?.selected_offer
   ); //from order api
 
+  console.log("orderDetail", orderDetail);
+  
+
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );

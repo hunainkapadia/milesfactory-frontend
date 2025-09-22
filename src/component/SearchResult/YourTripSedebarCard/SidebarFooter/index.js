@@ -8,6 +8,7 @@ import {
 } from "@/src/store/slices/Base/baseSlice";
 import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
+import { PassengerSetup } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
@@ -17,12 +18,10 @@ const SidebarFooter = () => {
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
-  const searchType = useSelector((state) => state?.sendMessage?.SearchHistorySend);
-  const functionTypeGet = useSelector((state) => state?.getMessages?.SearchHistory);
-  console.log("functionTypeGet", functionTypeGet);
-  
-
-  console.log("functionType", searchType);
+  const searchType = useSelector(
+    (state) =>
+      state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
+  );
 
   // Get all flights from cart items
   const CartFlights =
@@ -47,10 +46,20 @@ const SidebarFooter = () => {
   }
 
   const dispatch = useDispatch();
-  const handleBookFlight = () => {
-    dispatch(setIsBuilderDialog(false));
+  const handleBookFlight = (getCart) => {
+    // const offerId = getCart;
+    console.log("getCart_00", getCart);
     dispatch(setChatscroll(true));
-    dispatch(PassengerForm());
+    if (searchType?.flight) {
+      dispatch(setIsBuilderDialog(false));
+      dispatch(PassengerForm());
+    } else if (searchType?.hotel) {
+      dispatch(PassengerSetup())
+      
+    } else {
+      ""
+    }
+    
   };
   console.log("CartData_total_price", CartData?.total_price);
   
@@ -86,7 +95,7 @@ const SidebarFooter = () => {
             </Box>
             {CartData?.items?.length > 0 && (
               <Button
-                onClick={handleBookFlight}
+                onClick={()=>handleBookFlight(CartData)}
                 className={`btn btn-primary btn-round btn-xs ${
                   orderSuccess || !CartData ? " disabled " : ""
                 }`}

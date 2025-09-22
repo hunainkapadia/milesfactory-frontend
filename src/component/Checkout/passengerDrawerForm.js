@@ -20,15 +20,16 @@ import {
   getPassPofile,
   NationalitData,
   passengerCaptain,
-  PassengerFormSubmit,
+  PassengerFormFlight,
   setCaptainParams,
-  setClosePassengerDrawer,
+  setisPassengerDrawer,
   setPassengerFormError,
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
 import PhoneInput from "react-phone-input-2";
 import ButtonLoading from "../LoadingArea/ButtonLoading";
 import { event } from "@/src/utils/utils";
+import { passengerCaptainHotel, PassengerFormHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -67,9 +68,11 @@ const PassengerDrawerForm = () => {
   const isFormLoading = useSelector(
     (state) => state.passengerDrawer.isFormLoading
   );
-  const isPassengerDrawerOpen = useSelector(
-    (state) => state.passengerDrawer.OpenPassengerDrawer
+  const isPassengerDrawer = useSelector(
+    (state) => state.passengerDrawer.isPassengerDrawer
   );
+  console.log("isPassengerDrawer", isPassengerDrawer);
+  
   const captainSuccess = useSelector(
     (state) => state.passengerDrawer.captainSuccess
   );
@@ -94,18 +97,22 @@ const PassengerDrawerForm = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getPassPofile()); // pasenger profile call api
+    if (searchType?.flight) {
+      dispatch(getPassPofile()); // pasenger profile call api
+    } else if (searchType?.hotel){
+      dispatch(getPassPofile()); // pasenger profile call api
+    }
   }, []); //
   useEffect(() => {
     if (captainSuccess && formSuccess) {
-      dispatch(setClosePassengerDrawer());
+      dispatch(setisPassengerDrawer(false));
     }
   }, [captainSuccess, formSuccess, dispatch]);
 
   // Load form data or reset on drawer open
 
   useEffect(() => {
-    if (isPassengerDrawerOpen) {
+    if (isPassengerDrawer) {
       setTimeout(() => {
         if (passengerPofile?.length && PassengersUuID) {
           const passengerData = passengerPofile.find(
@@ -146,7 +153,7 @@ const PassengerDrawerForm = () => {
       setRegion("");
     }
   }, [
-    isPassengerDrawerOpen,
+    isPassengerDrawer,
     GetViewPassengers,
     PassengersUuID,
     countries,
@@ -154,7 +161,7 @@ const PassengerDrawerForm = () => {
   ]);
 
   const handleCloseDrawer = () => {
-    dispatch(setClosePassengerDrawer());
+    dispatch(setisPassengerDrawer(false));
   };
 
   // Define ranges
@@ -193,7 +200,10 @@ const PassengerDrawerForm = () => {
     // maxDate = today.subtract(18, "year");
   }
   // ...previous imports remain the same
-
+  const searchType = useSelector((state) => 
+    state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
+  );
+  console.log("searchType", searchType?.flight);
   const SubmitPassenger = () => {
     const errors = {};
 
@@ -291,15 +301,23 @@ const PassengerDrawerForm = () => {
       label: 'Passenger Form Submit',
     });
 
-    dispatch(PassengerFormSubmit(params));
-
     const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
     if (isFirstPassenger) {
       dispatch(setCaptainParams(params));
     }
 
-    dispatch(passengerCaptain(params));
-    dispatch(getPassPofile());
+    if (searchType?.flight) {
+      dispatch(getPassPofile());
+      dispatch(PassengerFormFlight(params));
+      dispatch(passengerCaptain(params));
+      
+    } else if (searchType?.hotel) {
+      dispatch(PassengerFormHotel(params));
+      dispatch(passengerCaptainHotel(params));
+    } else {
+      // for both 
+      ""
+    }
   };
 
   const passportError = formError?.non_field_errors?.find(
@@ -321,7 +339,7 @@ const PassengerDrawerForm = () => {
   return (
     <Drawer
       anchor="right"
-      open={isPassengerDrawerOpen}
+      open={isPassengerDrawer}
       onClose={handleCloseDrawer}
       className={`${styles.checkoutDrower} checkoutDrower00`}
       transitionDuration={300}
@@ -332,6 +350,7 @@ const PassengerDrawerForm = () => {
           SubmitPassenger();
         }}
       >
+      
         <Box
           className={styles.checkoutDrowerSection + " aa white-bg"}
           width={463}

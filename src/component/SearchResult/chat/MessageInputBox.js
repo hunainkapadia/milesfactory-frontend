@@ -205,14 +205,14 @@ const MessageInputBox = ({
                 <Box className={inputStyles.SearchBoxIn}>
                   {isChat && !isMobile && (
                     <Box>
-                      <Box
-                        onClick={HandleNewThread}
-                        className={
-                          styles.newChatBtn + " newChatBtn lg cursor-pointer"
-                        }
-                      >
-                        <FontAwesomeIcon className="basecolor" icon={faPlus} />
-                      </Box>
+                      <Tooltip title="Coming soon - share documents" arrow placement="top">
+  <Box
+    onClick={HandleNewThread}
+    className={styles.newChatBtn + " newChatBtn lg cursor-pointer"}
+  >
+    <FontAwesomeIcon className="basecolor" icon={faPlus} />
+  </Box>
+</Tooltip>
                     </Box>
                   )}
                   {(!isMobile || (isMobile && !isSticky)) &&
@@ -257,7 +257,6 @@ const MessageInputBox = ({
                     <Box
                       sx={{
                         position: "absolute",
-
                       }}
                       className={inputStyles.PlaceholderText}
                     >
@@ -414,6 +413,7 @@ const MessageInputBox = ({
                             className={inputStyles.BoxButtons}
                             flexDirection={"row"}
                           >
+                          
                             <IconButton
                               className={`${inputStyles.MicButton} ${
                                 isMicActive
@@ -426,36 +426,42 @@ const MessageInputBox = ({
                               {isMicActive ? (
                                 <i className="fa fa-check"></i>
                               ) : (
-                                <Box className="imggroup">
-                                  {isSticky ? (
-                                    <img
-                                      src="/images/mic-border-icon-v2.svg"
-                                      style={{
-                                        width: "12px",
-                                        maxWidth: "12px",
-                                      }}
-                                      alt="Mic"
-                                    />
-                                  ) : isChat ? (
-                                    <img
-                                      src="/images/search-mic-icon2.svg"
-                                      style={{
-                                        width: "12px",
-                                        maxWidth: "12px",
-                                      }}
-                                      alt="Mic"
-                                    />
-                                  ) : (
-                                    <img
-                                      src="/images/mic-border-icon.svg"
-                                      style={{
-                                        width: "12px",
-                                        maxWidth: "12px",
-                                      }}
-                                      alt="Mic"
-                                    />
-                                  )}
-                                </Box>
+                                <>
+                                <Tooltip placement="top" title="Record a message"  arrow>
+
+                                  <Box className="imggroup">
+                                    {isSticky ? (
+                                      <img
+                                        src="/images/mic-border-icon-v2.svg"
+                                        style={{
+                                          width: "12px",
+                                          maxWidth: "12px",
+                                        }}
+                                        alt="Mic"
+                                      />
+                                    ) : isChat ? (
+                                      <img
+                                        src="/images/search-mic-icon2.svg"
+                                        style={{
+                                          width: "12px",
+                                          maxWidth: "12px",
+                                        }}
+                                        alt="Mic"
+                                      />
+                                    ) : (
+                                      <img
+                                        src="/images/mic-border-icon.svg"
+                                        style={{
+                                          width: "12px",
+                                          maxWidth: "12px",
+                                        }}
+                                        alt="Mic"
+                                      />
+                                    )}
+                                  </Box>
+                                  
+                                </Tooltip>
+                                </>
                               )}
                             </IconButton>
 

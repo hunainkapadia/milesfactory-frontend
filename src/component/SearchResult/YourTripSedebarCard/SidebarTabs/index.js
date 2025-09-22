@@ -35,10 +35,7 @@ const SidebarTabs = () => {
   );
   const slices = getselectedFlight?.slices || [];
   const cartItems = useSelector((state) => state?.booking?.cartOffer?.items);
-  const isHotel = cartItems?.some((item) => item.offer_type === "hotel");
-
-  console.log("isHotel_cart", isHotel);
-  
+  const isHotel = cartItems?.some((item) => item.offer_type === "hotel");  
 
   return (
     <Box
