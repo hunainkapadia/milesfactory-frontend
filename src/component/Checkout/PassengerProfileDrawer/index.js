@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -27,6 +27,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import {
+  getPassPofile,
   PassengerForm,
   setisPassengerDrawer,
   setPassengerAge,
@@ -37,28 +38,32 @@ import {
   ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
-import {PassengerSetupHotel, ViewPassengersHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
+import {
+  getPassPofileHotel,
+  PassengerSetupHotel,
+  ViewPassengersHotel,
+} from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const isPassengerProfileDrawer = useSelector(
     (state) => state.passengerDrawer.passProfileDrawer
   );
 
-  
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-  
-  
-  
+
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
-  const searchType = useSelector((state) => 
-      state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
-    );
 
-  
+  const searchType = useSelector(
+    (state) =>
+      state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
+  );
+  const getPassFormData = useSelector(
+    (state) => state?.passengerDrawer?.PassFormData
+  );
 
   const dispatch = useDispatch();
   const handleCloseDrawer = () => {
@@ -67,8 +72,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const FilledPassFormData = useSelector(
     (state) => state?.passengerDrawer?.PassFormData
   );
-  
-  
+
   // get filled pasenger form data from submit from to redux
 
   const handleCardClick = (passenger) => {
@@ -77,7 +81,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     const birthDate = dayjs(passenger.born_on);
     const now = dayjs();
     const age = now.diff(birthDate, "year");
-    
+
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
     dispatch(setisPassengerDrawer(true)); // open drawer
@@ -88,15 +92,16 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   );
   const getFillPass2 = useSelector((state) => state.passengerDrawer);
 
-  
-
   // add passenger [start]
 
   const passengerUuid = useSelector(
     (state) => state.passengerDrawer?.PassengerUUID
   );
-
-  
+  useEffect (()=> {
+    if (passengerPofile === FilledPassFormData) {
+      
+    }
+  })
 
   const handleAddPassenger = () => {
     dispatch(setSelectedProfilePass(null));
@@ -107,15 +112,45 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     } else if (searchType?.hotel) {
       dispatch(ViewPassengersHotel());
       dispatch(PassengerSetupHotel());
-      
     }
   };
 
+  const selectPassenger = useSelector(
+    (state) => state?.passengerDrawer?.SelectPassenger
+  );
 
-    const selectPassenger = useSelector(
-      (state) => state?.passengerDrawer?.SelectPassenger
+
+  // polling profile update i
+
+  const [stopPolling, setStopPolling] = useState(false);
+
+  useEffect(() => {
+    if (!FilledPassFormData || stopPolling) return;
+
+    const interval = setInterval(() => {
+      console.log("Polling...");
+      if (searchType?.flight) {
+        dispatch(getPassPofile());
+      } else if (searchType?.hotel) {
+        dispatch(getPassPofileHotel());
+      }
+     
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [dispatch, FilledPassFormData, stopPolling]);
+
+  useEffect(() => {
+    if (!FilledPassFormData || !passengerPofile) return;
+
+    const isMatch = passengerPofile.some(
+      (p) => p.family_name === FilledPassFormData.family_name
     );
-    
+
+    if (isMatch) {
+      setStopPolling(true); // stop further polling
+    }
+  }, [passengerPofile, FilledPassFormData]);
 
   return (
     <Drawer
@@ -169,8 +204,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                       </>
                     ) : selectPassenger?.type === "child" ? (
                       <>
-                        Child {" "}
-                        {selectPassenger?.age}{" "}
+                        Child {selectPassenger?.age}{" "}
                         {selectPassenger?.age > 1 ? "years" : "year"}
                       </>
                     ) : (
@@ -183,7 +217,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             <Divider />
           </Box>
           {/*  */}
-          <Box className={styles.checkoutDrowerBody} component={"section"} pb={10}>
+          <Box
+            className={styles.checkoutDrowerBody}
+            component={"section"}
+            pb={10}
+          >
             {/* passport */}
             {/* if passport_number  equal and show selected profile */}
 
@@ -199,48 +237,52 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 }
                 return passenger?.type === selectedType;
               }) */}
-              
+
             {passengerPofile?.map((passenger, index) => {
-                const isPassFilled =
-                  passenger?.passport_number ===
-                  FilledPassFormData?.passport_number;
+              const isPassFilled =
+                passenger?.passport_number ===
+                FilledPassFormData?.passport_number;
 
-                  {/* if age is not uqual disable */}
-                  
-                  // Calculate age from born_on date
-                  const birthDate = dayjs(passenger?.born_on);
-                  const today = dayjs();
-                  const profilePassengerAge = today.diff(birthDate, "year");
+              {
+                /* if age is not uqual disable */
+              }
 
-                  // Log for debugging
-                  
-                  
+              // Calculate age from born_on date
+              const birthDate = dayjs(passenger?.born_on);
+              const today = dayjs();
+              const profilePassengerAge = today.diff(birthDate, "year");
 
-                  let ispassDisabled = false;
+              // Log for debugging
 
-                  if (selectPassenger?.type === "adult") {
-                    // Disable if passenger is not adult
-                    ispassDisabled = passenger?.type !== "adult";
-                  } else {
-                    // For child or infant, disable if age or type doesn't match
-                    ispassDisabled =
-                      profilePassengerAge !== selectPassenger?.age ||
-                      passenger?.type !== selectPassenger?.type;
-                  }
+              let ispassDisabled = false;
 
-                  return (
-                    <PassengerProfilecard
-                      key={passenger?.uuid || index}
-                      getdata={passenger}
-                      onClickCard={() => handleCardClick(passenger)}
-                      passFilled={isPassFilled}
-                      passDisabled={ispassDisabled}
-                    />
-                  );
-              })}
+              if (selectPassenger?.type === "adult") {
+                // Disable if passenger is not adult
+                ispassDisabled = passenger?.type !== "adult";
+              } else {
+                // For child or infant, disable if age or type doesn't match
+                ispassDisabled =
+                  profilePassengerAge !== selectPassenger?.age ||
+                  passenger?.type !== selectPassenger?.type;
+              }
+
+              return (
+                <PassengerProfilecard
+                  key={passenger?.uuid || index}
+                  getdata={passenger}
+                  onClickCard={() => handleCardClick(passenger)}
+                  passFilled={isPassFilled}
+                  passDisabled={ispassDisabled}
+                />
+              );
+            })}
 
             {/*  */}
-            <Box sx={{ px: { md: 3, xs: 2 } }}  pb={2} onClick={handleAddPassenger}>
+            <Box
+              sx={{ px: { md: 3, xs: 2 } }}
+              pb={2}
+              onClick={handleAddPassenger}
+            >
               <Box
                 display={"flex"}
                 justifyContent={"center"}

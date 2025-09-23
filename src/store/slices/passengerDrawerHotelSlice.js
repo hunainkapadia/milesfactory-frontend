@@ -120,7 +120,7 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
       setTimeout(() => {
         dispatch(ViewPassengersHotel());
         dispatch(getPassPofileHotel());
-      }, 500);
+      }, 1000);
       
       dispatch(setisPassengerDrawer(false));
     })

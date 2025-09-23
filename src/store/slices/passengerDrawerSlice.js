@@ -262,7 +262,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       setTimeout(() => {
         dispatch(ViewPassengers());
         dispatch(getPassPofile())
-      }, 5000);
+      }, 1000);
       dispatch(setisPassengerDrawer(false));
       
     })
