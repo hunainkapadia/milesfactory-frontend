@@ -94,7 +94,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   
 
   const handleAddPassenger = () => {
-    dispatch(setisPassengerDrawer()); // open drawer
+    dispatch(setisPassengerDrawer(true)); // open drawer
     dispatch(ViewPassengers());
     dispatch(setPassengerUUID(passengerUuid));
     dispatch(PassengerForm());

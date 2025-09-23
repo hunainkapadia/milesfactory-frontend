@@ -105,9 +105,11 @@ const PassengerDrawerForm = () => {
 
   // Load form data or reset on drawer open
 
+  
   useEffect(() => {
     if (isPassengerDrawer) {
       setTimeout(() => {
+        console.log("passengerPofile", selectedpassengerPofile);
         if (passengerPofile?.length && PassengersUuID) {
           const passengerData = passengerPofile.find(
             (getProfilepassenger) =>
