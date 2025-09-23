@@ -8,7 +8,7 @@ import {
 } from "@/src/store/slices/Base/baseSlice";
 import { getPassPofile, PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
-import { getPassPofileHotel, PassengerSetup } from "@/src/store/slices/passengerDrawerHotelSlice";
+import { getPassPofileHotel, PassengerSetupHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
@@ -55,7 +55,7 @@ const SidebarFooter = () => {
       dispatch(PassengerForm());
       dispatch(getPassPofile());
     } else if (searchType?.hotel) {
-      dispatch(PassengerSetup())
+      dispatch(PassengerSetupHotel())
       dispatch(getPassPofileHotel());
       
     } else {

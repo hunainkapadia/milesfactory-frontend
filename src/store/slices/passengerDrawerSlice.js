@@ -314,6 +314,8 @@ export const getPassPofile = () => (dispatch, getState) => {
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
+      console.log("profile_res", profile_res);
+      
       dispatch(ViewPassengers());
       dispatch(setPassProfile(profile_res.data))
     })

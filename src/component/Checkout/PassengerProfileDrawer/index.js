@@ -37,6 +37,7 @@ import {
   ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
+import {PassengerSetupHotel, ViewPassengersHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const isPassengerProfileDrawer = useSelector(
@@ -47,11 +48,17 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
+
+  console.log("passengerPofile", passengerPofile);
+  
   
   
   const selectedType = useSelector(
     (state) => state.passengerDrawer?.PassengerType
   );
+  const searchType = useSelector((state) => 
+      state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
+    );
 
   
 
@@ -94,10 +101,16 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   
 
   const handleAddPassenger = () => {
+    dispatch(setSelectedProfilePass(null));
     dispatch(setisPassengerDrawer(true)); // open drawer
-    dispatch(ViewPassengers());
-    dispatch(setPassengerUUID(passengerUuid));
-    dispatch(PassengerForm());
+    if (searchType?.flight) {
+      dispatch(ViewPassengers());
+      dispatch(PassengerForm());
+    } else if (searchType?.hotel) {
+      dispatch(ViewPassengersHotel());
+      dispatch(PassengerSetupHotel());
+      
+    }
   };
 
 

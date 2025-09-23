@@ -156,6 +156,7 @@ const searchType = useSelector((state) =>
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
+            console.log("isFilled", isFilled)
 
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>

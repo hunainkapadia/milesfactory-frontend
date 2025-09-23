@@ -26,7 +26,7 @@ const passengerDrawerSlice = createSlice({
   },
 });
 
-export const PassengerSetup = () => (dispatch, getState) => {
+export const PassengerSetupHotel = () => (dispatch, getState) => {
   const states = getState();
   const threadUuid = states?.sendMessage?.threadUuid;
 

@@ -106,10 +106,11 @@ const PassengerDrawerForm = () => {
   // Load form data or reset on drawer open
 
   
+  console.log("PassengersUuID", PassengersUuID);
+  
   useEffect(() => {
     if (isPassengerDrawer) {
       setTimeout(() => {
-        console.log("passengerPofile", selectedpassengerPofile);
         if (passengerPofile?.length && PassengersUuID) {
           const passengerData = passengerPofile.find(
             (getProfilepassenger) =>
@@ -199,7 +200,6 @@ const PassengerDrawerForm = () => {
   const searchType = useSelector((state) => 
     state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
-  console.log("searchType", searchType?.flight);
   const SubmitPassenger = () => {
     const errors = {};
 
