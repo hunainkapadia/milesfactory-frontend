@@ -23,11 +23,7 @@ const HotelDrawer = ({}) => {
     dispatch(setHotelDrawer(false)); //setSelectFlightKey empty then close drawer
   };
   const isDrawer = useSelector((state) => state.booking.hotelDrawer);
-  const hotel = useSelector((state) => state?.hotel?.singlehotel);
-
-  console.log("singlehotel", hotel);
-  
-  
+  const hotel = useSelector((state) => state?.hotel?.singlehotel);  
 
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
   const stars = hotel?.categoryName ? parseInt(hotel.categoryName) : 0;
@@ -38,7 +34,6 @@ const HotelDrawer = ({}) => {
   // Extract dates from rateKey if available
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
 
-  console.log("hotel", hotel);
   const images = [
     "/images/hotel-bedroom.jpg",
     "/images/hotel-bedroom.jpg",
@@ -47,8 +42,6 @@ const HotelDrawer = ({}) => {
     "/images/hotel-bedroom.jpg",
     "/images/hotel-bedroom.jpg",
   ];
-
-  console.log("hotel_name", `${HOTEL_IMAGE_BASE_URL}${hotel?.content?.images[0]?.path}`);
 
   return (
     <Drawer

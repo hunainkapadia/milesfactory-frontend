@@ -22,9 +22,6 @@ const SearchFilterBar = () => {
     (state) => state.sendMessage?.SearchHistorySend
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
-
-  console.log("SearchHistory_000", SearchHistory);
-
   const dispatch = useDispatch();
   //   for selct flight detail
 

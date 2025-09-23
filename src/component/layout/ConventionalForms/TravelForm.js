@@ -30,7 +30,6 @@ const TravelForm = () => {
   const [tripType, setTripType] = useState("oneway"); // oneway | roundtrip
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
-  console.log("destination_00", destination);
   const [originOption, setOriginOption] = useState(null); // store selected option object
   const [destinationOption, setDestinationOption] = useState(null); // store selected option object
   const [singleDate, setSingleDate] = useState(dayjs().add(1, "day").toDate()); // for oneway
@@ -103,7 +102,6 @@ const TravelForm = () => {
       tripClass,
     };
 
-    console.log("searchData:", searchData);
     dispatch(submitTravelForm(searchData));
 
     setTimeout(() => setIsLoading(false), 1000);

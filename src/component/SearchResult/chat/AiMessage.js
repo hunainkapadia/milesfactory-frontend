@@ -113,8 +113,6 @@ const AiMessage = ({ aiMessage }) => {
   const orderDetail = useSelector(
     (state) => state?.payment?.OrderConfirm?.order?.selected_offer
   ); //from order api
-
-  console.log("orderDetail", orderDetail);
   
 
   const isFunction = useSelector(
@@ -136,8 +134,6 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.isPassengerLoading
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
-
-  console.log("aiMessage_ai_0", aiMessage?.ai === "isNotFound");
   
   return (
     <Box

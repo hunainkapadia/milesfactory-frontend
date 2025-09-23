@@ -71,7 +71,6 @@ const PassengerDrawerForm = () => {
   const isPassengerDrawer = useSelector(
     (state) => state.passengerDrawer.isPassengerDrawer
   );
-  console.log("isPassengerDrawer", isPassengerDrawer);
   
   const captainSuccess = useSelector(
     (state) => state.passengerDrawer.captainSuccess
@@ -104,9 +103,6 @@ const PassengerDrawerForm = () => {
   }, [captainSuccess, formSuccess, dispatch]);
 
   // Load form data or reset on drawer open
-
-  
-  console.log("PassengersUuID", PassengersUuID);
   
   useEffect(() => {
     if (isPassengerDrawer) {

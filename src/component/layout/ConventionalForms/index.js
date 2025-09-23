@@ -27,7 +27,6 @@ const ConventionalForms = () => {
   const [roomType, setRoomType] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
-  console.log("inputLoading", inputLoading);
 
   const handleSearch = () => {
     console.log("Travel search:", {

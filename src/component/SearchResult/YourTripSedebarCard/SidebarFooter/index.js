@@ -48,7 +48,6 @@ const SidebarFooter = () => {
   const dispatch = useDispatch();
   const handleBookFlight = (getCart) => {
     // const offerId = getCart;
-    console.log("getCart_00", getCart);
     dispatch(setChatscroll(true));
     if (searchType?.flight) {
       dispatch(setIsBuilderDialog(false));

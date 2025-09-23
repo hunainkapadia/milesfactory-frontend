@@ -27,8 +27,6 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
     // For displaying in footer, just take the first matching item
     const CartFlight = CartFlights[0];
     const CartHotel = CartHotels[0];
-    console.log("CartDetails_00", CartData?.total_price);
-    console.log("CartHotel2222", CartHotel);
     
   // Hotel pricing if the cart contains hotel
   const allHotel = useSelector((state) => state?.hotel?.allHotels);

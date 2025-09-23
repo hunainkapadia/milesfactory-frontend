@@ -32,7 +32,6 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
 
   const bookingSetupUrl = `/api/v1/setup/hotel/order/thread/${threadUuid}`;
   dispatch(setisLoading(true));
-  console.log("threadId_00", threadUuid);
   dispatch(
     setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } })
     // loading and status set in chat for pasenger flow
@@ -42,7 +41,6 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
     .post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
-      console.log("hotel_pass", response);
       dispatch(setOrderUuid(OrderUUId));
       // dispatch(setIsPassengerflow(true))
       dispatch(
@@ -75,7 +73,6 @@ export const ViewPassengersHotel = () => (dispatch, getState) => {
   dispatch(setLoading(true));
 
   api.get(viewPassengerUrl).then((response) => {
-    console.log("pass_response", response); // ✅ now valid
     dispatch(setViewPassengers(response?.data || []));
     dispatch(setisLoading(false));
   });
@@ -96,19 +93,15 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
-  console.log("passengerUuid", passengerUuid);
   
-
   const SubmitUrl = `/api/v1/hotel/order/${orderUuid}/guest/${passengerUuid}`;
   
   
-  console.log("SubmitUrl_hotel", SubmitUrl);
   api
   .post(SubmitUrl, params)
   .then((formResponse) => {
      const formData = formResponse.data;
      dispatch(setPassFormData(formData));
-     console.log("formResponse_hotel", formResponse);
       dispatch(markPassengerAsFilled(passengerUuid));
 
       const state = getState();

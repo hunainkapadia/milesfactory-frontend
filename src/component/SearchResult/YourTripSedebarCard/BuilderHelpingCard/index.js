@@ -2,7 +2,6 @@ import { Box, Chip, Stack, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 
 const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
-  console.log("forHotel_0", getBuilder);
 
   return (
     <>

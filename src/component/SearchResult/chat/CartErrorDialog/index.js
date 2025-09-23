@@ -42,7 +42,6 @@ const CartErrorDialog = () => {
   };
 
   const allOfferSendUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
-  console.log("allOfferUrl222", allOfferSendUrl);
 
   const handleYes = () => {
     dispatch(setIsUpdateOffer(true)); // refresh start

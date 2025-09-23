@@ -34,11 +34,10 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
 
   const offerkey = useSelector((state) => state?.booking?.offerkeyforDetail);
-  // ✅ Move here (component scope)
+  //  Move here (component scope)
   const isCartItem = useSelector(
     (state) => state.booking?.getCartDetail?.items
   );
-  console.log("isCartItem", isCartItem);
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const handleBookFlight = () => {

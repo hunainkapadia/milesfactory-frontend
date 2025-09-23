@@ -66,8 +66,7 @@ export const fetchDestinationAirports = (term) => async (dispatch) => {
 // Submit Travel Form
 
 export const submitTravelForm = (formData) => (dispatch) => {
-  console.log("formData_00", formData);
-
+  
   const {
     tripType,
     origin,
@@ -100,7 +99,6 @@ export const submitTravelForm = (formData) => (dispatch) => {
 };
 
 export const submitHotelForm = (formData) => (dispatch) => {
-  console.log("hotelFormData:", formData);
 
   const { location, checkIn, checkOut, travellers, roomType, priceRange } =
     formData;
@@ -123,9 +121,7 @@ export const submitHotelForm = (formData) => (dispatch) => {
   }`;
 
 
-  // Save message to redux
-  console.log('hotel_message', message);
-  
+  // Save message to redux  
   
   // Send to chat system
   dispatch(sendMessage(message))

@@ -56,9 +56,7 @@ const Messages = () => {
   
   
   //  Combine stored messages (live chat) with fetched messages (history)
-  const messages = [...getmessages, ...sendMessages];
-  console.log("messages_000", messages);
-  
+  const messages = [...getmessages, ...sendMessages];  
 
   // for bookingdrawer selector
   const flightDetail = useSelector((state) => state.booking.flightDetail);
@@ -100,7 +98,6 @@ const Messages = () => {
             }`}
           >
             <Box className={searchResultStyles.messageContentIn}>
-            {console.log("aiMessage_ai_11", messages)}
               {messages.map((msg, index) => (
                 <Box key={index}>
                   {msg?.user && <UserMessage userMessage={msg.user} />}

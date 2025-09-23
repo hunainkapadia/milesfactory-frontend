@@ -48,8 +48,6 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-
-  console.log("passengerPofile", passengerPofile);
   
   
   

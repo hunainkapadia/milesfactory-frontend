@@ -152,10 +152,7 @@ export const PassengerForm = (offerId) => (dispatch, getState) => {
   const allOfferId = offerIdSend || offerIdGet;
   const Passtype = getState();
   
-  const threadUuid = states?.sendMessage?.threadUuid;
-  
-  console.log("threadId_00", threadUuid);
-  
+  const threadUuid = states?.sendMessage?.threadUuid;  
 
   if (!allOfferId) return;
 
@@ -171,6 +168,7 @@ export const PassengerForm = (offerId) => (dispatch, getState) => {
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
       dispatch(setOrderUuid(OrderUUId));
+      
       // dispatch(setIsPassengerflow(true))
       dispatch(
         setMessage({ ai: { passengerFlowRes: { status: true, isloading: false } } })
@@ -244,6 +242,9 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       dispatch(setPassFormData(formData));
       dispatch(markPassengerAsFilled(passengerUuid));
 
+      console.log("pass_profiel_formData", formData);
+      
+
       
       const state = getState();
       const allPassengers = state.passengerDrawer?.ViewPassengers || [];
@@ -261,7 +262,8 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       setTimeout(() => {
         dispatch(ViewPassengers());
         dispatch(getPassPofile())
-      }, 500);
+        alert("success")
+      }, 5000);
       dispatch(setisPassengerDrawer(false));
       
     })

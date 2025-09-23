@@ -27,7 +27,6 @@ import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
 
 const HotelCard = ({ hotel, allHotels }) => {
   const imageBaseUrl = "https://photos.hotelbeds.com/giata/";
-  console.log("hotel_get11", `${imageBaseUrl}${hotel?.content?.images[0].path}`);
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const selectedFlightKey = useSelector(
@@ -36,7 +35,6 @@ const HotelCard = ({ hotel, allHotels }) => {
   const selectedhotelkey = useSelector(
     (state) => state.hotel?.selectedhotelKey
   );
-  console.log("selectedhotelkey", selectedhotelkey);
 
   const isCartItems = useSelector(
     (state) => state?.booking?.getCartDetail?.items
@@ -49,7 +47,6 @@ const HotelCard = ({ hotel, allHotels }) => {
     dispatch(setAllHotels(allHotels));
 
     dispatch(setSelectedhotelKey(rateKey));
-    console.log("gethotel_cart", rateKey);
     const price = hotel?.minRate;
 
     const params = {
@@ -69,9 +66,6 @@ const HotelCard = ({ hotel, allHotels }) => {
   // Extract first rate for board/offer/price
   const firstRate = hotel?.rooms?.[0]?.rates?.[0];
 
-  console.log("firstRate", firstRate);
-
-
   // Extract dates from rateKey if available
 
   const handleHotelDrawer = (gethotel) => {
@@ -86,9 +80,6 @@ const HotelCard = ({ hotel, allHotels }) => {
     hotel,
     allHotels
   );
-
-  console.log("allHotels", allHotels);
-
 
   return (
     <Box className={`${searchResultStyles.HotelCard}`}>

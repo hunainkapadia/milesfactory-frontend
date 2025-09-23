@@ -117,7 +117,6 @@ const searchType = useSelector((state) =>
   const IsServices = useSelector(
     (state) => state?.booking?.addCart?.raw_data?.available_services
   );  
-  console.log("IsServices2", IsServices);
 
   
   if (!IsServices?.length) {
@@ -156,8 +155,7 @@ const searchType = useSelector((state) =>
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-            console.log("isFilled", isFilled)
-
+            console.log("passenger_profile", filledPassengerUUIDs)
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
                 <PassengersCard

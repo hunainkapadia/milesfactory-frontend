@@ -13,7 +13,6 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 export default function Travellers({ travellers, setTravellers }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  console.log("anchorEl", travellers);
   
   const ref = useRef(null);
 

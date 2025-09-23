@@ -93,17 +93,13 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     dispatch(setRefreshSearch());
   };
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);
-
-  console.log("selectedFlight_00", selectedFlight?.id);
-  
+  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);  
 
   const isLoadingSelect = useSelector(
     (state) => state?.booking?.isLoadingSelect
   );
 
   const handleBookFlight = (getflight) => {
-    console.log("getflight", getflight?.id);
     
     const params = {
       chat_thread_uuid: uuid,

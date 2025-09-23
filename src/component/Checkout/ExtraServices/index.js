@@ -27,7 +27,6 @@ const ExtraServices  = ({ getServicesdata, isFilled, selectedFlight }) => {
   const singleflight = useSelector(
       (state) => state?.booking?.addCart?.raw_data
     );  
-  console.log("singleflight_extra", singleflight);
   return (
     <Grid
       item

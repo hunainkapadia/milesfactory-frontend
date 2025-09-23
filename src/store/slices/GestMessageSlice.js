@@ -30,9 +30,7 @@ const GetMessagesSlice = createSlice({
       state.SearchHistoryGet = null;
       state.topOfferUrl = null;
     },
-    setGetMessageUUID: (state, action)=> {
-      console.log("action_000", action);
-      
+    setGetMessageUUID: (state, action)=> {      
       state.getMessageUUID = action.payload;
     },
     setTopOfferUrl: (state, action)=> {

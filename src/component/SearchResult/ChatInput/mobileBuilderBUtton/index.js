@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { event } from "@/src/utils/utils";
 
 const MobileBuilder = ({isMobileBuilder}) => {
-  console.log("isMobileBuilder_22", isMobileBuilder);
   
   const dispatch = useDispatch();
   const isBuilder = useSelector((state) => state?.base?.IsBuilderDialog);

@@ -96,7 +96,6 @@ const ContactDialog = () => {
 
   //
   const currentUser = useSelector((state) => state.base?.currentUser);
-  console.log("currentUser", currentUser);
 
   const logoutHandle = () => {
     dispatch(Logout());

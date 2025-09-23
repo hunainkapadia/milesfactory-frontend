@@ -22,9 +22,6 @@ const BuilderArguments = getBuilder?.silent_function_template[0]?.function.argum
 const builderType = BuilderArguments?.trip_components?.[0] || null;
     
 
-    console.log("BuilderArgument2", builderType);
-    
-
   
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
