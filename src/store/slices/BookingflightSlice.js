@@ -34,6 +34,7 @@ const initialState = {
   cartError: false,
   cartErrorDialog: false,
   flightUnavailable: false,
+  cartType: null,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -108,6 +109,9 @@ const bookingflightsSlice = createSlice({
     },
     setBookingSetupUrl: (state, action) => {
       state.BookingSetupUrl = action.payload;
+    },
+    setCartType:(state, action) => {
+      state.cartType = action.payload;
     },
   },
 });
@@ -210,6 +214,25 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
     
     const CartOfferDetail = res?.data;
     dispatch(setCartOffer(CartOfferDetail))
+    console.log("CartOfferDetail", CartOfferDetail);
+    
+    const cartItems = CartOfferDetail.items || [];
+    const hasFlight = cartItems.some(item => item.offer_type === "flight");
+    const hasHotel = cartItems.some(item => item.offer_type === "hotel");
+    console.log("cartitems_check", cartItems);
+    console.log("cartitems_has", hasFlight, hasFlight);
+    
+    if (hasFlight && hasHotel) {
+      dispatch(setCartType("all"))
+    } else if (hasFlight) {
+      dispatch(setCartType("flight"))
+    } else if (hasHotel) {
+      dispatch(setCartType("hotel"))
+    } else {
+      dispatch(setCartType(null))
+
+    }
+    
       
     
   } catch (error) {
@@ -274,6 +297,7 @@ export const {
   setHotelDrawer,
   setCartError,
   setFlightUnavailable,
-  setCartErrorDialog
+  setCartErrorDialog,
+  setCartType
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

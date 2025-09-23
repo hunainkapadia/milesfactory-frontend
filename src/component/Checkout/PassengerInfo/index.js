@@ -90,17 +90,6 @@ const searchType = useSelector((state) =>
     }
   };
 
-
-  const handlePassengerAdd = () => {
-    if (selectedPassenger) {
-      // Ensure a passenger is selected
-      dispatch(PassengerForm()); //must need to knw redux export const PassengerForm
-      dispatch(setPassengerUUID(selectedPassenger));
-      dispatch(setisPassengerDrawer(true));
-    } else {
-    }
-  };
-
   // get pasenger form data
   const getPassFormData = useSelector(
     (state) => state?.passengerDrawer?.PassFormData
@@ -109,6 +98,10 @@ const searchType = useSelector((state) =>
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  console.log("filledPassengerUUIDs", filledPassengerUUIDs);
+  console.log("filledPassengerUUIDs_getdata", getdata);
+  
+  
 
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
@@ -125,16 +118,20 @@ const searchType = useSelector((state) =>
   const istLoading = useSelector((state) => state?.passengerDrawer?.isLoading);
   
   
-    
+  const CartType = useSelector((state) => state.booking.cartType);
   // for captain
   useEffect(() => {
     if (filledPassengerUUIDs?.length === getdata?.length) {
-      if (searchType?.flight) {
+      if (CartType === "all") {
+
+      } else if (CartType === "flight") {
         dispatch(passengerCaptain()); /// for get  fill pasenger boolean
         dispatch(setAllPassengerFill(true));
-      } else if (searchType?.hotel) {
+      } else if (CartType === "hotel") {
         dispatch(passengerCaptainHotel()); /// for get  fill pasenger boolean
         dispatch(setAllPassengerFill(true));
+      } else {
+
       }
     } else {
       dispatch(setAllPassengerFill(false));

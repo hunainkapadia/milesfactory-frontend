@@ -196,6 +196,8 @@ const PassengerDrawerForm = () => {
   const searchType = useSelector((state) => 
     state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
+  const CartType = useSelector((state) => state.booking.cartType);
+  
   const SubmitPassenger = () => {
     const errors = {};
 
@@ -298,12 +300,14 @@ const PassengerDrawerForm = () => {
       dispatch(setCaptainParams(params));
     }
 
-    if (searchType?.flight) {
+    if (CartType === "all") {
+      
+    } else if (CartType === "flight") {
       dispatch(getPassPofile());
       dispatch(PassengerFormFlight(params));
       dispatch(passengerCaptain(params));
       
-    } else if (searchType?.hotel) {
+    } else if (CartType === "hotel") {
       dispatch(PassengerFormHotel(params));
       dispatch(passengerCaptainHotel(params));
     } else {

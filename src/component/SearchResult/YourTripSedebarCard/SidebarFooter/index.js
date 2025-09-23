@@ -22,6 +22,9 @@ const SidebarFooter = () => {
     (state) =>
       state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
+  const CartType = useSelector((state) => state.booking.cartType);
+  console.log("CartType_0", CartType);
+  
 
   // Get all flights from cart items
   const CartFlights =
@@ -49,14 +52,17 @@ const SidebarFooter = () => {
   const handleBookFlight = (getCart) => {
     // const offerId = getCart;
     dispatch(setChatscroll(true));
-    if (searchType?.flight) {
+    if (CartType === "all") {
+      dispatch(PassengerSetupHotel())
+      dispatch(getPassPofileHotel());  
+      dispatch(getPassPofile());
+    } else if (CartType === "flight") {
       dispatch(setIsBuilderDialog(false));
       dispatch(PassengerForm());
       dispatch(getPassPofile());
-    } else if (searchType?.hotel) {
+    } else if (CartType === "hotel") {
       dispatch(PassengerSetupHotel())
-      dispatch(getPassPofileHotel());
-      
+      dispatch(getPassPofileHotel());  
     } else {
       ""
     }

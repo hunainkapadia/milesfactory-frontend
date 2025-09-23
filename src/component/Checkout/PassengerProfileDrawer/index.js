@@ -61,6 +61,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) =>
       state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
+  const CartType = useSelector((state) => state.booking.cartType);
+
   const getPassFormData = useSelector(
     (state) => state?.passengerDrawer?.PassFormData
   );
@@ -106,10 +108,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const handleAddPassenger = () => {
     dispatch(setSelectedProfilePass(null));
     dispatch(setisPassengerDrawer(true)); // open drawer
-    if (searchType?.flight) {
+    if (CartType === "all") {
+    } else if (CartType === "flight") {
       dispatch(ViewPassengers());
       dispatch(PassengerForm());
-    } else if (searchType?.hotel) {
+    } else if (CartType === "hotel") {
       dispatch(ViewPassengersHotel());
       dispatch(PassengerSetupHotel());
     }
@@ -129,10 +132,13 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
     const interval = setInterval(() => {
       console.log("Polling...");
-      if (searchType?.flight) {
+      if (CartType === "all") {
+      } else if (CartType === "flight") {
         dispatch(getPassPofile());
-      } else if (searchType?.hotel) {
+      } else if (CartType === "hotel") {
         dispatch(getPassPofileHotel());
+      } else {
+
       }
      
     }, 1000);
