@@ -204,123 +204,123 @@ const PassengerDrawerForm = () => {
   const CartType = useSelector((state) => state.booking.cartType);
 
   const SubmitPassenger = () => {
-  const errors = {};
+    const errors = {};
 
-  const nameRegex = /^[A-Za-z\s'-]+$/;
-  const passportNumberRegex = /^[A-Za-z0-9]+$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const nameRegex = /^[A-Za-z\s'-]+$/;
+    const passportNumberRegex = /^[A-Za-z0-9]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // clear previous errors (so UI updates correctly)
-  dispatch(setPassengerFormError({}));
+    // clear previous errors (so UI updates correctly)
+    dispatch(setPassengerFormError({}));
 
-  // --- Gender ---
-  if (!gender) errors.gender = "Gender is required.";
+    // --- Gender ---
+    if (!gender) errors.gender = "Gender is required.";
 
-  // --- First Name ---
-  if (!given_name?.trim()) {
-    errors.given_name = "First name is required.";
-  } else if (!nameRegex.test(given_name)) {
-    errors.given_name = "First name must contain only letters.";
-  }
-
-  // --- Last Name ---
-  if (!family_name?.trim()) {
-    errors.family_name = "Last name is required.";
-  } else if (!nameRegex.test(family_name)) {
-    errors.family_name = "Last name must contain only letters.";
-  }
-
-  // --- DOB ---
-  if (!born_on || !dayjs(born_on).isValid()) {
-    // Uncomment if DOB required for hotel as well
-    // errors.born_on = "Date of birth is required and must be valid.";
-  }
-
-  // --- Passport & Nationality: only required for flight bookings ---
-  if (CartType === "flight") {
-    if (!passport_number?.trim()) {
-      errors.passport_number = "Passport number is required.";
-    } else if (!passportNumberRegex.test(passport_number)) {
-      errors.passport_number = "Passport number must be alphanumeric.";
+    // --- First Name ---
+    if (!given_name?.trim()) {
+      errors.given_name = "First name is required.";
+    } else if (!nameRegex.test(given_name)) {
+      errors.given_name = "First name must contain only letters.";
     }
 
-    if (!passport_expire_date) {
-      errors.passport_expire_date = "Passport expiry date is required.";
+    // --- Last Name ---
+    if (!family_name?.trim()) {
+      errors.family_name = "Last name is required.";
+    } else if (!nameRegex.test(family_name)) {
+      errors.family_name = "Last name must contain only letters.";
     }
 
-    if (!nationality) {
-      errors.nationality = "Nationality is required.";
-    }
-  }
-
-  // --- Email & Phone (adults only) ---
-  if (PassengerType === "adult") {
-    if (!email?.trim()) {
-      errors.email = "Email is required.";
-    } else if (!emailRegex.test(email)) {
-      errors.email = "Invalid email format.";
+    // --- DOB ---
+    if (!born_on || !dayjs(born_on).isValid()) {
+      // Uncomment if DOB required for hotel as well
+      // errors.born_on = "Date of birth is required and must be valid.";
     }
 
-    if (!phone?.trim()) {
-      errors.phone_number = "Phone number is required.";
+    // --- Passport & Nationality: only required for flight bookings ---
+    if (CartType === "flight") {
+      if (!passport_number?.trim()) {
+        errors.passport_number = "Passport number is required.";
+      } else if (!passportNumberRegex.test(passport_number)) {
+        errors.passport_number = "Passport number must be alphanumeric.";
+      }
+
+      if (!passport_expire_date) {
+        errors.passport_expire_date = "Passport expiry date is required.";
+      }
+
+      if (!nationality) {
+        errors.nationality = "Nationality is required.";
+      }
     }
-  }
 
-  // --- Child/Infant DOB Validation ---
-  if (PassengerType === "child") {
-    validateChildDOB(born_on, PassengerAge);
-  }
-  if (PassengerType === "infant_without_seat") {
-    validateInfantDOB(born_on, PassengerAge);
-  }
+    // --- Email & Phone (adults only) ---
+    if (PassengerType === "adult") {
+      if (!email?.trim()) {
+        errors.email = "Email is required.";
+      } else if (!emailRegex.test(email)) {
+        errors.email = "Invalid email format.";
+      }
 
-  // --- Handle Errors ---
-  if (Object.keys(errors).length > 0) {
-    dispatch(setPassengerFormError(errors));
-    return;
-  }
+      if (!phone?.trim()) {
+        errors.phone_number = "Phone number is required.";
+      }
+    }
 
-  // --- Submit Form ---
-  const params = {
-    gender,
-    given_name,
-    family_name,
-    born_on,
-    phone_number: phone,
-    email,
-    nationality: nationality?.id || "",
-    region,
+    // --- Child/Infant DOB Validation ---
+    if (PassengerType === "child") {
+      validateChildDOB(born_on, PassengerAge);
+    }
+    if (PassengerType === "infant_without_seat") {
+      validateInfantDOB(born_on, PassengerAge);
+    }
+
+    // --- Handle Errors ---
+    if (Object.keys(errors).length > 0) {
+      dispatch(setPassengerFormError(errors));
+      return;
+    }
+
+    // --- Submit Form ---
+    const params = {
+      gender,
+      given_name,
+      family_name,
+      born_on,
+      phone_number: phone,
+      email,
+      nationality: nationality?.id || "",
+      region,
+    };
+
+    // Only attach passport fields for flights
+    if (CartType === "flight") {
+      params.passport_number = passport_number;
+      params.passport_expire_date = passport_expire_date;
+    }
+
+    // ga_event
+    event({
+      action: "click",
+      category: "engagement",
+      label: "Passenger Form Submit",
+    });
+
+    const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+    if (isFirstPassenger) {
+      dispatch(setCaptainParams(params));
+    }
+
+    if (CartType === "all") {
+      // handle 'all' if needed
+    } else if (CartType === "flight") {
+      dispatch(getPassPofile());
+      dispatch(PassengerFormFlight(params));
+      dispatch(passengerCaptain(params));
+    } else if (CartType === "hotel") {
+      dispatch(PassengerFormHotel(params));
+      dispatch(passengerCaptainHotel(params));
+    }
   };
-
-  // Only attach passport fields for flights
-  if (CartType === "flight") {
-    params.passport_number = passport_number;
-    params.passport_expire_date = passport_expire_date;
-  }
-
-  // ga_event
-  event({
-    action: "click",
-    category: "engagement",
-    label: "Passenger Form Submit",
-  });
-
-  const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
-  if (isFirstPassenger) {
-    dispatch(setCaptainParams(params));
-  }
-
-  if (CartType === "all") {
-    // handle 'all' if needed
-  } else if (CartType === "flight") {
-    dispatch(getPassPofile());
-    dispatch(PassengerFormFlight(params));
-    dispatch(passengerCaptain(params));
-  } else if (CartType === "hotel") {
-    dispatch(PassengerFormHotel(params));
-    dispatch(passengerCaptainHotel(params));
-  }
-};
 
   const passportError = formError?.non_field_errors?.find(
     (error) => error?.passport_expire_date
@@ -423,25 +423,47 @@ const PassengerDrawerForm = () => {
                 gap={"22px"}
               >
                 {CartType === "flight" && (
-                  <>
-                    <Box className="imggroup">
-                      <img
-                        height={"70px"}
-                        src="/images/user-circle.svg"
-                        alt="avatar"
-                      />
-                    </Box>
-                    <Box>
-                      {given_name || family_name ? (
-                        <h4 className="mb-0" textTransform={"capitalize"}>
-                          {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
-                        </h4>
-                      ) : (
-                        <h4>New traveller</h4>
-                      )}
-                    </Box>
-                  </>
-                )}
+  <>
+    <Box className="imggroup">
+      <img
+        height={"70px"}
+        src="/images/user-circle.svg"
+        alt="avatar"
+      />
+    </Box>
+    <Box>
+      {given_name || family_name ? (
+        <h4 className="mb-0" style={{ textTransform: "capitalize" }}>
+          {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
+        </h4>
+      ) : (
+        <h4>New Traveller</h4>
+      )}
+    </Box>
+  </>
+)}
+
+{CartType === "hotel" && (
+  <>
+    <Box className="imggroup">
+      <img
+        height={"70px"}
+        src="/images/user-circle.svg"
+        alt="hotel guest"
+      />
+    </Box>
+    <Box>
+      {given_name || family_name ? (
+        <h4 className="mb-0" style={{ textTransform: "capitalize" }}>
+          {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
+        </h4>
+      ) : (
+        <h4>New Guest</h4>
+      )}
+    </Box>
+  </>
+)}
+
               </Box>
 
               {/* === Form Fields === */}
