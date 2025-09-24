@@ -29,7 +29,7 @@ const passengerDrawerSlice = createSlice({
 export const PassengerSetupHotel = () => (dispatch, getState) => {
   const states = getState();
   const threadUuid = states?.sendMessage?.threadUuid;
-
+  
   const bookingSetupUrl = `/api/v1/setup/hotel/order/thread/${threadUuid}`;
   dispatch(setisLoading(true));
   dispatch(
@@ -43,6 +43,8 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
       const OrderUUId = response?.data?.order_uuid || null;
       dispatch(setOrderUuid(OrderUUId));
       // dispatch(setIsPassengerflow(true))
+      console.log("generic_order_uuid", response.data.generic_order_uuid);
+      
       dispatch(
         setMessage({
           ai: { passengerFlowRes: { status: true, isloading: false } },
@@ -84,9 +86,9 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
   const state = getState();
   // ///////////////
   const GetViewPassengers = state?.passengerDrawer?.ViewPassengers;
-
   const filledPassengerUUIDs = state?.passengerDrawer?.filledPassengerUUIDs;
 
+  // for all pasenger filled
   if (filledPassengerUUIDs.length === GetViewPassengers.length) {
     dispatch(setAllPassengerFill(true));
   }
