@@ -27,6 +27,7 @@ const FromAndTooFields = ({
   destinationOption,
   setDestinationOption,
   errors = {},
+  isMobile
 }) => {
   const dispatch = useDispatch();
 
@@ -143,58 +144,60 @@ const FromAndTooFields = ({
       </Box>
 
       {/* Destination Field */}
-      <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
-        <Autocomplete
-          freeSolo
-          options={originOptions}
-          loading={loadingDestination}
-          filterOptions={filterOptions}
-          getOptionLabel={(option) =>
-            typeof option === "string"
-              ? option
-              : option?.name
-              ? `${option.name} - ${option.iata_code}`
-              : ""
-          }
-          value={destinationOption}
-          inputValue={capitalizeFirstWord(destination)}
-          onInputChange={(e, value, reason) => {
-            if (reason === "input") {
-              setDestination(value);
-              handleAirportSearch(value, "destination");
+      {!isMobile && (
+        <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
+          <Autocomplete
+            freeSolo
+            options={originOptions}
+            loading={loadingDestination}
+            filterOptions={filterOptions}
+            getOptionLabel={(option) =>
+              typeof option === "string"
+                ? option
+                : option?.name
+                ? `${option.name} - ${option.iata_code}`
+                : ""
             }
-          }}
-          onChange={(e, value) => {
-            setDestinationOption(value);
-            setDestination(value?.iata_code || "");
-          }}
-          ListboxProps={{
-            className: styles.countryDropdown + " countryDropdown",
-          }}
-          renderOption={(props, option) => (
-            <li
-              {...props}
-              className={`${option?.is_city ? styles.parent : styles.child}`}
-            >
-              <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
-              <Typography>
-                {option.name} - {option.iata_code}
-              </Typography>
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              placeholder="Arriving at"
-              size="small"
-              className={`${styles.formControl} ${styles.from} formControl`}
-              error={!!errors.destination}
-              helperText={errors.destination}
-            />
-          )}
-        />
-      </Box>
+            value={destinationOption}
+            inputValue={capitalizeFirstWord(destination)}
+            onInputChange={(e, value, reason) => {
+              if (reason === "input") {
+                setDestination(value);
+                handleAirportSearch(value, "destination");
+              }
+            }}
+            onChange={(e, value) => {
+              setDestinationOption(value);
+              setDestination(value?.iata_code || "");
+            }}
+            ListboxProps={{
+              className: styles.countryDropdown + " countryDropdown",
+            }}
+            renderOption={(props, option) => (
+              <li
+                {...props}
+                className={`${option?.is_city ? styles.parent : styles.child}`}
+              >
+                <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
+                <Typography>
+                  {option.name} - {option.iata_code}
+                </Typography>
+              </li>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                placeholder="Arriving at"
+                size="small"
+                className={`${styles.formControl} ${styles.from} formControl`}
+                error={!!errors.destination}
+                helperText={errors.destination}
+              />
+            )}
+          />
+        </Box>
+      )}
     </>
   );
 };
