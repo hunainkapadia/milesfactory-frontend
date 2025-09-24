@@ -2657,9 +2657,9 @@ html {
 // chat loading
 .Loading {
   .dot {
-    width: 8px;
-    height: 8px;
-    background-color: $basecolor1;
+    width: 10px;
+    height: 10px;
+    background-color: #E1E1E1;
     border-radius: 50%;
     animation: bounce 1.5s infinite ease-in-out;
 

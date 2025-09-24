@@ -250,18 +250,22 @@ const AiMessage = ({ aiMessage }) => {
               <>
                 {aiMessage?.ai?.response ? (
                   <>
-                    <Box className={searchResultStyles.AiMessage + " aaa"}>
-                      <Typography
-                        component="div"
-                        variant="body1"
-                        dangerouslySetInnerHTML={{
-                          __html: formatTextToHtmlList(
-                            convertMarkdownToHtml(
-                              sanitizeResponse(aiMessage.ai.response)
-                            )
-                          ),
-                        }}
-                      />
+                    <Box
+                      className={`${searchResultStyles.AiMessage} ${searchResultStyles.AiMessageNormal} +  aaa`}
+                    >
+                      <Box className={searchResultStyles.Box}>
+                        <Typography
+                          component="div"
+                          variant="body1"
+                          dangerouslySetInnerHTML={{
+                            __html: formatTextToHtmlList(
+                              convertMarkdownToHtml(
+                                sanitizeResponse(aiMessage.ai.response)
+                              )
+                            ),
+                          }}
+                        />
+                      </Box>
                     </Box>
                   </>
                 ) : aiMessage?.ai?.newThread ? (

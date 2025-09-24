@@ -121,11 +121,20 @@
       color: #0B1729;
       width: 100%;
       padding-bottom: 34px;
-      max-width: 80%;
+      min-width: 100%;
+      display: flex;
 
       p {
         color: $basecolor-dark;
         margin: 0;
+      }
+      &.AiMessageNormal {
+        padding-right: 34px;
+        .Box {
+            padding: 10px 24px;
+            border-radius: 22px;
+            background-color: #F2F6F4;
+        }      
       }
     }
   }
@@ -554,6 +563,12 @@
       }
       .AiMessage {
         max-width: 100%;
+        &.AiMessageNormal {
+          padding-right: 17px;
+          .Box {
+              padding: 10px 18px;
+          }
+        }
       }
     }
   }

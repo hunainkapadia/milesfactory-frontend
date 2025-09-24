@@ -104,7 +104,7 @@ const Messages = () => {
                   {msg?.ai ? (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
                   ) : index === messages.length - 1 && isLoading ? (
-                    <Box my={2}>
+                    <Box my={2} px={{ md: 3, lg: 3, xs: "17px" }}>
                       <LoadingArea />
                     </Box>
                   ) : null}
@@ -116,7 +116,6 @@ const Messages = () => {
               {!hasFlightOffers ? <Box ref={messagesEndRef} /> : ""}
               {/* booking flow start */}
 
-              
               <PassengerDrawerForm />
               <PassengerProfileDrawer />
             </Box>
