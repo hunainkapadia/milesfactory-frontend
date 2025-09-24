@@ -564,6 +564,7 @@
       .AiMessage {
         max-width: 100%;
         &.AiMessageNormal {
+          padding-bottom: 24px;
           padding-right: 17px;
           .Box {
               padding: 10px 18px;

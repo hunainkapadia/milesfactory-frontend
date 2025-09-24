@@ -113,6 +113,13 @@ const TravelForm = () => {
     roundtrip: "Round trip"
   }
 
+  const handleTripType =(e)=> {
+    const value = e.target.value;
+    console.log("value_00", value);
+    setTripType(value)
+    
+  }
+
   return (
     <Stack
       className={styles.travelForm}
@@ -134,7 +141,7 @@ const TravelForm = () => {
             <TextField
               select
               value={tripType}
-              onChange={(e) => setTripType(e.target.value)}
+              onChange={handleTripType}
               className={`${styles.formControl} ${styles.TripType} formControl`}
               sx={{ width: "120px" }}
               SelectProps={{
