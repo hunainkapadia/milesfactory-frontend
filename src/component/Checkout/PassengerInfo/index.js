@@ -64,7 +64,6 @@ const searchType = useSelector((state) =>
       label: "Add Passenger Start",
       value: passenger.type,
     });
-    alert("Asas")
 
     console.log("passengerPofile before fetch:", passengerPofile?.length);
     //  Get updated passenger profile after API call
