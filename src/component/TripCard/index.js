@@ -40,7 +40,7 @@ const TripDetailHandle = (uuid) => {
   const TripDetail = useSelector((state) => state?.base?.TripDetailData?.order);
   
 
-  //console.log("TripDetail_0", offer);
+  console.log("TripDetail_0", offer);
   
 
   return (

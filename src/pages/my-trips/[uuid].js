@@ -43,6 +43,7 @@ const TripDetailPage = () => {
 
   // Extract useful data
   const offer = tripDetail?.order?.selected_offer;
+  console.log("tripDetail", tripDetail);
 
   const daysLeft = Math.ceil(
     (new Date(offer?.slices[0]?.segments[0]?.departing_at) - new Date()) /
@@ -89,7 +90,7 @@ const TripDetailPage = () => {
               <Typography variant="body2" gutterBottom>
                 There's nothing to do except waiting {daysLeft} days before
                 takeoff. Booking reference (PNR):{" "}
-                <span className="exbold">ABC123</span>
+                <span className="exbold">{tripDetail?.duffel_order?.booking_reference}</span>
               </Typography>
               <Divider sx={{ my: 2 }} />
               {/* Flights */}
@@ -285,22 +286,19 @@ const TripDetailPage = () => {
                 <Grid item xs={6}>
                   <Typography variant="subtitle2">Customer service</Typography>
                   <Typography fontSize="14px">
-                    Booking reference: <span className="exbold">ABC123</span>
+                    Booking reference: <span className="exbold">{tripDetail?.duffel_order?.booking_reference}</span>
                   </Typography>
                   <Typography fontSize="12px" color="primary" sx={{ mt: 0.5 }}>
-                    <a href="mailto:info@milesfactory.com">
+                    <a href="mailto:hello@gomylz.com">
                       Send a message to customer service
                     </a>
                   </Typography>
                 </Grid>
               </Grid>
               {/* Cancellation section */}
-              <Box mt={3} p={2} bgcolor="#f4f4f4" borderRadius={2}>
+              {/* <Box mt={3} p={2} bgcolor="#f4f4f4" borderRadius={2}>
                 <Typography fontWeight="bold">
                   Cancellation without reason
-                </Typography>
-                <Typography fontSize="13px" mt={1}>
-                  Cancel this flight up until departure (penalty of 50 USD).
                 </Typography>
                 <Button
                   className="btn btn-primary btn-border btn-sm  btn-rounded"
@@ -308,7 +306,7 @@ const TripDetailPage = () => {
                 >
                   Cancel my booking
                 </Button>
-              </Box>
+              </Box> */}
               {/* Bottom buttons */}
               {/* <Box display="flex" justifyContent="space-between" mt={3}>
                 <Button size="small" variant="outlined">
