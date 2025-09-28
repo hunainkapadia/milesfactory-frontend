@@ -73,10 +73,11 @@ const PaymentSlice = createSlice({
 export const PaymentSessionStart = () => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid; //geting order id from pasenger select
+  const genericUUID = state.passengerDrawer.genericOrderUuid;
 
   api
     .post(
-      `/api/v1/stripe/create-checkout-session?order_uuid=${orderUUID}`,
+      `/api/v1/stripe/create-checkout-session?order_uuid=${genericUUID}`,
       {
         frontend_url: window.location.origin,
       },
@@ -134,9 +135,13 @@ export const PaymentForm = () => (dispatch, getState) => {
 export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
+  const genericUUID = state.passengerDrawer.genericOrderUuid;
+  console.log("genericUUID_fetch", genericUUID);
+  
+
 
   api
-    .get(`/api/v1/order/${orderUUID}/details`)
+    .get(`/api/v1/order/${genericUUID}/details`)
     .then((response) => {
       const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
 
@@ -177,6 +182,7 @@ export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
 export const OrderSuccessPayment = (orderId) => (dispatch, getState) => {
 const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
+  const genericUUID = state.passengerDrawer.genericOrderUuid;
 
   const pollingStartTime = Date.now();
   const POLLING_TIMEOUT = 30000; // ⏱️ Stop after 10 seconds
@@ -200,9 +206,15 @@ const state = getState();
       status: "pending",
     })
 
-    api.get(`/api/v1/order/${orderUUID}/details`)
+    console.log("genericUUID_success", genericUUID);
+    
+    api.get(`/api/v1/order/${genericUUID}/details`)
       .then((response) => {
         const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
+        const hotelPaymentSuccess = response.data.hotel_order;
+        
+        console.log("hotel_response", response.data.hotel_order);
+        
 
         dispatch(setOrderData(response.data));
         dispatch(setOrderConfirm(response.data));
@@ -218,6 +230,13 @@ const state = getState();
           dispatch(setIsloading(false));
           
           return; // Stop polling on success
+        } else if (hotelPaymentSuccess) {
+          dispatch(
+            setPaymentStatus({
+              is_complete_hotel: "yes",
+              status: "success",
+            })
+          );
         } else {
             dispatch(
               setPaymentStatus({

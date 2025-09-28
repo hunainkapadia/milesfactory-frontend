@@ -46,7 +46,10 @@ const PriceSummary = ({ getdata }) => {
   // get flight
   
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-  const orderDetail = flightOrder?.order?.selected_offer;
+  const orderDetail = flightOrder.flight_order.selected_offer;
+
+  console.log("orderDetail_00", orderDetail);
+  
   
   
 
@@ -101,6 +104,8 @@ const PriceSummary = ({ getdata }) => {
           >
             <Box className={styles.BaggageBody}>
               {/* Total price row */}
+              {orderDetail?.slices && (
+
               <Box
                 className={styles.PriceRow + " f12 "}
                 display="flex"
@@ -127,6 +132,7 @@ const PriceSummary = ({ getdata }) => {
                   {Math.round(orderDetail?.base_amount)}
                 </Box>
               </Box>
+              )}
 
               {/* Taxes, fees & surcharges row */}
               <Box

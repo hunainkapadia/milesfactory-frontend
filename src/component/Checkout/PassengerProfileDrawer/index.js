@@ -99,17 +99,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const passengerUuid = useSelector(
     (state) => state.passengerDrawer?.PassengerUUID
   );
-  useEffect (()=> {
-    if (passengerPofile === FilledPassFormData) {
-      
-    }
-  })
-
+ 
   const handleAddPassenger = () => {
     dispatch(setSelectedProfilePass(null));
     dispatch(setisPassengerDrawer(true)); // open drawer
-    if (CartType === "all") {
-    } else if (CartType === "flight") {
+    if (CartType === "all" || CartType === "flight") {
       dispatch(ViewPassengers());
       dispatch(PassengerForm());
     } else if (CartType === "hotel") {
@@ -132,8 +126,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
     const interval = setInterval(() => {
       console.log("Polling...");
-      if (CartType === "all") {
-      } else if (CartType === "flight") {
+      if (CartType === "all" || CartType === "flight" || CartType === "flight") {
         dispatch(getPassPofile());
       } else if (CartType === "hotel") {
         dispatch(getPassPofileHotel());

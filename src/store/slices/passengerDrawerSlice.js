@@ -15,6 +15,7 @@ const passengerDrawerSlice = createSlice({
     countries: [],
     OfferId: null,
     OrderUuid: null,
+    genericOrderUuid: null,
     ViewPassengers: [],
     PassengerUUID: null,
     PassengerData: null,
@@ -102,6 +103,9 @@ const passengerDrawerSlice = createSlice({
     setOrderUuid: (state, action) => {
       state.OrderUuid = action.payload;
     },
+    setGenericOrderUuid: (state, action) => {
+      state.genericOrderUuid = action.payload;
+    },
     setViewPassengers: (state, action) => {
       state.ViewPassengers = action.payload || []; // Ensure always an array
     },
@@ -168,6 +172,8 @@ export const PassengerForm = (offerId) => (dispatch, getState) => {
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
       dispatch(setOrderUuid(OrderUUId));
+      dispatch(setGenericOrderUuid(response.data.generic_order_uuid))
+      console.log("generic_order_uuid", response.data.generic_order_uuid);
       
       // dispatch(setIsPassengerflow(true))
       dispatch(
@@ -362,7 +368,8 @@ export const {
   setIsPassengerflow,
   setisPassengerLoading,
   setSeeDetailButton,
-  setisPassengerDrawer
+  setisPassengerDrawer,
+  setGenericOrderUuid
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

@@ -110,11 +110,14 @@ const AiMessage = ({ aiMessage }) => {
 
   const getuser = useSelector((state) => state.base?.currentUser?.user);
 
-  const orderDetail = useSelector(
-    (state) => state?.payment?.OrderConfirm?.order?.selected_offer
-  ); //from order api
-  
+  const orderDetail = useSelector((state) => {
+    const flight = state?.payment?.OrderConfirm?.flight_order?.selected_offer;
+    const hotel = state?.payment?.OrderConfirm?.hotel_order?.selected_hotel_offer;
 
+    return flight && Object.keys(flight).length > 0 ? flight : hotel;
+  }); //from order api
+  
+// selected_hotel_offer
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );

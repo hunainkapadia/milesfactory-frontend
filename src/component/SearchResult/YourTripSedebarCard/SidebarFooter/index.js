@@ -52,11 +52,7 @@ const SidebarFooter = () => {
   const handleBookFlight = (getCart) => {
     // const offerId = getCart;
     dispatch(setChatscroll(true));
-    if (CartType === "all") {
-      dispatch(PassengerSetupHotel())
-      dispatch(getPassPofileHotel());  
-      dispatch(getPassPofile());
-    } else if (CartType === "flight") {
+    if (CartType === "all" || CartType === "flight") {
       dispatch(setIsBuilderDialog(false));
       dispatch(PassengerForm());
       dispatch(getPassPofile());

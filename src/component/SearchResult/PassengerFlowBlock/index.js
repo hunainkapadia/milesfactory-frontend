@@ -14,6 +14,11 @@ const PassengerFlowBlock = ({
   orderDetail,
   paymentSuccess,
 }) => {
+
+  
+  console.log("paymentSuccess", orderDetail);
+  
+  
   
   
   // Passenger info
@@ -25,6 +30,7 @@ const PassengerFlowBlock = ({
           <LoadingArea />
         </Box>
       )}
+      
 
       {/* Passenger Info */}
       {aiMessage?.ai?.passengerFlowRes?.status &&

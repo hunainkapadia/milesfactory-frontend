@@ -122,9 +122,7 @@ const searchType = useSelector((state) =>
   // for captain
   useEffect(() => {
     if (filledPassengerUUIDs?.length === getdata?.length) {
-      if (CartType === "all") {
-
-      } else if (CartType === "flight") {
+      if (CartType === "all" || CartType === "flight") {
         dispatch(passengerCaptain()); /// for get  fill pasenger boolean
         dispatch(setAllPassengerFill(true));
       } else if (CartType === "hotel") {

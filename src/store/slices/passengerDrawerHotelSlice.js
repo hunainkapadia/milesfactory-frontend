@@ -5,7 +5,7 @@ import { setCloseDrawer } from "./BookingflightSlice";
 import { fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
 import { setMessage } from "./sendMessageSlice";
-import { markPassengerAsFilled, setClosePassengerDrawer, setIsFormLoading, setisPassengerDrawer, setOrderUuid, setPassengerFormError, setPassengerUUID, setPassFormData, setPassProfile, setViewPassengers } from "./passengerDrawerSlice";
+import { markPassengerAsFilled, setAllPassengerFill, setClosePassengerDrawer, setGenericOrderUuid, setIsFormLoading, setisPassengerDrawer, setOrderUuid, setPassengerFormError, setPassengerUUID, setPassFormData, setPassProfile, setViewPassengers } from "./passengerDrawerSlice";
 
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
@@ -41,9 +41,12 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
     .post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
+      console.log("OrderUUId", OrderUUId);
+      
       dispatch(setOrderUuid(OrderUUId));
+      dispatch(setGenericOrderUuid(response.data.generic_order_uuid))
       // dispatch(setIsPassengerflow(true))
-      console.log("generic_order_uuid", response.data.generic_order_uuid);
+      
       
       dispatch(
         setMessage({

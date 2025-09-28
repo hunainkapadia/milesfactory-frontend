@@ -387,10 +387,13 @@
 }
 
 // payment
-.PriceSection .PriceRow:not(:last-child)  {
+.PriceSection .PriceRow {
    border-bottom: solid 1px $lightgray3;
-   padding: 10px 0px;
-   margin: 10px 0;
+   padding: 13px 0px 13px;
+   &:last-child {
+      border: 0;
+      margin-bottom: 0;
+   }
 }
 
 /* In your CSS file or style block */
