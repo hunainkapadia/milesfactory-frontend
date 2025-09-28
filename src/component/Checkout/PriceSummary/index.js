@@ -48,7 +48,7 @@ const PriceSummary = ({ getdata }) => {
   const flightOrder = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const orderDetail = flightOrder.flight_order.selected_offer;
 
-  console.log("orderDetail_00", orderDetail);
+  console.log("orderDetail_00", flightOrder.hotel_order);
   
   
   
@@ -89,7 +89,11 @@ const PriceSummary = ({ getdata }) => {
         </Typography>
       </Box>
       {priceSummary ? (
-        <Box mb={3} ref={priceSummaryRef} className={styles.Card + " Card white-bg"}>
+        <Box
+          mb={3}
+          ref={priceSummaryRef}
+          className={styles.Card + " Card white-bg"}
+        >
           <Box pb={2}>
             <h5 fontWeight={"regular"} className="regular mb-0">
               Price summary
@@ -105,33 +109,36 @@ const PriceSummary = ({ getdata }) => {
             <Box className={styles.BaggageBody}>
               {/* Total price row */}
               {orderDetail?.slices && (
-
-              <Box
-                className={styles.PriceRow + " f12 "}
-                display="flex"
-                justifyContent="space-between"
-                gap={4}
-              >
-                <Box>
-                  {orderDetail?.slices?.[0]?.origin.iata_code} -{" "}
-                  {orderDetail?.slices?.at(0)?.destination.iata_code}, Return /{" "}
-                  {Object.entries(
-                    (orderDetail?.passengers || []).reduce((acc, passenger) => {
-                      acc[passenger.type] = (acc[passenger.type] || 0) + 1;
-                      return acc;
-                    }, {})
-                  ).map(([type, count]) => (
-                    <span key={type}>
-                      {count}x {type}
-                    </span>
-                  ))}
+                <Box
+                  className={styles.PriceRow + " f12 "}
+                  display="flex"
+                  justifyContent="space-between"
+                  gap={4}
+                >
+                  <Box>
+                    {orderDetail?.slices?.[0]?.origin.iata_code} -{" "}
+                    {orderDetail?.slices?.at(0)?.destination.iata_code}, Return
+                    /{" "}
+                    {Object.entries(
+                      (orderDetail?.passengers || []).reduce(
+                        (acc, passenger) => {
+                          acc[passenger.type] = (acc[passenger.type] || 0) + 1;
+                          return acc;
+                        },
+                        {}
+                      )
+                    ).map(([type, count]) => (
+                      <span key={type}>
+                        {count}x {type}
+                      </span>
+                    ))}
+                  </Box>
+                  <Box>
+                    {currencySymbols[orderDetail?.tax_currency] ||
+                      orderDetail?.tax_currency}
+                    {Math.round(orderDetail?.base_amount)}
+                  </Box>
                 </Box>
-                <Box>
-                  {currencySymbols[orderDetail?.tax_currency] ||
-                    orderDetail?.tax_currency}
-                  {Math.round(orderDetail?.base_amount)}
-                </Box>
-              </Box>
               )}
 
               {/* Taxes, fees & surcharges row */}
@@ -252,6 +259,30 @@ const PriceSummary = ({ getdata }) => {
                   )}
                 </Box>
               </Box>
+              {/* hotel */}
+              {flightOrder?.hotel_order?.selected_ratekey && (
+                <Box
+                  className={styles.PriceRow + " f12"}
+                  display="flex"
+                  justifyContent="space-between"
+                  gap={4}
+                >
+                  <Box>
+                    {/* {
+                      flightOrder?.hotel_order?.selected_hotel_offer?.hotel?.name
+                    } */}
+                    Hotel Net Amount
+                  </Box>
+                  <Box>
+                  {currencySymbols[orderDetail?.tax_currency] ||
+                    orderDetail?.tax_currency}
+                    {flightOrder?.hotel_order?.payment_hotel_amount}
+                          {/* {perNight.toFixed(2)} / night */}
+                  </Box>
+                </Box>
+              )}
+              {/* hotel end */}
+
               <Box
                 className={styles.PriceRow + " black exbold f14m"}
                 display={"flex"}
@@ -268,6 +299,8 @@ const PriceSummary = ({ getdata }) => {
                   }
                 </Box>
               </Box>
+              {/*  hotel */}
+              {/* Hotel price per night row */}
             </Box>
             {/* price row */}
           </Box>

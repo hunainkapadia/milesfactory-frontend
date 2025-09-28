@@ -52,13 +52,17 @@ const SidebarFooter = () => {
   const handleBookFlight = (getCart) => {
     // const offerId = getCart;
     dispatch(setChatscroll(true));
-    if (CartType === "all" || CartType === "flight") {
+    if (CartType === "flight") {
       dispatch(setIsBuilderDialog(false));
       dispatch(PassengerForm());
       dispatch(getPassPofile());
     } else if (CartType === "hotel") {
       dispatch(PassengerSetupHotel())
       dispatch(getPassPofileHotel());  
+    } else if (CartType === "all") {
+      alert("Asas")
+      dispatch(PassengerForm());
+      dispatch(PassengerSetupHotel())
     } else {
       ""
     }
