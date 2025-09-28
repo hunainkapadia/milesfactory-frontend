@@ -7,12 +7,13 @@ import dayjs from "dayjs";
 import { setMessage } from "./sendMessageSlice";
 import { markPassengerAsFilled, setAllPassengerFill, setClosePassengerDrawer, setGenericOrderUuid, setIsFormLoading, setisPassengerDrawer, setOrderUuid, setPassengerFormError, setPassengerUUID, setPassFormData, setPassProfile, setViewPassengers } from "./passengerDrawerSlice";
 
+const initialState = {
+  isLoading: false,
+  SeeDetailButton: "Chat",
+}
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
-  initialState: {
-    isLoading: false,
-    SeeDetailButton: "Chat",
-  },
+  initialState,
   reducers: {
     setSeeDetailButton: (state, action) => {
       state.SeeDetailButton = action.payload;
@@ -23,6 +24,7 @@ const passengerDrawerSlice = createSlice({
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    resetPassengerHotelState: () => ({ ...initialState }),
   },
 });
 
@@ -179,7 +181,7 @@ export const getPassPofileHotel = () => (dispatch, getState) => {
 
 export const PassengerProfileDrawer = () => () => {};
 
-export const { setLoading, setError, setisLoading } =
+export const { setLoading, setError, setisLoading, resetPassengerHotelState } =
   passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

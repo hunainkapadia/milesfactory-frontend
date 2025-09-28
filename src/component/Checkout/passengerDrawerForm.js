@@ -109,53 +109,56 @@ const PassengerDrawerForm = () => {
   // Load form data or reset on drawer open
 
   useEffect(() => {
-    if (isPassengerDrawer) {
-      setTimeout(() => {
-        if (passengerPofile?.length && PassengersUuID) {
-          const passengerData = passengerPofile.find(
-            (getProfilepassenger) =>
-              getProfilepassenger.uuid === selectedpassengerPofile?.uuid
-          );
+  if (isPassengerDrawer) {
+    setTimeout(() => {
+      if (passengerPofile?.length && PassengersUuID) {
+        const passengerData = passengerPofile.find(
+          (getProfilepassenger) =>
+            getProfilepassenger.uuid === selectedpassengerPofile?.uuid
+        );
 
-          if (passengerData) {
-            setgender(passengerData.gender || "");
-            setgiven_name(passengerData.given_name || "");
-            setfamily_name(passengerData.family_name || "");
-            setborn_on(passengerData.born_on || "");
-            setpassport_number(passengerData.passport_number || "");
-            setpassport_expire_date(passengerData.passport_expire_date || "");
-            setphone(passengerData.phone_number || "");
-            setemail(passengerData.email || "");
-            setRegion(passengerData.phone_number || "");
+        if (passengerData) {
+          setgender(passengerData.gender || "");
+          setgiven_name(passengerData.given_name || "");
+          setfamily_name(passengerData.family_name || "");
+          setborn_on(passengerData.born_on || "");
+          setpassport_number(passengerData.passport_number || "");
+          setpassport_expire_date(passengerData.passport_expire_date || "");
+          setphone(passengerData.phone_number || "");
+          setemail(passengerData.email || "");
+          setRegion(passengerData.phone_number || "");
 
-            // Nationality matched here
+          // nationality will be re-checked whenever "countries" changes
+          if (countries?.length) {
             const matchedNationality = countries.find(
               (c) => c.id === passengerData.nationality?.id
             );
             setNationality(matchedNationality || null);
           }
         }
-      }, 500);
-    } else {
-      // Reset form when drawer is closed
-      setgender("");
-      setgiven_name("");
-      setfamily_name("");
-      setborn_on("");
-      setpassport_number("");
-      setpassport_expire_date("");
-      setNationality(null);
-      setphone("");
-      setemail("");
-      setRegion("");
-    }
-  }, [
-    isPassengerDrawer,
-    GetViewPassengers,
-    PassengersUuID,
-    countries,
-    dispatch,
-  ]);
+      }
+    }, 500);
+  } else {
+    // Reset form when drawer is closed
+    setgender("");
+    setgiven_name("");
+    setfamily_name("");
+    setborn_on("");
+    setpassport_number("");
+    setpassport_expire_date("");
+    setNationality(null);
+    setphone("");
+    setemail("");
+    setRegion("");
+  }
+}, [
+  isPassengerDrawer,
+  GetViewPassengers,
+  PassengersUuID,
+  countries,   // add this
+  dispatch,
+]);
+
 
   const handleCloseDrawer = () => {
     dispatch(setisPassengerDrawer(false));

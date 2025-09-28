@@ -1,21 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 
+const initialState = {
+  PaymentDrawer: false,
+  AddCardDrawer: false,
+  PaymentFormSuccess: false,
+  priceSummary: false,
+  clientSessionId: "",
+  client: "",
+  clientSecret: "",
+  isloading: false,
+  PaymentSessionId: null,
+  PaymentSessionData: null,
+  PaymentData: null,
+  OrderConfirm: null,
+  OrderData: null,
+  error: null,
+  isDrawer: false,
+  paymentStatus: null,
+};
 const PaymentSlice = createSlice({
   name: "payment",
-  initialState: {
-    PaymentDrawer: false,
-    AddCardDrawer: false,
-    PaymentFormSuccess: false,
-    priceSummary: false,
-    clientSessionId: "",
-    client: "",
-    isloading: false,
-    PaymentSessionId: null,
-    PaymentSessionData: null,
-    OrderConfirm: null,
-    error: null,
-  },
+  initialState,
   reducers: {
     setError:(state, action)=> {
       state.error = action.payload;
@@ -64,7 +70,9 @@ const PaymentSlice = createSlice({
     },
     setPaymentSessionData: (state, action)=> {
       state.PaymentSessionData = action.payload;
-    }
+    },
+    resetOrderState: () => ({ ...initialState }),
+
   },
 });
 
@@ -288,6 +296,7 @@ export const {
   setPaymentSessionId,
   setPaymentSessionData,
   setOrderData,
-  setError
+  setError,
+  resetOrderState
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

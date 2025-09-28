@@ -40,6 +40,7 @@ import {
 import PassengerProfilecard from "./PassengerProfilecard";
 import {
   getPassPofileHotel,
+  PassengerFormHotel,
   PassengerSetupHotel,
   ViewPassengersHotel,
 } from "@/src/store/slices/passengerDrawerHotelSlice";
@@ -87,7 +88,16 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
     dispatch(setisPassengerDrawer(true)); // open drawer
-    dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
+    if (CartType === "flight") {
+      dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
+    } else if (CartType === "hotel") {
+      dispatch(PassengerSetupHotel(passenger)); // call PassengerForm thunk (calls APIs)
+    } else if (CartType === "all") {
+      dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
+    } else {
+      ("");
+    }
+
   };
   const getFillPass = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
@@ -103,12 +113,17 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const handleAddPassenger = () => {
     dispatch(setSelectedProfilePass(null));
     dispatch(setisPassengerDrawer(true)); // open drawer
-    if (CartType === "all" || CartType === "flight") {
+    
+    if (CartType === "flight") {
       dispatch(ViewPassengers());
       dispatch(PassengerForm());
     } else if (CartType === "hotel") {
+      
       dispatch(ViewPassengersHotel());
       dispatch(PassengerSetupHotel());
+    } else if (CartType === "all") {
+      dispatch(ViewPassengers());
+      dispatch(PassengerForm());
     }
   };
 
