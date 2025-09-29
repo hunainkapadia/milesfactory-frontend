@@ -6,8 +6,9 @@ import {
   setChatscroll,
   setIsBuilderDialog,
 } from "@/src/store/slices/Base/baseSlice";
-import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
+import { getPassPofile, PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
+import { getPassPofileHotel, PassengerSetupHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const MobileLoading = () => {
   const dispatch = useDispatch();
@@ -43,10 +44,26 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
     (state) => state.payment?.PaymentFormSuccess
   );
 
+  const CartType = useSelector((state) => state.booking.cartType);
+  
   const handleBookFlight = () => {
     dispatch(setIsBuilderDialog(false));
     dispatch(setChatscroll(true));
-    dispatch(PassengerForm());
+
+    if (CartType === "flight") {
+      dispatch(PassengerForm());
+      dispatch(getPassPofile());
+    } else if (CartType === "hotel") {
+      
+      dispatch(PassengerSetupHotel())
+      dispatch(getPassPofileHotel());  
+    } else if (CartType === "all") {
+      dispatch(PassengerForm());
+      dispatch(getPassPofile());
+      dispatch(PassengerSetupHotel())
+    } else {
+      ""
+    }
   };
 
   return (
