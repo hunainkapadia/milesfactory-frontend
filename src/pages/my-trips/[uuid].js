@@ -265,7 +265,13 @@ const TripDetailPage = () => {
                 <Typography>
                   {tripDetail?.passengers[0]?.given_name}{" "}
                   {tripDetail?.passengers[0]?.family_name} -{" "}
-                  {tripDetail?.passengers[0]?.born_on}
+                  {tripDetail?.passengers[0]?.born_on
+                      ? new Date(tripDetail.passengers[0].born_on).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })
+                      : ""}
                 </Typography>
               </Box>
               {/* Payment Info */}
