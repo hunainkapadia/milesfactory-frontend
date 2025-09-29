@@ -55,8 +55,6 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
-  const [activeTabUUID, setActiveTabUUID] = useState(null);
-  const [tabValue, setTabValue] = useState(0);
   const [stopPolling, setStopPolling] = useState(false);
 
   const dispatch = useDispatch();
@@ -67,9 +65,6 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   );
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
-  );
-  const selectedType = useSelector(
-    (state) => state.passengerDrawer?.PassengerType
   );
   const PassengerType = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger?.type
@@ -117,6 +112,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     }
   };
 
+  console.log("PassengerType", PassengerType);
+  
   //  Add passenger
   const handleAddPassenger = () => {
     dispatch(setSelectedProfilePass(null));
@@ -197,6 +194,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   //  Passenger Tab click
   const handlePassengerTab = (isFilled, passenger) => {
+    console.log("passenger_tab", passenger);
+    
     if (passengerPofile?.length) {
       dispatch(getPassPofile());
       dispatch(setPassProfileDrawer(true));
@@ -205,7 +204,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
       dispatch(setPassengerAge(passenger?.age));
       dispatch(setPassengerPassport(passenger?.passportNumber));
       dispatch(setSelectPassenger(passenger));
-      setActiveTabUUID(passenger?.uuid);
+      // setActiveTabUUID(passenger?.type);
     }
   };
 
@@ -283,15 +282,15 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
             <Box className={Profilestyles.scrollTabsWrapper}>
               <Box className={Profilestyles.customTabs}>
+              {console.log("GetViewPassengers", GetViewPassengers)}
                 {GetViewPassengers?.map((passenger, index) => {
                   const isFilled = filledPassengerUUIDs.includes(
                     passenger.uuid
                   );
-                  console.log("activeTabUUID", PassengerType)
+                  console.log("activeTabUUID", PassengerType);
 
                   return (
                     <Box key={passenger.uuid}>
-                  
                       <PassengerProfileTab
                         totalPass={index + 1}
                         getdata={passenger}
@@ -304,7 +303,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                             passenger // while pasenger data
                           )
                         }
-                        isActive={PassengerType === passenger.type} 
+                        isActive={PassengerType === passenger.type}
                         //  passenger from type tabs selected PassengerType comming from redux
                       />
                     </Box>
@@ -335,60 +334,26 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             component={"section"}
             pb={10}
           >
-            {/* passport */}
-            {/* if passport_number  equal and show selected profile */}
-
-            {/* ?.filter((passenger) => {
-                if (
-                  selectedType === "child" ||
-                  selectedType === "infant_without_seat"
-                ) {
-                  return (
-                    passenger?.type === "child" ||
-                    passenger?.type === "infant_without_seat"
-                  );
-                }
-                return passenger?.type === selectedType;
-              }) */}
-
-            {passengerPofile?.map((passenger, index) => {
-              const isPassFilled =
-                passenger?.passport_number ===
-                FilledPassFormData?.passport_number;
-
-              {
-                /* if age is not uqual disable */
-              }
-
-              // Calculate age from born_on date
-              const birthDate = dayjs(passenger?.born_on);
-              const today = dayjs();
-              const profilePassengerAge = today.diff(birthDate, "year");
-
-              // Log for debugging
-
-              let ispassDisabled = false;
-
-              if (selectPassenger?.type === "adult") {
-                // Disable if passenger is not adult
-                ispassDisabled = passenger?.type !== "adult";
-              } else {
-                // For child or infant, disable if age or type doesn't match
-                ispassDisabled =
-                  profilePassengerAge !== selectPassenger?.age ||
-                  passenger?.type !== selectPassenger?.type;
-              }
-
-              return (
-                <PassengerProfilecard
-                  key={passenger?.uuid || index}
-                  getdata={passenger}
-                  onClickModifyCard={() => onClickModifyCard(passenger)}
-                  passFilled={isPassFilled}
-                  passDisabled={ispassDisabled}
-                />
-              );
-            })}
+            {passengerPofile
+              ?.filter((passenger) => {
+                // Only keep passengers tyoe matching tabValue
+                if (!PassengerType) return true;
+                return passenger?.type === PassengerType;
+              })
+              .map((passenger, index) => {
+                const isPassFilled =
+                  passenger?.passport_number ===
+                  FilledPassFormData?.passport_number;
+                return (
+                  <PassengerProfilecard
+                    key={passenger?.uuid || index}
+                    getdata={passenger}
+                    onClickModifyCard={() => onClickModifyCard(passenger)}
+                    passFilled={isPassFilled}
+                    // passDisabled={ispassDisabled}
+                  />
+                );
+              })}
 
             {/*  */}
             <Box
@@ -454,9 +419,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   <Button
                     type="submit"
                     className="btn btn-primary chat-btn btn-round"
-                    onClick={
-                      handleSavePassenger
-                    }
+                    onClick={handleSavePassenger}
                     variant="contained"
                     color={isAllPassengersFilled ? "primary" : "success"}
                   >

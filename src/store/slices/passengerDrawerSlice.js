@@ -234,6 +234,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
 
   if (filledPassengerUUIDs.length === GetViewPassengers.length) {
     dispatch(setAllPassengerFill(true));
+    dispatch(setFilledPass(true))
   }
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
@@ -265,6 +266,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
 
       const nextPassenger = allPassengers.find(
         (p) => !filledPassengerUuids.includes(p.uuid)
+        
       );
 
       if (nextPassenger) {
