@@ -230,6 +230,10 @@ const PaymentSuccess = () => {
                 handleRatingChange={handleRatingChange}
                 handleReasonSelect={handleReasonSelect}
               />
+              <InviteEmailSearch
+              inviteSuccess={inviteSuccess}
+              orderData={orderData}
+               />
 
               
             </>
