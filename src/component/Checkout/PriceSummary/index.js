@@ -50,7 +50,7 @@ const PriceSummary = ({ getdata }) => {
   const flightOrder = OrderDetail?.flight_order?.selected_offer;
   const hotelOrder = OrderDetail?.hotel_order?.selected_hotel_offer?.hotel;
 
-  console.log("flightOrder_22", flightOrder?.tax_amount);
+  console.log("flightOrder_22", OrderDetail?.amount_calculations);
     // hotelOrder.hotel.rooms[0].rates[0].taxes.taxes[0].amount || {}
   
   
@@ -237,7 +237,7 @@ const PriceSummary = ({ getdata }) => {
                 </Box>
               </Box> */}
               {/* Additional baggage row */}
-              {flightOrder?.amount_calculations
+              {OrderDetail?.amount_calculations
                 ?.baggages_total_amount_plus_markup > 0 && (
                 <Box
                   className={styles.PriceRow + " f12"}
@@ -250,7 +250,7 @@ const PriceSummary = ({ getdata }) => {
                     {currencySymbols[flightOrder?.tax_currency] ||
                       flightOrder?.tax_currency}
                     {Math.round(
-                      flightOrder?.amount_calculations
+                      OrderDetail?.amount_calculations
                         ?.baggages_total_amount_plus_markup
                     )}
                   </Box>

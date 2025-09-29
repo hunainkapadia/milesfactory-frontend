@@ -576,10 +576,17 @@
 }
 @include for-tab (){
   .ChatBody .ChatBodyLeft {max-width: 100%;}
+  .CheckoutBtn {height: 30px;
+    p {
+      font-size: 12px !important;
+    }
+  }
 }
 
-@media only screen and (max-width: 360px) {
-  .CheckoutBtn p {
-    font-size: 12px !important;
+@include for-mobile-large-screen () {
+  .CheckoutBtn {height: 30px;
+    p {
+      font-size: 12px !important;
+    }
   }
 }
