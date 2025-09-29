@@ -261,7 +261,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}
-                        {Math.round(offerData?.per_passenger_amount_rounded)}
+                        {Math.round(offerData?.per_passenger_amount_plus_markup_rounded)}
                       </h4>
                       {/* {console.log(offerData)} */}
 
@@ -269,7 +269,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         <Typography className="f12 gray">
                           {currencySymbols[offerData?.tax_currency] ||
                             offerData?.tax_currency}
-                          {Math.round(offerData?.total_amount_rounded)} total
+                          {Math.round(offerData?.total_amount_plus_markup_rounded)} total
                         </Typography>
                       )}
                     </Box>
