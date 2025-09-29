@@ -49,6 +49,8 @@ const PassengerDrawerForm = () => {
   const [nationality, setNationality] = useState(null);
 
   const countries = useSelector((state) => state.passengerDrawer.countries);
+  console.log("countries_00", countries);
+  
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
@@ -95,9 +97,13 @@ const PassengerDrawerForm = () => {
 
   // get select from whole pasenger detail card
 
+  
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   useEffect(() => {
-    dispatch(NationalitData());
-  }, [dispatch]);
+    if (uuid) {
+      dispatch(NationalitData());
+    }
+  }, [dispatch, uuid]);
 
   //
   useEffect(() => {
@@ -129,10 +135,10 @@ const PassengerDrawerForm = () => {
           setRegion(passengerData.phone_number || "");
 
           // nationality will be re-checked whenever "countries" changes
+          const matchedNationality = countries.find(
+            (c) => c.id === passengerData.nationality?.id
+          );
           if (countries?.length) {
-            const matchedNationality = countries.find(
-              (c) => c.id === passengerData.nationality?.id
-            );
             setNationality(matchedNationality || null);
           }
         }
