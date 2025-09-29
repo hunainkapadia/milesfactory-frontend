@@ -121,6 +121,7 @@ const searchType = useSelector((state) =>
   
   
   const CartType = useSelector((state) => state.booking.cartType);
+  
   // for captain
   useEffect(() => {
     if (filledPassengerUUIDs?.length === getdata?.length) {
@@ -138,12 +139,22 @@ const searchType = useSelector((state) =>
     }
   }, [filledPassengerUUIDs, getdata, dispatch]);
 
+  var initialMsg = ""
+  if (CartType === "all") {
+    initialMsg = "Please add traveller details to proceed to payment."
+  } else if (CartType === "flight") {
+    initialMsg = "Let's confirm who’s flying."
+  } else if (CartType === "hotel") {
+    initialMsg = "Please add guest details to proceed to payment."
+  } else {
+    initialMsg = "Please add traveller details to proceed to payment."
+  }
 
   return (
     <>
       <Box py={2}>
         <Typography fontWeight={"semibold"}>
-          Your flight has been added to the Builder! Let's now confirm who’s flying.
+          {initialMsg}
         </Typography>
       </Box>
       <Box variant="outlined" className={searchResultStyles.PassengersSection}>
