@@ -89,9 +89,9 @@
     top: inherit;
     left: 48%;
   }
-    &.FilterActive .messageContentIn {
-      margin-top: 150px;
-    }
+    // &.FilterActive .messageContentIn {
+    //   margin-top: 150px;
+    // }
 
   .messageContentIn {
     padding: 0px 0 35px;
@@ -121,11 +121,20 @@
       color: #0B1729;
       width: 100%;
       padding-bottom: 34px;
-      max-width: 80%;
+      min-width: 100%;
+      display: flex;
 
       p {
         color: $basecolor-dark;
         margin: 0;
+      }
+      &.AiMessageNormal {
+        padding-right: 34px;
+        .Box {
+            padding: 10px 24px;
+            border-radius: 22px;
+            background-color: #F2F6F4;
+        }      
       }
     }
   }
@@ -138,6 +147,23 @@
   opacity: 0.5;
 }
 .ChatBody .ChatBodyLeft {max-width: 674px;}
+.NotfoundCard {
+  border-radius: 12px;
+  max-width: 100%;
+  background: $white;
+  border: 1px solid #E6EEEE;
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s ease-in-out;
+  margin-bottom: 10px;
+  .CardLeft {
+    
+  }
+  .CardRight {
+    border-left: solid 1px $lightgray3;
+    padding: 16px 14px 16px 17px;
+  }
+}
 .SearchCardWrapper {
   .SearchCardGrid {
     .flightOfferCard {
@@ -158,11 +184,12 @@
       }
       .IsSelected {
         height: 30px;
-        width: 100% !important;
+        width: 150px !important;
         padding: 0; 
         white-space: nowrap;
         line-height: 1;
         font-size: 12px;
+        pointer-events: none;
         background-color: #DEE1E6;}
       .FromAndToRow {width: 100%;}
       &.Oneway {
@@ -360,6 +387,11 @@
 }
 
 @include for-mobile-large-screen {
+  .NotfoundCard {
+    .CardRight {
+      border-left: none;
+    }
+  }
   .BaggageCol {opacity: 0.5;}
   .ChatBody .ChatBodyLeft {max-width: 100%;}
   
@@ -512,7 +544,7 @@
     justify-content: center;
     width: 100%;
     &.FilterActive .messageContentIn {
-      margin-top: 140px;
+      margin-top: 120px;
     }
     .messageContentIn {
       width: 100%;
@@ -531,7 +563,30 @@
       }
       .AiMessage {
         max-width: 100%;
+        &.AiMessageNormal {
+          padding-bottom: 24px;
+          padding-right: 17px;
+          .Box {
+              padding: 10px 18px;
+          }
+        }
       }
+    }
+  }
+}
+@include for-tab (){
+  .ChatBody .ChatBodyLeft {max-width: 100%;}
+  .CheckoutBtn {height: 30px;
+    p {
+      font-size: 12px !important;
+    }
+  }
+}
+
+@include for-mobile-large-screen () {
+  .CheckoutBtn {height: 30px;
+    p {
+      font-size: 12px !important;
     }
   }
 }

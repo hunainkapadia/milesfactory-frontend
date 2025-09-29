@@ -59,12 +59,6 @@ const HeaderUser = ({
       Cookies.remove("set-user");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
-
-        dispatch(Logout()); // if this already resets loginUser, isUser, etc.
-        dispatch(setCurrentUser(null));
-        dispatch(setLoginUser(null));
-        dispatch(setIsSignupUser(null));
-      
     }
 
 

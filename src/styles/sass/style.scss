@@ -7,11 +7,19 @@
 // tags [star]
 
 // tags
+.TapNone {
+  @include TapNone;
+}
 
 .paymentInviteBox {
   .ReactTags__tags {
     width: 350px;
   }
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .ReactTags__tags {
   
@@ -712,6 +720,14 @@ label,
   border: none;
 }
 
+.css-aou5iv-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: inherit;
+  border-width: 1px;
+
+}
+.formControl:hover fieldset {
+    border-color: inherit !important;
+}
 .checkoutDrower .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
   border-color: $lightgray2;
 }
@@ -1062,6 +1078,11 @@ pre {
   font-size: 11px !important;
 }
 
+.f8 {
+  font-size: 8px !important;
+  line-height: 1.2;
+}
+
 .f12 {
   font-size: 12px !important;
   line-height: 1.2;
@@ -1136,6 +1157,16 @@ pre {
 }
 
 body {
+  .rdrSelected, .rdrInRange, .rdrStartEdge, .rdrEndEdge {
+      background-color: $basecolor1;
+    }
+    .rdrDayToday .rdrDayNumber span:after {
+      display: none;
+    }
+    .rdrDateDisplayItemActive, 
+    .rdrDayStartPreview, .rdrDayInPreview, .rdrDayEndPreview{
+      border-color:$basecolor1 !important; /* your hover border color */    
+    }
 
   a,
   a:focus,
@@ -1196,6 +1227,11 @@ body {
     width: 100%;
     border: 0;
   }
+  
+  .MuiDialogContent-root {
+    padding: 16px;
+  }
+  
 .MuiDialog-container{ padding: 0 18px;}
   .formGroup {
     margin-bottom: 22px;
@@ -1207,8 +1243,27 @@ body {
         pointer-events: none;
       }
     }
+    .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+      border-color: inherit !important;
+    }
+
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: inherit !important;
+    }
+    
+        .formControl .MuiInputBase-input::placeholder {
+          color: #8F8F8F;
+          /* default placeholder color */
+          opacity: 1;
+          /* ensure it's fully visible */
+        }
+    
+        .formControl.Mui-error .MuiInputBase-input::placeholder {
+          color: red;
+          /* placeholder turns red if error */
+        }
     label.MuiInputLabel-formControl {
-        color: #8C8C7A !important;
+        color: #8F8F8F !important;
         top: 0px;
       }
 
@@ -1248,7 +1303,7 @@ body {
     width: 100%;
     margin-top: 0;
     
-
+    
     &.Calendar {
       &::after {
         content: "\f133";
@@ -1522,14 +1577,28 @@ body {
     height: 40px;
 
   }
+  &.dark {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(197, 218, 222, 0.3);
+    background-color: $basecolor1-dark2;
+  }
 }
 .chip {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
   &.sm {
     padding: 2px 8px;
     height: 18px;
     border-radius: 100px;
     font-size: 12px;
-    font-size: 12px;
+    line-height: 1;
+  }
+  
+  &.basecolor1-light {
+    color: $white;
+    background: #80E1E5;
   }
   &.chipPrimary {
     color: $white;
@@ -1680,13 +1749,13 @@ body {
     }
   }
   &.btn-primary {
-    &:disabled {
+    &.disabled, &:disabled {
       background: $basecolor1;
       opacity: 0.5;
       color: $white !important;
       pointer-events: none; // disables clicks
       &.btn-round {
-        font-size: 12px;
+        
         border-radius: 100px;
         box-shadow: none;
       }
@@ -2588,9 +2657,9 @@ html {
 // chat loading
 .Loading {
   .dot {
-    width: 8px;
-    height: 8px;
-    background-color: $basecolor1;
+    width: 10px;
+    height: 10px;
+    background-color: #E1E1E1;
     border-radius: 50%;
     animation: bounce 1.5s infinite ease-in-out;
 
@@ -2759,6 +2828,11 @@ body .BuilderDialoge .MuiDialog-container {padding: 0;
 }
 
 @include for-mobile-large-screen {
+  .chip {
+    white-space: nowrap;
+    &.sm {font-size: 8px;height: 12px;}
+  }
+
   
   .paymentInviteBox {width: 100%;
     
@@ -2799,6 +2873,9 @@ body .BuilderDialoge .MuiDialog-container {padding: 0;
 
 
   .btn {
+    &.btn-xs {
+        padding: 6px 11px;
+    }
     &.btn-md {
       &.sm {
         padding: 10px 20px;

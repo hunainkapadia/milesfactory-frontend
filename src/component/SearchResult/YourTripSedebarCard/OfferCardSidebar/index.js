@@ -2,7 +2,9 @@ import { Box, Typography, Avatar, Stack } from "@mui/material";
 import {
   bookFlight,
   closeDrawer,
+  DeleteCart,
   fetchflightDetail,
+  setBookingDrawer,
   setflightDetail,
   setOfferkeyforDetail,
   setOpenDrawer,
@@ -29,7 +31,9 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
-const OfferCardSidebar = ({ index, slice }) => {
+const OfferCardSidebar = ({ index, slice, getItems }) => {
+  const dispatch = useDispatch();
+
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -44,38 +48,27 @@ const OfferCardSidebar = ({ index, slice }) => {
     (p) => p.given_name && p.family_name
   );
   //   for selct flight detail
-  const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
-  );
+  const CartOffer = useSelector((state) => state?.booking?.cartOffer);
+
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-
-  const dispatch = useDispatch();
-  const offerkey = getselectedFlight?.id ?? null;
+  
 
   const HandleSelectDrawer = () => {
-    if (getselectedFlight?.id) {
-      dispatch(setSeeDetailButton("Builder"));
-      dispatch(setOpenDrawer(getselectedFlight.id));
-      dispatch(setflightDetail(getselectedFlight));
-    }
+    // if (CartOffer?.id) {
+    //   dispatch(setflightDetail(CartOffer));
+    // }
+    // dispatch(getItems?.raw_data)
+    dispatch(setSeeDetailButton("Builder"));
+    dispatch(setBookingDrawer(true));
+    dispatch(setSingleFlightData(getItems?.raw_data));
   };
 
-  const handleClearFlight = () => {
-    dispatch(setSelectedFlightKey(null));
-    dispatch(setflightDetail(null));
-    dispatch(setViewPassengers([])); // Clear passengers array
-    dispatch(setOrderUuid(null)); // Clear order UUID
-    dispatch(setMessage({ ai: { passengerFlowRes: false } }));
+  const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
-    dispatch(
-      setMessage({
-        ai: { passengerFlowRes: { status: false, isloading: false } },
-      })
-    );
-    dispatch(bookFlight(null)); // Pass flight ID to bookFlight
-    dispatch(setSingleFlightData(null));
-    dispatch(setOfferkeyforDetail(null)); //  offerkey clear key (for detail)
+  const handleDeleteCart = () => {
+    dispatch(DeleteCart(threaduuid, getItems?.uuid));
+    
   };
 
   return (
@@ -98,13 +91,15 @@ const OfferCardSidebar = ({ index, slice }) => {
                 <Typography className="f12 semibold">Return flight</Typography>
               </Box>
             )}
-            <FontAwesomeIcon
-              className="basecolor1-50"
-              cursor="pointer"
-              onClick={handleClearFlight}
-              icon={faClose}
-              fontSize={20}
-            />
+            {!orderSuccess && (
+              <FontAwesomeIcon
+                className="basecolor1-50"
+                cursor="pointer"
+                onClick={handleDeleteCart}
+                icon={faClose}
+                fontSize={20}
+              />
+            )}
           </Box>
           {PaymentStatus?.is_complete === "yes" &&
           PaymentStatus?.status === "success" ? (
@@ -116,7 +111,7 @@ const OfferCardSidebar = ({ index, slice }) => {
             >
               Booked
             </Box>
-          ) : getselectedFlight ? (
+          ) : CartOffer ? (
             <Box
               display="flex"
               justifyContent="center"
@@ -303,7 +298,7 @@ const OfferCardSidebar = ({ index, slice }) => {
             justifyContent={"space-between"}
           >
             <Stack direction="row" spacing={"4px"} alignItems={"center"}>
-              <Box pt={"3px"}>
+              <Box pt={"2px"}>
                 <svg
                   width="13"
                   height="13"
@@ -329,43 +324,31 @@ const OfferCardSidebar = ({ index, slice }) => {
                   {(() => {
                     const baggageMap = new Map();
 
-                    getselectedFlight?.slices.forEach((slice) => {
-                      slice?.segments?.forEach((segment) => {
-                        segment?.passengers?.forEach((passenger) => {
-                          passenger?.baggages?.forEach((baggage) => {
-                            const key = `${baggage.type}-${baggage.formatted_type}`;
-                            if (!baggageMap.has(key)) {
-                              baggageMap.set(key, {
-                                ...baggage,
-                              });
-                            }
-                          });
+                    slice?.segments?.forEach((segment) => {
+                      segment?.passengers?.forEach((passenger) => {
+                        passenger?.baggages?.forEach((baggage) => {
+                          const key = `${baggage.type}-${baggage.formatted_type}`;
+                          if (!baggageMap.has(key)) {
+                            baggageMap.set(key, { ...baggage });
+                          }
                         });
                       });
                     });
 
                     const uniqueBaggages = Array.from(baggageMap.values());
 
-                    return getselectedFlight?.slices.map(
-                      (slice, sliceIndex) => {
-                        const baggageSummary = uniqueBaggages
-                          .filter((baggage) => baggage.quantity > 0)
-                          .map(
-                            (baggage) =>
-                              `${baggage.quantity}x ${baggage.formatted_type}`
-                          )
-                          .join(", ");
+                    const baggageSummary = uniqueBaggages
+                      .filter((baggage) => baggage.quantity > 0)
+                      .map(
+                        (baggage) =>
+                          `${baggage.quantity}x ${baggage.formatted_type}`
+                      )
+                      .join(", ");
 
-                        return (
-                          <span key={sliceIndex}>
-                            {baggageSummary || "No baggage info"}
-                            {sliceIndex === 0 &&
-                            getselectedFlight?.slices.length > 1
-                              ? " / "
-                              : ""}
-                          </span>
-                        );
-                      }
+                    return (
+                      <>
+                        <span>{baggageSummary || "No baggage info"}</span>
+                      </>
                     );
                   })()}
                 </Typography>
@@ -373,7 +356,7 @@ const OfferCardSidebar = ({ index, slice }) => {
             </Stack>
           </Stack>
         </Box>
-        {!validPassengers?.length && (
+        {/* {!validPassengers?.length && (
           <>
             <Box
               component={"section"}
@@ -410,7 +393,7 @@ const OfferCardSidebar = ({ index, slice }) => {
               </Box>
             </Box>
           </>
-        )}
+        )} */}
         {/* {flightOrder ? (
           <>
             <Box

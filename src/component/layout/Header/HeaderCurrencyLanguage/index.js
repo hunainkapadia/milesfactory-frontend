@@ -41,7 +41,6 @@ const HeaderCurrencyLanguage = ({
   isAiBooking
 }) => {
 
-  console.log("isAiBooking", isAiBooking);
   
   const dispatch = useDispatch();
   const [languageAnchor, setLanguageAnchor] = useState(null);

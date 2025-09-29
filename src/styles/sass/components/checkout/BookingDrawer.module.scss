@@ -14,6 +14,10 @@
 .BaggageCol:not(:last-child) {
    border-right: solid 1px $lightgray3;
 }
+.includeWraper {
+   gap: 11px;
+   
+}
 .passengersCard {
    background: #FFFFFF;
    border: 1px solid #E6EEEE;
@@ -67,13 +71,36 @@
 }
 
 .addtravellerBtn {
-   padding: 0px 24px 0px 0px;
+   padding: 0px;
    height: 79px;
    background: #FFFFFF;
    border: 1px dashed #E6EAEB;
    border-radius: 8px;
 }
-
+.HotelGallerySection {
+   display: grid;
+      .HotelGallery {
+      display: flex;                 /* arrange thumbnails in a row */
+      gap: 8px;                      /* space between images */
+      overflow-x: auto;              /* enable horizontal scroll */
+      width: 100%;
+      -ms-overflow-style: none;      /* hide scrollbar on IE/Edge */
+      scrollbar-width: none;         /* hide scrollbar on Firefox */
+      
+      &::-webkit-scrollbar {         /* hide scrollbar on Chrome/Safari */
+         display: none;
+      }
+      
+      .HotelThumb {
+         flex: 0 0 auto;              /* prevent shrinking */
+         width: 106px;
+         height: 79px;
+         border-radius: 12px;
+         object-fit: cover;
+         cursor: pointer;
+      }
+   }
+}
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
       padding: 0;
@@ -164,6 +191,9 @@
                justify-content: space-between;
                font-size: 0.85rem;
                color: gray;
+               .divider {
+                  display: block;
+               }
             }
             .fromAndToContainer {
                border-bottom: none;
@@ -198,9 +228,9 @@
                      justify-content: flex-end;
                   }
                   .Country {
-                     font-size: $f12;
+                     font-size: $f14;
                   }
-                  .Dates {font-size: $f12;}
+                  .Dates {font-size: $f14;}
                }
                .fromAndToRowIn {
                   gap: 16px;
@@ -217,12 +247,12 @@
                }
 
                .flightDurationRow {
-                  padding: 0 30px;
+                  padding-left:  30px;
                }
 
                .FromRow {
                   position: relative;
-                  padding: 0 30px;
+                  padding-left: 30px;
 
                   &::before {
                      top: 6px;
@@ -239,11 +269,11 @@
                }
 
                .flightDurationRow {
-                  padding: 0 30px;
+                  padding-left:  30px;
                }
                .ToRow {
                   position: relative;
-                  padding: 0 30px;
+                  padding-left: 30px;
 
                   &::before {
                      bottom: 6px;
@@ -290,6 +320,9 @@
    }
 }
 @include for-mobile-large-screen {
+   .includeWraper {
+      
+   }
    
    .checkoutDrower {
       .checkoutDrowerHeder {
@@ -336,8 +369,18 @@
          border: 0;
          top: inherit;
          @include border-radius(0);
-         .checkoutDrowerBody .detailsSection {
-            padding: 0 24px 20px;
+         .checkoutDrowerBody {
+            .detailsSection {
+               .fromAndToRow {
+                  .ToRow, .FromRow {
+                     padding-left: 23px;
+                  }
+                  .Col1, .Col2, .Col3 {
+                     width: 30%;
+                     .Country, .Dates {font-size: $f12;}
+                  }
+               }
+            }
          }
       }
    }
@@ -345,10 +388,13 @@
 }
 
 // payment
-.PriceSection .PriceRow:not(:last-child)  {
+.PriceSection .PriceRow {
    border-bottom: solid 1px $lightgray3;
-   padding: 10px 0px;
-   margin: 10px 0;
+   padding: 13px 0px 13px;
+   &:last-child {
+      border: 0;
+      margin-bottom: 0;
+   }
 }
 
 /* In your CSS file or style block */

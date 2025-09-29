@@ -25,7 +25,7 @@ const MobileBuilderDialoge = () => {
   const dispatch = useDispatch();
   const isBuilderDialoge = useSelector((state) => state?.base?.IsBuilderDialog);
   const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
+    (state) => state?.booking?.addCart?.raw_data
   );
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
 
@@ -46,8 +46,8 @@ const MobileBuilderDialoge = () => {
       PaperProps={{
         sx: {
           position: "absolute",
-          top: "50px", // shift drawer down 50px
-          height: "calc(100% - 50px)", // adjust height so it doesn't overflow
+          top: "45px", // shift drawer down 50px
+          height: "calc(100% - 45px)", // adjust height so it doesn't overflow
           width: "100%",
           maxWidth: "100%",
           boxShadow: "none",
@@ -61,8 +61,9 @@ const MobileBuilderDialoge = () => {
       }}
     >
       <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
-        <Box className="1111" py={"18px"}>
+        <Box className="1111" >
           <YourTripSedebarCard getBuilder={getBuilder} />
+          
         </Box>
       </DialogContent>
       <Box
@@ -77,7 +78,7 @@ const MobileBuilderDialoge = () => {
         <Box width={"100%"} mb={1}>
           <SidebarTabs />
         </Box>
-        <MobileBuilder />
+        <MobileBuilder isMobileBuilder />
       </Box>
     </Drawer>
   );

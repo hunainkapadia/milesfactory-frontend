@@ -3,11 +3,17 @@ import getMessagesReducer from "./slices/GestMessageSlice";
 import sendMessageReducer from "./slices/sendMessageSlice";
 import bookingflightsReducer from "./slices/BookingflightSlice";
 import passengerDrawerReducer from "./slices/passengerDrawerSlice" ;
+import passengerHotelReducer from "./slices/passengerDrawerHotelSlice" ;
+
 import signupReducer from "./slices/Auth/SignupSlice" ;
 import loginReducer from "./slices/Auth/LoginSlice";
 import baseReducer from "./slices/Base/baseSlice";
 import paymentReducer from "./slices/PaymentSlice";
 import baggageReducer from "./slices/BaggageSlice";
+import hotelReducer from "./slices/HotelSlice";
+import travelReducer from "./slices/TravelSlice";
+
+
 
 const store = configureStore({
   reducer: {
@@ -15,11 +21,14 @@ const store = configureStore({
     getMessages: getMessagesReducer,
     sendMessage: sendMessageReducer,
     passengerDrawer: passengerDrawerReducer,
+    passengerHotelSlice: passengerHotelReducer,
     signup :  signupReducer,
     login :  loginReducer,
     payment :  paymentReducer,
     base: baseReducer,
     bagage: baggageReducer,
+    hotel: hotelReducer,
+    travel: travelReducer,
     
 
   },

@@ -12,7 +12,7 @@ import {
   setSegmentId,
 } from "@/src/store/slices/BaggageSlice";
 
-const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
+const ExtraServices  = ({ getServicesdata, isFilled, selectedFlight }) => {
   const dispatch = useDispatch();
 
   const handleBaggageDrawer = (segmentIds) => {
@@ -21,8 +21,12 @@ const ExtraServices = ({ getServicesdata, isFilled, selectedFlight }) => {
     dispatch(setBaggageDrawer(true)); //for open drawer
   };
 
-  const singleflight = useSelector((state) => state.booking.singleFlightData);
-
+  
+  
+  
+  const singleflight = useSelector(
+      (state) => state?.booking?.addCart?.raw_data
+    );  
   return (
     <Grid
       item

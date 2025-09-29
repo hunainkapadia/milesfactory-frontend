@@ -8,7 +8,6 @@ const initialState = {
   setLoading: null,
   setError: null,
   selectedFlightId: null,
-  selectedFlighDetail: null,
   
   setSelectFlightKey: null,
   OpenDrawer: false,
@@ -72,7 +71,7 @@ const baggageSlice = createSlice({
     setCloseDrawer: (state, action) => {
       state.setSelectFlightKey = action.payload;
     },
-
+    resetBaggageState: () => ({ ...initialState }),
     
   },
 });
@@ -102,11 +101,11 @@ export const baggage = (flightId) => (dispatch, getState) => {
   // Extract only the UUID from the URL
 };
 // for add baggage
-export const addBaggage = () => (dispatch, getState) => {
+export const addBaggage = (uuid) => (dispatch, getState) => {
   const state = getState();
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
 
-  const addUrl = `/api/v1/passenger/baggage/${selectedBaggagesUUID}/add`;
+  const addUrl = `/api/v1/passenger/baggage/${uuid}/add`;
   
   api
     .post(addUrl)
@@ -123,11 +122,12 @@ export const addBaggage = () => (dispatch, getState) => {
     });
 };
 // for add baggage
-export const removeBaggage = () => (dispatch, getState) => {
+export const removeBaggage = (uuid) => (dispatch, getState) => {
   const state = getState();
   const selectedBaggagesUUID = state?.bagage?.addSelectedBaggage;
+  
 
-  const removeUrl = `/api/v1/passenger/baggage/${selectedBaggagesUUID}/remove`;
+  const removeUrl = `/api/v1/passenger/baggage/${uuid}/remove`;
   
 
   api
@@ -158,5 +158,6 @@ export const {
   setBaggageError,
   setbaggageAddData,
   setSegmentId,
+  resetBaggageState,
 } = baggageSlice.actions; //action exporting here
 export default baggageSlice.reducer;

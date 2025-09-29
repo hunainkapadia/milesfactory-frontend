@@ -20,7 +20,6 @@ import {
 } from "@/src/store/slices/Auth/SignupSlice";
 import HeaderCurrencyLanguage from "../HeaderCurrencyLanguage";
 import {
-  createThreadAndRedirect,
   deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
 import { useRouter } from "next/router";
@@ -28,8 +27,6 @@ import { Logout } from "@/src/store/slices/Auth/LoginSlice";
 
 const MobileNavDrawer = ({ isChat, isAiBooking }) => {
   const isdrawerOpen = useSelector((state) => state.base?.mobileNaveDrawer);
-  console.log("isAiBooking", isAiBooking);
-
   const HandleBookTrip = () => {
     // Your booking logic here
   };

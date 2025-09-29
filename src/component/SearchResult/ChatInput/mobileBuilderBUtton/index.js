@@ -6,7 +6,8 @@ import { setIsBuilderDialog } from "@/src/store/slices/Base/baseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { event } from "@/src/utils/utils";
 
-const MobileBuilder = () => {
+const MobileBuilder = ({isMobileBuilder}) => {
+  
   const dispatch = useDispatch();
   const isBuilder = useSelector((state) => state?.base?.IsBuilderDialog);
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
@@ -21,19 +22,14 @@ const MobileBuilder = () => {
       category: 'engagement',
       label: 'Builder Toggle Mobile Clicked',
     });
-
-    console.log("Builder Toggle Mobile Clicked");
     dispatch(setIsBuilderDialog(tab === "builder"));
   };
-
-  console.log("isBuilder", isBuilder);
-  
 
   return (
     <>
       {isBuilderArgument && (
         <Box
-          className={`${styles.switchWrapper} customTabs`}
+          className={`${styles.switchWrapper} ${isMobileBuilder ? styles.isMobileBuilder : ""} customTabs TapNone`}
           sx={{
             backgroundColor: "#F2F7F8",
             borderRadius: "8px",
@@ -41,19 +37,23 @@ const MobileBuilder = () => {
             display: "flex",
             gap: "4px",
             width: "100%",
+            WebkitTapHighlightColor: "transparent", // removes blue/gray tap color
           }}
         >
           {/* Chat Tab */}
           <Box
             className={`${styles.label} ${
               !isBuilder ? styles.active : styles.inactive
-            }`}
+            } TapNone`}
             onClick={() => handleTabClick("chat")}
             display="flex"
             alignItems="center"
             justifyContent="center"
             flex={1}
-            sx={{ cursor: "pointer" }}
+            sx={{ 
+              cursor: "pointer", 
+              WebkitTapHighlightColor: "transparent", // removes blue/gray tap color
+             }}
           >
             <Typography variant="body2">Chat</Typography>
           </Box>
@@ -62,13 +62,13 @@ const MobileBuilder = () => {
           <Box
             className={`${styles.label} ${
               isBuilder ? styles.active : styles.inactive
-            }`}
+            } TapNone`}
             onClick={() => handleTabClick("builder")}
             display="flex"
             alignItems="center"
             justifyContent="center"
             flex={1}
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: "pointer", WebkitTapHighlightColor: "transparent", }}
           >
             <Typography variant="body2">Builder</Typography>
           </Box>

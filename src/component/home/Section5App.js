@@ -12,7 +12,7 @@ const Section5App = (props) => {
             position={"relative"}
           >
             <Grid container>
-              <Grid item xs={12} md>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
                 <Box className={styles.AppSectionRight}>
                   <Box
                     display={"flex"}
@@ -24,7 +24,7 @@ const Section5App = (props) => {
                       },
                       textAlign: {
                         xs: "center",
-                        sm: "center",
+                        sm: "left",
                         lg: "left",
                         md: "left",
                       },
@@ -99,7 +99,9 @@ const Section5App = (props) => {
               <Grid
                 item
                 xs={12}
-                md
+                sm={6}
+                md={6}
+                lg={6}
                 className={styles.IdeaCard}
                 sx={{
                   display: "flex",

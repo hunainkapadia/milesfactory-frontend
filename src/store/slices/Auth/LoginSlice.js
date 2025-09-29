@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/apiEndpoints"; // Fixed import
 import api from "../../api";
-import { setMobileNaveDrawer } from "../Base/baseSlice";
+import { setCurrentUser, setMobileNaveDrawer } from "../Base/baseSlice";
+import { setIsSignupUser } from "./SignupSlice";
 
 const initialState = {
   loginUser: null,
@@ -125,6 +126,8 @@ export const googleLoginUser = (code) => (dispatch) => {
   api
     .post("/api/auth/google/", { code })
     .then((res) => {
+
+      
       if (res.status === 200) {
         const { user, access, refresh } = res.data;
 
@@ -176,7 +179,7 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
   api
     .post("/api/auth/facebook/", { access_token }) // Your backend endpoint
     .then((res) => {
-      const { user, access, refresh } = res.data;
+      const { user, access, refresh } = res.data;      
 
       dispatch(
         setLoginUser({
@@ -214,31 +217,30 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
 
 
 export const Logout = () => (dispatch) => {
-  const refreshToken = Cookies.get("refresh_token"); // Correct method
+  const refreshToken = Cookies.get("refresh_token"); // get the token string
+  api
+    .post("/api/v1/logout/", { refresh: refreshToken }) // <-- send string, not object
+    .then((res) => {
+      console.log("refreshToken_logout_2", refreshToken);
 
-  
-  
-  api.post("/api/v1/logout/", { refresh: refreshToken })
-  .then((res) => {
-    console.log("refreshToken", refreshToken);
-    
       dispatch(setLogoutUser(res.data));
-
+      dispatch(setCurrentUser(null));
       Cookies.remove("set-user");
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
-      window.location.reload();
-
+      dispatch(setCurrentUser(null));
+      dispatch(setLoginUser(null));
+      dispatch(setIsSignupUser(null));
+      // window.location.reload();
     })
     .catch((err) => {
       console.error("Logout failed:", err.response?.data || err.message);
     });
 };
 
+
 export const LoginWithApple = (code) => (dispatch) => {
-  dispatch(setisLoading(true));
-  console.log("apple_test", res);
-  
+  dispatch(setisLoading(true));  
   api.post("/api/auth/apple/", { code })
   .then((res) => {
     const { user, access, refresh } = res.data;

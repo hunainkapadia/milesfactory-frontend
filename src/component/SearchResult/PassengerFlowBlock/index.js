@@ -14,6 +14,15 @@ const PassengerFlowBlock = ({
   orderDetail,
   paymentSuccess,
 }) => {
+
+  
+  console.log("paymentSuccess", orderDetail);
+  
+  const FilledPass = useSelector(
+      (state) => state?.passengerDrawer?.filledPass
+    );
+    console.log("FilledPass_00", FilledPass);
+  
   
   // Passenger info
   return (
@@ -24,16 +33,17 @@ const PassengerFlowBlock = ({
           <LoadingArea />
         </Box>
       )}
+      
 
       {/* Passenger Info */}
-      {aiMessage?.ai?.passengerFlowRes?.status &&
+      { aiMessage?.ai?.passengerFlowRes?.status &&
         Array.isArray(GetViewPassengers) &&
         GetViewPassengers.length > 0 && (
           <PassengerInfo getdata={GetViewPassengers} />
         )}
 
       {/* Payment Flow */}
-      {aiMessage?.ai?.passengerFlowRes?.status &&
+      {FilledPass && aiMessage?.ai?.passengerFlowRes?.status &&
         Array.isArray(GetViewPassengers) &&
         GetViewPassengers.length > 0 &&
         Array.isArray(filledPassenger) &&

@@ -53,13 +53,11 @@ const PassengerProfilecard = ({
 
   return (
     <>
-      <Box px={3} pb={2}>
+      <Box sx={{ px: { md: 3, xs: 2 } }} pb={2}>
         <Box
           className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
             passFilled ? styles.isFilled : ""
-          } ${passDisabled ? styles.passDisabled : ""} ${
-            isSelected ? styles.selected : ""
-          }`}
+          } ${passDisabled ? styles.passDisabled : ""}`}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"space-between"}
@@ -86,7 +84,7 @@ const PassengerProfilecard = ({
                 sx={{ m: 0, p: 0 }} // Zero padding & margin for FormControlLabel itself
               />
 
-              <Box className="imggroup">
+              <Box className="imggroup" display={"flex"} alignItems={"center"}>
                 <img src="/images/user-circle.svg" alt="User" />
               </Box>
               <Box p={0} m={0}>
@@ -171,15 +169,15 @@ const PassengerProfilecard = ({
               </Box>
             </Box>
             <Box
-              className="cursor-pointer"
+              
+              
               alignItems="center"
               display={"flex"}
               gap={1}
             >
-              <Typography
-                onClick={() => handleToggle()}
-                sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
-                className="f12 semibold mb-0 basecolor1 cursor-pointer"
+              <Typography onClick={() => handleToggle()} 
+                sx={{ fontSize: { lg: 14, md: 14, xs: 10 } }}
+                className="bold mb-0 basecolor1 cursor-pointer"
                 display="flex"
                 alignItems="center"
                 gap={1}
@@ -192,7 +190,7 @@ const PassengerProfilecard = ({
                 />
               </Typography>
               <Box>
-                <Box p={1} onClick={handleOpenMenu}>
+                <Box p={1} onClick={handleOpenMenu} className="cursor-pointer">
                   <FontAwesomeIcon color="#69707B" icon={faEllipsisV} />
                 </Box>
 

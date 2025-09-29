@@ -6,37 +6,42 @@ import {fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
 import { setMessage } from "./sendMessageSlice";
 
+const initialState ={
+  captainSuccess: false,
+  formSuccess: false,
+  isOpen: false,
+  countries: [],
+  OfferId: null,
+  OrderUuid: null,
+  genericOrderUuid: null,
+  ViewPassengers: [],
+  PassengerUUID: null,
+  PassengerData: null,
+  PassFormData: null,
+  isLoading: false,
+  filledPassengerUUIDs: [],
+  isPassengerDrawer: false,
+  PassengerFormError: null,
+  isFormLoading: false,
+  PassengerType: null,
+  passProfile: null,
+  allPassengerFill:false,
+  captainParams: null,
+  passProfileDrawer: false,
+  selectedProfilePass: null,
+  IsPassengerflow: null,
+  IsorderSetup: null,
+  isPassengerLoading: false,
+  SeeDetailButton: "Chat",
+  filledPass: false,
+};
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
-  initialState: {
-    captainSuccess: false,
-    formSuccess: false,
-    isOpen: false,
-    countries: [],
-    OfferId: null,
-    OrderUuid: null,
-    ViewPassengers: [],
-    PassengerUUID: null,
-    PassengerData: null,
-    PassFormData: null,
-    isLoading: false,
-    filledPassengerUUIDs: [],
-    ClosePassengerDrawer: false,
-    OpenPassengerDrawer: false,
-    PassengerFormError: null,
-    isFormLoading: false,
-    PassengerType: null,
-    passProfile: null,
-    allPassengerFill:false,
-    captainParams: null,
-    passProfileDrawer: false,
-    selectedProfilePass: null,
-    IsPassengerflow: null,
-    IsorderSetup: null,
-    isPassengerLoading: false,
-    SeeDetailButton: "Chat",
-  },
+  initialState,
   reducers: {
+    setFilledPass:(state, action) => {
+      state.filledPass = action.payload;
+    },
     setSeeDetailButton: (state, action) => {
       state.SeeDetailButton = action.payload;
     },
@@ -88,11 +93,8 @@ const passengerDrawerSlice = createSlice({
         state.filledPassengerUUIDs.push(action.payload);
       }
     },
-    setOpenPassengerDrawer: (state) => {
-      state.OpenPassengerDrawer = true;
-    },
-    setClosePassengerDrawer: (state) => {
-      state.OpenPassengerDrawer = false;
+    setisPassengerDrawer: (state, action) => {
+      state.isPassengerDrawer = action.payload;
     },
     bookFlight: (state, action) => {
       state.passengerDetails = action.payload;
@@ -105,6 +107,9 @@ const passengerDrawerSlice = createSlice({
     },
     setOrderUuid: (state, action) => {
       state.OrderUuid = action.payload;
+    },
+    setGenericOrderUuid: (state, action) => {
+      state.genericOrderUuid = action.payload;
     },
     setViewPassengers: (state, action) => {
       state.ViewPassengers = action.payload || []; // Ensure always an array
@@ -137,6 +142,7 @@ const passengerDrawerSlice = createSlice({
     setPassengerFormError: (state, action) => {
       state.PassengerFormError = action.payload;
     },
+    resetPassengerFlightState: () => ({ ...initialState }),
   },
 });
 
@@ -149,20 +155,20 @@ export const NationalitData = () => (dispatch) => {
     .catch(() => {});
 };
 
-export const PassengerForm = () => (dispatch, getState) => {
-  
+export const PassengerForm = (offerId) => (dispatch, getState) => {
   const states = getState();
   const offerIdGet = states?.getMessages.topOfferUrl;
   const offerIdSend = states?.sendMessage?.TopOfferUrlSend;
-  const finalOfferId = offerIdSend || offerIdGet;
+  const allOfferId = offerIdSend || offerIdGet;
   const Passtype = getState();
   
+  const threadUuid = states?.sendMessage?.threadUuid;  
+
+  if (!allOfferId) return;
+
+  const CartDetails = states?.booking?.getCartDetail?.items;
   
-
-  if (!finalOfferId) return;
-
-  const flightId = states?.booking?.flightDetail?.id;
-  const bookingSetupUrl = `/api/v1/setup/flight/${finalOfferId}/order/offer/${flightId}`;
+  const bookingSetupUrl = `/api/v1/setup/flight/${allOfferId}/order/thread/${threadUuid}`;
   dispatch(setisLoading(true))
   dispatch(
     setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } }) 
@@ -171,9 +177,10 @@ export const PassengerForm = () => (dispatch, getState) => {
   api.post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
-
-      console.log("order_response", response.data );
       dispatch(setOrderUuid(OrderUUId));
+      dispatch(setGenericOrderUuid(response.data.generic_order_uuid))
+      console.log("generic_order_uuid", response.data.generic_order_uuid);
+      
       // dispatch(setIsPassengerflow(true))
       dispatch(
         setMessage({ ai: { passengerFlowRes: { status: true, isloading: false } } })
@@ -212,7 +219,7 @@ export const ViewPassengers = () => (dispatch, getState) => {
 };
 
 
-export const PassengerFormSubmit = (params) => async (dispatch, getState) => {  
+export const PassengerFormFlight = (params) => async (dispatch, getState) => {  
   dispatch(setIsFormLoading(true));
   
   const state = getState();
@@ -247,6 +254,9 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
       dispatch(setPassFormData(formData));
       dispatch(markPassengerAsFilled(passengerUuid));
 
+      console.log("pass_profiel_formData", formData);
+      
+
       
       const state = getState();
       const allPassengers = state.passengerDrawer?.ViewPassengers || [];
@@ -264,14 +274,14 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
       setTimeout(() => {
         dispatch(ViewPassengers());
         dispatch(getPassPofile())
-      }, 500);
-      dispatch(setClosePassengerDrawer());
+      }, 1000);
+      dispatch(setisPassengerDrawer(false));
       
     })
     .catch((error) => {
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
-      dispatch(setOpenPassengerDrawer(true));
+      dispatch(setisPassengerDrawer(true));
       
     })
     .finally(() => {
@@ -280,8 +290,7 @@ export const PassengerFormSubmit = (params) => async (dispatch, getState) => {
     });
 };
 
-export const passengerCaptain = (params) => (dispatch, getState) => {
-  
+export const passengerCaptain = (params) => (dispatch, getState) => {  
   
   const state = getState();
   const captainParams = state.passengerDrawer?.captainParams;
@@ -298,13 +307,11 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
       region: captainParams.region,
     };
     
-    console.log("getParams", getParams);
-  
+    
     setTimeout(() => {
       api
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
-          console.log("captain_res", cap_res);
           dispatch(fetchOrderDetail()); // for order detail API call
         })
         .catch((err) => {
@@ -317,16 +324,16 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
 
 
 export const getPassPofile = () => (dispatch, getState) => {
-  
-  
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
+      console.log("profile_res", profile_res);
+      
       dispatch(ViewPassengers());
       dispatch(setPassProfile(profile_res.data))
     })
     .catch((error) => {
-      console.error(error);
+      console.error(error?.response?.data?.detail);
     });
 };
 
@@ -340,8 +347,6 @@ export const PassengerProfileDrawer = ()=> ()=> {
 export const {
   setLoading,
   setError,
-  setOpenPassengerDrawer,
-  setClosePassengerDrawer,
   bookFlight,
   setCountries,
   setOfferId,
@@ -368,7 +373,11 @@ export const {
   setSelectPassenger,
   setIsPassengerflow,
   setisPassengerLoading,
-  setSeeDetailButton
+  setSeeDetailButton,
+  setisPassengerDrawer,
+  setGenericOrderUuid,
+  resetPassengerFlightState,
+  setFilledPass
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

@@ -36,7 +36,6 @@ import {
 } from "@/src/store/slices/Base/baseSlice";
 import MessageInputBox from "@/src/component/SearchResult/chat/MessageInputBox";
 import {
-  createThreadAndRedirect,
   deleteAndCreateThread,
 } from "@/src/store/slices/sendMessageSlice";
 import RegisterPopup from "@/src/component/Auth/RegisterPopup";
@@ -94,10 +93,6 @@ const AiBookingMainHeader = ({
 
   const router = useRouter();
   // book a trip new thread
-
-  const HandleBookThread = () => {
-    dispatch(createThreadAndRedirect(router));
-  };
 
   // delete and create thread and show message chat clear
   const HandleNewThread = () => {

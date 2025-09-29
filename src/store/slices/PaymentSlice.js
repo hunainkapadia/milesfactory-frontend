@@ -1,21 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 
+const initialState = {
+  PaymentDrawer: false,
+  AddCardDrawer: false,
+  PaymentFormSuccess: false,
+  priceSummary: false,
+  clientSessionId: "",
+  client: "",
+  clientSecret: "",
+  isloading: false,
+  PaymentSessionId: null,
+  PaymentSessionData: null,
+  PaymentData: null,
+  OrderConfirm: null,
+  OrderData: null,
+  error: null,
+  isDrawer: false,
+  paymentStatus: null,
+};
 const PaymentSlice = createSlice({
   name: "payment",
-  initialState: {
-    PaymentDrawer: false,
-    AddCardDrawer: false,
-    PaymentFormSuccess: false,
-    priceSummary: false,
-    clientSessionId: "",
-    client: "",
-    isloading: false,
-    PaymentSessionId: null,
-    PaymentSessionData: null,
-    OrderConfirm: null,
-  },
+  initialState,
   reducers: {
+    setError:(state, action)=> {
+      state.error = action.payload;
+    },
     setOrderData: (state, action)=> {
       state.OrderData = action.payload;
     },
@@ -53,17 +63,16 @@ const PaymentSlice = createSlice({
       state.isDrawer = false; // Close drawer
     },
     setPaymentFormSuccess: (state, action) => {
-      console.log("PaymentFormSuccess", action.payload);
       state.PaymentFormSuccess = action.payload;
     },
     setPaymentSessionId: (state, action)=> {
-      console.log("sessionid_action", action);
       state.PaymentSessionId = action.payload;
     },
     setPaymentSessionData: (state, action)=> {
-      console.log("session_data_action", action);
       state.PaymentSessionData = action.payload;
-    }
+    },
+    resetOrderState: () => ({ ...initialState }),
+
   },
 });
 
@@ -72,10 +81,11 @@ const PaymentSlice = createSlice({
 export const PaymentSessionStart = () => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid; //geting order id from pasenger select
+  const genericUUID = state.passengerDrawer.genericOrderUuid;
 
   api
     .post(
-      `/api/v1/stripe/create-checkout-session?order_uuid=${orderUUID}`,
+      `/api/v1/stripe/create-checkout-session?order_uuid=${genericUUID}`,
       {
         frontend_url: window.location.origin,
       },
@@ -86,7 +96,6 @@ export const PaymentSessionStart = () => (dispatch, getState) => {
       }
     )
     .then((response) => {
-      console.log("session_response", response);
       const data = response.data;
       setClientSecret(data.clientSecret); // client secret
       dispatch(setPaymentSessionData(data)); ///payment session data dispatching
@@ -116,13 +125,8 @@ export const PaymentForm = () => (dispatch, getState) => {
     .get(`/api/v1/stripe/session-status?session_id=${sessionId}`)
     .then((response) => {
       const data = response.data;
-      console.log("payment_data111", data);
-
-      console.log("payment_status", data.status);
-      
       
       if (data.status === "complete") {
-        console.log("✅ Order complete!");
         dispatch(setPaymentFormSuccess(true)); // payment status
         dispatch(setPaymentData(data)); // payment data dispating id secret
         dispatch(setPaymentDrawer(false));
@@ -139,18 +143,19 @@ export const PaymentForm = () => (dispatch, getState) => {
 export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
+  const genericUUID = state.passengerDrawer.genericOrderUuid;
+  console.log("genericUUID_fetch", genericUUID);
+  
 
-  console.log("payment_response_0", orderId);
 
   api
-    .get(`/api/v1/order/${orderUUID}/details`)
+    .get(`/api/v1/order/${genericUUID}/details`)
     .then((response) => {
       const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
 
       dispatch(setOrderData(response.data));
       dispatch(setOrderConfirm(response.data));
 
-      console.log("order_status_0", response?.data?.order?.payment_status);
       // consition for checking if duffelr order found show congratz msg if not found error show
       if (paymentStatus) {
         dispatch(
@@ -160,9 +165,7 @@ export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
           })
         );
         dispatch(setIsloading(false));
-        console.log("payment_response", response.data);
       } else {
-        console.log("order_status_failed", response?.data);
         dispatch(
           setPaymentStatus({
             is_complete: "yes",
@@ -172,7 +175,7 @@ export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
       }
     })
     .catch((error) => {
-      console.error("Failed to fetch order details:", error);
+      console.error("Failed to fetch order details:", error?.message);
       dispatch(
         setPaymentStatus({
           is_complete: "no",
@@ -180,12 +183,14 @@ export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
         })
       );
       dispatch(setIsloading(false));
+      dispatch(setError(error?.message));
     });
 };
 
 export const OrderSuccessPayment = (orderId) => (dispatch, getState) => {
 const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
+  const genericUUID = state.passengerDrawer.genericOrderUuid;
 
   const pollingStartTime = Date.now();
   const POLLING_TIMEOUT = 30000; // ⏱️ Stop after 10 seconds
@@ -195,7 +200,6 @@ const state = getState();
 
     // Stop polling after 10 seconds
     if (elapsed >= POLLING_TIMEOUT) {
-      console.log("Stopped polling after 30 seconds");
       // dispatch(
       //   setPaymentStatus({
       //     is_complete: "no",
@@ -210,14 +214,19 @@ const state = getState();
       status: "pending",
     })
 
-    api.get(`/api/v1/order/${orderUUID}/details`)
+    console.log("genericUUID_success", genericUUID);
+    
+    api.get(`/api/v1/order/${genericUUID}/details`)
       .then((response) => {
         const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
+        const hotelPaymentSuccess = response.data.hotel_order;
+        
+        console.log("hotel_response", response.data.hotel_order);
+        
 
         dispatch(setOrderData(response.data));
         dispatch(setOrderConfirm(response.data));
 
-        console.log("order_status_0", response?.data?.order?.payment_status);
         // consition for checking if duffelr order found show congratz msg if not found error show
         if (paymentStatus) {
           dispatch(
@@ -227,10 +236,16 @@ const state = getState();
             })
           );
           dispatch(setIsloading(false));
-          console.log("payment_response", response.data);
+          
           return; // Stop polling on success
+        } else if (hotelPaymentSuccess) {
+          dispatch(
+            setPaymentStatus({
+              is_complete_hotel: "yes",
+              status: "success",
+            })
+          );
         } else {
-          console.log("order_status_failed", response?.data);
             dispatch(
               setPaymentStatus({
                 is_complete: "yes",
@@ -247,7 +262,6 @@ const state = getState();
         if (Date.now() - pollingStartTime < POLLING_TIMEOUT) {
           setTimeout(pollPaymentStatus, 2000); // Retry on error
         } else {
-          console.log("Stopped polling after 10 seconds (error case)");
           dispatch(
             setPaymentStatus({
               is_complete: "no",
@@ -282,5 +296,7 @@ export const {
   setPaymentSessionId,
   setPaymentSessionData,
   setOrderData,
+  setError,
+  resetOrderState
 } = PaymentSlice.actions;
 export default PaymentSlice.reducer;

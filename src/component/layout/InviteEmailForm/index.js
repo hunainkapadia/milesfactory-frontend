@@ -92,7 +92,7 @@ const InviteEmailForm = ({ flight_order }) => {
         <Button
           variant="contained"
           onClick={handleSubmitInviteEmail}
-          className="btn btn-primary xs btn-sm btn-round"
+          className="btn btn-primary xs btn-lg-x btn-round"
         >
           Invite
         </Button>

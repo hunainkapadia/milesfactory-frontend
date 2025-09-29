@@ -112,7 +112,7 @@ const FromAndToDetail = ({
                         justifyContent="space-between"
                       >
                         <Box className={styles.Col1}>
-                          <h5 className={styles.Country + " f12m mb-0"}>
+                          <h5 className={styles.Country + "  mb-0"}>
                             {new Date(
                               firstSegment?.departing_at
                             ).toLocaleTimeString([], {
@@ -123,7 +123,7 @@ const FromAndToDetail = ({
                           </h5>
                         </Box>
                         <Box className={styles.Col2 + " col2-a"}>
-                          <h5 className={styles.Country + " f12m mb-0"}>
+                          <h5 className={styles.Country + "  mb-0"}>
                             {firstSegment?.origin?.iata_code} (
                             {firstSegment?.origin?.city_name})
                           </h5>
@@ -221,7 +221,7 @@ const FromAndToDetail = ({
                         justifyContent="space-between"
                       >
                         <Box className={styles.Col1}>
-                          <h5 className={styles.Country + " f12m mb-0"}>
+                          <h5 className={styles.Country + "  mb-0"}>
                             {new Date(
                               lastSegment?.arriving_at
                             ).toLocaleTimeString([], {
@@ -232,7 +232,7 @@ const FromAndToDetail = ({
                           </h5>
                         </Box>
                         <Box className={styles.Col2 + " col2-c"}>
-                          <h5 className={styles.Country + " f12m mb-0"}>
+                          <h5 className={styles.Country + "  mb-0"}>
                             {lastSegment?.destination?.iata_code} (
                             {lastSegment?.destination?.city_name})
                           </h5>
@@ -310,7 +310,7 @@ const FromAndToDetail = ({
                             justifyContent="space-between"
                           >
                             <Box className={styles.Col1}>
-                              <h5 className={styles.Country + " f12m mb-0"}>
+                              <h5 className={styles.Country + "  mb-0"}>
                                 {new Date(
                                   segment?.departing_at
                                 ).toLocaleTimeString([], {
@@ -321,7 +321,7 @@ const FromAndToDetail = ({
                               </h5>
                             </Box>
                             <Box className={styles.Col2 + " col2-d"}>
-                              <h5 className={styles.Country + " f12m mb-0"}>
+                              <h5 className={styles.Country + "  mb-0"}>
                                 {segment?.origin?.iata_code} (
                                 {segment?.origin?.city_name})
                               </h5>
@@ -400,7 +400,7 @@ const FromAndToDetail = ({
                             justifyContent="space-between"
                           >
                             <Box className={styles.Col1}>
-                              <h5 className={styles.Country + " f12m mb-0"}>
+                              <h5 className={styles.Country + "  mb-0"}>
                                 {new Date(
                                   segment?.arriving_at
                                 ).toLocaleTimeString([], {
@@ -411,7 +411,7 @@ const FromAndToDetail = ({
                               </h5>
                             </Box>
                             <Box className={styles.Col2 + " col2-f"}>
-                              <h5 className={styles.Country + " f12m mb-0"}>
+                              <h5 className={styles.Country + "  mb-0"}>
                                 {segment?.destination?.iata_code} (
                                 {segment?.destination?.city_name})
                               </h5>
@@ -444,7 +444,7 @@ const FromAndToDetail = ({
       {/* === Baggage Info === */}
       <Box className={styles.fromAndToBodyBottom + " "}>
         <Box mb={2}>
-          <Typography className="bold f12 mb-0 h4">
+          <Typography className="exbold f12 mb-0 h4">
             Included in this ticket
           </Typography>
         </Box>
@@ -469,19 +469,19 @@ const FromAndToDetail = ({
               {SearchHistoryGet?.adults && (
                 <Box
                   display="flex"
-                  gap={2}
+                  
                   alignItems="center"
                   mb={1}
-                  className={styles.normalOption}
+                  className={`${styles.normalOption} ${styles.includeWraper}`}
                 >
                   <Box
-                    className={styles.BaggageIcon + " opacity-50 "}
+                    className={styles.BaggageIcon + " basecolor "}
                     display={"flex"}
                     alignItems={"center"}
                   >
                     <img width={14} src={"/images/user-sm.svg"} />
                   </Box>
-                  <Typography className="f12 black ">
+                  <Typography className="f12 basecolor   ">
                     {SearchHistoryGet?.adults} adult
                     {SearchHistoryGet?.adults > 1 ? "s" : ""}
                   </Typography>
@@ -498,13 +498,13 @@ const FromAndToDetail = ({
                   <Box
                     key={index}
                     display="flex"
-                    gap={2}
+                    
                     alignItems="center"
                     mb={2}
-                    className={styles.normalOption}
+                    className={`${styles.normalOption} ${styles.includeWraper}`}
                   >
                     <Box
-                      className={styles.BaggageIcon + " opacity-50 "}
+                      className={styles.BaggageIcon + "  "}
                       display={"flex"}
                       alignItems={"center"}
                     >
@@ -517,7 +517,7 @@ const FromAndToDetail = ({
                         }
                       />
                     </Box>
-                    <Typography className="f12 black opacity-50">
+                    <Typography className="f12 basecolor">
                       {baggage.quantity} {baggage.formatted_type}
                     </Typography>
                   </Box>

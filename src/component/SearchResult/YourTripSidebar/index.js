@@ -15,29 +15,38 @@ import Image from "next/image";
 import { currencySymbols } from "@/src/utils/utils";
 import ShareDropdown from "../../layout/Header/ShareDropdown";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import { useEffect } from "react";
+import { CartDetail, ListCart } from "@/src/store/slices/BookingflightSlice";
+import { PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 
 const YourTripSidebar = ({ isMessage }) => {
-  const getselectedFlight = useSelector(
-    (state) => state?.booking?.singleFlightData
-  );
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   
-  
-  
-
-
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
   const getSearchUrl = useSelector((state) => state?.sendMessage?.AllOfferUrl);
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const dispatch= useDispatch();
-  const handleBookFlight = ()=> {
-    dispatch(setChatscroll(true)); // scrol lon click book
+  
+  const CartOfferDetail = useSelector((state) => state.booking?.getCartDetail?.items);
+  const CartDetails = CartOfferDetail?.[0];  
+
+  
+  
+
+  const threadUuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  
+  
+  useEffect(() => {
+  if (threadUuid) {
+    dispatch(CartDetail(threadUuid));
   }
+}, [threadUuid, dispatch]);
+
+
   return (
     <>
-    
       {getBuilder && (
         <Box
           className={YourtripStyles.YourTripSidebar}
@@ -45,10 +54,7 @@ const YourTripSidebar = ({ isMessage }) => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <Box
-            className={YourtripStyles.YourTripCard}
-            p={0}
-          >
+          <Box className={YourtripStyles.YourTripCard} p={0}>
             <Box
               component={"header"}
               className={YourtripStyles.CardHeader}
@@ -65,8 +71,11 @@ const YourTripSidebar = ({ isMessage }) => {
                 <Box className=" imggroup">
                   <img src="/images/builder-icon.svg" />
                 </Box>
-                
-                <Typography sx={{pt:"6px"}} className="basecolor1 mb-0 exbold">
+
+                <Typography
+                  sx={{ pt: "6px" }}
+                  className="basecolor1 mb-0 exbold"
+                >
                   Builder
                 </Typography>
               </Box>
@@ -84,55 +93,9 @@ const YourTripSidebar = ({ isMessage }) => {
               </Box> */}
               {isMessage && <ShareDropdown />}
             </Box>
+
+            <YourTripSedebarCard isSidebar getBuilder={getBuilder} />
             
-            <YourTripSedebarCard
-              isSidebar
-              offerData={getselectedFlight}
-              getBuilder={getBuilder}
-            />
-
-            <Box
-              px={"18px"}
-              py={"14px"}
-              component={"footer"}
-              className={YourtripStyles.Footer + " "}
-              sx={{ borderTop:" solid 1px  #E6EEEE" }}
-            >
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Box>
-                  <h4 className="exbold mb-0">
-                    {getselectedFlight?.per_passenger_amount != null
-                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
-                          getselectedFlight?.tax_currency) +
-                        Math.round(getselectedFlight?.per_passenger_amount)
-                      : "-"}
-                  </h4>
-
-                  <Typography className="gray f12">
-                    {getselectedFlight?.total_amount != null
-                      ? (currencySymbols[getselectedFlight?.tax_currency] ||
-                          getselectedFlight?.tax_currency) +
-                        Math.round(getselectedFlight?.total_amount) +
-                        " total"
-                      : "No product added"}
-                  </Typography>
-                </Box>
-                
-                <Button onClick={handleBookFlight}
-                  className={`btn btn-primary btn-round btn-xs ${
-                    !!orderSuccess || !getselectedFlight ? "disabled" : ""
-                  }`}
-                    
-                  // onClick={HandleSelectDrawer}
-                >
-                  Book now
-                </Button>
-              </Box>
-            </Box>
           </Box>
         </Box>
       )}

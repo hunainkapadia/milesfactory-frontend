@@ -1,81 +1,149 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import style from "@/src/styles/sass/components/search-result/searchresult.module.scss";
-import LoadingArea from "..";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { currencySymbols } from "@/src/utils/utils";
+import {
+  setChatscroll,
+  setIsBuilderDialog,
+} from "@/src/store/slices/Base/baseSlice";
+import { getPassPofile, PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
+import { getPassPofileHotel, PassengerSetupHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const MobileLoading = () => {
-  const Slectedflight = useSelector((state) => state.booking.flightDetail);
-  const SlectedflightLoading = useSelector((state) => state.booking);
+  const dispatch = useDispatch();
+
+  // Cart Data
+  const CartData = useSelector((state) => state.booking?.getCartDetail);
+  const CartOfferDetail = CartData?.items || [];
+  const CartDetails = CartOfferDetail[0];
+
+  const CartHotels =
+    CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
+
+  const CartFlights =
+    CartData?.items?.filter((item) => item?.raw_data?.slices) || [];
+const functionType = useSelector((state) => state?.sendMessage?.functionType);
+    
+    // For displaying in footer, just take the first matching item
+    const CartFlight = CartFlights[0];
+    const CartHotel = CartHotels[0];
+    
+  // Hotel pricing if the cart contains hotel
+  const allHotel = useSelector((state) => state?.hotel?.allHotels);
+  let nights, totalPrice, perNightPrice;
+  if (CartDetails?.offer_type === "hotel") {
+    ({ nights, totalPrice, perNightPrice } = calculateHotelPricing(
+      CartDetails?.raw_data?.hotel,
+      allHotel
+    ));
+  }
+
+  // Payment status
+  const paymentSuccess = useSelector(
+    (state) => state.payment?.PaymentFormSuccess
+  );
+
+  const CartType = useSelector((state) => state.booking.cartType);
   
-  
-   const paymentSuccess = useSelector((state)=> state.payment.PaymentFormSuccess);
-  
+  const handleBookFlight = () => {
+    dispatch(setIsBuilderDialog(false));
+    dispatch(setChatscroll(true));
+
+    if (CartType === "flight") {
+      dispatch(PassengerForm());
+      dispatch(getPassPofile());
+    } else if (CartType === "hotel") {
+      
+      dispatch(PassengerSetupHotel())
+      dispatch(getPassPofileHotel());  
+    } else if (CartType === "all") {
+      dispatch(PassengerForm());
+      dispatch(getPassPofile());
+      dispatch(PassengerSetupHotel())
+    } else {
+      ""
+    }
+  };
+
   return (
     <Box
       className={style.MobileLoadingRow}
-      display={"flex"}
-      height={"100%"}
-      justifyContent={"center"}
-      alignItems={"center"}
+      display="flex"
+      height="100%"
+      justifyContent="center"
+      alignItems="center"
     >
       <Box
-        borderRadius={"100px"}
-        className={style.MobileLoading + "  white-bg basecolor1"}
-        display={"flex"}
+        borderRadius="100px"
+        className={`${style.MobileLoading} white-bg basecolor1`}
+        display="flex"
         gap={4}
-        alignItems={"center"}
-        justifyContent={"center"}
+        alignItems="center"
+        justifyContent="center"
       >
-        {/* <Typography className="f14">YOUR TRIP</Typography> */}
         
-
         {paymentSuccess ? (
+          //  If payment is done
           <Box
-            display={"flex"}
-            alignItems={"center"}
-            gap={2}
-            justifyContent={"center"}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            className="basecolor1-light2-bg br-100"
+            p="2px 6px"
           >
-            <Box display={"flex"} alignItems={"center"}>
-              <img width={24} src="/images/success-check.svg" />
-            </Box>
-            <Typography className="exbold f14">
-              {currencySymbols[Slectedflight?.tax_currency] ||
-                Slectedflight?.tax_currency}
-              {Math.round(Slectedflight?.total_amount)}
+            <Typography className="exbold">
+              Paid{" . "}
+              {currencySymbols[CartData?.tax_currency] ||
+                CartData?.tax_currency}
+              {Math.round(CartData?.total_price)}
             </Typography>
           </Box>
-        ) : Slectedflight ? (
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            className={"basecolor1-light2-bg br-100"}
-            p={"2px 6px"}
+        ) : CartHotel || CartFlight ? (
+          //  If cart exists but not paid yet
+          <Button
+            onClick={handleBookFlight}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            className={style.CheckoutBtn + " btn btn-primary btn-xs btn-round"}
+            p="2px 6px"
           >
-            <Typography className="exbold f14">
-              Checkout . {" "}
-              {currencySymbols[Slectedflight?.tax_currency] ||
-                Slectedflight?.tax_currency}
-              {Math.round(Slectedflight?.total_amount)}
+            <Typography className="exbold" textTransform="capitalize">
+              Checkout .{" "}
+              {CartData?.total_price && (
+                <>
+                  {currencySymbols[CartFlight?.currency] ||
+                    currencySymbols[CartHotel?.currency] ||
+                    CartFlight?.currency ||
+                    CartHotel?.currency}
+
+                  {Math.round(CartData?.total_price)}
+                </>
+              )}
+              {/*  Show per-night price only for hotels */}
+              {/* {perNightPrice && (
+                <>
+                  {" / "}
+                  currencySymbols[CartFlight?.currency] || CartFlight?.currency}
+                  {Math.round(perNightPrice)}/night
+                </>
+              )} */}
             </Typography>
-          </Box>
+          </Button>
         ) : (
-          <>
-            {/* <Box
-            display={"flex"}
-            alignItems={"center"}
-            gap={2}
-            justifyContent={"center"}
+          <Button
+            onClick={handleBookFlight}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            className={style.CheckoutBtn + " btn btn-primary disabled btn-xs btn-round"}
+            p="2px 6px"
           >
-            <Box display={"flex"} alignItems={"center"}>
-              <img src="/images/plane-icon-basecolor1.svg" />{" "}
-            </Box>
-            <Typography className="exbold f14">YOUR TRIP</Typography>
-            
-         </Box> */}
-          </>
+            <Typography className="exbold" textTransform="capitalize">
+              Checkout · £0
+            </Typography>
+          </Button>
         )}
       </Box>
     </Box>

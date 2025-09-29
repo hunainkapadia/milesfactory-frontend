@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 
 const TripCard = ({ tripData }) => {
   const offer = tripData.selected_offer;
+  //Handle one way or return
+  const triptype = offer?.slices?.length <= 1 ? "One-way" : "Round-trip";
   const slice = offer?.slices[0];
   const segment = slice?.segments[0];
 
@@ -17,9 +19,21 @@ const TripCard = ({ tripData }) => {
   const arrival = segment?.arriving_at;
 
   const route = `${origin} - ${destination}`;
-  const date = `${new Date(departure).toDateString()} - ${new Date(
-    arrival
-  ).toDateString()}`;
+  var date = ""
+  if (triptype === "Round-trip") {
+    const returnSlice = offer?.slices[1];
+    const returnSegment = returnSlice?.segments?.length ? returnSlice.segments[returnSlice.segments.length - 1]: null;
+    const returnOrigin = returnSegment?.origin?.city_name;
+    const returnDestination = returnSegment?.destination?.city_name;
+    const returnDeparture = returnSegment?.departing_at;
+    const returnArrival = returnSegment?.arriving_at;
+
+    console.log("TripDetail_0", returnArrival);
+    date = `${new Date(departure).toDateString()} - ${new Date(
+      returnArrival
+    ).toDateString()}`;
+  } else { date = `${new Date(departure).toDateString()}`}
+ 
   const passengers = `${offer?.passengers?.length} passenger${
     offer.passengers.length > 1 ? "s" : ""
   }`;
@@ -40,7 +54,6 @@ const TripDetailHandle = (uuid) => {
   const TripDetail = useSelector((state) => state?.base?.TripDetailData?.order);
   
 
-  //console.log("TripDetail_0", offer);
   
 
   return (
@@ -87,7 +100,7 @@ const TripDetailHandle = (uuid) => {
         {/* Route & Dates */}
         
         <Box>
-          <Typography className="bold">{route}</Typography>
+          <Typography className="bold">{route} ({triptype})</Typography>
           <Typography className="f12 bold">
             {date} | {passengers}
           </Typography>

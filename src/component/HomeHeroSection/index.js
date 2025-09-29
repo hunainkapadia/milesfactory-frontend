@@ -1,27 +1,31 @@
-import { Box, Container, Typography } from "@mui/material";
-import { useEffect, useState, useRef } from "react";
+import { Box, Container, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/src/styles/sass/components/Home.module.scss";
 import Footer from "../layout/Footer";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
+import ConventionalForms from "../layout/ConventionalForms";
 
 const HomeHeroSection = () => {
-  //  Get past messages from API (GET)
-  const sendMessages = useSelector(
-    (state) => state.sendMessage?.messages.length
-  );
+  const [tabValue, setTabValue] = useState(0);
+  const [switchOn, setSwitchOn] = useState(true);
+
+  // Redux state
+  const sendMessages = useSelector((state) => state.sendMessage?.messages.length);
   const getmessages = useSelector((state) => state.getMessages.messages.length);
-  const isMessage = sendMessages || getmessages; //check message length
+  const isMessage = sendMessages || getmessages;
 
   const dispatch = useDispatch();
-
   const threadUUID = useSelector((state) => state.sendMessage.ThreadUUIDsend);
-  
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   return (
     <>
-      <section>
+      <Box component={"section"}>
         <Box
           className={`${styles.HeroSection} ${styles.mainHeroSection} ${
             isMessage.length ? styles.Active : ""
@@ -31,105 +35,100 @@ const HomeHeroSection = () => {
         >
           <Box className={styles.Box}>
             {!isMessage.length && <HerosectionContent />}
-            {/* ////////////////////////// Search Box start ////////////////////////// */}
-              
+
             <Container>
-              <MessageInputBox isHomePage={"isHomePage"} />
-                <>
-                  <Box
-                    display={"none"}
-                    gap={2}
-                    mt={2}
-                    justifyContent={"center"}
-                  >
-                    <Box>
-                      <img height={28} src="/images/app-google-play.svg" />
-                    </Box>
-                    <Box>
-                      <img height={28} src="/images/app-app-store.svg" />
-                    </Box>
-                  </Box>
+              {/* ---------------- Tab Content ---------------- */}
+              <Box
+                className={styles.TabSection + " "}
+                position="relative"
+              >
+                {tabValue === 0 && (
+                  <>
+                    {/* Conditional render based on switch */}
+                    {switchOn ? (
+                      <MessageInputBox isHomePage={"isHomePage"} />
+                    ) : (
+                      <Box
+                        className={
+                          styles.Content + " " + styles.Content
+                        }
+                      >
+                        <Box className={styles.ContentIn}>
+                          <ConventionalForms />
+                        </Box>
+                      </Box>
+                    )}
 
+                    {/* Text + Switch BELOW the form */}
+                  </>
+                )}
+
+                {tabValue === 1 && (
+                  <Typography>Another tab content here</Typography>
+                )}
+                <Box className={styles.Content + " " + styles.Content}>
                   <Box
-                    sx={{ display: { xs: "none", lg: "flex", md: "flex" } }}
-                    className={styles.ChatBullets + " f14"}
+                    className={styles.ContentIn}
                     textAlign={"center"}
+                    display={"flex"}
                     justifyContent={"center"}
-                    flexWrap={"wrap"}
-                    
+                    flexDirection={"column"}
                   >
-                    <Box className={`${styles.ChatBullet + " f14"} `} display={"flex"}
-                      alignItems={"center"} gap={1}>
-                      <Box className="imggroup">✅</Box>  
-                      <Typography component={"span"} fontSize={14}>Best direct prices, no hidden fees
+                  <Stack flexDirection={"row"}>
+                    <Stack onClick={() => setSwitchOn(!switchOn)}  display="flex" flexDirection={"row"} alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}} px={"12px"} >
+                      <Typography className="white bold cursor-pointer">
+                        Plan with Mylz AI
                       </Typography>
-                    </Box>
-                    <Box
-                      gap={1}
-                      display={"flex"}
-                      alignItems={"center"}
-                      className={` ${styles.ChatBullet} `}
-                    >
-                      <Box className="imggroup">
-                        <img
-                          src="/images/protection-text-icon.svg"
-                          alt="Protection Icon"
-                          width={15}
+                      {/* Switch Button */}
+                      <Box
+                        
+                        sx={{
+                          width: { xs: 38, md: 38, lg: 38 },
+                          height: { xs: 24, md: 24, lg: 24 },
+                          borderRadius: "999px",
+                          background: switchOn
+                            ? "linear-gradient(90deg, #6DA3FF, #00C4CC)"
+                            : "#ccc",
+                          position: "relative",
+                          cursor: "pointer",
+                          transition: "background 0.3s",
+                          border: "2px solid white",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 10,
+                            height: 10,
+                            borderRadius: "50%",
+                            backgroundColor: "none",
+                            border: "2px solid white",
+                            position: "absolute",
+                            top: "50%",
+                            left: switchOn ? "18px" : "6px",
+                            transform: "translateY(-50%)",
+                            transition: "left 0.3s",
+                          }}
                         />
                       </Box>
-                      <Typography component={"span"} fontSize={14}>
-                         Protected bookings
-                      </Typography>
-                    </Box>
-                    <Box gap={1} className={`${styles.ChatBullet} `} display={"flex"}
-                      alignItems={"center"}>
-                      <Box className="imggroup">🔒</Box><Typography component={"span"} fontSize={14}>Privacy-safe</Typography>
-                    </Box>
+                    </Stack>
+                  </Stack>
                   </Box>
-                  <Box
-                    sx={{ display: { xs: "flex", lg: "none", md: "none" } }}
-                    className={styles.ChatBullets}
-                    textAlign={"center"}
-                    justifyContent={"center"}
-                    flexWrap={"wrap"}
-                    fontSize={12}
-                  >
-                    <Box className={`${styles.ChatBullet} `} display={"flex"} alignItems={"center"}>✅  Best direct prices </Box>
-                    <Box
-                      gap={"2px"}
-                      display={"flex"}
-                      alignItems={"center"}
-                      className={` ${styles.ChatBullet} `}
-                    >
-                      <Box className="imggroup">
-                        <img
-                          src="/images/protection-text-icon.svg"
-                          alt="Protection Icon"
-                          width={15}
-                        />
-                      </Box>
-                      <Typography component={"span"} fontSize={12}>
-                        Protected bookings
-                      </Typography>
-                    </Box>
-                    <Box className={`${styles.ChatBullet} `} display={"flex"}alignItems={"center"}>
-                      🔒 Privacy-safe
-                    </Box>
-                  </Box>
-                </>
-              
+                </Box>
+              </Box>
             </Container>
-            {/* ////////////////////////// Search Box end ////////////////////////// */}
-
-            {/* //////////////////////// Chat Message end ////////////////////////*/}
           </Box>
+
           {!isMessage.length ? (
-            <Footer id={"HomeSection3"} forHomeHero LearnMore={"Travel smarter"} />
+            <Footer
+              id={"HomeSection3"}
+              forHomeHero
+              LearnMore={"Travel smarter"}
+            />
           ) : (
             ""
           )}
         </Box>
-      </section>
+      </Box>
     </>
   );
 };

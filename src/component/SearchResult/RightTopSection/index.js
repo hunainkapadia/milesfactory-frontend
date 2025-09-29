@@ -14,7 +14,11 @@ const RightTopSection = ({
   SelectDrawer,
   selected,
   selectedFlightKey,
+  isInCart
 }) => {
+  const CartDetails = useSelector((state) => state.booking.getCartDetail?.items);
+  
+  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   const isRoundTrip = offerData?.slices.length > 1;
@@ -32,27 +36,42 @@ const RightTopSection = ({
       width={"100%"}
       className={searchResultStyles.RightTopSection + " RightTopSection"}
     >
-      {(!selectedFlightKey || selected) && (
-        <Box style={{ cursor: "pointer" }}>
+      {isInCart ? (
+      <Box style={{ cursor: "pointer" }}>
+        <Box onClick={SelectDrawer} className="text-decoration-none basecolor1">
           <Box
-            onClick={SelectDrawer}
-            className="text-decoration-none basecolor1"
+            gap={"4px"}
+            alignItems={"center"}
+            display={"flex"}
+            className="bold f12"
+            sx={{ fontSize: { xs: "12px", md: "16px" } }}
           >
-            <Box
-              gap={"4px"}
-              alignItems={"center"}
-              display={"flex"}
-              className=" bold f12"
-              sx={{
-                fontSize: { xs: "12px", md: "16px" },
-              }}
-            >
-              <span>See details</span>
-              <i className="fa-angle-right fa fas"></i>{" "}
-            </Box>
+            <span>See details</span>
+            <i className="fa-angle-right fa fas"></i>
           </Box>
         </Box>
-      )}
+      </Box>
+    )
+  : ""}
+  {!isInCart && !CartDetails?.length > 0 ? (
+      <Box style={{ cursor: "pointer" }}>
+        <Box onClick={SelectDrawer} className="text-decoration-none basecolor1">
+          <Box
+            gap={"4px"}
+            alignItems={"center"}
+            display={"flex"}
+            className="bold f12"
+            sx={{ fontSize: { xs: "12px", md: "16px" } }}
+          >
+            <span>See details</span>
+            <i className="fa-angle-right fa fas"></i>
+          </Box>
+        </Box>
+      </Box>
+    )
+  : ""}
+
+
       {/*  */}
       {/* for mobile baggage start */}
       {isMobile ? ( // Only show for round trips

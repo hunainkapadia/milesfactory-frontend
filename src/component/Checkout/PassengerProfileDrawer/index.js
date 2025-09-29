@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -31,11 +31,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import {
   getPassPofile,
-  passengerCaptain,
   PassengerForm,
-  PassengerFormSubmit,
-  setCaptainParams,
-  setOpenPassengerDrawer,
+  setFilledPass,
+  setisPassengerDrawer,
   setPassengerAge,
   setPassengerPassport,
   setPassengerType,
@@ -46,49 +44,62 @@ import {
   ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
-import PassengersCard from "../PassengersCard";
+import {
+  getPassPofileHotel,
+  PassengerFormHotel,
+  PassengerSetupHotel,
+  ViewPassengersHotel,
+} from "@/src/store/slices/passengerDrawerHotelSlice";
 import PassengerProfileTab from "./PassengerProfileTab";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [activeTabUUID, setActiveTabUUID] = useState(null);
   const [tabValue, setTabValue] = useState(0);
+  const [stopPolling, setStopPolling] = useState(false);
 
-  console.log("activeTabUUID", activeTabUUID);
-  
-  // passenger select set for card
+  const dispatch = useDispatch();
 
+  // Redux states
   const isPassengerProfileDrawer = useSelector(
     (state) => state.passengerDrawer.passProfileDrawer
   );
-
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-
-  const selectedProfilePass = useSelector(
-    (state) => state?.passengerDrawer?.selectedProfilePass
+  const selectedType = useSelector(
+    (state) => state.passengerDrawer?.PassengerType
   );
-  const PassengerType= useSelector(
+  const PassengerType = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger?.type
   );
-  console.log("PassengerType", PassengerType);
-  
-
-  
-
-  const dispatch = useDispatch();
-  const handleCloseDrawer = () => {
-    dispatch(setPassProfileDrawer(false));
-  };
+  const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
     (state) => state?.passengerDrawer?.PassFormData
   );
-  console.log("FilledPassFormData", FilledPassFormData?.passport_number);
+  const selectPassenger = useSelector(
+    (state) => state?.passengerDrawer?.SelectPassenger
+  );
+  const selectedProfilePass = useSelector(
+    (state) => state?.passengerDrawer?.SelectedProfilePass
+  );
+  const GetViewPassengers = useSelector(
+    (state) => state?.passengerDrawer?.ViewPassengers
+  );
+  const filledPassengerUUIDs = useSelector(
+    (state) => state.passengerDrawer.filledPassengerUUIDs
+  );
+  console.log("selectedProfilePass", selectedProfilePass);
+  
 
-  // get filled pasenger form data from submit from to redux
+  //  Close drawer
+  const handleCloseDrawer = () => {
+    dispatch(setPassProfileDrawer(false));
+  };
 
-  const handleModifyCard = (passenger) => {
+  //  Modify passenger
+  const onClickModifyCard = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
 
     const birthDate = dayjs(passenger.born_on);
@@ -97,142 +108,111 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
-    dispatch(setOpenPassengerDrawer()); // open drawer
+    dispatch(setisPassengerDrawer(true));
 
-    dispatch(PassengerForm(passenger)); // call PassengerForm thunk (calls APIs)
-  };
-  const getFillPass = useSelector(
-    (state) => state.passengerDrawer.allPassengerFill
-  );
-
-  // add passenger [start]
-
-  const passengerUuid = useSelector(
-    (state) => state.passengerDrawer?.PassengerUUID
-  );
-
-  const handleAddPassenger = () => {
-    dispatch(setOpenPassengerDrawer()); // open drawer
-    dispatch(ViewPassengers());
-    dispatch(setPassengerUUID(passengerUuid));
-    dispatch(PassengerForm());
-  };
-  const handleDeletePassenger = (uuid) => {
-    console.log("pass_uuid", uuid);
-    
-    // Example: if you have a Redux action
-    dispatch({
-      type: "passengerDrawer/deletePassenger",
-      payload: uuid,
-    });
-
-    // OR if you just want to filter locally:
-    // dispatch(removePassengerFromList(uuid));
-
-    console.log("Deleted passenger with uuid:", uuid);
-  };
-
-  const selectPassenger = useSelector(
-    (state) => state?.passengerDrawer?.SelectPassenger
-  );
-
-  console.log("passengerPofile", selectPassenger);
-  const handleSavePassenger = () => {
-    // Step 1: Check if any passenger is selected
-    if (!selectedProfilePass?.uuid) {
-      alert("Please select a passenger before saving.");
-      return;
+    if (CartType === "flight" || CartType === "all") {
+      dispatch(PassengerForm(passenger));
+    } else if (CartType === "hotel") {
+      dispatch(PassengerSetupHotel(passenger));
     }
+  };
+
+  //  Add passenger
+  const handleAddPassenger = () => {
+    dispatch(setSelectedProfilePass(null));
+    dispatch(setisPassengerDrawer(true));
+
+    if (CartType === "flight" || CartType === "all") {
+      dispatch(ViewPassengers());
+      dispatch(PassengerForm());
+    } else if (CartType === "hotel") {
+      dispatch(ViewPassengersHotel());
+      dispatch(PassengerSetupHotel());
+    }
+  };
+
+  //  Polling for profile updates
+  useEffect(() => {
+    if (!FilledPassFormData || stopPolling) return;
+
+    const interval = setInterval(() => {
+      if (CartType === "all" || CartType === "flight") {
+        dispatch(getPassPofile());
+      } else if (CartType === "hotel") {
+        dispatch(getPassPofileHotel());
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [dispatch, FilledPassFormData, stopPolling]);
+
+  useEffect(() => {
+    if (!FilledPassFormData || !passengerPofile) return;
+
+    const isMatch = passengerPofile.some(
+      (p) => p.family_name === FilledPassFormData.family_name
+    );
+
+    if (isMatch) {
+      setStopPolling(true);
+    }
+  }, [passengerPofile, FilledPassFormData]);
+
+  //  Save passenger
+  const handleSavePassenger = () => {
+    
+    // if (!selectedProfilePass?.uuid) {
+    //   alert("Please select a passenger before saving.");
+    //   return;
+    // }
+    if (isAllPassengersFilled) {
+      dispatch(setPassProfileDrawer(false));
+    } 
+    dispatch(setChatscroll(true));
+    dispatch(setFilledPass(true))
+
 
     const passenger = selectedProfilePass;
 
-    // Step 2: Calculate age of selected profile passenger
     const birthDate = dayjs(passenger?.born_on);
     const now = dayjs();
     const profilePassengerAge = now.diff(birthDate, "year");
 
-    // Step 3: Validate passenger type and age match
     const isValidPassenger =
       selectPassenger?.type === "adult"
         ? passenger?.type === "adult"
         : profilePassengerAge === selectPassenger?.age &&
           passenger?.type === selectPassenger?.type;
 
-    if (!isValidPassenger) {
-      alert("Selected profile does not match passenger type or age.");
-      return;
-    }
+    // if (!isValidPassenger) {
+    //   alert("Selected profile does not match passenger type or age.");
+    //   return;
+    // }
 
-    // Step 4: Create API-compatible params object
-    const params = {
-      gender: passenger.gender,
-      given_name: passenger.given_name,
-      family_name: passenger.family_name,
-      born_on: passenger.born_on,
-      passport_number: passenger.passport_number,
-      passport_expire_date: passenger.passport_expire_date,
-      phone_number: passenger.phone_number || "",
-      email: passenger.email || "",
-      nationality: passenger?.nationality?.id || "",
-      region: passenger?.phone_number ? "US" : "", // default region if phone present
-    };
-
-    console.log("params_passengerprofile", params);
-
-    // Step 5: Submit passenger form
-    dispatch(PassengerFormSubmit(params));
-
-    // Step 6: If it's the first passenger (captain), save separately
-    if (tabValue === 0) {
-      dispatch(setCaptainParams(params));
-      dispatch(passengerCaptain(params));
-    }
-
-    //  Step 7: Show success message
+    
     setShowSuccessSnackbar(true);
-
-    //  Step 8: Unselect the profile after saving
     dispatch(setSelectedProfilePass(null));
-
-    //  Step 9: Hide success message after 3 seconds
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
 
-  const GetViewPassengers = useSelector(
-    (state) => state?.passengerDrawer?.ViewPassengers
-  );
-
-  
-  // check pasenger remining count for footer
-  const FillPassCountByUUID = useSelector(
-    (state) => state.passengerDrawer.filledPassengerUUIDs
-  );
-  const totalPassengers = GetViewPassengers?.length || 0;
-  const filledCount = FillPassCountByUUID?.length || 0;
-  // for change state button and incomplete text
-  const isAllPassengersFilled = filledCount === totalPassengers;
-
-  const handleProfileCard = (passenger) => {
-    dispatch(setSelectedProfilePass(passenger)); // dispatch profile pass
-  };
-  console.log("selectedProfilePass", selectedProfilePass);
-  const filledPassengerUUIDs = useSelector(
-    (state) => state.passengerDrawer.filledPassengerUUIDs
-  );
-
+  //  Passenger Tab click
   const handlePassengerTab = (isFilled, passenger) => {
     if (passengerPofile?.length) {
-      dispatch(getPassPofile()); // call passenger profile
+      dispatch(getPassPofile());
       dispatch(setPassProfileDrawer(true));
-      dispatch(setPassengerUUID(passenger?.uuid)); // set selected passenger UUID
+      dispatch(setPassengerUUID(passenger?.uuid));
       dispatch(setPassengerType(passenger?.type));
       dispatch(setPassengerAge(passenger?.age));
       dispatch(setPassengerPassport(passenger?.passportNumber));
-      // main selctor
       dispatch(setSelectPassenger(passenger));
-      setActiveTabUUID(passenger?.uuid); //  Set active tab
+      setActiveTabUUID(passenger?.uuid);
     }
   };
+
+  const totalPassengers = GetViewPassengers?.length || 0;
+  const filledCount = filledPassengerUUIDs?.length || 0;
+  const isAllPassengersFilled = filledCount === totalPassengers;
+
   
   return (
     <Drawer
@@ -353,7 +333,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           <Box
             className={styles.checkoutDrowerBody}
             component={"section"}
-            // pb={10}
+            pb={10}
           >
             {/* passport */}
             {/* if passport_number  equal and show selected profile */}
@@ -371,73 +351,51 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 return passenger?.type === selectedType;
               }) */}
 
-            <Box pt={3}>
-              {passengerPofile && (
-                <>
-                  <Box px={3} pb={2}>
-                    <Typography className="semibold">
-                      Select traveller {tabValue + 1} (
-                      {passengerPofile[tabValue]?.type})
-                    </Typography>
-                  </Box>
-                  {passengerPofile?.map((passenger, index) => {
-                    const isPassFilled =
-                      passenger?.passport_number ===
-                      FilledPassFormData?.passport_number;
+            {passengerPofile?.map((passenger, index) => {
+              const isPassFilled =
+                passenger?.passport_number ===
+                FilledPassFormData?.passport_number;
 
-                    console.log(
-                      "passport_number_2",
-                      FilledPassFormData?.passport_number
-                    );
-                    {
-                      /* if age is not uqual disable */
-                    }
+              {
+                /* if age is not uqual disable */
+              }
 
-                    // Calculate age from born_on date
-                    const birthDate = dayjs(passenger?.born_on);
-                    const today = dayjs();
-                    const profilePassengerAge = today.diff(birthDate, "year");
+              // Calculate age from born_on date
+              const birthDate = dayjs(passenger?.born_on);
+              const today = dayjs();
+              const profilePassengerAge = today.diff(birthDate, "year");
 
-                    // Log for debugging
+              // Log for debugging
 
-                    let ispassDisabled = false;
+              let ispassDisabled = false;
 
-                    if (selectPassenger?.type === "adult") {
-                      // Disable if passenger is not adult
-                      ispassDisabled = passenger?.type !== "adult";
-                    } else {
-                      // For child or infant, disable if age or type doesn't match
-                      ispassDisabled =
-                        profilePassengerAge !== selectPassenger?.age ||
-                        passenger?.type !== selectPassenger?.type;
-                    }
-                    const isSelected =
-                      selectedProfilePass?.uuid === passenger?.uuid;
-                    {
-                      /* check if selected pas uuid equal */
-                    }
+              if (selectPassenger?.type === "adult") {
+                // Disable if passenger is not adult
+                ispassDisabled = passenger?.type !== "adult";
+              } else {
+                // For child or infant, disable if age or type doesn't match
+                ispassDisabled =
+                  profilePassengerAge !== selectPassenger?.age ||
+                  passenger?.type !== selectPassenger?.type;
+              }
 
-                    return (
-                      <PassengerProfilecard
-                        key={passenger?.uuid || index}
-                        getdata={passenger}
-                        onClickModifyCard={() => handleModifyCard(passenger)}
-                        // pas profile card on click
-                        onClickProfileCard={() => handleProfileCard(passenger)}
-                        isSelected={isSelected} //  Pass selection status
-                        passFilled={isPassFilled}
-                        passDisabled={ispassDisabled}
-                        onDelete={() => handleDeletePassenger(passenger.uuid)}   //
-
-                      />
-                    );
-                  })}
-                </>
-              )}
-            </Box>
+              return (
+                <PassengerProfilecard
+                  key={passenger?.uuid || index}
+                  getdata={passenger}
+                  onClickModifyCard={() => onClickModifyCard(passenger)}
+                  passFilled={isPassFilled}
+                  passDisabled={ispassDisabled}
+                />
+              );
+            })}
 
             {/*  */}
-            <Box px={3} pb={2} onClick={handleAddPassenger}>
+            <Box
+              sx={{ px: { md: 3, xs: 2 } }}
+              pb={2}
+              onClick={handleAddPassenger}
+            >
               <Box
                 display={"flex"}
                 justifyContent={"center"}
@@ -497,12 +455,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                     type="submit"
                     className="btn btn-primary chat-btn btn-round"
                     onClick={
-                      isAllPassengersFilled
-                        ? () => {
-                            // Continue action here (maybe close drawer or next step)
-                            dispatch(setPassProfileDrawer(false));
-                          }
-                        : handleSavePassenger
+                      handleSavePassenger
                     }
                     variant="contained"
                     color={isAllPassengersFilled ? "primary" : "success"}

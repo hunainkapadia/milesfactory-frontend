@@ -13,7 +13,6 @@
 }
 
 .SearchFilterBar {
-   
   animation: slideInTop 0.5s ease forwards;
 
    width: 684px;
@@ -28,14 +27,13 @@
     background-position: -230px -120px;
     background-repeat: no-repeat;
    .Content {
+      min-height: 82px;
       width: 540px;
-      background: linear-gradient(0deg, rgba(0, 196, 204, 0.02), rgba(0, 196, 204, 0.02)), #FFFFFF;
+      background: #FFFFFF;
       border: 1px solid rgba(21, 38, 74, 0.1);
       box-shadow: 0px 3px 12px rgba(0, 24, 122, 0.1);
       border-radius: 20px;
-   
-       z-index: 5;
-      background-color: #FAFEFE;
+      z-index: 5;
       padding: 12px 24px;
       .filterRrow {
          p {
@@ -66,15 +64,21 @@
    }
 }
 
-
+@include for-tab (){
+   .SearchFilterBar {
+          top: 50px;
+          width: 100%;
+   }
+}
 @include for-mobile-large-screen () {
    .SearchFilterBar {
       width: 100%;
-      top: 52px;
+      top: 44px;
       left: 0px;
       padding-top: 0;
       .Content {
          width: 100%;
+         min-height: 45px;
          z-index: 5;
          border-radius: 0;
          border-top: solid 1px #E6EEEE;
@@ -89,3 +93,4 @@
       }
    }
 }
+
