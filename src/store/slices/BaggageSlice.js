@@ -71,7 +71,7 @@ const baggageSlice = createSlice({
     setCloseDrawer: (state, action) => {
       state.setSelectFlightKey = action.payload;
     },
-
+    resetBaggageState: () => ({ ...initialState }),
     
   },
 });
@@ -158,5 +158,6 @@ export const {
   setBaggageError,
   setbaggageAddData,
   setSegmentId,
+  resetBaggageState,
 } = baggageSlice.actions; //action exporting here
 export default baggageSlice.reducer;

@@ -57,18 +57,19 @@ const SidebarFooter = () => {
       dispatch(PassengerForm());
       dispatch(getPassPofile());
     } else if (CartType === "hotel") {
+      
       dispatch(PassengerSetupHotel())
       dispatch(getPassPofileHotel());  
     } else if (CartType === "all") {
-      alert("Asas")
       dispatch(PassengerForm());
+      dispatch(getPassPofile());
       dispatch(PassengerSetupHotel())
     } else {
       ""
     }
     
   };
-  console.log("CartData_total_price", CartData?.total_price);
+  console.log("CartData_total_price", orderSuccess);
   
 
   return (
@@ -104,8 +105,7 @@ const SidebarFooter = () => {
               <Button
                 onClick={()=>handleBookFlight(CartData)}
                 className={`btn btn-primary btn-round btn-xs ${
-                  orderSuccess || !CartData ? " disabled " : ""
-                }`}
+                  orderSuccess || !CartData && " disabled "}`}
               >
                 Checkout
               </Button>

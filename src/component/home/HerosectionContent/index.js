@@ -15,7 +15,7 @@ const HerosectionContent = () => {
              sx={{ px: { xs: 0, lg: 2 } }}
            >
            
-             <Typography component={"h1"}  sx={{lineHeight:"120%", display: { lg: "block", md: "block", xs: "none" }, mb:"6px", fontSize:{lg:"48px", md:"48px", xs:"36px"} }} className=" bold test-111">
+             <Typography component={"h1"}  sx={{lineHeight:"120%", display: { lg: "block", md: "block", xs: "none" }, mb:"6px", fontSize:{lg:"48px", md:"48px", xs:"36px"} }} className=" bold test-222">
                Design trips. Book instantly.
              </Typography>
              <Typography  component={"h1"} sx={{lineHeight:"120%", display: { lg: "none", md: "none", xs: "block" }, mb:"6px", fontSize:{lg:"48px", md:"48px", xs:"36px"} }} className=" bold  test-444">

@@ -113,6 +113,8 @@ const bookingflightsSlice = createSlice({
     setCartType:(state, action) => {
       state.cartType = action.payload;
     },
+    resetBookingState: () => ({ ...initialState }),
+
   },
 });
 
@@ -298,6 +300,7 @@ export const {
   setCartError,
   setFlightUnavailable,
   setCartErrorDialog,
-  setCartType
+  setCartType,
+  resetBookingState
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

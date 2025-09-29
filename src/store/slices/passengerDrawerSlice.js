@@ -6,36 +6,37 @@ import {fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
 import { setMessage } from "./sendMessageSlice";
 
+const initialState ={
+  captainSuccess: false,
+  formSuccess: false,
+  isOpen: false,
+  countries: [],
+  OfferId: null,
+  OrderUuid: null,
+  genericOrderUuid: null,
+  ViewPassengers: [],
+  PassengerUUID: null,
+  PassengerData: null,
+  PassFormData: null,
+  isLoading: false,
+  filledPassengerUUIDs: [],
+  isPassengerDrawer: false,
+  PassengerFormError: null,
+  isFormLoading: false,
+  PassengerType: null,
+  passProfile: null,
+  allPassengerFill:false,
+  captainParams: null,
+  passProfileDrawer: false,
+  selectedProfilePass: null,
+  IsPassengerflow: null,
+  IsorderSetup: null,
+  isPassengerLoading: false,
+  SeeDetailButton: "Chat",
+};
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
-  initialState: {
-    captainSuccess: false,
-    formSuccess: false,
-    isOpen: false,
-    countries: [],
-    OfferId: null,
-    OrderUuid: null,
-    genericOrderUuid: null,
-    ViewPassengers: [],
-    PassengerUUID: null,
-    PassengerData: null,
-    PassFormData: null,
-    isLoading: false,
-    filledPassengerUUIDs: [],
-    isPassengerDrawer: false,
-    PassengerFormError: null,
-    isFormLoading: false,
-    PassengerType: null,
-    passProfile: null,
-    allPassengerFill:false,
-    captainParams: null,
-    passProfileDrawer: false,
-    selectedProfilePass: null,
-    IsPassengerflow: null,
-    IsorderSetup: null,
-    isPassengerLoading: false,
-    SeeDetailButton: "Chat",
-  },
+  initialState,
   reducers: {
     setSeeDetailButton: (state, action) => {
       state.SeeDetailButton = action.payload;
@@ -137,6 +138,7 @@ const passengerDrawerSlice = createSlice({
     setPassengerFormError: (state, action) => {
       state.PassengerFormError = action.payload;
     },
+    resetPassengerFlightState: () => ({ ...initialState }),
   },
 });
 
@@ -369,7 +371,8 @@ export const {
   setisPassengerLoading,
   setSeeDetailButton,
   setisPassengerDrawer,
-  setGenericOrderUuid
+  setGenericOrderUuid,
+  resetPassengerFlightState
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

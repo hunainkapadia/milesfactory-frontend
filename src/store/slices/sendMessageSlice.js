@@ -8,8 +8,13 @@ import {
   setSelectedFlightKey,
   setSingleFlightData,
   offerkey,
+  setCartType,
+  setCartOffer,
+  CartDetail,
+  setGetCartDetail,
+  resetBookingState,
 } from "./BookingflightSlice";
-import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
+import { resetPassengerFlightState, setAllPassengerFill, setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import {
   clearGetMessages,
   fetchMessages,
@@ -20,7 +25,9 @@ import {
   setMobileNaveDrawer,
   setThreadDrawer,
 } from "./Base/baseSlice";
-import { setOrderConfirm, setPaymentFormSuccess } from "./PaymentSlice";
+import {resetOrderState, setOrderConfirm, setOrderData, setPaymentFormSuccess } from "./PaymentSlice";
+import { resetPassengerHotelState } from "./passengerDrawerHotelSlice";
+import { resetBaggageState } from "./BaggageSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -431,14 +438,25 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
+        dispatch(setAllPassengerFill(null));
+        // allslices reset
+        dispatch(resetOrderState()); 
+        dispatch(resetBookingState()); 
+        dispatch(resetPassengerFlightState()); 
+        dispatch(resetPassengerHotelState()); 
+        dispatch(resetBaggageState()); 
+        
+        dispatch(setCartType(null));
+        dispatch(setCartOffer(null));
+        dispatch(setGetCartDetail(null));
         dispatch(setResetAppendFlights());
         dispatch(setThreadUuid(newUuid));
         dispatch(setMobileNaveDrawer(false));
         dispatch(setIsBuilderDialog(false));
-        dispatch(setPaymentFormSuccess(null));
-        //  Clear old chat data in both slices
-        dispatch(setClearChat()); // from sendMessageSlice
-        dispatch(clearGetMessages()); // from getMessagesSlice
+
+        //  Clear old chat + messages
+        dispatch(setClearChat());
+        dispatch(clearGetMessages());
         dispatch(setSearchHistorySend(null));
         dispatch(setSearchHistoryGet(null));
 
@@ -448,14 +466,13 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setViewPassengers([]));
 
         // order clear
-        dispatch(setOrderConfirm(null));
+        dispatch(setOrderData(null));
         dispatch(setOrderUuid(null));
         dispatch(setSingleFlightData(null));
 
         // Optional: placeholder for new thread
         dispatch(setMessage({ ai: { newThread: true } }));
 
-        //  Now fetch new messages for the new thread
         dispatch(setNewChatLoading(false));
       }
     })
@@ -463,6 +480,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
       console.error("Failed to create new thread", err);
     });
 };
+
 
 export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(setThreadDrawer(false));
