@@ -66,6 +66,9 @@ const PassengerDrawerForm = () => {
   const PassengersUuID = useSelector(
     (state) => state.passengerDrawer.PassengerUUID
   );
+  console.log("isFirstPassenger", PassengersUuID);
+  console.log("GetViewPassengers", GetViewPassengers);
+  
 
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
@@ -90,6 +93,8 @@ const PassengerDrawerForm = () => {
   const PassengerType = useSelector(
     (state) => state.passengerDrawer.PassengerType
   );
+  console.log("PassengerType", PassengerType);
+  
 
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
@@ -206,14 +211,15 @@ const PassengerDrawerForm = () => {
     // maxDate = today.subtract(18, "year");
   }
   // ...previous imports remain the same
-  const searchType = useSelector(
-    (state) =>
-      state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
-  );
   const CartType = useSelector((state) => state.booking.cartType);
 
+  const selectPassenger = useSelector(
+    (state) => state?.passengerDrawer?.SelectPassenger
+  );
   console.log("CartType", CartType);
 
+      
+      
   const SubmitPassenger = () => {
     const errors = {};
 
@@ -317,11 +323,14 @@ const PassengerDrawerForm = () => {
     });
 
     const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+    
+    
     if (isFirstPassenger) {
       dispatch(setCaptainParams(params));
     }
 
     if (CartType === "all" || CartType === "flight") {
+      
       dispatch(getPassPofile());
       dispatch(PassengerFormFlight(params));
       dispatch(passengerCaptain(params));
@@ -339,13 +348,7 @@ const PassengerDrawerForm = () => {
   );
 
   // if all passenger file logic
-  const AllPassengerFill = useSelector(
-    (state) => state.passengerDrawer.allPassengerFill
-  );
-
-  const selectPassenger = useSelector(
-    (state) => state?.passengerDrawer?.SelectPassenger
-  );
+  
 
   return (
     <Drawer

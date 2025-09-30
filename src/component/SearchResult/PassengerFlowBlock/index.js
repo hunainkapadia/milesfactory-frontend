@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LoadingArea from "../../LoadingArea";
 import PassengerInfo from "../../Checkout/PassengerInfo";
 import PriceSummary from "../../Checkout/PriceSummary";
@@ -6,6 +6,8 @@ import PaymentDrawer from "../../Checkout/PaymentDrawer";
 import { Box } from "@mui/material";
 import PaymentAddCardDrawer from "../../Checkout/PaymentAddCardDrawer";
 import PaymentSuccess from "../../Checkout/PaymentSuccess";
+import { setFilledPass } from "@/src/store/slices/passengerDrawerSlice";
+import { useEffect } from "react";
 
 const PassengerFlowBlock = ({
   aiMessage,
@@ -18,11 +20,25 @@ const PassengerFlowBlock = ({
   
   console.log("paymentSuccess", orderDetail);
   
-  const FilledPass = useSelector(
-      (state) => state?.passengerDrawer?.filledPass
-    );
-    console.log("FilledPass_00", FilledPass);
+  const FilledPass = useSelector((state) => state?.passengerDrawer?.filledPass);
+  console.log("FilledPass_00", FilledPass);
+
+  const dispatch = useDispatch();
+  const allPassengerFill = useSelector(
+    (state) => state.passengerDrawer.allPassengerFill
+  );
+  const passengerPofile = useSelector(
+    (state) => state?.passengerDrawer?.passProfile
+  );
+  console.log("allPassengerFill", passengerPofile);
   
+  useEffect(() => {
+    if ((!passengerPofile || passengerPofile.length === 0) && allPassengerFill) {
+      dispatch(setFilledPass(true));
+    }
+  }, [passengerPofile, allPassengerFill, dispatch]);
+    
+      
   
   // Passenger info
   return (
@@ -36,7 +52,7 @@ const PassengerFlowBlock = ({
       
 
       {/* Passenger Info */}
-      { aiMessage?.ai?.passengerFlowRes?.status &&
+      {aiMessage?.ai?.passengerFlowRes?.status &&
         Array.isArray(GetViewPassengers) &&
         GetViewPassengers.length > 0 && (
           <PassengerInfo getdata={GetViewPassengers} />

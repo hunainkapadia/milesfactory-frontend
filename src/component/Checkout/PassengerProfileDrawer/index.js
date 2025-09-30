@@ -95,6 +95,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   //  Modify passenger
   const onClickModifyCard = (passenger) => {
+    console.log("modify_passenger", passenger);
+    
     dispatch(setSelectedProfilePass(passenger));
 
     const birthDate = dayjs(passenger.born_on);
@@ -104,12 +106,6 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(age));
     dispatch(setisPassengerDrawer(true));
-
-    if (CartType === "flight" || CartType === "all") {
-      dispatch(PassengerForm(passenger));
-    } else if (CartType === "hotel") {
-      dispatch(PassengerSetupHotel(passenger));
-    }
   };
 
   console.log("PassengerType", PassengerType);
@@ -121,10 +117,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
     if (CartType === "flight" || CartType === "all") {
       dispatch(ViewPassengers());
-      dispatch(PassengerForm());
     } else if (CartType === "hotel") {
       dispatch(ViewPassengersHotel());
-      dispatch(PassengerSetupHotel());
     }
   };
 
@@ -157,17 +151,20 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   //  Save passenger
   const handleSavePassenger = () => {
+    if (
+      isPassengerProfileDrawer &&
+      passengerPofile?.length > 0 &&
+      allPassengerFill
+    ) {
+      dispatch(setFilledPass(true));
+    }
     
-    // if (!selectedProfilePass?.uuid) {
-    //   alert("Please select a passenger before saving.");
-    //   return;
-    // }
+    
     if (isAllPassengersFilled) {
       dispatch(setPassProfileDrawer(false));
     } 
     dispatch(setChatscroll(true));
-    dispatch(setFilledPass(true))
-
+    
 
     const passenger = selectedProfilePass;
 
@@ -191,6 +188,10 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setSelectedProfilePass(null));
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
+  const allPassengerFill = useSelector(
+      (state) => state.passengerDrawer.allPassengerFill
+    );
+    
 
   //  Passenger Tab click
   const handlePassengerTab = (isFilled, passenger) => {
@@ -212,6 +213,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
 
+  
   
   return (
     <Drawer
@@ -341,6 +343,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 return passenger?.type === PassengerType;
               })
               .map((passenger, index) => {
+                console.log("passenger_001", passenger)
                 const isPassFilled =
                   passenger?.passport_number ===
                   FilledPassFormData?.passport_number;
