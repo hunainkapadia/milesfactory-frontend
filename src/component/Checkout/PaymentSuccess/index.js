@@ -136,9 +136,7 @@ const PaymentSuccess = () => {
     dispatch(InviteSubmit(payload));
   };
 
-  const inviteMoreEmailHandle = () => {
-    dispatch(setInviteEmailDialog(true));
-  };
+  
   return (
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}

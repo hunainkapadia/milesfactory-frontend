@@ -85,6 +85,10 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  const allPassengerFill = useSelector(
+      (state) => state.passengerDrawer.allPassengerFill
+    );
+  
   console.log("selectedProfilePass", selectedProfilePass);
   
 
@@ -151,6 +155,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
   //  Save passenger
   const handleSavePassenger = () => {
+    // for active continue button if true all condition
     if (
       isPassengerProfileDrawer &&
       passengerPofile?.length > 0 &&
@@ -159,7 +164,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
       dispatch(setFilledPass(true));
     }
     
-    
+
     if (isAllPassengersFilled) {
       dispatch(setPassProfileDrawer(false));
     } 
@@ -178,19 +183,10 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
         : profilePassengerAge === selectPassenger?.age &&
           passenger?.type === selectPassenger?.type;
 
-    // if (!isValidPassenger) {
-    //   alert("Selected profile does not match passenger type or age.");
-    //   return;
-    // }
-
-    
     setShowSuccessSnackbar(true);
     dispatch(setSelectedProfilePass(null));
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
-  const allPassengerFill = useSelector(
-      (state) => state.passengerDrawer.allPassengerFill
-    );
     
 
   //  Passenger Tab click

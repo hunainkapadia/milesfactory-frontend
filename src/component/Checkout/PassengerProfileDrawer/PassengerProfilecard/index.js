@@ -114,7 +114,7 @@ const PassengerProfilecard = ({
                 ) : (
                   <>
                     <Typography
-                      sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
+                      sx={{ fontSize: { lg: 13, md: 13, xs: 12 } }}
                       className="bold mb-0"
                       textTransform={"capitalize"}
                       mb={1}

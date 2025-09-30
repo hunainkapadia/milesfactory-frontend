@@ -1,9 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import InviteEmailForm from "../../layout/InviteEmailForm";
 import styles from "@/src/styles/sass/components/checkout/Payment.module.scss";
+import { setInviteEmailDialog } from "@/src/store/slices/Base/baseSlice";
+import { useDispatch } from "react-redux";
 const InviteEmailSearch = ({inviteSuccess, orderData }) => {
    console.log("inviteSuccess_000", inviteSuccess );
-   
+   const dispatch = useDispatch();
+   const inviteMoreEmailHandle = () => {
+    dispatch(setInviteEmailDialog(true));
+  };
   return (
     <>
       {!inviteSuccess ? (

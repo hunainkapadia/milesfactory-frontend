@@ -30,8 +30,8 @@ const PassengerFlowBlock = ({
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-  console.log("allPassengerFill", passengerPofile);
   
+  // for active continue button if true all condition
   useEffect(() => {
     if ((!passengerPofile || passengerPofile.length === 0) && allPassengerFill) {
       dispatch(setFilledPass(true));
