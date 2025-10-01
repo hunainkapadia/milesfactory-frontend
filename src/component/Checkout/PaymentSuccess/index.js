@@ -14,12 +14,8 @@ import { registerScrollFunction } from "@/src/utils/scrollManager";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  InviteSubmit,
   RatingSubmit,
-  setInviteEmailDialog,
-  setRatingSumbitRequest,
 } from "@/src/store/slices/Base/baseSlice";
-import InviteEmailForm from "../../layout/InviteEmailForm";
 import LoadingArea from "../../LoadingArea";
 import BookingExperienceRating from "./BookingExperienceRating";
 import InviteEmailSearch from "./InviteEmailSearch";
@@ -27,18 +23,10 @@ import InviteEmailSearch from "./InviteEmailSearch";
 const PaymentSuccess = () => {
   const [rating, setRating] = useState(false); // user-selected rating
   const [selectedReason, setSelectedReason] = useState(false); // user-selected reason
-  const [successReview, setsuccessReview] = useState(true);
-  const [email, setEmail] = useState(""); // from false to empty string
-  const [emailError, setEmailError] = useState("");
   // stroll
-
-  const priceSummaryRef = useRef(null); // Step 1: Create ref for scroll
-
   const [scrollRef, scrollToRef] = useScrollToRef();
-
   // getting order data refrens and other
   const orderData = useSelector((state) => state?.payment?.OrderData);
-
   console.log("orderData_test", orderData?.hotel_order?.uuid);
 
   // getting payment status
@@ -107,36 +95,11 @@ const PaymentSuccess = () => {
       };
       dispatch(RatingSubmit(payload));
     }
-
     // Reset selectedReason when changing rating
     if (newValue < 5) {
       setSelectedReason(null);
     }
   };
-
-  // rating [end]
-
-  // for invite
-  const handleInvite = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email) {
-      setEmailError("Email is required");
-      return;
-    } else if (!emailRegex.test(email)) {
-      setEmailError("Enter a valid email address");
-      return;
-    } else {
-      setEmailError("");
-    }
-    const payload = {
-      emails: email,
-      flight_order: orderData?.order?.uuid,
-    };
-    dispatch(InviteSubmit(payload));
-  };
-
-  
   return (
     <Box ref={scrollRef} py={4}>
       {/* Success Message */}

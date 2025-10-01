@@ -123,6 +123,8 @@ const PassengerDrawerForm = () => {
   if (isPassengerDrawer) {
     setTimeout(() => {
       if (passengerPofile?.length && PassengersUuID) {
+        console.log("passengerData", passengerPofile);
+        
         const passengerData = passengerPofile.find(
           (getProfilepassenger) =>
             getProfilepassenger.uuid === selectedpassengerPofile?.uuid
@@ -186,7 +188,7 @@ const PassengerDrawerForm = () => {
 
   const validateChildDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
-    minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
+    minDate = today.subtract(PassengerAge + 2, "year").add(1, "day");
   };
   const validateInfantDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
@@ -555,6 +557,7 @@ const PassengerDrawerForm = () => {
                   <FormLabel className="bold formLabel">
                     Date of Birth
                   </FormLabel>
+                  {console.log("dayjs_date", born_on)}
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       className="formControl Calendar"
