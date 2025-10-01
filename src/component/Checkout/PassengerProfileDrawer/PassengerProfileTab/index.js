@@ -32,7 +32,7 @@ const PassengerProfileTab = ({
           
             {!isFilled ? (
                <>
-                  <Typography className="basecolor-dark f12">
+                  <Typography className="basecolor-dark f12" mt={"2px"}>
                   Traveller {totalPass}{" "}
                   {getdata.type === "infant_without_seat" ? (
                      <>
@@ -55,7 +55,7 @@ const PassengerProfileTab = ({
                </>
             ) : (
                <>
-                  <Typography className="basecolor-dark f12">
+                  <Typography className="basecolor-dark f12" mt={"2px"}>
                   {getdata?.given_name} {getdata?.family_name}
                   
                   

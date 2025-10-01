@@ -21,7 +21,7 @@
 .passengersCard {
    background: #FFFFFF;
    border: 1px solid #E6EEEE;
-   border-radius: 16px;
+   border-radius: 8px;
    box-shadow: none;
    padding: 24px 15px;
    display: flex;
@@ -31,7 +31,7 @@
    .baggageLabel {}
    &.passengerProfileCard {
       justify-content: center;
-      min-height: auto;
+      min-height: 79px;
       padding-top: 20px;
       padding-bottom: 20px;
       &.passDisabled {
@@ -315,7 +315,7 @@
 }
 .checkoutDrower {
    .checkoutDrowerHeder {
-      padding: 18px 18px 0;
+      padding: 28px 18px 0;
       gap: 18px;
    }
 }

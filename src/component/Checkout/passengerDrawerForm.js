@@ -123,8 +123,6 @@ const PassengerDrawerForm = () => {
   if (isPassengerDrawer) {
     setTimeout(() => {
       if (passengerPofile?.length && PassengersUuID) {
-        console.log("passengerData", passengerPofile);
-        
         const passengerData = passengerPofile.find(
           (getProfilepassenger) =>
             getProfilepassenger.uuid === selectedpassengerPofile?.uuid
@@ -192,7 +190,7 @@ const PassengerDrawerForm = () => {
   };
   const validateInfantDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
-    minDate = today.subtract(PassengerAge + 1, "year").add(1, "day");
+    minDate = today.subtract(PassengerAge + 2, "year").add(1, "day");
   };
   // child dat
   // infant age
@@ -368,7 +366,7 @@ const PassengerDrawerForm = () => {
       >
         <Box
           className={styles.checkoutDrowerSection + " aa white-bg"}
-          width={463}
+          width={483}
         >
           <Box
             px={3}

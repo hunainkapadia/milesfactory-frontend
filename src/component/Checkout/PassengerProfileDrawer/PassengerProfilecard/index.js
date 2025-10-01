@@ -53,7 +53,7 @@ const PassengerProfilecard = ({
 
   return (
     <>
-      <Box sx={{ px: { md: 3, xs: 2 } }} pb={2}>
+      <Box  pb={2}>
         <Box
           className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
             passFilled ? styles.isFilled : ""
@@ -75,11 +75,18 @@ const PassengerProfilecard = ({
                 value={getdata.name}
                 control={
                   <Radio
-                    checked={passFilled || isSelected}
-                    onChange={(e) => setSelectedValue(e.target.value)}
-                    className="customRadio"
-                    sx={{ p: 0, m: 0 }} // Zero padding & margin using MUI's sx prop
-                  />
+  checked={passFilled || isSelected}
+  disabled
+  className="customRadio noselect"
+  sx={{
+    p: 0,
+    m: 0,
+    color: "primary.main",
+    "&.Mui-disabled": {
+      color: "primary.main", // keeps color instead of gray
+    },
+  }}
+/>
                 }
                 sx={{ m: 0, p: 0 }} // Zero padding & margin for FormControlLabel itself
               />
@@ -183,11 +190,6 @@ const PassengerProfilecard = ({
                 gap={1}
               >
                 {isOpen ? "Hide details" : "Show details"}
-                <i
-                  className={`fas ${
-                    isOpen ? "fa-chevron-up" : "fa-chevron-down"
-                  }`}
-                />
               </Typography>
               <Box>
                 <Box p={1} onClick={handleOpenMenu} className="cursor-pointer">
@@ -220,7 +222,7 @@ const PassengerProfilecard = ({
                       handleCloseMenu();
                     }}
                   >
-                    Modify
+                    Edit traveller
                   </MenuItem>
                   <MenuItem
                     onClick={() => {

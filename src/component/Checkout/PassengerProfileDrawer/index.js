@@ -79,6 +79,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedProfilePass = useSelector(
     (state) => state?.passengerDrawer?.SelectedProfilePass
   );
+  console.log("selectedProfilePass_11", selectedProfilePass);
+  
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -89,7 +91,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
       (state) => state.passengerDrawer.allPassengerFill
     );
   
-  console.log("selectedProfilePass", selectedProfilePass);
+
   
 
   //  Close drawer
@@ -221,7 +223,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     >
       <Box
         className={`${styles.checkoutDrower} bbb white-bg ${styles.PassengerDrower}`}
-        width={463}
+        width={483}
       >
         <Box
           className={`${styles.checkoutDrowerSection} ${styles.ProfileDrowerSection} aa white-bg`}
@@ -239,7 +241,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
           >
             <Box
               component={"section"}
-              gap={1}
+              gap={"5px"}
               alignItems="center"
               display="flex"
               className={" bold basecolor1 btn-link cursor-pointer"}
@@ -280,12 +282,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
             <Box className={Profilestyles.scrollTabsWrapper}>
               <Box className={Profilestyles.customTabs}>
-              {console.log("GetViewPassengers", GetViewPassengers)}
                 {GetViewPassengers?.map((passenger, index) => {
                   const isFilled = filledPassengerUUIDs.includes(
                     passenger.uuid
                   );
-                  console.log("activeTabUUID", PassengerType);
+                  
 
                   return (
                     <Box key={passenger.uuid}>
@@ -296,13 +297,10 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                         isMainPassenger={index === 0}
                         isFilled={isFilled}
                         onClickCard={() =>
-                          handlePassengerTab(
-                            isFilled,
-                            passenger // while pasenger data
-                          )
+                          handlePassengerTab(isFilled, passenger)
                         }
-                        isActive={PassengerType === passenger.type}
-                        //  passenger from type tabs selected PassengerType comming from redux
+                        isActive={selectPassenger?.uuid === passenger.uuid}
+                        // ✅ highlight only the selected passenger
                       />
                     </Box>
                   );
@@ -331,6 +329,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             className={styles.checkoutDrowerBody}
             component={"section"}
             pb={10}
+            sx={{ px: { lg: 3, md: 3, xs: 2 } }}
           >
             {passengerPofile
               ?.filter((passenger) => {
@@ -339,7 +338,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                 return passenger?.type === PassengerType;
               })
               .map((passenger, index) => {
-                console.log("passenger_001", passenger)
+                console.log("passenger_001", passenger);
                 const isPassFilled =
                   passenger?.passport_number ===
                   FilledPassFormData?.passport_number;
@@ -356,7 +355,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
 
             {/*  */}
             <Box
-              sx={{ px: { md: 3, xs: 2 } }}
+              
               pb={2}
               onClick={handleAddPassenger}
             >
