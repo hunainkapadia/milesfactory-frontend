@@ -31,7 +31,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import {
   getPassPofile,
+  passengerCaptain,
   PassengerForm,
+  PassengerFormFlight,
+  setCaptainParams,
   setFilledPass,
   setisPassengerDrawer,
   setPassengerAge,
@@ -155,7 +158,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   }, [passengerPofile, FilledPassFormData]);
 
   //  Save passenger
-  const handleSavePassenger = () => {
+  const handleContinuePassenger = () => {
     // for active continue button if true all condition
     if (
       isPassengerProfileDrawer &&
@@ -186,6 +189,51 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setSelectedProfilePass(null));
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
+
+const handleSavePassenger = () => {
+  const passenger = passengerPofile?.[tabValue]; // active tab passenger
+  if (!passenger) return;
+
+  const formatDate = (date) => {
+    if (!date) return "";
+    return dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
+  };
+
+  const params = {
+    gender: passenger.gender || "",
+    given_name: passenger.given_name || "",
+    family_name: passenger.family_name || "",
+    born_on: formatDate(passenger.born_on),
+    phone_number: passenger.phone_number || "",
+    email: passenger.email || "",
+    nationality: passenger.nationality?.id ?? "",
+    region: passenger.nationality?.code || "",
+    passport_number: passenger.passport_number || "",
+    passport_expire_date: formatDate(passenger.passport_expire_date),
+    passenger_id: passenger.passenger_id || "",
+    type: passenger.type || "",
+  };
+
+  console.log("passenger_save_params", params);
+
+  // 🔹 Check if this passenger is the FIRST one
+  const isFirstPassenger = GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
+
+  if (isFirstPassenger) {
+    dispatch(setCaptainParams(params));
+  }
+
+  // 🔹 Save passenger
+  dispatch(PassengerFormFlight(params));
+
+  // 🔹 Also call passengerCaptain if first passenger
+  if (isFirstPassenger) {
+    dispatch(passengerCaptain(params));
+  }
+};
+
+
+
 
   //  Passenger Tab click
   const handleTabChange = (event, newValue) => {
@@ -439,7 +487,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   <Button
                     type="submit"
                     className="btn btn-primary chat-btn btn-round"
-                    onClick={handleSavePassenger}
+                    onClick={isAllPassengersFilled ? handleContinuePassenger : ()=>handleSavePassenger(selectPassenger)}
                     variant="contained"
                     color={isAllPassengersFilled ? "primary" : "success"}
                   >
