@@ -56,6 +56,8 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [stopPolling, setStopPolling] = useState(false);
+  const [passTypeIndex, setPassTypeIndex] = useState(null);
+  const [tabValue, setTabValue] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -79,8 +81,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const selectedProfilePass = useSelector(
     (state) => state?.passengerDrawer?.SelectedProfilePass
   );
-  console.log("selectedProfilePass_11", selectedProfilePass);
-  
+  console.log("selectPassenger11", selectPassenger);
+
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
@@ -88,11 +90,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
   const allPassengerFill = useSelector(
-      (state) => state.passengerDrawer.allPassengerFill
-    );
-  
-
-  
+    (state) => state.passengerDrawer.allPassengerFill
+  );
 
   //  Close drawer
   const handleCloseDrawer = () => {
@@ -102,7 +101,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   //  Modify passenger
   const onClickModifyCard = (passenger) => {
     console.log("modify_passenger", passenger);
-    
+
     dispatch(setSelectedProfilePass(passenger));
 
     const birthDate = dayjs(passenger.born_on);
@@ -115,7 +114,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   };
 
   console.log("PassengerType", PassengerType);
-  
+
   //  Add passenger
   const handleAddPassenger = () => {
     dispatch(setSelectedProfilePass(null));
@@ -165,13 +164,11 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     ) {
       dispatch(setFilledPass(true));
     }
-    
 
     if (isAllPassengersFilled) {
       dispatch(setPassProfileDrawer(false));
-    } 
+    }
     dispatch(setChatscroll(true));
-    
 
     const passenger = selectedProfilePass;
 
@@ -189,30 +186,47 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     dispatch(setSelectedProfilePass(null));
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
-    
 
   //  Passenger Tab click
-  const handlePassengerTab = (isFilled, passenger) => {
-    console.log("passenger_tab", passenger);
-    
-    if (passengerPofile?.length) {
-      dispatch(getPassPofile());
-      dispatch(setPassProfileDrawer(true));
-      dispatch(setPassengerUUID(passenger?.uuid));
-      dispatch(setPassengerType(passenger?.type));
-      dispatch(setPassengerAge(passenger?.age));
-      dispatch(setPassengerPassport(passenger?.passportNumber));
-      dispatch(setSelectPassenger(passenger));
-      // setActiveTabUUID(passenger?.type);
-    }
-  };
+  const handleTabChange = (event, newValue) => {
+      setTabValue(newValue);
+  
+      const passenger = GetViewPassengers[newValue];
+      if (passenger) {
+        dispatch(setPassengerUUID(passenger.uuid));
+        dispatch(setPassengerType(passenger.type));
+        dispatch(setPassengerAge(passenger.age));
+        dispatch(setPassengerPassport(passenger.passportNumber));
+        dispatch(setSelectPassenger(passenger));
+      }
+    };
+  
 
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
+  
 
+  useEffect(() => {
+      if (!isAllPassengersFilled && filledPassengerUUIDs?.length) {
+        const nextPassengerIndex = GetViewPassengers.findIndex(
+          (p) => !filledPassengerUUIDs.includes(p.uuid)
+        );
   
+        if (nextPassengerIndex !== -1 && nextPassengerIndex !== tabValue) {
+          setTabValue(nextPassengerIndex);
   
+          const nextPassenger = GetViewPassengers[nextPassengerIndex];
+          dispatch(setSelectPassenger(nextPassenger));
+          dispatch(setPassengerUUID(nextPassenger.uuid));
+          dispatch(setPassengerType(nextPassenger.type));
+          dispatch(setPassengerAge(nextPassenger.age));
+          dispatch(setPassengerPassport(nextPassenger.passportNumber));
+        }
+      }
+    }, [filledPassengerUUIDs, GetViewPassengers, isAllPassengersFilled, dispatch]);
+  
+
   return (
     <Drawer
       anchor="right"
@@ -281,32 +295,47 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             <Divider />
 
             <Box className={Profilestyles.scrollTabsWrapper}>
-              <Box className={Profilestyles.customTabs}>
+              <Tabs
+                TabIndicatorProps={{ style: { display: "none" } }}
+                scrollButtons={false} 
+                value={tabValue}
+                onChange={handleTabChange}
+                variant="scrollable"
+                className={Profilestyles.customTabs}
+              >
                 {GetViewPassengers?.map((passenger, index) => {
-                  const isFilled = filledPassengerUUIDs.includes(
+                  const isActive = tabValue === index;
+                  const isFilled = filledPassengerUUIDs?.includes(
                     passenger.uuid
                   );
-                  
 
                   return (
-                    <Box key={passenger.uuid}>
-                      <PassengerProfileTab
-                        totalPass={index + 1}
-                        getdata={passenger}
-                        passDetail={isFilled ? passenger : ""}
-                        isMainPassenger={index === 0}
-                        isFilled={isFilled}
-                        onClickCard={() =>
-                          handlePassengerTab(isFilled, passenger)
-                        }
-                        isActive={selectPassenger?.uuid === passenger.uuid}
-                        // ✅ highlight only the selected passenger
-                      />
-                    </Box>
+                    <Tab
+                      key={passenger.uuid || index}
+                      disableRipple
+                      disableFocusRipple
+                      className={`${Profilestyles.inactiveTab} ${
+                        isActive ? Profilestyles.activeTab : ""
+                      }`}
+                      
+                      
+                      label={
+                        <PassengerProfileTab
+                          passName={`${passenger.type} ${index + 1}`}
+                          getdata={passenger}
+                          totalPass={index + 1}
+                          isActive={isActive}
+                          isFilled={isFilled}
+                          onClickCard={() => handleTabChange(null, index)} // triggers tab switch
+                          passDetail={passenger}
+                        />
+                      }
+                    />
                   );
                 })}
-              </Box>
+              </Tabs>
             </Box>
+
             {showSuccessSnackbar && (
               <Box
                 position="fixed"
@@ -331,34 +360,27 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             pb={10}
             sx={{ px: { lg: 3, md: 3, xs: 2 } }}
           >
-            {passengerPofile
-              ?.filter((passenger) => {
-                // Only keep passengers tyoe matching tabValue
-                if (!PassengerType) return true;
-                return passenger?.type === PassengerType;
-              })
-              .map((passenger, index) => {
-                console.log("passenger_001", passenger);
-                const isPassFilled =
-                  passenger?.passport_number ===
-                  FilledPassFormData?.passport_number;
-                return (
-                  <PassengerProfilecard
-                    key={passenger?.uuid || index}
-                    getdata={passenger}
-                    onClickModifyCard={() => onClickModifyCard(passenger)}
-                    passFilled={isPassFilled}
-                    // passDisabled={ispassDisabled}
-                  />
-                );
-              })}
+            {console.log("FilledPassFormData00", passengerPofile)}
+            {passengerPofile &&
+              passengerPofile
+                .filter((_, index) => index === tabValue)
+                .map((passenger, index) => {
+                  const isPassFilled =
+                    passenger?.passport_number ===
+                    FilledPassFormData?.passport_number;
+
+                  return (
+                    <PassengerProfilecard
+                      key={passenger?.uuid || index}
+                      getdata={passenger}
+                      onClickModifyCard={() => onClickModifyCard(passenger)}
+                      passFilled={isPassFilled}
+                    />
+                  );
+                })}
 
             {/*  */}
-            <Box
-              
-              pb={2}
-              onClick={handleAddPassenger}
-            >
+            <Box pb={2} onClick={handleAddPassenger}>
               <Box
                 display={"flex"}
                 justifyContent={"center"}
