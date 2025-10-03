@@ -12,11 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDrawer.module.scss";
 
-
 import dayjs from "dayjs";
 import {
   getPassPofile,
-  passengerCaptain,
   PassengerFormFlight,
   setCaptainParams,
   setFilledPass,
@@ -30,23 +28,20 @@ import {
   setSelectPassenger,
   setSelectPassProfile,
   setUnSelectPassProfile,
-  ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
 import {
   getPassPofileHotel,
-  passengerCaptainHotel,
   PassengerFormHotel,
-  PassengerSetupHotel,
-  ViewPassengersHotel,
 } from "@/src/store/slices/passengerDrawerHotelSlice";
 import PassengerProfileTab from "./PassengerProfileTab";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import PassengerProfileHeader from "./PassengerProfileHeader";
+import AddPassCard from "./AddPassCard";
 
 const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [stopPolling, setStopPolling] = useState(false);
-  const [passTypeIndex, setPassTypeIndex] = useState(null);
   const [tabValue, setTabValue] = useState(0);
 
   const dispatch = useDispatch();
@@ -80,17 +75,18 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
   console.log("filledPassengerUUIDs", filledPassengerUUIDs);
-  
+
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
   const { selectPassProfile, unSelectPassProfile } = useSelector(
-  (state) => state.passengerDrawer
-);
+    (state) => state.passengerDrawer
+  );
 
-console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfile?.uuid);
-
-  
+  console.log(
+    "selectPassProfile:",
+    selectPassProfile?.uuid === unSelectPassProfile?.uuid
+  );
 
   //  Close drawer
   const handleCloseDrawer = () => {
@@ -115,16 +111,6 @@ console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfil
   console.log("PassengerType", PassengerType);
 
   //  Add passenger
-  const handleAddPassenger = () => {
-    dispatch(setSelectedProfilePass(null));
-    dispatch(setisPassengerDrawer(true));
-
-    if (CartType === "flight" || CartType === "all") {
-      dispatch(ViewPassengers());
-    } else if (CartType === "hotel") {
-      dispatch(ViewPassengersHotel());
-    }
-  };
 
   //  Polling for profile updates
   useEffect(() => {
@@ -152,7 +138,6 @@ console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfil
       setStopPolling(true);
     }
   }, [passengerPofile, FilledPassFormData]);
-
 
   // allpasenger fill and active
   const handleContinuePassenger = () => {
@@ -187,7 +172,7 @@ console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfil
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
 
-  // for save pasenge roneby one 
+  // for save pasenge roneby one
   const handleSavePassenger = () => {
     const passenger = passengerPofile?.[tabValue]; // active tab passenger
     if (!passenger) return;
@@ -227,16 +212,14 @@ console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfil
     if (CartType === "all" || CartType === "flight") {
       dispatch(getPassPofile());
       dispatch(PassengerFormFlight(params));
-      
     } else if (CartType === "hotel") {
       dispatch(PassengerFormHotel(params));
     }
   };
   const selectCardHandle = (passenger) => {
     console.log("passenger_get", passenger);
-    dispatch(setSelectPassProfile(passenger))
-    
-  }
+    dispatch(setSelectPassProfile(passenger));
+  };
 
   //  Passenger Tab click
   const handleTabChange = (event, newValue) => {
@@ -296,115 +279,16 @@ console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfil
         <Box
           className={`${styles.checkoutDrowerSection} ${styles.ProfileDrowerSection} aa white-bg`}
         >
-          <Box
-            px={3}
-            component={"header"}
-            className={styles.checkoutDrowerHeder}
-            py={3}
-            mb={0}
-            display="flex"
-            justifyContent="space-between"
-            flexDirection={"column"}
-            gap={3}
-          >
-            <Box
-              component={"section"}
-              gap={"5px"}
-              alignItems="center"
-              display="flex"
-              className={" bold basecolor1 btn-link cursor-pointer"}
-              onClick={handleCloseDrawer}
-            >
-              <i className={`fa fa-arrow-left fas`}></i>{" "}
-              <Box component={"span"}>Back to Mylz Chat</Box>
-            </Box>
-            <Box
-              component={"section"}
-              display="flex"
-              justifyContent="space-between"
-              alignItems={"center"}
-            >
-              <Box>
-                <h3 className="regular mb-0">
-                  Traveller details -{" "}
-                  <span className="capitalize">
-                    {selectPassenger?.type === "infant_without_seat" ? (
-                      <>
-                        Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
-                        {selectPassenger?.age}{" "}
-                        {selectPassenger?.age > 1 ? "years" : "year"}
-                      </>
-                    ) : selectPassenger?.type === "child" ? (
-                      <>
-                        Child {selectPassenger?.age}{" "}
-                        {selectPassenger?.age > 1 ? "years" : "year"}
-                      </>
-                    ) : (
-                      <>{selectPassenger?.type} 18+ years</>
-                    )}
-                  </span>{" "}
-                </h3>
-              </Box>
-            </Box>
-            <Divider />
-
-            <Box className={Profilestyles.scrollTabsWrapper}>
-              <Tabs
-                TabIndicatorProps={{ style: { display: "none" } }}
-                scrollButtons={false}
-                value={tabValue}
-                onChange={handleTabChange}
-                variant="scrollable"
-                className={Profilestyles.customTabs}
-              >
-                {GetViewPassengers?.map((passenger, index) => {
-                  const isActive = tabValue === index;
-                  const isFilled = filledPassengerUUIDs?.includes(
-                    passenger.uuid
-                  );
-
-                  return (
-                    <Tab
-                      key={passenger.uuid || index}
-                      disableRipple
-                      disableFocusRipple
-                      className={`${Profilestyles.inactiveTab} ${
-                        isActive ? Profilestyles.activeTab : ""
-                      }`}
-                      label={
-                        <PassengerProfileTab
-                          passName={`${passenger.type} ${index + 1}`}
-                          getdata={passenger}
-                          totalPass={index + 1}
-                          isActive={isActive}
-                          isFilled={isFilled}
-                          onClickCard={() => handleTabChange(null, index)} // triggers tab switch
-                          passDetail={passenger}
-                        />
-                      }
-                    />
-                  );
-                })}
-              </Tabs>
-            </Box>
-
-            {showSuccessSnackbar && (
-              <Box
-                position="fixed"
-                bottom={20}
-                left="50%"
-                sx={{ transform: "translateX(-50%)" }}
-                zIndex={9999}
-                color="white"
-                px={3}
-                py={1}
-                borderRadius={100}
-                className=" f14 basecolor1-bg"
-              >
-                Passenger saved successfully
-              </Box>
-            )}
-          </Box>
+          <PassengerProfileHeader
+            styles={styles}
+            selectPassenger={selectPassenger}
+            handleCloseDrawer={handleCloseDrawer}
+            tabValue={tabValue}
+            handleTabChange={handleTabChange}
+            GetViewPassengers={GetViewPassengers}
+            filledPassengerUUIDs={filledPassengerUUIDs}
+            showSuccessSnackbar={showSuccessSnackbar}
+          />
           {/*  */}
           <Box
             className={styles.checkoutDrowerBody}
@@ -435,22 +319,7 @@ console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfil
                   );
                 })}
 
-            {/*  */}
-            <Box pb={2} onClick={handleAddPassenger}>
-              <Box
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                p={3}
-                gap={2}
-                className={
-                  styles.addtravellerBtn + " basecolor1 cursor-pointer"
-                }
-              >
-                <i className="fa fa-plus"></i>
-                <Typography>Add new traveller</Typography>
-              </Box>
-            </Box>
+            <AddPassCard />
           </Box>
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>
