@@ -1626,6 +1626,7 @@ body {
   @include padding(null 30px);
   font-weight: 500;
   cursor: pointer;
+  white-space: nowrap;
 
   >div {
     display: flex;

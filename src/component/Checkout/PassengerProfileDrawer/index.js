@@ -3,36 +3,20 @@ import {
   Box,
   Typography,
   Divider,
-  Grid,
   Drawer,
-  FormControlLabel,
-  Checkbox,
-  FormLabel,
-  TextField,
   Button,
   Tabs,
   Tab,
 } from "@mui/material";
-import paymentStyles from "@/src/styles/sass/components/checkout/Payment.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectFlightKey } from "@/src/store/slices/BookingflightSlice";
-import Link from "next/link";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDrawer.module.scss";
 
-import {
-  closeDrawer,
-  setAddCardDrawer,
-  setCloseCardDrawer,
-} from "@/src/store/slices/PaymentSlice";
-import PaymentCard from "../PaymentCard";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 import dayjs from "dayjs";
 import {
   getPassPofile,
   passengerCaptain,
-  PassengerForm,
   PassengerFormFlight,
   setCaptainParams,
   setFilledPass,
@@ -44,11 +28,14 @@ import {
   setPassProfileDrawer,
   setSelectedProfilePass,
   setSelectPassenger,
+  setSelectPassProfile,
+  setUnSelectPassProfile,
   ViewPassengers,
 } from "@/src/store/slices/passengerDrawerSlice";
 import PassengerProfilecard from "./PassengerProfilecard";
 import {
   getPassPofileHotel,
+  passengerCaptainHotel,
   PassengerFormHotel,
   PassengerSetupHotel,
   ViewPassengersHotel,
@@ -92,9 +79,18 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  console.log("filledPassengerUUIDs", filledPassengerUUIDs);
+  
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
+  const { selectPassProfile, unSelectPassProfile } = useSelector(
+  (state) => state.passengerDrawer
+);
+
+console.log("selectPassProfile:", selectPassProfile?.uuid === unSelectPassProfile?.uuid);
+
+  
 
   //  Close drawer
   const handleCloseDrawer = () => {
@@ -157,7 +153,8 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     }
   }, [passengerPofile, FilledPassFormData]);
 
-  //  Save passenger
+
+  // allpasenger fill and active
   const handleContinuePassenger = () => {
     // for active continue button if true all condition
     if (
@@ -190,90 +187,99 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
     setTimeout(() => setShowSuccessSnackbar(false), 3000);
   };
 
-const handleSavePassenger = () => {
-  const passenger = passengerPofile?.[tabValue]; // active tab passenger
-  if (!passenger) return;
+  // for save pasenge roneby one 
+  const handleSavePassenger = () => {
+    const passenger = passengerPofile?.[tabValue]; // active tab passenger
+    if (!passenger) return;
 
-  const formatDate = (date) => {
-    if (!date) return "";
-    return dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
+    const formatDate = (date) => {
+      if (!date) return "";
+      return dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
+    };
+
+    const params = {
+      gender: passenger.gender || "",
+      given_name: passenger.given_name || "",
+      family_name: passenger.family_name || "",
+      born_on: formatDate(passenger.born_on),
+      phone_number: passenger.phone_number || "",
+      email: passenger.email || "",
+      nationality: passenger.nationality?.id ?? "",
+      region: passenger.nationality?.code || "",
+      passport_number: passenger.passport_number || "",
+      passport_expire_date: formatDate(passenger.passport_expire_date),
+      passenger_id: passenger.passenger_id || "",
+      type: passenger.type || "",
+    };
+
+    console.log("passenger_save_params", params);
+
+    // Check if this passenger is the FIRST one
+    const isFirstPassenger =
+      GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
+
+    if (isFirstPassenger) {
+      dispatch(setCaptainParams(params));
+    }
+    // Save passenger
+
+    // Also call passengerCaptain if first passenger
+    if (CartType === "all" || CartType === "flight") {
+      dispatch(getPassPofile());
+      dispatch(PassengerFormFlight(params));
+      
+    } else if (CartType === "hotel") {
+      dispatch(PassengerFormHotel(params));
+    }
   };
-
-  const params = {
-    gender: passenger.gender || "",
-    given_name: passenger.given_name || "",
-    family_name: passenger.family_name || "",
-    born_on: formatDate(passenger.born_on),
-    phone_number: passenger.phone_number || "",
-    email: passenger.email || "",
-    nationality: passenger.nationality?.id ?? "",
-    region: passenger.nationality?.code || "",
-    passport_number: passenger.passport_number || "",
-    passport_expire_date: formatDate(passenger.passport_expire_date),
-    passenger_id: passenger.passenger_id || "",
-    type: passenger.type || "",
-  };
-
-  console.log("passenger_save_params", params);
-
-  // 🔹 Check if this passenger is the FIRST one
-  const isFirstPassenger = GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
-
-  if (isFirstPassenger) {
-    dispatch(setCaptainParams(params));
+  const selectCardHandle = (passenger) => {
+    console.log("passenger_get", passenger);
+    dispatch(setSelectPassProfile(passenger))
+    
   }
-
-  // 🔹 Save passenger
-  dispatch(PassengerFormFlight(params));
-
-  // 🔹 Also call passengerCaptain if first passenger
-  if (isFirstPassenger) {
-    dispatch(passengerCaptain(params));
-  }
-};
-
-
-
 
   //  Passenger Tab click
   const handleTabChange = (event, newValue) => {
-      setTabValue(newValue);
-  
-      const passenger = GetViewPassengers[newValue];
-      if (passenger) {
-        dispatch(setPassengerUUID(passenger.uuid));
-        dispatch(setPassengerType(passenger.type));
-        dispatch(setPassengerAge(passenger.age));
-        dispatch(setPassengerPassport(passenger.passportNumber));
-        dispatch(setSelectPassenger(passenger));
-      }
-    };
-  
+    setTabValue(newValue);
+
+    const passenger = GetViewPassengers[newValue];
+    if (passenger) {
+      dispatch(setPassengerUUID(passenger.uuid));
+      dispatch(setPassengerType(passenger.type));
+      dispatch(setPassengerAge(passenger.age));
+      dispatch(setPassengerPassport(passenger.passportNumber));
+      dispatch(setSelectPassenger(passenger));
+    }
+  };
 
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
-  
 
+  // for pasenger fill tab auto move next tab
   useEffect(() => {
-      if (!isAllPassengersFilled && filledPassengerUUIDs?.length) {
-        const nextPassengerIndex = GetViewPassengers.findIndex(
-          (p) => !filledPassengerUUIDs.includes(p.uuid)
-        );
-  
-        if (nextPassengerIndex !== -1 && nextPassengerIndex !== tabValue) {
-          setTabValue(nextPassengerIndex);
-  
-          const nextPassenger = GetViewPassengers[nextPassengerIndex];
-          dispatch(setSelectPassenger(nextPassenger));
-          dispatch(setPassengerUUID(nextPassenger.uuid));
-          dispatch(setPassengerType(nextPassenger.type));
-          dispatch(setPassengerAge(nextPassenger.age));
-          dispatch(setPassengerPassport(nextPassenger.passportNumber));
-        }
+    if (!isAllPassengersFilled && filledPassengerUUIDs?.length) {
+      const nextPassengerIndex = GetViewPassengers.findIndex(
+        (p) => !filledPassengerUUIDs.includes(p.uuid)
+      );
+
+      if (nextPassengerIndex !== -1 && nextPassengerIndex !== tabValue) {
+        setTabValue(nextPassengerIndex);
+
+        const nextPassenger = GetViewPassengers[nextPassengerIndex];
+        dispatch(setSelectPassenger(nextPassenger));
+        dispatch(setPassengerUUID(nextPassenger.uuid));
+        dispatch(setPassengerType(nextPassenger.type));
+        dispatch(setPassengerAge(nextPassenger.age));
+        dispatch(setPassengerPassport(nextPassenger.passportNumber));
       }
-    }, [filledPassengerUUIDs, GetViewPassengers, isAllPassengersFilled, dispatch]);
-  
+    }
+  }, [
+    filledPassengerUUIDs,
+    GetViewPassengers,
+    isAllPassengersFilled,
+    dispatch,
+  ]);
 
   return (
     <Drawer
@@ -345,7 +351,7 @@ const handleSavePassenger = () => {
             <Box className={Profilestyles.scrollTabsWrapper}>
               <Tabs
                 TabIndicatorProps={{ style: { display: "none" } }}
-                scrollButtons={false} 
+                scrollButtons={false}
                 value={tabValue}
                 onChange={handleTabChange}
                 variant="scrollable"
@@ -365,8 +371,6 @@ const handleSavePassenger = () => {
                       className={`${Profilestyles.inactiveTab} ${
                         isActive ? Profilestyles.activeTab : ""
                       }`}
-                      
-                      
                       label={
                         <PassengerProfileTab
                           passName={`${passenger.type} ${index + 1}`}
@@ -415,13 +419,17 @@ const handleSavePassenger = () => {
                 .map((passenger, index) => {
                   const isPassFilled =
                     passenger?.passport_number ===
-                    FilledPassFormData?.passport_number;
+                      FilledPassFormData?.passport_number || // for pasenger filled click filled
+                    passenger?.uuid === selectPassProfile?.uuid; // for pasenger click filled
+                  console.log("passenger_uuid", passenger?.uuid);
+                  dispatch(setUnSelectPassProfile(passenger));
 
                   return (
                     <PassengerProfilecard
                       key={passenger?.uuid || index}
                       getdata={passenger}
                       onClickModifyCard={() => onClickModifyCard(passenger)}
+                      selectCardHandle={() => selectCardHandle(passenger)}
                       passFilled={isPassFilled}
                     />
                   );
@@ -447,10 +455,16 @@ const handleSavePassenger = () => {
           {/* footer [start] */}
           <Box className={styles.checkoutDrowerFooter + " test11"}>
             <Divider />
-            <Box py={1} px={3} display="flex" flexDirection="column">
+            <Box
+              py={1}
+              px={{ lg: 3, md: 3, xs: 2 }}
+              display="flex"
+              flexDirection="column"
+            >
               <Box display="flex" justifyContent={"space-between"} gap={3}>
                 <Box>
                   <Typography
+                    lineHeight={1}
                     className={`bold mb-0 ${
                       isAllPassengersFilled ? "basecolor1" : "yellow"
                     }`}
@@ -472,26 +486,24 @@ const handleSavePassenger = () => {
                   alignItems="center"
                   gap={3}
                 >
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    gap={2}
-                    className="f14"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleCloseDrawer}
-                    disabled={"isFormLoading"} // Disable when loading
-                  >
-                    <span>Close</span>
-                  </Box>
-
                   <Button
                     type="submit"
                     className="btn btn-primary chat-btn btn-round"
-                    onClick={isAllPassengersFilled ? handleContinuePassenger : ()=>handleSavePassenger(selectPassenger)}
+                    onClick={
+                      isAllPassengersFilled
+                        ? handleContinuePassenger
+                        : () => handleSavePassenger(selectPassProfile) // use selected card
+                    }
                     variant="contained"
                     color={isAllPassengersFilled ? "primary" : "success"}
+                    disabled={
+                      (!isAllPassengersFilled && !selectPassProfile) || // for all pass filled
+                      selectPassProfile?.uuid !== unSelectPassProfile?.uuid // for pasengercard click
+                    } // disable if no card selected
                   >
-                    <span>{isAllPassengersFilled ? "Continue" : "Save"}</span>
+                    <Typography component={"span"}>
+                      {isAllPassengersFilled ? "Continue" : "Save"}
+                    </Typography>
                   </Button>
                 </Box>
               </Box>

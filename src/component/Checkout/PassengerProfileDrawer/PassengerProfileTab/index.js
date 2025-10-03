@@ -10,7 +10,7 @@ const PassengerProfileTab = ({
   passDetail,
 }) => {
   return (
-    <Box
+    <Box className={Profilestyles.TabBox}
       id={getdata.uuid}
       display="flex"
       alignItems="center"

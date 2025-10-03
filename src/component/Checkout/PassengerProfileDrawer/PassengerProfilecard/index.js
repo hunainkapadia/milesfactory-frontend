@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDrawer.module.scss";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -19,11 +20,10 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 const PassengerProfilecard = ({
   getdata,
   onClickModifyCard,
-  onClickProfileCard,
   passFilled,
   passDisabled,
-  isSelected,
-  onDelete
+  onDelete,
+  selectCardHandle,
 }) => {
   const [isOpen, setisOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(""); // Or initial value
@@ -50,10 +50,11 @@ const PassengerProfilecard = ({
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+  console.log("radio_test", passFilled);
 
   return (
     <>
-      <Box  pb={2}>
+      <Box pb={2}>
         <Box
           className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
             passFilled ? styles.isFilled : ""
@@ -62,39 +63,30 @@ const PassengerProfilecard = ({
           flexDirection={"column"}
           justifyContent={"space-between"}
           py={2}
-          onClick={onClickProfileCard}
+          onClick={() => selectCardHandle()}
         >
           <Box width={"100%"} display={"flex"} justifyContent={"space-between"}>
             <Box
-              
               id={getdata.uuid}
               display={"flex"}
               sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}
             >
               <FormControlLabel
-                value={getdata.name}
+                value="test"
                 control={
                   <Radio
-  checked={passFilled || isSelected}
-  disabled
-  className="customRadio noselect"
-  sx={{
-    p: 0,
-    m: 0,
-    color: "primary.main",
-    "&.Mui-disabled": {
-      color: "primary.main", // keeps color instead of gray
-    },
-  }}
-/>
+                    checked={passFilled} // static true
+                    // onChange={(e) => setIsChecked(e.target.checked)}
+                    sx={{ p: 0, m: 0 }}
+                  />
                 }
-                sx={{ m: 0, p: 0 }} // Zero padding & margin for FormControlLabel itself
+                sx={{ m: 0, p: 0 }}
               />
 
               <Box className="imggroup" display={"flex"} alignItems={"center"}>
                 <img src="/images/user-circle.svg" alt="User" />
               </Box>
-              <Box p={0} m={0}>
+              <Box p={0} m={0} className={Profilestyles.detailCol}>
                 {!isFilled ? (
                   <>
                     <Typography
@@ -175,19 +167,15 @@ const PassengerProfilecard = ({
                 )}
               </Box>
             </Box>
-            <Box
-              
-              
-              alignItems="center"
-              display={"flex"}
-              gap={1}
-            >
-              <Typography onClick={() => handleToggle()} 
+            <Box alignItems="center" display={"flex"} gap={1}>
+              <Typography
+                onClick={() => handleToggle()}
                 sx={{ fontSize: { lg: 14, md: 14, xs: 10 } }}
                 className="bold mb-0 basecolor1 cursor-pointer"
                 display="flex"
                 alignItems="center"
                 gap={1}
+                whiteSpace={"nowrap"}
               >
                 {isOpen ? "Hide details" : "Show details"}
               </Typography>

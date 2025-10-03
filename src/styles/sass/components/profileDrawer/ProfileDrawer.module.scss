@@ -1,6 +1,14 @@
 @import "../../variables";
 
 
+.TabBox {
+   img {
+      @include scale(16px !important, 16px !important);
+   }
+}
+.detailCol {
+   width: 180px;
+}
 .scrollTabsWrapper {
    min-height: auto;
    border-bottom: 1px solid #e0e0e0;
@@ -41,4 +49,12 @@
 .detailsSection {
    // Placeholder for future details
 
+}
+
+@include for-mobile-large-screen (){ 
+   .TabBox {
+      img {
+         @include scale(10px !important, 10px !important);
+      }
+   }
 }

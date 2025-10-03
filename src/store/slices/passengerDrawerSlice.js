@@ -34,12 +34,21 @@ const initialState ={
   isPassengerLoading: false,
   SeeDetailButton: "Chat",
   filledPass: false,
+  SelectPassenger: null,
+  selectPassProfile: null,
+  unSelectPassProfile: null,
 };
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
   initialState,
   reducers: {
-    setFilledPass:(state, action) => {
+    setUnSelectPassProfile: (state, action) => {
+      state.unSelectPassProfile = action.payload;
+    },
+    setSelectPassProfile: (state, action) => {
+      state.selectPassProfile = action.payload;
+    },
+    setFilledPass: (state, action) => {
       state.filledPass = action.payload;
     },
     setSeeDetailButton: (state, action) => {
@@ -378,7 +387,9 @@ export const {
   setisPassengerDrawer,
   setGenericOrderUuid,
   resetPassengerFlightState,
-  setFilledPass
+  setFilledPass,
+  setSelectPassProfile,
+  setUnSelectPassProfile,
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;
