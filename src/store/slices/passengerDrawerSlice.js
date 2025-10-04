@@ -42,6 +42,12 @@ const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
   initialState,
   reducers: {
+    
+    setAddFilledPassenger: (state, action) => {
+  if (!state.filledPassengerUUIDs.includes(action.payload)) {
+    state.filledPassengerUUIDs.push(action.payload);
+  }
+},
     setUnSelectPassProfile: (state, action) => {
       state.unSelectPassProfile = action.payload;
     },
@@ -236,11 +242,11 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
   const GetViewPassengers = state?.passengerDrawer?.ViewPassengers;
   
   const filledPassengerUUIDs = state.passengerDrawer.filledPassengerUUIDs;
-
   
   
-
-
+  
+  
+  
   if (filledPassengerUUIDs.length === GetViewPassengers.length) {
     dispatch(setAllPassengerFill(true));
   }
@@ -251,9 +257,10 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
   
   
   const SubmitUrl = `/api/v1/order/${orderUuid}/passenger/${passengerUuid}`;
-
   
   
+  
+  alert("call api")
 
   api
     .post(SubmitUrl, params)
@@ -264,6 +271,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       dispatch(markPassengerAsFilled(passengerUuid));
 
       console.log("pass_profiel_formData", formData);
+      dispatch(setSelectPassProfile(null));
       
 
       
@@ -390,6 +398,7 @@ export const {
   setFilledPass,
   setSelectPassProfile,
   setUnSelectPassProfile,
+  setAddFilledPassenger
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

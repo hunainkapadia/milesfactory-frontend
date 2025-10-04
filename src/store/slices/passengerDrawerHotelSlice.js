@@ -5,7 +5,7 @@ import { setCloseDrawer } from "./BookingflightSlice";
 import { fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
 import { setMessage } from "./sendMessageSlice";
-import { markPassengerAsFilled, setAllPassengerFill, setClosePassengerDrawer, setGenericOrderUuid, setIsFormLoading, setisPassengerDrawer, setOrderUuid, setPassengerFormError, setPassengerUUID, setPassFormData, setPassProfile, setViewPassengers } from "./passengerDrawerSlice";
+import { markPassengerAsFilled, setAllPassengerFill, setClosePassengerDrawer, setGenericOrderUuid, setIsFormLoading, setisPassengerDrawer, setOrderUuid, setPassengerFormError, setPassengerUUID, setPassFormData, setPassProfile, setSelectPassProfile, setViewPassengers } from "./passengerDrawerSlice";
 
 const initialState = {
   isLoading: false,
@@ -119,6 +119,7 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
       const nextPassenger = allPassengers.find(
         (p) => !filledPassengerUuids.includes(p.uuid)
       );
+      dispatch(setSelectPassProfile(null));
 
       if (nextPassenger) {
         dispatch(setPassengerUUID(nextPassenger.uuid));

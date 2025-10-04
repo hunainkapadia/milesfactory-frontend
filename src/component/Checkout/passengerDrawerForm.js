@@ -330,6 +330,7 @@ const PassengerDrawerForm = () => {
     }
 
     if (CartType === "all" || CartType === "flight") {
+      alert("all, flight")
       
       dispatch(getPassPofile());
       dispatch(PassengerFormFlight(params));

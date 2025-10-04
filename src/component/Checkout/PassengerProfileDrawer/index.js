@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Divider,
-  Drawer,
-  Button,
-  Tabs,
-  Tab,
-} from "@mui/material";
+import { Box, Typography, Divider, Drawer, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
-import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDrawer.module.scss";
-
 import dayjs from "dayjs";
 import {
   getPassPofile,
   PassengerFormFlight,
+  setAddFilledPassenger,
   setCaptainParams,
   setFilledPass,
   setisPassengerDrawer,
@@ -27,95 +18,62 @@ import {
   setSelectedProfilePass,
   setSelectPassenger,
   setSelectPassProfile,
-  setUnSelectPassProfile,
 } from "@/src/store/slices/passengerDrawerSlice";
-import PassengerProfilecard from "./PassengerProfilecard";
 import {
   getPassPofileHotel,
   PassengerFormHotel,
 } from "@/src/store/slices/passengerDrawerHotelSlice";
-import PassengerProfileTab from "./PassengerProfileTab";
-import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import PassengerProfilecard from "./PassengerProfilecard";
 import PassengerProfileHeader from "./PassengerProfileHeader";
 import AddPassCard from "./AddPassCard";
+import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 
-const PassengerProfileDrawer = ({ getFlightDetail }) => {
+const PassengerProfileDrawer = () => {
+  const dispatch = useDispatch();
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [stopPolling, setStopPolling] = useState(false);
   const [tabValue, setTabValue] = useState(0);
+  const [tabType, setTabType] = useState("adult"); // default type
 
-  const dispatch = useDispatch();
+  console.log("tabType", tabType);
 
   // Redux states
   const isPassengerProfileDrawer = useSelector(
     (state) => state.passengerDrawer.passProfileDrawer
   );
   const passengerPofile = useSelector(
-    (state) => state?.passengerDrawer?.passProfile
-  );
-  const PassengerType = useSelector(
-    (state) => state?.passengerDrawer?.SelectPassenger?.type
+    (state) => state.passengerDrawer.passProfile
   );
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
-    (state) => state?.passengerDrawer?.PassFormData
+    (state) => state.passengerDrawer.PassFormData
   );
   const selectPassenger = useSelector(
-    (state) => state?.passengerDrawer?.SelectPassenger
+    (state) => state.passengerDrawer.SelectPassenger
   );
   const selectedProfilePass = useSelector(
-    (state) => state?.passengerDrawer?.SelectedProfilePass
+    (state) => state.passengerDrawer.SelectedProfilePass
   );
-  console.log("selectPassenger11", selectPassenger);
-
   const GetViewPassengers = useSelector(
-    (state) => state?.passengerDrawer?.ViewPassengers
+    (state) => state.passengerDrawer.ViewPassengers
   );
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
-  console.log("filledPassengerUUIDs", filledPassengerUUIDs);
-
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  const { selectPassProfile, unSelectPassProfile } = useSelector(
-    (state) => state.passengerDrawer
-  );
+  const { selectPassProfile } = useSelector((state) => state.passengerDrawer);
 
-  console.log(
-    "selectPassProfile:",
-    selectPassProfile?.uuid === unSelectPassProfile?.uuid
-  );
+  const totalPassengers = GetViewPassengers?.length || 0;
+  const filledCount = filledPassengerUUIDs?.length || 0;
+  const isAllPassengersFilled = filledCount === totalPassengers;
+  console.log("isAllPassengersFilled", isAllPassengersFilled);
+  
 
-  //  Close drawer
-  const handleCloseDrawer = () => {
-    dispatch(setPassProfileDrawer(false));
-  };
-
-  //  Modify passenger
-  const onClickModifyCard = (passenger) => {
-    console.log("modify_passenger", passenger);
-
-    dispatch(setSelectedProfilePass(passenger));
-
-    const birthDate = dayjs(passenger.born_on);
-    const now = dayjs();
-    const age = now.diff(birthDate, "year");
-
-    dispatch(setPassengerType(passenger.type));
-    dispatch(setPassengerAge(age));
-    dispatch(setisPassengerDrawer(true));
-  };
-
-  console.log("PassengerType", PassengerType);
-
-  //  Add passenger
-
-  //  Polling for profile updates
+  // --- Polling for profile updates ---
   useEffect(() => {
     if (!FilledPassFormData || stopPolling) return;
-
     const interval = setInterval(() => {
       if (CartType === "all" || CartType === "flight") {
         dispatch(getPassPofile());
@@ -123,65 +81,41 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
         dispatch(getPassPofileHotel());
       }
     }, 1000);
-
     return () => clearInterval(interval);
-  }, [dispatch, FilledPassFormData, stopPolling]);
+  }, [dispatch, FilledPassFormData, stopPolling, CartType]);
 
   useEffect(() => {
     if (!FilledPassFormData || !passengerPofile) return;
-
     const isMatch = passengerPofile.some(
       (p) => p.family_name === FilledPassFormData.family_name
     );
-
-    if (isMatch) {
-      setStopPolling(true);
-    }
+    if (isMatch) setStopPolling(true);
   }, [passengerPofile, FilledPassFormData]);
 
-  // allpasenger fill and active
-  const handleContinuePassenger = () => {
-    // for active continue button if true all condition
-    if (
-      isPassengerProfileDrawer &&
-      passengerPofile?.length > 0 &&
-      allPassengerFill
-    ) {
-      dispatch(setFilledPass(true));
+  // --- Initialize tabType ---
+  useEffect(() => {
+    if (GetViewPassengers?.length && tabType === null) {
+      setTabType(GetViewPassengers[0].type); // set only once
     }
+  }, [GetViewPassengers, tabType]);
 
-    if (isAllPassengersFilled) {
-      dispatch(setPassProfileDrawer(false));
-    }
-    dispatch(setChatscroll(true));
+  // --- Close drawer ---
+  const handleCloseDrawer = () => dispatch(setPassProfileDrawer(false));
 
-    const passenger = selectedProfilePass;
-
-    const birthDate = dayjs(passenger?.born_on);
-    const now = dayjs();
-    const profilePassengerAge = now.diff(birthDate, "year");
-
-    const isValidPassenger =
-      selectPassenger?.type === "adult"
-        ? passenger?.type === "adult"
-        : profilePassengerAge === selectPassenger?.age &&
-          passenger?.type === selectPassenger?.type;
-
-    setShowSuccessSnackbar(true);
-    dispatch(setSelectedProfilePass(null));
-    setTimeout(() => setShowSuccessSnackbar(false), 3000);
+  // --- Modify passenger ---
+  const onClickModifyCard = (passenger) => {
+    dispatch(setSelectedProfilePass(passenger));
+    const age = dayjs().diff(dayjs(passenger.born_on), "year");
+    dispatch(setPassengerType(passenger.type));
+    dispatch(setPassengerAge(age));
+    dispatch(setisPassengerDrawer(true));
   };
 
-  // for save pasenge roneby one
-  const handleSavePassenger = () => {
-    const passenger = passengerPofile?.[tabValue]; // active tab passenger
+  // --- Save passenger ---
+  const handleSavePassenger = (passenger) => {
     if (!passenger) return;
-
-    const formatDate = (date) => {
-      if (!date) return "";
-      return dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
-    };
-
+    const formatDate = (date) =>
+      date && dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
     const params = {
       gender: passenger.gender || "",
       given_name: passenger.given_name || "",
@@ -197,72 +131,64 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
       type: passenger.type || "",
     };
 
-    console.log("passenger_save_params", params);
-
-    // Check if this passenger is the FIRST one
+    // If first passenger, set captain params
     const isFirstPassenger =
       GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
+    if (isFirstPassenger) dispatch(setCaptainParams(params));
 
-    if (isFirstPassenger) {
-      dispatch(setCaptainParams(params));
-    }
-    // Save passenger
-
-    // Also call passengerCaptain if first passenger
+    // Dispatch save and mark as filled
     if (CartType === "all" || CartType === "flight") {
-      dispatch(getPassPofile());
       dispatch(PassengerFormFlight(params));
+      dispatch(getPassPofile());
     } else if (CartType === "hotel") {
       dispatch(PassengerFormHotel(params));
     }
   };
+
+  const handleContinuePassenger =()=> {
+    dispatch(setFilledPass(true))
+    handleCloseDrawer();
+  }
+
+  // --- Select card ---
   const selectCardHandle = (passenger) => {
-    console.log("passenger_get", passenger);
     dispatch(setSelectPassProfile(passenger));
   };
 
-  //  Passenger Tab click
-  const handleTabChange = (event, newValue) => {
+  // --- Tab click ---
+  const handleTabChange = (e, newValue) => {
     setTabValue(newValue);
-
     const passenger = GetViewPassengers[newValue];
-    if (passenger) {
-      dispatch(setPassengerUUID(passenger.uuid));
-      dispatch(setPassengerType(passenger.type));
-      dispatch(setPassengerAge(passenger.age));
-      dispatch(setPassengerPassport(passenger.passportNumber));
-      dispatch(setSelectPassenger(passenger));
-    }
+    if (!passenger) return;
+    setTabType(passenger.type);
+    dispatch(setPassengerUUID(passenger.uuid));
+    dispatch(setPassengerType(passenger.type));
+    dispatch(setPassengerAge(passenger.age));
+    dispatch(setPassengerPassport(passenger.passportNumber));
+    dispatch(setSelectPassenger(passenger));
   };
 
-  const totalPassengers = GetViewPassengers?.length || 0;
-  const filledCount = filledPassengerUUIDs?.length || 0;
-  const isAllPassengersFilled = filledCount === totalPassengers;
-
-  // for pasenger fill tab auto move next tab
+  // --- Auto switch to next unfilled passenger ---
   useEffect(() => {
-    if (!isAllPassengersFilled && filledPassengerUUIDs?.length) {
-      const nextPassengerIndex = GetViewPassengers.findIndex(
-        (p) => !filledPassengerUUIDs.includes(p.uuid)
-      );
+  // Find the next unfilled passenger
+  const nextPassenger = GetViewPassengers?.find(
+    (p) => !filledPassengerUUIDs.includes(p.uuid)
+  );
 
-      if (nextPassengerIndex !== -1 && nextPassengerIndex !== tabValue) {
-        setTabValue(nextPassengerIndex);
+  if (nextPassenger && nextPassenger.uuid !== selectPassenger?.uuid) {
+    const nextIndex = GetViewPassengers.findIndex(p => p.uuid === nextPassenger.uuid);
 
-        const nextPassenger = GetViewPassengers[nextPassengerIndex];
-        dispatch(setSelectPassenger(nextPassenger));
-        dispatch(setPassengerUUID(nextPassenger.uuid));
-        dispatch(setPassengerType(nextPassenger.type));
-        dispatch(setPassengerAge(nextPassenger.age));
-        dispatch(setPassengerPassport(nextPassenger.passportNumber));
-      }
-    }
-  }, [
-    filledPassengerUUIDs,
-    GetViewPassengers,
-    isAllPassengersFilled,
-    dispatch,
-  ]);
+    setTabValue(nextIndex);
+    setTabType(nextPassenger.type);
+
+    dispatch(setSelectPassenger(nextPassenger));
+    dispatch(setPassengerUUID(nextPassenger.uuid));
+    dispatch(setPassengerType(nextPassenger.type));
+    dispatch(setPassengerAge(nextPassenger.age));
+    dispatch(setPassengerPassport(nextPassenger.passportNumber));
+  }
+}, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
+
 
   return (
     <Drawer
@@ -289,40 +215,42 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
             filledPassengerUUIDs={filledPassengerUUIDs}
             showSuccessSnackbar={showSuccessSnackbar}
           />
-          {/*  */}
+
           <Box
             className={styles.checkoutDrowerBody}
             component={"section"}
             pb={10}
             sx={{ px: { lg: 3, md: 3, xs: 2 } }}
           >
-            {console.log("FilledPassFormData00", passengerPofile)}
-            {passengerPofile &&
-              passengerPofile
-                .filter((_, index) => index === tabValue)
-                .map((passenger, index) => {
-                  const isPassFilled =
-                    passenger?.passport_number ===
-                      FilledPassFormData?.passport_number || // for pasenger filled click filled
-                    passenger?.uuid === selectPassProfile?.uuid; // for pasenger click filled
-                  console.log("passenger_uuid", passenger?.uuid);
-                  dispatch(setUnSelectPassProfile(passenger));
+            {console.log("passenger_type11", passengerPofile)}
+            {passengerPofile
+  ?.filter((p) => p.type === tabType)
+  .filter(
+    (p) =>
+      !filledPassengerUUIDs.includes(p.uuid) &&
+      p.passport_number !== FilledPassFormData?.passport_number
+  )
+  .map((passenger, index) => {
+    const isPassFilled =
+      passenger?.uuid === selectPassProfile?.uuid ||
+      passenger?.passport_number === FilledPassFormData?.passport_number;
 
-                  return (
-                    <PassengerProfilecard
-                      key={passenger?.uuid || index}
-                      getdata={passenger}
-                      onClickModifyCard={() => onClickModifyCard(passenger)}
-                      selectCardHandle={() => selectCardHandle(passenger)}
-                      passFilled={isPassFilled}
-                    />
-                  );
-                })}
+    return (
+      <PassengerProfilecard
+        key={passenger.uuid || index}
+        getdata={passenger}
+        onClickModifyCard={() => onClickModifyCard(passenger)}
+        selectCardHandle={() => selectCardHandle(passenger)}
+        passFilled={isPassFilled}
+      />
+    );
+  })}
+
 
             <AddPassCard />
           </Box>
-          {/* footer [start] */}
-          <Box className={styles.checkoutDrowerFooter + " test11"}>
+
+          <Box className={styles.checkoutDrowerFooter}>
             <Divider />
             <Box
               py={1}
@@ -340,8 +268,7 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   >
                     {isAllPassengersFilled ? "Complete" : "Incomplete"}
                   </Typography>
-
-                  <Typography variant="p" className=" gray f12">
+                  <Typography variant="p" className="gray f12">
                     {isAllPassengersFilled
                       ? `${totalPassengers} of ${totalPassengers} travellers saved`
                       : `${
@@ -355,30 +282,31 @@ const PassengerProfileDrawer = ({ getFlightDetail }) => {
                   alignItems="center"
                   gap={3}
                 >
-                  <Button
-                    type="submit"
-                    className="btn btn-primary chat-btn btn-round"
-                    onClick={
-                      isAllPassengersFilled
-                        ? handleContinuePassenger
-                        : () => handleSavePassenger(selectPassProfile) // use selected card
-                    }
-                    variant="contained"
-                    color={isAllPassengersFilled ? "primary" : "success"}
-                    disabled={
-                      (!isAllPassengersFilled && !selectPassProfile) || // for all pass filled
-                      selectPassProfile?.uuid !== unSelectPassProfile?.uuid // for pasengercard click
-                    } // disable if no card selected
-                  >
-                    <Typography component={"span"}>
-                      {isAllPassengersFilled ? "Continue" : "Save"}
-                    </Typography>
-                  </Button>
+                  {!isAllPassengersFilled && (
+                    <Button
+                      type="submit"
+                      className="btn btn-primary chat-btn btn-round"
+                      onClick={() => handleSavePassenger(selectPassProfile)}
+                      disabled={!selectPassProfile?.uuid}
+                    >
+                      <Typography component={"span"}>Save</Typography>
+                    </Button>
+                  )}
+
+                  {/* Continue Button */}
+                  {isAllPassengersFilled && (
+                    <Button
+                      type="submit"
+                      className="btn btn-primary chat-btn btn-round"
+                      onClick={() => handleContinuePassenger()}
+                    >
+                      <Typography component={"span"}>Continue</Typography>
+                    </Button>
+                  )}
                 </Box>
               </Box>
             </Box>
           </Box>
-          {/* footer */}
         </Box>
       </Box>
     </Drawer>

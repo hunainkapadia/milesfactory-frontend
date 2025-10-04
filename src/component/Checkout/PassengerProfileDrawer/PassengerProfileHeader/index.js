@@ -90,6 +90,8 @@ const PassengerProfileHeader = ({
             const isActive = tabValue === index;
             const isFilled = filledPassengerUUIDs?.includes(passenger.uuid);
 
+            console.log("passenger_type", passenger)
+
             return (
               <Tab
                 key={passenger.uuid || index}
@@ -105,7 +107,7 @@ const PassengerProfileHeader = ({
                     totalPass={index + 1}
                     isActive={isActive}
                     isFilled={isFilled}
-                    onClickCard={() => handleTabChange(null, index)} // triggers tab switch
+                    onClickCard={() => handleTabChange(index, passenger.type)} // triggers tab switch
                     passDetail={passenger}
                   />
                 }
