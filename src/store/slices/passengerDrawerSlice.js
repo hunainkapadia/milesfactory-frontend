@@ -269,7 +269,6 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
     .post(SubmitUrl, params)
     .then((formResponse) => {
 
-      alert("submit")
       const formData = formResponse.data;
       dispatch(setPassFormData(formData));
       dispatch(markPassengerAsFilled(passengerUuid));
@@ -285,17 +284,13 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
         state.passengerDrawer?.filledPassengerUUIDs || [];
 
       const nextPassenger = allPassengers.find(
-  (p) => !filledPassengerUuids.includes(p.uuid)
-);
+        (p) => !filledPassengerUuids.includes(p.uuid)
+        
+      );
 
-if (nextPassenger) {
-  dispatch(setPassengerUUID(nextPassenger.uuid));
-} else {
-  // ✅ All passengers are filled, mark as complete
-  dispatch(setAllPassengerFill(true));
-  dispatch(setSelectPassProfile(null));
-  dispatch(setisPassengerDrawer(false));
-}
+      if (nextPassenger) {
+        dispatch(setPassengerUUID(nextPassenger.uuid));
+      }
 
       setTimeout(() => {
         dispatch(ViewPassengers());
@@ -329,7 +324,6 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
   
   
   if (getFillPass || addNewPassactive) {
-    
     const getParams = {
       email: captainParams.email,
       phone_number: captainParams.phone_number,

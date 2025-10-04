@@ -261,29 +261,31 @@ const PassengerProfileDrawer = () => {
             sx={{ px: { lg: 3, md: 3, xs: 2 } }}
           >
             
+            {console.log("passenger_test", passengerPofile)}
             {passengerPofile
-              ?.filter((p) => p.type === tabType)
-              .filter(
-                (p) =>
-                  !filledPassengerUUIDs.includes(p.uuid) &&
-                  p.passport_number !== FilledPassFormData?.passport_number
-              )
-              .map((passenger, index) => {
-                const isPassFilled =
-                  passenger?.uuid === selectPassProfile?.uuid ||
-                  passenger?.passport_number ===
-                    FilledPassFormData?.passport_number;
+  ?.filter((p) => p.type === tabType)
+  .filter(
+    (p) =>
+      !filledPassengerUUIDs.includes(p.uuid) &&
+      p.passport_number !== FilledPassFormData?.passport_number &&
+      p.passport_number !== null
+  )
+  .map((passenger, index) => {
+    const isPassFilled =
+      passenger?.uuid === selectPassProfile?.uuid ||
+      passenger?.passport_number === FilledPassFormData?.passport_number;
 
-                return (
-                  <PassengerProfilecard
-                    key={passenger.uuid || index}
-                    getdata={passenger}
-                    onClickModifyCard={() => onClickModifyCard(passenger)}
-                    selectCardHandle={() => selectCardHandle(passenger)}
-                    passFilled={isPassFilled}
-                  />
-                );
-              })}
+    return (
+      <PassengerProfilecard
+        key={passenger.uuid || index}
+        getdata={passenger}
+        onClickModifyCard={() => onClickModifyCard(passenger)}
+        selectCardHandle={() => selectCardHandle(passenger)}
+        passFilled={isPassFilled}
+      />
+    );
+  })}
+
 
             <AddPassCard />
           </Box>
