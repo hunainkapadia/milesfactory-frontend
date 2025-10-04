@@ -76,6 +76,9 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
 export const ViewPassengersHotel = () => (dispatch, getState) => {
   const states = getState();
   const orderUuid = states.passengerDrawer?.OrderUuid;
+  const orderUuid2 = states;
+  console.log("orderUuid2", orderUuid2);
+  
   const viewPassengerUrl = `/api/v1/hotel/order/${orderUuid}/guests`;
   dispatch(setLoading(true));
 
@@ -174,6 +177,7 @@ export const getPassPofileHotel = () => (dispatch, getState) => {
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
       dispatch(setPassProfile(profile_res.data));
+      dispatch(ViewPassengersHotel())
     })
     .catch((error) => {
       console.error(error?.response?.data?.detail);
