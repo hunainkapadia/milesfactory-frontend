@@ -37,12 +37,16 @@ const initialState ={
   SelectPassenger: null,
   selectPassProfile: null,
   unSelectPassProfile: null,
+  addNewPassactive: false,
 };
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
   initialState,
   reducers: {
-    
+  
+    setAddNewPassactive:  (state, action) => {
+      state.addNewPassactive = action.payload;
+    },
     setAddFilledPassenger: (state, action) => {
   if (!state.filledPassengerUUIDs.includes(action.payload)) {
     state.filledPassengerUUIDs.push(action.payload);
@@ -314,11 +318,15 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
   const captainParams = state.passengerDrawer?.captainParams;
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const getFillPass = state.passengerDrawer.allPassengerFill;
+  const addNewPassactive = state.passengerDrawer.addNewPassactive;
+  console.log("addNewPassactive", addNewPassactive);
   
-
   
-  if (getFillPass) {
+  
+  
+  if (getFillPass || addNewPassactive) {
     
+    alert("captain")
     const getParams = {
       email: captainParams.email,
       phone_number: captainParams.phone_number,
@@ -331,6 +339,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
         .post(`/api/v1/order/${orderUuid}/captain`, captainParams)
         .then((cap_res) => {
           dispatch(fetchOrderDetail()); // for order detail API call
+          dispatch(setAddNewPassactive(false));
         })
         .catch((err) => {
           console.error("captain_api_error", err);
@@ -398,7 +407,8 @@ export const {
   setFilledPass,
   setSelectPassProfile,
   setUnSelectPassProfile,
-  setAddFilledPassenger
+  setAddFilledPassenger,
+  setAddNewPassactive
 } = passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

@@ -21,6 +21,7 @@ import {
   NationalitData,
   passengerCaptain,
   PassengerFormFlight,
+  setAddNewPassactive,
   setCaptainParams,
   setisPassengerDrawer,
   setPassengerFormError,
@@ -173,6 +174,7 @@ const PassengerDrawerForm = () => {
 
   const handleCloseDrawer = () => {
     dispatch(setisPassengerDrawer(false));
+    dispatch(setAddNewPassactive(false));
   };
 
   // Define ranges
@@ -330,7 +332,6 @@ const PassengerDrawerForm = () => {
     }
 
     if (CartType === "all" || CartType === "flight") {
-      alert("all, flight")
       
       dispatch(getPassPofile());
       dispatch(PassengerFormFlight(params));

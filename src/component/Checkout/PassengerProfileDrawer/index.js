@@ -44,10 +44,14 @@ const PassengerProfileDrawer = () => {
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
+  console.log("passengerPofile", passengerPofile);
+  
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
     (state) => state.passengerDrawer.PassFormData
   );
+  console.log("FilledPassFormData", FilledPassFormData);
+  
   const selectPassenger = useSelector(
     (state) => state.passengerDrawer.SelectPassenger
   );
@@ -63,13 +67,14 @@ const PassengerProfileDrawer = () => {
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
+  console.log("allPassengerFill", allPassengerFill);
+
   const { selectPassProfile } = useSelector((state) => state.passengerDrawer);
 
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
   console.log("isAllPassengersFilled", isAllPassengersFilled);
-  
 
   // --- Polling for profile updates ---
   useEffect(() => {
@@ -80,6 +85,8 @@ const PassengerProfileDrawer = () => {
       } else if (CartType === "hotel") {
         dispatch(getPassPofileHotel());
       }
+      console.log("Polling API for profiles...");
+
     }, 1000);
     return () => clearInterval(interval);
   }, [dispatch, FilledPassFormData, stopPolling, CartType]);
@@ -145,10 +152,10 @@ const PassengerProfileDrawer = () => {
     }
   };
 
-  const handleContinuePassenger =()=> {
-    dispatch(setFilledPass(true))
+  const handleContinuePassenger = () => {
+    dispatch(setFilledPass(true));
     handleCloseDrawer();
-  }
+  };
 
   // --- Select card ---
   const selectCardHandle = (passenger) => {
@@ -170,25 +177,26 @@ const PassengerProfileDrawer = () => {
 
   // --- Auto switch to next unfilled passenger ---
   useEffect(() => {
-  // Find the next unfilled passenger
-  const nextPassenger = GetViewPassengers?.find(
-    (p) => !filledPassengerUUIDs.includes(p.uuid)
-  );
+    // Find the next unfilled passenger
+    const nextPassenger = GetViewPassengers?.find(
+      (p) => !filledPassengerUUIDs.includes(p.uuid)
+    );
 
-  if (nextPassenger && nextPassenger.uuid !== selectPassenger?.uuid) {
-    const nextIndex = GetViewPassengers.findIndex(p => p.uuid === nextPassenger.uuid);
+    if (nextPassenger && nextPassenger.uuid !== selectPassenger?.uuid) {
+      const nextIndex = GetViewPassengers.findIndex(
+        (p) => p.uuid === nextPassenger.uuid
+      );
 
-    setTabValue(nextIndex);
-    setTabType(nextPassenger.type);
+      setTabValue(nextIndex);
+      setTabType(nextPassenger.type);
 
-    dispatch(setSelectPassenger(nextPassenger));
-    dispatch(setPassengerUUID(nextPassenger.uuid));
-    dispatch(setPassengerType(nextPassenger.type));
-    dispatch(setPassengerAge(nextPassenger.age));
-    dispatch(setPassengerPassport(nextPassenger.passportNumber));
-  }
-}, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
-
+      dispatch(setSelectPassenger(nextPassenger));
+      dispatch(setPassengerUUID(nextPassenger.uuid));
+      dispatch(setPassengerType(nextPassenger.type));
+      dispatch(setPassengerAge(nextPassenger.age));
+      dispatch(setPassengerPassport(nextPassenger.passportNumber));
+    }
+  }, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
 
   return (
     <Drawer
@@ -224,28 +232,28 @@ const PassengerProfileDrawer = () => {
           >
             {console.log("passenger_type11", passengerPofile)}
             {passengerPofile
-  ?.filter((p) => p.type === tabType)
-  .filter(
-    (p) =>
-      !filledPassengerUUIDs.includes(p.uuid) &&
-      p.passport_number !== FilledPassFormData?.passport_number
-  )
-  .map((passenger, index) => {
-    const isPassFilled =
-      passenger?.uuid === selectPassProfile?.uuid ||
-      passenger?.passport_number === FilledPassFormData?.passport_number;
+              ?.filter((p) => p.type === tabType)
+              .filter(
+                (p) =>
+                  !filledPassengerUUIDs.includes(p.uuid) &&
+                  p.passport_number !== FilledPassFormData?.passport_number
+              )
+              .map((passenger, index) => {
+                const isPassFilled =
+                  passenger?.uuid === selectPassProfile?.uuid ||
+                  passenger?.passport_number ===
+                    FilledPassFormData?.passport_number;
 
-    return (
-      <PassengerProfilecard
-        key={passenger.uuid || index}
-        getdata={passenger}
-        onClickModifyCard={() => onClickModifyCard(passenger)}
-        selectCardHandle={() => selectCardHandle(passenger)}
-        passFilled={isPassFilled}
-      />
-    );
-  })}
-
+                return (
+                  <PassengerProfilecard
+                    key={passenger.uuid || index}
+                    getdata={passenger}
+                    onClickModifyCard={() => onClickModifyCard(passenger)}
+                    selectCardHandle={() => selectCardHandle(passenger)}
+                    passFilled={isPassFilled}
+                  />
+                );
+              })}
 
             <AddPassCard />
           </Box>

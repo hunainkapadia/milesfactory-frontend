@@ -1,5 +1,5 @@
 import { ViewPassengersHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
-import { setisPassengerDrawer, setSelectedProfilePass, ViewPassengers } from "@/src/store/slices/passengerDrawerSlice";
+import { setAddNewPassactive, setisPassengerDrawer, setSelectedProfilePass, ViewPassengers } from "@/src/store/slices/passengerDrawerSlice";
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
@@ -10,8 +10,10 @@ const AddPassCard = () => {
    const handleAddPassenger = () => {
        dispatch(setSelectedProfilePass(null));
        dispatch(setisPassengerDrawer(true));
+
        if (CartType === "flight" || CartType === "all") {
          dispatch(ViewPassengers());
+         dispatch(setAddNewPassactive(true));
        } else if (CartType === "hotel") {
          dispatch(ViewPassengersHotel());
        }

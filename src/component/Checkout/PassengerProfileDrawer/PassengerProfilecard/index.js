@@ -63,10 +63,9 @@ const PassengerProfilecard = ({
           flexDirection={"column"}
           justifyContent={"space-between"}
           py={2}
-          onClick={() => selectCardHandle()}
         >
           <Box width={"100%"} display={"flex"} justifyContent={"space-between"}>
-            <Box
+            <Box onClick={() => selectCardHandle()}
               id={getdata.uuid}
               display={"flex"}
               sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}
