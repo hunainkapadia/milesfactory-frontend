@@ -199,26 +199,34 @@ const PassengerProfileDrawer = () => {
 
   // --- Auto switch to next unfilled passenger ---
   useEffect(() => {
-    // Find the next unfilled passenger
-    const nextPassenger = GetViewPassengers?.find(
-      (p) => !filledPassengerUUIDs.includes(p.uuid)
+  if (!GetViewPassengers?.length) return;
+
+  // If all passengers are filled → stop
+  if (filledPassengerUUIDs.length === GetViewPassengers.length) {
+    return;
+  }
+
+  // Find the next unfilled passenger
+  const nextPassenger = GetViewPassengers.find(
+    (p) => !filledPassengerUUIDs.includes(p.uuid)
+  );
+
+  if (nextPassenger && nextPassenger.uuid !== selectPassenger?.uuid) {
+    const nextIndex = GetViewPassengers.findIndex(
+      (p) => p.uuid === nextPassenger.uuid
     );
 
-    if (nextPassenger && nextPassenger.uuid !== selectPassenger?.uuid) {
-      const nextIndex = GetViewPassengers.findIndex(
-        (p) => p.uuid === nextPassenger.uuid
-      );
+    setTabValue(nextIndex);
+    setTabType(nextPassenger.type);
 
-      setTabValue(nextIndex);
-      setTabType(nextPassenger.type);
+    dispatch(setSelectPassenger(nextPassenger));
+    dispatch(setPassengerUUID(nextPassenger.uuid));
+    dispatch(setPassengerType(nextPassenger.type));
+    dispatch(setPassengerAge(nextPassenger.age));
+    dispatch(setPassengerPassport(nextPassenger.passportNumber));
+  }
+}, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
 
-      dispatch(setSelectPassenger(nextPassenger));
-      dispatch(setPassengerUUID(nextPassenger.uuid));
-      dispatch(setPassengerType(nextPassenger.type));
-      dispatch(setPassengerAge(nextPassenger.age));
-      dispatch(setPassengerPassport(nextPassenger.passportNumber));
-    }
-  }, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
 
   return (
     <Drawer
