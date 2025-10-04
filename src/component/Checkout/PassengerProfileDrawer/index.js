@@ -77,27 +77,49 @@ const PassengerProfileDrawer = () => {
   console.log("isAllPassengersFilled", isAllPassengersFilled);
 
   // --- Polling for profile updates ---
+
+  console.log("GetViewPassengers", GetViewPassengers);
+  
+  console.log("passenger_type11", passengerPofile?.length);
+  // --- Polling for profile updates ---
   useEffect(() => {
     if (!FilledPassFormData || stopPolling) return;
+
     const interval = setInterval(() => {
-      if (CartType === "all" || CartType === "flight") {
-        dispatch(getPassPofile());
-      } else if (CartType === "hotel") {
-        dispatch(getPassPofileHotel());
-      }
+      dispatch(getPassPofile());
       console.log("Polling API for profiles...");
-
     }, 1000);
-    return () => clearInterval(interval);
-  }, [dispatch, FilledPassFormData, stopPolling, CartType]);
 
+    return () => clearInterval(interval);
+  }, [dispatch, FilledPassFormData, stopPolling]);
+
+  // --- Stop polling when passport match is found ---
   useEffect(() => {
     if (!FilledPassFormData || !passengerPofile) return;
+
     const isMatch = passengerPofile.some(
-      (p) => p.family_name === FilledPassFormData.family_name
+      (p) => p.passport_number === FilledPassFormData.passport_number
     );
-    if (isMatch) setStopPolling(true);
+
+    if (isMatch) {
+      console.log(" Stopping polling: passenger found (passport match)");
+      setStopPolling(true);
+    }
   }, [passengerPofile, FilledPassFormData]);
+
+  // --- Stop polling when all passengers are present ---
+  useEffect(() => {
+    if (!GetViewPassengers || !passengerPofile) return;
+
+    const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
+
+    if (isLengthEqual) {
+      console.log(" Stopping polling: all passengers synced (lengths equal)");
+      setStopPolling(true);
+    }
+  }, [passengerPofile, GetViewPassengers]);
+
+
 
   // --- Initialize tabType ---
   useEffect(() => {
@@ -230,7 +252,7 @@ const PassengerProfileDrawer = () => {
             pb={10}
             sx={{ px: { lg: 3, md: 3, xs: 2 } }}
           >
-            {console.log("passenger_type11", passengerPofile)}
+            
             {passengerPofile
               ?.filter((p) => p.type === tabType)
               .filter(

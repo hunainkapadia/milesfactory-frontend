@@ -44,14 +44,14 @@ const passengerDrawerSlice = createSlice({
   initialState,
   reducers: {
   
-    setAddNewPassactive:  (state, action) => {
+    setAddNewPassactive: (state, action) => {
       state.addNewPassactive = action.payload;
     },
     setAddFilledPassenger: (state, action) => {
-  if (!state.filledPassengerUUIDs.includes(action.payload)) {
-    state.filledPassengerUUIDs.push(action.payload);
-  }
-},
+      if (!state.filledPassengerUUIDs.includes(action.payload)) {
+        state.filledPassengerUUIDs.push(action.payload);
+      }
+    },
     setUnSelectPassProfile: (state, action) => {
       state.unSelectPassProfile = action.payload;
     },
@@ -264,7 +264,6 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
   
   
   
-  alert("call api")
 
   api
     .post(SubmitUrl, params)
@@ -326,7 +325,6 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
   
   if (getFillPass || addNewPassactive) {
     
-    alert("captain")
     const getParams = {
       email: captainParams.email,
       phone_number: captainParams.phone_number,
