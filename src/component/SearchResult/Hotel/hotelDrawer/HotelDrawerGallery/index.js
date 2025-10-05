@@ -1,16 +1,23 @@
-import { Box, Grid, Button, Stack } from "@mui/material";
-import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import { Box, Grid, Stack, Dialog, IconButton } from "@mui/material";
 import { useState } from "react";
+
+import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const HotelDrawerGallery = ({ hotel }) => {
   const [isViewAll, setIsViewAll] = useState(false);
+  const [openImage, setOpenImage] = useState(null); // currently opened image in modal
 
+  const images = hotel?.content?.images || [];
+  if (images.length === 0) return null;
+
+  // handlers
   const handleViewAll = () => setIsViewAll(true);
   const handleHideAll = () => setIsViewAll(false);
 
-  const images = hotel?.content?.images || [];
-
-  if (images.length === 0) return null;
+  const handleOpenImage = (imgUrl) => setOpenImage(imgUrl);
+  const handleCloseImage = () => setOpenImage(null);
 
   return (
     <Box component="section" className={styles.HotelGallerySection} mb={2}>
@@ -34,7 +41,9 @@ const HotelDrawerGallery = ({ hotel }) => {
             backgroundPosition: "center",
             borderRadius: "10px",
             flex: "1 1 50%",
+            cursor: "pointer",
           }}
+          onClick={() => handleOpenImage(images[0]?.url)}
         />
 
         {/* Small Thumbnails on Right */}
@@ -52,12 +61,17 @@ const HotelDrawerGallery = ({ hotel }) => {
                   backgroundPosition: "center",
                   borderRadius: "8px",
                   position: "relative",
+                  cursor: "pointer",
                 }}
+                onClick={() => handleOpenImage(img?.url)}
               >
                 {/* Show 'View all photos' overlay on last image */}
                 {isLast && (
                   <Box
-                    onClick={handleViewAll}
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevent opening image underneath
+                      handleViewAll();
+                    }}
                     className={styles.ViewAllBtn}
                     sx={{
                       position: "absolute",
@@ -82,12 +96,18 @@ const HotelDrawerGallery = ({ hotel }) => {
         </Box>
       </Box>
 
-      {/* --- Expanded Gallery (when View All is clicked) --- */}
+      {/* --- Expanded Gallery (View All) --- */}
       {isViewAll && (
-      <Stack component={"section"} alignItems={"flex-end"} sx={{ mt: 3 }} >
-          <Box className="basecolor1 cursor-pointer" onClick={handleHideAll}>Hide All</Box>
-      </Stack>
+        <Stack component="section" alignItems="flex-end" sx={{ mt: 3 }}>
+          <Box
+            className="basecolor1 cursor-pointer"
+            onClick={handleHideAll}
+          >
+            Hide All
+          </Box>
+        </Stack>
       )}
+
       {isViewAll && (
         <Box sx={{ mt: 3 }}>
           <Grid container spacing={"5px"} justifyContent={"center"}>
@@ -101,13 +121,73 @@ const HotelDrawerGallery = ({ hotel }) => {
                     backgroundPosition: "center",
                     height: 80,
                     borderRadius: 2,
+                    cursor: "pointer",
                   }}
+                  onClick={() => handleOpenImage(img?.url)}
                 />
               </Grid>
             ))}
           </Grid>
         </Box>
       )}
+
+      {/* --- Popup Image Modal --- */}
+      <Dialog
+        open={Boolean(openImage)}
+        onClose={handleCloseImage}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: "80vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+        <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+
+          <IconButton
+  onClick={handleCloseImage}
+  sx={{
+    position: "absolute",
+    top: 16,
+    right: 16,
+    background: "rgba(0,0,0,0.5)",
+    color: "#fff",
+    "&:hover": { background: "rgba(0,0,0,0.7)" },
+  }}
+>
+  <FontAwesomeIcon icon={faTimes} />
+</IconButton>
+        </Box>
+
+          <Box
+            component="img"
+            src={openImage}
+            alt="Hotel"
+            sx={{
+              maxWidth: "90%",
+              maxHeight: "90%",
+              borderRadius: "10px",
+              boxShadow: "0 0 20px rgba(0,0,0,0.3)",
+              objectFit: "contain",
+            }}
+          />
+        </Box>
+      </Dialog>
     </Box>
   );
 };
