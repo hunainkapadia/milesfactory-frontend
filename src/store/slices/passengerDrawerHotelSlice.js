@@ -73,20 +73,31 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
     });
 };
 
-export const ViewPassengersHotel = () => (dispatch, getState) => {
+export const ViewPassengersHotel = () => async (dispatch, getState) => {
   const states = getState();
-  const orderUuid = states.passengerDrawer?.OrderUuid;
-  const orderUuid2 = states;
-  console.log("orderUuid2", orderUuid2);
-  
-  const viewPassengerUrl = `/api/v1/hotel/order/${orderUuid}/guests`;
-  dispatch(setLoading(true));
+  const orderUuid = states?.passengerDrawer?.OrderUuid;
 
-  api.get(viewPassengerUrl).then((response) => {
+  console.log("orderUuid", orderUuid);
+
+  // 🚫 If no orderUuid, skip API call
+  if (!orderUuid) {
+    console.warn("ViewPassengersHotel skipped — orderUuid not found");
+    return;
+  }
+
+  const viewPassengerUrl = `/api/v1/hotel/order/${orderUuid}/guests`;
+
+  try {
+    dispatch(setLoading(true));
+    const response = await api.get(viewPassengerUrl);
     dispatch(setViewPassengers(response?.data || []));
+  } catch (error) {
+    console.error("Error fetching hotel guests:", error);
+  } finally {
     dispatch(setisLoading(false));
-  });
+  }
 };
+
 
 export const PassengerFormHotel = (params) => async (dispatch, getState) => {
    dispatch(setIsFormLoading(true));

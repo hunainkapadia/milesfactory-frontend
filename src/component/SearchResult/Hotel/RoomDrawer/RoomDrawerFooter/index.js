@@ -7,11 +7,13 @@ import {
   AddToCart,
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
-import { setRoomDrawer, setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
+import { setRoomDrawer, setSelectedhotelCode, setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import utility
 
 const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
    console.log("selectedRateKey", selectedRateKey);
+   console.log("hotelCode", hotel.code);
+
    
   const dispatch = useDispatch();
   const selectedhotelkey = useSelector(
@@ -26,16 +28,18 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
     allHotel
   );
 
+  
+  
   const handleSelectStay = () => {
     if (!hotel) return;
-    const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;
-    dispatch(setSelectedhotelKey(rateKey));
+    dispatch(setSelectedhotelKey(selectedRateKey));
+    dispatch(setSelectedhotelCode(hotel.code))
     dispatch(setRoomDrawer(false))
 
     const params = {
       chat_thread_uuid: uuid,
       offer_type: "hotel",
-      offer_id: rateKey,
+      offer_id: selectedRateKey,
       price: hotel?.minRate,
       currency: hotel?.currency,
       raw_data: {},

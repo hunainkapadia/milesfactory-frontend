@@ -22,6 +22,7 @@ import {
   setAllHotels,
   setRoomDrawer,
   setSelectedhotelKey,
+  setSelectedRateKey,
   setSinglehotel,
 } from "@/src/store/slices/HotelSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
@@ -36,6 +37,16 @@ const HotelCard = ({ hotel, allHotels }) => {
   const selectedhotelkey = useSelector(
     (state) => state.hotel?.selectedhotelKey
   );
+  const selectedhotelCode = useSelector(
+    (state) => state.hotel.selectedhotelCode
+  );
+  console.log("selectedhotel_000", hotel?.code);
+  console.log("selectedhotel_111", selectedhotelCode);
+  
+  
+
+  
+  
 
   const isCartItems = useSelector(
     (state) => state?.booking?.getCartDetail?.items
@@ -65,6 +76,7 @@ const HotelCard = ({ hotel, allHotels }) => {
     dispatch(setSinglehotel(gethotel));
 
     dispatch(setRoomDrawer(true));
+    dispatch(setSelectedRateKey(null));
   };
 
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
@@ -72,6 +84,8 @@ const HotelCard = ({ hotel, allHotels }) => {
 
   // Extract first rate for board/offer/price
   const firstRate = hotel?.rooms?.[0]?.rates?.[0];
+
+  
 
   // Extract dates from rateKey if available
 
@@ -87,6 +101,9 @@ const HotelCard = ({ hotel, allHotels }) => {
     hotel,
     allHotels
   );
+  console.log("selectedhotelkey", selectedhotelkey);
+  
+  
 
   return (
     <>
@@ -405,7 +422,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                 </Box>
 
                 <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                  {selectedhotelkey === firstRate?.rateKey ? (
+                  {selectedhotelCode === hotel?.code ? (
                     <Button
                       className={
                         searchResultStyles.IsSelected +

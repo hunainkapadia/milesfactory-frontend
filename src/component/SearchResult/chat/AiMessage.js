@@ -137,7 +137,7 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.isPassengerLoading
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
-  
+  console.log("aiMessage_hotel", aiMessage)
   return (
     <Box
       ref={aiboxRef}
@@ -314,7 +314,7 @@ const AiMessage = ({ aiMessage }) => {
       )}
 
       {/* Hotel Results */}
-      {console.log("aiMessage_hotel", aiMessage)}
+      
       {Array.isArray(getHotels?.hotels) && getHotels.hotels.length > 0 && (
         <Box className={searchResultStyles.HotelCardWrapper}>
           {getHotels.hotels.slice(0, hotelsToShow).map((hotel, idx) => (
