@@ -4,7 +4,7 @@ import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import { setMessage, setSearchHistorySend } from "./sendMessageSlice";
 import { setIsBuilderDialog } from "./Base/baseSlice";
-import { setSelectedhotelKey } from "./HotelSlice";
+import { setRoomDrawer, setSelectedhotelKey } from "./HotelSlice";
 
 const initialState = {
   flightDetail: null,
@@ -167,6 +167,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
       dispatch(CartDetail(uuid));
       dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
       dispatch(setHotelDrawer(false))
+      dispatch(setRoomDrawer(false))
     }
     // detect mobile view
     if (window.innerWidth <= 768) {

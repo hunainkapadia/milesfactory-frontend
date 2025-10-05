@@ -17,6 +17,7 @@ import { setHotelDrawer } from "@/src/store/slices/BookingflightSlice";
 import dayjs from "dayjs";
 import HotelDrawerFooter from "./HotelDrawerFooter";
 import { HOTEL_IMAGE_BASE_URL } from "@/src/hooks/Hooks";
+import HotelDrawerGallery from "./HotelDrawerGallery";
 const HotelDrawer = ({}) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
@@ -24,6 +25,9 @@ const HotelDrawer = ({}) => {
   };
   const isDrawer = useSelector((state) => state.booking.hotelDrawer);
   const hotel = useSelector((state) => state?.hotel?.singlehotel);  
+
+  console.log("single_hotel", hotel?.content);
+  
 
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
   const stars = hotel?.categoryName ? parseInt(hotel.categoryName) : 0;
@@ -215,6 +219,7 @@ const HotelDrawer = ({}) => {
                         mb={"6px"}
                         className="bold "
                         textTransform={"capitalize"}
+                        classes={"f12"}
                       >
                         Description
                       </Typography>
@@ -222,57 +227,22 @@ const HotelDrawer = ({}) => {
                         className="mb-1 black-50 f12"
                         textTransform={"capitalize"}
                       >
-                        Modern hotel with an on-site restaurant, gym, and pool.
-                        Located near major attractions in the city centre.
+                        {hotel?.content?.description?.content}
                       </Typography>
                     </Stack>
 
                     {/* Amenities (dummy icons, still dynamic if mapped later) */}
 
                     <Stack>
-                      <Typography
+                      <Typography 
+                      classes={"f12"}
                         mb={"6px"}
                         className="bold "
                         textTransform={"capitalize"}
                       >
                         Photos
                       </Typography>
-                      <Box
-                        component={"section"}
-                        className={styles.HotelGallerySection}
-                      >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            gap: 2,
-                            overflowX: "auto",
-                            scrollSnapType: "x mandatory",
-                          }}
-                          className={styles.HotelGallery}
-                        >
-                          {hotel?.content?.images.map((img, idx) => (
-                            <>
-                              <Box
-                                key={idx}
-                                className={styles.HotelThumb}
-                                sx={{
-                                  flex: "0 0 auto",
-                                  borderRadius: 2,
-                                  backgroundImage: `url(${
-                                    img?.path === undefined
-                                      ? "images/hotel-nothumb.png"
-                                      : `${HOTEL_IMAGE_BASE_URL}${img?.path}`
-                                  })`,
-                                  backgroundSize: "cover",
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  scrollSnapAlign: "start",
-                                }}
-                              />
-                            </>
-                          ))}
-                        </Box>
-                      </Box>
+                      <HotelDrawerGallery hotel={hotel} />
                     </Stack>
                     <Box py={2}>
                       <Divider className={`${styles.Divider} Divider`} />
@@ -283,7 +253,7 @@ const HotelDrawer = ({}) => {
                           Included in this booking
                         </Typography>
                       </Box>
-                      <Stack gap={"10px"}>
+                      <Stack gap={"5px 18px"} flexWrap={"wrap"} flexDirection={"row"}>
                         <Box
                           display="flex"
                           gap={1}
@@ -389,10 +359,10 @@ const HotelDrawer = ({}) => {
                     {/*  */}
 
                     {/*  */}
-                    <Box py={2}>
+                    {/* <Box py={2}>
                       <Divider className={`${styles.Divider} Divider`} />
-                    </Box>
-                    <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
+                    </Box> */}
+                    {/* <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
                       <Box>
                         <Typography className="bold f12 mb-0 h4">
                           Room details
@@ -459,9 +429,9 @@ const HotelDrawer = ({}) => {
                             No deposit required
                           </Typography>
                         </Box>
-                        {/*  */}
+                        
                       </Stack>
-                    </Stack>
+                    </Stack> */}
                   </Box>
                 </Box>
               </Grid>

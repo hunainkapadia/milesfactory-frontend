@@ -7,12 +7,16 @@ import {
   AddToCart,
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
-import { setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
-import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // 👈 import utility
+import { setRoomDrawer, setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import utility
 
-const HotelDrawerFooter = ({ hotel }) => {
+const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
+   console.log("selectedRateKey", selectedRateKey);
+   
   const dispatch = useDispatch();
-  const selectedhotelkey = useSelector((state) => state.hotel?.selectedhotelKey);
+  const selectedhotelkey = useSelector(
+    (state) => state.hotel?.selectedhotelKey
+  );
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
 
@@ -26,6 +30,7 @@ const HotelDrawerFooter = ({ hotel }) => {
     if (!hotel) return;
     const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;
     dispatch(setSelectedhotelKey(rateKey));
+    dispatch(setRoomDrawer(false))
 
     const params = {
       chat_thread_uuid: uuid,
@@ -47,6 +52,36 @@ const HotelDrawerFooter = ({ hotel }) => {
       <Divider className={`${styles.Divider} Divider`} />
       <Box px={3} className={styles.checkoutDrowerFooter} width={"100%"}>
         <Box py={2} display="flex" flexDirection="column">
+          <Box
+            component={"section"}
+            display={"flex"}
+            alignItems={"center"}
+            pb={2}
+            gap={"5px"}
+          >
+            <Box class="imggroup" display={"flex"}>
+              <img
+                src="/images/protection-text-icon.svg"
+                alt="Protection Icon"
+                width="15"
+              />
+            </Box>
+            <Typography
+              variant="p"
+              className="gray f12"
+              display={{ lg: "block", md: "block", xs: "none" }}
+            >
+              The airline policy will apply if you decide to cancel or modify
+              your trip.
+            </Typography>
+            <Typography
+              variant="p"
+              className="gray f12"
+              display={{ lg: "none", md: "none", xs: "block" }}
+            >
+              Airline-direct booking - protected from airline disruptions.
+            </Typography>
+          </Box>
           {/* Price Row */}
           <Box
             className={styles.priceRow}
@@ -57,12 +92,12 @@ const HotelDrawerFooter = ({ hotel }) => {
             {/* Price Section */}
             <Box display="flex" flexDirection="column" justifyContent="center">
               <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                {currencySymbols[hotel?.currency]}{Math.round(perNightPrice)} /
-                night
+                {currencySymbols[hotel?.currency]}
+                {Math.round(perNightPrice)} / night
               </h4>
               <Typography variant="body2" className="gray f12">
-                {currencySymbols[hotel?.currency]}{Math.round(totalPrice)} total
-                ({nights} nights)
+                {currencySymbols[hotel?.currency]}
+                {Math.round(totalPrice)} total ({nights} nights)
               </Typography>
             </Box>
 
@@ -96,13 +131,14 @@ const HotelDrawerFooter = ({ hotel }) => {
                   </Button>
                 ) : (
                   <Button
+                     disabled={!selectedRateKey} // ✅ Disabled when nothing is selected
                     onClick={handleSelectStay}
                     className={
                       styles.selectFlightBtn +
                       " btn btn-primary btn-round btn-md-x"
                     }
                   >
-                    Select room
+                    Continue
                   </Button>
                 )}
               </Box>
@@ -114,4 +150,4 @@ const HotelDrawerFooter = ({ hotel }) => {
   );
 };
 
-export default HotelDrawerFooter;
+export default RoomDrawerFooter;

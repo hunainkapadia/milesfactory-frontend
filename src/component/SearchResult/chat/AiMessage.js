@@ -314,6 +314,7 @@ const AiMessage = ({ aiMessage }) => {
       )}
 
       {/* Hotel Results */}
+      {console.log("aiMessage_hotel", aiMessage)}
       {Array.isArray(getHotels?.hotels) && getHotels.hotels.length > 0 && (
         <Box className={searchResultStyles.HotelCardWrapper}>
           {getHotels.hotels.slice(0, hotelsToShow).map((hotel, idx) => (

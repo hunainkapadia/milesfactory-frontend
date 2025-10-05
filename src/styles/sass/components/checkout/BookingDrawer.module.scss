@@ -78,29 +78,58 @@
    border-radius: 8px;
 }
 .HotelGallerySection {
-   display: grid;
-      .HotelGallery {
-      display: flex;                 /* arrange thumbnails in a row */
-      gap: 8px;                      /* space between images */
-      overflow-x: auto;              /* enable horizontal scroll */
-      width: 100%;
-      -ms-overflow-style: none;      /* hide scrollbar on IE/Edge */
-      scrollbar-width: none;         /* hide scrollbar on Firefox */
-      
-      &::-webkit-scrollbar {         /* hide scrollbar on Chrome/Safari */
-         display: none;
+  .HotelGallery {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+
+    .BigThumb {
+      width: 240px;
+      height: 185px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .SmallThumbGrid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+      grid-template-rows: repeat(3, 1fr);   /* 3 rows */
+      gap: 5px;
+      width: 170px;
+      position: relative;
+    }
+
+    .SmallThumb {
+      width: 80px;
+      height: 58px;
+      border-radius: 8px;
+      cursor: pointer;
+      &:last-child {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         .ViewAllBtn {
+            padding: 2px 3px;
+            background: rgba(0, 0, 0, 0.4);
+            color: $white;
+            border-radius: 4px;
+            text-align: center;
+             font-size: 8px;
+             cursor: pointer;
+             transition: background 0.3s ease;
+             &:hover {
+                background: rgba(0, 0, 0, 0.8);
+             }
+          }
       }
-      
-      .HotelThumb {
-         flex: 0 0 auto;              /* prevent shrinking */
-         width: 106px;
-         height: 79px;
-         border-radius: 12px;
-         object-fit: cover;
-         cursor: pointer;
-      }
-   }
+    }
+  }
 }
+
 .checkoutDrower, .checkoutDrower2 {
    &.checkoutDrower {
       padding: 0;
@@ -315,7 +344,7 @@
 }
 .checkoutDrower {
    .checkoutDrowerHeder {
-      padding: 28px 18px 0;
+      padding: 28px 24px 0;
       gap: 18px;
    }
 }

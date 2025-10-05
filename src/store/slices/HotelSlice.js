@@ -10,12 +10,16 @@ const initialState = {
   singlehotel: null,
   selectedhotelKey: null,
   allHotels: null,
+  roomDrawer: false,
 };
 // for selectflightDetail button
 const hotelSlice = createSlice({
   name: "hotel",
   initialState,
   reducers: {
+    setRoomDrawer:(state, action) => {
+      state.roomDrawer = action.payload;
+    },
     setAllHotels:(state, action) => {
       state.allHotels = action.payload;
     },
@@ -39,6 +43,6 @@ const hotelSlice = createSlice({
 
 
 export const {
-  setSinglehotel, setSelectedhotelKey, setAllHotels
+  setSinglehotel, setSelectedhotelKey, setAllHotels, setRoomDrawer
 } = hotelSlice.actions; //action exporting here
 export default hotelSlice.reducer;

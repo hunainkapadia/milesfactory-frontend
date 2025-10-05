@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import { currencySymbols } from "@/src/utils/utils";
 import {
   setAllHotels,
+  setRoomDrawer,
   setSelectedhotelKey,
   setSinglehotel,
 } from "@/src/store/slices/HotelSlice";
@@ -42,22 +43,28 @@ const HotelCard = ({ hotel, allHotels }) => {
 
   const dispatch = useDispatch();
 
-  const handleBookHotel = (gethotel) => {
-    const rateKey = gethotel?.rooms?.[0]?.rates?.[0]?.rateKey;
+  // const handleBookHotel = (gethotel) => {
+  //   const rateKey = gethotel?.rooms?.[0]?.rates?.[0]?.rateKey;
+  //   dispatch(setAllHotels(allHotels));
+
+  //   dispatch(setSelectedhotelKey(rateKey));
+  //   const price = hotel?.minRate;
+
+  //   const params = {
+  //     chat_thread_uuid: uuid,
+  //     offer_type: "hotel",
+  //     offer_id: rateKey,
+  //     price: price,
+  //     currency: hotel?.currency,
+  //     raw_data: {},
+  //   };
+  //   dispatch(AddToCart(params, uuid));
+  // };
+  const handleSelectRoom = (gethotel) => {
     dispatch(setAllHotels(allHotels));
+    dispatch(setSinglehotel(gethotel));
 
-    dispatch(setSelectedhotelKey(rateKey));
-    const price = hotel?.minRate;
-
-    const params = {
-      chat_thread_uuid: uuid,
-      offer_type: "hotel",
-      offer_id: rateKey,
-      price: price,
-      currency: hotel?.currency,
-      raw_data: {},
-    };
-    dispatch(AddToCart(params, uuid));
+    dispatch(setRoomDrawer(true));
   };
 
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
@@ -82,347 +89,349 @@ const HotelCard = ({ hotel, allHotels }) => {
   );
 
   return (
-    <Box className={`${searchResultStyles.HotelCard}`}>
-      <Grid container p={{ xs: "10px", md: "0" }}>
-        {/* Left Section */}
-        <Grid
-          className={searchResultStyles.CardLeft}
-          p={{ md: "18px", xs: "8px 0" }}
-          lg={9}
-          md={9}
-          xs={12}
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <Box
-            className={searchResultStyles.HotelThumb}
+    <>
+      <Box className={`${searchResultStyles.HotelCard}`}>
+        <Grid container p={{ xs: "10px", md: "0" }}>
+          {/* Left Section */}
+          <Grid
+            className={searchResultStyles.CardLeft}
+            p={{ md: "18px", xs: "8px 0" }}
+            lg={9}
+            md={9}
+            xs={12}
             sx={{
-              backgroundImage: `url(${
-                hotel?.content?.images[0].path === undefined
-                  ? "/images/hotel-nothumb.png"
-                  : `${imageBaseUrl}${hotel?.content?.images[0].path}`
-              })`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "10px",
             }}
-          />
-
-          <Box component={"section"} flex={1}>
-            <Stack
-              className="Row1"
-              mb={"4px"}
-              flexDirection={"row"}
-              gap={"6px"}
-              alignItems={"center"}
-              justifyContent={{ md: "flex-start", xs: "space-between" }}
-            >
-              <Typography
-                className="bold mb-1 f12"
-                textTransform={"capitalize"}
-              >
-                {hotel?.name}
-              </Typography>
-              {/* {firstRate?.offers?.[0] && (
-                <Box display={{ xs: "none", md: "flex" }}>
-                  <Typography className={" chip sm chipGray"}>
-                    {firstRate.offers[0].name}
-                  </Typography>
-                </Box>
-              )} */}
-              <Box>
-                <Typography
-                  textTransform={"capitalize"}
-                  className={" chip sm basecolor1-light"}
-                >
-                  {hotel?.categoryName.toLowerCase()}
-                </Typography>
-              </Box>
-            </Stack>
-            <Stack
-              mb={{ md: "10px", xs: "6px" }}
-              flexDirection={{ md: "row", xs: "column" }}
-              alignItems={{ md: "center", xs: "flex-start" }}
-              gap={"2px"}
-            >
-              <Stack
-                className="Row2"
-                mb={{ md: "0px", xs: "0" }}
-                flexDirection={"row"}
-                alignItems="center"
-                gap={"3px"}
-              >
-                {/* Rating Stars */}
-
-                <Rating
-                  name="feedback-rating"
-                  value={5} // dynamic stars
-                  precision={0.5}
-                  readOnly
-                  sx={{
-                    fontSize: "10px",
-                    "& .MuiRating-iconFilled": { color: "#FFCC33" },
-                    "& .MuiRating-iconEmpty": { color: "#E0E0E0" },
-                  }}
-                />
-
-                {/* Numeric Rating */}
-                <Typography className="f8 black" variant="body2">
-                  {5}
-                </Typography>
-
-                {/* Review Count */}
-                <Typography component="span" className="f8 black-50">
-                  (200+ reviews)
-                </Typography>
-              </Stack>
-              {/* Location */}
-              <Typography
-                component="span"
-                className="f8 black-50"
-                sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
-              >
-                <img
-                  src="/images/hotel/location-icon-border.svg"
-                  alt="location"
-                  style={{ width: 10, height: 10 }}
-                />
-                0.2km from search location ·{" "}
-                {hotel?.destinationName || "Unknown Location"}
-              </Typography>
-            </Stack>
-
-            <Stack
-              className="Row3"
-              mb={{ md: "4px", xs: "6px" }}
-              flexDirection={{ md: "row", xs: "column" }}
-              gap={{ md: "6px", xs: 0 }}
-              alignItems={{ md: "center", xs: "flex-start" }}
-            >
-              <Typography
-                className="bold mb-1 f10"
-                textTransform={"capitalize"}
-              >
-                {hotel?.rooms?.[0]?.name?.split(" ").slice(0, 3).join(" ")} ·{" "}
-                {firstRate?.adults} adults
-              </Typography>
-              <Typography component="span" className="f10 black-50">
-                {dayjs(allHotels?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
-                {dayjs(allHotels?.checkOut, "DD-MM-YYYY").format("DD MMM")}
-              </Typography>
-            </Stack>
-            <Stack display={{ md: "flex", xs: "none" }}>
-              <Typography
-                className="black-50 f10"
-                variant="body2"
-                textTransform={"capitalize"}
-              >
-                {firstRate?.boardName?.toLowerCase()} · Free cancellation until{" "}
-                {firstRate?.cancellationPolicies?.[0]?.from &&
-                  new Date(
-                    firstRate.cancellationPolicies[0].from
-                  ).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                  })}{" "}
-                {/* Pay at hotel */}
-              </Typography>
-            </Stack>
-
-            {/* Amenities (dummy icons, still dynamic if mapped later) */}
-            <Stack
-              mt={"12px"}
-              flexDirection={"row"}
-              alignItems={"center"}
-              justifyContent={{ md: "flex-start", xs: "space-between" }}
-            >
-              <Stack flexDirection={"row"} alignItems={"center"} gap={"13px"}>
-                <Tooltip title="Double room" placement="top" arrow>
-                  <Box className="imggroup">
-                    <img
-                      width={14}
-                      src="/images/hotel/hotel-bed-icon.svg"
-                      alt="Double room"
-                    />
-                  </Box>
-                </Tooltip>
-
-                <Tooltip title="Breakfast included" placement="top" arrow>
-                  <Box className="imggroup">
-                    <img
-                      width={14}
-                      src="/images/hotel/breakfast-icon-icon.svg"
-                      alt="Breakfast"
-                    />
-                  </Box>
-                </Tooltip>
-
-                <Tooltip title="Free wifi" placement="top" arrow>
-                  <Box className="imggroup">
-                    <img
-                      width={14}
-                      src="/images/hotel/hotel-wifi-icon.svg"
-                      alt="Wifi"
-                    />
-                  </Box>
-                </Tooltip>
-
-                <Tooltip
-                  display={{ md: "block", xs: "none" }}
-                  title="Daily housekeeping"
-                  placement="top"
-                  arrow
-                >
-                  <Box className="imggroup">
-                    <img
-                      width={14}
-                      src="/images/hotel/hotel-leav-icon.svg"
-                      alt="Housekeeping"
-                    />
-                  </Box>
-                </Tooltip>
-
-                <Tooltip
-                  display={{ md: "block", xs: "none" }}
-                  title="Check-in: from 15:00 · Check-out: by 11:00"
-                  placement="top"
-                  arrow
-                >
-                  <Box className="imggroup">
-                    <img
-                      width={14}
-                      src="/images/hotel/hotel-pay-icon.svg"
-                      alt="Checkin Checkout"
-                    />
-                  </Box>
-                </Tooltip>
-              </Stack>
-              <Box
-                onClick={() => handleHotelDrawer(hotel)}
-                className={
-                  " bold f12 cursor-pointer text-decoration-none basecolor1 "
-                }
-                gap={"4px"}
-                alignItems={"center"}
-                display={{ md: "none", xs: "flex" }}
-                sx={{ fontSize: { xs: "12px", md: "16px" } }}
-              >
-                <span>See details</span>
-                <i className="fa-angle-right fa fas"></i>
-              </Box>
-            </Stack>
-          </Box>
-        </Grid>
-        <Box className={" w-100 "} display={{ md: "none", xs: "block" }}>
-          <Divider className={` Divider w-100 `} />
-        </Box>
-        {/* Right Section (Price + Button) */}
-        <Grid
-          className={searchResultStyles.CardRight}
-          width={"100%"}
-          lg={3}
-          md={3}
-          xs={12}
-          gap={2}
-          display={"flex"}
-          p={{ md: "18px", xs: "6px 0" }}
-          flexDirection={"column"}
-        >
-          <Box
-            className={searchResultStyles.Box}
-            display={"flex"}
-            sx={{
-              flexDirection: { xs: "column", lg: "column", md: "column" },
-            }}
-            justifyContent={"center"}
-            height={"100%"}
-            ali
           >
             <Box
+              className={searchResultStyles.HotelThumb}
               sx={{
-                display: "flex",
-                flexDirection: { md: "column", lg: "column", xs: "row" },
+                backgroundImage: `url(${
+                  hotel?.content?.images[0].path === undefined
+                    ? "/images/hotel-nothumb.png"
+                    : `${imageBaseUrl}${hotel?.content?.images[0].path}`
+                })`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
               }}
-            >
-              {/* See Details */}
-              <Box
-                onClick={() => handleHotelDrawer(hotel)}
-                className={
-                  " bold f12 cursor-pointer text-decoration-none basecolor1 "
-                }
-                gap={"4px"}
+            />
+
+            <Box component={"section"} flex={1}>
+              <Stack
+                className="Row1"
+                mb={"4px"}
+                flexDirection={"row"}
+                gap={"6px"}
                 alignItems={"center"}
-                display={{ md: "flex", xs: "none" }}
-                sx={{ fontSize: { xs: "12px", md: "16px" } }}
+                justifyContent={{ md: "flex-start", xs: "space-between" }}
               >
-                <span>See details</span>
-                <i className="fa-angle-right fa fas"></i>
-              </Box>
-            </Box>
-
-            {/* Price + Select Button */}
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              sx={{
-                flexDirection: { lg: "column", md: "column", xs: "row" },
-                width: { lg: "100%", md: "100%", xs: "100%" },
-                justifyContent: "space-between",
-                alignItems: {
-                  lg: "flex-start",
-                  md: "flex-start",
-                  xs: "center",
-                },
-              }}
-              gap={1}
-              className={searchResultStyles.PriceBottom}
-            >
-              <Box>
                 <Typography
-                  className={
-                    searchResultStyles.flightPriceSection + " mb-0 black bold"
-                  }
+                  className="bold mb-1 f12"
+                  textTransform={"capitalize"}
                 >
-                  {currencySymbols[hotel?.currency]}
-                  {Math.round(perNightPrice)} / night
+                  {hotel?.name}
                 </Typography>
-                <Typography className="f12 black-50">
-                  {currencySymbols[hotel?.currency]}
-                  {Math.round(totalPrice)} total ({nights} nights)
+                {/* {firstRate?.offers?.[0] && (
+                  <Box display={{ xs: "none", md: "flex" }}>
+                    <Typography className={" chip sm chipGray"}>
+                      {firstRate.offers[0].name}
+                    </Typography>
+                  </Box>
+                )} */}
+                <Box>
+                  <Typography
+                    textTransform={"capitalize"}
+                    className={" chip sm basecolor1-light"}
+                  >
+                    {hotel?.categoryName.toLowerCase()}
+                  </Typography>
+                </Box>
+              </Stack>
+              <Stack
+                mb={{ md: "10px", xs: "6px" }}
+                flexDirection={{ md: "row", xs: "column" }}
+                alignItems={{ md: "center", xs: "flex-start" }}
+                gap={"2px"}
+              >
+                <Stack
+                  className="Row2"
+                  mb={{ md: "0px", xs: "0" }}
+                  flexDirection={"row"}
+                  alignItems="center"
+                  gap={"3px"}
+                >
+                  {/* Rating Stars */}
+
+                  <Rating
+                    name="feedback-rating"
+                    value={5} // dynamic stars
+                    precision={0.5}
+                    readOnly
+                    sx={{
+                      fontSize: "10px",
+                      "& .MuiRating-iconFilled": { color: "#FFCC33" },
+                      "& .MuiRating-iconEmpty": { color: "#E0E0E0" },
+                    }}
+                  />
+
+                  {/* Numeric Rating */}
+                  <Typography className="f8 black" variant="body2">
+                    {5}
+                  </Typography>
+
+                  {/* Review Count */}
+                  <Typography component="span" className="f8 black-50">
+                    (200+ reviews)
+                  </Typography>
+                </Stack>
+                {/* Location */}
+                <Typography
+                  component="span"
+                  className="f8 black-50"
+                  sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                >
+                  <img
+                    src="/images/hotel/location-icon-border.svg"
+                    alt="location"
+                    style={{ width: 10, height: 10 }}
+                  />
+                  0.2km from search location ·{" "}
+                  {hotel?.destinationName || "Unknown Location"}
                 </Typography>
+              </Stack>
+
+              <Stack
+                className="Row3"
+                mb={{ md: "4px", xs: "6px" }}
+                flexDirection={{ md: "row", xs: "column" }}
+                gap={{ md: "6px", xs: 0 }}
+                alignItems={{ md: "center", xs: "flex-start" }}
+              >
+                <Typography
+                  className="bold mb-1 f10"
+                  textTransform={"capitalize"}
+                >
+                  {hotel?.rooms?.[0]?.name?.split(" ").slice(0, 3).join(" ")} ·{" "}
+                  {firstRate?.adults} adults
+                </Typography>
+                <Typography component="span" className="f10 black-50">
+                  {dayjs(allHotels?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
+                  {dayjs(allHotels?.checkOut, "DD-MM-YYYY").format("DD MMM")}
+                </Typography>
+              </Stack>
+              <Stack display={{ md: "flex", xs: "none" }}>
+                <Typography
+                  className="black-50 f10"
+                  variant="body2"
+                  textTransform={"capitalize"}
+                >
+                  {firstRate?.boardName?.toLowerCase()} · Free cancellation until{" "}
+                  {firstRate?.cancellationPolicies?.[0]?.from &&
+                    new Date(
+                      firstRate.cancellationPolicies[0].from
+                    ).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                    })}{" "}
+                  {/* Pay at hotel */}
+                </Typography>
+              </Stack>
+
+              {/* Amenities (dummy icons, still dynamic if mapped later) */}
+              <Stack
+                mt={"12px"}
+                flexDirection={"row"}
+                alignItems={"center"}
+                justifyContent={{ md: "flex-start", xs: "space-between" }}
+              >
+                <Stack flexDirection={"row"} alignItems={"center"} gap={"13px"}>
+                  <Tooltip title="Double room" placement="top" arrow>
+                    <Box className="imggroup">
+                      <img
+                        width={14}
+                        src="/images/hotel/hotel-bed-icon.svg"
+                        alt="Double room"
+                      />
+                    </Box>
+                  </Tooltip>
+
+                  <Tooltip title="Breakfast included" placement="top" arrow>
+                    <Box className="imggroup">
+                      <img
+                        width={14}
+                        src="/images/hotel/breakfast-icon-icon.svg"
+                        alt="Breakfast"
+                      />
+                    </Box>
+                  </Tooltip>
+
+                  <Tooltip title="Free wifi" placement="top" arrow>
+                    <Box className="imggroup">
+                      <img
+                        width={14}
+                        src="/images/hotel/hotel-wifi-icon.svg"
+                        alt="Wifi"
+                      />
+                    </Box>
+                  </Tooltip>
+
+                  <Tooltip
+                    display={{ md: "block", xs: "none" }}
+                    title="Daily housekeeping"
+                    placement="top"
+                    arrow
+                  >
+                    <Box className="imggroup">
+                      <img
+                        width={14}
+                        src="/images/hotel/hotel-leav-icon.svg"
+                        alt="Housekeeping"
+                      />
+                    </Box>
+                  </Tooltip>
+
+                  <Tooltip
+                    display={{ md: "block", xs: "none" }}
+                    title="Check-in: from 15:00 · Check-out: by 11:00"
+                    placement="top"
+                    arrow
+                  >
+                    <Box className="imggroup">
+                      <img
+                        width={14}
+                        src="/images/hotel/hotel-pay-icon.svg"
+                        alt="Checkin Checkout"
+                      />
+                    </Box>
+                  </Tooltip>
+                </Stack>
+                <Box
+                  onClick={() => handleHotelDrawer(hotel)}
+                  className={
+                    " bold f12 cursor-pointer text-decoration-none basecolor1 "
+                  }
+                  gap={"4px"}
+                  alignItems={"center"}
+                  display={{ md: "none", xs: "flex" }}
+                  sx={{ fontSize: { xs: "12px", md: "16px" } }}
+                >
+                  <span>See details</span>
+                  <i className="fa-angle-right fa fas"></i>
+                </Box>
+              </Stack>
+            </Box>
+          </Grid>
+          <Box className={" w-100 "} display={{ md: "none", xs: "block" }}>
+            <Divider className={` Divider w-100 `} />
+          </Box>
+          {/* Right Section (Price + Button) */}
+          <Grid
+            className={searchResultStyles.CardRight}
+            width={"100%"}
+            lg={3}
+            md={3}
+            xs={12}
+            gap={2}
+            display={"flex"}
+            p={{ md: "18px", xs: "6px 0" }}
+            flexDirection={"column"}
+          >
+            <Box
+              className={searchResultStyles.Box}
+              display={"flex"}
+              sx={{
+                flexDirection: { xs: "column", lg: "column", md: "column" },
+              }}
+              justifyContent={"center"}
+              height={"100%"}
+              ali
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { md: "column", lg: "column", xs: "row" },
+                }}
+              >
+                {/* See Details */}
+                <Box
+                  onClick={() => handleHotelDrawer(hotel)}
+                  className={
+                    " bold f12 cursor-pointer text-decoration-none basecolor1 "
+                  }
+                  gap={"4px"}
+                  alignItems={"center"}
+                  display={{ md: "flex", xs: "none" }}
+                  sx={{ fontSize: { xs: "12px", md: "16px" } }}
+                >
+                  <span>See details</span>
+                  <i className="fa-angle-right fa fas"></i>
+                </Box>
               </Box>
 
-              <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                {selectedhotelkey === firstRate?.rateKey ? (
-                  <Button
+              {/* Price + Select Button */}
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                sx={{
+                  flexDirection: { lg: "column", md: "column", xs: "row" },
+                  width: { lg: "100%", md: "100%", xs: "100%" },
+                  justifyContent: "space-between",
+                  alignItems: {
+                    lg: "flex-start",
+                    md: "flex-start",
+                    xs: "center",
+                  },
+                }}
+                gap={1}
+                className={searchResultStyles.PriceBottom}
+              >
+                <Box>
+                  <Typography
                     className={
-                      searchResultStyles.IsSelected +
-                      " w-100 btn btn-primary btn-round btn-md "
+                      searchResultStyles.flightPriceSection + " mb-0 black bold"
                     }
                   >
-                    <span>Selected</span>
-                  </Button>
-                ) : (
+                    {currencySymbols[hotel?.currency]}
+                    {Math.round(perNightPrice)} / night
+                  </Typography>
+                  <Typography className="f12 black-50">
+                    {currencySymbols[hotel?.currency]}
+                    {Math.round(totalPrice)} total ({nights} nights)
+                  </Typography>
+                </Box>
+
+                <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
+                  {selectedhotelkey === firstRate?.rateKey ? (
+                    <Button
+                      className={
+                        searchResultStyles.IsSelected +
+                        " w-100 btn btn-primary btn-round btn-md "
+                      }
+                    >
+                      <span>Selected</span>
+                    </Button>
+                  ) : (
                   <Button
-                    onClick={() => handleBookHotel(hotel)}
-                    className={
-                      " w-100 btn btn-primary btn-round btn-md " +
-                      searchResultStyles.selectFlightBtn
-                    }
-                  >
-                    Select
-                  </Button>
-                )}
+                      onClick={() => handleSelectRoom(hotel)}
+                      className={
+                        " w-100 btn btn-primary btn-round btn-md " +
+                        searchResultStyles.selectFlightBtn
+                      }
+                    >
+                      Select room
+                    </Button>
+                  )}
+                </Box>
               </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 
