@@ -34,6 +34,10 @@
       min-height: 79px;
       padding-top: 10px;
       padding-bottom: 10px;
+      margin-bottom: 16px;
+      &:last-child {
+         margin-bottom: 0;
+      }
       &.passDisabled {
          pointer-events: none;
          opacity: 0.5;
@@ -77,6 +81,24 @@
    border: 1px dashed #E6EAEB;
    border-radius: 8px;
 }
+.GalleryDialog {
+   position: relative;
+   
+    width: auto;
+    height: auto;
+    .closeButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+   img {display: block;
+              max-width: 100%;
+              max-height: 100%;;
+   }
+}
 .HotelGallerySection {
   .HotelGallery {
     display: flex;
@@ -104,7 +126,7 @@
     }
 
     .SmallThumb {
-      width: 80px;
+      width: 82px;
       height: 58px;
       border-radius: 8px;
       cursor: pointer;

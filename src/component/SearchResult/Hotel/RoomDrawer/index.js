@@ -40,7 +40,7 @@ const RoomDrawer = () => {
         width={463}
       >
         <Box className={styles.checkoutDrowerSection + " white-bg"} px={3}>
-          <Box pt={3} mb={3}>
+          <Box className={"header"} pt={3} mb={0}>
             <Box
               className="bold basecolor1 btn-link cursor-pointer"
               onClick={HandlecloseDrawer}

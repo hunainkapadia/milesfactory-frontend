@@ -35,7 +35,9 @@ const HotelDrawerGallery = ({ hotel }) => {
         <Box
           className={`${styles.HotelThumb} ${styles.BigThumb}`}
           sx={{
-            backgroundImage: `url(${images[0]?.url || "images/hotel-nothumb.png"})`,
+            backgroundImage: `url(${
+              images[0]?.url || "images/hotel-nothumb.png"
+            })`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -53,9 +55,13 @@ const HotelDrawerGallery = ({ hotel }) => {
             return (
               <Box
                 key={idx}
-                className={`${styles.SmallThumb} ${isLast ? styles.LastThumb : ""}`}
+                className={`${styles.SmallThumb} ${
+                  isLast ? styles.LastThumb : ""
+                }`}
                 sx={{
-                  backgroundImage: `url(${img?.url || "images/hotel-nothumb.png"})`,
+                  backgroundImage: `url(${
+                    img?.url || "images/hotel-nothumb.png"
+                  })`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
@@ -99,10 +105,7 @@ const HotelDrawerGallery = ({ hotel }) => {
       {/* --- Expanded Gallery (View All) --- */}
       {isViewAll && (
         <Stack component="section" alignItems="flex-end" sx={{ mt: 3 }}>
-          <Box
-            className="basecolor1 cursor-pointer"
-            onClick={handleHideAll}
-          >
+          <Box className="basecolor1 cursor-pointer" onClick={handleHideAll}>
             Hide All
           </Box>
         </Stack>
@@ -115,7 +118,9 @@ const HotelDrawerGallery = ({ hotel }) => {
               <Grid item md={3} lg={3} sm={3} key={idx}>
                 <Box
                   sx={{
-                    backgroundImage: `url(${img?.url || "images/hotel-nothumb.png"})`,
+                    backgroundImage: `url(${
+                      img?.url || "images/hotel-nothumb.png"
+                    })`,
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
@@ -148,39 +153,33 @@ const HotelDrawerGallery = ({ hotel }) => {
         }}
       >
         <Box
+        className={styles.GalleryDialog}
           sx={{
             position: "relative",
-            width: "100%",
-            height: "80vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-        <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
-
-          <IconButton
-  onClick={handleCloseImage}
-  sx={{
-    position: "absolute",
-    top: 16,
-    right: 16,
-    background: "rgba(0,0,0,0.5)",
-    color: "#fff",
-    "&:hover": { background: "rgba(0,0,0,0.7)" },
-  }}
->
-  <FontAwesomeIcon icon={faTimes} />
-</IconButton>
-        </Box>
-
+            <IconButton 
+            className={styles.closeButton}
+              onClick={handleCloseImage}
+              sx={{
+                background: "rgba(0,0,0,0.5)",
+                color: "#fff",
+                "&:hover": { background: "rgba(0,0,0,0.7)" },
+              }}
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </IconButton>
+          
           <Box
             component="img"
             src={openImage}
             alt="Hotel"
+            className={styles.img}
             sx={{
-              maxWidth: "90%",
-              maxHeight: "90%",
+              
               borderRadius: "10px",
               boxShadow: "0 0 20px rgba(0,0,0,0.3)",
               objectFit: "contain",

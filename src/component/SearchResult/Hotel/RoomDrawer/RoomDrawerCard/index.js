@@ -26,7 +26,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
   }
 
   return (
-    <Box pb={2}>
+
       <Box
         onClick={() => onSelect(rates?.rateKey)}
         className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
@@ -65,6 +65,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
           {/* Right: Price */}
           <Box textAlign="right">
             <Typography fontWeight={700} fontSize={16}>
+            
               {currencySymbols[rates?.taxes?.taxes?.[0]?.currency] || "€"}
               {Number(rates?.total_netamount_with_markup).toFixed(2)}
             </Typography>
@@ -74,7 +75,6 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
           </Box>
         </Box>
       </Box>
-    </Box>
   );
 };
 
