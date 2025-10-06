@@ -29,6 +29,8 @@ import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
 
 const HotelCard = ({ hotel, allHotels }) => {
   const imageBaseUrl = "https://photos.hotelbeds.com/giata/";
+  const images = hotel?.content?.images || [];
+  
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const selectedFlightKey = useSelector(
@@ -126,11 +128,7 @@ const HotelCard = ({ hotel, allHotels }) => {
             <Box
               className={searchResultStyles.HotelThumb}
               sx={{
-                backgroundImage: `url(${
-                  hotel?.content?.images[0].path === undefined
-                    ? "/images/hotel-nothumb.png"
-                    : `${imageBaseUrl}${hotel?.content?.images[0].path}`
-                })`,
+                backgroundImage: `url(${images[0]?.url || "/images/hotel-nothumb.png"})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
@@ -246,7 +244,8 @@ const HotelCard = ({ hotel, allHotels }) => {
                   variant="body2"
                   textTransform={"capitalize"}
                 >
-                  {firstRate?.boardName?.toLowerCase()} · Free cancellation until{" "}
+                  {firstRate?.boardName?.toLowerCase()} · Free cancellation
+                  until{" "}
                   {firstRate?.cancellationPolicies?.[0]?.from &&
                     new Date(
                       firstRate.cancellationPolicies[0].from
@@ -432,7 +431,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                       <span>Selected</span>
                     </Button>
                   ) : (
-                  <Button
+                    <Button
                       onClick={() => handleSelectRoom(hotel)}
                       className={
                         " w-100 btn btn-primary btn-round btn-md " +
