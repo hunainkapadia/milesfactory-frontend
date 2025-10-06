@@ -172,16 +172,16 @@ const HotelCard = ({ hotel, allHotels }) => {
                 alignItems={{ md: "center", xs: "flex-start" }}
                 gap={"2px"}
               >
-                <Stack
+                {/* <Stack
                   className="Row2"
                   mb={{ md: "0px", xs: "0" }}
                   flexDirection={"row"}
                   alignItems="center"
                   gap={"3px"}
-                >
+                > */}
                   {/* Rating Stars */}
 
-                  <Rating
+                  {/* <Rating
                     name="feedback-rating"
                     value={5} // dynamic stars
                     precision={0.5}
@@ -191,18 +191,18 @@ const HotelCard = ({ hotel, allHotels }) => {
                       "& .MuiRating-iconFilled": { color: "#FFCC33" },
                       "& .MuiRating-iconEmpty": { color: "#E0E0E0" },
                     }}
-                  />
+                  /> */}
 
                   {/* Numeric Rating */}
-                  <Typography className="f8 black" variant="body2">
+                  {/* <Typography className="f8 black" variant="body2">
                     {5}
-                  </Typography>
+                  </Typography> */}
 
                   {/* Review Count */}
-                  <Typography component="span" className="f8 black-50">
+                  {/* <Typography component="span" className="f8 black-50">
                     (200+ reviews)
                   </Typography>
-                </Stack>
+                </Stack> */}
                 {/* Location */}
                 <Typography
                   component="span"
@@ -214,8 +214,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                     alt="location"
                     style={{ width: 10, height: 10 }}
                   />
-                  0.2km from search location ·{" "}
-                  {hotel?.destinationName || "Unknown Location"}
+                  {hotel?.zoneName} /{hotel?.destinationName}
                 </Typography>
               </Stack>
 
@@ -244,15 +243,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                   variant="body2"
                   textTransform={"capitalize"}
                 >
-                  {firstRate?.boardName?.toLowerCase()} · Free cancellation
-                  until{" "}
-                  {firstRate?.cancellationPolicies?.[0]?.from &&
-                    new Date(
-                      firstRate.cancellationPolicies[0].from
-                    ).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                    })}{" "}
+                  {firstRate?.boardName?.toLowerCase()}
                   {/* Pay at hotel */}
                 </Typography>
               </Stack>
