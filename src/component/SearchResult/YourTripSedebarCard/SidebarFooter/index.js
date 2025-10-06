@@ -15,8 +15,13 @@ import { useEffect } from "react";
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+  console.log("orderSuccess", orderSuccess);
+  
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);  
-
+  const allPassengerFill = useSelector(
+      (state) => state.passengerDrawer.allPassengerFill
+    );
+    console.log("allPassengerFill", allPassengerFill);
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
@@ -26,6 +31,7 @@ const SidebarFooter = () => {
   );
   const CartType = useSelector((state) => state.booking.cartType);
   console.log("CartType_0", CartType);
+  
   
 
   // Get all flights from cart items
@@ -108,10 +114,10 @@ const SidebarFooter = () => {
               <Typography className="gray f12">total</Typography>
             </Box>
             {CartData?.items?.length > 0 && (
-              <Button
+              <Button 
+              disabled={orderSuccess && true}
                 onClick={()=>handleBookFlight(CartData)}
-                className={`btn btn-primary btn-round btn-xs ${
-                  orderSuccess || !CartData && " disabled "}`}
+                className={`btn btn-primary btn-round btn-xs`}
               >
                 Checkout
               </Button>

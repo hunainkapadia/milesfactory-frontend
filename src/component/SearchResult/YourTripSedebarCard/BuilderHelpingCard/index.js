@@ -64,7 +64,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
             </Typography>
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">
+            <Typography className="f12" whiteSpace={"nowrap"}>
               {forHotel ? "Check-out" : "Arriving"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
@@ -86,7 +86,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">
+            <Typography className="f12" whiteSpace={"nowrap"}>
               {forHotel ? "Rooms" : "Class"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold capitalize">

@@ -67,7 +67,6 @@ const PassengerProfileDrawer = () => {
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  console.log("allPassengerFill", allPassengerFill);
 
   const { selectPassProfile } = useSelector((state) => state.passengerDrawer);
 
@@ -225,6 +224,13 @@ const PassengerProfileDrawer = () => {
       dispatch(setPassengerPassport(nextPassenger.passportNumber));
     }
   }, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
+
+  useEffect(()=> {
+    if (isAllPassengersFilled) {
+      dispatch(setFilledPass(true));
+      dispatch(setPassProfileDrawer(false))
+    }
+  },[dispatch, isAllPassengersFilled])
   return (
     <Drawer
       anchor="right"
@@ -330,7 +336,7 @@ const PassengerProfileDrawer = () => {
                   )}
 
                   {/* Continue Button */}
-                  {isAllPassengersFilled && (
+                  {/* {isAllPassengersFilled && (
                     <Button
                       type="submit"
                       className="btn btn-primary chat-btn btn-round"
@@ -338,7 +344,7 @@ const PassengerProfileDrawer = () => {
                     >
                       <Typography component={"span"}>Continue</Typography>
                     </Button>
-                  )}
+                  )} */}
                 </Box>
               </Box>
             </Box>
