@@ -213,37 +213,39 @@ const HotelDrawer = ({}) => {
                         )}
                       </Typography>
                     </Stack>
-
-                    <Stack mb={"18px"}>
-                      <Typography
-                        mb={"6px"}
-                        className="bold "
-                        textTransform={"capitalize"}
-                        classes={"f12"}
-                      >
-                        Description
-                      </Typography>
-                      <Typography
-                        className="mb-1 black-50 f12"
-                        textTransform={"capitalize"}
-                      >
-                        {hotel?.content?.description?.content}
-                      </Typography>
-                    </Stack>
-
+                    {hotel?.content?.description?.content && (
+                      <Stack mb={"18px"}>
+                        <Typography
+                          mb={"6px"}
+                          className="bold "
+                          textTransform={"capitalize"}
+                          classes={"f12"}
+                        >
+                          Description
+                        </Typography>
+                        <Typography
+                          className="mb-1 black-50 f12"
+                          textTransform={"capitalize"}
+                        >
+                          {hotel?.content?.description?.content}
+                        </Typography>
+                      </Stack>
+                    )}
                     {/* Amenities (dummy icons, still dynamic if mapped later) */}
-
-                    <Stack>
-                      <Typography 
-                      classes={"f12"}
-                        mb={"6px"}
-                        className="bold "
-                        textTransform={"capitalize"}
-                      >
-                        Photos
-                      </Typography>
-                      <HotelDrawerGallery hotel={hotel} />
-                    </Stack>
+                    {console.log("hotel_detail", hotel?.content?.images)}
+                    {hotel?.content?.images && (
+                      <Stack>
+                        <Typography
+                          classes={"f12"}
+                          mb={"6px"}
+                          className="bold "
+                          textTransform={"capitalize"}
+                        >
+                          Photos
+                        </Typography>
+                        <HotelDrawerGallery hotel={hotel} />
+                      </Stack>
+                    )}
                     <Box py={2}>
                       <Divider className={`${styles.Divider} Divider`} />
                     </Box>
@@ -253,7 +255,11 @@ const HotelDrawer = ({}) => {
                           Included in this booking
                         </Typography>
                       </Box>
-                      <Stack gap={"5px 18px"} flexWrap={"wrap"} flexDirection={"row"}>
+                      <Stack
+                        gap={"5px 18px"}
+                        flexWrap={"wrap"}
+                        flexDirection={"row"}
+                      >
                         <Box
                           display="flex"
                           gap={1}
