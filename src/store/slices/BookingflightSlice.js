@@ -35,6 +35,7 @@ const initialState = {
   cartErrorDialog: false,
   flightUnavailable: false,
   cartType: null,
+  cartTotalPrice: null,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -42,6 +43,9 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setCartTotalPrice:(state, action) => {
+      state.cartTotalPrice = action.payload;
+    },
     setFlightUnavailable:(state, action) => {
       state.flightUnavailable = action.payload;
     },
@@ -302,6 +306,7 @@ export const {
   setFlightUnavailable,
   setCartErrorDialog,
   setCartType,
-  resetBookingState
+  resetBookingState,
+  setCartTotalPrice
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

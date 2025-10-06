@@ -9,11 +9,13 @@ import {
 import { getPassPofile, PassengerForm } from "@/src/store/slices/passengerDrawerSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
 import { getPassPofileHotel, PassengerSetupHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
+import { setCartTotalPrice } from "@/src/store/slices/BookingflightSlice";
+import { useEffect } from "react";
 
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-  
+  const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);  
 
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
@@ -69,7 +71,11 @@ const SidebarFooter = () => {
     }
     
   };
-  console.log("CartData_total_price", orderSuccess);
+  
+  
+
+  
+  
   
 
   return (
@@ -93,7 +99,7 @@ const SidebarFooter = () => {
                   <>
                     {currencySymbols[CartData?.items?.[0]?.currency] ||
                       CartData?.items?.[0]?.currency}
-                    {Math.round(CartData?.total_price)}
+                    {Math.round(CartTotalPrice)}
                   </>
                 ) : (
                   "-"

@@ -19,6 +19,11 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
   const selectedhotelkey = useSelector(
     (state) => state.hotel?.selectedhotelKey
   );
+  const selectedRoom = useSelector(
+    (state) => state.hotel?.selectedRoom
+  );
+  console.log("selectedRoom", selectedRoom?.total_netamount_with_markup);
+  
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
 
@@ -48,7 +53,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
   };
 
   const HandlecloseDrawer = () => {
-    dispatch(setHotelDrawer(false));
+    dispatch(setRoomDrawer(false));
   };
 
   return (
@@ -95,14 +100,30 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
           >
             {/* Price Section */}
             <Box display="flex" flexDirection="column" justifyContent="center">
-              <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                {currencySymbols[hotel?.currency]}
-                {Math.round(perNightPrice)} / night
-              </h4>
-              <Typography variant="body2" className="gray f12">
-                {currencySymbols[hotel?.currency]}
-                {Math.round(totalPrice)} total ({nights} nights)
-              </Typography>
+              {selectedRoom?.total_netamount_with_markup ? (
+                <>
+                  <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
+                    {currencySymbols[selectedRoom?.taxes.taxes[0].currency]}
+                    {Math.round(selectedRoom?.total_netamount_with_markup)}{" "}
+                    total
+                  </h4>
+                </>
+              ) : (totalPrice && perNightPrice)? (
+                <>
+                  <h4
+                     className={styles.price + " exbold mb-0 basecolor-dark"}
+                  >
+                     {currencySymbols[hotel?.currency]}
+                     {Math.round(perNightPrice)} / night
+                  </h4>
+                  <Typography variant="body2" className="gray f12">
+                    {currencySymbols[hotel?.currency]}
+                    {Math.round(totalPrice)} total ({nights} nights)
+                  </Typography>
+                </>
+              ) : (
+                "-"
+              )}
             </Box>
 
             {/* Actions Section */}
@@ -135,7 +156,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
                   </Button>
                 ) : (
                   <Button
-                     disabled={!selectedRateKey} // ✅ Disabled when nothing is selected
+                    disabled={!selectedRateKey} // ✅ Disabled when nothing is selected
                     onClick={handleSelectStay}
                     className={
                       styles.selectFlightBtn +

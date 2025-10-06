@@ -45,6 +45,8 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
   );
 
   const CartType = useSelector((state) => state.booking.cartType);
+  const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
+  console.log("CartTotalPrice", CartTotalPrice)
   
   const handleBookFlight = () => {
     dispatch(setIsBuilderDialog(false));
@@ -118,7 +120,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
                     CartFlight?.currency ||
                     CartHotel?.currency}
 
-                  {Math.round(CartData?.total_price)}
+                  {Math.round(CartTotalPrice)}
                 </>
               )}
               {/*  Show per-night price only for hotels */}

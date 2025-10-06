@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Divider, Grid, Drawer, Stack } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setRoomDrawer,
   setSelectedRateKey,
+  setSelectedRoom,
 } from "@/src/store/slices/HotelSlice";
 import HotelDrawerGallery from "../hotelDrawer/HotelDrawerGallery";
 import RoomDrawerCard from "./RoomDrawerCard";
 import RoomDrawerFooter from "./RoomDrawerFooter";
 import { capitalizeFirstWord } from "@/src/utils/utils";
+import { setCartTotalPrice } from "@/src/store/slices/BookingflightSlice";
 
 const RoomDrawer = () => {
   const dispatch = useDispatch();
@@ -24,9 +26,25 @@ const RoomDrawer = () => {
   };
 
   //  function that dispatches rate selection
-  const handleSelectRate = (rateKey) => {
-    dispatch(setSelectedRateKey(rateKey));
+  const handleSelectRate = (rates) => {
+    console.log("rates_000", rates);
+    dispatch(setSelectedRateKey(rates?.rateKey));
+    dispatch(setSelectedRoom(rates));
   };
+
+  const CartData = useSelector((state) => state.booking?.getCartDetail);
+  const hotelType = CartData?.items?.find(getitem => getitem.offer_type  === "hotel");
+  const flightType = CartData?.items?.find(getitem => getitem.offer_type  === "flight");
+  
+  const hotelPrice = parseFloat(hotelType?.raw_data?.hotel?.total_netamount_with_markup || hotelType?.raw_data?.hotel?.price || 0);
+  const flightPrice = parseFloat(flightType?.price || 0);
+  const total = hotelPrice + flightPrice
+  useEffect(()=> {
+    dispatch(setCartTotalPrice(total));
+  },[dispatch, total])
+  const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
+  console.log("CartTotalPrice", CartTotalPrice)
+  console.log("total_cart", total);
 
   return (
     <Drawer
@@ -40,7 +58,10 @@ const RoomDrawer = () => {
         className={`${styles.checkoutDrower} ${styles.hotelDrawer} white-bg`}
         width={463}
       >
-        <Box className={styles.checkoutDrowerSection + " white-bg"} px={3}>
+        <Box
+          className={styles.checkoutDrowerSection + " white-bg"}
+          px={{ md: 3, lg: 3, xs: "18px" }}
+        >
           <Box className={"header"} pt={3} mb={0}>
             <Box
               className="bold basecolor1 btn-link cursor-pointer"
@@ -66,7 +87,12 @@ const RoomDrawer = () => {
               <Box component="section" className="w-100">
                 {hotel?.rooms?.map((room) => (
                   <Box key={room.name} mb={3}>
-                    <Stack flexDirection={"row"} alignItems={"center"} mb={2} gap={1}>
+                    <Stack
+                      flexDirection={"row"}
+                      alignItems={"center"}
+                      mb={2}
+                      gap={1}
+                    >
                       <svg
                         width="20"
                         height="13"
@@ -80,7 +106,7 @@ const RoomDrawer = () => {
                         />
                       </svg>
 
-                      <Typography className="bold capitalize" >
+                      <Typography className="bold capitalize">
                         {capitalizeFirstWord(room?.name)}
                       </Typography>
                     </Stack>

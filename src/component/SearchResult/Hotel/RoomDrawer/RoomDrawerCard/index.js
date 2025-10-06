@@ -28,7 +28,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
   return (
 
       <Box
-        onClick={() => onSelect(rates?.rateKey)}
+        onClick={() => onSelect(rates)}
         className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
           isSelected ? styles.isFilled : ""
         } cursor-pointer`}
@@ -64,13 +64,13 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
 
           {/* Right: Price */}
           <Box textAlign="right">
-            <Typography fontWeight={700} fontSize={16}>
+            <Typography fontWeight={700} fontSize={16} whiteSpace={"nowrap"}>
             
-              {currencySymbols[rates?.taxes?.taxes?.[0]?.currency] || "€"}
-              {Number(rates?.total_netamount_with_markup).toFixed(2)}
+              {currencySymbols[rates?.taxes?.taxes?.[0]?.currency] || rates?.taxes?.taxes?.[0]?.currency || ""}
+              {Math.round(rates?.total_netamount_with_markup)}
             </Typography>
-            <Typography fontSize={12} color="gray">
-              +{tax?.clientAmount} {tax?.clientCurrency} tax
+            <Typography fontSize={12} color="gray" whiteSpace={"nowrap"}>
+              {currencySymbols[tax?.clientCurrency] || tax?.clientCurrency || ""}{Math.round(tax?.clientAmount)} tax
             </Typography>
           </Box>
         </Box>
