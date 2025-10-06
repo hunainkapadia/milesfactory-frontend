@@ -61,36 +61,6 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
       <Divider className={`${styles.Divider} Divider`} />
       <Box px={3} className={styles.checkoutDrowerFooter} width={"100%"}>
         <Box py={2} display="flex" flexDirection="column">
-          <Box
-            component={"section"}
-            display={"flex"}
-            alignItems={"center"}
-            pb={2}
-            gap={"5px"}
-          >
-            <Box class="imggroup" display={"flex"}>
-              <img
-                src="/images/protection-text-icon.svg"
-                alt="Protection Icon"
-                width="15"
-              />
-            </Box>
-            <Typography
-              variant="p"
-              className="gray f12"
-              display={{ lg: "block", md: "block", xs: "none" }}
-            >
-              The airline policy will apply if you decide to cancel or modify
-              your trip.
-            </Typography>
-            <Typography
-              variant="p"
-              className="gray f12"
-              display={{ lg: "none", md: "none", xs: "block" }}
-            >
-              Airline-direct booking - protected from airline disruptions.
-            </Typography>
-          </Box>
           {/* Price Row */}
           <Box
             className={styles.priceRow}

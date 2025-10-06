@@ -10,19 +10,18 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
   const isSelected = selectedRateKey === rates?.rateKey;
 
   // Safe access
+  const refundable = rates?.rateClass;
   const cancellation = rates?.cancellationPolicies?.[0] || {};
   const tax = rates?.taxes?.taxes?.[0] || {};
 
   // Format cancellation policy
   let cancellationText = "";
-  if (cancellation.amount === 0) {
-    cancellationText = `Free cancellation <span class="aaa">${dayjs(
-      cancellation.from
-    ).format("DD MMM")}</span>`;
+  if (refundable == "NRF") {
+    cancellationText = `Non-refundable`;
   } else if (cancellation.amount > 0) {
-    cancellationText = `Non-refundable after <span class="aaa">${dayjs(
+    cancellationText = `Cancellable till <span class="aaa">${dayjs(
       cancellation.from
-    ).format("DD MMM")}</span>`;
+    ).format('DD MMM YYYY, hh:mm A [GMT]Z')}</span> for a fee of <span class="aaa">${currencySymbols[rates?.taxes?.taxes?.[0]?.clientCurrency] || ""}${Math.round(cancellation.amount)}</span>`;
   }
 
   return (
@@ -66,7 +65,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
           <Box textAlign="right">
             <Typography fontWeight={700} fontSize={16} whiteSpace={"nowrap"}>
             
-              {currencySymbols[rates?.taxes?.taxes?.[0]?.currency] || rates?.taxes?.taxes?.[0]?.currency || ""}
+              {currencySymbols[rates?.taxes?.taxes?.[0]?.clientCurrency] || ""}
               {Math.round(rates?.total_netamount_with_markup)}
             </Typography>
             <Typography fontSize={12} color="gray" whiteSpace={"nowrap"}>

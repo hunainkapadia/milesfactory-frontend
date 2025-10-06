@@ -107,19 +107,22 @@ const RoomDrawer = () => {
                       </svg>
 
                       <Typography className="bold capitalize">
-                        {capitalizeFirstWord(room?.name)}
+                        {capitalizeFirstWord(room?.name)} - {room.rates[0].allotment}{" Available"}
                       </Typography>
                     </Stack>
                     <HotelDrawerGallery hotel={hotel} />
 
-                    {room.rates.map((rate) => (
-                      <RoomDrawerCard
-                        key={rate.rateKey}
-                        getrates={rate}
-                        selectedRateKey={selectedRateKey}
-                        onSelect={handleSelectRate} //  dispatch function
-                      />
-                    ))}
+                    {room.rates
+                      .filter(rate => rate.packaging === false && rate.rateType === "BOOKABLE")
+                      .map(rate => (
+                        <RoomDrawerCard
+                          key={rate.rateKey}
+                          getrates={rate}
+                          selectedRateKey={selectedRateKey}
+                          onSelect={handleSelectRate}
+                        />
+                      ))
+                    }
                   </Box>
                 ))}
               </Box>
