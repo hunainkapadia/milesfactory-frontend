@@ -54,16 +54,7 @@ const HotelDrawer = ({}) => {
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
-      ModalProps={{
-        sx: {
-          zIndex: (theme) => theme.zIndex.modal + 10, // Ensure this applies to Modal layer
-        },
-      }}
-      PaperProps={{
-        sx: {
-          zIndex: (theme) => theme.zIndex.modal + 11, // Paper (the drawer container itself)
-        },
-      }}
+      sx={{zIndex:1}}
     >
       <Box
         className={`${styles.checkoutDrower} ${styles.hotelDrawer}  white-bg`}
