@@ -3,6 +3,9 @@ import TripStyles from "@/src/styles/sass/components/search-result/YourTripSideb
 
 const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
 
+
+  console.log("getBuilder_to_destination", getBuilder);
+  
   return (
     <>
       <Box
@@ -65,7 +68,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
               {forHotel ? "Check-out" : "Arriving"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {forHotel
+              {forHotel && getBuilder?.return_date
                 ? new Date(getBuilder?.return_date).toLocaleDateString(
                     "en-GB",
                     {

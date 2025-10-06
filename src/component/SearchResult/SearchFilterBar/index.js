@@ -22,6 +22,9 @@ const SearchFilterBar = () => {
     (state) => state.sendMessage?.SearchHistorySend
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
+
+  console.log("SearchHistory00", SearchHistory?.hotel);
+  
   const dispatch = useDispatch();
   //   for selct flight detail
 
@@ -254,14 +257,19 @@ const SearchFilterBar = () => {
                       ).toLocaleString("en-GB", {
                         day: "2-digit",
                         month: "short",
-                      })}{" "}
-                      -{" "}
-                      {new Date(
-                        SearchHistory?.hotel?.return_date
-                      ).toLocaleString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
                       })}
+                      {SearchHistory?.hotel?.return_date && (
+                        <>
+                          {" "}
+                          -{" "}
+                          {new Date(
+                            SearchHistory?.hotel?.return_date
+                          ).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                          })}
+                        </>
+                      )}
                     </Typography>
                     <Typography className="black regular">
                       {[
