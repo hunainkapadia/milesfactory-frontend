@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Dialog, IconButton } from "@mui/material";
+import { Box, Grid, Stack, Dialog, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
@@ -19,6 +19,10 @@ const HotelDrawerGallery = ({ hotel }) => {
   const handleOpenImage = (imgUrl) => setOpenImage(imgUrl);
   const handleCloseImage = () => setOpenImage(null);
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  
+
   return (
     <Box component="section" className={styles.HotelGallerySection} mb={2}>
       {/* --- Main Gallery View --- */}
@@ -32,25 +36,27 @@ const HotelDrawerGallery = ({ hotel }) => {
         className={styles.HotelGallery}
       >
         {/* Big Image on Left */}
-        <Box
-          className={`${styles.HotelThumb} ${styles.BigThumb}`}
-          sx={{
-            backgroundImage: `url(${
-              images[0]?.url || "images/hotel-nothumb.png"
-            })`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            borderRadius: "10px",
-            flex: "1 1 50%",
-            cursor: "pointer",
-          }}
-          onClick={() => handleOpenImage(images[0]?.url)}
-        />
+        {!isMobile && (
+          <Box
+            className={`${styles.HotelThumb} ${styles.BigThumb}`}
+            sx={{
+              backgroundImage: `url(${
+                images[0]?.url || "images/hotel-nothumb.png"
+              })`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              borderRadius: "10px",
+              flex: "1 1 50%",
+              cursor: "pointer",
+            }}
+            onClick={() => handleOpenImage(images[0]?.url)}
+          />
+        )}
 
         {/* Small Thumbnails on Right */}
         <Box className={styles.SmallThumbGrid}>
-          {images.slice(1, 7).map((img, idx, arr) => {
+          {images.slice(1, !isMobile ? 7 : 4).map((img, idx, arr) => {
             const isLast = idx === arr.length - 1;
             return (
               <Box
@@ -113,9 +119,9 @@ const HotelDrawerGallery = ({ hotel }) => {
 
       {isViewAll && (
         <Box sx={{ mt: 3 }}>
-          <Grid container spacing={"5px"} justifyContent={"center"}>
+          <Grid container spacing={"5px"} justifyContent={"center"} className={styles.galleryList}>
             {images.map((img, idx) => (
-              <Grid item md={3} lg={3} sm={3} key={idx}>
+              <Grid item md={3} lg={3} sm={4} xs={4} key={idx}>
                 <Box
                   sx={{
                     backgroundImage: `url(${
@@ -153,7 +159,7 @@ const HotelDrawerGallery = ({ hotel }) => {
         }}
       >
         <Box
-        className={styles.GalleryDialog}
+          className={styles.GalleryDialog}
           sx={{
             position: "relative",
             display: "flex",
@@ -161,25 +167,24 @@ const HotelDrawerGallery = ({ hotel }) => {
             alignItems: "center",
           }}
         >
-            <IconButton 
+          <IconButton
             className={styles.closeButton}
-              onClick={handleCloseImage}
-              sx={{
-                background: "rgba(0,0,0,0.5)",
-                color: "#fff",
-                "&:hover": { background: "rgba(0,0,0,0.7)" },
-              }}
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </IconButton>
-          
+            onClick={handleCloseImage}
+            sx={{
+              background: "rgba(0,0,0,0.5)",
+              color: "#fff",
+              "&:hover": { background: "rgba(0,0,0,0.7)" },
+            }}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </IconButton>
+
           <Box
             component="img"
             src={openImage}
             alt="Hotel"
             className={styles.img}
             sx={{
-              
               borderRadius: "10px",
               boxShadow: "0 0 20px rgba(0,0,0,0.3)",
               objectFit: "contain",
