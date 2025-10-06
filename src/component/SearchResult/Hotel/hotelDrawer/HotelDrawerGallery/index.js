@@ -1,4 +1,12 @@
-import { Box, Grid, Stack, Dialog, IconButton, useTheme, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Stack,
+  Dialog,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { useState } from "react";
 
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
@@ -19,110 +27,51 @@ const HotelDrawerGallery = ({ hotel }) => {
   const handleOpenImage = (imgUrl) => setOpenImage(imgUrl);
   const handleCloseImage = () => setOpenImage(null);
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
   return (
-    <Box component="section" className={styles.HotelGallerySection} mb={2}>
-      {/* --- Main Gallery View --- */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          overflowX: "auto",
-          scrollSnapType: "x mandatory",
-        }}
-        className={styles.HotelGallery}
-      >
-        {/* Big Image on Left */}
-        {!isMobile && (
-          <Box
-            className={`${styles.HotelThumb} ${styles.BigThumb}`}
-            sx={{
-              backgroundImage: `url(${
-                images[0]?.url || "images/hotel-nothumb.png"
-              })`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              borderRadius: "10px",
-              flex: "1 1 50%",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenImage(images[0]?.url)}
-          />
-        )}
+    <>
+      <Box component="section" className={styles.HotelGallerySection} mb={2}>
+        {/* --- Main Gallery View --- */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            overflowX: "auto",
+            scrollSnapType: "x mandatory",
+          }}
+          className={styles.HotelGallery}
+        >
+          {/* Big Image on Left */}
+          {!isMobile && (
+            <Box
+              className={`${styles.HotelThumb} ${styles.BigThumb}`}
+              sx={{
+                backgroundImage: `url(${
+                  images[0]?.url || "images/hotel-nothumb.png"
+                })`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                borderRadius: "10px",
+                flex: "1 1 50%",
+                cursor: "pointer",
+              }}
+              onClick={() => handleOpenImage(images[0]?.url)}
+            />
+          )}
 
-        {/* Small Thumbnails on Right */}
-        <Box className={styles.SmallThumbGrid}>
-          {images.slice(1, !isMobile ? 7 : 4).map((img, idx, arr) => {
-            const isLast = idx === arr.length - 1;
-            return (
-              <Box
-                key={idx}
-                className={`${styles.SmallThumb} ${
-                  isLast ? styles.LastThumb : ""
-                }`}
-                sx={{
-                  backgroundImage: `url(${
-                    img?.url || "images/hotel-nothumb.png"
-                  })`,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                  borderRadius: "8px",
-                  position: "relative",
-                  cursor: "pointer",
-                }}
-                onClick={() => handleOpenImage(img?.url)}
-              >
-                {/* Show 'View all photos' overlay on last image */}
-                {isLast && (
-                  <Box
-                    onClick={(e) => {
-                      e.stopPropagation(); // prevent opening image underneath
-                      handleViewAll();
-                    }}
-                    className={styles.ViewAllBtn}
-                    sx={{
-                      position: "absolute",
-                      inset: 0,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: "rgba(0,0,0,0.5)",
-                      color: "#fff",
-                      fontWeight: 600,
-                      fontSize: 16,
-                      cursor: "pointer",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    View all photos
-                  </Box>
-                )}
-              </Box>
-            );
-          })}
-        </Box>
-      </Box>
-
-      {/* --- Expanded Gallery (View All) --- */}
-      {isViewAll && (
-        <Stack component="section" alignItems="flex-end" sx={{ mt: 3 }}>
-          <Box className="basecolor1 cursor-pointer" onClick={handleHideAll}>
-            Hide All
-          </Box>
-        </Stack>
-      )}
-
-      {isViewAll && (
-        <Box sx={{ mt: 3 }}>
-          <Grid container spacing={"5px"} justifyContent={"center"} className={styles.galleryList}>
-            {images.map((img, idx) => (
-              <Grid item md={3} lg={3} sm={4} xs={4} key={idx}>
+          {/* Small Thumbnails on Right */}
+          <Box className={styles.SmallThumbGrid}>
+            {images.slice(1, !isMobile ? 7 : 4).map((img, idx, arr) => {
+              const isLast = idx === arr.length - 1;
+              return (
                 <Box
+                  key={idx}
+                  className={`${styles.SmallThumb} ${
+                    isLast ? styles.LastThumb : ""
+                  }`}
                   sx={{
                     backgroundImage: `url(${
                       img?.url || "images/hotel-nothumb.png"
@@ -130,19 +79,84 @@ const HotelDrawerGallery = ({ hotel }) => {
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    height: 80,
-                    borderRadius: 2,
+                    borderRadius: "8px",
+                    position: "relative",
                     cursor: "pointer",
                   }}
                   onClick={() => handleOpenImage(img?.url)}
-                />
-              </Grid>
-            ))}
-          </Grid>
+                >
+                  {/* Show 'View all photos' overlay on last image */}
+                  {isLast && (
+                    <Box
+                      onClick={(e) => {
+                        e.stopPropagation(); // prevent opening image underneath
+                        handleViewAll();
+                      }}
+                      className={styles.ViewAllBtn}
+                      sx={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: "rgba(0,0,0,0.5)",
+                        color: "#fff",
+                        fontWeight: 600,
+                        fontSize: 16,
+                        cursor: "pointer",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      View all photos
+                    </Box>
+                  )}
+                </Box>
+              );
+            })}
+          </Box>
         </Box>
-      )}
 
-      {/* --- Popup Image Modal --- */}
+        {/* --- Expanded Gallery (View All) --- */}
+        {isViewAll && (
+          <Stack component="section" alignItems="flex-end" sx={{ mt: 3 }}>
+            <Box className="basecolor1 cursor-pointer" onClick={handleHideAll}>
+              Hide All
+            </Box>
+          </Stack>
+        )}
+
+        {isViewAll && (
+          <Box sx={{ mt: 3 }}>
+            <Grid
+              container
+              spacing={"5px"}
+              justifyContent={"center"}
+              className={styles.galleryList}
+            >
+              {images.map((img, idx) => (
+                <Grid item md={3} lg={3} sm={4} xs={4} key={idx}>
+                  <Box
+                    sx={{
+                      backgroundImage: `url(${
+                        img?.url || "images/hotel-nothumb.png"
+                      })`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                      height: 80,
+                      borderRadius: 2,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleOpenImage(img?.url)}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
+
+        {/* --- Popup Image Modal --- */}
+      </Box>
       <Dialog
         open={Boolean(openImage)}
         onClose={handleCloseImage}
@@ -192,7 +206,7 @@ const HotelDrawerGallery = ({ hotel }) => {
           />
         </Box>
       </Dialog>
-    </Box>
+    </>
   );
 };
 
