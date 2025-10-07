@@ -352,9 +352,9 @@ const PriceSummary = ({ getdata }) => {
                       flightOrder?.tax_currency}
                     {
                       OrderDetail?.amount_calculations
-                        ?.total_amount_plus_markup_and_all_services
+                        ?.total_amount_plus_markup_and_all_services?.toFixed(2)
                     }
-                    {/* {perNight.toFixed(2)} / night */}
+                    {/* {perNight} / night */}
                   </Box>
                 </Box>
               )}
@@ -394,7 +394,7 @@ const PriceSummary = ({ getdata }) => {
                   }
                   {
                     OrderDetail?.amount_calculations
-                      ?.total_amount_plus_markup_and_all_services
+                      ?.total_amount_plus_markup_and_all_services?.toFixed(2)
                   }
                 </Box>
               </Box>
