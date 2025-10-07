@@ -41,6 +41,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
               {forHotel ? "Check-in" : "Departing"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
+            {console.log("getBuilder_departure_date", getBuilder)}
               {forHotel && getBuilder?.departure_date
                 ? new Date(getBuilder?.departure_date).toLocaleDateString(
                     "en-GB",

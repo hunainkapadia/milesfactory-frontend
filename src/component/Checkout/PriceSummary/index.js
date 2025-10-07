@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, Divider, Grid, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
@@ -98,8 +98,8 @@ const PriceSummary = ({ getdata }) => {
           className={styles.Card + " Card white-bg"}
         >
           <Box pb={2}>
-            <h5 fontWeight={"regular"} className="regular mb-0">
-              Price summary
+            <h5 className="bold mb-0">
+              Trip price summary
             </h5>
           </Box>
           <Box
@@ -118,10 +118,23 @@ const PriceSummary = ({ getdata }) => {
                   justifyContent="space-between"
                   gap={4}
                 >
-                  <Box>
-                    {flightOrder?.slices?.[0]?.origin.iata_code} -{" "}
-                    {flightOrder?.slices?.at(0)?.destination.iata_code}, Return
-                    /{" "}
+                  <Box className="bold darkgray f14">
+                    Flight {flightOrder?.slices?.[0]?.origin.iata_code} -{" "}
+                    {flightOrder?.slices?.at(0)?.destination.iata_code} |{" "}
+                    {new Date(
+                      flightOrder?.slices?.[0]?.departing_at
+                    ).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                    })}{" "}
+                    {flightOrder?.slices?.[0]?.arriving_at &&
+                      new Date(
+                        flightOrder?.slices?.[0]?.arriving_at
+                      ).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })}
+                    Return /{" "}
                     {Object.entries(
                       (flightOrder?.passengers || []).reduce(
                         (acc, passenger) => {
@@ -136,14 +149,13 @@ const PriceSummary = ({ getdata }) => {
                       </span>
                     ))}
                   </Box>
-                  <Box>
+                  <Box className="bold darkgray f14" whiteSpace={"nowrap"}>
                     {currencySymbols[flightOrder?.tax_currency] ||
                       flightOrder?.tax_currency}
-                    {Math.round(flightOrder?.base_amount)}
+                    {flightOrder?.base_amount}
                   </Box>
                 </Box>
               )}
-
               {/* Taxes, fees & surcharges row */}
               <Box
                 className={styles.PriceRow + " f12"}
@@ -151,17 +163,13 @@ const PriceSummary = ({ getdata }) => {
                 justifyContent="space-between"
                 gap={4}
               >
-                <Box>Taxes, fees & surcharges</Box>
-                <Box>
+                <Box>Airline fees</Box>
+                <Box whiteSpace={"nowrap"}>
                   {hotelOrder ? (
                     <>
                       {currencySymbols[flightOrder?.tax_currency]}
-                      {Math.round(
-                        Number(
-                          hotelOrder?.rooms?.[0]?.rates?.[0]?.taxes?.taxes?.[0]
-                            ?.amount
-                        ) || ""
-                      )}
+                      {hotelOrder?.rooms?.[0]?.rates?.[0]?.taxes?.taxes?.[0]
+                            ?.amount || ""}
                     </>
                   ) : flightOrder ? (
                     <>
@@ -173,6 +181,75 @@ const PriceSummary = ({ getdata }) => {
                   )}
                 </Box>
               </Box>
+              <Box
+                className={styles.PriceRow + " f12"}
+                display="flex"
+                justifyContent="space-between"
+                gap={4}
+              >
+                <Box>Taxes, fees & surcharges</Box>
+                <Box whiteSpace={"nowrap"}>
+                  {hotelOrder ? (
+                    <>
+                      {currencySymbols[flightOrder?.tax_currency]}
+                      {hotelOrder?.rooms?.[0]?.rates?.[0]?.taxes?.taxes?.[0]
+                            ?.amount || ""}
+                    </>
+                  ) : flightOrder ? (
+                    <>
+                      {currencySymbols[flightOrder?.tax_currency]}
+                      {Math.round(flightOrder?.tax_amount)}
+                    </>
+                  ) : (
+                    "-"
+                  )}
+                </Box>
+              </Box>
+              {OrderDetail?.amount_calculations
+                ?.baggages_total_amount_plus_markup > 0 && (
+                <Box
+                  className={styles.PriceRow + " f12"}
+                  display="flex"
+                  justifyContent="space-between"
+                  gap={4}
+                >
+                  <Box>Extra baggage</Box>
+                  <Box whiteSpace={"nowrap"}>
+                    {currencySymbols[flightOrder?.tax_currency] ||
+                      flightOrder?.tax_currency}
+                    {Math.round(
+                      OrderDetail?.amount_calculations
+                        ?.baggages_total_amount_plus_markup
+                    )}
+                  </Box>
+                </Box>
+              )}
+
+              {/* Markup row */}
+              <Box
+                className={styles.PriceRow + " f12"}
+                display="flex"
+                justifyContent="space-between"
+                gap={4}
+              >
+                <Box>Admin Fee</Box>
+                <Box whiteSpace={"nowrap"}>
+                  {flightOrder?.markup_amount != null ? (
+                    <>
+                      {flightOrder.tax_currency === "GBP"
+                        ? "£"
+                        : flightOrder.tax_currency}
+                      {flightOrder.markup_amount}
+                    </>
+                  ) : (
+                    "-"
+                  )}
+                </Box>
+              </Box>
+              <Box py={2}>
+                <Divider />
+              </Box>
+
               {/* <Box
                 className={styles.PriceRow}
                 display="flex"
@@ -237,48 +314,26 @@ const PriceSummary = ({ getdata }) => {
                 </Box>
               </Box> */}
               {/* Additional baggage row */}
-              {OrderDetail?.amount_calculations
-                ?.baggages_total_amount_plus_markup > 0 && (
-                <Box
-                  className={styles.PriceRow + " f12"}
-                  display="flex"
-                  justifyContent="space-between"
-                  gap={4}
-                >
-                  <Box>Additional Baggage Fee</Box>
-                  <Box>
-                    {currencySymbols[flightOrder?.tax_currency] ||
-                      flightOrder?.tax_currency}
-                    {Math.round(
-                      OrderDetail?.amount_calculations
-                        ?.baggages_total_amount_plus_markup
-                    )}
-                  </Box>
-                </Box>
-              )}
 
-              {/* Markup row */}
-              <Box
-                className={styles.PriceRow + " f12"}
-                display="flex"
-                justifyContent="space-between"
-                gap={4}
-              >
-                <Box>Admin Fee</Box>
-                <Box>
-                  {flightOrder?.markup_amount != null ? (
-                    <>
-                      {flightOrder.tax_currency === "GBP"
-                        ? "£"
-                        : flightOrder.tax_currency}
-                      {Math.round(flightOrder.markup_amount)}
-                    </>
-                  ) : (
-                    "-"
-                  )}
-                </Box>
-              </Box>
               {/* hotel */}
+              {console.log("flightOrder_slices", flightOrder)}
+              <Box className="bold darkgray f14">
+                Stay The {hotelOrder?.name} |{" "}
+                {new Date(hotelOrder?.checkIn).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                })}{" "}
+                -{" "}
+                {new Date(hotelOrder?.checkOut).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                })}{" "}
+                |{" "}
+                {hotelOrder?.rooms[0]?.rates[0]?.adults &&
+                  `${hotelOrder?.rooms[0]?.rates[0]?.adults} adults, `}
+                {hotelOrder?.rooms[0]?.rates[0]?.children &&
+                  `${hotelOrder?.rooms[0]?.rates[0]?.children} children `}
+              </Box>
               {hotelOrder && (
                 <Box
                   className={styles.PriceRow + " f12"}
@@ -290,9 +345,9 @@ const PriceSummary = ({ getdata }) => {
                     {/* {
                       flightOrder?.hotel_order?.selected_hotel_offer?.hotel?.name
                     } */}
-                    Hotel Total Amount
+                    Hotel fees
                   </Box>
-                  <Box>
+                  <Box whiteSpace={"nowrap"}>
                     {currencySymbols[flightOrder?.tax_currency] ||
                       flightOrder?.tax_currency}
                     {
@@ -303,16 +358,34 @@ const PriceSummary = ({ getdata }) => {
                   </Box>
                 </Box>
               )}
+              <Box
+                className={styles.PriceRow + " f12"}
+                display="flex"
+                justifyContent="space-between"
+                gap={4}
+              >
+                <Box>City tax and service fees</Box>
+                <Box whiteSpace={"nowrap"}>
+                  {currencySymbols[flightOrder?.tax_currency] ||
+                    flightOrder?.tax_currency}
+                  {hotelOrder?.rooms[0]?.rates[0]?.taxes?.taxes[0].amount
+                    ? hotelOrder?.rooms[0]?.rates[0]?.taxes?.taxes[0].amount
+                    : "-"}
+                </Box>
+              </Box>
+              <Box py={2}>
+                <Divider />
+              </Box>
               {/* hotel end */}
 
               <Box
-                className={styles.PriceRow + " black exbold f14m"}
+                className={styles.PriceRow + " black exbold "}
                 display={"flex"}
                 justifyContent={"space-between"}
                 gap={4}
               >
-                <Box>Total price</Box>
-                <Box className="mb-0 ">
+                <Box>Total trip price</Box>
+                <Box className="mb-0 " whiteSpace={"nowrap"}>
                   {
                     currencySymbols[
                       OrderDetail?.hotel_order?.payment_currency ||
