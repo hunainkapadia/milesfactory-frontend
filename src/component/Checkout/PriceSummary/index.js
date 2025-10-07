@@ -90,10 +90,10 @@ const PriceSummary = ({ getdata }) => {
         <Box
           mb={3}
           ref={priceSummaryRef}
-          className={styles.Card + " Card white-bg"}
+          className={`${styles.Card} ${styles.SummaryCard} Card white-bg`}
         >
           <Box pb={2}>
-            <h5 className="bold mb-0">Trip price summary</h5>
+            <Typography fontSize={{xs:"14px", md:"16px"}} className="bold mb-0">Trip price summary</Typography>
           </Box>
           <Box
             className={styles.PriceSection + " basecolor"}

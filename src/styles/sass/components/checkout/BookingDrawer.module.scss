@@ -371,6 +371,9 @@
    }
 }
 @include for-mobile-large-screen {
+   .SummaryCard {
+      padding: 10px;
+   }
    .HotelGallerySection .HotelGallery .SmallThumbGrid {
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(1, 1fr);
@@ -456,12 +459,14 @@
 }
 
 // payment
+
 .PriceSection .PriceRow {
    padding: 6px 0px 6px;
    &:last-child {
       border: 0;
       margin-bottom: 0;
    }
+   .PriceRowRight {}
 }
 
 /* In your CSS file or style block */
