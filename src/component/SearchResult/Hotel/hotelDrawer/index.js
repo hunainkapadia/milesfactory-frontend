@@ -54,7 +54,7 @@ const HotelDrawer = ({}) => {
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
-      sx={{zIndex:1}}
+      sx={{ zIndex: 1 }}
     >
       <Box
         className={`${styles.checkoutDrower} ${styles.hotelDrawer}  white-bg`}
@@ -65,7 +65,7 @@ const HotelDrawer = ({}) => {
             component={"header"}
             className={styles.checkoutDrowerHeder}
             py={3}
-            px={3}
+            px={{ md: 3, xs: 2 }}
             display="flex"
             justifyContent="space-between"
             flexDirection={"column"}
@@ -98,7 +98,7 @@ const HotelDrawer = ({}) => {
             {/* Header Section */}
             <Grid
               container
-              px={3}
+              px={{ md: 3, xs: 2 }}
               display="flex"
               alignItems="center"
               justifyContent="space-between"
