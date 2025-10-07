@@ -91,7 +91,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 <Typography className="f12 semibold">Return flight</Typography>
               </Box>
             )}
-            
+
             {PaymentStatus?.is_complete === "yes" &&
             PaymentStatus?.status === "success" ? (
               <Box
@@ -115,9 +115,9 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
           </Box>
           {!orderSuccess && (
             <Box className="cursor-pointer" onClick={handleDeleteCart}>
-              <img  alt="delete" src="/images/delete-icon.svg" />
+              <img alt="delete" src="/images/delete-icon.svg" />
             </Box>
-            )}
+          )}
         </Box>
 
         <Box
@@ -287,13 +287,32 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
             </Stack>
           ) : null}
 
-          <Stack
-            direction="row"
-            spacing={"4px"}
-            alignItems="center"
-            component="section"
-            justifyContent={"space-between"}
-          >
+          <Stack direction="column" spacing={"4px"} component="section">
+            <Stack direction="row" spacing={"4px"} alignItems={"center"}>
+              <Box pt={"2px"}>
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 13 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.5 1.925C7.37 1.925 8.075 2.63 8.075 3.5C8.075 4.37 7.37 5.075 6.5 5.075C5.63 5.075 4.925 4.37 4.925 3.5C4.925 2.63 5.63 1.925 6.5 1.925ZM6.5 8.675C8.7275 8.675 11.075 9.77 11.075 10.25V11.075H1.925V10.25C1.925 9.77 4.2725 8.675 6.5 8.675ZM6.5 0.5C4.8425 0.5 3.5 1.8425 3.5 3.5C3.5 5.1575 4.8425 6.5 6.5 6.5C8.1575 6.5 9.5 5.1575 9.5 3.5C9.5 1.8425 8.1575 0.5 6.5 0.5ZM6.5 7.25C4.4975 7.25 0.5 8.255 0.5 10.25V12.5H12.5V10.25C12.5 8.255 8.5025 7.25 6.5 7.25Z"
+                    fill="black"
+                  />
+                </svg>
+              </Box>
+              {console.log("getItems_00", getItems)}
+              <Stack width={"100%"}>
+                <Typography className="f12 basecolor">
+                  <Typography component={"span"} className="f12 bold basecolor">
+                    No travellers selected:{" "}
+                    {getItems?.raw_data.passengers.length}
+                  </Typography>
+                </Typography>
+              </Stack>
+            </Stack>
             <Stack direction="row" spacing={"4px"} alignItems={"center"}>
               <Box pt={"2px"}>
                 <svg
@@ -308,7 +327,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                     clipRule="evenodd"
                     d="M7.75 2.75V1.5H5.25V2.75H7.75ZM1.5 4V10.875H11.5V4H1.5ZM11.5 2.75C12.1937 2.75 12.75 3.30625 12.75 4V10.875C12.75 11.5688 12.1937 12.125 11.5 12.125H1.5C0.80625 12.125 0.25 11.5688 0.25 10.875L0.25625 4C0.25625 3.30625 0.80625 2.75 1.5 2.75H4V1.5C4 0.80625 4.55625 0.25 5.25 0.25H7.75C8.44375 0.25 9 0.80625 9 1.5V2.75H11.5Z"
                     fill="black"
-                    fillOpacity="0.3"
+                    fillOpacity="1"
                   />
                 </svg>
               </Box>
@@ -351,6 +370,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 </Typography>
               </Stack>
             </Stack>
+            
           </Stack>
         </Box>
         {/* {!validPassengers?.length && (
