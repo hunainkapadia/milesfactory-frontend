@@ -54,7 +54,7 @@ const HotelDrawer = ({}) => {
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
-      sx={{ zIndex: 1 }}
+      
     >
       <Box
         className={`${styles.checkoutDrower} ${styles.hotelDrawer}  white-bg`}

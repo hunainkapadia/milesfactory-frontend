@@ -45,7 +45,7 @@ const HotelDrawerFooter = ({ hotel }) => {
   return (
     <>
       <Divider className={`${styles.Divider} Divider`} />
-      <Box px={3} className={styles.checkoutDrowerFooter} width={"100%"}>
+      <Box px={{ md: 3, xs: 2 }} className={styles.checkoutDrowerFooter} width={"100%"}>
         <Box py={2} display="flex" flexDirection="column">
           {/* Price Row */}
           <Box
