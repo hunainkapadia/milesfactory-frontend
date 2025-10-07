@@ -41,7 +41,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
               {forHotel ? "Check-in" : "Departing"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-            {console.log("getBuilder_departure_date", getBuilder)}
+            
               {forHotel && getBuilder?.departure_date
                 ? new Date(getBuilder?.departure_date).toLocaleDateString(
                     "en-GB",
@@ -102,8 +102,8 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Travellers</Typography>
-            <Typography className="f12 black bold">
+            <Typography whiteSpace={"nowrap"} className="f12">Travellers</Typography>
+            <Typography className="f12 black bold" >
               {(getBuilder?.passengers?.adults ||
                 getBuilder?.passengers?.children?.length > 0 ||
                 getBuilder?.passengers?.infants?.length > 0) && (

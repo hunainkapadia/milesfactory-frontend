@@ -9,6 +9,8 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
   const Addbuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const getBuilder =
     Addbuilder?.silent_function_template?.[0]?.function?.arguments;
+    console.log("Addbuilder", Addbuilder);
+    
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";
