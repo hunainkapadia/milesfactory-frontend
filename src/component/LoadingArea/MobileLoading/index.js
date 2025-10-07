@@ -96,6 +96,7 @@ const functionType = useSelector((state) => state?.sendMessage?.functionType);
           >
             <Typography className="exbold">
               Paid{" . "}
+              {console.log("CartData_tax_currency", CartData)}
               {currencySymbols[CartData?.tax_currency] ||
                 CartData?.tax_currency}
               {Math.round(CartData?.total_price)}

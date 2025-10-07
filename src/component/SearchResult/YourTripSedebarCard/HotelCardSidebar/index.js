@@ -119,7 +119,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           overflow="hidden"
         >
           <img
-            src={`${hotel?.content?.images[0]?.url}`}
+            src={`${hotel?.content?.images[0]?.url || "/images/hotel-nothumb.png"}`}
             alt={hotel.name}
             style={{
               height: "100%",
