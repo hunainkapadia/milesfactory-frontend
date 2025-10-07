@@ -78,12 +78,11 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
     <>
       <Divider className={`${styles.Divider} Divider`} />
       <Box
-        px={3}
-        className={styles.checkoutDrowerFooter + " test11"}
+        className={styles.checkoutDrowerFooter}
         width={"100%"}
       >
         {/* Footer Content */}
-        <Box py={2} display="flex" flexDirection="column">
+        <Box className={styles.Row + " "} py={2} display="flex" flexDirection="column">
           {/* TODO: This will become dynamic based on airline cancellation policy */}
           <Box
             component={"section"}

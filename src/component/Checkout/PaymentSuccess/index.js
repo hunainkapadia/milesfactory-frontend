@@ -133,53 +133,15 @@ const PaymentSuccess = () => {
                 <img src="/images/success-check.svg" />
               </Box>
 
-              {/* for desktop */}
-              <Box display={{ lg: "block", md: "block", xs: "none" }}>
-                <Typography
-                  component={"h2"}
-                  lineHeight={2}
-                  className=""
-                  fontSize={24}
-                >
-                  Congratulations, you booked your flight!
+              <Box>
+                <Typography component={"h2"} lineHeight={2} fontSize={24}>
+                  You’re booked!
+                </Typography>
+                <Typography mb={3}>
+                  Your booking confirmation has been sent to your email. You can view and manage it anytime in Mylz, and reach your airline, train, hotel, or activity provider directly if needed.
                 </Typography>
                 <Typography>
-                  You and the other passengers have received a booking
-                  confirmation – your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">
-                    {orderData?.duffel_order?.booking_reference}
-                  </Typography>
-                  . Use it to view and manage your booking directly on the
-                  airline’s website or app, or to share with anyone who needs
-                  it.
-                </Typography>
-              </Box>
-              {/* for mobile */}
-              <Box display={{ lg: "none", md: "none", xs: "block" }}>
-                <Typography
-                  component={"h2"}
-                  lineHeight={1.5}
-                  className=""
-                  fontSize={24}
-                >
-                  Congratulations,
-                  <br />
-                  you booked your flight!
-                </Typography>
-                <Typography
-                  component={"h2"}
-                  lineHeight={1.5}
-                  className=""
-                  fontSize={24}
-                ></Typography>
-                <Typography>
-                  You and the other passengers have received a booking
-                  confirmation - your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">
-                    {orderData?.duffel_order?.booking_reference}
-                  </Typography>
-                  . Use it to view and manage your booking directly on the
-                  airline’s website or app.
+                  Want to keep planning? Add more products to your Builder - everything stays in sync 💫.
                 </Typography>
               </Box>
 
@@ -191,10 +153,10 @@ const PaymentSuccess = () => {
                 handleRatingChange={handleRatingChange}
                 handleReasonSelect={handleReasonSelect}
               />
-              <InviteEmailSearch
+              {/* <InviteEmailSearch
               inviteSuccess={inviteSuccess}
               orderData={orderData}
-               />
+               /> */}
 
               
             </>
@@ -206,36 +168,15 @@ const PaymentSuccess = () => {
               </Box>
 
               {/* for desktop */}
-              <Box display={{ lg: "block", md: "block", xs: "none" }}>
+              <Box>
                 <Typography component={"h2"} lineHeight={2} fontSize={24}>
-                  Congratulations, your hotel is booked!
+                  You’re booked!
+                </Typography>
+                <Typography mb={3}>
+                  Your booking confirmation has been sent to your email. You can view and manage it anytime in Mylz, and reach your airline, train, hotel, or activity provider directly if needed.
                 </Typography>
                 <Typography>
-                  You and the other guests have received a booking confirmation
-                  – your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">
-                    {orderData?.hotel_order?.booking_reference}
-                  </Typography>
-                  . Use it to view and manage your reservation directly on the
-                  hotel’s website or app, or to share with anyone who needs it.
-                </Typography>
-              </Box>
-
-              {/* for mobile */}
-              <Box display={{ lg: "none", md: "none", xs: "block" }}>
-                <Typography component={"h2"} lineHeight={1.5} fontSize={24}>
-                  Congratulations,
-                  <br />
-                  your hotel is booked!
-                </Typography>
-                <Typography>
-                  You and the other guests have received a booking confirmation
-                  – your booking reference is{" "}
-                  <Typography component={"span"} className="exbold">
-                    {orderData?.hotel_order?.booking_reference}
-                  </Typography>
-                  . Use it to view and manage your reservation directly on the
-                  hotel’s website or app.
+                  Want to keep planning? Add more products to your Builder - everything stays in sync 💫.
                 </Typography>
               </Box>
 
@@ -247,10 +188,10 @@ const PaymentSuccess = () => {
                 handleRatingChange={handleRatingChange}
                 handleReasonSelect={handleReasonSelect}
               />
-              <InviteEmailSearch
+              {/* <InviteEmailSearch
               inviteSuccess={inviteSuccess}
               orderData={orderData}
-               />
+               /> */}
             </>
           ) : (
             <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>

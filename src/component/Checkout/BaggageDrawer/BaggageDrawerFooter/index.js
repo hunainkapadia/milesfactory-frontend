@@ -49,7 +49,7 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
           {/* Footer Content */}
           {/* Price Row */}
           <Box
-            className={styles.priceRow + " aaa"}
+            className={`${styles.priceRow} ${styles.Row}`}
             display="flex"
             justifyContent={"space-between"}
             width={"100%"}
@@ -90,7 +90,6 @@ import { addBaggage, removeBaggage, setBaggageDrawer } from "@/src/store/slices/
             >
               {/* Close Button */}
               <Box
-                
                 alignItems="center"
                 gap={2}
                 className="gray f14"

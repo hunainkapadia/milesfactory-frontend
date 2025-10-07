@@ -354,6 +354,9 @@
       right: 0;
       width: 100%;
       background-color: $white;
+      .Row {
+         padding: 16px 24px;
+      }
       
    }
 .LayoverSection {
@@ -394,6 +397,9 @@
    }
    
    .checkoutDrower {
+      .checkoutDrowerFooter > .Row {
+         padding: 16px 18px;
+      }
       .checkoutDrowerHeder {
          padding: 18px 18px 0;
          gap: 16px;

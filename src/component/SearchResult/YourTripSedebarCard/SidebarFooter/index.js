@@ -41,6 +41,9 @@ const SidebarFooter = () => {
   // Get all hotels from cart items
   const CartHotels =
     CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
+
+    console.log("CartData_00", );
+    
     
 
 
@@ -100,18 +103,27 @@ const SidebarFooter = () => {
         {/* Flight footer */}
         {/* Flight footer */}
             <Box>
-              <h4 className="exbold mb-0">
                 {CartData?.total_price ? (
                   <>
+                  <Typography className="gray f12">total</Typography>
+              <h4 className="exbold mb-0">
                     {currencySymbols[CartData?.items?.[0]?.currency] ||
                       CartData?.items?.[0]?.currency}
                     {Math.round(CartTotalPrice)}
+              </h4>
                   </>
                 ) : (
-                  "-"
+                  <>
+                  <h4 className="exbold mb-0">
+                    -
+                  </h4>
+                  <Typography className="f12 black-50">
+                    No product selected
+                  </Typography>
+
+                  </>
                 )}
-              </h4>
-              <Typography className="gray f12">total</Typography>
+              
             </Box>
             {CartData?.items?.length > 0 && (
               <Button 

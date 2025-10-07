@@ -299,6 +299,7 @@ const PassengerProfileDrawer = () => {
               px={{ lg: 3, md: 3, xs: 2 }}
               display="flex"
               flexDirection="column"
+              className={styles.Row}
             >
               <Box display="flex" justifyContent={"space-between"} gap={3}>
                 <Box>

@@ -727,7 +727,7 @@ const PassengerDrawerForm = () => {
             {/* Footer */}
             <Box className={styles.passengerDrawerFooter}>
               <Divider />
-              <Box py={1} px={3} display="flex" flexDirection="column">
+              <Box className={styles.Row} py={1} px={3} display="flex" flexDirection="column">
                 <Box
                   display="flex"
                   justifyContent="flex-end"
