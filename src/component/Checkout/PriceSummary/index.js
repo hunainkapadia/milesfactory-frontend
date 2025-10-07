@@ -230,7 +230,7 @@ const PriceSummary = ({ getdata }) => {
                       )}
                     </Box>
                   </Box>
-                  <Box py={2}>
+                  <Box py={{md:2, xs:"12px"}}>
                     <Divider />
                   </Box>
                 </>
@@ -363,7 +363,7 @@ const PriceSummary = ({ getdata }) => {
                         : "-"}
                     </Box>
                   </Box>
-                  <Box py={2}>
+                  <Box py={{md:2, xs:"12px"}}>
                     <Divider />
                   </Box>
                 </>
@@ -397,7 +397,7 @@ const PriceSummary = ({ getdata }) => {
           <Box display={"flex"} justifyContent={"flex-end"}>
             <Button
               disabled={paymentSuccess}
-              className={`btn btn-primary btn-md btn-round sm `}
+              className={`${styles.priceBtn} btn btn-primary btn-md btn-round sm `}
               onClick={handlePaymentDrawer}
             >
               <Box display="flex" alignItems="center" gap={1}>

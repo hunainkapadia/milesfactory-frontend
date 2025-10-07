@@ -1,7 +1,7 @@
 @import "../../variables";
 
 
-
+.priceBtn {border-radius: 16px !important;}
 .BaggageBox:not(:last-child) {
    margin-bottom: 24px;
 }
@@ -388,9 +388,7 @@
           flex: 1;
       }
    }
-   .galleryList {
-      display: block;
-   }
+   
    .includeWraper {
       
    }
