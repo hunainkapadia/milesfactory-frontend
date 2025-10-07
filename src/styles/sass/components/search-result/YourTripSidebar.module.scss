@@ -29,19 +29,16 @@
   
 }
 .flightOfferCard {
-  
+  background: rgba(0, 196, 204, 0.04);
+  border: 2.5px solid rgba(197, 218, 222, 0.4);
+  border-radius: 12px;
   padding: 14px 12px;
-  gap: 12px;
-  
-  
-  border-radius: 8px;
-  
-  background: rgba(0, 196, 204, 0.05);
-  border: 1px solid rgba(197, 218, 222, 0.4);
+  gap: 16px;
+  &.hotelOfferCard {
 
-
-  
+  }
 }
+
 
 
 

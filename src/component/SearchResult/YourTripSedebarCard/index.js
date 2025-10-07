@@ -209,7 +209,7 @@ const builderType = BuilderArguments?.trip_components?.[0] || null;
         {/* filter row */}
 
         {/*   */}
-        
+
         {(!CartDetails?.items?.length ||
           CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
           <SidebarTripDetails
@@ -235,7 +235,6 @@ const builderType = BuilderArguments?.trip_components?.[0] || null;
                 <>
                   {getItems?.raw_data?.slices?.map((slice, index) => (
                     <>
-                      
                       <Box mb={2}>
                         {index === 0 ? (
                           <>
@@ -250,14 +249,20 @@ const builderType = BuilderArguments?.trip_components?.[0] || null;
                                   " btn btn-xs btn-black "
                                 }
                               >
-                                Departing |{" "}
-                                {new Date(
-                                  BuilderArguments?.departure_date
-                                ).toLocaleDateString("en-GB", {
-                                  weekday: "short",
-                                  day: "2-digit",
-                                  month: "short",
-                                })}
+                                Departing
+                                {BuilderArguments?.departure_date && (
+                                  <>
+                                    {" "}
+                                    |{" "}
+                                    {new Date(
+                                      BuilderArguments?.departure_date
+                                    ).toLocaleDateString("en-GB", {
+                                      weekday: "short",
+                                      day: "2-digit",
+                                      month: "short",
+                                    })}
+                                  </>
+                                )}
                               </Typography>
                               <Typography className="f12 bold">
                                 {BuilderArguments?.from_destination} -{" "}
@@ -278,14 +283,20 @@ const builderType = BuilderArguments?.trip_components?.[0] || null;
                                   " btn btn-xs btn-black"
                                 }
                               >
-                                Return |{" "}
-                                {new Date(
-                                  BuilderArguments?.return_date
-                                ).toLocaleDateString("en-GB", {
-                                  weekday: "short",
-                                  day: "2-digit",
-                                  month: "short",
-                                })}
+                                Return
+                                {BuilderArguments?.return_date && (
+                                  <>
+                                    {" "}
+                                    |{" "}
+                                    {new Date(
+                                      BuilderArguments?.return_date
+                                    ).toLocaleDateString("en-GB", {
+                                      weekday: "short",
+                                      day: "2-digit",
+                                      month: "short",
+                                    })}
+                                  </>
+                                )}
                               </Typography>
                               <Typography className="f12 bold">
                                 {BuilderArguments?.to_destination} -{" "}
@@ -453,8 +464,7 @@ const builderType = BuilderArguments?.trip_components?.[0] || null;
         {/*  */}
       </Box>
       {!isMobile && <SidebarFooter />}
-      
-      
+
       {/* Extra Info bottom */}
 
       {/* <Box

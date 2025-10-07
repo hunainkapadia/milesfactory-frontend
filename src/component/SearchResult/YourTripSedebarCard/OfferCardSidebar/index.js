@@ -91,36 +91,33 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 <Typography className="f12 semibold">Return flight</Typography>
               </Box>
             )}
-            {!orderSuccess && (
-              <FontAwesomeIcon
-                className="basecolor1-50"
-                cursor="pointer"
-                onClick={handleDeleteCart}
-                icon={faClose}
-                fontSize={20}
-              />
-            )}
+            
+            {PaymentStatus?.is_complete === "yes" &&
+            PaymentStatus?.status === "success" ? (
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                className={TripStyles.BookedLabel + " chip chipPrimary sm"}
+              >
+                Booked
+              </Box>
+            ) : CartOffer ? (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                className={TripStyles.SelectedLabel + " chip chipYellow sm"}
+              >
+                Selected
+              </Box>
+            ) : null}
           </Box>
-          {PaymentStatus?.is_complete === "yes" &&
-          PaymentStatus?.status === "success" ? (
-            <Box
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              className={TripStyles.BookedLabel + " chip chipPrimary sm"}
-            >
-              Booked
+          {!orderSuccess && (
+            <Box className="cursor-pointer" onClick={handleDeleteCart}>
+              <img  alt="delete" src="/images/delete-icon.svg" />
             </Box>
-          ) : CartOffer ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              className={TripStyles.SelectedLabel + " chip chipYellow sm"}
-            >
-              Selected
-            </Box>
-          ) : null}
+            )}
         </Box>
 
         <Box

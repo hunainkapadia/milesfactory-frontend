@@ -84,16 +84,21 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
             <Typography
               className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
             >
-              Departure |{" "}
-              {getBuilder?.departure_date &&
-                new Date(getBuilder?.departure_date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  }
-                )}
+              Departure
+              {getBuilder?.departure_date && (
+                <>
+                  {" "}
+                  |{" "}
+                  {new Date(getBuilder?.departure_date).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                    }
+                  )}
+                </>
+              )}
             </Typography>
             <Typography className="f12 bold">
               {formatJourneyTextOutbound(getBuilder)}
@@ -189,13 +194,21 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
               <Typography
                 className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
               >
-                Return |{" "}
-                {getBuilder?.return_date && // This is the condition
-                  new Date(getBuilder.return_date).toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  })}
+                Return
+                {getBuilder?.return_date && ( // This is the condition
+                  <>
+                    {" "}
+                    |{" "}
+                    {new Date(getBuilder.return_date).toLocaleDateString(
+                      "en-GB",
+                      {
+                        weekday: "short",
+                        day: "2-digit",
+                        month: "short",
+                      }
+                    )}
+                  </>
+                )}
               </Typography>
               <Typography className="f12 bold">
                 {formatJourneyTextReturn(getBuilder)}
@@ -214,7 +227,7 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
       )}
       {builderType == "hotel" && (
         <>
-          <BuilderHelpingCard getBuilder={getBuilder} forHotel/>
+          <BuilderHelpingCard getBuilder={getBuilder} forHotel />
         </>
       )}
     </>
