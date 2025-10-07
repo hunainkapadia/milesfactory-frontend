@@ -1991,7 +1991,9 @@ body {
     text-transform: capitalize;
   }
 }
-
+ .MuiDrawer-paper hr {
+  border-top: solid 1px $lightgray4 !important;
+ }
 hr {
   margin: 20px 0;
   border-color: $lightgray4 !important;
