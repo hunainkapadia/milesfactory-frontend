@@ -17,7 +17,7 @@ const PassengerProfileHeader = ({
    const selectPassenger = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger
   );
-  console.log("selectPassenger_tab", selectPassenger);
+  
   
   return (
     <Box
@@ -90,7 +90,7 @@ const PassengerProfileHeader = ({
             const isActive = tabValue === index;
             const isFilled = filledPassengerUUIDs?.includes(passenger.uuid);
 
-            console.log("passenger_type", passenger)
+            
 
             return (
               <Tab

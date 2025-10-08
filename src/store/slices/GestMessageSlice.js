@@ -52,7 +52,7 @@ const GetMessagesSlice = createSlice({
       state.messages.push(action.payload);
     },
     setAllFlightGetApi: (state, action) => {
-      console.log("setAllFlightGetApi_action", action);
+      
       
       state.allFlightSearchResults = action.payload;
     },

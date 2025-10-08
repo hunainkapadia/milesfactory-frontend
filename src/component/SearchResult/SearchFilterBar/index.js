@@ -23,7 +23,7 @@ const SearchFilterBar = () => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  console.log("SearchHistory00", SearchHistory?.hotel);
+  
   
   const dispatch = useDispatch();
   //   for selct flight detail
@@ -236,14 +236,16 @@ const SearchFilterBar = () => {
 
                 {/* 🔹 Static Destination + Dates + Passengers */}
                 <Box className={styles.Header2 + " aaa"}>
-                  <Box mb={"2px"}>
-                    <Typography
-                      className="bold black"
-                      sx={{ fontSize: { md: "12px", xs: "10px" } }}
-                    >
-                      {SearchHistory?.hotel?.to_destination}
-                    </Typography>
-                  </Box>
+                  {SearchHistory?.hotel?.to_destination && (
+                    <Box mb={"2px"}>
+                      <Typography
+                        className="bold black"
+                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
+                      >
+                        {SearchHistory?.hotel?.to_destination}
+                      </Typography>
+                    </Box>
+                  )}
 
                   <Box
                     mb={"3px"}

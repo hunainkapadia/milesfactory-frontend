@@ -115,7 +115,7 @@ const TravelForm = () => {
 
   const handleTripType =(e)=> {
     const value = e.target.value;
-    console.log("value_00", value);
+    
     setTripType(value)
     
   }

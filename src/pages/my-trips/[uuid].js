@@ -30,7 +30,7 @@ const TripDetailPage = () => {
   
   
   const tripDetail = useSelector((state) => state?.base?.TripDetailData);
-  console.log("tripDetailuuid_000", tripDetail);
+  
   const flightOffer = tripDetail?.flight_order?.selected_offer;
   const hotelOffer = tripDetail?.hotel_order.selected_hotel_offer.hotel
   
@@ -51,7 +51,7 @@ const TripDetailPage = () => {
 
   // Extract useful data
   
-  console.log("tripDetail_00", tripDetail);
+  
 
   
   return (

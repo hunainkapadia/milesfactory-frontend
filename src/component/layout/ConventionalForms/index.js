@@ -29,23 +29,11 @@ const ConventionalForms = () => {
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
 
   const handleSearch = () => {
-    console.log("Travel search:", {
-      origin,
-      destination,
-      dateRange,
-      tripClass,
-    });
+    
   };
 
   const handleHotelSearch = () => {
-    console.log("Hotel search:", {
-      location,
-      checkIn,
-      checkOut,
-      travellers,
-      roomType,
-      priceRange,
-    });
+    
   };
   const tabItems = [
     {

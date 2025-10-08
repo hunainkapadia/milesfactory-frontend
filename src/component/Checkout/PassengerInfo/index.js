@@ -44,7 +44,7 @@ const PassengerInfo = ({ getdata }) => {
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-  console.log("passengerPofile", passengerPofile);
+  
   
 const searchType = useSelector((state) => 
     state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
@@ -67,7 +67,7 @@ const searchType = useSelector((state) =>
       value: passenger.type,
     });
 
-    console.log("passengerPofile before fetch:", passengerPofile?.length);
+    
     //  Get updated passenger profile after API call
 
     //  If saved profiles exist → open profile drawer
@@ -100,8 +100,8 @@ const searchType = useSelector((state) =>
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
-  console.log("filledPassengerUUIDs", filledPassengerUUIDs);
-  console.log("filledPassengerUUIDs_getdata", getdata);
+  
+  
   
   
 
@@ -163,7 +163,7 @@ const searchType = useSelector((state) =>
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-            console.log("passenger_profile", filledPassengerUUIDs)
+            
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
                 <PassengersCard

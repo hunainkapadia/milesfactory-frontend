@@ -11,7 +11,7 @@ const AppleLoginButton = ({ label = "Sign in with Apple" }) => {
   const dispatch = useDispatch();
   const [appleSdkLoaded, setAppleSdkLoaded] = useState(false);
 
-  console.log("appleSdkLoaded", appleSdkLoaded);
+  
   
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const AppleLoginButton = ({ label = "Sign in with Apple" }) => {
   }, [appleSdkLoaded]);
 
   const handleAppleLogin = async () => {
-     console.log("Trying AppleID.auth.signIn...");
+     
      if (!window.AppleID) {
         console.error("Apple SDK not loaded yet");
         return;
@@ -38,7 +38,7 @@ const AppleLoginButton = ({ label = "Sign in with Apple" }) => {
    try {
       
       const response = await window.AppleID.auth.signIn();
-      console.log("window_AppleID", response);
+      
       // dispatch(LoginWithApple(response.authorization.code));
     } catch (err) {
       console.error("Apple login failed:", err);

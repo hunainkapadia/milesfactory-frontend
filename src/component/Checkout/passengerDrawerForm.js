@@ -50,7 +50,6 @@ const PassengerDrawerForm = () => {
   const [nationality, setNationality] = useState(null);
 
   const countries = useSelector((state) => state.passengerDrawer.countries);
-  console.log("countries_00", countries);
   
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
@@ -67,8 +66,8 @@ const PassengerDrawerForm = () => {
   const PassengersUuID = useSelector(
     (state) => state.passengerDrawer.PassengerUUID
   );
-  console.log("isFirstPassenger", PassengersUuID);
-  console.log("GetViewPassengers", GetViewPassengers);
+  
+  
   
 
   const formError = useSelector(
@@ -94,7 +93,7 @@ const PassengerDrawerForm = () => {
   const PassengerType = useSelector(
     (state) => state.passengerDrawer.PassengerType
   );
-  console.log("PassengerType", PassengerType);
+  
   
 
   const PassengerAge = useSelector(
@@ -218,7 +217,7 @@ const PassengerDrawerForm = () => {
   const selectPassenger = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger
   );
-  console.log("CartType", CartType);
+  
 
       
       
@@ -557,7 +556,7 @@ const PassengerDrawerForm = () => {
                   <FormLabel className="bold formLabel">
                     Date of Birth
                   </FormLabel>
-                  {console.log("dayjs_date", born_on)}
+                  
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       className="formControl Calendar"

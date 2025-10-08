@@ -174,10 +174,7 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                           </Stack>
                         )}
                         {/* Amenities (dummy icons, still dynamic if mapped later) */}
-                        {console.log(
-                          "hotel_detail",
-                          hotelOffer?.content?.images
-                        )}
+                        
                         {hotelOffer?.content?.images && (
                           <Stack>
                             <Typography

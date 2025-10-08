@@ -11,10 +11,9 @@ import { setRoomDrawer, setSelectedhotelCode, setSelectedhotelKey } from "@/src/
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import utility
 
 const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
-   console.log("selectedRateKey", selectedRateKey);
-   console.log("hotelCode", hotel.code);
-
    
+   
+
   const dispatch = useDispatch();
   const selectedhotelkey = useSelector(
     (state) => state.hotel?.selectedhotelKey
@@ -22,7 +21,11 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
   const selectedRoom = useSelector(
     (state) => state.hotel?.selectedRoom
   );
-  console.log("selectedRoom", selectedRoom?.total_netamount_with_markup);
+  const selectedRoom2 = useSelector(
+    (state) => state.hotel
+  );
+  
+  console.log("currency_test", hotel?.currency)
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
@@ -73,7 +76,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
               {selectedRoom?.total_netamount_with_markup ? (
                 <>
                   <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                     {currencySymbols[hotel?.currency]}
+                    {currencySymbols[hotel?.currency]}
                     {Math.round(selectedRoom?.total_netamount_with_markup)}{" "}
                     total
                   </h4>

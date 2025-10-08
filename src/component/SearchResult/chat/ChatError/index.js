@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 const ChatError = (error) => {
-   console.log("error_0001", error?.error);
+   
    
   return (
     <>

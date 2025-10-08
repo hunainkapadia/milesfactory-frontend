@@ -49,7 +49,7 @@ const PriceSummary = ({ getdata }) => {
   const flightOrder = OrderDetail?.flight_order?.selected_offer;
   const hotelOrder = OrderDetail?.hotel_order?.selected_hotel_offer?.hotel;
 
-  console.log("flightOrder_22", OrderDetail?.amount_calculations);
+  
   // hotelOrder.hotel.rooms[0].rates[0].taxes.taxes[0].amount || {}
 
   // const flightOrder = useSelector((state) => state.booking.flightOrder); //from flight
@@ -302,7 +302,7 @@ const PriceSummary = ({ getdata }) => {
               {/* Additional baggage row */}
 
               {/* hotel */}
-              {console.log("flightOrder_slices", flightOrder)}
+              
               {hotelOrder && (
                 <>
                   <Box className="bold darkgray f14">

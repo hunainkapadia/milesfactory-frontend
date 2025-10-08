@@ -4,7 +4,7 @@ import TripStyles from "@/src/styles/sass/components/search-result/YourTripSideb
 const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
 
 
-  console.log("getBuilder_to_destination", getBuilder);
+  
   
   return (
     <>

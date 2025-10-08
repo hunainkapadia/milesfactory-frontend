@@ -311,7 +311,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                   />
                 </svg>
               </Box>
-              {console.log("getItems_00", getItems)}
+              
               <Stack width={"100%"}>
                 <Typography className="f12 basecolor">
                   <Typography component={"span"} className="f12 bold basecolor">
