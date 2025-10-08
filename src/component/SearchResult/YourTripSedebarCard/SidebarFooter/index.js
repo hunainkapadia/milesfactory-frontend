@@ -21,13 +21,13 @@ import { useEffect } from "react";
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-  console.log("orderSuccess", orderSuccess);
+  console.log("orderSuccess", orderSuccess?.flight_order);
 
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  console.log("allPassengerFill", allPassengerFill);
+  console.log("CartData_011", CartData?.items);
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
@@ -96,7 +96,13 @@ const SidebarFooter = () => {
         {/* Flight footer */}
         {/* Flight footer */}
         <Box>
-          {CartData?.total_price ? (
+          {(orderSuccess?.flight_order && !orderSuccess?.hotel_order) ||
+          (!orderSuccess?.flight_order && orderSuccess?.hotel_order) ? (
+            <>
+              <h4 className="exbold mb-0">-</h4>
+              <Typography className="f12 black-50">Add more plans</Typography>
+            </>
+          ) : CartData?.total_price ? (
             <>
               <Typography className="gray f12">total</Typography>
               <h4 className="exbold mb-0">
