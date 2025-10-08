@@ -11,7 +11,7 @@ import IncludedTooltips from "../../HotelCard/IncludedTooltips";
 const HotelCardSidebar = ({ hotel, Carduuid }) => {
   // Static mock data
 
-  console.log("Carduuidhotel_000", Carduuid);
+  
   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const isloading = useSelector((state) => state?.booking?.isLoading);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
@@ -39,7 +39,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
       dispatch(setHotelDrawer(true));
     };
 
-    console.log("cart_hotel", hotel);
+    
     
     
   
@@ -142,7 +142,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
 
         {/* Hotel Info */}
         <Stack justifyContent={"center"} gap={"3px"}>
-          {console.log("hotel_sidebar", hotel)}
+          
           <Typography className="f12 bold">
             {hotel?.rooms[0]?.rates[0]?.adults &&
               `${hotel?.rooms[0]?.rates[0]?.adults} adults, `}
@@ -164,7 +164,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
         </Stack>
       </Stack>
       <Stack alignItems={"center"} flexDirection={"row"} gap={"12px"}>
-        {console.log("hotel_sidebar", hotel)}
+        
         <Box>
           <svg
             width="14"

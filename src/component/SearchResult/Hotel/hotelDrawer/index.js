@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 import HotelDrawerFooter from "./HotelDrawerFooter";
 import { HOTEL_IMAGE_BASE_URL } from "@/src/hooks/Hooks";
 import HotelDrawerGallery from "./HotelDrawerGallery";
-const HotelDrawer = ({}) => {
+const HotelDrawer = ({hotelOffer}) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
     dispatch(setHotelDrawer(false)); //setSelectFlightKey empty then close drawer
@@ -26,7 +26,7 @@ const HotelDrawer = ({}) => {
   const isDrawer = useSelector((state) => state.booking.hotelDrawer);
   const hotel = useSelector((state) => state?.hotel?.singlehotel);  
 
-  console.log("single_hotel", hotel?.content);
+  
   
 
   // Extract stars (e.g. "4 STARS" → 4.0 rating)
@@ -223,7 +223,7 @@ const HotelDrawer = ({}) => {
                       </Stack>
                     )}
                     {/* Amenities (dummy icons, still dynamic if mapped later) */}
-                    {console.log("hotel_detail", hotel?.content?.images)}
+                    
                     {hotel?.content?.images && (
                       <Stack>
                         <Typography

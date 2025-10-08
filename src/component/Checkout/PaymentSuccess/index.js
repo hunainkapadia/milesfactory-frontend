@@ -27,11 +27,11 @@ const PaymentSuccess = () => {
   const [scrollRef, scrollToRef] = useScrollToRef();
   // getting order data refrens and other
   const orderData = useSelector((state) => state?.payment?.OrderData);
-  console.log("orderData_test", orderData?.hotel_order?.uuid);
+  
 
   // getting payment status
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
-  console.log("PaymentStatus", PaymentStatus);
+  
 
   useEffect(() => {
     registerScrollFunction(scrollToRef);

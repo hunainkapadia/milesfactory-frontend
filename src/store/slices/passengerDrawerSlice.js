@@ -198,7 +198,7 @@ export const PassengerForm = (offerId) => (dispatch, getState) => {
       const OrderUUId = response?.data?.order_uuid || null;
       dispatch(setOrderUuid(OrderUUId));
       dispatch(setGenericOrderUuid(response.data.generic_order_uuid))
-      console.log("generic_order_uuid", response.data.generic_order_uuid);
+      
       
       // dispatch(setIsPassengerflow(true))
       dispatch(
@@ -273,7 +273,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       dispatch(setPassFormData(formData));
       dispatch(markPassengerAsFilled(passengerUuid));
 
-      console.log("pass_profiel_formData", formData);
+      
       dispatch(setSelectPassProfile(null));
       
 
@@ -306,7 +306,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       
     })
     .finally(() => {
-      console.log("[✔] Finished");
+      
       dispatch(setIsFormLoading(false));
     });
 };
@@ -318,7 +318,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const getFillPass = state.passengerDrawer.allPassengerFill;
   const addNewPassactive = state.passengerDrawer.addNewPassactive;
-  console.log("addNewPassactive", addNewPassactive);
+  
   
   
   
@@ -351,7 +351,7 @@ export const getPassPofile = () => (dispatch, getState) => {
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {
-      console.log("profile_res", profile_res);
+      
       
       dispatch(ViewPassengers());
       dispatch(setPassProfile(profile_res.data))

@@ -138,7 +138,7 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.isPassengerLoading
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
-  console.log("aiMessage_hotel", aiMessage?.ai?.response?.error)
+  
   return (
     <Box
       ref={aiboxRef}

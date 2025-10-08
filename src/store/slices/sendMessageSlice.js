@@ -119,7 +119,7 @@ const sendMessageSlice = createSlice({
       state.pollingComplete = action.payload;
     },
     setisPolling: (state, action) => {
-      //console.log("action111", action);
+      
 
       state.isPolling = action.payload;
     },
@@ -171,7 +171,7 @@ const sendMessageSlice = createSlice({
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
-      //console.log("action_history", action);
+      
 
       state.SearchHistorySend = action.payload;
     },
@@ -323,7 +323,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   if (isComplete === true) {
                     clearInterval(interval);
                     api.get(allFlightSearchApi).then((flightRes) => {
-                      console.log("flightRes", flightRes);
+                      
                       if (flightRes?.data?.count === 0 && Array.isArray(flightRes?.data?.offers) && flightRes?.data?.offers.length === 0) {
                         dispatch(setMessage({ ai: "isNotFound" }));
                       }
@@ -359,16 +359,16 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
           const HotelArgument =
             response?.silent_function_template?.[0]?.function?.arguments || {};
-          console.log("HotelArgument", HotelArgument);
+          
 
           dispatch(setSearchHistorySend({ hotel: HotelArgument }));
-          console.log("hotelSearchApi (raw)", hotelSearchApi);
+          
 
           if (hotelSearchApi) {
             // Static fix: replace "dubai" with "dxb"
             // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
 
-            // console.log("hotelSearchApi (fixed)", finalUrl);
+            
 
             api
               .get(hotelSearchApi)
@@ -387,10 +387,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 }
               })
               .catch((err) => {
-  // console.error("Error fetching hotel results", err.response.data);
-  dispatch(setMessage({ ai: { response: err?.response?.data } }));
-});
-
+                console.error(
+                  "Error fetching hotel results",
+                  err.response.data
+                );
+                
+                dispatch(setMessage({ ai: { response: err.response.data } }));
+              });
           }
         }
       } else {
@@ -418,13 +421,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 // close send messge
 
 // export const createThread = () => (dispatch) => {
-//   //console.log("thread_uuid");
+
 
 //   api
 //     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
 //     .then((thread_res) => {
 //       const uuid = thread_res.data.uuid;
-//       //console.log("thread_response", uuid);
+
 //       sessionStorage.setItem("chat_thread_uuid", uuid);
 //       dispatch(setThreadUuid(uuid));
 //       dispatch(setThreadUUIDsend(uuid));
@@ -521,7 +524,7 @@ export const loadNextFlights = () => (dispatch, getState) => {
 
   dispatch(setLoading(true));
 
-  // console.log("nextPageUrl", nextPageUrl);
+  
   api
     .get(nextPageUrl)
     .then((res) => {

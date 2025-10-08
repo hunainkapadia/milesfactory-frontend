@@ -160,7 +160,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
   try {
     // delay before API call (500ms = 0.5s)
     const res = await api.post(`/api/v1/cart/add`, params);
-    console.log("cart_res", res);
+    
     
     dispatch(setIsLoadingSelect(false));
     dispatch(setAddCart(res.data));
@@ -217,17 +217,17 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
   try {
     const res = await api.get(apiUrl);
     dispatch(setGetCartDetail(res.data));
-    console.log(res);
+    
     
     const CartOfferDetail = res?.data;
     dispatch(setCartOffer(CartOfferDetail))
-    console.log("CartOfferDetail", CartOfferDetail);
+    
     
     const cartItems = CartOfferDetail.items || [];
     const hasFlight = cartItems.some(item => item.offer_type === "flight");
     const hasHotel = cartItems.some(item => item.offer_type === "hotel");
-    console.log("cartitems_check", cartItems);
-    console.log("cartitems_has", hasFlight, hasFlight);
+    
+    
     
     if (hasFlight && hasHotel) {
       dispatch(setCartType("all"))

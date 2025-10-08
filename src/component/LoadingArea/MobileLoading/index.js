@@ -53,7 +53,7 @@ const MobileLoading = () => {
 
   const CartType = useSelector((state) => state.booking.cartType);
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
-  console.log("CartTotalPrice", CartTotalPrice);
+
 
   const handleBookFlight = () => {
     dispatch(setIsBuilderDialog(false));
@@ -120,7 +120,7 @@ const MobileLoading = () => {
             >
               <Typography className="exbold">
                 Paid{" . "}
-                {console.log("CartData_tax_currency", CartData)}
+                
                 {currencySymbols[CartData?.tax_currency] ||
                   CartData?.tax_currency}
                 {Math.round(CartData?.total_price)}

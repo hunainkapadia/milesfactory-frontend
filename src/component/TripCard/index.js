@@ -16,7 +16,7 @@ const TripCard = ({ tripData }) => {
 
   
   
-  console.log("tripData_00", tripData);
+  
   const slices = forFlight?.slices || [];
   const firstSeg = slices[0]?.segments?.[0];
   const isRoundTrip = slices.length > 1;
@@ -27,7 +27,7 @@ const TripCard = ({ tripData }) => {
   }`;
   const flightLogo = forFlight?.owner?.logo_symbol_url || "/default-airline-logo.png";
   const hotelLogo =  forHotel?.hotel.content?.images[0]?.url || "/images/hotel-nothumb.png";
-  console.log("hotelLogo", hotelLogo);
+  
   
 
   const departureDate = new Date(firstSeg?.departing_at).toDateString();

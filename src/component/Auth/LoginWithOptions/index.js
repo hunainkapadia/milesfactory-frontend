@@ -58,7 +58,6 @@ const LoginWithOptions = ({ options }) => {
           const accessToken = response.authResponse.accessToken;
           dispatch(LoginWithFacebook(accessToken));
         } else {
-          console.log("User cancelled Facebook login or did not authorize.");
         }
       },
       { scope: "email,public_profile" }

@@ -21,13 +21,13 @@ import { useEffect } from "react";
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-  console.log("orderSuccess", orderSuccess?.flight_order);
+  
 
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  console.log("CartData_011", CartData?.items);
+  
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
@@ -36,7 +36,7 @@ const SidebarFooter = () => {
       state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
   const CartType = useSelector((state) => state.booking.cartType);
-  console.log("CartType_0", CartType);
+  
 
   // Get all flights from cart items
   const CartFlights =
@@ -46,7 +46,7 @@ const SidebarFooter = () => {
   const CartHotels =
     CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
 
-  console.log("CartData_00");
+  
 
   // For displaying in footer, just take the first matching item
   const CartFlight = CartFlights[0];

@@ -56,9 +56,7 @@ const UserPopup = (isChat) => {
   const currentUser = useSelector((state) => state.base?.currentUser);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-  const loginState = useSelector((state) => state?.login?.loginState);
-  console.log("loginState_0", loginState);
-  
+  const loginState = useSelector((state) => state?.login?.loginState);  
   
   return (
     <>

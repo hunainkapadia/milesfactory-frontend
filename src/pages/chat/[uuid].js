@@ -147,7 +147,7 @@ const ChatByUUID = () => {
   const flightDetail = useSelector((state) => state.booking.flightDetail);
 
   const currentUser = useSelector((state) => state.base?.currentUser);
-  console.log("currentUser_uuid", currentUser);
+  
   
   
   useEffect(() => {
@@ -196,7 +196,7 @@ const ChatByUUID = () => {
               <Grid container width={"100%"} sx={{ margin: 0 }}>
                 <Grid
                   className={styles.ChatBodyLeft}
-                  item
+                  
                   md={7.3}
                   lg={7.3}
                   xs={12}

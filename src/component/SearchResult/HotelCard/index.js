@@ -43,8 +43,8 @@ const HotelCard = ({ hotel, allHotels }) => {
   const selectedhotelCode = useSelector(
     (state) => state.hotel.selectedhotelCode
   );
-  console.log("selectedhotel_000", hotel?.code);
-  console.log("selectedhotel_111", selectedhotelCode);
+  
+  
   
   
 
@@ -104,7 +104,7 @@ const HotelCard = ({ hotel, allHotels }) => {
     hotel,
     allHotels
   );
-  console.log("selectedhotelkey", selectedhotelkey);
+  
   
   
 

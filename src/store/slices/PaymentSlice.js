@@ -126,6 +126,8 @@ export const PaymentForm = () => (dispatch, getState) => {
     .then((response) => {
       const data = response.data;
       
+      
+      
       if (data.status === "complete") {
         dispatch(setPaymentFormSuccess(true)); // payment status
         dispatch(setPaymentData(data)); // payment data dispating id secret
@@ -144,7 +146,7 @@ export const fetchOrderDetail = (orderId) => (dispatch, getState) => {
   const state = getState();
   const orderUUID = state.passengerDrawer.OrderUuid;
   const genericUUID = state.passengerDrawer.genericOrderUuid;
-  console.log("genericUUID_fetch", genericUUID);
+  
   
 
 
@@ -214,14 +216,14 @@ const state = getState();
       status: "pending",
     })
 
-    console.log("genericUUID_success", genericUUID);
+    
     
     api.get(`/api/v1/order/${genericUUID}/details`)
       .then((response) => {
         const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
         const hotelPaymentSuccess = response.data.hotel_order;
         
-        console.log("hotel_response", response.data.hotel_order);
+        
         
 
         dispatch(setOrderData(response.data));

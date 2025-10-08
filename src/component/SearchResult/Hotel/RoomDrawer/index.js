@@ -27,7 +27,7 @@ const RoomDrawer = () => {
 
   //  function that dispatches rate selection
   const handleSelectRate = (rates) => {
-    console.log("rates_000", rates);
+    
     dispatch(setSelectedRateKey(rates?.rateKey));
     dispatch(setSelectedRoom(rates));
   };
@@ -43,8 +43,8 @@ const RoomDrawer = () => {
     dispatch(setCartTotalPrice(total));
   },[dispatch, total])
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
-  console.log("CartTotalPrice", CartTotalPrice)
-  console.log("total_cart", total);
+  
+  
 
   return (
     <Drawer

@@ -43,7 +43,7 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
     .post(bookingSetupUrl)
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
-      console.log("OrderUUId", OrderUUId);
+      
       
       dispatch(setOrderUuid(OrderUUId));
       dispatch(setGenericOrderUuid(response.data.generic_order_uuid))
@@ -77,7 +77,7 @@ export const ViewPassengersHotel = () => async (dispatch, getState) => {
   const states = getState();
   const orderUuid = states?.passengerDrawer?.OrderUuid;
 
-  console.log("orderUuid", orderUuid);
+  
 
   // 🚫 If no orderUuid, skip API call
   if (!orderUuid) {
@@ -152,7 +152,7 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
       dispatch(setisPassengerDrawer(true));
     })
     .finally(() => {
-      console.log("[✔] Finished");
+      
       dispatch(setIsFormLoading(false));
     });
 };

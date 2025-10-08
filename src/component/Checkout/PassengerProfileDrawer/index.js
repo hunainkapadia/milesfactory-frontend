@@ -35,7 +35,7 @@ const PassengerProfileDrawer = () => {
   const [tabValue, setTabValue] = useState(0);
   const [tabType, setTabType] = useState("adult"); // default type
 
-  console.log("tabType", tabType);
+  
 
   // Redux states
   const isPassengerProfileDrawer = useSelector(
@@ -44,13 +44,13 @@ const PassengerProfileDrawer = () => {
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
-  console.log("passengerPofile", passengerPofile);
+  
 
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
     (state) => state.passengerDrawer.PassFormData
   );
-  console.log("FilledPassFormData", FilledPassFormData);
+  
 
   const selectPassenger = useSelector(
     (state) => state.passengerDrawer.SelectPassenger
@@ -73,20 +73,20 @@ const PassengerProfileDrawer = () => {
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
-  console.log("isAllPassengersFilled", isAllPassengersFilled);
+  
 
   // --- Polling for profile updates ---
 
-  console.log("GetViewPassengers", GetViewPassengers);
+  
 
-  console.log("passenger_type11", passengerPofile?.length);
+  
   // --- Polling for profile updates ---
   useEffect(() => {
     if (!FilledPassFormData || stopPolling) return;
 
     const interval = setInterval(() => {
       dispatch(getPassPofile());
-      console.log("Polling API for profiles...");
+      
     }, 1000);
 
     return () => clearInterval(interval);
@@ -101,7 +101,7 @@ const PassengerProfileDrawer = () => {
     );
 
     if (isMatch) {
-      console.log(" Stopping polling: passenger found (passport match)");
+      
       setStopPolling(true);
     }
   }, [passengerPofile, FilledPassFormData]);
@@ -113,7 +113,7 @@ const PassengerProfileDrawer = () => {
     const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
 
     if (isLengthEqual) {
-      console.log(" Stopping polling: all passengers synced (lengths equal)");
+      
       setStopPolling(true);
     }
   }, [passengerPofile, GetViewPassengers]);
@@ -263,7 +263,7 @@ const PassengerProfileDrawer = () => {
             pb={10}
             sx={{ px: { lg: 3, md: 3, xs: 2 } }}
           >
-            {console.log("passenger_test", passengerPofile)}
+            
             {passengerPofile
               ?.filter((p) => p.type === tabType)
               .filter(

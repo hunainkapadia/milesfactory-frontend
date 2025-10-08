@@ -18,10 +18,10 @@ const PassengerFlowBlock = ({
 }) => {
 
   
-  console.log("paymentSuccess", orderDetail);
+  
   
   const FilledPass = useSelector((state) => state?.passengerDrawer?.filledPass);
-  console.log("FilledPass_00", FilledPass);
+  
 
   const dispatch = useDispatch();
   const allPassengerFill = useSelector(
