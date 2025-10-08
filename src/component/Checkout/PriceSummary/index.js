@@ -128,7 +128,7 @@ const PriceSummary = ({ getdata }) => {
                           ).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
-                          })}
+                          })} {" "}
                         Return /{" "}
                         {Object.entries(
                           (flightOrder?.passengers || []).reduce(

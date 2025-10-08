@@ -73,7 +73,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
               {selectedRoom?.total_netamount_with_markup ? (
                 <>
                   <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                    {currencySymbols[selectedRoom?.taxes.taxes[0].currency]}
+                     {currencySymbols[hotel?.currency]}
                     {Math.round(selectedRoom?.total_netamount_with_markup)}{" "}
                     total
                   </h4>

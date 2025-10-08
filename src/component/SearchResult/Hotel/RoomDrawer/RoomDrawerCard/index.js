@@ -5,7 +5,7 @@ import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDra
 import { capitalizeFirstWord, currencySymbols } from "@/src/utils/utils";
 import dayjs from "dayjs";
 
-const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
+const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
   const rates = getrates;
   const isSelected = selectedRateKey === rates?.rateKey;
 
@@ -13,6 +13,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
   const refundable = rates?.rateClass;
   const cancellation = rates?.cancellationPolicies?.[0] || {};
   const tax = rates?.taxes?.taxes?.[0] || {};
+  const hotelCurrency = hotel?.currency
 
   // Format cancellation policy
   let cancellationText = "";
@@ -21,7 +22,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
   } else if (cancellation.amount > 0) {
     cancellationText = `Cancellable till <span class="aaa">${dayjs(
       cancellation.from
-    ).format('DD MMM YYYY, hh:mm A [GMT]Z')}</span> for a fee of <span class="aaa">${currencySymbols[rates?.taxes?.taxes?.[0]?.clientCurrency] || ""}${Math.round(cancellation.amount)}</span>`;
+    ).format('DD MMM YYYY, hh:mm A [GMT]Z')}</span> for a fee of <span class="aaa">${currencySymbols[hotelCurrency] || ""}${Math.round(cancellation.amount)}</span>`;
   }
 
   return (
@@ -65,12 +66,12 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect }) => {
           <Box textAlign="right">
             <Typography fontWeight={700} fontSize={16} whiteSpace={"nowrap"}>
             
-              {currencySymbols[rates?.taxes?.taxes?.[0]?.clientCurrency] || ""}
+              {currencySymbols[hotelCurrency] || ""}
               {Math.round(rates?.total_netamount_with_markup)}
             </Typography>
-            <Typography fontSize={12} color="gray" whiteSpace={"nowrap"}>
-              {currencySymbols[tax?.clientCurrency] || tax?.clientCurrency || ""}{Math.round(tax?.clientAmount)} tax
-            </Typography>
+            {/* <Typography fontSize={12} color="gray" whiteSpace={"nowrap"}>
+              {currencySymbols[hotelCurrency]|| ""}{Math.round(tax?.clientAmount)} tax
+            </Typography> */}
           </Box>
         </Box>
       </Box>
