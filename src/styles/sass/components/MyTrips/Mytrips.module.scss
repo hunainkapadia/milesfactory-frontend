@@ -168,11 +168,12 @@
 
 .tripCard {
    transition: transform 0.2s ease, box-shadow 0.2s ease;
-   padding: 24px 16px;
+   padding: 16px 16px;
    height: 319px;
    background: #FFFFFF;
    border: 1px solid #E6EEEE;
    border-radius: 16px;
+   overflow-y: auto;
 
 
    &:hover {
