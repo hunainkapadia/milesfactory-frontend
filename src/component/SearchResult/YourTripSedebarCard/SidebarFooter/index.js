@@ -104,7 +104,7 @@ const SidebarFooter = () => {
             </>
           ) : CartData?.total_price ? (
             <>
-              <Typography className="gray f12">total</Typography>
+              <Typography className="gray f12">Total</Typography>
               <h4 className="exbold mb-0">
                 {currencySymbols[CartData?.items?.[0]?.currency] ||
                   CartData?.items?.[0]?.currency}

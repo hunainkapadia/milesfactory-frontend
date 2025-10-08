@@ -118,6 +118,7 @@ const RoomDrawer = () => {
                         <RoomDrawerCard
                           key={rate.rateKey}
                           getrates={rate}
+                          hotel={hotel}
                           selectedRateKey={selectedRateKey}
                           onSelect={handleSelectRate}
                         />

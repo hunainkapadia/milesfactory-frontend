@@ -180,10 +180,10 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           </svg>
         </Box>
         <Stack>
-          <Typography className="f12 bold">Superior Room Room only,</Typography>
-          <Typography className="f12 black-50">
+          <Typography className="f12 bold">{hotel?.rooms[0]?.name}</Typography>
+          {/* <Typography className="f12 black-50">
             cancellation before 18 June
-          </Typography>
+          </Typography> */}
         </Stack>
       </Stack>
       {/* Price Section */}
