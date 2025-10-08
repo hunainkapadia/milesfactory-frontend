@@ -276,6 +276,7 @@ const PassengerProfileDrawer = () => {
             sx={{ px: { lg: 3, md: 3, xs: 2 } }}
           >
             
+            {console.log("passengerPofile", FilledPassFormData)}
             {passengerPofile
               ?.filter((p) => p.type === tabType)
               .filter(
