@@ -25,7 +25,13 @@ const TripDetailPage = () => {
   const dispatch = useDispatch();
   const { uuid } = router.query;
 
+  
+  
   const tripDetail = useSelector((state) => state?.base?.TripDetailData);
+  console.log("tripDetailuuid_000", tripDetail);
+  const flightOffer = tripDetail?.flight_order?.selected_offer;
+  // const hotelOffer = 
+  
   const loading = useSelector((state) => state?.base?.isLoading);
 
   useEffect(() => {
@@ -42,11 +48,11 @@ const TripDetailPage = () => {
   //   }
 
   // Extract useful data
-  const offer = tripDetail?.order?.selected_offer;
-  console.log("tripDetail", tripDetail);
+  
+  console.log("tripDetail_00", tripDetail);
 
   const daysLeft = Math.ceil(
-    (new Date(offer?.slices[0]?.segments[0]?.departing_at) - new Date()) /
+    (new Date(flightOffer?.slices[0]?.segments[0]?.departing_at) - new Date()) /
       (1000 * 60 * 60 * 24)
   );
 
@@ -78,7 +84,7 @@ const TripDetailPage = () => {
             <Typography variant="h3"  sx={{ textTransform: "capitalize" }}>
 
               In {daysLeft} days,{" "}
-              {offer?.slices[0]?.segments[0].destination?.city_name} is yours.
+              {flightOffer?.slices[0]?.segments[0].destination?.city_name} is yours.
             </Typography>
           </Box>
           {/* Trip Detail Card */}
@@ -131,11 +137,11 @@ const TripDetailPage = () => {
                       >
                         <Box>
                           <h4 className={styles.title + " mb-0"}>
-                            {offer?.slices[0]?.origin.city_name} to{" "}
-                            {offer?.slices[0]?.destination.city_name}
+                            {flightOffer?.slices[0]?.origin.city_name} to{" "}
+                            {flightOffer?.slices[0]?.destination.city_name}
                           </h4>
                           <Typography className=" f14 bold">
-                            {offer?.slices
+                            {flightOffer?.slices
                               .slice(0, 2)
                               .map((slice) =>
                                 new Date(slice.departing_at).toLocaleDateString(
@@ -149,11 +155,11 @@ const TripDetailPage = () => {
                               .join(" - ")}
                           </Typography>
 
-                          {offer?.slices?.length <= 1 ? (
+                          {flightOffer?.slices?.length <= 1 ? (
                             <Typography className={"f14 gray"}>
                               {"One way"},{" "}
                               {
-                                offer?.slices[0]?.segments[0]?.passengers[0]
+                                flightOffer?.slices[0]?.segments[0]?.passengers[0]
                                   .cabin_class_marketing_name
                               }
                             </Typography>
@@ -161,7 +167,7 @@ const TripDetailPage = () => {
                             <Typography className={"f14 gray"}>
                               {"Return"},{" "}
                               {
-                                offer?.slices[0]?.segments[0]?.passengers[0]
+                                flightOffer?.slices[0]?.segments[0]?.passengers[0]
                                   .cabin_class_marketing_name
                               }
                             </Typography>
@@ -177,14 +183,14 @@ const TripDetailPage = () => {
                         px={0}
                       >
                         <>
-                          {offer?.slices.map((slice, index) => (
+                          {flightOffer?.slices.map((slice, index) => (
                             <>
                               <FromAndToDetail
                                 key={index} // Always add a unique key when mapping
-                                sliceLength={offer?.slices.length}
+                                sliceLength={flightOffer?.slices.length}
                                 getdata={slice}
                                 logo={
-                                  offer?.slices[0]?.segments[0]
+                                  flightOffer?.slices[0]?.segments[0]
                                     ?.marketing_carrier?.logo_symbol_url
                                 }
                                 flightType={index === 0 ? "Outbound" : "Return"}
@@ -203,49 +209,49 @@ const TripDetailPage = () => {
                               className={styles.normalOption + " f12 gray"}
                             >
                               <span>
-                                Emissions estimate: {offer?.total_emissions_kg}{" "}
+                                Emissions estimate: {flightOffer?.total_emissions_kg}{" "}
                                 kg CO₂e
                               </span>
                             </Typography>
                           </Box>
                           <Box display={"flex"} gap={2} alignItems={"center"}>
                             <Typography variant="p" className="gray f12" pb={2}>
-                              {offer?.conditions?.change_before_departure
+                              {flightOffer?.conditions?.change_before_departure
                                 ?.allowed === true &&
-                                offer?.conditions?.change_before_departure
+                                flightOffer?.conditions?.change_before_departure
                                   ?.penalty_amount > 0 &&
                                 `You can change your flight before departure for ${
-                                  offer?.conditions?.change_before_departure
+                                  flightOffer?.conditions?.change_before_departure
                                     ?.penalty_currency
                                 } ${" "} ${
-                                  offer?.conditions?.change_before_departure
+                                  flightOffer?.conditions?.change_before_departure
                                     ?.penalty_amount
                                 }`}
 
-                              {offer?.conditions?.change_before_departure
+                              {flightOffer?.conditions?.change_before_departure
                                 ?.allowed === true &&
-                                offer?.conditions?.change_before_departure
+                                flightOffer?.conditions?.change_before_departure
                                   ?.penalty_amount == 0 &&
                                 `You can change your flight before departure without any extra cost`}
                             </Typography>
                           </Box>
                           <Box display={"flex"} gap={2} alignItems={"center"}>
                             <Typography variant="p" className="gray f12" pb={2}>
-                              {offer?.conditions?.refund_before_departure
+                              {flightOffer?.conditions?.refund_before_departure
                                 ?.allowed === true &&
-                                offer?.conditions?.refund_before_departure
+                                flightOffer?.conditions?.refund_before_departure
                                   ?.penalty_amount > 0 &&
                                 `You can refund your flight before departure for ${
-                                  offer?.conditions?.refund_before_departure
+                                  flightOffer?.conditions?.refund_before_departure
                                     ?.penalty_currency
                                 } ${" "} ${
-                                  offer?.conditions?.refund_before_departure
+                                  flightOffer?.conditions?.refund_before_departure
                                     ?.penalty_amount
                                 }`}
 
-                              {offer?.conditions?.refund_before_departure
+                              {flightOffer?.conditions?.refund_before_departure
                                 ?.allowed === true &&
-                                offer?.conditions?.refund_before_departure
+                                flightOffer?.conditions?.refund_before_departure
                                   ?.penalty_amount == 0 &&
                                 `You can refund your flight before departure without any extra cost`}
                             </Typography>

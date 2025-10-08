@@ -56,8 +56,12 @@ const sendMessageSlice = createSlice({
     threadUuid: null,
     functionType: null,
     isUpdateOffer: false,
+    error: null,
   },
   reducers: {
+    setError:(state, action) => {
+      state.error = action.payload;
+    },
     setFunctionType: (state, action) => {
       state.functionType = action.payload;
     },
@@ -269,7 +273,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const funcName = response?.function_template?.[0]?.function?.name;
         dispatch(setFunctionType(funcName));
 
-        // --------- ✅ Flight Flow (Fixed)
+        // --------- Flight Flow 
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         const allFlightSearchUuid =
@@ -348,7 +352,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           pollHistoryUntilComplete();
         }
 
-        // --------- ✅ Hotel Flow
+        // --------- Hotel Flow
         else if (funcName === "search_hotel_result_func") {
           const hotelSearchApi =
             response?.response?.results?.view_hotel_search_api?.url;
@@ -383,8 +387,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 }
               })
               .catch((err) => {
-                console.error("Error fetching hotel results", err);
-              });
+  // console.error("Error fetching hotel results", err.response.data);
+  dispatch(setMessage({ ai: { response: err?.response?.data } }));
+});
+
           }
         }
       } else {
@@ -569,5 +575,6 @@ export const {
   setResetAppendFlights,
   setUpdateOffer,
   setIsUpdateOffer,
+  setError,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

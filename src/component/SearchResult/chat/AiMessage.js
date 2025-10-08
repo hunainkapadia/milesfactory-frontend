@@ -21,6 +21,7 @@ import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 import PassengerFlowBlock from "../PassengerFlowBlock";
 import HotelCard from "../HotelCard";
 import NotfoundCard from "./NotfoundCard";
+import ChatError from "./ChatError";
 
 const AiMessage = ({ aiMessage }) => {
   const dispatch = useDispatch();
@@ -137,7 +138,7 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.isPassengerLoading
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
-  console.log("aiMessage_hotel", aiMessage)
+  console.log("aiMessage_hotel", aiMessage?.ai?.response?.error)
   return (
     <Box
       ref={aiboxRef}
@@ -253,23 +254,31 @@ const AiMessage = ({ aiMessage }) => {
               <>
                 {aiMessage?.ai?.response ? (
                   <>
-                    <Box
-                      className={`${searchResultStyles.AiMessage} ${searchResultStyles.AiMessageNormal} +  aaa`}
-                    >
-                      <Box className={searchResultStyles.Box}>
-                        <Typography
-                          component="div"
-                          variant="body1"
-                          dangerouslySetInnerHTML={{
-                            __html: formatTextToHtmlList(
-                              convertMarkdownToHtml(
-                                sanitizeResponse(aiMessage.ai.response)
-                              )
-                            ),
-                          }}
-                        />
-                      </Box>
-                    </Box>
+                    {aiMessage?.ai?.response?.error || aiMessage?.ai?.response?.error? (
+                      <>
+                        <ChatError error={aiMessage?.ai?.response?.error || aiMessage?.ai?.response?.error} />
+                      </>
+                    ) : (
+                      <>
+                        <Box
+                          className={`${searchResultStyles.AiMessage} ${searchResultStyles.AiMessageNormal} +  aaa`}
+                        >
+                          <Box className={searchResultStyles.Box}>
+                            <Typography
+                              component="div"
+                              variant="body1"
+                              dangerouslySetInnerHTML={{
+                                __html: formatTextToHtmlList(
+                                  convertMarkdownToHtml(
+                                    sanitizeResponse(aiMessage.ai.response)
+                                  )
+                                ),
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                      </>
+                    )}
                   </>
                 ) : aiMessage?.ai?.newThread ? (
                   <Box pb={3} className={"newChatBox"}>
@@ -314,7 +323,7 @@ const AiMessage = ({ aiMessage }) => {
       )}
 
       {/* Hotel Results */}
-      
+
       {Array.isArray(getHotels?.hotels) && getHotels.hotels.length > 0 && (
         <Box className={searchResultStyles.HotelCardWrapper}>
           {getHotels.hotels.slice(0, hotelsToShow).map((hotel, idx) => (

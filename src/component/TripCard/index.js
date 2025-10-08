@@ -16,7 +16,7 @@ const TripCard = ({ tripData }) => {
 
   
   
-  console.log("tripData_00", forHotel);
+  console.log("tripData_00", tripData);
   const slices = forFlight?.slices || [];
   const firstSeg = slices[0]?.segments?.[0];
   const isRoundTrip = slices.length > 1;
@@ -162,8 +162,9 @@ const TripCard = ({ tripData }) => {
         </Box>
 
         {/* View Trip Button */}
+        
         <Button
-          onClick={() => handleTripDetail(tripData?.detail?.flight?.uuid)}
+          onClick={() => handleTripDetail(tripData?.uuid)}
           className="btn btn-primary btn-round btn-sm btn-border f11"
           sx={{ width: "100%" }}
         >
