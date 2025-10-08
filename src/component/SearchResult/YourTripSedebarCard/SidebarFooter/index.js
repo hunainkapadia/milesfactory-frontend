@@ -122,7 +122,7 @@ const SidebarFooter = () => {
         </Box>
         {CartData?.items?.length > 0 && (
           <Button
-            disabled={orderSuccess && true}
+            
             onClick={() => handleBookFlight(CartData)}
             className={`btn btn-primary btn-round btn-xs`}
           >
