@@ -2,30 +2,23 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 // import TripStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-
-import { useEffect, useState } from "react";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
 import SidebarFooter from "./SidebarFooter";
-import HotelCardSidebar from "./HotelCardSidebar";
 
 const YourTripSedebarCard = ({
-  FlightExpire,
-  filterParams,
   getBuilder,
   isSidebar,
 }) => {
-  
-const BuilderArguments = getBuilder?.silent_function_template[0]?.function.arguments || {};
-const builderType = BuilderArguments?.trip_components?.[0] || null;
-    
+  const BuilderArguments =
+    getBuilder?.silent_function_template[0]?.function.arguments || {};
+  const builderType = BuilderArguments?.trip_components?.[0] || null;
 
-  
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
-  
+
   const getselectedFlight = useSelector(
     (state) => state?.booking?.addCart?.raw_data
   );
@@ -71,8 +64,8 @@ const builderType = BuilderArguments?.trip_components?.[0] || null;
   }
 
   const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-  
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+
   return (
     <>
       {/* Open drawer only for the selected flight */}

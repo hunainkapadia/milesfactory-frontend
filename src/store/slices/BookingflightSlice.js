@@ -250,12 +250,13 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
 };
 
 export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
-  const apiUrl = `api/v1/cart/${threaduuid}/items/${Itemsuuid}`;
   dispatch(setLoading(true));
+  const apiUrl = `api/v1/cart/${threaduuid}/items/${Itemsuuid}`;
 
   try {
     const res = await api.delete(apiUrl);
     // dispatch(setSearchHistorySend(null));
+    dispatch(setLoading(false));
     dispatch(setSelectedhotelKey(null));
     dispatch(setGetCartDetail(res.data));
     dispatch(setCartOffer(null))

@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar, Stack } from "@mui/material";
+import { Box, Typography, Avatar, Stack, CircularProgress } from "@mui/material";
 import {
   bookFlight,
   closeDrawer,
@@ -49,10 +49,10 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
   );
   //   for selct flight detail
   const CartOffer = useSelector((state) => state?.booking?.cartOffer);
+  const isloading = useSelector((state) => state?.booking?.isLoading);
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-  
 
   const HandleSelectDrawer = () => {
     // if (CartOffer?.id) {
@@ -68,7 +68,6 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
 
   const handleDeleteCart = () => {
     dispatch(DeleteCart(threaduuid, getItems?.uuid));
-    
   };
 
   return (
@@ -113,10 +112,19 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               </Box>
             ) : null}
           </Box>
+
           {!orderSuccess && (
-            <Box className="cursor-pointer" onClick={handleDeleteCart}>
-              <img alt="delete" src="/images/delete-icon.svg" />
-            </Box>
+            <>
+              {isloading ? (
+                <>
+                  <CircularProgress size={18} sx={{ color: "#00C4CC" }} />
+                </>
+              ) : (
+                <Box className="cursor-pointer" onClick={handleDeleteCart}>
+                  <img alt="delete" src="/images/delete-icon.svg" />
+                </Box>
+              )}
+            </>
           )}
         </Box>
 
@@ -370,7 +378,6 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 </Typography>
               </Stack>
             </Stack>
-            
           </Stack>
         </Box>
         {/* {!validPassengers?.length && (

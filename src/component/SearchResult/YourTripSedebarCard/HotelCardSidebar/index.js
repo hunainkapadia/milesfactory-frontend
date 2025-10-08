@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar, Stack } from "@mui/material";
+import { Box, Typography, Avatar, Stack, CircularProgress } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +13,8 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
 
   console.log("Carduuidhotel_000", Carduuid);
   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
+  const isloading = useSelector((state) => state?.booking?.isLoading);
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
   const dispatch = useDispatch();
 
   const handleDeleteCart = () => {
@@ -59,9 +61,19 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
             Selected
           </Box>
         </Box>
-        <Box className="cursor-pointer" onClick={handleDeleteCart}>
-          <img alt="delete" src="/images/delete-icon.svg" />
-        </Box>
+        {!orderSuccess && (
+          <>
+            {isloading ? (
+              <>
+                <CircularProgress size={18} sx={{ color: "#00C4CC" }} />
+              </>
+            ) : (
+              <Box className="cursor-pointer" onClick={handleDeleteCart}>
+                <img alt="delete" src="/images/delete-icon.svg" />
+              </Box>
+            )}
+          </>
+        )}
       </Box>
 
       {/* Airline Info */}
@@ -82,10 +94,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
             alt={slice.segments[0].marketing_carrier.name}
             className={TripStyles.airlineLogo}
           /> */}
-          <Typography
-            className="f14 bold"
-            textTransform={"capitalize"}
-          >
+          <Typography className="f14 bold" textTransform={"capitalize"}>
             {hotel.name}
           </Typography>
         </Box>
@@ -119,7 +128,9 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           overflow="hidden"
         >
           <img
-            src={`${hotel?.content?.images[0]?.url || "/images/hotel-nothumb.png"}`}
+            src={`${
+              hotel?.content?.images[0]?.url || "/images/hotel-nothumb.png"
+            }`}
             alt={hotel.name}
             style={{
               height: "100%",
@@ -169,31 +180,29 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           </svg>
         </Box>
         <Stack>
-          <Typography className="f12 bold">
-            Superior Room Room only,
-          </Typography>
+          <Typography className="f12 bold">Superior Room Room only,</Typography>
           <Typography className="f12 black-50">
             cancellation before 18 June
           </Typography>
         </Stack>
       </Stack>
-        {/* Price Section */}
-        <Stack
-          textAlign="right"
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="flex-end"
-          gap={"2px"}
-        >
-          <Typography component="span" className="f11 bold black">
-            {currencySymbols[hotel?.currency]}
-            {Math.round(hotel?.totalNet)},{" "}
-          </Typography>
-          <Typography component="span" className="f11 black">
-            suggested by Mylz
-          </Typography>
-          <img src="/images/hotel/sugested-stars-icon.svg" />
-        </Stack>
+      {/* Price Section */}
+      <Stack
+        textAlign="right"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="flex-end"
+        gap={"2px"}
+      >
+        <Typography component="span" className="f11 bold black">
+          {currencySymbols[hotel?.currency]}
+          {Math.round(hotel?.totalNet)},{" "}
+        </Typography>
+        <Typography component="span" className="f11 black">
+          suggested by Mylz
+        </Typography>
+        <img src="/images/hotel/sugested-stars-icon.svg" />
+      </Stack>
       {/* Travellers */}
       {/* Baggage */}
     </Box>
