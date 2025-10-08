@@ -241,7 +241,6 @@ export const ViewPassengers = () => (dispatch, getState) => {
 
 
 export const PassengerFormFlight = (params) => async (dispatch, getState) => {  
-  alert("aaa")
   dispatch(setIsFormLoading(true));
   
   const state = getState();
@@ -351,7 +350,6 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
 
 
 export const getPassPofile = () => (dispatch, getState) => {
-  alert("getPassPofile")
   api
     .get(`/api/v1/user/passenger/profiles`)
     .then((profile_res) => {

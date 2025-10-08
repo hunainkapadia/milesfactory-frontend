@@ -176,7 +176,6 @@ const PassengerProfileDrawer = () => {
 
     // Dispatch save and mark as filled
     if (CartType === "all" || CartType === "flight") {
-      alert("asas")
       dispatch(PassengerFormFlight(params));
       dispatch(getPassPofile());
     } else if (CartType === "hotel") {
