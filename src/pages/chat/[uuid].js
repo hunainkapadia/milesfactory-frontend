@@ -196,7 +196,7 @@ const ChatByUUID = () => {
               <Grid container width={"100%"} sx={{ margin: 0 }}>
                 <Grid
                   className={styles.ChatBodyLeft}
-                  
+                  item
                   md={7.3}
                   lg={7.3}
                   xs={12}

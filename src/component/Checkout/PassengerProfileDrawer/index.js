@@ -85,12 +85,22 @@ const PassengerProfileDrawer = () => {
     if (!FilledPassFormData || stopPolling) return;
 
     const interval = setInterval(() => {
-      dispatch(getPassPofile());
+      if (CartType === "all" || CartType === "flight") {
+        dispatch(getPassPofile());
+      } else if (CartType === "hotel") {
+        dispatch(getPassPofileHotel());
+      } else {
+        ""
+      }
       
     }, 1000);
 
     return () => clearInterval(interval);
   }, [dispatch, FilledPassFormData, stopPolling]);
+
+  console.log("passengerPofile", passengerPofile);
+  console.log("FilledPassFormData", FilledPassFormData);
+  
 
   // --- Stop polling when passport match is found ---
   useEffect(() => {
@@ -138,6 +148,8 @@ const PassengerProfileDrawer = () => {
   };
 
   // --- Save passenger ---
+  console.log("CartType", CartType);
+  
   const handleSavePassenger = (passenger) => {
     if (!passenger) return;
     const formatDate = (date) =>
@@ -164,6 +176,7 @@ const PassengerProfileDrawer = () => {
 
     // Dispatch save and mark as filled
     if (CartType === "all" || CartType === "flight") {
+      alert("asas")
       dispatch(PassengerFormFlight(params));
       dispatch(getPassPofile());
     } else if (CartType === "hotel") {
