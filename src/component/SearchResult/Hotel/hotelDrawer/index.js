@@ -185,7 +185,7 @@ const HotelDrawer = ({hotelOffer}) => {
 
                     <Stack
                       className="Row3"
-                      mb={"26px"}
+                      mb={{md: "24px", xs:"18px"}}
                       flexDirection={"column"}
                     >
                       <Typography
@@ -237,7 +237,7 @@ const HotelDrawer = ({hotelOffer}) => {
                         <HotelDrawerGallery hotel={hotel} />
                       </Stack>
                     )}
-                    <Box py={2}>
+                    <Box mb={2}>
                       <Divider className={`${styles.Divider} Divider`} />
                     </Box>
                     <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
