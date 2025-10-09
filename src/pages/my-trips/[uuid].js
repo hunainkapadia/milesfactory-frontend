@@ -37,8 +37,10 @@ const TripDetailPage = () => {
   const loading = useSelector((state) => state?.base?.isLoading);
 
   useEffect(() => {
-    if (uuid) dispatch(TripDetailSlice(uuid));
-  }, [uuid]);
+  if (uuid) {
+    dispatch(TripDetailSlice(uuid));
+  }
+}, [uuid]);
 
   //   if (loading || !tripDetail.order.selected_offer) {
   //     return (

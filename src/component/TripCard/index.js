@@ -50,7 +50,6 @@ const TripCard = ({ tripData }) => {
   const router = useRouter();
 
   const handleTripDetail = (uuid) => {
-    dispatch(TripDetailSlice(uuid));
     router.push(`/my-trips/${uuid}`);
   };
 
