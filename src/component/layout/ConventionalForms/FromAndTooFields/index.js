@@ -102,7 +102,7 @@ const FromAndTooFields = ({
               : ""
           }
           value={originOption} // selected object
-          inputValue={capitalizeFirstWord(origin)} // input shows only IATA code
+          inputValue={origin} // input shows only IATA code
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
               setOrigin(value);
@@ -157,7 +157,7 @@ const FromAndTooFields = ({
               : ""
           }
           value={destinationOption}
-          inputValue={capitalizeFirstWord(destination)}
+          inputValue={destination}
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
               setDestination(value);

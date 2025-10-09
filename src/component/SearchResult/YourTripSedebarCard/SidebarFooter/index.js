@@ -23,6 +23,7 @@ const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   
+  
 
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
   const allPassengerFill = useSelector(
@@ -97,11 +98,16 @@ const SidebarFooter = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        {/* Flight footer */}
-        {/* Flight footer */}
+        
         <Box>
-          {(orderSuccess?.flight_order && !orderSuccess?.hotel_order) ||
-          (!orderSuccess?.flight_order && orderSuccess?.hotel_order) ? (
+        {/* for flight */}
+          {(!orderSuccess?.flight_order &&
+            orderSuccess?.hotel_order &&
+            CartData?.items?.length < 2) ||
+            
+          (orderSuccess?.flight_order &&
+            !orderSuccess?.hotel_order &&
+            CartData?.items?.length < 2) ? (
             <>
               <h4 className="exbold mb-0">-</h4>
               <Typography className="f12 black-50">Add more plans</Typography>

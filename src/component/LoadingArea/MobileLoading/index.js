@@ -90,8 +90,13 @@ const MobileLoading = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {(orderSuccess?.flight_order && !orderSuccess?.hotel_order) ||
-        (!orderSuccess?.flight_order && orderSuccess?.hotel_order) ? (
+        {(!orderSuccess?.flight_order &&
+            orderSuccess?.hotel_order &&
+            CartData?.items?.length < 2) ||
+            
+          (orderSuccess?.flight_order &&
+            !orderSuccess?.hotel_order &&
+            CartData?.items?.length < 2) ? (
           <>
             <Button
               onClick={handleBookFlight}
