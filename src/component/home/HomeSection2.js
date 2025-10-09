@@ -30,8 +30,8 @@ const HomeSection2 = (props) => {
                   sx={{
                     width: {
                       xs: "100%", // Extra small screens
-                      sm: "70.3%", // Small screenss
-                      lg: "70.3%", // Large screens
+                      sm: "74%", // Small screenss
+                      lg: "74%", // Large screens
                     },
                   }}
                 >
@@ -40,12 +40,13 @@ const HomeSection2 = (props) => {
                   </h2>
                   <Typography
                     className="align-center white"
-                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
+                    sx={{ display: { lg: "block", md: "block", xs: "block" } }}
                   >
-                    Mylz trips aren’t static — they grow as they’re shared,
-                    evolving with every remix. What starts as one traveller’s
+                    Mylz trips aren't static — they grow as they're shared,
+                    evolving with every remix. What starts as one traveller's
                     journey quickly becomes inspiration for the next, creating a
                     living loop of discovery and action.
+                     Mylz trips aren't
                   </Typography>
                   {/* <Typography
                     className="align-center white"
@@ -67,7 +68,14 @@ const HomeSection2 = (props) => {
               </Box>
             </Box>
             <Grid container spacing={{ xs: 2, md: 4 }}>
-              <Grid item xs={12} sm={4} lg={4} md={4} className={styles.IdeaCard}>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                lg={4}
+                md={4}
+                className={styles.IdeaCard}
+              >
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
                   variant="outlined"
@@ -100,7 +108,14 @@ const HomeSection2 = (props) => {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} sm={4} lg={4} md={4} className={styles.IdeaCard}>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                lg={4}
+                md={4}
+                className={styles.IdeaCard}
+              >
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
                   variant="outlined"
@@ -133,7 +148,14 @@ const HomeSection2 = (props) => {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} sm={4} lg={4} md={4} className={styles.IdeaCard}>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                lg={4}
+                md={4}
+                className={styles.IdeaCard}
+              >
                 <Card
                   className={`${styles.Card} br-12 bg-dark-box align-center`}
                   variant="outlined"
@@ -212,7 +234,11 @@ const HomeSection2 = (props) => {
       </section>
       {/* footer */}
 
-      <Box component={"footer"} className={footerStyles.FooterForDark} sx={{ pb: 4 }}>
+      <Box
+        component={"footer"}
+        className={footerStyles.FooterForDark}
+        sx={{ pb: 4 }}
+      >
         <Container>
           <Box
             className={footerStyles.FooterBox}
@@ -240,7 +266,6 @@ const HomeSection2 = (props) => {
                 <Typography
                   display={{ lg: "none", md: "none", xs: "block" }}
                   component={"span"}
-                  
                 >
                   More than 1m+ partners.
                 </Typography>
