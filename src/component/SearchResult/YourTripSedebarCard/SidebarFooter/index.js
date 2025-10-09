@@ -9,6 +9,7 @@ import {
 import {
   getPassPofile,
   PassengerForm,
+  setAddFilledPassenger,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
 import {
@@ -120,6 +121,7 @@ const SidebarFooter = () => {
             </>
           )}
         </Box>
+        {console.log("orderSuccess_00", orderSuccess)}
         {CartData?.items?.length > 0 && (
           <Button
             disabled={

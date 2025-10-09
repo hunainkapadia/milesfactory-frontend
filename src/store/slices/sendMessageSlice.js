@@ -14,7 +14,7 @@ import {
   setGetCartDetail,
   resetBookingState,
 } from "./BookingflightSlice";
-import { resetPassengerFlightState, setAllPassengerFill, setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
+import { resetPassengerFlightState, setAddFilledPassenger, setAllPassengerFill, setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import {
   clearGetMessages,
   fetchMessages,
@@ -455,6 +455,8 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(resetPassengerHotelState()); 
         dispatch(resetBaggageState()); 
         
+        dispatch(setAddFilledPassenger(null));
+        dispatch(setSelectedFlightKey(null)); // fro reset selected button
         dispatch(setCartType(null));
         dispatch(setCartOffer(null));
         dispatch(setGetCartDetail(null));

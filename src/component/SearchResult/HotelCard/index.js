@@ -14,6 +14,7 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/Hotel
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddToCart,
+  setCartType,
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
 import dayjs from "dayjs";
@@ -27,6 +28,8 @@ import {
 } from "@/src/store/slices/HotelSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
 import IncludedTooltips from "./IncludedTooltips";
+import { setAddFilledPassenger } from "@/src/store/slices/passengerDrawerSlice";
+import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
 const HotelCard = ({ hotel, allHotels }) => {
   const imageBaseUrl = "https://photos.hotelbeds.com/giata/";
@@ -74,7 +77,15 @@ const HotelCard = ({ hotel, allHotels }) => {
   //   };
   //   dispatch(AddToCart(params, uuid));
   // };
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const handleSelectRoom = (gethotel) => {
+    // for reset next order if in cart 1 
+    if (orderSuccess) {
+      dispatch(setAddFilledPassenger(null));
+      dispatch(setOrderConfirm(null))
+      dispatch(setCartType(null));
+    }
+    // 
     dispatch(setAllHotels(allHotels));
     dispatch(setSinglehotel(gethotel));
 

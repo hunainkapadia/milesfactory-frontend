@@ -48,7 +48,9 @@ const passengerDrawerSlice = createSlice({
       state.addNewPassactive = action.payload;
     },
     setAddFilledPassenger: (state, action) => {
-      if (!state.filledPassengerUUIDs.includes(action.payload)) {
+      if (action.payload === null ) {
+        state.filledPassengerUUIDs = []
+      } else if (!state.filledPassengerUUIDs.includes(action.payload)) {
         state.filledPassengerUUIDs.push(action.payload);
       }
     },

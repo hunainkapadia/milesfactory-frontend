@@ -73,12 +73,16 @@ const PassengerProfileDrawer = () => {
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
+  console.log("totalPassengers", filledPassengerUUIDs);
+  
   
 
   // --- Polling for profile updates ---
 
   
 
+  console.log("CartType", CartType);
+  
   
   // --- Polling for profile updates ---
   useEffect(() => {

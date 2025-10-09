@@ -12,7 +12,9 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddToCart,
+  DeleteCart,
   setBookingDrawer,
+  setCartType,
   setOfferkeyforDetail,
   setSelectedFlight,
   setSingleFlightData,
@@ -23,6 +25,7 @@ import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols, event } from "@/src/utils/utils";
 import {
   PassengerForm,
+  setAddFilledPassenger,
   setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
@@ -34,6 +37,7 @@ import {
 } from "@/src/store/slices/GestMessageSlice";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 import { LoadingButton } from "@mui/lab";
+import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
 const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
@@ -77,6 +81,8 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
+  console.log("selectedFlightKey", selectedFlightKey);
+  
   
   const selected = selectedFlightKey === offerkey;
 
@@ -98,9 +104,17 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const isLoadingSelect = useSelector(
     (state) => state?.booking?.isLoadingSelect
   );
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
 
   const handleBookFlight = (getflight) => {
-    
+    // for reset next order if in cart 1 
+    if (orderSuccess) {
+      dispatch(setAddFilledPassenger(null));
+      dispatch(setOrderConfirm(null))
+      dispatch(setCartType(null));
+      dispatch(DeleteCart());
+    }
+
     const params = {
       chat_thread_uuid: uuid,
       offer_type: "flight",
