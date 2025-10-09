@@ -10,11 +10,15 @@ import { markPassengerAsFilled, setAllPassengerFill, setClosePassengerDrawer, se
 const initialState = {
   isLoading: false,
   SeeDetailButton: "Chat",
+  orderUuidHotel: null,
 }
 const passengerDrawerSlice = createSlice({
   name: "passengerDrawer",
   initialState,
   reducers: {
+    setOrderUuidHotel: (state, action) => {
+      state.orderUuidHotel = action.payload;
+    },
     setSeeDetailButton: (state, action) => {
       state.SeeDetailButton = action.payload;
     },
@@ -44,8 +48,7 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
     .then((response) => {
       const OrderUUId = response?.data?.order_uuid || null;
       
-      
-      dispatch(setOrderUuid(OrderUUId));
+      dispatch(setOrderUuidHotel(OrderUUId))
       dispatch(setGenericOrderUuid(response.data.generic_order_uuid))
       // dispatch(setIsPassengerflow(true))
       
@@ -76,16 +79,20 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
 export const ViewPassengersHotel = () => async (dispatch, getState) => {
   const states = getState();
   const orderUuid = states?.passengerDrawer?.OrderUuid;
+  const orderUuidhotel = states?.passengerHotelSlice?.orderUuidHotel;
+  console.log("orderUuidhotel", orderUuidhotel);
+  
+  
 
   
 
   // 🚫 If no orderUuid, skip API call
-  if (!orderUuid) {
+  if (!orderUuidhotel) {
     console.warn("ViewPassengersHotel skipped — orderUuid not found");
     return;
   }
 
-  const viewPassengerUrl = `/api/v1/hotel/order/${orderUuid}/guests`;
+  const viewPassengerUrl = `/api/v1/hotel/order/${orderUuidhotel}/guests`;
 
   try {
     dispatch(setLoading(true));
@@ -113,9 +120,10 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
   }
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
+  const orderUuidhotel = state?.passengerHotelSlice?.orderUuidHotel;
   const passengerUuid = state.passengerDrawer?.PassengerUUID;
   
-  const SubmitUrl = `/api/v1/hotel/order/${orderUuid}/guest/${passengerUuid}`;
+  const SubmitUrl = `/api/v1/hotel/order/${orderUuidhotel}/guest/${passengerUuid}`;
   
   
   api
@@ -161,6 +169,8 @@ export const passengerCaptainHotel = (params) => (dispatch, getState) => {
   const state = getState();
   const captainParams = state.passengerDrawer?.captainParams;
   const orderUuid = state.passengerDrawer?.OrderUuid;
+  const orderUuidhotel = state?.passengerHotelSlice?.orderUuidHotel;
+
   const getFillPass = state.passengerDrawer.allPassengerFill;
 
   if (getFillPass) {
@@ -172,7 +182,7 @@ export const passengerCaptainHotel = (params) => (dispatch, getState) => {
 
     setTimeout(() => {
       api
-        .post(`/api/v1/hotel/order/${orderUuid}/captain`, captainParams)
+        .post(`/api/v1/hotel/order/${orderUuidhotel}/captain`, captainParams)
         .then((cap_res) => {
           dispatch(fetchOrderDetail()); // for order detail API call
         })
@@ -197,7 +207,7 @@ export const getPassPofileHotel = () => (dispatch, getState) => {
 
 export const PassengerProfileDrawer = () => () => {};
 
-export const { setLoading, setError, setisLoading, resetPassengerHotelState } =
+export const { setLoading, setError, setisLoading, resetPassengerHotelState, setOrderUuidHotel } =
   passengerDrawerSlice.actions;
 
 export default passengerDrawerSlice.reducer;

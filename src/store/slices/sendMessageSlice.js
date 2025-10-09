@@ -26,7 +26,7 @@ import {
   setThreadDrawer,
 } from "./Base/baseSlice";
 import {resetOrderState, setOrderConfirm, setOrderData, setPaymentFormSuccess } from "./PaymentSlice";
-import { resetPassengerHotelState } from "./passengerDrawerHotelSlice";
+import { resetPassengerHotelState, setOrderUuidHotel } from "./passengerDrawerHotelSlice";
 import { resetBaggageState } from "./BaggageSlice";
 
 const sendMessageSlice = createSlice({
@@ -479,6 +479,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         // order clear
         dispatch(setOrderData(null));
         dispatch(setOrderUuid(null));
+        dispatch(setOrderUuidHotel(null));
         dispatch(setSingleFlightData(null));
 
         // Optional: placeholder for new thread

@@ -105,14 +105,15 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     (state) => state?.booking?.isLoadingSelect
   );
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+  const orderSuccess2 = useSelector((state) => state);
 
+  console.log("orderSuccess", orderSuccess2);
+  
   const handleBookFlight = (getflight) => {
     // for reset next order if in cart 1 
     if (orderSuccess) {
       dispatch(setAddFilledPassenger(null));
-      dispatch(setOrderConfirm(null))
       dispatch(setCartType(null));
-      dispatch(DeleteCart());
     }
 
     const params = {

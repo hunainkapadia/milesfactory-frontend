@@ -61,6 +61,9 @@ const SidebarFooter = () => {
     ));
   }
 
+  console.log("CartType11", CartType);
+  
+
   const dispatch = useDispatch();
   const handleBookFlight = (getCart) => {
     // const offerId = getCart;

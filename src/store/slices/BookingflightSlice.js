@@ -250,6 +250,8 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
 };
 
 export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
+  console.log("threaduuid_Itemsuuid", threaduuid, Itemsuuid);
+  
   dispatch(setLoading(true));
   const apiUrl = `api/v1/cart/${threaduuid}/items/${Itemsuuid}`;
 

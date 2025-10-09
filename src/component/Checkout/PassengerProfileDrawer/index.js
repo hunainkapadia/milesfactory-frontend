@@ -85,52 +85,50 @@ const PassengerProfileDrawer = () => {
   
   
   // --- Polling for profile updates ---
-  useEffect(() => {
-    if (!FilledPassFormData || stopPolling) return;
-
-    const interval = setInterval(() => {
-      if (CartType === "all" || CartType === "flight") {
-        dispatch(getPassPofile());
-      } else if (CartType === "hotel") {
-        dispatch(getPassPofileHotel());
-      } else {
-        ""
-      }
-      
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [dispatch, FilledPassFormData, stopPolling]);
-
-  console.log("passengerPofile", passengerPofile);
-  console.log("FilledPassFormData", FilledPassFormData);
+  console.log("FilledPassFormData", passengerPofile);
   
+  // ✅ Fetch passenger profile once when form data changes
+useEffect(() => {
+  if (!FilledPassFormData) return;
 
-  // --- Stop polling when passport match is found ---
-  useEffect(() => {
-    if (!FilledPassFormData || !passengerPofile) return;
+  if (CartType === "flight" || CartType === "all") {
+    dispatch(getPassPofile());
+  } else if (CartType === "hotel") {
+    dispatch(getPassPofileHotel());
+  }
+}, [dispatch, FilledPassFormData, CartType]);
 
-    const isMatch = passengerPofile.some(
-      (p) => p.passport_number === FilledPassFormData.passport_number
-    );
+console.log("passengerPofile", passengerPofile);
+console.log("FilledPassFormData", FilledPassFormData);
 
-    if (isMatch) {
-      
-      setStopPolling(true);
-    }
-  }, [passengerPofile, FilledPassFormData]);
+// ✅ Stop checking when passport match is found (for flight)
+useEffect(() => {
+  if (
+    CartType !== "flight" ||
+    !FilledPassFormData ||
+    !passengerPofile
+  ) return;
 
-  // --- Stop polling when all passengers are present ---
-  useEffect(() => {
-    if (!GetViewPassengers || !passengerPofile) return;
+  const isMatch = passengerPofile.some(
+    (p) => p.passport_number === FilledPassFormData.passport_number
+  );
 
-    const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
+  if (isMatch) {
+    setStopPolling(true);
+  }
+}, [passengerPofile, FilledPassFormData, CartType]);
 
-    if (isLengthEqual) {
-      
-      setStopPolling(true);
-    }
-  }, [passengerPofile, GetViewPassengers]);
+// ✅ Stop checking when all passengers are present (for both flight & hotel)
+useEffect(() => {
+  if (!GetViewPassengers || !passengerPofile) return;
+
+  const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
+
+  if (isLengthEqual) {
+    setStopPolling(true);
+  }
+}, [passengerPofile, GetViewPassengers]);
+
 
   // --- Initialize tabType ---
   useEffect(() => {
