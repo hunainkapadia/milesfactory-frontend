@@ -47,7 +47,10 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
           <Box display="flex" alignItems="center" sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}>
             <FormControlLabel
               value={rates?.rateKey}
-              control={<Radio checked={isSelected} sx={{ p: 0, m: 0 }} />}
+              control={<Radio  sx={{
+        p: 0, m: 0,
+        transform: "scale(18px)", // increase size (1.0 = normal)
+      }} checked={isSelected}  />}
               sx={{ m: 0, p: 0 }}
             />
             <Box p={0} m={0} className={Profilestyles.detailCol}>
