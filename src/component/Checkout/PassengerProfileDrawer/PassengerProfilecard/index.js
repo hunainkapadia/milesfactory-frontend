@@ -65,7 +65,8 @@ const PassengerProfilecard = ({
           py={2}
         >
           <Box width={"100%"} display={"flex"} justifyContent={"space-between"}>
-            <Box onClick={() => selectCardHandle()}
+            <Box
+              onClick={() => selectCardHandle()}
               id={getdata.uuid}
               display={"flex"}
               sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}
@@ -224,9 +225,14 @@ const PassengerProfilecard = ({
             </Box>
           </Box>
           {isOpen && (
-            <Box pt={4} sx={{ pl: { lg: 6, md: 6, xs: 3 } }} width="100%">
-              <Grid container rowSpacing={2}>
-                <Grid item xs={6}>
+            <Box py={3} width="100%">
+              <Grid
+                container
+                sx={{
+                  rowGap: { xs: "16px", md: "45px" }, // mobile → 16px, desktop → 45px
+                }}
+              >
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
@@ -240,7 +246,7 @@ const PassengerProfilecard = ({
                     {getdata.given_name}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
@@ -255,7 +261,7 @@ const PassengerProfilecard = ({
                   </Typography>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
@@ -273,7 +279,7 @@ const PassengerProfilecard = ({
                     })}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
@@ -288,7 +294,7 @@ const PassengerProfilecard = ({
                   </Typography>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
@@ -302,7 +308,7 @@ const PassengerProfilecard = ({
                     {getdata.passport_number}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
@@ -324,7 +330,7 @@ const PassengerProfilecard = ({
                   </Typography>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
@@ -338,7 +344,7 @@ const PassengerProfilecard = ({
                     {getdata.email}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography
                     sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
                     className="mb-0 bold darkgray"
