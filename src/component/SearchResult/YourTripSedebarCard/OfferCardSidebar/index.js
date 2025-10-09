@@ -251,7 +251,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
         </Box>
         {/* traveller and baggage */}
         <Box>
-          {validPassengers?.length ? (
+          {/* {validPassengers?.length ? (
             <Stack
               direction="row"
               alignItems="center"
@@ -293,7 +293,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 </Box>
               </Stack>
             </Stack>
-          ) : null}
+          ) : null} */}
 
           <Stack direction="column" spacing={"4px"} component="section">
             <Stack direction="row" spacing={"4px"} alignItems={"center"}>

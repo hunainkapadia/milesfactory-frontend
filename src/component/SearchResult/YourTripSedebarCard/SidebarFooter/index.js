@@ -130,13 +130,13 @@ const SidebarFooter = () => {
             </>
           )}
         </Box>
-        {console.log("orderSuccess_00", orderSuccess)}
+        
         {CartData?.items?.length > 0 && (
           <Button
             disabled={
-              orderSuccess?.flight_order && !orderSuccess?.hotel_order
-                ? false
-                : orderSuccess?.flight_order && orderSuccess?.hotel_order
+              !orderSuccess?.hotel_order  && orderSuccess?.flight_order  && CartData?.items?.length < 2
+                ? true
+                : !orderSuccess?.flight_order && orderSuccess?.hotel_order && CartData?.items?.length < 2
                 ? true
                 : false
               // orderSuccess && true

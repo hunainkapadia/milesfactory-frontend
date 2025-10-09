@@ -298,8 +298,8 @@
           gap: 14px;
     
           .dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #000000;
             border: solid 2px $white;
             @include border-radius(20px);
@@ -461,6 +461,9 @@
       }
       
       .flightOfferCard {
+        .SearchDivider .dots .dot {
+          @include scale(5.5px, 5.5px);
+        }
         .selectFlightBtn {
           width: 150px !important;
           padding: 9px 40px 9px;
