@@ -160,7 +160,8 @@ const FromAndToDetail = ({
                           </Typography>
                         </Box>
                         <Box className={styles.Col2 + " col2-b"}>
-                          {getdata.segments.length > 1 ? (
+                        {console.log("getdata_segments", getdata?.segments?.length > 1)}
+                          {getdata?.segments?.length > 1 ? (
                             <>
                               <Typography
                                 sx={{ fontSize: { lg: 14, md: 14, xs: 12 } }}
@@ -171,6 +172,7 @@ const FromAndToDetail = ({
                             </>
                           ) : (
                             <>
+
                               {getdata.segments.map((segment) => (
                                 <div key={segment.id}>
                                   <Typography
