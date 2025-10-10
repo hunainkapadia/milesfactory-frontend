@@ -26,9 +26,10 @@ const BookingExperienceRating = ({
         <Typography variant="body1" className="bold">
           How was your booking experience?
         </Typography>
-        <Typography variant="body1">
+        <Typography display={{ md: "block", xs: "none" }} variant="body1">
           Your answer is anonymous. We use it to improve our product.
         </Typography>
+        <Typography display={{ md: "none", xs: "block" }} variant="body1">Your answer is anonymous.</Typography>
       </Box>
       <Box mb={3}>
         {/* Interactive Rating */}

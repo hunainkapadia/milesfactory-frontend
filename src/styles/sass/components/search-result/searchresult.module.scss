@@ -397,7 +397,9 @@
   .BaggageCol {opacity: 0.5;}
   .ChatBody .ChatBodyLeft {max-width: 100%;}
   
+  
   .SearchBodyActive {
+    background-position: left bottom !important;
     .InputBody {padding-bottom: 0;}
     .InputBody .InputContainer {
       padding: 0;

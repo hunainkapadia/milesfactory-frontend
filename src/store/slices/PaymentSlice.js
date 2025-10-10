@@ -195,7 +195,7 @@ const state = getState();
   const genericUUID = state.passengerDrawer.genericOrderUuid;
 
   const pollingStartTime = Date.now();
-  const POLLING_TIMEOUT = 30000; // ⏱️ Stop after 10 seconds
+  const POLLING_TIMEOUT = 30000; // Stop after 10 seconds
 
   const pollPaymentStatus = () => {
     const elapsed = Date.now() - pollingStartTime;
