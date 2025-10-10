@@ -223,7 +223,7 @@ const PriceSummary = ({ getdata }) => {
                           {flightOrder.tax_currency === "GBP"
                             ? "£"
                             : flightOrder.tax_currency}
-                          {flightOrder.markup_amount}
+                          {flightOrder.markup_amount.toFixed(2)}
                         </>
                       ) : (
                         "-"

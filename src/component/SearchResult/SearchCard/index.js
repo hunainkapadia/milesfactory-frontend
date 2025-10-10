@@ -268,7 +268,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                     className={searchResultStyles.PriceBottom}
                   >
                     <Box>
-                      <h4
+                      <Typography
                         className={
                           searchResultStyles.flightPriceSection +
                           " mb-0 black bold"
@@ -276,8 +276,8 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}
-                        {Math.round(offerData?.per_passenger_amount_plus_markup_rounded)}
-                      </h4>
+                        {Math.round(offerData?.per_passenger_amount_plus_markup_rounded)} total
+                      </Typography>
                       {/* {console.log(offerData)} */}
 
                       {personQuantity > 1 && (
