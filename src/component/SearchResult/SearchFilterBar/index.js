@@ -75,7 +75,7 @@ const SearchFilterBar = () => {
             >
               {/*  */}
               <Box
-                sx={{ gap: { md: "12px", xs: "8px" } }}
+                sx={{ gap: { md: "12px", xs: "10px" } }}
                 display={"flex"}
                 alignItems={"center"}
               >
