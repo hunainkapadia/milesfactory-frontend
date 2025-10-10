@@ -1799,10 +1799,10 @@ body {
     background: $basecolor1;
     letter-spacing: 0 !important;
     color: $white;
-    font-weight: 500;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: $bold;
 
     &.active:hover,
     &.active,

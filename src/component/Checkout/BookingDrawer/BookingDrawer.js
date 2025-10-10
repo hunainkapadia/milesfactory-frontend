@@ -123,7 +123,7 @@ const BookingDrawer = ({ }) => {
 
                     {getFlightDetail?.slices?.length <= 1 ? (
                       <Typography className={"f14 gray"}>
-                        {"One way"},{" "}
+                        {"One Way"},{" "}
                         {
                           getFlightDetail?.slices[0]?.segments[0]?.passengers[0]
                             .cabin_class_marketing_name

@@ -402,7 +402,7 @@
       }
       .checkoutDrowerHeder {
          padding: 18px 18px 0;
-         gap: 16px;
+         gap: 12px;
       }
       width: 100%;
       >div {
@@ -445,6 +445,13 @@
          top: inherit;
          @include border-radius(0);
          .checkoutDrowerBody {
+               padding: 0 18px;
+               >div {
+                  padding: 0;
+               }
+               .detailsSection {
+                  padding: 0;
+               }
             .detailsSection {
                .fromAndToRow {
                   .ToRow, .FromRow {
