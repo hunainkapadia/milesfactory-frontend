@@ -60,7 +60,7 @@ const MyTrips = () => {
       <Box component={"main"} className={styles.TripBody + " main-body "}>
         <Box
           component={"section"}
-          sx={{ py: { lg: "83px", md: "83px", xs: "33px" } }}
+          sx={{ py: { md: "32px", xs: "33px" } }}
         >
           <Container>
             {/* Header */}

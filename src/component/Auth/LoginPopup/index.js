@@ -110,14 +110,17 @@ const LoginPopup = ({ isChat }) => {
         sx={{
           textAlign: { xs: "center", md: "left", lg: "left" },
         }}
+        className={`${
+            isChat ? styles.ChatDialogContent : " MDialogContent"
+          }`}
       >
         <Box
           component={"main"}
           className={styles.signupSection + " bg-cover bg-norepeat bg-center"}
         >
           <Box
-            py={2}
-            sx={{ px: { lg: 8, md: 8, xs: 0 } }}
+            className={"bbb"}
+            sx={{ px: { md: "108px", xs: 0 } }}
             position={"relative"}
           >
             <Box textAlign={"center"} mb={2}>
@@ -164,18 +167,18 @@ const LoginPopup = ({ isChat }) => {
                             borderRadius: "16px",
                           },
                           endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={() => setShowPassword((prev) => !prev)}
-                                edge="end"
-                              >
-                                {showPassword ? (
-                                  <img src="/images/eye-active.svg" />
-                                ) : (
-                                  <img src="/images/eye-deactive.svg" />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
+                            <Box
+                              className="cursor-pointer"
+                              display={"flex"}
+                              alignItems={"center"}
+                              onClick={() => setShowPassword((prev) => !prev)}
+                            >
+                              {showPassword ? (
+                                <img src="/images/eye-active.svg" />
+                              ) : (
+                                <img src="/images/eye-deactive.svg" />
+                              )}
+                            </Box>
                           ),
                         }}
                       />
@@ -200,7 +203,7 @@ const LoginPopup = ({ isChat }) => {
                       onClick={handleLogin}
                       variant="contained"
                       color="success"
-                      disabled={!isFormValid ? "disabled" : "" } // Disable when loading
+                      disabled={!isFormValid ? "disabled" : ""} // Disable when loading
                     >
                       {isloading ? (
                         <ButtonLoading />

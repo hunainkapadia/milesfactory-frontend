@@ -8,7 +8,8 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+
+import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setisUserPopup,
@@ -60,7 +61,6 @@ const UserPopup = (isChat) => {
   
   return (
     <>
-      
       <Dialog
         open={isUserPopup}
         onClose={
@@ -91,6 +91,9 @@ const UserPopup = (isChat) => {
         )}
 
         <DialogContent
+          className={`${
+            isChat?.isChat ? styles.ChatDialogContent : " MDialogContent"
+          }`}
           sx={{
             textAlign: { xs: "center", md: "left", lg: "left" },
             px: { lg: 10, md: 10, xs: 2 },

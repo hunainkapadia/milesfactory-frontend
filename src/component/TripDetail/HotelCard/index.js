@@ -20,6 +20,7 @@ import FromAndToDetail from "../../Checkout/BookingDrawer/FromAndToDetail";
 import { currencySymbols } from "@/src/utils/utils";
 import dayjs from "dayjs";
 import HotelDrawerGallery from "../../SearchResult/Hotel/hotelDrawer/HotelDrawerGallery";
+import { useSelector } from "react-redux";
 
 const HotelCard = ({ hotelOffer, tripDetail }) => {
   const stars = hotelOffer?.categoryName
@@ -27,6 +28,8 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
     : 0;
   // Extract first rate for board/offer/price
   const firstRate = hotelOffer?.rooms?.[0]?.rates?.[0];
+  const hotelOffer2 = useSelector((state)=> state);
+  console.log("hotelOffer_hotel", hotelOffer2)
   return (
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
@@ -48,6 +51,7 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
               textAlign: "center",
             }}
           >
+          
             {/* <Typography variant="h6" textTransform={"capitalize"}>
               Hi, {hotelOffer?.passengers[0]?.given_name}{" "}
               {hotelOffer?.passengers[0]?.family_name}

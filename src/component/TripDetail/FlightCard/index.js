@@ -45,6 +45,7 @@ const FlightCard = ({flightOffer, tripDetail}) => {
                      }}
                    >
                      <Typography variant="h6" textTransform={"capitalize"}>
+                  
                        Hi, {flightOffer?.passengers[0]?.given_name}{" "}
                        {flightOffer?.passengers[0]?.family_name}
                      </Typography>
@@ -63,7 +64,7 @@ const FlightCard = ({flightOffer, tripDetail}) => {
                        <Typography variant="body2" gutterBottom>
                          There's nothing to do except waiting {daysLeft} days before
                          takeoff. Booking reference (PNR):{" "}
-                         <span className="exbold">{tripDetail?.duffel_order?.booking_reference}</span>
+                         <span className="exbold">{flightOffer?.duffel_order?.booking_reference}</span>
                        </Typography>
                        <Divider sx={{ my: 2 }} />
                        {/* Flights */}
@@ -265,7 +266,7 @@ const FlightCard = ({flightOffer, tripDetail}) => {
                          <Grid item xs={6}>
                            <Typography variant="subtitle2">Customer service</Typography>
                            <Typography fontSize="14px">
-                             Booking reference: <span className="exbold">{tripDetail?.duffel_order?.booking_reference}</span>
+                             Booking reference: <span className="exbold">{flightOffer?.duffel_order?.booking_reference}</span>
                            </Typography>
                            <Typography fontSize="12px" color="primary" sx={{ mt: 0.5 }}>
                              <a href="mailto:hello@gomylz.com">

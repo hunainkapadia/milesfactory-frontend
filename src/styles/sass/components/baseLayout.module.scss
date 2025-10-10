@@ -4,6 +4,9 @@
 
 // search share dropdown header
 
+.humberer {
+   width: 15px;
+}
 .ShareDropdown {
    @include transition(all 0.2s ease-in-out);
    padding: 0px;

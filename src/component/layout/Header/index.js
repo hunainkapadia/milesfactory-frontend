@@ -172,7 +172,7 @@ const Header = ({
                     <FontAwesomeIcon
                       onClick={handleMobileNav}
                       icon={faBars}
-                      className={`cursor-pointer ${
+                      className={`${styles.humberer} cursor-pointer ${
                         isMytrip || isSticky | IsActive || isMessage
                           ? " basecolor "
                           : " white"

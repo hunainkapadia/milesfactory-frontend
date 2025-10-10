@@ -112,6 +112,7 @@ const SignUpPopup = ({ isChat }) => {
         sx={{
           textAlign: { xs: "center", md: "left", lg: "left" },
         }}
+        className={`${isChat ? styles.ChatDialogContent : " MDialogContent"}`}
       >
         <Box
           component={"main"}
@@ -182,18 +183,18 @@ const SignUpPopup = ({ isChat }) => {
                       margin="normal"
                       InputProps={{
                         endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={() => setShowPassword((prev) => !prev)}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <img src="/images/eye-active.svg" />
-                              ) : (
-                                <img src="/images/eye-deactive.svg" />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
+                          <Box
+                            className="cursor-pointer"
+                            display={"flex"}
+                            alignItems={"center"}
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
+                            {showPassword ? (
+                              <img src="/images/eye-active.svg" />
+                            ) : (
+                              <img src="/images/eye-deactive.svg" />
+                            )}
+                          </Box>
                         ),
                       }}
                     />
@@ -221,10 +222,10 @@ const SignUpPopup = ({ isChat }) => {
 
                           <Typography
                             variant="body2"
-                            color="textSecondary"
+                            className="darkgray"
                             sx={{ cursor: "pointer", userSelect: "none" }}
                           >
-                            I’d like to receive personalised offers and be the
+                            I'd like to receive personalised offers and be the
                             first to know about latest Mylz updates via email
                           </Typography>
                         </Box>
@@ -246,10 +247,10 @@ const SignUpPopup = ({ isChat }) => {
                           />
                           <Typography
                             variant="body2"
-                            color="textSecondary"
+                            className="darkgray"
                             sx={{ cursor: "pointer" }}
                           >
-                            By registering, I confirm that I accept the{" "}
+                            By registering, I confirm that I accept Mylz’s
                             <Link
                               href="/terms-and-conditions"
                               passHref
@@ -257,39 +258,14 @@ const SignUpPopup = ({ isChat }) => {
                             >
                               <a
                                 target="_blank"
-                                className="basecolor"
+                                className="basecolor1"
                                 style={{ textDecoration: "underline" }}
                                 onClick={(e) => e.stopPropagation()} // prevents toggling checkbox when clicking link
                               >
-                                Terms & Conditions
+                                {" "}Terms & Conditions{" "}
                               </a>
                             </Link>
-                            , have read{" "}
-                            <Link href="/privacy" passHref legacyBehavior>
-                              <a
-                                className="basecolor"
-                                target="_blank"
-                                style={{ textDecoration: "underline" }}
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                Privacy
-                              </a>
-                            </Link>{" "}
-                            and{" "}
-                            <Link
-                              href="/sanctions-compliance"
-                              passHref
-                              legacyBehavior
-                            >
-                              <a
-                                className="basecolor"
-                                target="_blank"
-                                style={{ textDecoration: "underline" }}
-                              >
-                                Sanctions Compliance
-                              </a>
-                            </Link>
-                            , and am at least 18 years old.
+                            and am at least 18 years old
                           </Typography>
                         </Box>
                       </label>
@@ -307,7 +283,7 @@ const SignUpPopup = ({ isChat }) => {
                         onClick={handleSignUp}
                         variant="contained"
                         color="success"
-                        disabled={!isFormValid ? "disabled" : "" } // Disable when loading
+                        disabled={!isFormValid ? "disabled" : ""} // Disable when loading
                         width={"100%"}
                         type="submit" // Important!
                         className="btn btn-primary btn-md btn-round" // Important!

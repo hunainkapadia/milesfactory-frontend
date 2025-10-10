@@ -255,7 +255,7 @@ const MobileNavDrawer = ({ isChat, isAiBooking }) => {
                 </Box>
                 {/*  */}
               </Box>
-              <Box py={3}>
+              <Box py={"28px"}>
                 <Divider />
               </Box>
               <Box display="flex">
@@ -266,7 +266,7 @@ const MobileNavDrawer = ({ isChat, isAiBooking }) => {
                   Search
                 </Box>
               </Box>
-              <Box py={3}>
+              <Box py={"28px"}>
                 <Divider />
               </Box>
 
@@ -338,10 +338,9 @@ const MobileNavDrawer = ({ isChat, isAiBooking }) => {
                   pt={"60px"}
                   display={"flex"}
                   flexDirection={"column"}
-                  gap={3}
+                  gap={"28px"}
                 >
                   <HeaderUser formobileDrawer={"formobileDrawer"} />
-
                   {/*  */}
 
                   {currentUser ? (
@@ -502,7 +501,7 @@ const MobileNavDrawer = ({ isChat, isAiBooking }) => {
                     ""
                   )}
                 </Box>
-                <Box py={3}>
+                <Box py={"28px"}>
                   <Divider />
                 </Box>
                 {!isChat ? (
@@ -515,7 +514,7 @@ const MobileNavDrawer = ({ isChat, isAiBooking }) => {
                         Book a trip
                       </Box>
                     </Box>
-                    <Box py={3}>
+                    <Box py={"28px"}>
                       <Divider />
                     </Box>
                   </>
@@ -526,7 +525,7 @@ const MobileNavDrawer = ({ isChat, isAiBooking }) => {
                   component={"section"}
                   sx={{
                     display: "flex",
-                    gap: 3,
+                    gap: "28px",
                   }}
                   flexDirection={"column"}
                   mb={3}
