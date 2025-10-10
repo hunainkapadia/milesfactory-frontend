@@ -45,6 +45,11 @@ const AiMessage = ({ aiMessage }) => {
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  const error = useSelector(
+    (state) => state.sendMessage?.error
+  );
+  console.log("ai_error", error);
+  
   const getHotels = aiMessage?.ai?.hotels;
  const handleSeeMoreHotels = () => {
     setHotelsToShow((prev) => prev + 10); // load 10 more each click
@@ -252,9 +257,12 @@ const AiMessage = ({ aiMessage }) => {
               )}
 
               <>
+              
+
+              {error?.response?.errors}
                 {aiMessage?.ai?.response ? (
                   <>
-                    {aiMessage?.ai?.response?.error || aiMessage?.ai?.response?.error? (
+                    {aiMessage?.ai?.response?.error || aiMessage?.ai?.response?.error ? (
                       <>
                         <ChatError error={aiMessage?.ai?.response?.error || aiMessage?.ai?.response?.error} />
                       </>

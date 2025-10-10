@@ -71,34 +71,43 @@ const PaymentDrawer = ({ getFlightDetail }) => {
       onClose={HandlecloseDrawer} // Close on backdrop click
       className={`${styles.checkoutDrower} ${styles.MobileDrawer} aaaaa`}
     >
-      <Box className={styles.checkoutDrower + " white-bg"} width={480}>
+      <Box className={styles.checkoutDrower + " white-bg"} width={463}>
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
-          <Box className={`${styles.checkoutDrowerBody} ${styles.checkoutPaymentBody}`}>
-            <Box className={styles.checkoutDrowerHeder} px={3}>
-              <Box
-                pb={3}
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Box>
-                  <h3 className={" mb-0 regular"}>Payment</h3>
-                </Box>
-                <Box
-                  onClick={HandlecloseDrawer}
-                  className=" basecolor cursor-pointer"
-                >
-                  <i className="fa fa-close fas"></i>
-                </Box>
-              </Box>
+          <Box
+            component={"header"}
+            className={styles.checkoutDrowerHeder}
+            py={3}
+            px={3}
+            display="flex"
+            justifyContent="space-between"
+            flexDirection={"column"}
+            gap={"12px"}
+          >
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
               <Box>
-                <Divider />
+                <h3 className={" mb-0 regular"}>Payment</h3>
+              </Box>
+              <Box
+                onClick={HandlecloseDrawer}
+                className=" basecolor cursor-pointer"
+              >
+                <i className="fa fa-close fas"></i>
               </Box>
             </Box>
+            <Box>
+              <Divider />
+            </Box>
+          </Box>
+          <Box
+            className={`${styles.checkoutDrowerBody} ${styles.checkoutPaymentBody}`}
+          >
             {/* Header Section */}
 
             <StripePayment />
-
           </Box>
           {/* <PaymentFooter selectedCard={selectedCard} agreeTerms={agreeTerms} /> */}
         </Box>

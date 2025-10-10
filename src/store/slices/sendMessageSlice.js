@@ -209,6 +209,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         let response = res.data;
         const run_id = response.run_id;
         const run_status = response.run_status;
+        console.log("response_sendmess", response.errors);
+        // dispatch(setMessage({ ai: { error: response } }));
+        
+        
 
         if (response?.silent_is_function) {
           dispatch(setAddBuilder(response));
