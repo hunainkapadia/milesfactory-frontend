@@ -27,3 +27,10 @@ body {
    }
  }
  
+ @include for-mobile-large-screen() {
+   body {
+     .ChatDialogContent {
+       padding: 18px
+     }
+   }
+ }
