@@ -68,6 +68,8 @@ const SearchFilterBar = () => {
               className={styles.Content}
               gap={2}
               display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
             >
               {/*  */}
               <Box
@@ -180,27 +182,27 @@ const SearchFilterBar = () => {
                     ""
                   )}
                 </Box>
-                <Box>
-                  {CartOfferDetail?.length > 0 && (
-                    <Box style={{ cursor: "pointer" }}>
+              </Box>
+              <Box>
+                {CartOfferDetail?.length > 0 && (
+                  <Box style={{ cursor: "pointer" }}>
+                    <Box
+                      onClick={HandleSelectDrawer}
+                      className="text-decoration-none cursor-pointer"
+                    >
                       <Box
-                        onClick={HandleSelectDrawer}
-                        className="text-decoration-none cursor-pointer"
+                        gap={"4px"}
+                        alignItems={"center"}
+                        display={"flex"}
+                        className=" basecolor1 semibold"
+                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
                       >
-                        <Box
-                          gap={"4px"}
-                          alignItems={"center"}
-                          display={"flex"}
-                          className=" basecolor1 semibold"
-                          sx={{ fontSize: { md: "12px", xs: "10px" } }}
-                        >
-                          <span>See details</span>
-                          <i className="fa-angle-right fa fas"></i>{" "}
-                        </Box>
+                        <span>See details</span>
+                        <i className="fa-angle-right fa fas"></i>{" "}
                       </Box>
                     </Box>
-                  )}
-                </Box>
+                  </Box>
+                )}
               </Box>
             </Box>
             {/*  */}
