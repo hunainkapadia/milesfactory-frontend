@@ -384,9 +384,12 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
           className="f11 black"
           display={"flex"}
           justifyContent={"flex-end"}
-          alignItems={"center"} gap={"1px"}
+          alignItems={"center"}
+          gap={"1px"}
         >
+          {console.log("getItems_raw_data", getItems?.raw_data)}
           <Typography className="f11 exbold" component={"span"}>
+            {currencySymbols[getItems?.raw_data?.total_currency] || getItems?.raw_data?.total_currency}
             {`${getItems?.raw_data?.per_passenger_amount_plus_markup},`}
           </Typography>{" "}
           <Typography className="f11" component={"span"}>
