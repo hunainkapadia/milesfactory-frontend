@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faPlane } from "@fortawesome/free-solid-svg-icons";
 import { capitalizeFirstWord } from "@/src/utils/utils";
 
-const FromAndTooFields = ({
+const OriginField = ({
   origin,
   setOrigin,
   destination,
@@ -149,74 +149,9 @@ const FromAndTooFields = ({
           )}
         />
       </Box>
-
-      
-        <>
-        <Fade in={!isMobile || (isMobile && originOption)}>
-          {/* Destination Field */}
-          <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
-            <Autocomplete
-              freeSolo
-              options={originOptions}
-              loading={loadingDestination}
-              filterOptions={filterOptions}
-              getOptionLabel={(option) =>
-                typeof option === "string"
-                  ? option
-                  : option?.name
-                  ? `${option.name} - ${option.iata_code}`
-                  : ""
-              }
-              value={destinationOption}
-              inputValue={destination}
-              onInputChange={(e, value, reason) => {
-                if (reason === "input") {
-                  setDestination(value);
-                  handleAirportSearch(value, "destination");
-                }
-              }}
-              onChange={(e, value) => {
-                
-                setDestinationOption(value);
-                setDestination(value?.iata_code || "");
-              }}
-              ListboxProps={{
-                className: styles.countryDropdown + " countryDropdown",
-              }}
-              renderOption={(props, option) => (
-                <li
-                  {...props}
-                  className={`${
-                    option?.is_city ? styles.parent : styles.child
-                  }`}
-                >
-                  <FontAwesomeIcon
-                    icon={option?.is_city ? faBuilding : faPlane}
-                  />
-                  <Typography>
-                    {option.name} - {option.iata_code}
-                  </Typography>
-                </li>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  placeholder="Arriving at"
-                  size="small"
-                  className={`${styles.formControl} ${styles.from} formControl`}
-                  error={!!errors.destination}
-                  helperText={errors.destination}
-                />
-              )}
-            />
-          </Box>
-        </Fade>
-        
-        </>
       
     </>
   );
 };
 
-export default FromAndTooFields;
+export default OriginField;

@@ -4,6 +4,8 @@ import {
   TextField,
   MenuItem,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +24,8 @@ import {
 import Cookies from "js-cookie";
 import FromAndTooFields from "./FromAndTooFields";
 import { capitalizeFirstWord } from "@/src/utils/utils";
+import OriginField from "./OriginField";
+import DestinationField from "./DestinationField";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
@@ -110,16 +114,20 @@ const TravelForm = () => {
   const calendarRef = useRef(null);
   const tripTypeLabels = {
     oneway: "one way",
-    roundtrip: "Round trip"
-  }
+    roundtrip: "Round trip",
+  };
 
-  const handleTripType =(e)=> {
+  const handleTripType = (e) => {
     const value = e.target.value;
-    
-    setTripType(value)
-    
-  }
 
+    setTripType(value);
+  };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+
+
+  console.log("origin_test", origin);
+  
   return (
     <Stack
       className={styles.travelForm}
@@ -128,7 +136,7 @@ const TravelForm = () => {
       flex={1}
       mt="34px"
     >
-      <Box>
+      <Box className={styles.Left}>
         <Stack
           className={styles.SearchBoxContainerLeft}
           display="flex"
@@ -153,9 +161,10 @@ const TravelForm = () => {
                     {...props}
                   />
                 ),
-                renderValue: (selected) => (
-                    selected ? capitalizeFirstWord(tripTypeLabels[selected]) : "Select trip type"
-                ),
+                renderValue: (selected) =>
+                  selected
+                    ? capitalizeFirstWord(tripTypeLabels[selected])
+                    : "Select trip type",
               }}
             >
               <MenuItem value="oneway">One way</MenuItem>
@@ -163,7 +172,7 @@ const TravelForm = () => {
             </TextField>
           </Box>
 
-          <FromAndTooFields
+          <OriginField
             origin={origin}
             setOrigin={setOrigin}
             destination={destination}
@@ -173,109 +182,135 @@ const TravelForm = () => {
             destinationOption={destinationOption}
             setDestinationOption={setDestinationOption}
             errors={errors}
+            isMobile={isMobile}
           />
-          {/* Dates */}
-          <Box className={styles.formGroup} position="relative">
-            <TextField
-              variant="outlined"
-              placeholder="Travel dates"
-              value={
-                tripType === "oneway"
-                  ? dayjs(singleDate).format("DD MMM")
-                  : `${dayjs(dateRange[0].startDate).format(
-                      "DD MMM"
-                    )} - ${dayjs(dateRange[0].endDate).format("DD MMM")}`
-              }
-              onClick={() => setShowCalendar(!showCalendar)}
-              className={`${styles.formControl} ${styles.dates} formControl`}
-              size="small"
-              sx={{ width: "180px", cursor: "pointer" }}
-              InputProps={{
-                readOnly: true,
-                endAdornment: (
-                  <img
-                    src="/images/calendar-icon-light.svg"
-                    alt="Calendar"
-                    onClick={() => setShowCalendar(!showCalendar)}
-                  />
-                ),
-              }}
-              error={!!errors.date}
-              helperText={errors.date}
-            />
-
-            {showCalendar && (
-              <Box
-                ref={calendarRef} // attach here
-                position="absolute"
-                zIndex={10}
-                top="40px"
-                boxShadow="0 0 10px rgba(0,0,0,0.1)"
-                sx={{
-                  left: { xs: "-180px", md: 0 }, //responsive syntax
-                }}
-              >
-                <DateRange
-                  editableDateInputs
-                  onChange={(item) => {
-                    setDateRange([item.selection]);
-
-                    if (tripType === "oneway") {
-                      setSingleDate(item.selection.startDate);
-                      setShowCalendar(false);
-                    } else if (tripType === "roundtrip") {
-                      const { startDate, endDate } = item.selection;
-                      if (endDate && startDate && endDate > startDate) {
-                        // Close only when user picked a valid return date
-                        setShowCalendar(false);
-                      }
-                    }
+          <DestinationField
+            origin={origin}
+            setOrigin={setOrigin}
+            destination={destination}
+            setDestination={setDestination}
+            originOption={originOption}
+            setOriginOption={setOriginOption}
+            destinationOption={destinationOption}
+            setDestinationOption={setDestinationOption}
+            errors={errors}
+            isMobile={isMobile}
+          />
+          {!isMobile && (
+            <>
+              {/* Dates */}
+              <Box className={styles.formGroup} position="relative">
+                <TextField
+                  variant="outlined"
+                  placeholder="Travel dates"
+                  value={
+                    tripType === "oneway"
+                      ? dayjs(singleDate).format("DD MMM")
+                      : `${dayjs(dateRange[0].startDate).format(
+                          "DD MMM"
+                        )} - ${dayjs(dateRange[0].endDate).format("DD MMM")}`
+                  }
+                  onClick={() => setShowCalendar(!showCalendar)}
+                  className={`${styles.formControl} ${styles.dates} formControl`}
+                  size="small"
+                  sx={{ width: "180px", cursor: "pointer" }}
+                  InputProps={{
+                    readOnly: true,
+                    endAdornment: (
+                      <img
+                        src="/images/calendar-icon-light.svg"
+                        alt="Calendar"
+                        onClick={() => setShowCalendar(!showCalendar)}
+                      />
+                    ),
                   }}
-                  moveRangeOnFirstSelection={false}
-                  ranges={dateRange}
-                  rangeColors={["#1539CF"]}
-                  minDate={dayjs().add(1, "day").toDate()} // today disabled, earliest = tomorrow
+                  error={!!errors.date}
+                  helperText={errors.date}
                 />
-              </Box>
-            )}
-          </Box>
 
-          {/* Travellers */}
-          <Travellers travellers={travellers} setTravellers={setTravellers} />
-          {errors.travellers && (
-            <Typography color="error" variant="caption">
-              {errors.travellers}
-            </Typography>
+                {showCalendar && (
+                  <Box
+                    ref={calendarRef} // attach here
+                    position="absolute"
+                    zIndex={10}
+                    top="40px"
+                    boxShadow="0 0 10px rgba(0,0,0,0.1)"
+                    sx={{
+                      left: { xs: "-180px", md: 0 }, //responsive syntax
+                    }}
+                  >
+                    <DateRange
+                      editableDateInputs
+                      onChange={(item) => {
+                        setDateRange([item.selection]);
+
+                        if (tripType === "oneway") {
+                          setSingleDate(item.selection.startDate);
+                          setShowCalendar(false);
+                        } else if (tripType === "roundtrip") {
+                          const { startDate, endDate } = item.selection;
+                          if (endDate && startDate && endDate > startDate) {
+                            // Close only when user picked a valid return date
+                            setShowCalendar(false);
+                          }
+                        }
+                      }}
+                      moveRangeOnFirstSelection={false}
+                      ranges={dateRange}
+                      rangeColors={["#1539CF"]}
+                      minDate={dayjs().add(1, "day").toDate()} // today disabled, earliest = tomorrow
+                    />
+                  </Box>
+                )}
+              </Box>
+            </>
           )}
+          {!isMobile || (isMobile && destinationOption && originOption) && (
+              <>
+                {/* Travellers */}
+                <Travellers
+                  travellers={travellers}
+                  setTravellers={setTravellers}
+                />
+                {errors.travellers && (
+                  <Typography color="error" variant="caption">
+                    {errors.travellers}
+                  </Typography>
+                )}
+              </>
+            )}
 
           {/* Trip Class */}
-          <Box className={styles.formGroup}>
-            <TextField
-              select
-              value={tripClass}
-              onChange={(e) => setTripClass(e.target.value)}
-              className={`${styles.formControl} ${styles.TripClass} formControl`}
-              error={!!errors.tripClass}
-              helperText={errors.tripClass}
-              sx={{ width: "160px" }}
-              SelectProps={{
-                displayEmpty: true,
-                IconComponent: (props) => (
-                  <FontAwesomeIcon
-                    icon={faAngleDown}
-                    style={{ color: "#6C6F76" }}
-                    {...props}
-                  />
-                ),
-              }}
-            >
-
-              <MenuItem value="Economy">Economy</MenuItem>
-              <MenuItem value="Premium Economy">Premium Economy</MenuItem>
-              <MenuItem value="Business">Business</MenuItem>
-              <MenuItem value="First">First Class</MenuItem>
-            </TextField>
-          </Box>
+          {!isMobile && (
+            <>
+              <Box className={styles.formGroup}>
+                <TextField
+                  select
+                  value={tripClass}
+                  onChange={(e) => setTripClass(e.target.value)}
+                  className={`${styles.formControl} ${styles.TripClass} formControl`}
+                  error={!!errors.tripClass}
+                  helperText={errors.tripClass}
+                  sx={{ width: "160px" }}
+                  SelectProps={{
+                    displayEmpty: true,
+                    IconComponent: (props) => (
+                      <FontAwesomeIcon
+                        icon={faAngleDown}
+                        style={{ color: "#6C6F76" }}
+                        {...props}
+                      />
+                    ),
+                  }}
+                >
+                  <MenuItem value="Economy">Economy</MenuItem>
+                  <MenuItem value="Premium Economy">Premium Economy</MenuItem>
+                  <MenuItem value="Business">Business</MenuItem>
+                  <MenuItem value="First">First Class</MenuItem>
+                </TextField>
+              </Box>
+            </>
+          )}
         </Stack>
       </Box>
 

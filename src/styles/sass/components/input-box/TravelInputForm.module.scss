@@ -343,23 +343,22 @@ body {
       }
    }
    
-   body {
-      .formGroup {
-         width: auto;
-         flex: 1;
-         .formControl {
-            width: 100% !important;
-            min-height: 30px !important;
-            &.dates img {
-               margin-right: 4px;
-            }
-            > div {
-               min-height:30px !important;
-               height: 30px !important;
-              width: 100% !important;
-              font-size: 12px !important;
-           }
+   .formGroup {
+      width: auto;
+      flex: 1;
+      min-width: 100%;
+      .formControl {
+         width: 100% !important;
+         min-height: 30px !important;
+         &.dates img {
+            margin-right: 4px;
          }
+         > div {
+            min-height:30px !important;
+            height: 30px !important;
+           width: 100% !important;
+           font-size: 12px !important;
+        }
       }
    }
    .bookingFormWrapper {
@@ -379,6 +378,8 @@ body {
          gap: 20px;
          align-items: flex-end;
          justify-content: space-between;
+         width: 100%;
+         .Left {width: 100%;}
          .SearchBoxContainerLeft {
             row-gap: 10px;
             column-gap: 13px;
