@@ -238,7 +238,7 @@
     .Footer {border-radius: 0 0 24px 24px;}
     .TripBody {
       overflow: auto;
-      max-height: 50vh;
+      height: 60vh;
 
   /* For WebKit browsers (Chrome, Safari) */
   &::-webkit-scrollbar {
@@ -275,5 +275,11 @@
   .inactiveTab {
     margin-right: 4px;
     height: 35px;
+  }
+}
+
+@media only screen and (max-height:750px) {
+  .YourTripSidebar .YourTripCard .TripBody {
+    height: 50vh;
   }
 }
