@@ -106,7 +106,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                className={TripStyles.SelectedLabel + " chip chipYellow sm"}
+                className={TripStyles.SelectedLabel + " chip chipGray sm"}
               >
                 Selected
               </Box>
@@ -276,7 +276,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                   </svg>
                 </Box>
                 <Box className="f12 basecolor">
-                  <Typography component={"span"} className="f12 bold basecolor">
+                  <Typography component={"span"} className="f12 black">
                     Travellers:{" "}
                   </Typography>
                   <Typography component={"span"} className="f12 gray">
@@ -297,7 +297,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
 
           <Stack direction="column" spacing={"4px"} component="section">
             <Stack direction="row" spacing={"4px"} alignItems={"center"}>
-              <Box pt={"2px"}>
+              <Box>
                 <svg
                   width="13"
                   height="13"
@@ -314,7 +314,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               
               <Stack width={"100%"}>
                 <Typography className="f12 basecolor">
-                  <Typography component={"span"} className="f12 bold basecolor">
+                  <Typography component={"span"} className="f12 black">
                     No travellers selected:{" "}
                     {getItems?.raw_data.passengers.length}
                   </Typography>
@@ -322,7 +322,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               </Stack>
             </Stack>
             <Stack direction="row" spacing={"4px"} alignItems={"center"}>
-              <Box pt={"2px"}>
+              <Box>
                 <svg
                   width="13"
                   height="13"
@@ -341,8 +341,8 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               </Box>
 
               <Stack width={"100%"}>
-                <Typography className="f12 basecolor">
-                  <Typography component={"span"} className="f12 bold basecolor">
+                <Typography className="f12 black">
+                  <Typography component={"span"} className="f12 black">
                     Extra baggage:{" "}
                   </Typography>
                   {(() => {
