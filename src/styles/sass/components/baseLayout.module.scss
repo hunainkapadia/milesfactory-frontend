@@ -60,14 +60,14 @@
 }
 
 .Header {
-   display: flex;
-   align-items: center;
    position: sticky;
    top: 0;
    width: 100%;
    left: 0;
    z-index: 7;
-   height: $headerHeightMd;
+   .HeaderBox {
+      height: $headerHeightMd;
+   }
    
    &.AiBookingFrontHeader {position: relative; background-color: $white;}
    &.AiBookingMainHeaderRow1 {
@@ -160,9 +160,11 @@
       }
    }
    &.isMessage {
-      padding-right: 10px;
-      background-color: $white;
-      box-shadow: 0px 1px 0px rgba(0, 80, 83, 0.05);
+      .HeaderBox {
+         padding-right: 10px;
+         background-color: $white;
+         border-bottom: solid 1px #E6EEEE;
+      }
       
       .Box {z-index: 8;
          .Login {
@@ -313,10 +315,6 @@
       &.Sticky {
          height: $headerHeightXs;
       }
-      height: $headerHeightXs;
-      
-        display: flex;
-        align-items: center;
        &.AiBookingMainHeaderRow2 {
          height: 40px;
       }

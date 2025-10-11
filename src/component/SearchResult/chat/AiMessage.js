@@ -24,6 +24,8 @@ import NotfoundCard from "./NotfoundCard";
 import ChatError from "./ChatError";
 
 const AiMessage = ({ aiMessage }) => {
+  
+  
   const dispatch = useDispatch();
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
@@ -257,14 +259,22 @@ const AiMessage = ({ aiMessage }) => {
               )}
 
               <>
-              
+                {error?.response?.errors}
+                {/* {aiMessage?.ai?.error?.data?.response && (
+                  <ChatError error={aiMessage?.ai?.error?.data[0]?.response} />
+                )} */}
 
-              {error?.response?.errors}
                 {aiMessage?.ai?.response ? (
                   <>
-                    {aiMessage?.ai?.response?.error || aiMessage?.ai?.response?.error ? (
+                    {aiMessage?.ai?.response?.error ||
+                    aiMessage?.ai?.response?.error ? (
                       <>
-                        <ChatError error={aiMessage?.ai?.response?.error || aiMessage?.ai?.response?.error} />
+                        <ChatError
+                          error={
+                            aiMessage?.ai?.response?.error ||
+                            aiMessage?.ai?.response?.error
+                          }
+                        />
                       </>
                     ) : (
                       <>
