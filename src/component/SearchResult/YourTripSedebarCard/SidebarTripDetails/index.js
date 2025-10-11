@@ -112,6 +112,8 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
         </Typography>
       </Box>
       <BuilderHelpingCard getBuilder={getBuilder} forOneway />
+
+      {/* itinerary text */}
       <Box mb={3}>
         <Box id={id} mb={1}>
           <Box display={"flex"} alignItems={"center"} gap={"12px"}>
@@ -164,20 +166,6 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
                     Hotel for {getBuilder?.to_destination}
                   </Typography>
                 </Box>
-                <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
-                  <Typography
-                    className="formateContent f12 mt-0"
-                    component="div"
-                    variant="body1"
-                    dangerouslySetInnerHTML={{
-                      __html: formatTextToHtmlList(
-                        convertMarkdownToHtml(
-                          sanitizeResponse(getBuilder?.itinerary_text)
-                        )
-                      ),
-                    }}
-                  />
-                </Typography>
               </Box>
               <HotelCardSidebar
                 hotel={getItems?.raw_data?.hotel}
@@ -219,13 +207,9 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
           </Box>
           <Typography className="f12">
             {/* Departure. Check out and head to the airport for your flight. */}
+            <BuilderHelpingCard getBuilder={getBuilder} forReturn />
           </Typography>
         </Box>
-      )}
-      {getBuilder?.flight_type !== "one-way" && (
-        <>
-          <BuilderHelpingCard getBuilder={getBuilder} forReturn />
-        </>
       )}
       {builderType == "hotel" && (
         <>

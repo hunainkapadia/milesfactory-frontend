@@ -49,20 +49,53 @@ const PriceSummary = ({ getdata }) => {
   const flightOrder = OrderDetail?.flight_order?.selected_offer;
   const hotelOrder = OrderDetail?.hotel_order?.selected_hotel_offer?.hotel;
 
-  
-  // hotelOrder.hotel.rooms[0].rates[0].taxes.taxes[0].amount || {}
-
-  // const flightOrder = useSelector((state) => state.booking.flightOrder); //from flight
-
-  const passengers = flightOrder?.slices?.[0]?.segments?.[0]?.passengers || [];
 
   const personQuantity = flightOrder?.passengers.length;
-  const Passengers = Number(flightOrder?.per_passenger_amount) * personQuantity;
-  const WithtaxAmount = Number(flightOrder?.tax_amount) + Passengers;
-  const totalAmount =
-    Math.round(flightOrder?.base_amount) +
-    Math.round(flightOrder?.tax_amount) +
-    Math.round(flightOrder?.markup_amount);
+
+  const slices = flightOrder?.slices || [];
+  const firstSeg = slices[0]?.segments?.[0];
+  const isRoundTrip = slices.length > 1;
+
+  const route = `${firstSeg?.origin?.city_name} - ${firstSeg?.destination?.city_name}`;
+
+  const departureDate = new Date(firstSeg?.departing_at).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      });
+  const returnArrival = isRoundTrip
+    ? new Date(slices[1]?.segments?.at(-1)?.arriving_at).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })
+    : null;
+
+  const date = isRoundTrip
+    ? `${departureDate} - ${returnArrival}`
+    : departureDate;
+
+  // --- Logic to determine the number of adults and children---
+
+  // 1. Try to get the count from the hotel order first.
+  const hotelAdults = hotelOrder?.rooms[0]?.rates[0]?.adults;
+  const hotelChildren = hotelOrder?.rooms[0]?.rates[0]?.children;
+
+  // 2. If not found, get the count from the flight order.
+  // We safely filter the passengers array and get its length.
+  const flightAdults = flightOrder?.passengers?.filter(
+    (passenger) => passenger.type === 'adult'
+  ).length;
+
+  const flightChildren = flightOrder?.passengers?.filter(
+    (passenger) => passenger.type === 'child'
+  ).length;
+
+  const flightInfant = flightOrder?.passengers?.filter(
+    (passenger) => passenger.type === 'infant_without_seat'
+  ).length;
+  // 3. Determine the final count. This uses the first "truthy" value.
+  // It prioritizes hotelAdults, falls back to flightAdults, and defaults to 0.
+  const numAdults = hotelAdults || flightAdults || 0;
+  const numChildren = hotelChildren || flightChildren + flightInfant || 0;
 
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
@@ -77,7 +110,7 @@ const PriceSummary = ({ getdata }) => {
         }}
       >
         <Typography>
-          When ready, go to the flight{" "}
+          When ready, go to the trip{" "}
           <span
             onClick={() => priceSummaryHandle()}
             className="text-decuration-none bold cursor-pointer basecolor1"
@@ -116,39 +149,17 @@ const PriceSummary = ({ getdata }) => {
                       <Box className="bold darkgray f14">
                         Flight {flightOrder?.slices?.[0]?.origin.iata_code} -{" "}
                         {flightOrder?.slices?.at(0)?.destination.iata_code} |{" "}
-                        {new Date(
-                          flightOrder?.slices?.[0]?.departing_at
-                        ).toLocaleDateString("en-GB", {
-                          day: "2-digit",
-                          month: "short",
-                        })}{" "}
-                        {flightOrder?.slices?.[0]?.arriving_at &&
-                          new Date(
-                            flightOrder?.slices?.[0]?.arriving_at
-                          ).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                          })} {" "}
-                        Return /{" "}
-                        {Object.entries(
-                          (flightOrder?.passengers || []).reduce(
-                            (acc, passenger) => {
-                              acc[passenger.type] =
-                                (acc[passenger.type] || 0) + 1;
-                              return acc;
-                            },
-                            {}
-                          )
-                        ).map(([type, count]) => (
-                          <span key={type}>
-                            {count}x {type}
-                          </span>
-                        ))}
+                        {date} | {" "}
+                        {isRoundTrip ? "Return" : "One-way"} | {" "}
+                         {numAdults > 0 &&
+                    `${numAdults} ${numAdults === 1 ? 'adult' : 'adults'} `} {" "}
+                      {numChildren > 0 &&
+                    `${numChildren} ${numChildren === 1 ? 'child' : 'children'} `}
                       </Box>
                       <Box className="bold darkgray f14" whiteSpace={"nowrap"}>
                         {currencySymbols[flightOrder?.tax_currency] ||
                           flightOrder?.tax_currency}
-                        {flightOrder?.base_amount}
+                        {OrderDetail?.amount_calculations?.flight_total_amount_plus_markup_and_all_services}
                       </Box>
                     </Box>
                   )}
@@ -161,20 +172,9 @@ const PriceSummary = ({ getdata }) => {
                   >
                     <Box>Airline fees</Box>
                     <Box whiteSpace={"nowrap"}>
-                      {hotelOrder ? (
-                        <>
-                          {currencySymbols[flightOrder?.tax_currency]}
-                          {hotelOrder?.rooms?.[0]?.rates?.[0]?.taxes?.taxes?.[0]
-                            ?.amount || ""}
-                        </>
-                      ) : flightOrder ? (
-                        <>
-                          {currencySymbols[flightOrder?.tax_currency]}
-                          {Math.round(flightOrder?.tax_amount)}
-                        </>
-                      ) : (
-                        "-"
-                      )}
+                      {currencySymbols[flightOrder?.tax_currency] ||
+                          flightOrder?.tax_currency}
+                      {Math.round(flightOrder?.base_amount)}
                     </Box>
                   </Box>
                   <Box
@@ -223,7 +223,7 @@ const PriceSummary = ({ getdata }) => {
                           {flightOrder.tax_currency === "GBP"
                             ? "£"
                             : flightOrder.tax_currency}
-                          {flightOrder.markup_amount.toFixed(2)}
+                          {flightOrder.markup_amount_rounded}
                         </>
                       ) : (
                         "-"
@@ -236,77 +236,12 @@ const PriceSummary = ({ getdata }) => {
                 </>
               )}
 
-              {/* <Box
-                className={styles.PriceRow}
-                display="flex"
-                justifyContent="space-between"
-                gap={4}
-              >
-                <Box>2x upgraded seats</Box>
-                <Box>£46.00</Box>
-              </Box> */}
-              {/* <Box
-                className={styles.PriceRow}
-                display="flex"
-                justifyContent="space-between"
-                gap={4}
-              >
-                <Box>
-                  {(() => {
-                    const baggageMap = new Map();
-
-                    flightOrder?.slices.forEach((slice, sliceIndex) => {
-                      slice?.segments?.forEach((segment) => {
-                        segment?.passengers?.forEach((passenger) => {
-                          passenger?.baggages?.forEach((baggage) => {
-                            const key = `${baggage.type}-${baggage.formatted_type}`;
-                            if (!baggageMap.has(key)) {
-                              baggageMap.set(key, { ...baggage });
-                            }
-                          });
-                        });
-                      });
-                    });
-
-                    const uniqueBaggages = Array.from(baggageMap.values());
-
-                    return (
-                      <span>
-                        {flightOrder?.slices.map((slice, sliceIndex) => {
-                          const sliceLabel =
-                            sliceIndex === 0 ? "Outbound" : "Return";
-                          const baggageSummary = uniqueBaggages
-                            .filter((baggage) => baggage.quantity > 0) // Filter out baggage with quantity 0
-                            .map(
-                              (baggage) =>
-                                `${baggage.quantity}x ${baggage.formatted_type}`
-                            )
-                            .join(", ");
-
-                          return (
-                            <span key={sliceIndex}>
-                              <strong>{sliceLabel}:</strong>{" "}
-                              {baggageSummary || "No baggage info"}
-                              {sliceIndex === 0 &&
-                              flightOrder?.slices.length > 1
-                                ? " / "
-                                : ""}
-                            </span>
-                          );
-                        })}
-                      </span>
-                    );
-                  })()}
-                </Box>
-              </Box> */}
-              {/* Additional baggage row */}
-
               {/* hotel */}
               
               {hotelOrder && (
                 <>
                   <Box className="bold darkgray f14">
-                    Stay The {hotelOrder?.name} |{" "}
+                    Stay at {hotelOrder?.name} |{" "}
                     {new Date(hotelOrder?.checkIn).toLocaleDateString("en-GB", {
                       day: "2-digit",
                       month: "short",
@@ -320,10 +255,11 @@ const PriceSummary = ({ getdata }) => {
                       }
                     )}{" "}
                     |{" "}
-                    {hotelOrder?.rooms[0]?.rates[0]?.adults &&
-                      `${hotelOrder?.rooms[0]?.rates[0]?.adults} adults, `}
-                    {hotelOrder?.rooms[0]?.rates[0]?.children &&
-                      `${hotelOrder?.rooms[0]?.rates[0]?.children} children `}
+                    {/* refactor later */}
+                    {numAdults > 0 &&
+                    `${numAdults} ${numAdults === 1 ? 'adult' : 'adults'} `} {" "}
+                     {numChildren > 0 &&
+                    `${numChildren} ${numChildren === 1 ? 'child' : 'children'} `}
                   </Box>
                   {hotelOrder && (
                     <Box
@@ -341,14 +277,12 @@ const PriceSummary = ({ getdata }) => {
                       <Box whiteSpace={"nowrap"}>
                         {currencySymbols[flightOrder?.tax_currency] ||
                           flightOrder?.tax_currency}
-                        {OrderDetail?.amount_calculations?.total_amount_plus_markup_and_all_services?.toFixed(
-                          2
-                        )}
+                        {Math.round(OrderDetail?.amount_calculations?.hotel_total_amount_plus_markup_and_all_services)}
                         {/* {perNight} / night */}
                       </Box>
                     </Box>
                   )}
-                  <Box
+                  {/* <Box
                     className={styles.PriceRow + " f12"}
                     display="flex"
                     justifyContent="space-between"
@@ -362,7 +296,7 @@ const PriceSummary = ({ getdata }) => {
                         ? hotelOrder?.rooms[0]?.rates[0]?.taxes?.taxes[0].amount
                         : "-"}
                     </Box>
-                  </Box>
+                  </Box> */}
                   <Box py={{md:2, xs:"12px"}}>
                     <Divider />
                   </Box>
@@ -384,9 +318,7 @@ const PriceSummary = ({ getdata }) => {
                         OrderDetail?.flight_order?.payment_currency
                     ]
                   }
-                  {OrderDetail?.amount_calculations?.total_amount_plus_markup_and_all_services?.toFixed(
-                    2
-                  )}
+                  {Math.round(OrderDetail?.amount_calculations?.total_amount_plus_markup_and_all_services)}
                 </Box>
               </Box>
               {/*  hotel */}

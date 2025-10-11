@@ -97,7 +97,9 @@ const HotelCard = ({ hotel, allHotels }) => {
   const stars = hotel?.categoryName ? parseInt(hotel.categoryName) : 0;
 
   // Extract first rate for board/offer/price
-  const firstRate = hotel?.rooms?.[0]?.rates?.[0];
+  const firstRate = hotel?.rooms?.[0]?.rates?.find(
+  rate => rate.packaging === false && rate.rateType === "BOOKABLE"
+);
 
   
 

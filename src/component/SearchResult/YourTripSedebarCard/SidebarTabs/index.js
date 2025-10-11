@@ -28,7 +28,7 @@ const SidebarTabs = () => {
       state?.sendMessage?.AddBuilder?.silent_function_template?.[0]?.function
         ?.arguments
   );
-  console.log("getBuilder_00", getBuilder);
+  //console.log("getBuilder_00", getBuilder);
 
   const getselectedFlight = useSelector(
     (state) => state?.booking?.addCart?.raw_data

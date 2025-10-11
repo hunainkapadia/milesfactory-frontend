@@ -124,11 +124,6 @@ const HotelDrawer = ({hotelOffer}) => {
                       >
                         {hotel?.name}
                       </Typography>
-                      {firstRate?.offers?.[0] && (
-                        <Typography className={" chip sm chipGray"}>
-                          {firstRate.offers[0].name}
-                        </Typography>
-                      )}
                       <Typography
                         textTransform={"capitalize"}
                         className={" chip sm basecolor1-light"}
@@ -145,7 +140,7 @@ const HotelDrawer = ({hotelOffer}) => {
                     >
                       {/* Rating Stars */}
                       <Box display={"flex"} alignItems={"center"} gap={"2px"}>
-                        <Rating
+                        {/* <Rating
                           name="feedback-rating"
                           value={stars} // dynamic stars
                           precision={0.5}
@@ -155,16 +150,16 @@ const HotelDrawer = ({hotelOffer}) => {
                             "& .MuiRating-iconFilled": { color: "#FFCC33" },
                             "& .MuiRating-iconEmpty": { color: "#E0E0E0" },
                           }}
-                        />
+                        /> */}
 
                         {/* Numeric Rating */}
                         <Typography className="f12 black" variant="body2">
-                          {stars?.toFixed(1)}
+                          {/* {stars?.toFixed(1)} */}
                         </Typography>
 
                         {/* Review Count */}
                         <Typography component="span" className="f12 black-50">
-                          ({firstRate?.allotment || 200}+ reviews)
+                          {/* ({firstRate?.allotment || 200}+ reviews) */}
                         </Typography>
                       </Box>
                       {/* Location */}
@@ -178,8 +173,7 @@ const HotelDrawer = ({hotelOffer}) => {
                           alt="location"
                           style={{ width: 10, height: 10 }}
                         />
-                        0.2km from search location ·{" "}
-                        {hotel?.destinationName || "Unknown Location"}
+                        {hotel?.zoneName} /{hotel?.destinationName}
                       </Typography>
                     </Stack>
 

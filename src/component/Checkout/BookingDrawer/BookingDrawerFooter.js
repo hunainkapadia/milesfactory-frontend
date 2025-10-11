@@ -137,7 +137,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
                   <span>
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {Math.round(getFlightDetails?.per_passenger_amount_plus_markup_rounded)}
+                    {Math.round(getFlightDetails?.total_amount_plus_markup_rounded)}
                   </span>
                 </h4>
               </Box>
@@ -146,7 +146,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
                   <Typography variant="p" className=" gray f12">
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {Math.round(getFlightDetails?.total_amount_plus_markup_rounded)} total
+                    {Math.round(getFlightDetails?.per_passenger_amount_plus_markup_rounded)} each
                   </Typography>
                 </Box>
               )}
