@@ -175,6 +175,17 @@ const FromAndToDetail = ({
 
                               {getdata.segments.map((segment) => (
                                 <div key={segment.id}>
+                                {segment.marketing_carrier?.name !==
+                                  segment.operating_carrier?.name ? (
+                                    <Typography
+                                      sx={{
+                                        fontSize: { lg: 14, md: 14, xs: 12 },
+                                      }}
+                                    >
+                                      Operated by{" "}
+                                      {segment.operating_carrier?.name}
+                                    </Typography>
+                                  ) : null}
                                   <Typography
                                     className="mb-0"
                                     sx={{
@@ -192,17 +203,7 @@ const FromAndToDetail = ({
                                   >
                                     {segment.aircraft?.name}
                                   </Typography>
-                                  {segment.marketing_carrier?.name !==
-                                  segment.operating_carrier?.name ? (
-                                    <Typography
-                                      sx={{
-                                        fontSize: { lg: 14, md: 14, xs: 12 },
-                                      }}
-                                    >
-                                      Operated by{" "}
-                                      {segment.operating_carrier?.name}
-                                    </Typography>
-                                  ) : null}
+                                  
                                 </div>
                               ))}
                             </>

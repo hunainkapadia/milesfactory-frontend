@@ -222,11 +222,8 @@
   animation: slideInRight 0.5s ease forwards;
 
   position: fixed;
-  top: 98px;
+  top: 120px;
   right: calc((100vw - 1130px) / 2);
-
-  min-height: 78vh;
-  max-height: 78vh;
 
   .YourTripCard {
     width: 387px;
@@ -241,7 +238,7 @@
     .Footer {border-radius: 0 0 24px 24px;}
     .TripBody {
       overflow: auto;
-      max-height: 60vh;
+      max-height: 50vh;
 
   /* For WebKit browsers (Chrome, Safari) */
   &::-webkit-scrollbar {
