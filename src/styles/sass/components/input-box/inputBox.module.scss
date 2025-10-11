@@ -181,7 +181,7 @@
                flex-direction: row;
             }
 
-            padding: 10px 15px 10px 16px;
+            padding: 0;
             background-color: $white;
             align-items: flex-start;
             display: flex;
@@ -195,7 +195,8 @@
             color: $basecolor;
             overflow-y: auto;
             @include scrollbar-light;
-            max-height: 120px;
+            height: 43px;
+            padding: 10px 15px 0px 16px;
 
          }
 
@@ -208,6 +209,7 @@
             padding: 0;
             width: auto;
             height: 100%;
+            align-items: center;
 
             .BoxButtons {
                padding: 0;
