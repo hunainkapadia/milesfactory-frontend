@@ -60,9 +60,8 @@ const RoomDrawer = () => {
       >
         <Box
           className={styles.checkoutDrowerSection + " white-bg"}
-          px={{ md: 3, lg: 3, xs: "18px" }}
         >
-          <Box className={"header"} pt={3} mb={0}>
+          <Box className={styles.checkoutDrowerHeder + " header"} pt={3} mb={0}>
             <Box
               className="bold basecolor1 btn-link cursor-pointer"
               onClick={HandlecloseDrawer}
@@ -83,7 +82,7 @@ const RoomDrawer = () => {
           </Box>
 
           <Box className={styles.checkoutDrowerBody}>
-            <Grid container>
+            <Grid className={styles.detailsSection}>
               <Box component="section" className="w-100">
                 {hotel?.rooms?.map((room) => (
                   <Box key={room.name} mb={3}>

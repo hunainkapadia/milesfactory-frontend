@@ -18,6 +18,8 @@ const HotelDrawerGallery = ({ hotel }) => {
   const [openImage, setOpenImage] = useState(null); // currently opened image in modal
 
   const images = hotel?.content?.images || [];
+  console.log("gallery_images", images);
+  
   if (images.length === 0) return null;
 
   // handlers
