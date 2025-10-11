@@ -311,7 +311,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                   />
                 </svg>
               </Box>
-              
+
               <Stack width={"100%"}>
                 <Typography className="f12 basecolor">
                   <Typography component={"span"} className="f12 black">
@@ -379,6 +379,19 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               </Stack>
             </Stack>
           </Stack>
+        </Box>
+        <Box
+          className="f11 black"
+          display={"flex"}
+          justifyContent={"flex-end"}
+          alignItems={"center"} gap={"1px"}
+        >
+          <Typography className="f11 exbold" component={"span"}>
+            {`${getItems?.raw_data?.per_passenger_amount_plus_markup},`}
+          </Typography>{" "}
+          <Typography className="f11" component={"span"}>
+            selected by you
+          </Typography>
         </Box>
         {/* {!validPassengers?.length && (
           <>
