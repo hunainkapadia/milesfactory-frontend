@@ -108,7 +108,9 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
             builderType={builderType}
           />
         )}
-        <SidebarItenarySection />
+        {BuilderArguments?.itinerary_text && (
+          <SidebarItenarySection />
+        )}
         {/* for flight render */}
         {CartDetails?.items
           ?.filter((i) => i?.offer_type === "flight" || i?.raw_data?.slices)

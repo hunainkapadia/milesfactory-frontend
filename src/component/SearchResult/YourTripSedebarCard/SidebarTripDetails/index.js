@@ -159,6 +159,15 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
           <BuilderHelpingCard getBuilder={getBuilder} forHotel />
         </>
       )}
+      <Box mb={1}>
+          <Box display="flex" alignItems="center" gap="12px">
+            <Typography
+              className={`${TripStyles.onewayReturn} btn btn-xs btn-black`}
+            >
+              Itinerary for {getBuilder?.to_destination}
+            </Typography>
+          </Box>
+        </Box>
     </>
   );
 };
