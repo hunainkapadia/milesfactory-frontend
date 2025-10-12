@@ -28,14 +28,13 @@ const SidebarTabs = () => {
       state?.sendMessage?.AddBuilder?.silent_function_template?.[0]?.function
         ?.arguments
   );
-  //console.log("getBuilder_00", getBuilder);
 
   const getselectedFlight = useSelector(
     (state) => state?.booking?.addCart?.raw_data
   );
   const slices = getselectedFlight?.slices || [];
   const cartItems = useSelector((state) => state?.booking?.cartOffer?.items);
-  const isHotel = cartItems?.some((item) => item.offer_type === "hotel");  
+  const isHotel = cartItems?.some((item) => item.offer_type === "hotel");
 
   return (
     <Box
@@ -124,27 +123,27 @@ const SidebarTabs = () => {
           </a>
         </>
       )}
-      {(isHotel || getBuilder?.trip_components?.some(
-  component => component === "hotel"
-)) && (
-  <a
-    href="#hotel-section"
-    onClick={() => handleTabClick("hotel", "itinerary-section")}
-    style={{ textDecoration: "none" }}
-  >
-    <Box
-      className={`${TripStyles.inactiveTab} ${
-        activeTab === "hotel" ? TripStyles.activeTab : ""
-      }`}
-      display="flex"
-      alignItems="center"
-      gap={1}
-    >
-      <Typography className="f12">Hotel</Typography>
-    </Box>
-  </a>
-)}
-
+      {(isHotel ||
+        getBuilder?.trip_components?.some(
+          (component) => component === "hotel"
+        )) && (
+        <a
+          href="#hotel-section"
+          onClick={() => handleTabClick("hotel", "itinerary-section")}
+          style={{ textDecoration: "none" }}
+        >
+          <Box
+            className={`${TripStyles.inactiveTab} ${
+              activeTab === "hotel" ? TripStyles.activeTab : ""
+            }`}
+            display="flex"
+            alignItems="center"
+            gap={1}
+          >
+            <Typography className="f12">Hotel</Typography>
+          </Box>
+        </a>
+      )}
     </Box>
   );
 };
