@@ -7,11 +7,10 @@ import SidebarTripDetails from "./SidebarTripDetails";
 import OfferCardSidebar from "./OfferCardSidebar";
 import SidebarTabs from "./SidebarTabs";
 import SidebarFooter from "./SidebarFooter";
+import SidebarFlightSection from "./SidebarFlightSection";
+import React from "react";
 
-const YourTripSedebarCard = ({
-  getBuilder,
-  isSidebar,
-}) => {
+const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template[0]?.function.arguments || {};
   const builderType = BuilderArguments?.trip_components?.[0] || null;
@@ -66,6 +65,9 @@ const YourTripSedebarCard = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
+  const flightItems = CartDetails?.items?.filter(
+    (item) => item?.raw_data?.offer_type === "flight"
+  );
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -202,6 +204,7 @@ const YourTripSedebarCard = ({
         {/* filter row */}
 
         {/*   */}
+        {/* for hotel render */}
 
         {(!CartDetails?.items?.length ||
           CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
@@ -213,11 +216,22 @@ const YourTripSedebarCard = ({
           />
         )}
 
-        {/* {!getselectedFlight ? (
-        ) : (
-          ""
-        )} */}
-        {/*  */}
+        {/* for flight render */}
+        {CartDetails?.items
+          ?.filter((i) => i?.offer_type === "flight" || i?.raw_data?.slices)
+          ?.map((flightItem, index) => {
+            console.log("flightItem:", flightItem?.uuid);
+            return (
+              <React.Fragment key={index}>
+                <SidebarFlightSection
+                  flight={flightItem?.raw_data}
+                  getBuilder={getBuilder}
+                  index={index}
+                  uuid={flightItem?.uuid}
+                />
+              </React.Fragment>
+            );
+          })}
       </Box>
       {!isMobile && <SidebarFooter />}
 

@@ -1,4 +1,10 @@
-import { Box, Typography, Avatar, Stack, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Avatar,
+  Stack,
+  CircularProgress,
+} from "@mui/material";
 import {
   bookFlight,
   closeDrawer,
@@ -31,7 +37,7 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
-const OfferCardSidebar = ({ index, slice, getItems }) => {
+const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
   const dispatch = useDispatch();
 
   const GetViewPassengers = useSelector(
@@ -58,21 +64,24 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
     // if (CartOffer?.id) {
     //   dispatch(setflightDetail(CartOffer));
     // }
-    // dispatch(getItems?.raw_data)
+    // dispatch(getItems?)
     dispatch(setSeeDetailButton("Builder"));
     dispatch(setBookingDrawer(true));
-    dispatch(setSingleFlightData(getItems?.raw_data));
+    dispatch(setSingleFlightData(getItems));
   };
 
   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
+  console.log("getItems_uuid", uuid);
+  
   const handleDeleteCart = () => {
-    dispatch(DeleteCart(threaduuid, getItems?.uuid));
+    dispatch(DeleteCart(threaduuid, uuid));
   };
 
   return (
     <>
-      <Box className={`${TripStyles.flightOfferCard}`} mb={3}>
+    {/* offer-card and offer-card-return */}
+      <Box id={`${index === 0 ? "offer-card" : "offer-card-return"}`} className={`${TripStyles.flightOfferCard}`} mb={3}>
         <Box
           display={"flex"}
           justifyContent={"space-between"}
@@ -315,8 +324,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               <Stack width={"100%"}>
                 <Typography className="f12 basecolor">
                   <Typography component={"span"} className="f12 black">
-                    No travellers selected:{" "}
-                    {getItems?.raw_data.passengers.length}
+                    No travellers selected: {getItems?.passengers.length}
                   </Typography>
                 </Typography>
               </Stack>
@@ -387,15 +395,16 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
           alignItems={"center"}
           gap={"1px"}
         >
-          {console.log("getItems_raw_data", getItems?.raw_data)}
           <Typography className="f11 exbold" component={"span"}>
-            {currencySymbols[getItems?.raw_data?.total_currency] || getItems?.raw_data?.total_currency}
-            {`${getItems?.raw_data?.per_passenger_amount_plus_markup},`}
+            {currencySymbols[getItems?.total_currency] ||
+              getItems?.total_currency}
+            {`${getItems?.per_passenger_amount_plus_markup},`}
           </Typography>{" "}
           <Typography className="f11" component={"span"}>
             selected by you
           </Typography>
         </Box>
+        {/* Add missing travellers */}
         {/* {!validPassengers?.length && (
           <>
             <Box
@@ -434,6 +443,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
             </Box>
           </>
         )} */}
+        {/* paid */}
         {/* {flightOrder ? (
           <>
             <Box

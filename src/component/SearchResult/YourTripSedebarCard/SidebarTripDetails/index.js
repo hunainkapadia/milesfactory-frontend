@@ -4,13 +4,13 @@ import { useSelector } from "react-redux";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 import HotelCardSidebar from "../HotelCardSidebar";
 import BuilderHelpingCard from "../BuilderHelpingCard";
+import OfferCardSidebar from "../OfferCardSidebar";
+import SidebarFlightSection from "../SidebarFlightSection";
 
 const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
   const Addbuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const getBuilder =
     Addbuilder?.silent_function_template?.[0]?.function?.arguments;
-
-    
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";
@@ -150,28 +150,31 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
         )}
       </Box>
       {/* hotel cart */}
+      {console.log("CartDetails_items111", CartDetails?.items)}
       {CartDetails?.items?.map((getItems, index) => (
         <>
           {/* get hotel */}
 
           {getItems?.raw_data?.hotel && (
-            <Box id="hotel-section" key={index}>
-              <Box id="itinerary-section" mb={2}>
-                <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-                  <Typography
-                    className={
-                      TripStyles.onewayReturn + " btn btn-xs btn-black"
-                    }
-                  >
-                    Hotel for {getBuilder?.to_destination}
-                  </Typography>
+            <>
+              <Box id="hotel-section" key={index}>
+                <Box id="itinerary-section" mb={2}>
+                  <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+                    <Typography
+                      className={
+                        TripStyles.onewayReturn + " btn btn-xs btn-black"
+                      }
+                    >
+                      Hotel for {getBuilder?.to_destination}
+                    </Typography>
+                  </Box>
                 </Box>
+                <HotelCardSidebar
+                  hotel={getItems?.raw_data?.hotel}
+                  Carduuid={Carduuid}
+                />
               </Box>
-              <HotelCardSidebar
-                hotel={getItems?.raw_data?.hotel}
-                Carduuid={Carduuid}
-              />
-            </Box>
+            </>
           )}
         </>
       ))}
