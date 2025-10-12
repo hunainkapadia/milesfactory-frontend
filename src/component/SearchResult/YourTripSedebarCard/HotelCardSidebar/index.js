@@ -108,6 +108,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
               alignItems="center"
               display="flex"
               className="basecolor1 semibold f12"
+              whiteSpace={"nowrap"}
             >
               <span>See details</span>
               <i className="fa-angle-right fa fas"></i>
