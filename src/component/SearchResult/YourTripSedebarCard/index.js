@@ -93,14 +93,14 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
         {/* filter row */}
         {/* for hotel render */}
 
-        {!CartDetails?.items ||
-          (CartDetails?.items?.length === 0 && (
+        {(!CartDetails?.items || CartDetails?.items?.length === 0) &&
+          !BuilderArguments?.itinerary_text && (
             <SidebarTripDetails
               CartDetails={CartDetails}
               Carduuid={Carduuid}
               builderType={builderType}
             />
-          ))}
+          )}
         {CartDetails?.items?.some((i) => i.raw_data?.hotel) && (
           <SidebarHotelSection
             CartDetails={CartDetails}
@@ -126,7 +126,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
             );
           })}
       </Box>
-        
+
       {!isMobile && <SidebarFooter />}
 
       {/* Extra Info bottom */}
