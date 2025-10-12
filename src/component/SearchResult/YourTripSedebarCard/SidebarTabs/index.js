@@ -129,7 +129,7 @@ const SidebarTabs = () => {
         )) && (
         <a
           href="#hotel-section"
-          onClick={() => handleTabClick("hotel", "itinerary-section")}
+          onClick={() => handleTabClick("hotel", "hotel-section")}
           style={{ textDecoration: "none" }}
         >
           <Box
