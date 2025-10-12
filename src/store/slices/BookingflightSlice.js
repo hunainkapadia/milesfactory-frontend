@@ -4,7 +4,7 @@ import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
 import { setMessage, setSearchHistorySend } from "./sendMessageSlice";
 import { setIsBuilderDialog } from "./Base/baseSlice";
-import { setRoomDrawer, setSelectedhotelKey } from "./HotelSlice";
+import { setRoomDrawer, setSelectedhotelCode, setSelectedhotelKey } from "./HotelSlice";
 
 const initialState = {
   flightDetail: null,
@@ -167,7 +167,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
 
     // if API returns uuid, immediately fetch cart items
     if (res.data) {
-      dispatch(setSelectedhotelCode(null));
+      
       dispatch(setflightDetail(res.data.raw_data));
       dispatch(CartDetail(uuid));
       dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
@@ -259,6 +259,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
   try {
     const res = await api.delete(apiUrl);
     // dispatch(setSearchHistorySend(null));
+    dispatch(setSelectedhotelCode(null));
     dispatch(setLoading(false));
     dispatch(setSelectedhotelKey(null));
     dispatch(setGetCartDetail(res.data));
