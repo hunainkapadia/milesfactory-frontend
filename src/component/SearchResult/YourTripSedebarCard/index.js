@@ -68,13 +68,9 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
-  
-  const hasHotel = CartDetails?.items?.some((i) => i.raw_data?.hotel);
-const flightItems = CartDetails?.items?.filter(
-  (i) => i?.offer_type === "flight" || i?.raw_data?.slices
-);
-const hasFlight = flightItems?.length > 0;
-
+  const flightItems = CartDetails?.items?.filter(
+    (item) => item?.raw_data?.offer_type === "flight"
+  );
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -105,40 +101,33 @@ const hasFlight = flightItems?.length > 0;
               builderType={builderType}
             />
           )}
-
-{/* Hotel Section */}
-{hasHotel && (
-  <SidebarHotelSection
-    CartDetails={CartDetails}
-    Carduuid={Carduuid}
-    builderType={builderType}
-  />
-)}
-
-{/* Itinerary: show in middle if both exist */}
-{BuilderArguments?.itinerary_text && hasHotel && hasFlight && (
-  <SidebarItenarySection />
-)}
-
-{/* Flight Section */}
-{hasFlight &&
-  flightItems.map((flightItem, index) => (
-    <React.Fragment key={index}>
-      <SidebarFlightSection
-        flight={flightItem?.raw_data}
-        getBuilder={getBuilder}
-        index={index}
-        uuid={flightItem?.uuid}
-      />
-    </React.Fragment>
-  ))}
-
-{/* Itinerary: show last if only one (hotel or flight) */}
-{BuilderArguments?.itinerary_text &&
-  ((hasHotel && !hasFlight) || (!hasHotel && hasFlight)) && (
-    <SidebarItenarySection />
-  )}
-
+        {CartDetails?.items?.some((i) => i.raw_data?.hotel) && (
+          <SidebarHotelSection
+            CartDetails={CartDetails}
+            Carduuid={Carduuid}
+            builderType={builderType}
+          />
+        )}
+        
+        {/* for flight render */}
+        {CartDetails?.items
+          ?.filter((i) => i?.offer_type === "flight" || i?.raw_data?.slices)
+          ?.map((flightItem, index) => {
+            console.log("flightItem:", flightItem?.uuid);
+            return (
+              <React.Fragment key={index}>
+                <SidebarFlightSection
+                  flight={flightItem?.raw_data}
+                  getBuilder={getBuilder}
+                  index={index}
+                  uuid={flightItem?.uuid}
+                />
+              </React.Fragment>
+            );
+          })}
+          {BuilderArguments?.itinerary_text && (
+          <SidebarItenarySection />
+        )}
       </Box>
 
       {!isMobile && <SidebarFooter />}
