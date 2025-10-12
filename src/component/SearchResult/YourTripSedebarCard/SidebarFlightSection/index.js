@@ -16,7 +16,7 @@ import OfferCardSidebar from "../OfferCardSidebar";
 const SidebarFlightSection = ({ flight, getBuilder, index, uuid }) => {
   const BuilderArguments =
     getBuilder?.silent_function_template[0]?.function.arguments || {};
-  console.log("BuilderArguments", BuilderArguments);
+  
 
   return (
     <>

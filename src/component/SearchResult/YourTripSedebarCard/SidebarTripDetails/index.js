@@ -7,10 +7,16 @@ import BuilderHelpingCard from "../BuilderHelpingCard";
 import OfferCardSidebar from "../OfferCardSidebar";
 import SidebarFlightSection from "../SidebarFlightSection";
 
-const SidebarTripDetails = ({ id, CartDetails, Carduuid, builderType }) => {
+const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
   const Addbuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const getBuilder =
-    Addbuilder?.silent_function_template?.[0]?.function?.arguments;
+    Addbuilder?.silent_function_template?.[0]?.function.arguments || {};
+
+  
+  const builderType = getBuilder?.trip_components?.[0] || null;
+  console.log("builderType_0909", builderType);
+  
+
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";

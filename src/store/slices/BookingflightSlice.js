@@ -167,6 +167,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
 
     // if API returns uuid, immediately fetch cart items
     if (res.data) {
+      dispatch(setSelectedhotelCode(null));
       dispatch(setflightDetail(res.data.raw_data));
       dispatch(CartDetail(uuid));
       dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
