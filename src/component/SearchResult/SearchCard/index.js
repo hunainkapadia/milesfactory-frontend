@@ -276,7 +276,9 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}
-                        {Math.round(offerData?.total_amount_plus_markup_rounded)}
+                        {Math.round(
+                          offerData?.total_amount_plus_markup_rounded
+                        )}
                       </Typography>
                       {/* {console.log(offerData)} */}
 
@@ -284,7 +286,10 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         <Typography className="f12 gray">
                           {currencySymbols[offerData?.tax_currency] ||
                             offerData?.tax_currency}
-                          {Math.round(offerData?.per_passenger_amount_plus_markup_rounded)} each
+                          {Math.round(
+                            offerData?.per_passenger_amount_plus_markup_rounded
+                          )}{" "}
+                          each
                         </Typography>
                       )}
                     </Box>
@@ -317,22 +322,32 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                           <span>Not Available</span>
                         </Button>
                       ) : (
-                        <LoadingButton
-                          className={
-                            "w-100 btn btn-primary btn-round btn-md " +
-                            searchResultStyles.selectFlightBtn
-                          }
-                          onClick={() => handleBookFlight(offerData)}
-                          loading={selectedFlight?.id === offerData?.id} // true when booking this flight
-                          loadingIndicator={
-                            <CircularProgress
-                              size={18}
-                              sx={{ color: "#fff" }}
-                            />
-                          } // optional custom spinner
-                        >
-                          {selectedFlight?.id !== offerData?.id && "Select"}
-                        </LoadingButton>
+                        <>
+                          
+                          <LoadingButton
+                            className={
+                              "w-100 btn btn-primary btn-round btn-md " +
+                              searchResultStyles.selectFlightBtn
+                            }
+                            onClick={() => handleBookFlight(offerData)}
+                            loading={
+                              selectedFlight?.id === offerData?.id && true
+                            } // true when booking this flight
+                            loadingIndicator={
+                              <CircularProgress
+                                size={18}
+                                sx={{ color: "#fff" }}
+                              />
+                            } // optional custom spinner
+                          >
+                            {selectedFlight?.id !== offerData?.id && "Select"}
+                          </LoadingButton>
+                        </>
+                      )}
+                      {console.log("selectedFlight_id", selectedFlight?.id)}
+                      {console.log(
+                        "non_selectedFligh2",
+                        selectedFlight?.id === offerData?.id
                       )}
                     </Box>
                   </Box>
