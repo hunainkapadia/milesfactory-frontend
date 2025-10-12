@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import { formatTextToHtmlList, sanitizeResponse } from "@/src/utils/utils";
 import HotelCardSidebar from "../HotelCardSidebar";
 import BuilderHelpingCard from "../BuilderHelpingCard";
-import OfferCardSidebar from "../OfferCardSidebar";
-import SidebarFlightSection from "../SidebarFlightSection";
+
 
 const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
   const Addbuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
@@ -119,72 +118,7 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
       </Box>
       <BuilderHelpingCard getBuilder={getBuilder} forOneway />
 
-      {/* itinerary text */}
-      <Box mb={3}>
-        <Box id={id} mb={1}>
-          <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-            <Typography
-              className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
-            >
-              {getBuilder?.to_destination
-                ? `Itinerary for ${getBuilder.to_destination}`
-                : "Itinerary"}
-            </Typography>
-          </Box>
-        </Box>
-
-        {getBuilder?.itinerary_text ? (
-          // IF the text exists (is "truthy"), show this:
-          <Typography
-            className="formateContent f12 mt-0"
-            component="div"
-            variant="body1"
-            dangerouslySetInnerHTML={{
-              __html: formatTextToHtmlList(
-                convertMarkdownToHtml(
-                  sanitizeResponse(getBuilder.itinerary_text)
-                )
-              ),
-            }}
-          />
-        ) : (
-          // ELSE, show this sentence.
-          // Using Typography for consistent styling is a good practice.
-          <Typography className="f12" variant="body1">
-            Ask Mylz to generate an itinerary for this trip in the chat.
-          </Typography>
-        )}
-      </Box>
-      {/* hotel cart */}
-      {console.log("CartDetails_items111", CartDetails?.items)}
-      {CartDetails?.items?.map((getItems, index) => (
-        <>
-          {/* get hotel */}
-
-          {getItems?.raw_data?.hotel && (
-            <>
-              <Box id="hotel-section" key={index}>
-                <Box id="itinerary-section" mb={2}>
-                  <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-                    <Typography
-                      className={
-                        TripStyles.onewayReturn + " btn btn-xs btn-black"
-                      }
-                    >
-                      Hotel for {getBuilder?.to_destination}
-                    </Typography>
-                  </Box>
-                </Box>
-                <HotelCardSidebar
-                  hotel={getItems?.raw_data?.hotel}
-                  Carduuid={Carduuid}
-                />
-              </Box>
-            </>
-          )}
-        </>
-      ))}
-
+      
       {/*  */}
       {getBuilder?.flight_type !== "one-way" && (
         <Box mb={3}>

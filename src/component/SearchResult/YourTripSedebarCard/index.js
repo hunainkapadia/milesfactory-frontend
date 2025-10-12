@@ -9,6 +9,9 @@ import SidebarTabs from "./SidebarTabs";
 import SidebarFooter from "./SidebarFooter";
 import SidebarFlightSection from "./SidebarFlightSection";
 import React from "react";
+import SidebarItenarySection from "./SidebarItenarySection";
+import SidebarHotelSection from "./SidebarHotelSection";
+import TopArgumentSection from "./TopArgumentSection";
 
 const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
   const BuilderArguments =
@@ -32,7 +35,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
   const Passengers =
     Number(getselectedFlight?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;
-  
+
   const departureDate = BuilderArguments?.departure_date
     ? new Date(BuilderArguments.departure_date)
     : null;
@@ -85,131 +88,21 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
         component={"section"}
         pb={3}
       >
-        <Box
-          id="overview"
-          mb={2}
-          className={TripStyles.Header2 + " aaa"}
-          display={"flex"}
-          alignItems={"flex-start"}
-          justifyContent={"space-between"}
-        >
-          <Box>
-            <Box>
-              {BuilderArguments?.to_destination &&
-              BuilderArguments?.trip_length ? (
-                <Typography
-                  component="h4"
-                  sx={{ fontSize: { xs: "16px", md: "20px" } }}
-                  className="bold black mb-0"
-                >
-                  My {BuilderArguments.trip_length} day
-                  {BuilderArguments.trip_length > 1 ? "s" : ""} travel to{" "}
-                  {BuilderArguments.to_destination}
-                </Typography>
-              ) : BuilderArguments?.to_destination &&
-                BuilderArguments?.trip_length ? (
-                <h4 className="bold black mb-0">
-                  My {BuilderArguments.trip_length} day
-                  {BuilderArguments.trip_length > 1 ? "s" : ""} travel to{" "}
-                  {BuilderArguments.to_destination}
-                </h4>
-              ) : BuilderArguments?.to_destination &&
-                BuilderArguments?.from_destination ? (
-                <h4 className="bold black mb-0">
-                  My travel to {BuilderArguments.to_destination}
-                </h4>
-              ) : BuilderArguments?.to_destination ? (
-                <h4 className="bold black mb-0">
-                  My travel to {BuilderArguments.to_destination}
-                </h4>
-              ) : null}
-            </Box>
-            <Box
-              display="flex"
-              flexWrap="wrap"
-              className={TripStyles.tripDetails}
-            >
-              {BuilderArguments?.from_destination &&
-                BuilderArguments?.to_destination && (
-                  <Box
-                    sx={{}}
-                    className={TripStyles.tripDetailsCol + " f12 black bold"}
-                  >
-                    {BuilderArguments.from_destination} -{" "}
-                    {BuilderArguments.to_destination}
-                  </Box>
-                )}
+        <TopArgumentSection />
 
-              {(BuilderArguments?.departure_date ||
-                BuilderArguments?.return_date) && (
-                <Box
-                  sx={{}}
-                  className={TripStyles.tripDetailsCol + " f12 black bold"}
-                >
-                  {BuilderArguments?.departure_date && (
-                    <>
-                      {new Date(
-                        BuilderArguments.departure_date
-                      ).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                      })}
-                    </>
-                  )}
-                  {BuilderArguments?.return_date && (
-                    <>
-                      {" - "}
-                      {new Date(
-                        BuilderArguments.return_date
-                      ).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                      })}
-                    </>
-                  )}
-                </Box>
-              )}
-
-              {(BuilderArguments?.passengers?.adults ||
-                BuilderArguments?.passengers?.children?.length > 0 ||
-                BuilderArguments?.passengers?.infants?.length > 0) && (
-                <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
-                  {[
-                    BuilderArguments?.passengers?.adults > 0 &&
-                      `${BuilderArguments.passengers.adults} ${
-                        BuilderArguments.passengers.adults === 1
-                          ? "adult"
-                          : "adults"
-                      }`,
-                    BuilderArguments?.passengers?.children?.length > 0 &&
-                      `${BuilderArguments.passengers.children.length} ${
-                        BuilderArguments.passengers.children.length === 1
-                          ? "child"
-                          : "children"
-                      }`,
-                    BuilderArguments?.passengers?.infants?.length > 0 &&
-                      `${BuilderArguments.passengers.infants.length} ${
-                        BuilderArguments.passengers.infants.length === 1
-                          ? "infant"
-                          : "infants"
-                      }`,
-                  ]
-                    .filter(Boolean)
-                    .join(", ")}
-                </Box>
-              )}
-            </Box>
-          </Box>
-        </Box>
         {/* filter row */}
-
-        {/*   */}
         {/* for hotel render */}
 
-        {(!CartDetails?.items?.length ||
-          CartDetails?.items?.some((i) => i.raw_data?.hotel)) && (
-          <SidebarTripDetails
-            id="itinerary-section"
+        {!CartDetails?.items ||
+          (CartDetails?.items?.length === 0 && (
+            <SidebarTripDetails
+              CartDetails={CartDetails}
+              Carduuid={Carduuid}
+              builderType={builderType}
+            />
+          ))}
+        {CartDetails?.items?.some((i) => i.raw_data?.hotel) && (
+          <SidebarHotelSection
             CartDetails={CartDetails}
             Carduuid={Carduuid}
             builderType={builderType}
@@ -232,6 +125,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
               </React.Fragment>
             );
           })}
+        <SidebarItenarySection />
       </Box>
       {!isMobile && <SidebarFooter />}
 
