@@ -190,7 +190,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     }
   } finally {
     dispatch(setIsLoadingSelect(false));
-    dispatch(setSelectedFlight(null)); // ✅ Reset after completion
+    dispatch(setSelectedFlight(null)); //  Reset after completion
 
   }
 };

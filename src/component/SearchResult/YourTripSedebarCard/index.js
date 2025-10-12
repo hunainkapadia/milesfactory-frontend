@@ -101,33 +101,53 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
               builderType={builderType}
             />
           )}
-        {CartDetails?.items?.some((i) => i.raw_data?.hotel) && (
-          <SidebarHotelSection
-            CartDetails={CartDetails}
-            Carduuid={Carduuid}
-            builderType={builderType}
-          />
-        )}
-        
-        {/* for flight render */}
-        {CartDetails?.items
-          ?.filter((i) => i?.offer_type === "flight" || i?.raw_data?.slices)
-          ?.map((flightItem, index) => {
-            console.log("flightItem:", flightItem?.uuid);
-            return (
-              <React.Fragment key={index}>
-                <SidebarFlightSection
-                  flight={flightItem?.raw_data}
-                  getBuilder={getBuilder}
-                  index={index}
-                  uuid={flightItem?.uuid}
-                />
-              </React.Fragment>
-            );
-          })}
-          {BuilderArguments?.itinerary_text && (
-          <SidebarItenarySection />
-        )}
+        {CartDetails?.items?.length > 0
+          ? CartDetails?.items?.map((item, index) => {
+              const totalItems = CartDetails?.items?.length || 0;
+              const isHotel = item?.raw_data?.hotel;
+              const isFlight =
+                item?.offer_type === "flight" || item?.raw_data?.slices;
+
+              return (
+                <React.Fragment key={index}>
+                  {/* Hotel Section */}
+                  {isHotel && (
+                    <SidebarHotelSection
+                      CartDetails={CartDetails}
+                      Carduuid={Carduuid}
+                      builderType={builderType}
+                    />
+                  )}
+
+                  {/* Flight Section */}
+                  {isFlight && (
+                    <SidebarFlightSection
+                      flight={item?.raw_data}
+                      getBuilder={getBuilder}
+                      index={index}
+                      uuid={item?.uuid}
+                    />
+                  )}
+
+                  {/* Itinerary Placement Logic */}
+                  {BuilderArguments?.itinerary_text && (
+                    <>
+                      {/* 2 items  show in center (after first) */}
+                      {totalItems === 2 && index === 0 && (
+                        <SidebarItenarySection />
+                      )}
+
+                      {/* 1 item  show below */}
+                      {totalItems === 1 && index === 0 && (
+                        <SidebarItenarySection />
+                      )}
+                    </>
+                  )}
+                </React.Fragment>
+              );
+            })
+          : //  Show Itinerary even if cart is empty
+            BuilderArguments?.itinerary_text && <SidebarItenarySection />}
       </Box>
 
       {!isMobile && <SidebarFooter />}
