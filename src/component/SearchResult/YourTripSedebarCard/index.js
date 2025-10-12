@@ -32,7 +32,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
   const Passengers =
     Number(getselectedFlight?.per_passenger_amount) * personQuantity;
   const WithtaxAmount = Number(getselectedFlight?.tax_amount) + Passengers;
-
+  
   const departureDate = BuilderArguments?.departure_date
     ? new Date(BuilderArguments.departure_date)
     : null;

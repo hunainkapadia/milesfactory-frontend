@@ -17,7 +17,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
         <Box>
           <Chip
             variant="outlined"
-            label={`${forHotel ? "Hotel" : "Flights"}`}
+            label={`${forHotel ? "Stay" : "Flights"}`}
             className={`${TripStyles.BuilderChip} wjite-bg bold `}
             sx={{}}
             size="small"
