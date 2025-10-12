@@ -108,7 +108,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
             builderType={builderType}
           />
         )}
-
+        <SidebarItenarySection />
         {/* for flight render */}
         {CartDetails?.items
           ?.filter((i) => i?.offer_type === "flight" || i?.raw_data?.slices)
@@ -125,8 +125,8 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
               </React.Fragment>
             );
           })}
-        <SidebarItenarySection />
       </Box>
+        
       {!isMobile && <SidebarFooter />}
 
       {/* Extra Info bottom */}
