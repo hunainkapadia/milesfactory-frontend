@@ -32,7 +32,7 @@ const HotelSection = ({
           </Typography>
         </Box>
         <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
-          use mylz to search and book hote
+          use mylz to search and book hotel
         </Typography>
       </Box>
       {!hasHotel ? (

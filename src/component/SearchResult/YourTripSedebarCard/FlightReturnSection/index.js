@@ -89,12 +89,14 @@ const FlightReturnSection = ({
       {console.log("getBuilder_flight_type", flight)}
       {hasFlightOffer && isReturn ? (
         <>
+        <Box id={"offer-card-return"}>
           <OfferCardSidebar
             index={0}
             slice={flight[0]?.raw_data?.slices[1]}
             getItems={flight[0]?.raw_data}
             uuid={uuid}
           />
+        </Box>
         </>
       ) : null}
 
