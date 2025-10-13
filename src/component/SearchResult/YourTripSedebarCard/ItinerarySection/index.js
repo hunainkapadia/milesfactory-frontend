@@ -1,46 +1,60 @@
-import { Box, Chip, Stack, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
-import {
-  convertMarkdownToHtml,
-  formatTextToHtmlList,
-  sanitizeResponse,
-} from "@/src/utils/utils";
+import { sanitizeResponse } from "@/src/utils/utils";
+import SidebarItenarySection from "../SidebarItenarySection";
 
-const ItinerarySection = ({ getBuilder, CartDetails, Carduuid, builderType }) => {
+const ItinerarySection = ({
+  getBuilder,
+  CartDetails,
+  Carduuid,
+  builderType,
+}) => {
+  const hasItinerary = !!getBuilder?.itinerarySection;
+  const hasDestination = !!getBuilder?.to_destination;
 
-const hasitiniary = getBuilder.itinerarySection? true : false;
-const hasdestination = getBuilder?.to_destination? true : false;
+  console.log("getBuilder in ItinerarySection:", getBuilder);
 
-console.log("getBuilder a in itiniary", getBuilder);
-  
   return (
-    <>
-      <Box mb={3}>
-          <Box display="flex" alignItems="center" gap="12px">
+    <Box mb={2}>
+      {hasDestination ? (
+        <>
+          {/* Itinerary Header */}
+          <Box mb={2} display="flex" alignItems="center" gap="12px">
             <Typography
               className={`${TripStyles.onewayReturn} btn btn-xs btn-black`}
             >
-            {hasdestination 
-                ? `Itinerary for ${getBuilder?.to_destination}` 
-                : 'Itinerary'
-            }
-              
+              {`Itinerary for ${getBuilder.to_destination}`}
             </Typography>
           </Box>
-            <Box display="flex" alignItems="center" gap="12px">
-            {hasitiniary 
-                ? `Itinerary for ${getBuilder?.to_destination}` 
-                : 'Itinerary'
-            }
-            {/* <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
-              Ask Mylz for an itinerary for your trip to{" "}
-              {sanitizeResponse(getBuilder?.to_destination)} including
-              activities, dining options, and sightseeing recommendations.
-            </Typography> */}
-          </Box>
-        </Box>
 
-    </>
+          {/* Description */}
+          <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+            Ask Mylz for an itinerary for your trip to{" "}
+            {sanitizeResponse(getBuilder.to_destination)} including activities,
+            dining options, and sightseeing recommendations.
+          </Typography>
+        </>
+      ) : (
+        <Typography className="f12">Itinerary</Typography>
+      )}
+
+      {/* Itinerary Details */}
+      {hasItinerary ? (
+        <>
+          <Box mt={2}>
+            <Typography className="f12">
+              {`Itinerary for ${getBuilder.to_destination}`}
+            </Typography>
+          </Box>
+        </>
+      ) : (
+        <>
+          <Box mt={2}>
+            <SidebarItenarySection />
+          </Box>
+        </>
+      )}
+    </Box>
   );
 };
 

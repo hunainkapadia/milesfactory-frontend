@@ -8,7 +8,17 @@ const FlightDepartureSection = ({ getBuilder, CartDetails, Carduuid, builderType
 
 const hasFlightOffer = CartDetails?.items?.some(item => item.offer_type === 'flight') || false;
 
+
+
+const hasHotel = Array.isArray(CartDetails?.items)
+  ? CartDetails.items.some((item) => item?.offer_type === "hotel")
+  : false;
+
+
+
 const flight = CartDetails?.items?.filter(item => item.offer_type === 'flight') || [];
+console.log("flight_test11", flight);
+
 const uuid = Carduuid;
 
 // Outbound journey text formatting
@@ -41,7 +51,7 @@ const formatJourneyTextOutbound = (args) => {
   return (
     <>
       <Box mb={3}>
-        <Box mb={1}>
+        <Box mb={2}>
           <Box display={"flex"} alignItems={"center"} gap={"12px"}>
             <Typography
               className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
@@ -68,20 +78,24 @@ const formatJourneyTextOutbound = (args) => {
           </Box>
         </Box>
         <Typography className="f12">
-          {/* Arrive in Bangkok and unwind – check-in opens at 4pm. */}
+          use mylz to search for flights
         </Typography>
       </Box>
+      
       {hasFlightOffer ? (
-            <OfferCardSidebar
-                index={0}
-                slice={flight[0]?.raw_data?.slices[0]}
-                getItems={flight.raw_data}
-                uuid={uuid}
-              />
+        <OfferCardSidebar
+          index={0}
+          slice={flight[0]?.raw_data?.slices?.[0]}
+          getItems={flight[0]?.raw_data}
+          uuid={uuid}
+        />
       ) : (
-        <BuilderHelpingCard getBuilder={getBuilder} forOneway />
+        <>
+          {!hasHotel && (
+            <BuilderHelpingCard getBuilder={getBuilder} forOneway />
+          )}
+        </>
       )}
-
     </>
   );
 };

@@ -44,7 +44,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
     
   
   return (
-    <Box
+    <Box id="hotel-section"
       className={`${TripStyles.flightOfferCard} ${TripStyles.hotelOfferCard}`}
       mb={3}
     >
