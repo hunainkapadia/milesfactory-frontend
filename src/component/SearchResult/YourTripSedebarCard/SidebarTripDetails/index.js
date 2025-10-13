@@ -167,6 +167,13 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
               Itinerary for {getBuilder?.to_destination}
             </Typography>
           </Box>
+            <Box display="flex" alignItems="center" gap="12px">
+            <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+              Ask Mylz for an itinerary for your trip to{" "}
+              {sanitizeResponse(getBuilder?.to_destination)} including
+              activities, dining options, and sightseeing recommendations.
+            </Typography>
+          </Box>
         </Box>
     </>
   );

@@ -12,6 +12,11 @@ import React from "react";
 import SidebarItenarySection from "./SidebarItenarySection";
 import SidebarHotelSection from "./SidebarHotelSection";
 import TopArgumentSection from "./TopArgumentSection";
+import FlightDepartureSection from "./FlightDepartureSection";
+import FlightReturnSection from "./FlightReturnSection";
+import HotelSection from "./HotelSection";
+import ItinerarySection from "./ItinerarySection";
+import BuilderHelpingCard from "./BuilderHelpingCard";
 
 const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
   const BuilderArguments =
@@ -92,16 +97,35 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
 
         {/* filter row */}
         {/* for hotel render */}
+        <FlightDepartureSection 
+                      getBuilder={BuilderArguments}
+                      CartDetails={CartDetails}
+                      Carduuid={Carduuid}
+                      builderType={builderType}
+                       />
+        {/* <HotelSection CartDetails={CartDetails}
+                      Carduuid={Carduuid}
+                      builderType={builderType}/>  */}
+        <ItinerarySection  
+                      getBuilder={BuilderArguments}
+                      CartDetails={CartDetails}
+                      Carduuid={Carduuid}
+                      builderType={builderType} />
+        <FlightReturnSection 
+                      getBuilder={BuilderArguments}
+                      CartDetails={CartDetails}
+                      Carduuid={Carduuid}
+                      builderType={builderType}/> 
 
-        {(!CartDetails?.items || CartDetails?.items?.length === 0) &&
+        {/* {(!CartDetails?.items || CartDetails?.items?.length === 0) &&
           !BuilderArguments?.itinerary_text && (
             <SidebarTripDetails
               CartDetails={CartDetails}
               Carduuid={Carduuid}
               builderType={builderType}
             />
-          )}
-        {CartDetails?.items?.length > 0
+          )} */}
+        {/* {CartDetails?.items?.length > 0
           ? CartDetails?.items?.map((item, index) => {
               const totalItems = CartDetails?.items?.length || 0;
               const isHotel = item?.raw_data?.hotel;
@@ -111,43 +135,37 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
               return (
                 <React.Fragment key={index}>
                   {/* Hotel Section */}
-                  {isHotel && (
+                  {/* {isHotel && (
                     <SidebarHotelSection
                       CartDetails={CartDetails}
                       Carduuid={Carduuid}
                       builderType={builderType}
                     />
-                  )}
+                  )} */}
 
                   {/* Flight Section */}
-                  {isFlight && (
+                  {/* {isFlight && (
                     <SidebarFlightSection
                       flight={item?.raw_data}
                       getBuilder={getBuilder}
                       index={index}
                       uuid={item?.uuid}
                     />
-                  )}
+                  )} */}
 
                   {/* Itinerary Placement Logic */}
-                  {BuilderArguments?.itinerary_text && (
+                  {/* {BuilderArguments?.itinerary_text && (
                     <>
-                      {/* 2 items  show in center (after first) */}
-                      {totalItems === 2 && index === 0 && (
-                        <SidebarItenarySection />
-                      )}
 
                       {/* 1 item  show below */}
-                      {totalItems === 1 && index === 0 && (
-                        <SidebarItenarySection />
-                      )}
-                    </>
-                  )}
-                </React.Fragment>
-              );
-            })
-          : //  Show Itinerary even if cart is empty
-            BuilderArguments?.itinerary_text && <SidebarItenarySection />}
+                        {/* <SidebarItenarySection /> */}
+                    {/* </>
+                  )} */} 
+                {/* </React.Fragment> */}
+              {/* );
+            }} */}
+          {/* : //  Show Itinerary even if cart is empty
+            BuilderArguments?.itinerary_text && <SidebarItenarySection />} */}
       </Box>
 
       {!isMobile && <SidebarFooter />}

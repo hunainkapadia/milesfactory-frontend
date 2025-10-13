@@ -10,7 +10,6 @@ const SidebarItenarySection = () => {
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder);
   const BuilderArguments =
     getBuilder?.silent_function_template[0]?.function.arguments || {};
-  console.log("getBuilder", BuilderArguments);
 
   return (
     <>
