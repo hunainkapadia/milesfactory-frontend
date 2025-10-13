@@ -10,13 +10,10 @@ import { useState } from "react";
 
 const TripCard = ({ tripData }) => {
   const [expanded, setExpanded] = useState(false);
-  
+
   const forHotel = tripData?.details?.hotel?.selected_hotel_offer;
   const forFlight = tripData?.details?.flight?.selected_offer;
 
-  
-  
-  
   const slices = forFlight?.slices || [];
   const firstSeg = slices[0]?.segments?.[0];
   const isRoundTrip = slices.length > 1;
@@ -25,10 +22,10 @@ const TripCard = ({ tripData }) => {
   const passengers = `${forFlight?.passengers?.length || 0} passenger${
     forFlight?.passengers?.length > 1 ? "s" : ""
   }`;
-  const flightLogo = forFlight?.owner?.logo_symbol_url || "/default-airline-logo.png";
-  const hotelLogo =  forHotel?.hotel.content?.images[0]?.url || "/images/hotel-nothumb.png";
-  
-  
+  const flightLogo =
+    forFlight?.owner?.logo_symbol_url || "/default-airline-logo.png";
+  const hotelLogo =
+    forHotel?.hotel.content?.images[0]?.url || "/images/hotel-nothumb.png";
 
   const departureDate = new Date(firstSeg?.departing_at).toDateString();
   const returnArrival = isRoundTrip
@@ -44,7 +41,7 @@ const TripCard = ({ tripData }) => {
   const text = forFlight ? description : hotelDescription;
   const maxLength = 80; // characters before truncation
   const shouldTruncate = text.length > maxLength;
-  const displayText = expanded ? text : text.slice(0, maxLength)
+  const displayText = expanded ? text : text.slice(0, maxLength);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -163,19 +160,20 @@ const TripCard = ({ tripData }) => {
         </Box>
 
         {/* View Trip Button */}
-        
+
         <Link
-  href={`/my-trips/${tripData?.uuid}`}
-  passHref
-  style={{ width: "100%" }}
->
-  <Button
-    className="btn btn-primary btn-round btn-sm btn-border f11"
-    sx={{ width: "100%" }}
-  >
-    View trip
-  </Button>
-</Link>
+          sx={{ textDecoration: "none" }}
+          href={`/my-trips/${tripData?.uuid}`}
+          passHref
+          style={{ width: "100%" }}
+        >
+          <Button
+            className="btn btn-primary btn-round btn-sm btn-border f11"
+            sx={{ width: "100%" }}
+          >
+            View trip
+          </Button>
+        </Link>
       </Box>
     </Card>
   );

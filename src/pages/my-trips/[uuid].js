@@ -59,7 +59,7 @@ const TripDetailPage = () => {
   return (
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
-        <Header isMessage="isMessage" />
+        <Header isMytrip={"isMytrip"} />
         {console.log("both__order", flightOffer, hotelOffer)}
         {flightOffer && hotelOffer ? (
           <>
