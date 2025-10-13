@@ -13,69 +13,54 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
-import { fetchAirports } from "@/src/store/slices/TravelSlice";
+import { fetchAirports, setDestination, setDestinationList, setDestinationOptions, setOrigin, setOriginList, setOriginOptions, setTravelFormDrawer } from "@/src/store/slices/TravelSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faPlane } from "@fortawesome/free-solid-svg-icons";
 import { capitalizeFirstWord } from "@/src/utils/utils";
 
 const OriginField = ({
-  origin,
-  setOrigin,
-  destination,
-  setDestination,
-  originOption,
-  setOriginOption,
-  destinationOption,
-  setDestinationOption,
   errors = {},
-  isMobile
 }) => {
-  const dispatch = useDispatch();
-
-  const [getOriginCookie, setGetOriginCookie] = useState();
-  const [getDestinationCookie, setGetDestinationCookie] = useState();
+   const dispatch = useDispatch();
+   const [getOriginCookie, setGetOriginCookie] = useState();
+   
+   const inputRef = React.useRef(null);
 
   const filterOptions = createFilterOptions({
     stringify: (option) =>
       `${option.city_name} ${option.name} ${option.iata_code}`,
   });
 
+  
   const {
+   origin,
     originOptions,
-    destinationOptions,
     loadingOrigin,
-    loadingDestination,
+    originList
   } = useSelector((state) => state.travel);
+  console.log("originOptions", originOptions);
+  
 
   // Save selected airports in cookies
   useEffect(() => {
-    if (originOption || destinationOption) {
-      Cookies.set("origin", originOption?.iata_code || "");
-      Cookies.set("destination", destinationOption?.iata_code || "");
+    if (originList) {
+      Cookies.set("origin", originOptions?.iata_code || "");
     }
-  }, [originOption, destinationOption]);
+  }, [originList]);
 
   // Load airports from cookies on first render
   useEffect(() => {
     const getOrigin = Cookies.get("origin");
-    const getDestination = Cookies.get("destination");
-
+    
     if (getOrigin) {
       setGetOriginCookie(getOrigin);
-      setOrigin(getOrigin); // input text
-      setOriginOption({
-        iata_code: getOrigin,
-        name: getOrigin, // fallback until API fetch replaces
-      });
-    }
-
-    if (getDestination) {
-      setGetDestinationCookie(getDestination);
-      setDestination(getDestination); // input text
-      setDestinationOption({
-        iata_code: getDestination,
-        name: getDestination, // fallback until API fetch replaces
-      });
+      dispatch(setOrigin(getOrigin)); // input text
+      dispatch(
+        setOriginOptions({
+          iata_code: getOrigin,
+          name: getOrigin, // fallback until API fetch replaces
+        })
+      );
     }
   }, [dispatch]);
 
@@ -88,9 +73,32 @@ const OriginField = ({
   const [alwaysOpen, setAlwaysOpen] = useState(true);
 
   const handleOrigin =(value)=> {
-    setOriginOption(value); // store selected option object
-    setOrigin(value?.iata_code || ""); // display only IATA code in input
+     dispatch(setOriginOptions(value)); // store selected option object
+    dispatch(setOrigin(value?.iata_code || "")); // display only IATA code in input
+    
   }
+  const IsDrawerOpen = useSelector((state) => state?.travel?.travelFormDrawer);
+  const handleOriginCLick = (e) => {
+  e.stopPropagation(); // stop bubbling to prevent closing
+  if (!IsDrawerOpen) {
+    dispatch(setTravelFormDrawer(true));
+  }
+};
+useEffect(() => {
+  if (IsDrawerOpen && inputRef.current) {
+    setTimeout(() => {
+      dispatch(setOrigin(""));              // clear input
+      dispatch(setOriginOptions(null));     // clear selection
+      dispatch(setOriginList([]));          // clear old dropdown list too
+      // destination reset
+      dispatch(setDestination(""));              // clear input
+      dispatch(setDestinationOptions(null));     // clear selection
+      dispatch(setDestinationList([]));          // clear old dropdown list too
+      inputRef.current.focus();             // focus input
+    }, 300);
+  }
+}, [IsDrawerOpen]);
+
 
   return (
     <>
@@ -98,7 +106,7 @@ const OriginField = ({
       <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
         <Autocomplete
           freeSolo
-          options={originOptions}
+          options={originList}
           loading={loadingOrigin}
           filterOptions={filterOptions}
           getOptionLabel={(option) =>
@@ -108,11 +116,11 @@ const OriginField = ({
               ? `${option.name} - ${option.iata_code}`
               : ""
           }
-          value={originOption} // selected object
+          value={originOptions} // selected object
           inputValue={origin} // input shows only IATA code
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
-              setOrigin(value);
+              dispatch(setOrigin(value));
               handleAirportSearch(value, "origin");
             }
           }}
@@ -138,6 +146,10 @@ const OriginField = ({
           )}
           renderInput={(params) => (
             <TextField
+              inputRef={inputRef} // ✅ add this line
+
+               onClick={handleOriginCLick} // ✅ Correct place for click
+
               {...params}
               variant="outlined"
               placeholder="Departing from"

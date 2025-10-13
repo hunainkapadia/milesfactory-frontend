@@ -1,157 +1,138 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   TextField,
   Autocomplete,
   createFilterOptions,
   Typography,
-  Fade,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-
-import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
-import { fetchAirports } from "@/src/store/slices/TravelSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faPlane } from "@fortawesome/free-solid-svg-icons";
-import { capitalizeFirstWord } from "@/src/utils/utils";
 
-const DestinationField = ({
-  origin,
-  setOrigin,
-  destination,
+import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
+import {
+  fetchAirports,
   setDestination,
-  originOption,
-  setOriginOption,
-  destinationOption,
-  setDestinationOption,
-  errors = {},
-  isMobile,
-}) => {
-  const dispatch = useDispatch();
+  setDestinationOptions,
+  setDestinationList,
+} from "@/src/store/slices/TravelSlice";
 
-  const [getOriginCookie, setGetOriginCookie] = useState();
-  const [getDestinationCookie, setGetDestinationCookie] = useState();
+const DestinationField = ({ errors = {} }) => {
+  const dispatch = useDispatch();
+  const inputRef = useRef(null);
+
+  const {origin,
+      originOptions,
+      loadingOrigin,
+      originList} = useSelector((state) => state?.travel); // ✅ track origin
+      
+  const {
+    destination,
+    destinationOptions,
+    destinationList,
+    loadingDestination,
+  } = useSelector((state) => state.travel);
 
   const filterOptions = createFilterOptions({
     stringify: (option) =>
       `${option.city_name} ${option.name} ${option.iata_code}`,
   });
 
-  const {
-    originOptions,
-    destinationOptions,
-    loadingOrigin,
-    loadingDestination,
-  } = useSelector((state) => state.travel);
-
-  // Save selected airports in cookies
+  // Save selected airport in cookie
   useEffect(() => {
-    if (originOption || destinationOption) {
-      Cookies.set("origin", originOption?.iata_code || "");
-      Cookies.set("destination", destinationOption?.iata_code || "");
+    if (destinationOptions) {
+      // Cookies.set("destination", destinationOptions?.iata_code || "");
     }
-  }, [originOption, destinationOption]);
+  }, [destinationOptions]);
 
-  // Load airports from cookies on first render
+  // Load from cookie on mount
   useEffect(() => {
-    const getOrigin = Cookies.get("origin");
-    const getDestination = Cookies.get("destination");
-
-    if (getOrigin) {
-      setGetOriginCookie(getOrigin);
-      setOrigin(getOrigin); // input text
-      setOriginOption({
-        iata_code: getOrigin,
-        name: getOrigin, // fallback until API fetch replaces
-      });
-    }
-
-    if (getDestination) {
-      setGetDestinationCookie(getDestination);
-      setDestination(getDestination); // input text
-      setDestinationOption({
-        iata_code: getDestination,
-        name: getDestination, // fallback until API fetch replaces
-      });
+    const saved = Cookies.get("destination");
+    if (saved) {
+      dispatch(setDestination(saved));
+      dispatch(
+        setDestinationOptions({
+          iata_code: saved,
+          name: saved,
+        })
+      );
     }
   }, [dispatch]);
 
-  const handleAirportSearch = (value, field) => {
+  const handleAirportSearch = (value) => {
     if (value && value.length > 2) {
-      dispatch(fetchAirports(value, field));
+      dispatch(fetchAirports(value, "destination"));
     }
   };
 
-  const [alwaysOpen, setAlwaysOpen] = useState(true);
-
-  const handleOrigin = (value) => {
-    setOriginOption(value); // store selected option object
-    setOrigin(value?.iata_code || ""); // display only IATA code in input
+  const handleSelect = (value) => {
+    dispatch(setDestinationOptions(value));
+    dispatch(setDestination(value?.iata_code || ""));
   };
 
+  useEffect(()=> {
+    if (originOptions) {
+      setTimeout(() => {
+        inputRef?.current?.focus();
+      }, 300);
+    }
+  }, [])
+
   return (
-    <>
-      <Fade in={!isMobile || (isMobile && originOption)}>
-        {/* Destination Field */}
-        <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
-          <Autocomplete
-            freeSolo
-            options={originOptions}
-            loading={loadingDestination}
-            filterOptions={filterOptions}
-            getOptionLabel={(option) =>
-              typeof option === "string"
-                ? option
-                : option?.name
-                ? `${option.name} - ${option.iata_code}`
-                : ""
-            }
-            value={destinationOption}
-            inputValue={destination}
-            onInputChange={(e, value, reason) => {
-              if (reason === "input") {
-                setDestination(value);
-                handleAirportSearch(value, "destination");
-              }
-            }}
-            onChange={(e, value) => {
-              setDestinationOption(value);
-              setDestination(value?.iata_code || "");
-            }}
-            ListboxProps={{
-              className: styles.countryDropdown + " countryDropdown",
-            }}
-            renderOption={(props, option) => (
-              <li
-                {...props}
-                className={`${option?.is_city ? styles.parent : styles.child}`}
-              >
-                <FontAwesomeIcon
-                  icon={option?.is_city ? faBuilding : faPlane}
-                />
-                <Typography>
-                  {option.name} - {option.iata_code}
-                </Typography>
-              </li>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                placeholder="Arriving at"
-                size="small"
-                className={`${styles.formControl} ${styles.from} formControl`}
-                error={!!errors.destination}
-                helperText={errors.destination}
-              />
-            )}
+    <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
+      <Autocomplete
+        freeSolo
+        options={destinationList}
+        loading={loadingDestination}
+        filterOptions={filterOptions}
+        getOptionLabel={(option) =>
+          typeof option === "string"
+            ? option
+            : option?.name
+            ? `${option.name} - ${option.iata_code}`
+            : ""
+        }
+        value={destinationOptions}
+        inputValue={destination}
+        onInputChange={(e, value, reason) => {
+          if (reason === "input") {
+            dispatch(setDestination(value));
+            handleAirportSearch(value);
+          }
+        }}
+        onChange={(e, value) => handleSelect(value)}
+        ListboxProps={{
+          className: styles.countryDropdown + " countryDropdown",
+        }}
+        renderOption={(props, option) => (
+          <li
+            {...props}
+            className={`${option?.is_city ? styles.parent : styles.child}`}
+          >
+            <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
+            <Typography>
+              {option.name} - {option.iata_code}
+            </Typography>
+          </li>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            inputRef={inputRef}
+            variant="outlined"
+            placeholder="Arriving at"
+            size="small"
+            className={`${styles.formControl} ${styles.from} formControl`}
+            error={!!errors.destination}
+            helperText={errors.destination}
           />
-        </Box>
-      </Fade>
-    </>
+        )}
+      />
+    </Box>
   );
 };
 
