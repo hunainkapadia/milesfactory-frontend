@@ -54,7 +54,7 @@ const PassengerProfilecard = ({
 
   return (
     <>
-      <Box pb={2}>
+      <Box pb={2} className="aaaa">
         <Box
           className={`${styles.passengersCard} ${styles.passengerProfileCard} ${
             passFilled ? styles.isFilled : ""
