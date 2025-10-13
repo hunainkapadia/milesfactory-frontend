@@ -24,7 +24,7 @@ const HotelSection = ({
   return (
     <>
       <Box mb={3}>
-        <Box mb={2} display="flex" alignItems="center" gap="12px">
+        <Box mb={1} display="flex" alignItems="center" gap="12px">
           <Typography
             className={`${TripStyles.onewayReturn} btn btn-xs btn-black`}
           >

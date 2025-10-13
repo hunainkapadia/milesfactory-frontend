@@ -77,7 +77,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
     <>
       {/* Open drawer only for the selected flight */}
       {isSidebar ? (
-        <Box component={"section"} className="Tabs" px={"18px"} pb={1}>
+        <Box component={"section"} className="Tabs" px={"18px"} >
           <SidebarTabs />
         </Box>
       ) : (

@@ -51,7 +51,7 @@ const formatJourneyTextOutbound = (args) => {
   return (
     <>
       <Box mb={3}>
-        <Box mb={2}>
+        <Box mb={1}>
           <Box display={"flex"} alignItems={"center"} gap={"12px"}>
             <Typography
               className={TripStyles.onewayReturn + " btn btn-xs btn-black "}
