@@ -17,7 +17,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
         <Box>
           <Chip
             variant="outlined"
-            label={`${forHotel ? "Hotel" : "Flights"}`}
+            label={`${forHotel ? "Stay" : "Flights"}`}
             className={`${TripStyles.BuilderChip} wjite-bg bold `}
             sx={{}}
             size="small"
@@ -91,8 +91,9 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
               {forHotel ? "Rooms" : "Class"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold capitalize">
+            {console.log("forHotel", forHotel)}
               {forHotel
-                ? 1
+                ? "1"
                 : forOneway && getBuilder?.cabin_class
                 ? getBuilder?.cabin_class
                 : forReturn && getBuilder?.cabin_class

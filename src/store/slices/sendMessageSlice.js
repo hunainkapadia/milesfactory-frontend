@@ -28,6 +28,7 @@ import {
 import {resetOrderState, setOrderConfirm, setOrderData, setPaymentFormSuccess } from "./PaymentSlice";
 import { resetPassengerHotelState, setOrderUuidHotel } from "./passengerDrawerHotelSlice";
 import { resetBaggageState } from "./BaggageSlice";
+import { setSelectedhotelCode } from "./HotelSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -453,6 +454,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
       if (newUuid) {
         dispatch(setAllPassengerFill(null));
         // allslices reset
+        dispatch(setSelectedhotelCode(null));
         dispatch(resetOrderState()); 
         dispatch(resetBookingState()); 
         dispatch(resetPassengerFlightState()); 

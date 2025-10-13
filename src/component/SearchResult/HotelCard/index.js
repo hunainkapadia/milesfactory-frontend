@@ -46,6 +46,8 @@ const HotelCard = ({ hotel, allHotels }) => {
   const selectedhotelCode = useSelector(
     (state) => state.hotel.selectedhotelCode
   );
+  console.log("selectedhotelCode", hotel?.code);
+  
   
   
   
@@ -97,7 +99,9 @@ const HotelCard = ({ hotel, allHotels }) => {
   const stars = hotel?.categoryName ? parseInt(hotel.categoryName) : 0;
 
   // Extract first rate for board/offer/price
-  const firstRate = hotel?.rooms?.[0]?.rates?.[0];
+  const firstRate = hotel?.rooms?.[0]?.rates?.find(
+  rate => rate.packaging === false && rate.rateType === "BOOKABLE"
+);
 
   
 
@@ -362,7 +366,6 @@ const HotelCard = ({ hotel, allHotels }) => {
                     {Math.round(totalPrice)} total ({nights} nights)
                   </Typography>
                 </Box>
-
                 <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
                   {selectedhotelCode === hotel?.code ? (
                     <Button

@@ -89,17 +89,6 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                           alignItems={"center"}
                         >
                           <Typography
-                            className="bold mb-1"
-                            textTransform={"capitalize"}
-                          >
-                            {hotelOffer?.name}
-                          </Typography>
-                          {firstRate?.offers?.[0] && (
-                            <Typography className={" chip sm chipGray"}>
-                              {firstRate.offers[0].name}
-                            </Typography>
-                          )}
-                          <Typography
                             textTransform={"capitalize"}
                             className={" chip sm basecolor1-light"}
                           >
@@ -128,8 +117,7 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                               alt="location"
                               style={{ width: 10, height: 10 }}
                             />
-                            0.2km from search location ·{" "}
-                            {hotelOffer?.destinationName || "Unknown Location"}
+                            {hotelOffer?.zoneName} /{hotelOffer?.destinationName}
                           </Typography>
                         </Stack>
 
