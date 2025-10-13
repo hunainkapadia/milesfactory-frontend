@@ -275,7 +275,7 @@ useEffect(() => {
             className={styles.checkoutDrowerBody}
             component={"section"}
             pb={10}
-            sx={{ px: { lg: 3, md: 3, xs: 2 } }}
+            sx={{ px: { lg: 3, md: 3, xs: 2 }, mb:2 }}
           >
             
             {console.log("passengerPofile", FilledPassFormData)}

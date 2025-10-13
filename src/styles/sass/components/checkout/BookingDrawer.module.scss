@@ -446,6 +446,9 @@
          @include border-radius(0);
          .checkoutDrowerBody {
                padding: 0 18px;
+               .passengerProfileCard {
+                  margin-bottom: 16px;
+               }
                >div {
                   padding: 0;
                }
