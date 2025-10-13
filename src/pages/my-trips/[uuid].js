@@ -32,7 +32,7 @@ const TripDetailPage = () => {
   const tripDetail = useSelector((state) => state?.base?.TripDetailData);
   
   const flightOffer = tripDetail?.flight_order?.selected_offer;
-  const hotelOffer = tripDetail?.hotel_order.selected_hotel_offer.hotel
+  const hotelOffer = tripDetail?.hotel_order?.selected_hotel_offer?.hotel
   
   const loading = useSelector((state) => state?.base?.isLoading);
 
