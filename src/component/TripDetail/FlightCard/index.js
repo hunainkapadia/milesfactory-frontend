@@ -23,6 +23,22 @@ const FlightCard = ({flightOffer, tripDetail}) => {
       (1000 * 60 * 60 * 24)
   );
 
+  const passengers = flightOffer?.passengers || [];
+
+const adults = passengers.filter(p => p.type === "adult").length;
+const children = passengers.filter(p => p.type === "child").length;
+const infants = passengers.filter(
+  p => p.type === "infant" || p.type === "infant_without_seat"
+).length;
+
+const travellersummary = [
+  adults ? `${adults} Adult${adults > 1 ? "s" : ""}` : "",
+  children ? `${children} Child${children > 1 ? "ren" : ""}` : "",
+  infants ? `${infants} Infant${infants > 1 ? "s" : ""}` : "",
+]
+  .filter(Boolean)
+  .join(", ");
+
    return (
      <>
        <Box sx={{ backgroundColor: "#e6f5ee" }} py={4}>
@@ -232,42 +248,9 @@ const FlightCard = ({flightOffer, tripDetail}) => {
              {/* Traveler */}
              <Box mb={2}>
                <Typography variant="subtitle2">Travelers</Typography>
-               {console.log("flightOffer_passengers", flightOffer?.passengers)}
-               {(() => {
-                 const passengers = flightOffer?.passengers || [];
+               <Typography className="f12">{travellersummary}</Typography>
 
-                 // Count passengers by type
-                 const counts = passengers.reduce(
-                   (acc, p) => {
-                     if (p.type === "adult") acc.adult++;
-                     else if (p.type === "child") acc.child++;
-                     else if (
-                       p.type === "infant_without_seat" ||
-                       p.type === "infant"
-                     )
-                       acc.infant++;
-                     return acc;
-                   },
-                   { adult: 0, child: 0, infant: 0 }
-                 );
-
-                 // Build readable text
-                 const summary = [
-                   counts.adult
-                     ? `${counts.adult} Adult${counts.adult > 1 ? "s" : ""}`
-                     : "",
-                   counts.child
-                     ? `${counts.child} Child${counts.child > 1 ? "ren" : ""}`
-                     : "",
-                   counts.infant
-                     ? `${counts.infant} Infant${counts.infant > 1 ? "s" : ""}`
-                     : "",
-                 ]
-                   .filter(Boolean)
-                   .join(", ");
-
-                 return <Typography className="f12">{summary}</Typography>;
-               })()}
+               
              </Box>
              {/* Payment Info */}
              <Grid container spacing={2}>
