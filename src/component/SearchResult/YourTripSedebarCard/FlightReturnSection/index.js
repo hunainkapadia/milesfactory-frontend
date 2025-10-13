@@ -41,7 +41,7 @@ const formatJourneyTextReturn = (args) => {
     <>
       <Box mb={3}>
        
-      {getBuilder?.flight_type !== "one-way" && (
+      {hasFlightOffer && getBuilder?.flight_type !== "one-way" && (
         <Box mb={3}>
           <Box mb={1}>
             <Box display={"flex"} alignItems={"center"} gap={"12px"}>
@@ -72,17 +72,47 @@ const formatJourneyTextReturn = (args) => {
         </Box>
       )}
       </Box>
-      {hasFlightOffer ? (
+      {hasFlightOffer && getBuilder?.flight_type !== "one-way" ? (
             <OfferCardSidebar
                 index={0}
                 slice={flight[0]?.raw_data?.slices[1]}
                 getItems={flight.raw_data}
                 uuid={uuid}
               />
-      ) : (
-        <BuilderHelpingCard getBuilder={getBuilder} forReturn/>
-      )}
+      ) : null}
 
+      {!hasFlightOffer && (
+        <Box mb={3}>
+          <Box mb={1}>
+            <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+              <Typography
+                className={TripStyles.onewayReturn + " btn btn-xs btn-black"}
+              >
+                Return
+                {getBuilder?.return_date && ( // This is the condition
+                  <>
+                    {" "}
+                    |{" "}
+                    {new Date(getBuilder.return_date).toLocaleDateString(
+                      "en-GB",
+                      {
+                        weekday: "short",
+                        day: "2-digit",
+                        month: "short",
+                      }
+                    )}
+                  </>
+                )}
+              </Typography>
+              <Typography className="f12 bold">
+                {formatJourneyTextReturn(getBuilder)}
+              </Typography>
+            </Box>
+            
+          </Box>
+          <BuilderHelpingCard getBuilder={getBuilder} forReturn/> 
+        </Box>
+      )}
     </>
   );
 };
