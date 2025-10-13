@@ -1,5 +1,5 @@
 // components/TripCard.js
-import { Card, Typography, Button, Box, Stack } from "@mui/material";
+import { Card, Typography, Button, Box, Stack, Link } from "@mui/material";
 import Image from "next/image";
 import styles from "@/src/styles/sass/components/MyTrips/Mytrips.module.scss";
 import { useDispatch } from "react-redux";
@@ -164,13 +164,18 @@ const TripCard = ({ tripData }) => {
 
         {/* View Trip Button */}
         
-        <Button
-          onClick={() => handleTripDetail(tripData?.uuid)}
-          className="btn btn-primary btn-round btn-sm btn-border f11"
-          sx={{ width: "100%" }}
-        >
-          View trip
-        </Button>
+        <Link
+  href={`/my-trips/${tripData?.uuid}`}
+  passHref
+  style={{ width: "100%" }}
+>
+  <Button
+    className="btn btn-primary btn-round btn-sm btn-border f11"
+    sx={{ width: "100%" }}
+  >
+    View trip
+  </Button>
+</Link>
       </Box>
     </Card>
   );
