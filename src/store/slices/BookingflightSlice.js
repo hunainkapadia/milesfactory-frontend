@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { setMessage, setSearchHistorySend } from "./sendMessageSlice";
+import { sendMessage, setMessage, setSearchHistorySend } from "./sendMessageSlice";
 import { setIsBuilderDialog } from "./Base/baseSlice";
 import { setRoomDrawer, setSelectedhotelCode, setSelectedhotelKey } from "./HotelSlice";
 
@@ -155,6 +155,7 @@ export const bookFlight = () => (dispatch, getState) => {
 
 // Add to Cart
 export const AddToCart = (params, uuid) => async (dispatch, getState) => {
+  const uuid = getState()?.sendMessage?.threadUuid;
   dispatch(setIsLoadingSelect(true));
 
   try {
@@ -168,7 +169,20 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     // if API returns uuid, immediately fetch cart items
     if (res.data) {
       console.log("res_data", res.data?.system_message);
-      dispatch(setMessage({ user: res.data?.system_message }));
+      const systemMessage =  res.data?.system_message;
+
+      if (systemMessage) {
+        if (uuid) {
+          console.log("uuid_000", uuid);
+          
+          
+          dispatch(sendMessage(systemMessage))
+        } else {
+          // If no thread exists yet → create one first
+          dispatch(setMessage({ user: systemMessage })); // show instantly in UI
+          dispatch(sendMessage(systemMessage));
+        }
+      }
       
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));
