@@ -83,6 +83,8 @@ const TripCard = ({ tripData }) => {
                 {route} {isRoundTrip ? "Round-trip" : "One-way"}
               </>
             )}
+          </Typography>
+          <Typography className="bold">
             {forHotel?.hotel && <>{forHotel?.hotel?.content?.name?.content}</>}
           </Typography>
           <Typography className="f12 bold">

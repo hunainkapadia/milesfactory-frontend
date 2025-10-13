@@ -58,11 +58,26 @@ const TripDetailPage = () => {
   
   return (
     <>
-      {flightOffer ? (
-        <FlightCard flightOffer={flightOffer} tripDetail={tripDetail} />
-      ) : hotelOffer ? (
-        <HotelCard hotelOffer={hotelOffer} tripDetail={tripDetail} />
-      ) : ""}
+      <Box component="main" className={styles.TripBody + " main-body "}>
+        <Header isMessage="isMessage" />
+        {console.log("both__order", flightOffer, hotelOffer)}
+        {flightOffer && hotelOffer ? (
+          <>
+            <FlightCard flightOffer={flightOffer} tripDetail={tripDetail} />
+            <HotelCard hotelOffer={hotelOffer} tripDetail={tripDetail} />
+          </>
+        ) : hotelOffer ? (
+          <>
+            <HotelCard hotelOffer={hotelOffer} tripDetail={tripDetail} />
+          </>
+        ) : flightOffer ? (
+          <>
+            <FlightCard flightOffer={flightOffer} tripDetail={tripDetail} />
+          </>
+        ) : (
+          ""
+        )}
+      </Box>
     </>
   );
 };
