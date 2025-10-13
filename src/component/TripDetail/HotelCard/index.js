@@ -90,6 +90,7 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                           textTransform={"capitalize"}
                           className={" chip sm basecolor1-light"}
                         >
+                        {console.log("hotelOffer_00", hotelOffer)}
                           {hotelOffer?.categoryName.toLowerCase()}
                         </Typography>
                       </Stack>
