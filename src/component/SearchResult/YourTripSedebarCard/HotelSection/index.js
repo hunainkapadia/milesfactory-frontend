@@ -14,12 +14,9 @@ const HotelSection = ({
   const CartDetails = useSelector(
     (state) => state.booking.getCartDetail?.items
   );
-  const hasHotel = Array.isArray(CartDetails?.items)
+  const hasHotel = Array.isArray(CartDetails)
     ? CartDetails.some((item) => item?.offer_type === "hotel")
     : false;
-  {
-    console.log("hasHotel_111", getBuilder);
-  }
 
   return (
     <>
@@ -31,11 +28,11 @@ const HotelSection = ({
             Hotel for {getBuilder?.to_destination || "your trip"}
           </Typography>
         </Box>
-        <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+        {/* <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
           use mylz to search and book hotel
-        </Typography>
+        </Typography> */}
       </Box>
-      {!hasHotel ? (
+      {hasHotel ? (
         <>
           {CartDetails?.map((getItems, index) =>
             getItems?.raw_data?.hotel ? (
