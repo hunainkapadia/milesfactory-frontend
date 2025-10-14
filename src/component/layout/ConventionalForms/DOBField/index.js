@@ -43,6 +43,7 @@ const DOBField = ({ errors }) => {
       dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
       if (endDate && endDate > startDate) setShowCalendar(false);
     }
+    alert("Asas")
   };
 
   return (

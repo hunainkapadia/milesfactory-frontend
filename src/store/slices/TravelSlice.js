@@ -22,6 +22,11 @@ const initialState = {
   tripType: "oneway",
   departureDate: null,
   returnDate: null,
+  travellers: {
+    adults: 1,
+    children: 0,
+    infants: 0,
+  }
 };
 
 const travelSlice = createSlice({
@@ -29,6 +34,9 @@ const travelSlice = createSlice({
   initialState,
   reducers: {
     // DOB staer
+    setTravellers: (state, action) => {
+      state.travellers = action.payload;
+    },
     setTripType: (state, action) => {
       state.tripType = action.payload;
     },
@@ -198,6 +206,7 @@ export const {
   setTripType,
   setDepartureDate,
   setReturnDate,
+  setTravellers
 } = travelSlice.actions;
 
 export default travelSlice.reducer;

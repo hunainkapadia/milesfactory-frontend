@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Divider, Grid, Drawer, Stack } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Travelstyles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
@@ -7,6 +7,7 @@ import OriginField from "../OriginField";
 import { setTravelFormDrawer } from "@/src/store/slices/TravelSlice";
 import DestinationField from "../DestinationField";
 import DOBField from "../DOBField";
+import Travellers from "../Travellers";
 
 const TravelFormMobileDrawer = ({ errors }) => {
   const dispatch = useDispatch();
@@ -18,13 +19,18 @@ const TravelFormMobileDrawer = ({ errors }) => {
   const {origin,
     originOptions,
     loadingOrigin,
-    originList} = useSelector((state) => state?.travel); // ✅ track origin
+    originList,
+    departureDate} = useSelector((state) => state?.travel); //  track origin
     const {
         destination,
         destinationOptions,
         destinationList,
         loadingDestination,
       } = useSelector((state) => state.travel);
+
+      useEffect (()=> {
+
+      }, [])
 
   return (
     <Drawer
@@ -54,22 +60,35 @@ const TravelFormMobileDrawer = ({ errors }) => {
               onClick={HandlecloseDrawer}
             >
               <i className={`fa fa-arrow-left fas`}></i>
-              <Stack
-                flexDirection={"column"}
-                component={"span"}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* ✅ Show OriginField always */}
-                <OriginField errors={errors} />
-
-                {/* ✅ Show DestinationField only after origin selected */}
-                {originOptions && <DestinationField errors={errors} />}
-                {console.log("originOptions_111", destination)}
-                {originOptions && destinationOptions && (
-                  <DOBField errors={errors} />
-                )}
-              </Stack>
             </Box>
+
+            <Stack
+              flexDirection={"column"}
+              component={"span"}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/*  Show DestinationField only after origin selected */}
+              {!originOptions ? (
+                <>
+                  {/*  Show OriginField always */}
+                  <OriginField errors={errors} />
+                </>
+              ) : !destinationOptions ? (
+                <>{originOptions && <DestinationField errors={errors} />}</>
+              ) : !departureDate ? (
+                <>
+                  <DOBField errors={errors} />
+                </>
+              ) : originOptions && destinationOptions && departureDate ? (
+                <>
+                  <Travellers errors={errors} />
+                </>
+              ) : (
+                ""
+              )}
+              <Travellers errors={errors} />
+
+            </Stack>
             <Box>
               <Divider className={`${styles.Divider} Divider`} />
             </Box>

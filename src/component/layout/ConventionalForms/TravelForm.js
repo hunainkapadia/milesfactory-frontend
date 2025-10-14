@@ -49,11 +49,7 @@ const TravelForm = () => {
 
   const [showCalendar, setShowCalendar] = useState(false);
   const [tripClass, setTripClass] = useState("Economy");
-  const [travellers, setTravellers] = useState({
-    adults: 1,
-    children: 0,
-    infants: 0,
-  });
+  
   const [isLoading, setIsLoading] = useState(false);
 
   // ===== Redux States =====
@@ -189,14 +185,9 @@ const TravelForm = () => {
               <>
                 {/* Travellers */}
                 <Travellers
-                  travellers={travellers}
-                  setTravellers={setTravellers}
+                  errors={errors}
                 />
-                {errors.travellers && (
-                  <Typography color="error" variant="caption">
-                    {errors.travellers}
-                  </Typography>
-                )}
+                
               </>
             )}
 
@@ -246,6 +237,7 @@ const TravelForm = () => {
         </Box>
       </Stack>
       <TravelFormMobileDrawer errors={errors} />
+      
       
     </>
   );
