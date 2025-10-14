@@ -111,7 +111,7 @@ const RoomDrawer = () => {
                           {capitalizeFirstWord(room?.name)} - {room.rates[0].allotment}{" Available"}
                         </Typography>
                       </Stack>
-                      <h1>{room?.code}</h1>
+                      
                       <HotelDrawerGallery roomCode={room?.code} hotel={hotel} />
 
                       {room.rates
