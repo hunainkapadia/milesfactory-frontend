@@ -46,7 +46,6 @@ const HotelCard = ({ hotel, allHotels }) => {
   const selectedhotelCode = useSelector(
     (state) => state.hotel.selectedhotelCode
   );
-  console.log("selectedhotelCode", hotel?.code);
   
   
   
@@ -144,7 +143,7 @@ const HotelCard = ({ hotel, allHotels }) => {
             <Box
               className={searchResultStyles.HotelThumb}
               sx={{
-                backgroundImage: `url(${images[0]?.url || "/images/hotel-nothumb.png"})`,
+                backgroundImage: `url(${images[0]?.url_800 || "/images/hotel-nothumb.png"})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",

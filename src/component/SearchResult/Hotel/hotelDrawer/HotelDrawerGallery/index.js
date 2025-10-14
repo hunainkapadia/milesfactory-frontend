@@ -13,11 +13,24 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const HotelDrawerGallery = ({ hotel }) => {
+const HotelDrawerGallery = ({ hotel, roomCode }) => {
   const [isViewAll, setIsViewAll] = useState(false);
   const [openImage, setOpenImage] = useState(null); // currently opened image in modal
 
-  const images = hotel?.content?.images || [];
+
+let images = hotel?.content?.images?.filter(
+  (img) => img.roomCode === roomCode
+);
+
+
+// If no specific room images found, fallback to general hotel images
+if (!images || images.length === 0) {
+  images = hotel?.content?.images?.filter(
+    (img) => !img.roomCode && img.imageTypeCode === "GEN"
+  ) || [];
+}
+  
+  
   
   if (images.length === 0) return null;
 
@@ -50,7 +63,7 @@ const HotelDrawerGallery = ({ hotel }) => {
               className={`${styles.HotelThumb} ${styles.BigThumb}`}
               sx={{
                 backgroundImage: `url(${
-                  images[0]?.url || "images/hotel-nothumb.png"
+                  images[0]?.url_800 || "images/hotel-nothumb.png"
                 })`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
@@ -59,7 +72,7 @@ const HotelDrawerGallery = ({ hotel }) => {
                 flex: "1 1 50%",
                 cursor: "pointer",
               }}
-              onClick={() => handleOpenImage(images[0]?.url)}
+              onClick={() => handleOpenImage(images[0]?.url_1024)}
             />
           )}
 
@@ -75,7 +88,7 @@ const HotelDrawerGallery = ({ hotel }) => {
                   }`}
                   sx={{
                     backgroundImage: `url(${
-                      img?.url || "images/hotel-nothumb.png"
+                      img?.url_800 || "images/hotel-nothumb.png"
                     })`,
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
@@ -84,7 +97,7 @@ const HotelDrawerGallery = ({ hotel }) => {
                     position: "relative",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleOpenImage(img?.url)}
+                  onClick={() => handleOpenImage(img?.url_1024)}
                 >
                   {/* Show 'View all photos' overlay on last image */}
                   {isLast && (
@@ -139,7 +152,7 @@ const HotelDrawerGallery = ({ hotel }) => {
                   <Box
                     sx={{
                       backgroundImage: `url(${
-                        img?.url || "images/hotel-nothumb.png"
+                        img?.url_800 || "images/hotel-nothumb.png"
                       })`,
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
@@ -148,7 +161,7 @@ const HotelDrawerGallery = ({ hotel }) => {
                       borderRadius: 2,
                       cursor: "pointer",
                     }}
-                    onClick={() => handleOpenImage(img?.url)}
+                    onClick={() => handleOpenImage(img?.url_1024)}
                   />
                 </Grid>
               ))}

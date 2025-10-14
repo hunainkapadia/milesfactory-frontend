@@ -37,7 +37,6 @@ const PassengerFlowBlock = ({
       dispatch(setFilledPass(true));
     }
   }, [passengerPofile, allPassengerFill, dispatch]);
-  console.log("filledPassenger_1", filledPassenger)
     
       
   
