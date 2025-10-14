@@ -174,12 +174,9 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
       if (systemMessage) {
         if (uuid) {
           console.log("uuid_000", uuid);
-          
-          
           dispatch(sendMessage(systemMessage))
         } else {
           // If no thread exists yet → create one first
-          dispatch(setMessage({ user: systemMessage })); // show instantly in UI
           dispatch(sendMessage(systemMessage));
         }
       }
