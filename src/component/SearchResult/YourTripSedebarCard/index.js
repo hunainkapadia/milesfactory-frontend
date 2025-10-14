@@ -9,9 +9,11 @@ import SidebarTabs from "./SidebarTabs";
 import SidebarFooter from "./SidebarFooter";
 import SidebarFlightSection from "./SidebarFlightSection";
 import React from "react";
-import SidebarItenarySection from "./SidebarItenarySection";
-import SidebarHotelSection from "./SidebarHotelSection";
 import TopArgumentSection from "./TopArgumentSection";
+import FlightDepartureSection from "./FlightDepartureSection";
+import FlightReturnSection from "./FlightReturnSection";
+import HotelSection from "./HotelSection";
+import ItinerarySection from "./ItinerarySection";
 
 const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
   const BuilderArguments =
@@ -20,7 +22,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
 
   const CartDetails = useSelector((state) => state.booking?.getCartDetail);
   const Carduuid = CartDetails?.items?.at(0)?.uuid || null;
-
+  
   const getselectedFlight = useSelector(
     (state) => state?.booking?.addCart?.raw_data
   );
@@ -75,7 +77,7 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
     <>
       {/* Open drawer only for the selected flight */}
       {isSidebar ? (
-        <Box component={"section"} className="Tabs" px={"18px"} pb={1}>
+        <Box component={"section"} className="Tabs" px={"18px"} >
           <SidebarTabs />
         </Box>
       ) : (
@@ -92,62 +94,30 @@ const YourTripSedebarCard = ({ getBuilder, isSidebar }) => {
 
         {/* filter row */}
         {/* for hotel render */}
-
-        {(!CartDetails?.items || CartDetails?.items?.length === 0) &&
-          !BuilderArguments?.itinerary_text && (
-            <SidebarTripDetails
-              CartDetails={CartDetails}
-              Carduuid={Carduuid}
-              builderType={builderType}
-            />
-          )}
-        {CartDetails?.items?.length > 0
-          ? CartDetails?.items?.map((item, index) => {
-              const totalItems = CartDetails?.items?.length || 0;
-              const isHotel = item?.raw_data?.hotel;
-              const isFlight =
-                item?.offer_type === "flight" || item?.raw_data?.slices;
-
-              return (
-                <React.Fragment key={index}>
-                  {/* Hotel Section */}
-                  {isHotel && (
-                    <SidebarHotelSection
-                      CartDetails={CartDetails}
-                      Carduuid={Carduuid}
-                      builderType={builderType}
-                    />
-                  )}
-
-                  {/* Flight Section */}
-                  {isFlight && (
-                    <SidebarFlightSection
-                      flight={item?.raw_data}
-                      getBuilder={getBuilder}
-                      index={index}
-                      uuid={item?.uuid}
-                    />
-                  )}
-
-                  {/* Itinerary Placement Logic */}
-                  {BuilderArguments?.itinerary_text && (
-                    <>
-                      {/* 2 items  show in center (after first) */}
-                      {totalItems === 2 && index === 0 && (
-                        <SidebarItenarySection />
-                      )}
-
-                      {/* 1 item  show below */}
-                      {totalItems === 1 && index === 0 && (
-                        <SidebarItenarySection />
-                      )}
-                    </>
-                  )}
-                </React.Fragment>
-              );
-            })
-          : //  Show Itinerary even if cart is empty
-            BuilderArguments?.itinerary_text && <SidebarItenarySection />}
+        <FlightDepartureSection
+          getBuilder={BuilderArguments}
+          CartDetails={CartDetails}
+          Carduuid={Carduuid}
+          builderType={builderType}
+        />
+        <HotelSection
+          getBuilder={BuilderArguments}
+          CartDetails={CartDetails}
+          Carduuid={Carduuid}
+          builderType={builderType}
+        />
+        <ItinerarySection
+          getBuilder={BuilderArguments}
+          CartDetails={CartDetails}
+          Carduuid={Carduuid}
+          builderType={builderType}
+        />
+        <FlightReturnSection
+          getBuilder={BuilderArguments}
+          CartDetails={CartDetails}
+          Carduuid={Carduuid}
+          builderType={builderType}
+        />
       </Box>
 
       {!isMobile && <SidebarFooter />}

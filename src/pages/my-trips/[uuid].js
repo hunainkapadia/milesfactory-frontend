@@ -32,7 +32,7 @@ const TripDetailPage = () => {
   const tripDetail = useSelector((state) => state?.base?.TripDetailData);
   
   const flightOffer = tripDetail?.flight_order?.selected_offer;
-  const hotelOffer = tripDetail?.hotel_order.selected_hotel_offer.hotel
+  const hotelOffer = tripDetail?.hotel_order?.selected_hotel_offer?.hotel
   
   const loading = useSelector((state) => state?.base?.isLoading);
 
@@ -58,11 +58,26 @@ const TripDetailPage = () => {
   
   return (
     <>
-      {flightOffer ? (
-        <FlightCard flightOffer={flightOffer} tripDetail={tripDetail} />
-      ) : hotelOffer ? (
-        <HotelCard hotelOffer={hotelOffer} tripDetail={tripDetail} />
-      ) : ""}
+      <Box component="main" className={styles.TripBody + " main-body "}>
+        <Header isMytrip={"isMytrip"} />
+        {console.log("both__order", flightOffer, hotelOffer)}
+        {flightOffer && hotelOffer ? (
+          <>
+            <FlightCard flightOffer={flightOffer} tripDetail={tripDetail} />
+            <HotelCard hotelOffer={hotelOffer} tripDetail={tripDetail} />
+          </>
+        ) : hotelOffer ? (
+          <>
+            <HotelCard hotelOffer={hotelOffer} tripDetail={tripDetail} />
+          </>
+        ) : flightOffer ? (
+          <>
+            <FlightCard flightOffer={flightOffer} tripDetail={tripDetail} />
+          </>
+        ) : (
+          ""
+        )}
+      </Box>
     </>
   );
 };

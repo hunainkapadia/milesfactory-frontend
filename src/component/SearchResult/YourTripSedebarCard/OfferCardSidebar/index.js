@@ -208,14 +208,14 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
               {/* Departure Time & Code */}
               <Box className={TripStyles.Timings}>
                 <Typography className={TripStyles.flightTime}>
-                  {new Date(slice.departing_at).toLocaleTimeString([], {
+                  {new Date(slice?.departing_at).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
                   })}
                 </Typography>
                 <Typography className={TripStyles.flightRoute + " f12"}>
-                  {slice.origin.iata_code}
+                  {slice?.origin.iata_code}
                 </Typography>
               </Box>
 
@@ -231,14 +231,14 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
                 <Box className={TripStyles.divider}>
                   <img
                     src={
-                      slice.segments?.length === 1
+                      slice?.segments?.length === 1
                         ? "/images/direct-plan-icon.svg"
                         : "/images/stop-plan-icon.svg"
                     }
                   />
                 </Box>
                 <Typography className={" gray f12"}>
-                  {slice.duration}
+                  {slice?.duration}
                 </Typography>
                 {/* Dotted Line */}
               </Box>
@@ -246,14 +246,14 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
               {/* Arrival Time & Code */}
               <Box textAlign={"right"} className={TripStyles.Timings}>
                 <Typography className={TripStyles.flightTime}>
-                  {new Date(slice.arriving_at).toLocaleTimeString([], {
+                  {new Date(slice?.arriving_at).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
                   })}
                 </Typography>
                 <Typography className={TripStyles.flightRoute + " f12"}>
-                  {slice.destination.iata_code}
+                  {slice?.destination?.iata_code}
                 </Typography>
               </Box>
             </Box>
@@ -325,7 +325,7 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
               <Stack width={"100%"}>
                 <Typography className="f12 basecolor">
                   <Typography component={"span"} className="f12 black">
-                    No travellers selected: {getItems?.passengers.length}
+                    No travellers selected: {getItems?.passengers?.length}
                   </Typography>
                 </Typography>
               </Stack>
@@ -396,6 +396,7 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
           alignItems={"center"}
           gap={"1px"}
         >
+        {console.log("getItems_011", getItems)}
           <Typography className="f11 exbold" component={"span"}>
             {currencySymbols[getItems?.total_currency] ||
               getItems?.total_currency}

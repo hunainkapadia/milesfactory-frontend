@@ -24,7 +24,7 @@ const SidebarFlightSection = ({ flight, getBuilder, index, uuid }) => {
         <>
           {flight?.slices?.map((slice, sliceIndex) => (
             <React.Fragment key={sliceIndex}>
-              <Box mb={2}>
+              <Box mb={1}>
                 {sliceIndex === 0 ? (
                   <>
                     <Box display="flex" alignItems="center" gap="12px">

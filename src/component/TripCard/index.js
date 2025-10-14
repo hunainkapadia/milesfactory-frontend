@@ -1,5 +1,5 @@
 // components/TripCard.js
-import { Card, Typography, Button, Box, Stack } from "@mui/material";
+import { Card, Typography, Button, Box, Stack, Link } from "@mui/material";
 import Image from "next/image";
 import styles from "@/src/styles/sass/components/MyTrips/Mytrips.module.scss";
 import { useDispatch } from "react-redux";
@@ -10,13 +10,10 @@ import { useState } from "react";
 
 const TripCard = ({ tripData }) => {
   const [expanded, setExpanded] = useState(false);
-  
+
   const forHotel = tripData?.details?.hotel?.selected_hotel_offer;
   const forFlight = tripData?.details?.flight?.selected_offer;
 
-  
-  
-  
   const slices = forFlight?.slices || [];
   const firstSeg = slices[0]?.segments?.[0];
   const isRoundTrip = slices.length > 1;
@@ -25,10 +22,10 @@ const TripCard = ({ tripData }) => {
   const passengers = `${forFlight?.passengers?.length || 0} passenger${
     forFlight?.passengers?.length > 1 ? "s" : ""
   }`;
-  const flightLogo = forFlight?.owner?.logo_symbol_url || "/default-airline-logo.png";
-  const hotelLogo =  forHotel?.hotel.content?.images[0]?.url || "/images/hotel-nothumb.png";
-  
-  
+  const flightLogo =
+    forFlight?.owner?.logo_symbol_url || "/default-airline-logo.png";
+  const hotelLogo =
+    forHotel?.hotel.content?.images[0]?.url || "/images/hotel-nothumb.png";
 
   const departureDate = new Date(firstSeg?.departing_at).toDateString();
   const returnArrival = isRoundTrip
@@ -44,7 +41,7 @@ const TripCard = ({ tripData }) => {
   const text = forFlight ? description : hotelDescription;
   const maxLength = 80; // characters before truncation
   const shouldTruncate = text.length > maxLength;
-  const displayText = expanded ? text : text.slice(0, maxLength)
+  const displayText = expanded ? text : text.slice(0, maxLength);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -83,6 +80,8 @@ const TripCard = ({ tripData }) => {
                 {route} {isRoundTrip ? "Round-trip" : "One-way"}
               </>
             )}
+          </Typography>
+          <Typography className="bold">
             {forHotel?.hotel && <>{forHotel?.hotel?.content?.name?.content}</>}
           </Typography>
           <Typography className="f12 bold">
@@ -161,14 +160,20 @@ const TripCard = ({ tripData }) => {
         </Box>
 
         {/* View Trip Button */}
-        
-        <Button
-          onClick={() => handleTripDetail(tripData?.uuid)}
-          className="btn btn-primary btn-round btn-sm btn-border f11"
-          sx={{ width: "100%" }}
+
+        <Link
+          sx={{ textDecoration: "none" }}
+          href={`/my-trips/${tripData?.uuid}`}
+          passHref
+          style={{ width: "100%" }}
         >
-          View trip
-        </Button>
+          <Button
+            className="btn btn-primary btn-round btn-sm btn-border f11"
+            sx={{ width: "100%" }}
+          >
+            View trip
+          </Button>
+        </Link>
       </Box>
     </Card>
   );

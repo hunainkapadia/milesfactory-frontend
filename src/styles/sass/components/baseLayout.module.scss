@@ -314,6 +314,7 @@
     }
    
     .Header {
+      .HeaderBox {height: $headerHeightXs;}
       &.Sticky {
          height: $headerHeightXs;
       }

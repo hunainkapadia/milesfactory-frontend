@@ -61,7 +61,7 @@ const MobileBuilderDialoge = () => {
       }}
     >
       <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
-        <Box className="1111" py={2}>
+        <Box className="1111" >
           <YourTripSedebarCard getBuilder={getBuilder} />
         </Box>
       </DialogContent>
@@ -74,7 +74,7 @@ const MobileBuilderDialoge = () => {
         py={"5px"}
         px={"18px"}
       >
-        <Box width={"100%"} mb={1}>
+        <Box width={"100%"}>
           <SidebarTabs />
         </Box>
         <MobileBuilder isMobileBuilder />
