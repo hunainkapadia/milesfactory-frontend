@@ -336,6 +336,36 @@ body {
 
 
 @include for-mobile-large-screen () {
+   /* Limit the field width to 90px */
+   .TravelFormDrawer {
+      .fromAndtoField {
+         display: block;
+      }
+      .formGroup .formControl.from {
+         width: 90px !important; // ✅ Field width
+         height: 40px;
+         font-size: 0.9rem;
+      
+         input {
+            padding: 6px 8px;
+            text-overflow: ellipsis;
+         }
+      }
+   
+      /* Full-screen dropdown */
+      .countryDropdown {
+      max-height: 300px;
+      overflow-y: auto;
+      width: 100% !important; // ✅ Full width of screen
+      left: 0 !important; // Align to screen left
+      position: fixed !important;
+      top: 100px !important; // adjust based on your header
+      background: #fff;
+      z-index: 9999;
+      border-radius: 0;
+      }
+   }
+
    .countryDropdown {
       li {
          p {font-size: 10px;}

@@ -103,8 +103,9 @@ useEffect(() => {
   return (
     <>
       {/* Origin Field */}
-      <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
+      <Box className={`${styles.formGroup} ${styles.countryDropdown} ${styles.DrawerfromAndtoField} `}>
         <Autocomplete
+          disablePortal 
           freeSolo
           options={originList}
           loading={loadingOrigin}

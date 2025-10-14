@@ -8,6 +8,7 @@ import { setTravelFormDrawer } from "@/src/store/slices/TravelSlice";
 import DestinationField from "../DestinationField";
 import DOBField from "../DOBField";
 import Travellers from "../Travellers";
+import TripTypeField from "../TripTypeField";
 
 const TravelFormMobileDrawer = ({ errors }) => {
   const dispatch = useDispatch();
@@ -16,21 +17,16 @@ const TravelFormMobileDrawer = ({ errors }) => {
   };
 
   const IsDrawerOpen = useSelector((state) => state?.travel?.travelFormDrawer);
-  const {origin,
-    originOptions,
-    loadingOrigin,
-    originList,
-    departureDate} = useSelector((state) => state?.travel); //  track origin
-    const {
-        destination,
-        destinationOptions,
-        destinationList,
-        loadingDestination,
-      } = useSelector((state) => state.travel);
+  const { origin, originOptions, loadingOrigin, originList, departureDate } =
+    useSelector((state) => state?.travel); //  track origin
+  const {
+    destination,
+    destinationOptions,
+    destinationList,
+    loadingDestination,
+  } = useSelector((state) => state.travel);
 
-      useEffect (()=> {
-
-      }, [])
+  useEffect(() => {}, []);
 
   return (
     <Drawer
@@ -43,7 +39,7 @@ const TravelFormMobileDrawer = ({ errors }) => {
         <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box
             component={"header"}
-            className={styles.checkoutDrowerHeder}
+            className={`${styles.checkoutDrowerHeder} ${styles.TravelFormDrawer}`}
             py={3}
             px={3}
             display="flex"
@@ -51,17 +47,6 @@ const TravelFormMobileDrawer = ({ errors }) => {
             flexDirection={"column"}
             gap={"12px"}
           >
-            <Box
-              component={"section"}
-              gap={1}
-              alignItems="center"
-              display="flex"
-              className={"bold basecolor1 btn-link cursor-pointer"}
-              onClick={HandlecloseDrawer}
-            >
-              <i className={`fa fa-arrow-left fas`}></i>
-            </Box>
-
             <Stack
               flexDirection={"column"}
               component={"span"}
@@ -71,10 +56,32 @@ const TravelFormMobileDrawer = ({ errors }) => {
               {!originOptions ? (
                 <>
                   {/*  Show OriginField always */}
-                  <OriginField errors={errors} />
+                  <Box display={"flex"} alignItems={"center"} gap={2}>
+                    <Box
+                      className={"bold basecolor1  cursor-pointer"}
+                      onClick={HandlecloseDrawer}
+                    >
+                      <i className={`fa fa-arrow-left fas`}></i>
+                    </Box>
+                    <Box className={styles.DrawerfromAndtoField}>
+                      <OriginField errors={errors} />
+                    </Box>
+                  </Box>
                 </>
               ) : !destinationOptions ? (
-                <>{originOptions && <DestinationField errors={errors} />}</>
+                <>
+                  <Box display={"flex"} alignItems={"center"} gap={2}>
+                    <Box
+                      className={"bold basecolor1  cursor-pointer"}
+                      onClick={HandlecloseDrawer}
+                    >
+                      <i className={`fa fa-arrow-left fas`}></i>
+                    </Box>
+                    <Box className={Travelstyles.fromAndtoField}>
+                      {originOptions && <DestinationField errors={errors} />}
+                    </Box>
+                  </Box>
+                </>
               ) : !departureDate ? (
                 <>
                   <DOBField errors={errors} />
@@ -82,12 +89,12 @@ const TravelFormMobileDrawer = ({ errors }) => {
               ) : originOptions && destinationOptions && departureDate ? (
                 <>
                   <Travellers errors={errors} />
+
+                  <TripTypeField errors={errors} />
                 </>
               ) : (
                 ""
               )}
-              <Travellers errors={errors} />
-
             </Stack>
             <Box>
               <Divider className={`${styles.Divider} Divider`} />

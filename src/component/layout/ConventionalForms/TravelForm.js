@@ -28,6 +28,7 @@ import OriginField from "./OriginField";
 import DestinationField from "./DestinationField";
 import TravelFormMobileDrawer from "./TravelFormMobileDrawer";
 import DOBField from "./DOBField";
+import TripTypeField from "./TripTypeField";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
@@ -48,8 +49,12 @@ const TravelForm = () => {
   const [errors, setErrors] = useState({});
 
   const [showCalendar, setShowCalendar] = useState(false);
-  const [tripClass, setTripClass] = useState("Economy");
   
+  const [travellers, setTravellers] = useState({
+    adults: 1,
+    children: 0,
+    infants: 0,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   // ===== Redux States =====
@@ -194,32 +199,7 @@ const TravelForm = () => {
             {/* Trip Class */}
             {!isMobile && (
               <>
-                <Box className={styles.formGroup}>
-                  <TextField
-                    select
-                    value={tripClass}
-                    onChange={(e) => setTripClass(e.target.value)}
-                    className={`${styles.formControl} ${styles.TripClass} formControl`}
-                    error={!!errors.tripClass}
-                    helperText={errors.tripClass}
-                    sx={{ width: "160px" }}
-                    SelectProps={{
-                      displayEmpty: true,
-                      IconComponent: (props) => (
-                        <FontAwesomeIcon
-                          icon={faAngleDown}
-                          style={{ color: "#6C6F76" }}
-                          {...props}
-                        />
-                      ),
-                    }}
-                  >
-                    <MenuItem value="Economy">Economy</MenuItem>
-                    <MenuItem value="Premium Economy">Premium Economy</MenuItem>
-                    <MenuItem value="Business">Business</MenuItem>
-                    <MenuItem value="First">First Class</MenuItem>
-                  </TextField>
-                </Box>
+                <TripTypeField errors={errors} />
               </>
             )}
           </Stack>
