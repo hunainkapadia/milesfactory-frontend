@@ -9,14 +9,16 @@ const ItinerarySection = ({
   Carduuid,
   builderType,
 }) => {
-  const hasItinerary = !!getBuilder?.itinerarySection;
+  const hasItinerary = !!getBuilder?.itinerary_text;
   const hasDestination = !!getBuilder?.to_destination;
 
   console.log("getBuilder in ItinerarySection:", getBuilder);
+  console.log("hasItinerary:", hasItinerary);
+  console.log("hasDestinationn:", hasDestination);
 
   return (
     <Box mb={2}>
-      {hasDestination ? (
+      {hasDestination && !hasItinerary ? (
         <>
           {/* Itinerary Header */}
           <Box mb={1} display="flex" alignItems="center" gap="12px">
@@ -35,24 +37,28 @@ const ItinerarySection = ({
           </Typography>
         </>
       ) : (
-        <Typography className="f12">Itinerary</Typography>
+        null
       )}
 
       {/* Itinerary Details */}
       {hasItinerary ? (
         <>
-          <Box mt={2}>
-            <Typography className="f12">
+          {/* Itinerary Header */}
+          <Box mb={1} display="flex" alignItems="center" gap="12px">
+            <Typography
+              className={`${TripStyles.onewayReturn} btn btn-xs btn-black`}
+            >
               {`Itinerary for ${getBuilder.to_destination}`}
             </Typography>
           </Box>
-        </>
-      ) : (
-        <>
+
+          {/* Description */}
           <Box mt={2}>
             <SidebarItenarySection />
           </Box>
         </>
+      ) : (
+        null
       )}
     </Box>
   );

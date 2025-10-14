@@ -83,7 +83,6 @@ const FlightReturnSection = ({
           </Box>
         )}
       </Box>
-      {console.log("getBuilder_flight_type", flight)}
       {hasFlightOffer && isReturn ? (
         <>
         <Box id={"offer-card-return"}>
@@ -125,9 +124,7 @@ const FlightReturnSection = ({
               </Typography>
             </Box>
           </Box>
-          {!hasHotel && (
             <BuilderHelpingCard getBuilder={getBuilder} forReturn />
-          )}
         </Box>
       )}
     </>
