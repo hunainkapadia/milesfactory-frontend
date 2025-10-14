@@ -77,11 +77,7 @@ const formatJourneyTextOutbound = (args) => {
             </Typography>
           </Box>
         </Box>
-        <Typography className="f12">
-          use mylz to search for flights
-        </Typography>
       </Box>
-      
       {hasFlightOffer ? (
         <OfferCardSidebar
           index={0}
@@ -91,9 +87,7 @@ const formatJourneyTextOutbound = (args) => {
         />
       ) : (
         <>
-          {!hasHotel && (
             <BuilderHelpingCard getBuilder={getBuilder} forOneway />
-          )}
         </>
       )}
     </>

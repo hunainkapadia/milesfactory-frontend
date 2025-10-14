@@ -80,9 +80,6 @@ const FlightReturnSection = ({
                 </Typography>
               </Box>
             </Box>
-            <Typography className="f12">
-              use mylz to search for flights
-            </Typography>
           </Box>
         )}
       </Box>

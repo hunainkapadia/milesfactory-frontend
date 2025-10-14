@@ -31,11 +31,11 @@ const HotelSection = ({
             Hotel for {getBuilder?.to_destination || "your trip"}
           </Typography>
         </Box>
-        <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
+        {/* <Typography className="f12" sx={{ whiteSpace: "pre-line" }}>
           use mylz to search and book hotel
-        </Typography>
+        </Typography> */}
       </Box>
-      {!hasHotel ? (
+      {hasHotel ? (
         <>
           {CartDetails?.map((getItems, index) =>
             getItems?.raw_data?.hotel ? (
