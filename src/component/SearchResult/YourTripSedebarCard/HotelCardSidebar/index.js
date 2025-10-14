@@ -130,7 +130,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
         >
           <img
             src={`${
-              hotel?.content?.images[0]?.url || "/images/hotel-nothumb.png"
+              hotel?.content?.images[0]?.url_800 || "/images/hotel-nothumb.png"
             }`}
             alt={hotel.name}
             style={{
