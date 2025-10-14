@@ -14,12 +14,9 @@ const HotelSection = ({
   const CartDetails = useSelector(
     (state) => state.booking.getCartDetail?.items
   );
-  const hasHotel = Array.isArray(CartDetails?.items)
+  const hasHotel = Array.isArray(CartDetails)
     ? CartDetails.some((item) => item?.offer_type === "hotel")
     : false;
-  {
-    console.log("hasHotel_111", getBuilder);
-  }
 
   return (
     <>
