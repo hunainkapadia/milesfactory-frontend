@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   TextField,
   Autocomplete,
   createFilterOptions,
   Typography,
+  Popper,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -21,15 +22,29 @@ import {
   setDestinationList,
 } from "@/src/store/slices/TravelSlice";
 
-const DestinationField = ({ errors = {} }) => {
+// ✅ Custom Popper with higher z-index
+const CustomPopper = (props) => (
+  <Popper
+    {...props}
+    modifiers={[
+      {
+        name: "offset",
+        options: { offset: [0, 6] },
+      },
+    ]}
+    style={{
+      zIndex: 1302,
+      marginTop: "6px",
+    }}
+  />
+);
+
+const DestinationField = ({ errors = {}, isDrawer }) => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
+  const [alwaysOpen, setAlwaysOpen] = useState(true); // ✅ keep open
 
-  const {origin,
-      originOptions,
-      loadingOrigin,
-      originList} = useSelector((state) => state?.travel); // ✅ track origin
-      
+  const { originOptions } = useSelector((state) => state.travel);
   const {
     destination,
     destinationOptions,
@@ -42,14 +57,7 @@ const DestinationField = ({ errors = {} }) => {
       `${option.city_name} ${option.name} ${option.iata_code}`,
   });
 
-  // Save selected airport in cookie
-  useEffect(() => {
-    if (destinationOptions) {
-      // Cookies.set("destination", destinationOptions?.iata_code || "");
-    }
-  }, [destinationOptions]);
-
-  // Load from cookie on mount
+  // 🔹 Load from cookies
   useEffect(() => {
     const saved = Cookies.get("destination");
     if (saved) {
@@ -63,29 +71,39 @@ const DestinationField = ({ errors = {} }) => {
     }
   }, [dispatch]);
 
+  // 🔹 Search airports
   const handleAirportSearch = (value) => {
     if (value && value.length > 2) {
       dispatch(fetchAirports(value, "destination"));
     }
   };
 
+  // 🔹 Handle select
   const handleSelect = (value) => {
     dispatch(setDestinationOptions(value));
     dispatch(setDestination(value?.iata_code || ""));
   };
 
-  useEffect(()=> {
+  // 🔹 Auto-focus when origin selected
+  useEffect(() => {
     if (originOptions) {
       setTimeout(() => {
-        inputRef?.current?.focus();
+        inputRef.current?.focus();
       }, 300);
     }
-  }, [])
+  }, [originOptions]);
 
   return (
-    <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
+    <Box
+      className={`${styles.formGroup} ${
+        isDrawer ? `${styles.fromAndtoField} fromAndtoField` : ""
+      }`}
+    >
       <Autocomplete
+        open={alwaysOpen} // ✅ always open dropdown
         freeSolo
+        disablePortal
+        PopperComponent={CustomPopper}
         options={destinationList}
         loading={loadingDestination}
         filterOptions={filterOptions}
@@ -106,7 +124,7 @@ const DestinationField = ({ errors = {} }) => {
         }}
         onChange={(e, value) => handleSelect(value)}
         ListboxProps={{
-          className: styles.countryDropdown + " countryDropdown",
+          className: `${styles.countryDropdown} destinationDropdown`,
         }}
         renderOption={(props, option) => (
           <li
@@ -126,7 +144,7 @@ const DestinationField = ({ errors = {} }) => {
             variant="outlined"
             placeholder="Arriving at"
             size="small"
-            className={`${styles.formControl} ${styles.from} formControl`}
+            className={`${styles.formControl} ${styles.to} formControl`}
             error={!!errors.destination}
             helperText={errors.destination}
           />

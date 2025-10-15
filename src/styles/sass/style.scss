@@ -657,6 +657,16 @@ label,
   border-bottom: solid 1px $lightgray2;
 }
 
+.fromAndtoField {
+  border: solid red 3px;
+  .MuiPopper-root {        
+    position: absolute !important;
+    left: 0 !important;
+    top: 12px !important;
+    width: 100% !important;
+    right: 0;
+  }
+}
 .css-1tlcqt-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0;
 }

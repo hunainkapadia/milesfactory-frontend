@@ -337,13 +337,25 @@ body {
 
 @include for-mobile-large-screen () {
    /* Limit the field width to 90px */
-   .fromAndtoField {
-      display: block;
-      border: solid red 3px ;
+   .TravelFormHeader {
+      height: 45px;
+      border-bottom: solid 1px #ddd;
+      margin-bottom: 20px;
+   }
+   .formGroup.fromAndtoField {
+      width: 100%;
+      .formGroupIn .formControl {
+         display: block;
+         width: 90px !important; // Field width
+         
+      }
+      .MuiPopper-root {
+         border: solid red 3px ;
+   
+      }
    }
    .TravelFormDrawer {
       .formGroup .formControl.from {
-         width: 90px !important; // ✅ Field width
          height: 40px;
          font-size: 0.9rem;
       

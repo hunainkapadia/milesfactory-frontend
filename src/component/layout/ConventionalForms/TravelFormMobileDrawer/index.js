@@ -1,5 +1,12 @@
-import React, { useEffect } from "react";
-import { Box, Typography, Divider, Grid, Drawer, Stack } from "@mui/material";
+import React from "react";
+import {
+  Box,
+  Typography,
+  Grid,
+  Drawer,
+  Stack,
+  IconButton,
+} from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Travelstyles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,23 +17,17 @@ import DOBField from "../DOBField";
 import Travellers from "../Travellers";
 import TripTypeField from "../TripTypeField";
 
-const TravelFormMobileDrawer = ({ errors }) => {
+const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
   const dispatch = useDispatch();
+
   const HandlecloseDrawer = () => {
     dispatch(setTravelFormDrawer(false));
   };
 
   const IsDrawerOpen = useSelector((state) => state?.travel?.travelFormDrawer);
-  const { origin, originOptions, loadingOrigin, originList, departureDate } =
-    useSelector((state) => state?.travel); //  track origin
-  const {
-    destination,
-    destinationOptions,
-    destinationList,
-    loadingDestination,
-  } = useSelector((state) => state.travel);
-
-  useEffect(() => {}, []);
+  const { originOptions, destinationOptions, departureDate } = useSelector(
+    (state) => state?.travel
+  );
 
   return (
     <Drawer
@@ -47,68 +48,121 @@ const TravelFormMobileDrawer = ({ errors }) => {
             flexDirection={"column"}
             gap={"12px"}
           >
+          {console.log("originOptions99", originOptions)}
             <Stack
               flexDirection={"column"}
               component={"span"}
               onClick={(e) => e.stopPropagation()}
             >
-              {/*  Show DestinationField only after origin selected */}
+              {/* Step 1: Origin */}
+              
               {!originOptions ? (
-                <>
-                  {/*  Show OriginField always */}
-                  <Box display={"flex"} alignItems={"center"} gap={2}>
-                    <Box
-                      className={"bold basecolor1  cursor-pointer"}
-                      onClick={HandlecloseDrawer}
-                    >
-                      <i className={`fa fa-arrow-left fas`}></i>
+                <Box
+                  className={`${Travelstyles.TravelFormHeader}`}
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={2}
+                >
+                  <Box
+                    className={"bold basecolor1 cursor-pointer"}
+                    onClick={HandlecloseDrawer}
+                  >
+                    <i className="fa fa-arrow-left fas"></i>
+                  </Box>
+                  <Box className={styles.DrawerfromAndtoField}>
+                    <OriginField errors={errors} isDrawer />
+                  </Box>
+                </Box>
+              ) : originOptions && !destinationOptions ? (
+                // Step 2: Destination
+                <Box
+                  className={`${Travelstyles.TravelFormHeader}`}
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={2}
+                >
+                  <Box
+                    className={"bold basecolor1 cursor-pointer"}
+                    onClick={HandlecloseDrawer}
+                  >
+                    <i className="fa fa-arrow-left fas"></i>
+                  </Box>
+                  <Box display={"flex"} alignItems={"center"} width="100%">
+                    <Box className={styles.DrawerfromAndtoField + " w-100"}>
+                      <OriginField errors={errors} isDrawer />
                     </Box>
-                    <Box className={styles.DrawerfromAndtoField}>
-                      <OriginField errors={errors} />
+                    <Box className={styles.DrawerfromAndtoField + " w-100"}>
+                      <DestinationField errors={errors} isDrawer />
                     </Box>
                   </Box>
-                </>
-              ) : !destinationOptions ? (
-                <>
-                  <Box display={"flex"} alignItems={"center"} gap={2}>
-                    <Box
-                      className={"bold basecolor1  cursor-pointer"}
-                      onClick={HandlecloseDrawer}
-                    >
-                      <i className={`fa fa-arrow-left fas`}></i>
-                    </Box>
-                    <Box className={Travelstyles.fromAndtoField}>
-                      {originOptions && <DestinationField errors={errors} />}
-                    </Box>
+                </Box>
+              ) : originOptions && destinationOptions && !departureDate ? (
+                // Step 3: Date
+                <Box
+                  className={`${Travelstyles.TravelFormHeader}`}
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={2}
+                >
+                  <Box
+                    className={"bold basecolor1 cursor-pointer"}
+                    onClick={HandlecloseDrawer}
+                  >
+                    <i className="fa fa-arrow-left fas"></i>
                   </Box>
-                </>
-              ) : !departureDate ? (
-                <>
-                  <DOBField errors={errors} />
-                </>
-              ) : originOptions && destinationOptions && departureDate ? (
-                <>
-                  <Travellers errors={errors} />
-
-                  <TripTypeField errors={errors} />
-                </>
+                  <Box className={styles.DrawerfromAndtoField + " w-100"}>
+                    <DOBField errors={errors} />
+                  </Box>
+                </Box>
               ) : (
-                ""
+                // Step 4: Travellers + TripType + Button
+                <>
+                  <Box
+                    className={`${Travelstyles.TravelFormHeader}`}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={2}
+                  >
+                    <Box
+                      className={"bold basecolor1 cursor-pointer"}
+                      onClick={HandlecloseDrawer}
+                    >
+                      <i className="fa fa-arrow-left fas"></i>
+                    </Box>
+                    <Box display={"flex"} alignItems={"center"}>
+                      <Typography>Who are the travelers?</Typography>
+                    </Box>
+                  </Box>
+
+                  <Box>
+                    <Stack display={"flex"} alignItems={"center"}>
+                      <Travellers errors={errors} />
+                      <TripTypeField errors={errors} />
+                    </Stack>
+                  </Box>
+
+                  {/* ✅ Reused Search Button */}
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    mt={3}
+                  >
+                    <IconButton
+                      className={Travelstyles.SearchButton}
+                      onClick={handleSearch}
+                      disabled={isLoading}
+                    >
+                      <i className="fa fa-arrow-right"></i>
+                    </IconButton>
+                  </Box>
+                </>
               )}
             </Stack>
-            <Box>
-              <Divider className={`${styles.Divider} Divider`} />
-            </Box>
           </Box>
 
           <Box className={styles.checkoutDrowerBody}>
-            <Grid
-              container
-              px={3}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            ></Grid>
+            <Grid container px={3}></Grid>
           </Box>
         </Box>
       </Box>

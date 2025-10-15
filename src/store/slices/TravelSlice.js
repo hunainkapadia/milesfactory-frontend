@@ -4,9 +4,9 @@ import dayjs from "dayjs";
 import { sendMessage } from "./sendMessageSlice";
 
 const initialState = {
-  originOptions: [],
+  originOptions: null,
   originList: [],
-  destinationOptions: [],
+  destinationOptions: null,
   loadingOrigin: false,
   loadingDestination: false,
   travelMessage: "",
