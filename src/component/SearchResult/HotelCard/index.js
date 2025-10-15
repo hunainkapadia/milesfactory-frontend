@@ -121,9 +121,9 @@ const HotelCard = ({ hotel, allHotels }) => {
   
   
   
-  const firstimage = images.filter((img) => img?.imageTypeCode === "GEN");
+  const firstimage = images.filter((img) => img?.imageTypeCode === "GEN" && img?.order === 1);
 
-  console.log("images_url_1", firstimage[0]?.url_800);
+  console.log("images_url_1", firstimage)
   
   return (
     <>
