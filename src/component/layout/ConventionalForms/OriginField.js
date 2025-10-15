@@ -105,62 +105,56 @@ useEffect(() => {
       {/* Origin Field */}
       <Box className={`${styles.formGroup} ${styles.countryDropdown} ${styles.DrawerfromAndtoField} `}>
         <Autocomplete
-          disablePortal 
-          freeSolo
-          options={originList}
-          loading={loadingOrigin}
-          filterOptions={filterOptions}
-          getOptionLabel={(option) =>
-            typeof option === "string"
-              ? option
-              : option?.name
-              ? `${option.name} - ${option.iata_code}`
-              : ""
-          }
-          value={originOptions} // selected object
-          inputValue={origin} // input shows only IATA code
-          onInputChange={(e, value, reason) => {
-            if (reason === "input") {
-              dispatch(setOrigin(value));
-              handleAirportSearch(value, "origin");
-            }
-          }}
-          onChange={(e, value) => {
-            handleOrigin(value)
-            
-            
-          }}
-          ListboxProps={{
-            className: styles.countryDropdown + " countryDropdown",
-          }}
-          renderOption={(props, option) => (
-            //   console.log("props_000", option)
-            <li
-              {...props}
-              className={`${option?.is_city ? styles.parent : styles.child}`}
-            >
-              <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
-              <Typography>
-                {option.name} - {option.iata_code}
-              </Typography>
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField
-              inputRef={inputRef} // ✅ add this line
+  disablePortal
+  freeSolo
+  open // ✅ Always keep dropdown open
+  options={originList}
+  loading={loadingOrigin}
+  filterOptions={filterOptions}
+  getOptionLabel={(option) =>
+    typeof option === "string"
+      ? option
+      : option?.name
+      ? `${option.name} - ${option.iata_code}`
+      : ""
+  }
+  value={originOptions}
+  inputValue={origin}
+  onInputChange={(e, value, reason) => {
+    if (reason === "input") {
+      dispatch(setOrigin(value));
+      handleAirportSearch(value, "origin");
+    }
+  }}
+  onChange={(e, value) => {
+    handleOrigin(value);
+  }}
+  ListboxProps={{
+    className: styles.countryDropdown + " countryDropdown",
+  }}
+  renderOption={(props, option) => (
+    <li {...props} className={`${option?.is_city ? styles.parent : styles.child}`}>
+      <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
+      <Typography>
+        {option.name} - {option.iata_code}
+      </Typography>
+    </li>
+  )}
+  renderInput={(params) => (
+    <TextField
+      inputRef={inputRef}
+      onClick={handleOriginCLick}
+      {...params}
+      variant="outlined"
+      placeholder="Departing from"
+      size="small"
+      className={`${styles.formControl} ${styles.from} formControl`}
+      error={!!errors.origin}
+      helperText={errors.origin}
+    />
+  )}
+/>
 
-               onClick={handleOriginCLick} // ✅ Correct place for click
-
-              {...params}
-              variant="outlined"
-              placeholder="Departing from"
-              size="small"
-              className={`${styles.formControl} ${styles.from} formControl`}
-              error={!!errors.origin}
-              helperText={errors.origin}
-            />
-          )}
-        />
       </Box>
       
     </>

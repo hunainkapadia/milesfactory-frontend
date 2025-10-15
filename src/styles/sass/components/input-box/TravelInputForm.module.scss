@@ -337,10 +337,11 @@ body {
 
 @include for-mobile-large-screen () {
    /* Limit the field width to 90px */
+   .fromAndtoField {
+      display: block;
+      border: solid red 3px ;
+   }
    .TravelFormDrawer {
-      .fromAndtoField {
-         display: block;
-      }
       .formGroup .formControl.from {
          width: 90px !important; // ✅ Field width
          height: 40px;
