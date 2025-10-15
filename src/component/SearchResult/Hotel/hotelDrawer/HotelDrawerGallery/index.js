@@ -44,6 +44,13 @@ if (!images || images.length === 0) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
+              const totalImages = !isMobile ? 6 : 3;
+const hotelImages = images.slice(1, totalImages);
+const missingCount = totalImages - hotelImages.length;
+const placeholderImages = Array(missingCount).fill({ url_800: "/images/hotel-nothumb.png" });
+
+const finalImages = [...hotelImages, ...placeholderImages];
+
   return (
     <>
       <Box component="section" className={styles.HotelGallerySection} mb={2}>
@@ -78,55 +85,53 @@ if (!images || images.length === 0) {
 
           {/* Small Thumbnails on Right */}
           <Box className={styles.SmallThumbGrid}>
-            {images.slice(1, !isMobile ? 7 : 4).map((img, idx, arr) => {
-              const isLast = idx === arr.length - 1;
-              return (
-                <Box
-                  key={idx}
-                  className={`${styles.SmallThumb} ${
-                    isLast ? styles.LastThumb : ""
-                  }`}
-                  sx={{
-                    backgroundImage: `url(${
-                      img?.url_800 || "images/hotel-nothumb.png"
-                    })`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    borderRadius: "8px",
-                    position: "relative",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleOpenImage(img?.url_1024)}
-                >
-                  {/* Show 'View all photos' overlay on last image */}
-                  {isLast && (
-                    <Box
-                      onClick={(e) => {
-                        e.stopPropagation(); // prevent opening image underneath
-                        handleViewAll();
-                      }}
-                      className={styles.ViewAllBtn}
-                      sx={{
-                        position: "absolute",
-                        inset: 0,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        background: "rgba(0,0,0,0.5)",
-                        color: "#fff",
-                        fontWeight: 600,
-                        fontSize: 16,
-                        cursor: "pointer",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      View all photos
-                    </Box>
-                  )}
-                </Box>
-              );
-            })}
+
+{finalImages.map((img, idx, arr) => {
+  const isLast = idx === arr.length - 1;
+  return (
+    <Box
+      key={idx}
+      className={`${styles.SmallThumb} ${isLast ? styles.LastThumb : ""}`}
+      sx={{
+        backgroundImage: `url(${img?.url_800 || "images/hotel-nothumb.png"})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        borderRadius: "8px",
+        position: "relative",
+        cursor: "pointer",
+      }}
+      onClick={() => img?.url_1024 && handleOpenImage(img?.url_1024)}
+    >
+      {/* Show 'View all photos' overlay on last image */}
+      {isLast && (
+        <Box
+          onClick={(e) => {
+            e.stopPropagation();
+            handleViewAll();
+          }}
+          className={styles.ViewAllBtn}
+          sx={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.5)",
+            color: "#fff",
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: "pointer",
+            borderRadius: "8px",
+          }}
+        >
+          View all photos
+        </Box>
+      )}
+    </Box>
+  );
+})}
+
           </Box>
         </Box>
 
@@ -152,6 +157,7 @@ if (!images || images.length === 0) {
                   <Box
                     sx={{
                       backgroundImage: `url(${
+                   
                         img?.url_800 || "images/hotel-nothumb.png"
                       })`,
                       backgroundSize: "cover",
