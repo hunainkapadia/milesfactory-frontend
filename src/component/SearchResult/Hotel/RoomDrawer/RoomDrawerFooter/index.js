@@ -81,19 +81,6 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
                     total
                   </h4>
                 </>
-              ) : (totalPrice && perNightPrice)? (
-                <>
-                  <h4
-                     className={styles.price + " exbold mb-0 basecolor-dark"}
-                  >
-                     {currencySymbols[hotel?.currency]}
-                     {Math.round(perNightPrice)} / night
-                  </h4>
-                  <Typography variant="body2" className="gray f12">
-                    {currencySymbols[hotel?.currency]}
-                    {Math.round(totalPrice)} total ({nights} nights)
-                  </Typography>
-                </>
               ) : (
                 "-"
               )}
