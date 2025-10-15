@@ -40,6 +40,13 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
     };
 
     
+     const firstImg = 
+     hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN" && img?.order === 1) || 
+     hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN") || "/images/hotel-nothumb.png"
+     
+     
+
+
     
     
   
@@ -130,7 +137,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
         >
           <img
             src={`${
-              hotel?.content?.images[0]?.url_800 || "/images/hotel-nothumb.png"
+              firstImg?.url_800 || "/images/hotel-nothumb.png"
             }`}
             alt={hotel.name}
             style={{
