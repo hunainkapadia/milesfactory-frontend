@@ -43,7 +43,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
      const firstImg = 
      hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN" && img?.order === 1) || 
      hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN") || "/images/hotel-nothumb.png"
-     console.log("firstImg_sidebar", firstImg);
+     
      
 
 

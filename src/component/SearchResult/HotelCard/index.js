@@ -126,8 +126,6 @@ const HotelCard = ({ hotel, allHotels }) => {
     images.find(
       (getimg) => getimg.imageTypeCode === "GEN" && getimg?.order === 1
     ) || images.find((getimg) => getimg.imageTypeCode === "GEN");
-
-  console.log("images_url_1", firstimage)
   
   return (
     <>
