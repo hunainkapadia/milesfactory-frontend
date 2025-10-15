@@ -121,7 +121,10 @@ const HotelCard = ({ hotel, allHotels }) => {
   
   
   
+  const firstimage = images.filter((img) => img?.imageTypeCode === "GEN");
 
+  console.log("images_url_1", firstimage[0]?.url_800);
+  
   return (
     <>
       <Box className={`${searchResultStyles.HotelCard}`}>
@@ -140,10 +143,11 @@ const HotelCard = ({ hotel, allHotels }) => {
               gap: "10px",
             }}
           >
+          
             <Box
               className={searchResultStyles.HotelThumb}
               sx={{
-                backgroundImage: `url(${images[0]?.url_800 || "/images/hotel-nothumb.png"})`,
+                backgroundImage: `url(${firstimage[0]?.url_800 || "/images/hotel-nothumb.png"})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
