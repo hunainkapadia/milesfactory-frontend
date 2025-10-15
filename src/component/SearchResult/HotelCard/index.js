@@ -121,7 +121,11 @@ const HotelCard = ({ hotel, allHotels }) => {
   
   
   
-  const firstimage = images.filter((img) => img?.imageTypeCode === "GEN" && img?.order === 1);
+  
+  let firstimage =
+    images.find(
+      (getimg) => getimg.imageTypeCode === "GEN" && getimg?.order === 1
+    ) || images.find((getimg) => getimg.imageTypeCode === "GEN");
 
   console.log("images_url_1", firstimage)
   
@@ -147,7 +151,7 @@ const HotelCard = ({ hotel, allHotels }) => {
             <Box
               className={searchResultStyles.HotelThumb}
               sx={{
-                backgroundImage: `url(${firstimage[0]?.url_800 || "/images/hotel-nothumb.png"})`,
+                backgroundImage: `url(${firstimage?.url_800 || "/images/hotel-nothumb.png"})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",

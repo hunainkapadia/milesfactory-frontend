@@ -40,12 +40,12 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
     };
 
     
-     const generalImages = hotel?.content?.images?.filter(
-    (img) => img?.imageTypeCode === "GEN" && img?.order === 1
-  );
+     const firstImg = 
+     hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN" && img?.order === 1) || 
+     hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN") || "/images/hotel-nothumb.png"
+     console.log("firstImg_sidebar", firstImg);
+     
 
-  const firstImg = generalImages?.[0]?.url_800 || "/images/hotel-nothumb.png";
-  
 
     
     
@@ -137,7 +137,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
         >
           <img
             src={`${
-              firstImg || "/images/hotel-nothumb.png"
+              firstImg?.url_800 || "/images/hotel-nothumb.png"
             }`}
             alt={hotel.name}
             style={{
