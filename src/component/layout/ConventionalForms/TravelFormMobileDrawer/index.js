@@ -11,11 +11,13 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import Travelstyles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import OriginField from "../OriginField";
-import { setTravelFormDrawer } from "@/src/store/slices/TravelSlice";
+import { setDepartureDate, setDestinationOptions, setOriginOptions, setTravelFormDrawer } from "@/src/store/slices/TravelSlice";
 import DestinationField from "../DestinationField";
 import DOBField from "../DOBField";
 import Travellers from "../Travellers";
 import TripTypeField from "../TripTypeField";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight, faCaretRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
   const dispatch = useDispatch();
@@ -28,6 +30,18 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
   const { originOptions, destinationOptions, departureDate } = useSelector(
     (state) => state?.travel
   );
+  const handleBackOrigin =()=> {
+    dispatch(setTravelFormDrawer(false))
+  }
+  const handleBackDestination =()=> {
+    dispatch(setOriginOptions(null))
+  }
+  const handleBackDOB = ()=> {
+    dispatch(setDestinationOptions(null))
+  }
+  const handleBackTravellers = ()=> {
+    dispatch(setDepartureDate(null));
+  }
 
   return (
     <Drawer
@@ -48,14 +62,14 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
             flexDirection={"column"}
             gap={"12px"}
           >
-          {console.log("originOptions99", originOptions)}
+            {console.log("originOptions99", originOptions)}
             <Stack
               flexDirection={"column"}
               component={"span"}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Step 1: Origin */}
-              
+
               {!originOptions ? (
                 <Box
                   className={`${Travelstyles.TravelFormHeader}`}
@@ -89,10 +103,13 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                   </Box>
                   <Box display={"flex"} alignItems={"center"} width="100%">
                     <Box className={styles.DrawerfromAndtoField + " "}>
-                      <OriginField errors={errors} isDrawer />
+                      <OriginField errors={errors} isDrawer step2 />
+                    </Box>
+                    <Box px={"4px"}>
+                      <FontAwesomeIcon className="f10" icon={faAngleRight} />
                     </Box>
                     <Box className={styles.DrawerfromAndtoField + " "}>
-                      <DestinationField errors={errors} isDrawer />
+                      <DestinationField errors={errors} isDrawer step2 />
                     </Box>
                   </Box>
                 </Box>
@@ -111,7 +128,7 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                     <i className="fa fa-arrow-left fas"></i>
                   </Box>
                   <Box className={styles.DrawerfromAndtoField + " w-100"}>
-                    <DOBField errors={errors} />
+                    <DOBField errors={errors} isDrawer />
                   </Box>
                 </Box>
               ) : (
@@ -141,12 +158,12 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                     </Stack>
                   </Box>
 
-                  {/* ✅ Reused Search Button */}
+                  {/*  Reused Search Button */}
                   <Box
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    mt={3}
+                    mt={5}
                   >
                     <IconButton
                       className={Travelstyles.SearchButton}

@@ -213,103 +213,102 @@
 }
 
 body {
-
-   .formControl {
-      min-height: 35px;
-      border-radius: 12px !important;
-      color: #C8C8C9 !important;
-      margin-bottom: 0;
-      
-      > div {min-height: 35px !important;}
-      &:hover fieldset {
-         border-color: #384659 !important;
-      }
-      /* Remove hover border effect on all MUI outlined inputs */
-      >div:hover div {
-         border-color: transparent !important;
-         /* removes hover border */
-      }
-
-      input::placeholder {
+   .isHomeForm {
+      .formControl {
+         min-height: 35px;
+         border-radius: 12px !important;
          color: #C8C8C9 !important;
-         opacity: 1 !important; // removes the faded look
-      }
-
-      >div {
-         font-size: 13px !important;
-         min-height: 35px ;
-
-         fieldset {
-            border: solid 1px #384659;
+         margin-bottom: 0;
+         
+         >div {
+            min-height: 35px !important;
+            font-size: 13px !important;
+            fieldset {
+               border: solid 1px #384659;
+               border-color: #384659 !important;
+            }
+   
+            color: #C8C8C9 !important;
+            height: 35px;
+            background: #101724;
+            border: 1px solid #384659;
+            border-radius: 8px;
+         }
+         &:hover fieldset {
             border-color: #384659 !important;
          }
-
-         color: #C8C8C9 !important;
-         height: 35px;
-         background: #101724;
-         border: 1px solid #384659;
-         border-radius: 8px;
-      }
-      &.dates img {
-         margin-right: 8px;
-         width: 18px;
-         height: 18px;
-         cursor: pointer;
-      }
-      &.dates,
-      &.travellers {
-         >div {
-            width: 220px;
+         /* Remove hover border effect on all MUI outlined inputs */
+         >div:hover div {
+            border-color: transparent !important;
+            /* removes hover border */
          }
-      }
-
-      &.from,
-      &.to {
-         >div {
-            width: 220px;
+   
+         input::placeholder {
+            color: #C8C8C9 !important;
+            opacity: 1 !important; // removes the faded look
          }
-      }
-      input {
-         font-size: 13px;
-      }
-      &.TripClass,
-      &.TripType {
-         >div {
-            width: 130px;
-
+   
+         &.dates img {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+         }
+         &.dates,
+         &.travellers {
             >div {
-               padding-right: 10px !important;
-               font-size: 13px;
+               width: 220px;
             }
          }
-      }
-      // hotel
-      &.Hoteltravellers, &.where {
-         >div {
-            width: 220px;
+   
+         &.from,
+         &.to {
+            >div {
+               width: 220px;
+            }
          }
-      }
-      &.priceRange, &.roomType, &.checkOut, &.checkIn {
-         > div {
-            width: 175px;
+         input {
+            font-size: 13px;
          }
-      }
-
-      svg {
-         right: 12px;
-      }
-
-
-      .MuiOutlinedInput-root {
-         border-radius: 12px;
-      }
-
-      label {
-         color: $basecolor-dark !important;
-      }
-
-      label.Mui-focused {
-         color: #C8C8C9;
+         &.TripClass,
+         &.TripType {
+            >div {
+               width: 130px;
+   
+               >div {
+                  padding-right: 10px !important;
+                  font-size: 13px;
+               }
+            }
+         }
+         // hotel
+         &.Hoteltravellers, &.where {
+            >div {
+               width: 220px;
+            }
+         }
+         &.priceRange, &.roomType, &.checkOut, &.checkIn {
+            > div {
+               width: 175px;
+            }
+         }
+   
+         svg {
+            right: 12px;
+         }
+   
+   
+         .MuiOutlinedInput-root {
+            border-radius: 12px;
+         }
+   
+         label {
+            color: $basecolor-dark !important;
+         }
+   
+         label.Mui-focused {
+            color: #C8C8C9;
+         }
       }
    }
 }
@@ -337,20 +336,54 @@ body {
 
 @include for-mobile-large-screen () {
    /* Limit the field width to 90px */
+   .SearchButton {
+      width: 60px;
+      height: 60px;
+      font-size: 20px;
+   
+   }
    .TravelFormHeader {
       height: 45px;
       border-bottom: solid 1px #ddd;
       margin-bottom: 20px;
    }
-   .formGroup.fromAndtoField {
-      .formGroupIn {
-         display: block;
-         width: 90px !important; // Field width
-         
+   body {
+      .formGroup.DOBField {
+         .formControl {
+            display: block;
+            width: 90px;
+            >div {
+               color: $darkgray !important;
+               height: 35px;
+               background: $white;
+               border: none;
+               border-radius: none;
+               fieldset {
+                  border: none;
+               }
+            }
+         }  
       }
-      .MuiPopper-root {
-         border: solid red 3px ;
-   
+      .formGroup.fromAndtoField {
+         &.step2 .formGroupIn {
+            width: 50px;
+         }
+         .formGroupIn {
+            display: block;
+            width: 90px;
+            .formControl {
+               >div {
+                  color: $darkgray !important;
+                  height: 35px;
+                  background: $white;
+                  border: none;
+                  border-radius: none;
+                  fieldset {
+                     border: none;
+                  }
+               }
+            }
+         }  
       }
    }
    .TravelFormDrawer {

@@ -17,7 +17,7 @@ import { setTravellers } from "@/src/store/slices/TravelSlice";
 
 import TravellerDropdown from "./TravellerDropdown";
 
-export default function Travellers({ errors }) {
+export default function Travellers({ errors, isHomeForm }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const ref = useRef(null);
 
@@ -64,7 +64,7 @@ export default function Travellers({ errors }) {
   return (
     <>
       <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
-        <Box className={styles.formGroup}>
+        <Box className={`${styles.formGroup} ${isHomeForm && styles.isHomeForm}`}>
           <TextField
             inputRef={ref}
             onClick={(e) => setAnchorEl(e.currentTarget)}

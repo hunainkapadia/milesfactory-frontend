@@ -142,7 +142,9 @@ const TravelForm = () => {
             flexWrap="wrap"
           >
             {/* Trip Type */}
-            <Box className={styles.formGroup}>
+            <Box
+              className={`${styles.formGroup} ${styles.isHomeForm}`}
+            >
               <TextField
                 select
                 value={tripType}
@@ -169,37 +171,29 @@ const TravelForm = () => {
               </TextField>
             </Box>
 
-            <OriginField
-              errors={errors}
-              
-            />
+            <OriginField isHomeForm errors={errors} />
             {!isMobile && (
               <>
-                <DestinationField
-                  errors={errors}
-                />
+                <DestinationField isHomeForm errors={errors} />
               </>
             )}
             {!isMobile && (
               <>
                 {/* Dates */}
-                <DOBField errors={errors} />
+                <DOBField errors={errors} isHomeForm />
               </>
             )}
             {!isMobile && (
               <>
                 {/* Travellers */}
-                <Travellers
-                  errors={errors}
-                />
-                
+                <Travellers isHomeForm errors={errors} />
               </>
             )}
 
             {/* Trip Class */}
             {!isMobile && (
               <>
-                <TripTypeField errors={errors} />
+                <TripTypeField errors={errors} isHomeForm />
               </>
             )}
           </Stack>
@@ -217,8 +211,6 @@ const TravelForm = () => {
         </Box>
       </Stack>
       <TravelFormMobileDrawer errors={errors} />
-      
-      
     </>
   );
 };

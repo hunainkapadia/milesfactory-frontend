@@ -13,7 +13,7 @@ import {
   setReturnDate,
 } from "@/src/store/slices/TravelSlice";
 
-const DOBField = ({ errors }) => {
+const DOBField = ({ errors, isDrawer, isHomeForm }) => {
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -43,12 +43,19 @@ const DOBField = ({ errors }) => {
       dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
       if (endDate && endDate > startDate) setShowCalendar(false);
     }
-    alert("Asas")
   };
 
   return (
-    <Box className={styles.formGroup} position="relative">
+    <Box
+      className={`${styles.formGroup} ${isHomeForm && styles.isHomeForm} ${
+        isDrawer
+          ? `${styles.DOBField} fromAndtoField `
+          : ""
+      }`}
+      position="relative"
+    >
       <TextField
+        
         variant="outlined"
         placeholder="Travel dates"
         value={
@@ -56,7 +63,9 @@ const DOBField = ({ errors }) => {
             ? departureDate
               ? dayjs(departureDate).format("DD MMM")
               : ""
-            : `${dayjs(departureDate).format("DD MMM")} - ${dayjs(returnDate).format("DD MMM")}`
+            : `${dayjs(departureDate).format("DD MMM")} - ${dayjs(
+                returnDate
+              ).format("DD MMM")}`
         }
         onClick={() => setShowCalendar(!showCalendar)}
         className={`${styles.formControl} ${styles.dates} formControl`}
@@ -94,6 +103,7 @@ const DOBField = ({ errors }) => {
             rangeColors={["#1539CF"]}
             minDate={dayjs().add(1, "day").toDate()}
           />
+          
         </Box>
       )}
     </Box>

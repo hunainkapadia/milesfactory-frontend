@@ -9,14 +9,14 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-const TripTypeField = ({errors}) => {
+const TripTypeField = ({errors, isHomeForm}) => {
    const [tripClass, setTripClass] = useState("Economy");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
   return (
     <>
       
-          <Box className={styles.formGroup}>
+          <Box className={`${styles.formGroup} ${isHomeForm && styles.isHomeForm}`}>
             <TextField
               select
               value={tripClass}

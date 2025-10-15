@@ -25,7 +25,7 @@ import {
   setTravelFormDrawer,
 } from "@/src/store/slices/TravelSlice";
 
-const OriginField = ({ errors = {}, isDrawer }) => {
+const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
 
@@ -101,13 +101,16 @@ const OriginField = ({ errors = {}, isDrawer }) => {
 
   return (
     <Box
-      className={`${styles.formGroup} ${
-        isDrawer ? `${styles.fromAndtoField} fromAndtoField` : ""
+      className={`${styles.formGroup} ${isHomeForm && styles.isHomeForm} ${
+        isDrawer
+          ? `${styles.fromAndtoField} fromAndtoField ${step2 && styles.step2}`
+          : ""
       }`}
     >
       <Autocomplete
         className={styles.formGroupIn}
         freeSolo
+        disableClearable
         disablePortal
         options={originList}
         loading={loadingOrigin}

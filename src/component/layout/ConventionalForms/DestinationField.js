@@ -39,7 +39,7 @@ const CustomPopper = (props) => (
   />
 );
 
-const DestinationField = ({ errors = {}, isDrawer }) => {
+const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const [alwaysOpen, setAlwaysOpen] = useState(true); // ✅ keep open
@@ -95,12 +95,13 @@ const DestinationField = ({ errors = {}, isDrawer }) => {
 
   return (
     <Box
-      className={`${styles.formGroup} ${
+      className={`${styles.formGroup} ${isHomeForm && styles.isHomeForm} ${
         isDrawer ? `${styles.fromAndtoField} fromAndtoField` : ""
       }`}
     >
       <Autocomplete
         className={styles.formGroupIn}
+        disableClearable
         open={alwaysOpen} // ✅ always open dropdown
         freeSolo
         disablePortal
