@@ -65,7 +65,7 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                 >
                   <Box
                     className={"bold basecolor1 cursor-pointer"}
-                    onClick={HandlecloseDrawer}
+                    onClick={handleBackOrigin}
                   >
                     <i className="fa fa-arrow-left fas"></i>
                   </Box>
@@ -83,15 +83,15 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                 >
                   <Box
                     className={"bold basecolor1 cursor-pointer"}
-                    onClick={HandlecloseDrawer}
+                    onClick={handleBackDestination}
                   >
                     <i className="fa fa-arrow-left fas"></i>
                   </Box>
                   <Box display={"flex"} alignItems={"center"} width="100%">
-                    <Box className={styles.DrawerfromAndtoField + " w-100"}>
+                    <Box className={styles.DrawerfromAndtoField + " "}>
                       <OriginField errors={errors} isDrawer />
                     </Box>
-                    <Box className={styles.DrawerfromAndtoField + " w-100"}>
+                    <Box className={styles.DrawerfromAndtoField + " "}>
                       <DestinationField errors={errors} isDrawer />
                     </Box>
                   </Box>
@@ -106,7 +106,7 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                 >
                   <Box
                     className={"bold basecolor1 cursor-pointer"}
-                    onClick={HandlecloseDrawer}
+                    onClick={handleBackDOB}
                   >
                     <i className="fa fa-arrow-left fas"></i>
                   </Box>
@@ -125,7 +125,7 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                   >
                     <Box
                       className={"bold basecolor1 cursor-pointer"}
-                      onClick={HandlecloseDrawer}
+                      onClick={handleBackTravellers}
                     >
                       <i className="fa fa-arrow-left fas"></i>
                     </Box>

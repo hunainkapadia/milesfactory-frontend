@@ -343,8 +343,7 @@ body {
       margin-bottom: 20px;
    }
    .formGroup.fromAndtoField {
-      width: 100%;
-      .formGroupIn .formControl {
+      .formGroupIn {
          display: block;
          width: 90px !important; // Field width
          

@@ -100,6 +100,7 @@ const DestinationField = ({ errors = {}, isDrawer }) => {
       }`}
     >
       <Autocomplete
+        className={styles.formGroupIn}
         open={alwaysOpen} // ✅ always open dropdown
         freeSolo
         disablePortal

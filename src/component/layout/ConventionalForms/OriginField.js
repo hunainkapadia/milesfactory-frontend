@@ -106,6 +106,7 @@ const OriginField = ({ errors = {}, isDrawer }) => {
       }`}
     >
       <Autocomplete
+        className={styles.formGroupIn}
         freeSolo
         disablePortal
         options={originList}
