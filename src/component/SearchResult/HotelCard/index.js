@@ -235,7 +235,11 @@ const HotelCard = ({ hotel, allHotels }) => {
                     alt="location"
                     style={{ width: 10, height: 10 }}
                   />
-                  {hotel?.zoneName} /{hotel?.destinationName}
+                  {hotel?.content?.address &&
+                          `${
+                            hotel?.content?.address?.content ||
+                            hotel?.content?.address?.street
+                          }${hotel?.zoneName ? `, ${hotel.zoneName}` : ""}`}
                 </Typography>
               </Stack>
 
