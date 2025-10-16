@@ -9,6 +9,7 @@ import {
   Typography,
   Popper,
 } from "@mui/material";
+
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,7 +43,7 @@ const CustomPopper = (props) => (
 const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const [alwaysOpen, setAlwaysOpen] = useState(true); // ✅ keep open
+  const [alwaysOpen, setAlwaysOpen] = useState(true); // keep open
 
   const { originOptions } = useSelector((state) => state.travel);
   const {
@@ -92,6 +93,12 @@ const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
       }, 300);
     }
   }, [originOptions]);
+  // cookie save
+  useEffect(() => {
+      if (destinationOptions) {
+        Cookies.set("destination", destinationOptions?.iata_code || "");
+      }
+    }, [destinationOptions]);
 
   return (
     <Box
@@ -102,7 +109,7 @@ const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
       <Autocomplete
         className={styles.formGroupIn}
         disableClearable
-        open={alwaysOpen} // ✅ always open dropdown
+        // open={alwaysOpen} //  always open dropdown
         freeSolo
         disablePortal
         PopperComponent={CustomPopper}

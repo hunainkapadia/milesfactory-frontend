@@ -7,11 +7,15 @@ import {
   Autocomplete,
   createFilterOptions,
   Typography,
+  
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faPlane } from "@fortawesome/free-solid-svg-icons";
+
+
+
 
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import {
@@ -24,10 +28,12 @@ import {
   setDestinationList,
   setTravelFormDrawer,
 } from "@/src/store/slices/TravelSlice";
+import useIsMobile from "@/src/hooks/Hooks";
 
 const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
+  const { isMobile, isXs, isSm } = useIsMobile(); // destructure
 
   const { origin, originOptions, originList, loadingOrigin } = useSelector(
     (state) => state.travel
@@ -78,26 +84,28 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
 
   // 🔹 Open drawer & reset on open
   const handleOriginClick = (e) => {
-    e.stopPropagation();
     if (!IsDrawerOpen) {
       dispatch(setTravelFormDrawer(true));
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300);
     }
   };
 
-  // useEffect(() => {
-  //   if (IsDrawerOpen && inputRef.current) {
-  //     setTimeout(() => {
-  //       // Reset both origin and destination
-  //       dispatch(setOrigin(""));
-  //       dispatch(setOriginOptions(null));
-  //       dispatch(setOriginList([]));
+  useEffect(() => {
+    if (IsDrawerOpen) {
+      setTimeout(() => {
+        // Reset both origin and destination
+        inputRef.current?.focus();
+      }, 300);
+    }
+  }, [IsDrawerOpen]);
 
-  //       dispatch(setDestination(""));
-  //       dispatch(setDestinationOptions(null));
-  //       dispatch(setDestinationList([]));
-  //     }, 300);
-  //   }
-  // }, [IsDrawerOpen]);
+  useEffect(() => {
+    if (originOptions) {
+      Cookies.set("origin", originOptions?.iata_code || "");
+    }
+  }, [originOptions]);
 
   return (
     <Box
@@ -149,7 +157,11 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
           <TextField
             {...params}
             inputRef={inputRef}
-            onClick={handleOriginClick}
+            onClick={() => {
+  if (isMobile && !isDrawer) {
+    handleOriginClick();
+  }
+}}
             variant="outlined"
             placeholder="Departing from"
             size="small"

@@ -1,3 +1,4 @@
+import { setTripClass } from "@/src/store/slices/TravelSlice";
 import styles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,10 +10,15 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 const TripTypeField = ({errors, isHomeForm}) => {
-   const [tripClass, setTripClass] = useState("Economy");
+   
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const dispatch = useDispatch();
+  const {  tripClass } = useSelector(
+    (state) => state.travel
+  );
   return (
     <>
       
@@ -20,7 +26,7 @@ const TripTypeField = ({errors, isHomeForm}) => {
             <TextField
               select
               value={tripClass}
-              onChange={(e) => setTripClass(e.target.value)}
+              onChange={(e) => dispatch(setTripClass(e.target.value))}
               className={`${styles.formControl} ${styles.TripClass} formControl`}
               error={!!errors.tripClass}
               helperText={errors.tripClass}

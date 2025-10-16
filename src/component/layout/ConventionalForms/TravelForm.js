@@ -32,11 +32,13 @@ import TripTypeField from "./TripTypeField";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
+  const { origin, destination, travellers, tripClass } = useSelector(
+  (state) => state.travel
+);
 
   // ===== Local States =====
   const [tripType, setTripType] = useState("oneway"); // oneway | roundtrip
   
-  const [destination, setDestination] = useState("");
   const [destinationOption, setDestinationOption] = useState(null); // store selected option object
   const [singleDate, setSingleDate] = useState(dayjs().add(1, "day").toDate()); // for oneway
   const [dateRange, setDateRange] = useState([
@@ -50,11 +52,7 @@ const TravelForm = () => {
 
   const [showCalendar, setShowCalendar] = useState(false);
   
-  const [travellers, setTravellers] = useState({
-    adults: 1,
-    children: 0,
-    infants: 0,
-  });
+  
   const [isLoading, setIsLoading] = useState(false);
 
   // ===== Redux States =====
@@ -200,7 +198,7 @@ const TravelForm = () => {
         </Box>
 
         {/* Search Button */}
-        <Box display="flex" alignItems="flex-end">
+        <Box display={{md:"flex", xs: "none"}} alignItems="flex-end">
           <IconButton
             className={styles.SearchButton}
             onClick={handleSearch}
@@ -210,7 +208,7 @@ const TravelForm = () => {
           </IconButton>
         </Box>
       </Stack>
-      <TravelFormMobileDrawer errors={errors} />
+      <TravelFormMobileDrawer handleSearch={handleSearch} isDrawer errors={errors} />
     </>
   );
 };

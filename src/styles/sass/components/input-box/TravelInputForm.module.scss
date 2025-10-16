@@ -336,7 +336,7 @@ body {
 
 @include for-mobile-large-screen () {
    /* Limit the field width to 90px */
-   .SearchButton {
+   .SearchButton.isDrawer {
       width: 60px;
       height: 60px;
       font-size: 20px;
@@ -370,7 +370,7 @@ body {
          }
          .formGroupIn {
             display: block;
-            width: 90px;
+            width: 100%;
             .formControl {
                >div {
                   color: $darkgray !important;
@@ -425,6 +425,7 @@ body {
       .formControl {
          width: 100% !important;
          min-height: 30px !important;
+         margin-bottom: 0;
          &.dates img {
             margin-right: 4px;
          }
@@ -444,12 +445,12 @@ body {
    .SearchBoxSectionHome .SearchBoxContainer {
       flex-direction: column;
       justify-content: center;
-      padding: 0 10px 10px 18px;
-      min-height: 214px;
+      padding: 0 40px 10px 40px;
+      min-height: $ChatInputHeightXs;
       .travelForm {
          flex-direction: column;
          flex: 1;
-         margin-top: 19px;
+         margin-top: 25px;
          gap: 20px;
          align-items: flex-end;
          justify-content: space-between;
