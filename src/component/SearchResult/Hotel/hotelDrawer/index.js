@@ -203,7 +203,7 @@ const HotelDrawer = ({hotelOffer}) => {
                         )}
                       </Typography>
                     </Stack>
-                    {console.log("hotel_content", hotel?.content)}
+                    
                     {hotel?.content?.description?.content && (
                       <Stack mb={"18px"}>
                         <Typography
