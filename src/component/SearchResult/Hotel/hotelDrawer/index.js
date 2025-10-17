@@ -54,7 +54,6 @@ const HotelDrawer = ({hotelOffer}) => {
       onClose={HandlecloseDrawer}
       className={`${styles.checkoutDrower} aaaaa 2222`}
       transitionDuration={300}
-      
     >
       <Box
         className={`${styles.checkoutDrower} ${styles.hotelDrawer}  white-bg`}
@@ -173,13 +172,19 @@ const HotelDrawer = ({hotelOffer}) => {
                           alt="location"
                           style={{ width: 10, height: 10 }}
                         />
-                        {hotel?.zoneName} /{hotel?.destinationName}
+
+                        {/* Address and Zone — with safe spacing */}
+                        {hotel?.content?.address &&
+                          `${
+                            hotel?.content?.address?.content ||
+                            hotel?.content?.address?.street
+                          }${hotel?.zoneName ? `, ${hotel.zoneName}` : ""}`}
                       </Typography>
                     </Stack>
 
                     <Stack
                       className="Row3"
-                      mb={{md: "24px", xs:"18px"}}
+                      mb={{ md: "24px", xs: "18px" }}
                       flexDirection={"column"}
                     >
                       <Typography
@@ -198,6 +203,7 @@ const HotelDrawer = ({hotelOffer}) => {
                         )}
                       </Typography>
                     </Stack>
+                    
                     {hotel?.content?.description?.content && (
                       <Stack mb={"18px"}>
                         <Typography
@@ -217,7 +223,7 @@ const HotelDrawer = ({hotelOffer}) => {
                       </Stack>
                     )}
                     {/* Amenities (dummy icons, still dynamic if mapped later) */}
-                    
+
                     {hotel?.content?.images && (
                       <Stack>
                         <Typography
