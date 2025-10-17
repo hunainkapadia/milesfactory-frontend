@@ -34,18 +34,27 @@ const TravelDateRange = ({ onClose }) => {
   }, [departureDate, returnDate]);
 
   const handleDateChange = (item) => {
-    setTempRange(item.selection);
+  const { startDate, endDate } = item.selection;
+  setTempRange(item.selection);
 
-    // Auto-close for desktop
-    if (!isMobile && onClose) {
-      const { startDate, endDate } = item.selection;
-      dispatch(setDepartureDate(dayjs(startDate).format("YYYY-MM-DD")));
-      if (tripType !== "oneway") {
+  // Auto-close logic (desktop only)
+  if (!isMobile) {
+    // Always set departure date on selection
+    dispatch(setDepartureDate(dayjs(startDate).format("YYYY-MM-DD")));
+
+    if (tripType === "oneway") {
+      // Oneway — close immediately after first click
+      if (onClose) onClose();
+    } else {
+      // Roundtrip — wait until both dates are different
+      if (endDate && dayjs(endDate).isAfter(startDate)) {
         dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
+        if (onClose) onClose();
       }
-      onClose();
     }
-  };
+  }
+};
+
 
   const handleApply = () => {
     const { startDate, endDate } = tempRange;

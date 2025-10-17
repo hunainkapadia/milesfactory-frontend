@@ -88,7 +88,7 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Step 1: Origin */}
-              {console.log("departureDate_returnDate2", departureDate)}
+              {console.log("departureDate_returnDate2", departureDate, returnDate)}
 
               
               {!originOptions ? (

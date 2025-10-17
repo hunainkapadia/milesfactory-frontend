@@ -33,7 +33,7 @@ import TripTypeField from "./TripTypeField";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
-  const { origin, destination, travellers, tripClass, tripType } = useSelector(
+  const { origin, destination, travellers, tripClass, tripType, departureDate, returnDate } = useSelector(
     (state) => state.travel
   );
 
@@ -60,51 +60,58 @@ const TravelForm = () => {
   
   // ===== Handle Search =====
   const handleSearch = () => {
-    let newErrors = {};
+  let newErrors = {};
 
-    if (!origin) newErrors.origin = "This field is required.";
-    if (!destination) newErrors.destination = "This field is required.";
-    if (!tripClass) newErrors.tripClass = "This field is required.";
-    if (tripType === "oneway" && !singleDate) {
-      newErrors.date = "Please select a departure date.";
-    }
-    if (
-      tripType === "roundtrip" &&
-      (!dateRange?.[0]?.startDate || !dateRange?.[0]?.endDate)
-    ) {
-      newErrors.date = "Please select departure and return dates.";
-    }
-    if (!travellers.adults || travellers.adults < 1) {
-      newErrors.travellers = "At least 1 adult required.";
-    }
+  // ✅ Basic validation
+  if (!origin) newErrors.origin = "This field is required.";
+  if (!destination) newErrors.destination = "This field is required.";
+  if (!tripClass) newErrors.tripClass = "This field is required.";
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
+  if (tripType === "oneway" && !departureDate) {
+    newErrors.date = "Please select a departure date.";
+  }
 
-    setErrors({});
-    setIsLoading(true);
+  if (tripType === "roundtrip" && (!departureDate || !returnDate)) {
+    newErrors.date = "Please select departure and return dates.";
+  }
 
-    const searchData = {
-      tripType,
-      origin,
-      destination,
-      departureDate: dayjs(
-        tripType === "oneway" ? singleDate : dateRange?.[0]?.startDate
-      ).format("YYYY-MM-DD"),
-      returnDate:
-        tripType === "roundtrip" && dateRange?.[0]?.endDate
-          ? dayjs(dateRange[0].endDate).format("YYYY-MM-DD")
-          : null,
-      travellers,
-      tripClass,
-    };
+  if (!travellers?.adults || travellers.adults < 1) {
+    newErrors.travellers = "At least 1 adult required.";
+  }
 
-    dispatch(submitTravelForm(searchData));
+  // ✅ Stop on validation error
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
 
-    setTimeout(() => setIsLoading(false), 1000);
+  // ✅ No validation error — proceed
+  setErrors({});
+  setIsLoading(true);
+
+  // ✅ Build search data using Redux state
+  const searchData = {
+    tripType,
+    origin,
+    destination,
+    departureDate: departureDate
+      ? dayjs(departureDate).format("YYYY-MM-DD")
+      : null,
+    returnDate:
+      tripType === "roundtrip" && returnDate
+        ? dayjs(returnDate).format("YYYY-MM-DD")
+        : null,
+    travellers,
+    tripClass,
   };
+
+  console.log("🚀 searchData:", searchData);
+
+  dispatch(submitTravelForm(searchData));
+
+  setTimeout(() => setIsLoading(false), 1000);
+};
+
 
   const calendarRef = useRef(null);
   const tripTypeLabels = {
