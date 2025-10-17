@@ -466,7 +466,19 @@ const MessageInputBox = ({
                                     onClick={handleSearch}
                                     disabled={isLoading}
                                   >
-                                    <i className="fa fa-arrow-right"></i>
+                                  {(isSticky && inputLoading) || isHomePage && inputLoading? (
+                                    <>
+                                      <CircularProgress
+                                      size={15}
+                                      color="white"
+                                       />
+                                    </>
+                                  ) : (
+                                    <>
+                                      <i className="fa fa-arrow-right"></i>
+                                    </>
+                                  )}
+                                    
                                   </IconButton>
                                 </Tooltip>
                               </>
