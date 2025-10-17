@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import {
   fetchAirports,
+  setTripType,
   submitTravelForm,
 } from "@/src/store/slices/TravelSlice";
 import Cookies from "js-cookie";
@@ -32,12 +33,12 @@ import TripTypeField from "./TripTypeField";
 
 const TravelForm = () => {
   const dispatch = useDispatch();
-  const { origin, destination, travellers, tripClass } = useSelector(
-  (state) => state.travel
-);
+  const { origin, destination, travellers, tripClass, tripType } = useSelector(
+    (state) => state.travel
+  );
 
   // ===== Local States =====
-  const [tripType, setTripType] = useState("oneway"); // oneway | roundtrip
+  
   
   const [destinationOption, setDestinationOption] = useState(null); // store selected option object
   const [singleDate, setSingleDate] = useState(dayjs().add(1, "day").toDate()); // for oneway
@@ -114,7 +115,7 @@ const TravelForm = () => {
   const handleTripType = (e) => {
     const value = e.target.value;
 
-    setTripType(value);
+    dispatch(setTripType(value));
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
@@ -178,7 +179,7 @@ const TravelForm = () => {
             {!isMobile && (
               <>
                 {/* Dates */}
-                <DOBField errors={errors} isHomeForm />
+                <DOBField errors={errors} isHomeForm tripType={tripType} />
               </>
             )}
             {!isMobile && (
@@ -191,7 +192,7 @@ const TravelForm = () => {
             {/* Trip Class */}
             {!isMobile && (
               <>
-                <TripTypeField errors={errors} isHomeForm />
+                <TripTypeField errors={errors} isHomeForm  />
               </>
             )}
           </Stack>

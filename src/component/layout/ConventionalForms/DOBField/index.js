@@ -9,11 +9,13 @@ import TravelDateRange from "../TravelDateRange";
 
 
 const DOBField = ({ errors, isDrawer, isHomeForm }) => {
+  
   const [showCalendar, setShowCalendar] = useState(false);
   const { tripType, departureDate, returnDate } = useSelector(
     (state) => state.travel
   );
-
+  console.log("tripType_00", tripType);
+  
   return (
     <Box
       className={`${styles.formGroup} ${

@@ -336,6 +336,10 @@ body {
 
 @include for-mobile-large-screen () {
    /* Limit the field width to 90px */
+   .dropdownMenu {
+      width: 100%;
+      padding: 16px 0 26px;
+   }
    .SearchButton.isDrawer {
       width: 60px;
       height: 60px;

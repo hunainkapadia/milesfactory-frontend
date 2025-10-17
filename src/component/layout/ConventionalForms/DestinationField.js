@@ -21,9 +21,11 @@ import {
   setDestination,
   setDestinationOptions,
   setDestinationList,
+  setDepartureDate,
+  setReturnDate,
 } from "@/src/store/slices/TravelSlice";
 
-// ✅ Custom Popper with higher z-index
+//  Custom Popper with higher z-index
 const CustomPopper = (props) => (
   <Popper
     {...props}
@@ -83,6 +85,9 @@ const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
   const handleSelect = (value) => {
     dispatch(setDestinationOptions(value));
     dispatch(setDestination(value?.iata_code || ""));
+    dispatch(setDepartureDate(null));
+    dispatch(setReturnDate(null));
+  
   };
 
   // 🔹 Auto-focus when origin selected

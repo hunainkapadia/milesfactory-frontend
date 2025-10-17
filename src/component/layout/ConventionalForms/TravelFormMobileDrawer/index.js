@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -13,13 +13,23 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import Travelstyles from "@/src/styles/sass/components/input-box/TravelInputForm.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import OriginField from "../OriginField";
-import { setDepartureDate, setDestinationOptions, setOriginOptions, setTravelFormDrawer } from "@/src/store/slices/TravelSlice";
+import {
+  setDepartureDate,
+  setDestinationOptions,
+  setOriginOptions,
+  setReturnDate,
+  setTravelFormDrawer,
+} from "@/src/store/slices/TravelSlice";
 import DestinationField from "../DestinationField";
 import DOBField from "../DOBField";
 import Travellers from "../Travellers";
 import TripTypeField from "../TripTypeField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faCaretRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleRight,
+  faCaretRight,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import TravelDateRange from "../TravelDateRange";
 
 const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
@@ -31,25 +41,26 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
 
   const IsDrawerOpen = useSelector((state) => state?.travel?.travelFormDrawer);
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
-  const { travellers, originOptions, destinationOptions, departureDate } = useSelector(
-    (state) => state?.travel
-  );
-  const handleBackOrigin =()=> {
-    dispatch(setTravelFormDrawer(false))
-  }
-  const handleBackDestination =()=> {
-    dispatch(setOriginOptions(null))
+  const { tripType, travellers, origin, originOptions, destinationOptions, departureDate, returnDate } =
+    useSelector((state) => state?.travel);
+    
+  const handleBackOrigin = () => {
+    dispatch(setTravelFormDrawer(false));
+  };
+  const handleBackDestination = () => {
+    dispatch(setOriginOptions(null));
     Cookies.remove("origin");
     Cookies.remove("destination");
-
-  }
-  const handleBackDOB = ()=> {
+  };
+  const handleBackDOB = () => {
     Cookies.remove("destination");
-    dispatch(setDestinationOptions(null))
-  }
-  const handleBackTravellers = ()=> {
+    dispatch(setDestinationOptions(null));
+  };
+  const handleBackTravellers = () => {
     dispatch(setDepartureDate(null));
-  }
+    dispatch(setReturnDate(null));
+  };
+  
 
   return (
     <Drawer
@@ -70,14 +81,16 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
             flexDirection={"column"}
             gap={"12px"}
           >
-            {console.log("originOptions99", departureDate)}
+            {console.log("originOptions99", origin)}
             <Stack
               flexDirection={"column"}
               component={"span"}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Step 1: Origin */}
+              {console.log("departureDate_returnDate2", departureDate)}
 
+              
               {!originOptions ? (
                 <Box
                   className={`${Travelstyles.TravelFormHeader}`}
@@ -121,31 +134,35 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                     </Box>
                   </Box>
                 </Box>
-              ) : originOptions && destinationOptions && !departureDate ? (
+              ) : originOptions && destinationOptions &&
+                ((tripType === "oneway" && !departureDate) ||
+                  (tripType === "roundtrip" && (!departureDate || !returnDate))) ? (
                 // Step 3: Date
                 <>
-
-                <Box
-                  className={`${Travelstyles.TravelFormHeader}`}
-                  display={"flex"}
-                  alignItems={"center"}
-                  gap={1}
-                >
                   <Box
-                    className={"bold lightgray2 cursor-pointer"}
-                    onClick={handleBackDOB}
+                    className={`${Travelstyles.TravelFormHeader}`}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={1}
                   >
-                    <i className="fa fa-arrow-left fas"></i>
+                    <Box
+                      className={"bold lightgray2 cursor-pointer"}
+                      onClick={handleBackDOB}
+                    >
+                      <i className="fa fa-arrow-left fas"></i>
+                    </Box>
+                    <Box className={styles.DrawerfromAndtoField + " w-100"}>
+                      <DOBField errors={errors} isDrawer />
+                    </Box>
                   </Box>
-                  <Box className={styles.DrawerfromAndtoField + " w-100"}>
-                    <DOBField errors={errors} isDrawer />
+                  <Box>
+                    <TravelDateRange />
                   </Box>
-                </Box>
-                  <Box mt={2} px={2}>
-  <TravelDateRange />
-</Box>
                 </>
-              ) : (
+              ) : originOptions &&
+                destinationOptions &&
+                (tripType === "oneway" && departureDate) ||
+                  (tripType === "roundtrip" && (departureDate || returnDate)) ? (
                 // Step 4: Travellers + TripType + Button
                 <>
                   <Box
@@ -191,6 +208,8 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                     </IconButton>
                   </Box>
                 </>
+              ) : (
+                ""
               )}
             </Stack>
           </Box>

@@ -27,6 +27,8 @@ import {
   setDestinationOptions,
   setDestinationList,
   setTravelFormDrawer,
+  setDepartureDate,
+  setReturnDate,
 } from "@/src/store/slices/TravelSlice";
 import useIsMobile from "@/src/hooks/Hooks";
 
@@ -84,11 +86,20 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
 
   // 🔹 Open drawer & reset on open
   const handleOriginClick = (e) => {
+
     if (!IsDrawerOpen) {
+      dispatch(setOrigin(""));
+      dispatch(setDestination(""));
+      dispatch(setDestinationOptions(null));
+      dispatch(setOriginOptions(null));
+      
       dispatch(setTravelFormDrawer(true));
+      Cookies.remove("origin");
+      Cookies.remove("destination");
       setTimeout(() => {
-        inputRef.current?.focus();
+        inputRef.current?.focus(); // focus
       }, 300);
+      
     }
   };
 
@@ -158,10 +169,10 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
             {...params}
             inputRef={inputRef}
             onClick={() => {
-  if (isMobile && !isDrawer) {
-    handleOriginClick();
-  }
-}}
+              if (isMobile && !isDrawer) {
+                handleOriginClick();
+              }
+            }}
             variant="outlined"
             placeholder="Departing from"
             size="small"

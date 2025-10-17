@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { Box } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import { DateRange } from "react-date-range";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -15,18 +15,47 @@ const TravelDateRange = ({ onClose }) => {
     (state) => state.travel
   );
 
-  const handleDateChange = (item) => {
-    const { startDate, endDate } = item.selection;
+  const isMobile = useMediaQuery("(max-width:768px)");
 
+  // temporary local state (so we don’t dispatch on every click)
+  const [tempRange, setTempRange] = useState({
+    startDate: departureDate ? new Date(departureDate) : dayjs().add(1, "day").toDate(),
+    endDate: returnDate ? new Date(returnDate) : dayjs().add(2, "day").toDate(),
+    key: "selection",
+  });
+
+  useEffect(() => {
+    // sync local state when redux updates externally
+    setTempRange({
+      startDate: departureDate ? new Date(departureDate) : dayjs().add(1, "day").toDate(),
+      endDate: returnDate ? new Date(returnDate) : dayjs().add(2, "day").toDate(),
+      key: "selection",
+    });
+  }, [departureDate, returnDate]);
+
+  const handleDateChange = (item) => {
+    setTempRange(item.selection);
+
+    // Auto-close for desktop
+    if (!isMobile && onClose) {
+      const { startDate, endDate } = item.selection;
+      dispatch(setDepartureDate(dayjs(startDate).format("YYYY-MM-DD")));
+      if (tripType !== "oneway") {
+        dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
+      }
+      onClose();
+    }
+  };
+
+  const handleApply = () => {
+    const { startDate, endDate } = tempRange;
     dispatch(setDepartureDate(dayjs(startDate).format("YYYY-MM-DD")));
 
     if (tripType !== "oneway") {
       dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
     }
 
-    if (onClose && (tripType === "oneway" || (endDate && endDate > startDate))) {
-      onClose();
-    }
+    if (onClose) onClose();
   };
 
   return (
@@ -39,21 +68,25 @@ const TravelDateRange = ({ onClose }) => {
       <DateRange
         editableDateInputs
         moveRangeOnFirstSelection={false}
-        ranges={[
-          {
-            startDate: departureDate
-              ? new Date(departureDate)
-              : dayjs().add(1, "day").toDate(),
-            endDate: returnDate
-              ? new Date(returnDate)
-              : dayjs().add(1, "day").toDate(),
-            key: "selection",
-          },
-        ]}
+        ranges={[tempRange]}
         onChange={handleDateChange}
         rangeColors={["#1539CF"]}
         minDate={dayjs().add(1, "day").toDate()}
       />
+
+      {/* Show Apply button only for mobile */}
+      {isMobile && (
+         
+        <Box display={"flex"} justifyContent={"center"}  mt={2}>
+          <Button
+            variant="contained"
+            onClick={handleApply}
+            className="btn btn-primary btn-round btn-md-x"
+          >
+            Apply
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -372,7 +372,10 @@ const MessageInputBox = ({
                                       </svg>
                                       <Typography
                                         className="f12"
-                                        sx={{ pt: "4px" }}
+                                        sx={{
+                                          pt: "4px",
+                                          display: { md: "block", xs: "none" },
+                                        }}
                                       >
                                         Public
                                       </Typography>
@@ -460,13 +463,28 @@ const MessageInputBox = ({
                                   placement="top"
                                 >
                                   <IconButton
+                                    sx={{ p: 0 }}
                                     className={`${inputStyles.SearchButton} ${
                                       isLoading ? inputStyles.Disabled : ""
                                     }`}
                                     onClick={handleSearch}
                                     disabled={isLoading}
                                   >
-                                    <i className="fa fa-arrow-right"></i>
+                                    {inputLoading && isHomePage ? (
+                                      <>
+                                        <Box>
+                                          <CircularProgress
+                                            size={15}
+                                            color="inherit"
+                                            sx={{ color: "white" }}
+                                          />
+                                        </Box>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <i className="fa fa-arrow-right"></i>
+                                      </>
+                                    )}
                                   </IconButton>
                                 </Tooltip>
                               </>
