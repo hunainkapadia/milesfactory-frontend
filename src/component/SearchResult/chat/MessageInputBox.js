@@ -302,8 +302,8 @@ const MessageInputBox = ({
                               display={"flex"}
                               justifyContent={"center"}
                               className={inputStyles.centerCol}
-                              sx={{ opacity: !getBuilder ? 0.5 : 1 }}
                             >
+                            
                               <MobileBuilder />
                             </Box>
                           </>
@@ -454,6 +454,7 @@ const MessageInputBox = ({
                               </IconButton>
                             ) : (
                               <>
+                               {!(isChat && isMobile && isMessage) && (
                                 <Tooltip
                                   title="Start planning your trip!"
                                   arrow
@@ -466,7 +467,7 @@ const MessageInputBox = ({
                                     onClick={handleSearch}
                                     disabled={isLoading}
                                   >
-                                  {(isSticky && inputLoading) || isHomePage && inputLoading? (
+                                  {(isSticky && inputLoading) || isHomePage && inputLoading ? (
                                     <>
                                       <CircularProgress
                                       size={15}
@@ -481,6 +482,7 @@ const MessageInputBox = ({
                                     
                                   </IconButton>
                                 </Tooltip>
+                               )}
                               </>
                             )}
                           </Stack>

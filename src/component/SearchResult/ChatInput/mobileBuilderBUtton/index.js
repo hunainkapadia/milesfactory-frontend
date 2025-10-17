@@ -27,9 +27,13 @@ const MobileBuilder = ({isMobileBuilder}) => {
 
   return (
     <>
-      {isBuilderArgument && (
+      
         <Box
-          className={`${styles.switchWrapper} ${isMobileBuilder ? styles.isMobileBuilder : ""} customTabs TapNone`}
+          className={`
+          ${styles.switchWrapper}
+          ${isMobileBuilder && styles.isMobileBuilder} 
+          ${isBuilderArgument && styles.switchWrapperActive}
+           customTabs TapNone`}
           sx={{
             backgroundColor: "#F2F7F8",
             borderRadius: "8px",
@@ -73,7 +77,7 @@ const MobileBuilder = ({isMobileBuilder}) => {
             <Typography variant="body2">Builder</Typography>
           </Box>
         </Box>
-      )}
+      
     </>
   );
 };
