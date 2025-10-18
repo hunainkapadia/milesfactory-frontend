@@ -369,6 +369,14 @@ body {
       margin-bottom: 20px;
    }
    body {
+      .isHomeForm.active .formControl > div {
+         background: rgba(230, 238, 238, 0.1);
+      }
+      .isHomeForm .formControl.TripType > div {
+         background: rgba(230, 238, 238, 0.1);
+      }
+
+
       .formGroup.DOBField {
          .formControl {
             display: block;
