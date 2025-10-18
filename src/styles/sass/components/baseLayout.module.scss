@@ -314,7 +314,7 @@
     }
    
     .Header {
-      .HeaderBox {height: $headerHeightXs;}
+      .HeaderBox {height: $headerHeightXs;display: flex; align-items: center;}
       &.Sticky {
          height: $headerHeightXs;
       }

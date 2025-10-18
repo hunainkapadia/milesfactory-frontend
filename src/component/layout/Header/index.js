@@ -203,7 +203,7 @@ const Header = ({
                       </Box>
                     </Box>
                   </Box>
-                  {isMessage && isMobile && isChat ? <ShareDropdown /> : ""}
+                  {/* {!isMessage && !isMobile && isChat ? <ShareDropdown /> : ""} */}
 
                   <Box
                     sx={{
