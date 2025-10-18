@@ -146,6 +146,7 @@ const HotelCard = ({ hotel, allHotels }) => {
             }}
           >
           
+              {console.log("firstimage", firstimage)}
             <Box
               className={searchResultStyles.HotelThumb}
               sx={{

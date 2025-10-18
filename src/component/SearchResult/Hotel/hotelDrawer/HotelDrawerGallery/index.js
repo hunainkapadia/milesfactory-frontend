@@ -67,7 +67,7 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
                 flex: "1 1 50%",
                 cursor: "pointer",
               }}
-              onClick={() => handleOpenImage(images[0]?.url_1024)}
+              onClick={() => handleOpenImage(images[0]?.url_800)}
             />
           )}
 
@@ -91,7 +91,7 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
                     position: "relative",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleOpenImage(img?.url_1024)}
+                  onClick={() => handleOpenImage(img?.url_800)}
                 >
                   {/* Show 'View all photos' overlay on last image */}
                   {isLast && images.length > totalImages && (
@@ -150,7 +150,7 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
                       borderRadius: 2,
                       cursor: "pointer",
                     }}
-                    onClick={() => handleOpenImage(img?.url_1024)}
+                    onClick={() => handleOpenImage(img?.url_800)}
                   />
                 </Grid>
               ))}
