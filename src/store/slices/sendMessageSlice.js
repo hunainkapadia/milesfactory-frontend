@@ -223,7 +223,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
-          alert("Asas")
+          
 
           dispatch(setpollingComplete(false));
           dispatch(
@@ -243,7 +243,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .then((resRun) => {
                     const runData = resRun.data;
                     if (runData.run_status === "completed") {
-                      alert("bbb")
+                      
                       clearInterval(interval);
                       resolve(runData);
                     }
@@ -259,7 +259,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
-              alert("ccc")
+              
               dispatch(setpollingComplete(true));
               handleFinalResponse(response);
             })
@@ -299,16 +299,16 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                alert("111")
+                
                 
                 
                 
                 const isComplete = flightRes?.data?.is_complete;
                 if (isComplete === true) {
                   dispatch(setMessage({ ai: flightRes.data }));
-                  alert("ddd")
+                  
                 } else {
-                  alert("eee")
+                  
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -348,7 +348,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults();
-                    alert("ggg")
+                    
                     dispatch(
                       setMessage({
                         ai: { response: response?.response },
