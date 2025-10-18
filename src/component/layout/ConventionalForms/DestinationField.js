@@ -86,8 +86,7 @@ const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
     dispatch(setDestinationOptions(value));
     dispatch(setDestination(value?.iata_code || ""));
     dispatch(setDepartureDate(null));
-    dispatch(setReturnDate(null));
-    
+    dispatch(setReturnDate(null));  
     Cookies.set("destination", value?.iata_code || "");
   
   };

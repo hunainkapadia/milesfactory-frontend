@@ -94,8 +94,9 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
       dispatch(setOriginOptions(null));
       
       dispatch(setTravelFormDrawer(true));
+      Cookies.remove("destination");
       // Cookies.remove("origin");
-      // Cookies.remove("destination");
+      
       // setTimeout(() => {
       //   inputRef.current?.focus(); // focus
       // }, 300);
