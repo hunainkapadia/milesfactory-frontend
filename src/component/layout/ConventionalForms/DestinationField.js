@@ -87,6 +87,8 @@ const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
     dispatch(setDestination(value?.iata_code || ""));
     dispatch(setDepartureDate(null));
     dispatch(setReturnDate(null));
+    
+    Cookies.set("destination", value?.iata_code || "");
   
   };
 
@@ -99,11 +101,7 @@ const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
     }
   }, [originOptions]);
   // cookie save
-  useEffect(() => {
-      if (destinationOptions) {
-        Cookies.set("destination", destinationOptions?.iata_code || "");
-      }
-    }, [destinationOptions]);
+  
 
   return (
     <Box

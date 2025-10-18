@@ -1166,16 +1166,39 @@ pre {
 }
 
 body {
-  .rdrSelected, .rdrInRange, .rdrStartEdge, .rdrEndEdge {
-      background-color: $basecolor1;
-    }
-    .rdrDayToday .rdrDayNumber span:after {
-      display: none;
-    }
-    .rdrDateDisplayItemActive, 
-    .rdrDayStartPreview, .rdrDayInPreview, .rdrDayEndPreview{
-      border-color:$basecolor1 !important; /* your hover border color */    
-    }
+  // Make selected date circular and bigger
+  .rdrDay  {
+    height: 50px;
+  }
+.rdrDayNumber span {
+  width: 36px;           // Increase width
+  height: 36px;          // Increase height
+  line-height: 36px;     // Center text vertically
+  border-radius: 50%;    // Make it a perfect circle
+  display: inline-flex;  // Flex for centering
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;      // Optional: make number bolder
+  transition: all 0.2s ease;
+}
+
+.rdrSelected,
+.rdrInRange,
+.rdrStartEdge,
+.rdrEndEdge {
+  background-color: $basecolor !important;
+  border-radius: 50% !important; // Ensure circular edges
+}
+
+.rdrDayStartPreview,
+.rdrDayInPreview,
+.rdrDayEndPreview {
+  border-color: $basecolor !important;
+}
+
+.rdrDayToday .rdrDayNumber span:after {
+  display: none;
+}
 
   a,
   a:focus,
