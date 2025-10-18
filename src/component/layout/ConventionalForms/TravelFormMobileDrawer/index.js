@@ -157,7 +157,7 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                   </Box>
                   <Box display={"flex"}
                    justifyContent={"center"}>
-                    <TravelDateRange />
+                    <TravelDateRange isDrawer />
                   </Box>
                 </>
               ) : originOptions &&
@@ -204,7 +204,9 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                       {inputLoading ? (
                         <CircularProgress size={24} />
                       ) : (
-                        <i className="fa fa-arrow-right"></i>
+                        <Typography className="bold">
+                          let's go
+                        </Typography>
                       )}
                     </IconButton>
                   </Box>
