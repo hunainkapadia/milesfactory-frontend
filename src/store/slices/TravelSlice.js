@@ -111,7 +111,7 @@ export const fetchAirports = (term, field) => async (dispatch) => {
       dispatch(setDestinationList(res.data || []));
     }
   } catch (error) {
-    console.error("Airport fetch error:", error);
+    console.error("Airport fetch error:", error?.response?.data?.messages);
   } finally {
     if (field === "origin") dispatch(setLoadingOrigin(false));
     if (field === "destination") dispatch(setLoadingDestination(false));
@@ -170,7 +170,7 @@ export const submitHotelForm = (formData) => (dispatch) => {
   const { location, checkIn, checkOut, travellers, roomType, priceRange } =
     formData;
 
-  // ✅ Generate hotel message (like flight message)
+  // Generate hotel message (like flight message)
   const message = `Need a Hotel in ${location} from ${dayjs(checkIn).format(
     "DD MMM"
   )} to ${dayjs(checkOut).format("DD MMM")} for ${travellers.adults} adult${

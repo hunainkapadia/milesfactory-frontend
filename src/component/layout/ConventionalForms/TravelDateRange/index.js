@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { setDepartureDate, setReturnDate } from "@/src/store/slices/TravelSlice";
+import {
+  setDepartureDate,
+  setReturnDate,
+} from "@/src/store/slices/TravelSlice";
 
-const TravelDateRange = ({ onClose }) => {
+const TravelDateRange = ({ onClose, isDrawer }) => {
   const dispatch = useDispatch();
   const { tripType, departureDate, returnDate } = useSelector(
     (state) => state.travel
@@ -17,44 +20,72 @@ const TravelDateRange = ({ onClose }) => {
 
   const isMobile = useMediaQuery("(max-width:768px)");
 
-  // temporary local state (so we don’t dispatch on every click)
   const [tempRange, setTempRange] = useState({
-    startDate: departureDate ? new Date(departureDate) : dayjs().add(1, "day").toDate(),
+    startDate: departureDate
+      ? new Date(departureDate)
+      : dayjs().add(1, "day").toDate(),
     endDate: returnDate ? new Date(returnDate) : dayjs().add(2, "day").toDate(),
     key: "selection",
   });
 
   useEffect(() => {
-    // sync local state when redux updates externally
     setTempRange({
-      startDate: departureDate ? new Date(departureDate) : dayjs().add(1, "day").toDate(),
-      endDate: returnDate ? new Date(returnDate) : dayjs().add(2, "day").toDate(),
+      startDate: departureDate
+        ? new Date(departureDate)
+        : dayjs().add(1, "day").toDate(),
+      endDate: returnDate
+        ? new Date(returnDate)
+        : dayjs().add(2, "day").toDate(),
       key: "selection",
     });
   }, [departureDate, returnDate]);
 
+  // ✅ Reusable date selection logic
   const handleDateChange = (item) => {
-  const { startDate, endDate } = item.selection;
-  setTempRange(item.selection);
+    let { startDate, endDate } = item.selection;
 
-  // Auto-close logic (desktop only)
-  if (!isMobile) {
-    // Always set departure date on selection
-    dispatch(setDepartureDate(dayjs(startDate).format("YYYY-MM-DD")));
-
+    // 👇 For oneway on mobile — force endDate = startDate
     if (tripType === "oneway") {
-      // Oneway — close immediately after first click
-      if (onClose) onClose();
-    } else {
-      // Roundtrip — wait until both dates are different
-      if (endDate && dayjs(endDate).isAfter(startDate)) {
-        dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
+      endDate = startDate;
+    }
+
+    setTempRange({ ...item.selection, endDate });
+
+    if (!isMobile) {
+      dispatch(setDepartureDate(dayjs(startDate).format("YYYY-MM-DD")));
+
+      if (tripType === "oneway") {
+        // no return date
+        dispatch(setReturnDate(null));
         if (onClose) onClose();
+      } else {
+        if (endDate && dayjs(endDate).isAfter(startDate)) {
+          dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
+          if (onClose) onClose();
+        }
       }
     }
-  }
-};
+  };
 
+  // ✅ Auto sync for mobile
+  useEffect(() => {
+    if (isMobile) {
+      handleDateChange({ selection: tempRange });
+    }
+  }, [isMobile]);
+
+  // ✅ NEW: Auto adjust when tripType changes
+  useEffect(() => {
+    if (tripType === "oneway") {
+      // when switching to oneway, collapse range to single date
+      setTempRange((prev) => ({
+        ...prev,
+        endDate: prev.startDate,
+      }));
+      // also update redux so UI and data stay in sync
+      dispatch(setReturnDate(null));
+    }
+  }, [tripType, dispatch]);
 
   const handleApply = () => {
     const { startDate, endDate } = tempRange;
@@ -62,6 +93,8 @@ const TravelDateRange = ({ onClose }) => {
 
     if (tripType !== "oneway") {
       dispatch(setReturnDate(dayjs(endDate).format("YYYY-MM-DD")));
+    } else {
+      dispatch(setReturnDate(null));
     }
 
     if (onClose) onClose();
@@ -81,12 +114,13 @@ const TravelDateRange = ({ onClose }) => {
         onChange={handleDateChange}
         rangeColors={["#1539CF"]}
         minDate={dayjs().add(1, "day").toDate()}
+        months={1}
+        direction="vertical"
+        showDateDisplay={false}
       />
 
-      {/* Show Apply button only for mobile */}
       {isMobile && (
-         
-        <Box display={"flex"} justifyContent={"center"}  mt={2}>
+        <Box display="flex" justifyContent="center" mt={2}>
           <Button
             variant="contained"
             onClick={handleApply}
