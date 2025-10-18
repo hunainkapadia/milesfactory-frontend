@@ -62,7 +62,7 @@ const ConventionalForms = () => {
     <Box className={styles.SearchBoxSectionHome}>
       <Box className={styles.SearchBoxContainer}>
         {/* Tabs */}
-        <Box sx={{ pl: { md: "0", xs: "14px" } }}>
+        <Box sx={{ pl: { md: "0", xs: "0" } }}>
           <Tabs
             value={tab}
             onChange={(_, newValue) => setTab(newValue)}

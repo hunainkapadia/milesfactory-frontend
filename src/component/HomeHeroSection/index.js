@@ -76,7 +76,7 @@ const HomeHeroSection = () => {
                   >
                   <Stack flexDirection={"row"}>
                     <Stack onClick={() => setSwitchOn(!switchOn)}  display="flex" flexDirection={"row"} alignItems="center" gap={1} mt={{lg:3, md:3, xs: "18px"}} px={"12px"} >
-                      <Typography className="white bold cursor-pointer">
+                      <Typography className="white cursor-pointer">
                         Plan with Mylz AI
                       </Typography>
                       {/* Switch Button */}
