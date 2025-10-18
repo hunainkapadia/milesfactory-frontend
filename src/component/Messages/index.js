@@ -48,6 +48,8 @@ const Messages = () => {
   const isLoading = useSelector(
     (state) => state.sendMessage?.isLoading || false
   );
+  console.log("message_isLoading", isLoading);
+  
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
 
@@ -99,17 +101,18 @@ const Messages = () => {
           >
             <Box className={searchResultStyles.messageContentIn}>
               {messages.map((msg, index) => (
-                <Box key={index}>
-                  {msg?.user && <UserMessage userMessage={msg.user} />}
-                  {msg?.ai ? (
-                    <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
-                  ) : index === messages.length - 1 && isLoading ? (
-                    <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>
-                      <LoadingArea />
-                    </Box>
-                  ) : null}
-                </Box>
-              ))}
+  <Box key={index}>
+    {msg?.user && <UserMessage userMessage={msg.user} />}
+    {msg?.ai && <AiMessage aiMessage={msg} offerId={msg?.OfferId} />}
+
+    {/* Show loader only once after the last message */}
+    {isLoading && index === messages.length - 1 && (
+      <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>
+        <LoadingArea />
+      </Box>
+    )}
+  </Box>
+))}
 
               {/*  */}
 

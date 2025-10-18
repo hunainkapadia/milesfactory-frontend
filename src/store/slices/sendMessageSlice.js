@@ -198,12 +198,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   const pathname = window.location.pathname;
   const threadUUID = pathname.split("/chat/")[1];
 
-  dispatch(setLoading(true));
   dispatch(setMessage({ user: userMessage }));
-
+  
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-
+    
+    dispatch(setLoading(true));
     api
       .post(threadUUIdUrl, { user_message: userMessage, background_job: false })
       .then((res) => {
@@ -212,9 +212,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
         console.log("response_sendmess", response.errors);
         dispatch(setMessage({ ai: { error: response } }));
+        dispatch(setLoading(false))
         
-        
-
         if (response?.silent_is_function) {
           dispatch(setAddBuilder(response));
         }
@@ -224,6 +223,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
+          alert("Asas")
 
           dispatch(setpollingComplete(false));
           dispatch(
@@ -233,6 +233,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               },
             })
           );
+          
 
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
@@ -242,6 +243,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .then((resRun) => {
                     const runData = resRun.data;
                     if (runData.run_status === "completed") {
+                      alert("bbb")
                       clearInterval(interval);
                       resolve(runData);
                     }
@@ -257,6 +259,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
+              alert("ccc")
               dispatch(setpollingComplete(true));
               handleFinalResponse(response);
             })
@@ -267,7 +270,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       })
       .catch(() => {})
       .finally(() => {
-        dispatch(setLoading(false));
+        
       });
 
     // Final Response Handler
@@ -296,12 +299,16 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
+                alert("111")
+                
                 
                 
                 const isComplete = flightRes?.data?.is_complete;
                 if (isComplete === true) {
                   dispatch(setMessage({ ai: flightRes.data }));
+                  alert("ddd")
                 } else {
+                  alert("eee")
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -317,6 +324,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
           const pollHistoryUntilComplete = () => {
             const interval = setInterval(() => {
+              dispatch(setLoading(true));
               api
                 .get(historyUrl)
                 .then((history_res) => {
@@ -335,22 +343,27 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       dispatch(setSelectedFlightKey(null));
                       dispatch(setClearflight());
                       dispatch(setMessage({ ai: flightRes.data }));
+                      dispatch(setLoading(false));
                     });
                   } else if (!hasShownInitialMessage) {
                     hasShownInitialMessage = true;
                     showRealResults();
+                    alert("ggg")
                     dispatch(
                       setMessage({
                         ai: { response: response?.response },
                         type: "flight_placeholder",
                       })
                     );
+                    dispatch(setLoading(false));
                   }
                 })
                 .catch((err) => {
                   console.error("Polling failed", err);
                   clearInterval(interval);
-                });
+                }).finally(()=> {
+                  dispatch(setLoading(false));
+                })
             }, 1000);
           };
 
@@ -370,15 +383,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           
 
           if (hotelSearchApi) {
+            dispatch(setLoading(true))
             // Static fix: replace "dubai" with "dxb"
             // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
-
-            
-
             api
               .get(hotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
+                dispatch(setLoading(false))
                 if (isComplete === true) {
                   dispatch(setClearflight());
                   dispatch(setMessage({ ai: hotelRes.data }));
@@ -398,6 +410,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 );
                 
                 dispatch(setMessage({ ai: { response: err.response.data } }));
+              }).finally(()=> {
+                dispatch(setLoading(false))
               });
           }
         }
