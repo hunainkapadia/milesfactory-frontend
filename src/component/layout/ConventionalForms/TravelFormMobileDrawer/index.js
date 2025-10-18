@@ -205,7 +205,7 @@ const TravelFormMobileDrawer = ({ errors, handleSearch, isLoading }) => {
                         <CircularProgress size={24} />
                       ) : (
                         <Typography className="bold">
-                          let's go
+                          Let's go
                         </Typography>
                       )}
                     </IconButton>
