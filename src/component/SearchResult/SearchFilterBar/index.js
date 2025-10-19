@@ -255,13 +255,13 @@ const SearchFilterBar = () => {
                   alignItems={{ md: "center", xs: "flex-start" }}
                   rowGap={{ md: 0, xs: "1px" }}
                 >
-                  {hotelArgument?.destination && (
+                  {hotelArgument?.destination || hotelArgument?.to_destination && (
                     <Box mr={3}>
                       <Typography
                         className="bold black"
                         sx={{ fontSize: { md: "12px", xs: "10px" } }}
                       >
-                        {hotelArgument?.destination}
+                        {hotelArgument?.to_destination || hotelArgument?.destination}
                       </Typography>
                     </Box>
                   )}
