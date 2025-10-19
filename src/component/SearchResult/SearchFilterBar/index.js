@@ -23,6 +23,13 @@ const SearchFilterBar = () => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
+  const hotelArgument =  SearchHistory?.hotel?.HotelArgument || SearchHistory?.hotel
+
+  const hotelPassengers = hotelArgument?.passengers || hotelArgument
+
+  console.log("SearchHistory", hotelArgument);
+  
+
   const dispatch = useDispatch();
   //   for selct flight detail
 
@@ -208,7 +215,7 @@ const SearchFilterBar = () => {
             {/*  */}
           </Box>
         </>
-      ) : SearchHistory?.hotel ? (
+      ) : hotelArgument ? (
         <>
           <Box
             component={"main"}
@@ -248,13 +255,13 @@ const SearchFilterBar = () => {
                   alignItems={{ md: "center", xs: "flex-start" }}
                   rowGap={{ md: 0, xs: "1px" }}
                 >
-                  {SearchHistory?.hotel?.to_destination && (
+                  {hotelArgument?.destination && (
                     <Box mr={3}>
                       <Typography
                         className="bold black"
                         sx={{ fontSize: { md: "12px", xs: "10px" } }}
                       >
-                        {SearchHistory?.hotel?.to_destination}
+                        {hotelArgument?.destination}
                       </Typography>
                     </Box>
                   )}
@@ -266,50 +273,46 @@ const SearchFilterBar = () => {
                   >
                     <Typography className="black regular">
                       {new Date(
-                        SearchHistory?.hotel?.departure_date
+                        hotelArgument?.check_in || hotelArgument?.departure_date
                       ).toLocaleString("en-GB", {
                         day: "2-digit",
                         month: "short",
                       })}
-                      {SearchHistory?.hotel?.return_date && (
-                        <>
-                          {" "}
-                          -{" "}
-                          {new Date(
-                            SearchHistory?.hotel?.return_date
-                          ).toLocaleString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                          })}
-                        </>
-                      )}
+                      {" - "}
+                      
+                      {new Date(
+                        hotelArgument?.check_out || hotelArgument?.return_date
+                      ).toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                      })}
                     </Typography>
                     <Typography className="black regular">
                       {[
                         // Adults
-                        SearchHistory?.hotel?.passengers?.adults > 0 &&
-                          `${SearchHistory?.hotel?.passengers?.adults} ${
-                            SearchHistory?.hotel?.passengers?.adults === 1
+                        hotelPassengers?.adults > 0 &&
+                          `${hotelPassengers?.adults} ${
+                            hotelPassengers?.adults === 1
                               ? "adult"
                               : "adults"
                           }`,
 
                         // Children (fix: use length instead of array itself)
-                        SearchHistory?.hotel?.passengers?.children?.length >
+                        hotelPassengers?.children?.length >
                           0 &&
                           `${
-                            SearchHistory?.hotel?.passengers?.children?.length
+                            hotelPassengers?.children?.length
                           } ${
-                            SearchHistory?.hotel?.passengers?.children
+                            hotelPassengers?.children
                               ?.length === 1
                               ? "child"
                               : "children"
                           }`,
 
                         // Infants
-                        SearchHistory?.hotel?.passengers?.infants > 0 &&
-                          `${SearchHistory?.hotel?.passengers?.infants} ${
-                            SearchHistory?.hotel?.passengers?.infants === 1
+                        hotelPassengers?.infants > 0 &&
+                          `${hotelPassengers?.infants} ${
+                            hotelPassengers?.infants === 1
                               ? "infant"
                               : "infants"
                           }`,
