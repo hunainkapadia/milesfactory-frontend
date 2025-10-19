@@ -120,13 +120,14 @@ const TripCard = ({ tripData }) => {
                 display={"flex"}
                 gap={"10px"}
               >
+              {console.log("forHotel_content", forHotel?.hotel?.content?.images)}
                 {forHotel?.hotel?.content?.images
                   ?.slice(0, 3)
                   ?.map((img, index) => (
                     <Box flex={1}>
                       <img
                         key={index}
-                        src={img?.url || "/default-hotel.jpg"}
+                        src={img?.url_320 || "/images/hotel-nothumb.png"}
                         alt={forHotel?.hotel?.content?.name?.content || "Hotel"}
                         height="63"
                         style={{
