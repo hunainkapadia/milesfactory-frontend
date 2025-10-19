@@ -210,7 +210,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         let response = res.data;
         const run_id = response.run_id;
         const run_status = response.run_status;
-        console.log("response_sendmess", response.errors);
+        
         dispatch(setMessage({ ai: { error: response } }));
         dispatch(setLoading(false))
         
@@ -386,12 +386,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             dispatch(setLoading(true))
             // Static fix: replace "dubai" with "dxb"
             // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
-            console.log("hotelSearchApi", hotelSearchApi)
+            
             api
               .get(hotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
-                dispatch(setLoading(false))
+                dispatch(setLoading(false));
                 if (isComplete === true) {
                   dispatch(setClearflight());
                   dispatch(setMessage({ ai: hotelRes.data }));
@@ -406,13 +406,20 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               })
               .catch((err) => {
                 console.error(
-                  "Error fetching hotel results",
-                  err.response.data
+                  "Error fetching hotel results:",
+                  err.response?.data || err.message || err
                 );
-                
-                dispatch(setMessage({ ai: { response: err.response.data } }));
-              }).finally(()=> {
-                dispatch(setLoading(false))
+
+                dispatch(
+                  setMessage({
+                    ai: {
+                      response: err.response?.data || { error: err.message },
+                    },
+                  })
+                );
+              })
+              .finally(() => {
+                dispatch(setLoading(false));
               });
           }
         }

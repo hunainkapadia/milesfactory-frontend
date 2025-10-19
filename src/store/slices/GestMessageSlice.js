@@ -106,29 +106,28 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
               item?.response?.results?.view_all_flight_result_api?.url;
             const allFlightSearchUuid =
               item?.response?.results?.view_all_flight_result_api?.uuid;
-            
+
             if (allFlightSearchApi) {
               dispatch(setTopOfferUrl(allFlightSearchUuid));
               dispatch(setAllOfferUrl(allFlightSearchApi));
 
               // Flight History
               const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
-              api.get(historyUrl)
-                .then((history_res)=> {
-                  
+              api
+                .get(historyUrl)
+                .then((history_res) => {
                   dispatch(
                     setSearchHistoryGet({ flight: history_res.data.search })
                   );
                 })
-                .catch((error)=> {
+                .catch((error) => {
                   console.log("error", error);
                 });
 
               // Flight Results
-              api.get(allFlightSearchApi)
+              api
+                .get(allFlightSearchApi)
                 .then((flightRes) => {
-                  
-
                   dispatch(
                     setMessage({
                       user: item.message,
@@ -146,19 +145,22 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
           else if (funcName === "search_hotel_result_func") {
             const hotelSearchApi =
               item?.response?.results?.view_hotel_search_api?.url;
-
             const HotelArgument =
               item?.function_template?.[0]?.function?.arguments || {};
-            
+
             // Save hotel search args to redux
             dispatch(setSearchHistoryGet({ hotel: { HotelArgument } }));
 
             if (hotelSearchApi) {
-              api.get(hotelSearchApi)
+              
+              dispatch(setLoading(true));
+
+              api
+                .get(hotelSearchApi)
                 .then((hotelRes) => {
                   const isComplete = hotelRes?.data?.is_complete;
                   if (isComplete === true) {
-                    dispatch(setClearflight()); // clear flights if switching
+                    dispatch(setClearflight());
                     dispatch(
                       setMessage({
                         user: item.message,
@@ -176,10 +178,30 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
                   }
                 })
                 .catch((hotelError) => {
-                  console.error("Error fetching hotel results", hotelError);
+                  console.error(
+                    "Error fetching hotel results:",
+                    hotelError.response?.data ||
+                      hotelError.message ||
+                      hotelError
+                  );
+
+                  dispatch(
+                    setMessage({
+                      user: item.message,
+                      ai: {
+                        response: hotelError.response?.data || {
+                          error: hotelError.message || "Unknown error",
+                        },
+                      },
+                    })
+                  );
+                })
+                .finally(() => {
+                  dispatch(setLoading(false));
                 });
             }
           }
+
 
         } else {
           // Normal AI message (not function call)

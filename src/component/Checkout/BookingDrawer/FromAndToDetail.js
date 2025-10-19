@@ -160,7 +160,6 @@ const FromAndToDetail = ({
                           </Typography>
                         </Box>
                         <Box className={styles.Col2 + " col2-b"}>
-                        {console.log("getdata_segments", getdata?.segments?.length > 1)}
                           {getdata?.segments?.length > 1 ? (
                             <>
                               <Typography

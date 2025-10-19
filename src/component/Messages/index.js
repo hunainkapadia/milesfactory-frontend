@@ -48,7 +48,7 @@ const Messages = () => {
   const isLoading = useSelector(
     (state) => state.sendMessage?.isLoading || false
   );
-  console.log("message_isLoading", isLoading);
+  
   
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);

@@ -25,7 +25,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
     (state) => state.hotel
   );
   
-  console.log("currency_test", hotel?.currency)
+  
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const allHotel = useSelector((state) => state?.hotel?.allHotels);

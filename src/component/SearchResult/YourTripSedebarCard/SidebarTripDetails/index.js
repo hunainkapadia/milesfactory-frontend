@@ -13,7 +13,7 @@ const SidebarTripDetails = ({ id, CartDetails, Carduuid }) => {
 
   
   const builderType = getBuilder?.trip_components?.[0] || null;
-  console.log("builderType_0909", builderType);
+  
   
 
 

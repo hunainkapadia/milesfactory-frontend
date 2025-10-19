@@ -50,7 +50,7 @@ const PassengerProfilecard = ({
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-  console.log("radio_test", passFilled);
+  
 
   return (
     <>

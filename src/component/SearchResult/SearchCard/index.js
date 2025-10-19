@@ -81,7 +81,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
-  console.log("selectedFlightKey", selectedFlightKey);
+  
   
   
   const selected = selectedFlightKey === offerkey;
@@ -107,7 +107,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const orderSuccess2 = useSelector((state) => state);
 
-  console.log("orderSuccess", orderSuccess2);
+  
   
   const handleBookFlight = (getflight) => {
     // for reset next order if in cart 1 
@@ -151,7 +151,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   //     ("");
   //   }
   
-  //   console.log("Select Flight", offerData?.total_amount_rounded);
+  
   // };
   return (
     <>
@@ -280,7 +280,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                           offerData?.total_amount_plus_markup_rounded
                         )}
                       </Typography>
-                      {/* {console.log(offerData)} */}
+                      
 
                       {personQuantity > 1 && (
                         <Typography className="f12 gray">
@@ -344,11 +344,8 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                           </LoadingButton>
                         </>
                       )}
-                      {console.log("selectedFlight_id", selectedFlight?.id)}
-                      {console.log(
-                        "non_selectedFligh2",
-                        selectedFlight?.id === offerData?.id
-                      )}
+                      
+                      
                     </Box>
                   </Box>
                 </>

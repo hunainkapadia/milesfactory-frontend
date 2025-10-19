@@ -60,7 +60,7 @@ const TripDetailPage = () => {
     <>
       <Box component="main" className={styles.TripBody + " main-body "}>
         <Header isMytrip={"isMytrip"} />
-        {console.log("both__order", flightOffer, hotelOffer)}
+        
         {flightOffer && hotelOffer ? (
           <>
             <FlightCard flightOffer={flightOffer} tripDetail={tripDetail} />

@@ -14,7 +14,7 @@ const DOBField = ({ errors, isDrawer, isHomeForm }) => {
   const { tripType, departureDate, returnDate } = useSelector(
     (state) => state.travel
   );
-  console.log("tripType_00", tripType);
+  
   
   return (
     <Box

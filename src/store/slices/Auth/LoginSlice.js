@@ -221,7 +221,7 @@ export const Logout = () => (dispatch) => {
   api
     .post("/api/v1/logout/", { refresh: refreshToken }) // <-- send string, not object
     .then((res) => {
-      console.log("refreshToken_logout_2", refreshToken);
+      
 
       dispatch(setLogoutUser(res.data));
       dispatch(setCurrentUser(null));

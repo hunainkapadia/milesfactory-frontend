@@ -50,7 +50,7 @@ const AiMessage = ({ aiMessage }) => {
   const error = useSelector(
     (state) => state.sendMessage?.error
   );
-  console.log("ai_error", error);
+  
   
   const getHotels = aiMessage?.ai?.hotels;
  const handleSeeMoreHotels = () => {
@@ -165,14 +165,13 @@ const AiMessage = ({ aiMessage }) => {
             <Box className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
-                <>
+                <React.Fragment key={offer.id || i}>
                   <SearchCard
-                    key={i}
                     offerData={offer}
                     offerkey={`${offer.id}`}
                     FlightExpire={FlightExpire}
                   />
-                </>
+                </React.Fragment>
               ))}
 
               {/* Render GET flight offers */}

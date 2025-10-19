@@ -73,7 +73,7 @@ const PassengerProfileDrawer = () => {
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
-  console.log("totalPassengers", filledPassengerUUIDs);
+  
   
   
 
@@ -81,13 +81,13 @@ const PassengerProfileDrawer = () => {
 
   
 
-  console.log("CartType", CartType);
+  
   
   
   // --- Polling for profile updates ---
-  console.log("FilledPassFormData", passengerPofile);
   
-  // ✅ Fetch passenger profile once when form data changes
+  
+  //  Fetch passenger profile once when form data changes
 useEffect(() => {
   if (!FilledPassFormData) return;
 
@@ -98,10 +98,10 @@ useEffect(() => {
   }
 }, [dispatch, FilledPassFormData, CartType]);
 
-console.log("passengerPofile", passengerPofile);
-console.log("FilledPassFormData", FilledPassFormData);
 
-// ✅ Stop checking when passport match is found (for flight)
+
+
+//  Stop checking when passport match is found (for flight)
 useEffect(() => {
   if (
     CartType !== "flight" ||
@@ -118,7 +118,7 @@ useEffect(() => {
   }
 }, [passengerPofile, FilledPassFormData, CartType]);
 
-// ✅ Stop checking when all passengers are present (for both flight & hotel)
+//  Stop checking when all passengers are present (for both flight & hotel)
 useEffect(() => {
   if (!GetViewPassengers || !passengerPofile) return;
 
@@ -150,7 +150,7 @@ useEffect(() => {
   };
 
   // --- Save passenger ---
-  console.log("CartType", CartType);
+  
   
   const handleSavePassenger = (passenger) => {
     if (!passenger) return;
@@ -278,7 +278,7 @@ useEffect(() => {
             sx={{ px: { lg: 3, md: 3, xs: 2 }, mb:2 }}
           >
             
-            {console.log("passengerPofile", FilledPassFormData)}
+            
             {passengerPofile
               ?.filter((p) => p.type === tabType)
               .filter(

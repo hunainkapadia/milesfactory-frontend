@@ -80,7 +80,6 @@ export const ViewPassengersHotel = () => async (dispatch, getState) => {
   const states = getState();
   const orderUuid = states?.passengerDrawer?.OrderUuid;
   const orderUuidhotel = states?.passengerHotelSlice?.orderUuidHotel;
-  console.log("orderUuidhotel", orderUuidhotel);
   
   
 

@@ -49,7 +49,6 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
     stringify: (option) =>
       `${option.city_name} ${option.name} ${option.iata_code}`,
   });
-  console.log("originOptions_test", isHomeForm && originOptions)
 
   //  Load saved origin from cookies
   useEffect(() => {

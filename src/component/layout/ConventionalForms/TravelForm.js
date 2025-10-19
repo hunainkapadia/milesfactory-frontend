@@ -105,7 +105,7 @@ const TravelForm = () => {
     tripClass,
   };
 
-  console.log(" searchData:", searchData);
+  
 
   dispatch(submitTravelForm(searchData));
 
@@ -128,7 +128,7 @@ const TravelForm = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
 
-  console.log("origin_test", origin);
+  
   
   return (
     <>

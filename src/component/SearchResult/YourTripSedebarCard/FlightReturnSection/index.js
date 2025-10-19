@@ -18,7 +18,7 @@ const FlightReturnSection = ({
   const flight = CartDetails?.items?.filter(item => item.offer_type === 'flight') || [];
 
   const isReturn = flight[0]?.raw_data?.slices.length > 1;
-  console.log("isReturn", flight);
+  
 
   const uuid = Carduuid;
 

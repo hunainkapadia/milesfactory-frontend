@@ -72,7 +72,7 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
 
   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
-  console.log("getItems_uuid", uuid);
+  
   
   const handleDeleteCart = () => {
     dispatch(DeleteCart(threaduuid, uuid));
@@ -396,7 +396,7 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
           alignItems={"center"}
           gap={"1px"}
         >
-        {console.log("getItems_011", getItems)}
+        
           <Typography className="f11 exbold" component={"span"}>
             {currencySymbols[getItems?.total_currency] ||
               getItems?.total_currency}

@@ -25,7 +25,7 @@ const StripePayment = () => {
     if (!cliendIds.sessionId) return;
     api.get(`/api/v1/stripe/session-status?session_id=${cliendIds.sessionId}`)
       .then((data) => {
-        console.log("res_data", data)
+        
         setCustomerEmail(data.customer_email);
       });
   }, [cliendIds.sessionId]);
@@ -35,7 +35,6 @@ const StripePayment = () => {
     return api
       .post(`/api/v1/stripe/create-checkout-session?order_uuid=${OrderUuid}`)
       .then((res) => {
-        console.log("stripe_res", res);
         setClientSessionId(res.data.sessionId);
         dispatch(setClient(res.data)); // ← now works
         return res.data.clientSecret;

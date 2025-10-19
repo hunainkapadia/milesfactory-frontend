@@ -168,12 +168,12 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
 
     // if API returns uuid, immediately fetch cart items
     if (res.data) {
-      console.log("res_data", res.data?.system_message);
+      
       const systemMessage =  res.data?.system_message;
 
       if (systemMessage) {
         if (uuid) {
-          console.log("uuid_000", uuid);
+          
           dispatch(sendMessage(systemMessage))
         } else {
           // If no thread exists yet → create one first
@@ -268,7 +268,7 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
 };
 
 export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
-  console.log("threaduuid_Itemsuuid", threaduuid, Itemsuuid);
+  
   
   dispatch(setLoading(true));
   const apiUrl = `api/v1/cart/${threaduuid}/items/${Itemsuuid}`;

@@ -34,8 +34,7 @@ import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 const HotelCard = ({ hotel, allHotels }) => {
   const imageBaseUrl = "https://photos.hotelbeds.com/giata/";
   const images = hotel?.content?.images || [];
-  
-  
+
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
@@ -46,14 +45,6 @@ const HotelCard = ({ hotel, allHotels }) => {
   const selectedhotelCode = useSelector(
     (state) => state.hotel.selectedhotelCode
   );
-  
-  
-  
-  
-  
-
-  
-  
 
   const isCartItems = useSelector(
     (state) => state?.booking?.getCartDetail?.items
@@ -80,13 +71,13 @@ const HotelCard = ({ hotel, allHotels }) => {
   // };
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const handleSelectRoom = (gethotel) => {
-    // for reset next order if in cart 1 
+    // for reset next order if in cart 1
     if (orderSuccess) {
       dispatch(setAddFilledPassenger(null));
-      dispatch(setOrderConfirm(null))
+      dispatch(setOrderConfirm(null));
       dispatch(setCartType(null));
     }
-    // 
+    //
     dispatch(setAllHotels(allHotels));
     dispatch(setSinglehotel(gethotel));
 
@@ -99,10 +90,8 @@ const HotelCard = ({ hotel, allHotels }) => {
 
   // Extract first rate for board/offer/price
   const firstRate = hotel?.rooms?.[0]?.rates?.find(
-  rate => rate.packaging === false && rate.rateType === "BOOKABLE"
-);
-
-  
+    (rate) => rate.packaging === false && rate.rateType === "BOOKABLE"
+  );
 
   // Extract dates from rateKey if available
 
@@ -118,21 +107,19 @@ const HotelCard = ({ hotel, allHotels }) => {
     hotel,
     allHotels
   );
-  
-  
-  
-  
+
   let firstimage =
     images.find(
       (getimg) => getimg.imageTypeCode === "GEN" && getimg?.order === 1
     ) || images.find((getimg) => getimg.imageTypeCode === "GEN");
-  
+
   return (
     <>
       <Box className={`${searchResultStyles.HotelCard}`}>
         <Grid container p={{ xs: "10px", md: "0" }}>
           {/* Left Section */}
-          <Grid item
+          <Grid
+            item
             className={searchResultStyles.CardLeft}
             p={{ md: "18px", xs: "8px 0" }}
             lg={9}
@@ -145,11 +132,12 @@ const HotelCard = ({ hotel, allHotels }) => {
               gap: "10px",
             }}
           >
-          
             <Box
               className={searchResultStyles.HotelThumb}
               sx={{
-                backgroundImage: `url(${firstimage?.url_800 || "/images/hotel-nothumb.png"})`,
+                backgroundImage: `url(${
+                  firstimage?.url_800 || "/images/hotel-nothumb.png"
+                })`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
@@ -200,9 +188,9 @@ const HotelCard = ({ hotel, allHotels }) => {
                   alignItems="center"
                   gap={"3px"}
                 > */}
-                  {/* Rating Stars */}
+                {/* Rating Stars */}
 
-                  {/* <Rating
+                {/* <Rating
                     name="feedback-rating"
                     value={5} // dynamic stars
                     precision={0.5}
@@ -214,13 +202,13 @@ const HotelCard = ({ hotel, allHotels }) => {
                     }}
                   /> */}
 
-                  {/* Numeric Rating */}
-                  {/* <Typography className="f8 black" variant="body2">
+                {/* Numeric Rating */}
+                {/* <Typography className="f8 black" variant="body2">
                     {5}
                   </Typography> */}
 
-                  {/* Review Count */}
-                  {/* <Typography component="span" className="f8 black-50">
+                {/* Review Count */}
+                {/* <Typography component="span" className="f8 black-50">
                     (200+ reviews)
                   </Typography>
                 </Stack> */}
@@ -236,10 +224,10 @@ const HotelCard = ({ hotel, allHotels }) => {
                     style={{ width: 10, height: 10 }}
                   />
                   {hotel?.content?.address &&
-                          `${
-                            hotel?.content?.address?.content ||
-                            hotel?.content?.address?.street
-                          }${hotel?.zoneName ? `, ${hotel.zoneName}` : ""}`}
+                    `${
+                      hotel?.content?.address?.content ||
+                      hotel?.content?.address?.street
+                    }${hotel?.zoneName ? `, ${hotel.zoneName}` : ""}`}
                 </Typography>
               </Stack>
 
@@ -302,6 +290,7 @@ const HotelCard = ({ hotel, allHotels }) => {
           </Box>
           {/* Right Section (Price + Button) */}
           <Grid
+            item
             className={searchResultStyles.CardRight}
             width={"100%"}
             lg={3}

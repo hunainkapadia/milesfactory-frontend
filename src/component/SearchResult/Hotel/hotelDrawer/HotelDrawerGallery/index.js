@@ -135,7 +135,7 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
 
           {/* Small thumbnails on right */}
           <Box className={styles.SmallThumbGrid}>
-            {console.log("previewImages", totalImages)}
+            
             {previewImages.map((img, idx) => {
               const isLast = idx === previewImages.length - 1;
               return (
