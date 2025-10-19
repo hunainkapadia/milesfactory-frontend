@@ -386,6 +386,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             dispatch(setLoading(true))
             // Static fix: replace "dubai" with "dxb"
             // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
+            console.log("hotelSearchApi", hotelSearchApi)
             api
               .get(hotelSearchApi)
               .then((hotelRes) => {

@@ -1,0 +1,136 @@
+@import "../../variables";
+
+// Global
+.dialogPaper {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 ;
+  overflow: hidden !important;
+}
+
+.dialogContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialogBox {
+  width: 750px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: transparent;
+  border-radius: 16px;
+}
+
+.closeButton {
+  top: 20px;
+  right: 30px;
+  z-index: 6;
+  font-size: 30px;
+  color: #fff !important;
+  
+}
+
+.sliderWrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slideItem {
+  width: 100%;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+
+.slideImage {
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  flex: 1 1 50%;
+  cursor: pointer;
+  height: 580px;
+  transition: height 0.3s ease;
+}
+
+/* Arrows */
+.customArrow {
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  svg {
+    font-size: 20px;
+  }
+}
+
+.customArrow.prev {
+  left: 10px;
+}
+
+.customArrow.next {
+  right: 10px;
+}
+
+/* Hide scrollbar in slick track */
+.slick-list {
+  overflow: hidden !important;
+}
+
+/* ========================
+   🔹 MOBILE STYLING
+======================== */
+@include for-mobile-large-screen() {
+  .dialogBox {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    
+  }
+
+  .slideImage {
+    height: 40vh;
+  }
+
+  .customArrow {
+    width: 36px !important;
+    height: 36px !important;
+    svg {
+      font-size: 16px;
+    }
+  }
+
+  .customArrow.prev {
+    left: 5px;
+  }
+
+  .customArrow.next {
+    right: 5px;
+  }
+
+  .closeButton {
+    top: 10px;
+    right: 20px;
+    font-size: 22px;
+  }
+}

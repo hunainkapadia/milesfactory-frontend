@@ -61,8 +61,6 @@ const SidebarFooter = () => {
       allHotel
     ));
   }
-
-  console.log("CartType11", CartType);
   
 
   const dispatch = useDispatch();

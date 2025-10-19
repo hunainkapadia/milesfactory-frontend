@@ -3,9 +3,7 @@ import { Box, Card, Typography } from "@mui/material";
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 
 const UserMessage = (props) => {
-  {
-    console.log("props_userMessage", props);
-  }
+  
   return (
     <>
       <Box display="flex" justifyContent="flex-end">

@@ -102,7 +102,7 @@ const HotelDrawer = ({hotelOffer}) => {
               alignItems="center"
               justifyContent="space-between"
             >
-              <Grid xs={12}>
+              <Grid item xs={12}>
                 <Box
                   mb={3}
                   display={"flex"}

@@ -132,7 +132,7 @@ const HotelCard = ({ hotel, allHotels }) => {
       <Box className={`${searchResultStyles.HotelCard}`}>
         <Grid container p={{ xs: "10px", md: "0" }}>
           {/* Left Section */}
-          <Grid
+          <Grid item
             className={searchResultStyles.CardLeft}
             p={{ md: "18px", xs: "8px 0" }}
             lg={9}
@@ -146,7 +146,6 @@ const HotelCard = ({ hotel, allHotels }) => {
             }}
           >
           
-              {console.log("firstimage", firstimage)}
             <Box
               className={searchResultStyles.HotelThumb}
               sx={{

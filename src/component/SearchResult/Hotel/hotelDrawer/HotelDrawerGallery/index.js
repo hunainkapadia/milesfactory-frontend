@@ -8,11 +8,21 @@ import {
   IconButton,
   useTheme,
   useMediaQuery,
+  Icon,
 } from "@mui/material";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import hotelStyles from "@/src/styles/sass/components/search-result/hotelDrawer.module.scss";
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const HotelDrawerGallery = ({ hotel, roomCode }) => {
   const [isViewAll, setIsViewAll] = useState(false);
@@ -42,6 +52,58 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
   const handleViewAll = () => setIsViewAll(true);
   const handleHideAll = () => setIsViewAll(false);
 
+  const sliderimages = [
+    "https://picsum.photos/id/1018/800/500",
+    "https://picsum.photos/id/1025/800/500",
+    "https://picsum.photos/id/1033/800/500",
+    "https://picsum.photos/id/1044/800/500",
+  ];
+
+  const NextArrow = ({ onClick }) => (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: "absolute",
+        top: "50%",
+        right: 10,
+        transform: "translateY(-50%)",
+        zIndex: 2,
+        background: "rgba(0,0,0,0.5)",
+        color: "#fff",
+        "&:hover": { background: "rgba(0,0,0,0.7)" },
+      }}
+    >
+      <FontAwesomeIcon icon={faChevronRight} />
+    </IconButton>
+  );
+
+  const PrevArrow = ({ onClick }) => (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: 10,
+        transform: "translateY(-50%)",
+        zIndex: 2,
+        background: "rgba(0,0,0,0.5)",
+        color: "#fff",
+        "&:hover": { background: "rgba(0,0,0,0.7)" },
+      }}
+    >
+      <FontAwesomeIcon icon={faChevronLeft} />
+    </IconButton>
+  );
+  const settings = {
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    speed: 500,
+    dots: true,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
   return (
     <>
       <Box component="section" className={styles.HotelGallerySection} mb={2}>
@@ -73,7 +135,7 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
 
           {/* Small thumbnails on right */}
           <Box className={styles.SmallThumbGrid}>
-          {console.log("previewImages", totalImages)}
+            {console.log("previewImages", totalImages)}
             {previewImages.map((img, idx) => {
               const isLast = idx === previewImages.length - 1;
               return (
@@ -127,10 +189,7 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
         {/* --- Expanded Gallery (View All) --- */}
         {isViewAll && (
           <Stack component="section" alignItems="flex-end" sx={{ mt: 3 }}>
-            <Box
-              className="basecolor1 cursor-pointer"
-              onClick={handleHideAll}
-            >
+            <Box className="basecolor1 cursor-pointer" onClick={handleHideAll}>
               Hide All
             </Box>
           </Stack>
@@ -163,54 +222,58 @@ const HotelDrawerGallery = ({ hotel, roomCode }) => {
       <Dialog
         open={Boolean(openImage)}
         onClose={handleCloseImage}
-        maxWidth="md"
+        maxWidth="lg"
         fullWidth
-        PaperProps={{
-          sx: {
-            backgroundColor: "transparent",
-            boxShadow: "none",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+        fullScreen={isMobile}
+        PaperProps={{ className: hotelStyles.dialogPaper }}
+        sx={{
+          "& .MuiDialog-container": {
+            alignItems: isMobile ? "stretch" : "center",
           },
         }}
       >
-        <Box
-          sx={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
+        <Box className={hotelStyles.dialogBox}>
+          {/* Close Button */}
+          <Icon
             onClick={handleCloseImage}
+            className={`${hotelStyles.closeButton} white`}
             sx={{
+              cursor: "pointer",
               position: "absolute",
-              top: 10,
-              right: 10,
-              background: "rgba(0,0,0,0.5)",
-              color: "#fff",
-              "&:hover": { background: "rgba(0,0,0,0.7)" },
+              width: "auto",
+              height: "auto",
             }}
           >
             <FontAwesomeIcon icon={faTimes} />
-          </IconButton>
+          </Icon>
 
-          <Box
-            component="img"
-            src={openImage}
-            alt="Hotel"
-            sx={{
-              borderRadius: "10px",
-              boxShadow: "0 0 20px rgba(0,0,0,0.3)",
-              objectFit: "contain",
-              maxHeight: "90vh",
-              width: "100%",
-            }}
-          />
+          {/* Slider */}
+          <Box className={hotelStyles.sliderWrapper + " sliderWrapper"}>
+            <Slider
+              infinite
+              dots
+              slidesToShow={1}
+              slidesToScroll={1}
+              speed={500}
+              initialSlide={Math.max(
+                0,
+                images.findIndex((img) => img.url_800 === openImage)
+              )}
+            >
+              {images.map((img, idx) => (
+                <Box key={idx} className={hotelStyles.slideItem}>
+                  <Box
+                    className={hotelStyles.slideImage}
+                    sx={{ backgroundImage: `url(${img.url_800})` }}
+                  />
+                </Box>
+              ))}
+            </Slider>
+          </Box>
         </Box>
       </Dialog>
+
+      {/*  */}
     </>
   );
 };

@@ -6,7 +6,6 @@ const TopArgumentSection = () => {
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder); // builder
   const BuilderArguments =
     getBuilder?.silent_function_template[0]?.function.arguments || {};
-  console.log("BuilderArguments_top", BuilderArguments);
 
   return (
     <>

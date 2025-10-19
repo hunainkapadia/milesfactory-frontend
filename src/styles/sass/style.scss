@@ -1266,7 +1266,33 @@ body {
   button.MuiIconButton-root {
     padding: 13px;
   }
-
+.sliderWrapper {
+  .slick-arrow  {
+      width: auto;
+    height: auto;
+    &.slick-prev {
+      left: 40px;
+      z-index: 1;
+      width: auto;
+      height: auto;
+      &::before {
+        font-size: 50px;
+        content: "\f104";
+        font-family: "Font Awesome 6 Free";
+        font-weight: bold;
+      }
+    }
+    &.slick-next {
+      right: 40px;
+      &::before {
+          font-size: 50px;
+          content: "\f105";
+          font-family: "Font Awesome 6 Free";
+          font-weight: bold;
+        }
+    }
+  }
+}
   
 .MuiDialog-container{ padding: 0 18px;}
   .formGroup {
@@ -2868,6 +2894,25 @@ body .BuilderDialoge .MuiDialog-container {padding: 0;
 }
 
 @include for-mobile-large-screen {
+  body .sliderWrapper {
+  .slick-arrow  {
+      
+    &.slick-prev {
+      left: 20px;
+      &::before {
+        font-size: 30px;
+        
+      }
+    }
+    &.slick-next {
+      right: 20px;
+      &::before {
+          font-size: 30px;
+          
+        }
+    }
+  }
+}
   .chip {
     white-space: nowrap;
     &.sm {font-size: 8px;height: 12px;}

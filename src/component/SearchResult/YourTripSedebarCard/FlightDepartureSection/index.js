@@ -17,7 +17,6 @@ const hasHotel = Array.isArray(CartDetails?.items)
 
 
 const flight = CartDetails?.items?.filter(item => item.offer_type === 'flight') || [];
-console.log("flight_test11", flight);
 
 const uuid = Carduuid;
 

@@ -12,9 +12,7 @@ const ItinerarySection = ({
   const hasItinerary = !!getBuilder?.itinerary_text;
   const hasDestination = !!getBuilder?.to_destination;
 
-  console.log("getBuilder in ItinerarySection:", getBuilder);
-  console.log("hasItinerary:", hasItinerary);
-  console.log("hasDestinationn:", hasDestination);
+  
 
   return (
     <Box mb={2}>
