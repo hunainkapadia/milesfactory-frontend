@@ -1276,7 +1276,7 @@ body {
       width: auto;
       height: auto;
       &::before {
-        font-size: 50px;
+        font-size: 35px;
         content: "\f104";
         font-family: "Font Awesome 6 Free";
         font-weight: bold;
@@ -1285,7 +1285,7 @@ body {
     &.slick-next {
       right: 40px;
       &::before {
-          font-size: 50px;
+          font-size: 35px;
           content: "\f105";
           font-family: "Font Awesome 6 Free";
           font-weight: bold;
