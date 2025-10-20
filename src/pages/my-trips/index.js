@@ -38,7 +38,7 @@ const MyTrips = () => {
 
   const isLoading = useSelector((state) => state?.base?.isloading);
   const TripData = useSelector((state) => state?.base?.TripData);
-  const currentUser = useSelector((state) => state?.base);
+  const currentUser = useSelector((state) => state?.base?.currentUser?.user);
 
   const upcomingTrips = TripData?.upcoming_trips ?? [];
   const pastTrips = TripData?.past_trips ?? [];
@@ -55,11 +55,18 @@ const MyTrips = () => {
 
   console.log("currentUser", currentUser);
   
-  
+  useEffect(() => {
+    if (!currentUser) {
+      dispatch(setisUserPopup(true));
+    } else if (currentUser) {
+      dispatch(setisUserPopup(false));
+      dispatch(MyTripSlice());
+    } else {""}
+    
+  }, [currentUser]);
 
   return (
     <>
-      {!currentUser && <h1>sdsad</h1>}
       <Header isMytrip={"isMytrip"} />
       <Box component={"main"} className={styles.TripBody + " main-body "}>
         <Box component={"section"} sx={{ py: { md: "32px", xs: "33px" } }}>
