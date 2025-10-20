@@ -22,6 +22,7 @@ import {
 import { useRouter } from "next/router";
 
 const MyTrips = () => {
+  
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -37,7 +38,7 @@ const MyTrips = () => {
 
   const isLoading = useSelector((state) => state?.base?.isloading);
   const TripData = useSelector((state) => state?.base?.TripData);
-  const currentUser = useSelector((state) => state?.base?.currentUser);
+  const currentUser = useSelector((state) => state?.base);
 
   const upcomingTrips = TripData?.upcoming_trips ?? [];
   const pastTrips = TripData?.past_trips ?? [];
@@ -49,13 +50,16 @@ const MyTrips = () => {
   };
 
   const HandleBookThread = () => {
-      dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
+    dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
+  };
+
+  console.log("currentUser", currentUser);
   
-    };
   
 
   return (
     <>
+      {!currentUser && <h1>sdsad</h1>}
       <Header isMytrip={"isMytrip"} />
       <Box component={"main"} className={styles.TripBody + " main-body "}>
         <Box component={"section"} sx={{ py: { md: "32px", xs: "33px" } }}>

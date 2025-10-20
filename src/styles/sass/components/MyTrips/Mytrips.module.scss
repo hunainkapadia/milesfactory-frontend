@@ -175,6 +175,10 @@
    border-radius: 16px;
    overflow-y: auto;
 
+    display: flex;
+    justify-content:space-between;
+    flex-direction: column;
+
 
    &:hover {
       transform: translateY(-4px);
@@ -209,4 +213,11 @@
          background-color: rgba(255, 255, 255, 0.6);
          color: $basecolor;
 
+       }
+
+       @include for-mobile-large-screen (){
+         .tripCard {
+            height: auto;
+            gap: 12px;
+         }
        }

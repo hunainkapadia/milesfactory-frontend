@@ -74,32 +74,38 @@ const TripCard = ({ tripData }) => {
 
         {/* Route and Dates */}
         <Box>
-          <Typography className="bold">
-            {forFlight && (
-              <>
+          {forFlight && (
+            <>
+              <Typography mb={"5px"} lineHeight={1.2} className="bold">
                 {route} {isRoundTrip ? "Round-trip" : "One-way"}
-              </>
-            )}
-          </Typography>
-          <Typography className="bold">
-            {forHotel?.hotel && <>{forHotel?.hotel?.content?.name?.content}</>}
-          </Typography>
-          <Typography className="f12 bold">
-            {forHotel?.hotel && (
-              <>
+              </Typography>
+            </>
+          )}
+          {forHotel?.hotel && (
+            <>
+              <Typography mb={"5px"} lineHeight={1.2} className="bold">
+                {forHotel?.hotel?.content?.name?.content}
+              </Typography>
+            </>
+          )}
+          {forHotel?.hotel && (
+            <>
+              <Typography  className="f12 bold">
                 {dayjs(forHotel?.hotel?.checkIn, "DD-MM-YYYY").format("DD MMM")}
                 {" - "}
                 {dayjs(forHotel?.hotel?.checkOut, "DD-MM-YYYY").format(
                   "DD MMM"
                 )}
-              </>
-            )}
-            {forFlight && (
-              <>
+              </Typography>
+            </>
+          )}
+          {forFlight && (
+            <>
+              <Typography className="f12 bold">
                 {date} | {passengers}
-              </>
-            )}
-          </Typography>
+              </Typography>
+            </>
+          )}
         </Box>
 
         {/* Airline Logo */}
@@ -120,7 +126,10 @@ const TripCard = ({ tripData }) => {
                 display={"flex"}
                 gap={"10px"}
               >
-              {console.log("forHotel_content", forHotel?.hotel?.content?.images)}
+                {console.log(
+                  "forHotel_content",
+                  forHotel?.hotel?.content?.images
+                )}
                 {forHotel?.hotel?.content?.images
                   ?.slice(0, 3)
                   ?.map((img, index) => (
@@ -162,6 +171,7 @@ const TripCard = ({ tripData }) => {
 
         {/* View Trip Button */}
 
+      </Box>
         <Link
           sx={{ textDecoration: "none" }}
           href={`/my-trips/${tripData?.uuid}`}
@@ -175,7 +185,6 @@ const TripCard = ({ tripData }) => {
             View trip
           </Button>
         </Link>
-      </Box>
     </Card>
   );
 };
