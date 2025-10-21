@@ -9,6 +9,7 @@ import {
   DialogContent,
   Rating,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout, setLoginPopup } from "@/src/store/slices/Auth/LoginSlice";
@@ -24,6 +25,9 @@ const ContactDialog = () => {
   const dispatch = useDispatch();
   const contactDialog = useSelector((state) => state?.base?.contactDialog);
   const contactSuccess = useSelector((state) => state?.base?.contactData?.data);
+  const {isloading} = useSelector((state) => state?.base);
+  console.log("isloading", isloading);
+  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -192,7 +196,7 @@ const ContactDialog = () => {
                           component={"span"}
                           textTransform={"capitalize"}
                         >
-                        {currentUser?.user?.first_name}
+                          {currentUser?.user?.first_name}
                         </Typography>
                         . Not you?{" "}
                         <Typography
@@ -323,8 +327,17 @@ const ContactDialog = () => {
                         variant="contained"
                         onClick={handleSubmitContactForm}
                         className="btn btn-primary btn-sm btn-round"
+                        disabled={isloading} // Disable while loading
                       >
-                        Send message
+                        {isloading ? (
+                          <>
+                            <CircularProgress size={14} sx={{ mr: 1 }} />{" "}
+                            {/* Spinner */}
+                            Sending
+                          </>
+                        ) : (
+                          "Send message"
+                        )}
                       </Button>
                     </Box>
                   </Box>

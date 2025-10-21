@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/apiEndpoints"; // Fixed import
 import api from "../../api";
 import { setCurrentUser, setMobileNaveDrawer } from "../Base/baseSlice";
-import { setIsSignupUser } from "./SignupSlice";
+import { setIsSignupUser, setRegisterPopup } from "./SignupSlice";
 
 const initialState = {
   loginUser: null,
@@ -141,6 +141,7 @@ export const googleLoginUser = (code) => (dispatch) => {
         );
         dispatch(setLoginState(false))
         dispatch(setMobileNaveDrawer(false))
+        dispatch(setRegisterPopup(false))
         // 2. Store user info (without tokens) in cookie
         Cookies.set(
           "set-user",

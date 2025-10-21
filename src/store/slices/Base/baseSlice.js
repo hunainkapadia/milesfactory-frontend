@@ -117,6 +117,7 @@ export const thread = () => (dispatch, getState) => {
 };
 
 export const handleSubmitContact = (params) => (dispatch, getState) => {
+  dispatch(seIsloading(true));
   api
     .post("/api/v1/contact-us", params)
     .then((res) => {
@@ -124,12 +125,14 @@ export const handleSubmitContact = (params) => (dispatch, getState) => {
       setTimeout(() => {
         dispatch(setContactDialog(false));
       }, 5000);
+      dispatch(seIsloading(false));
     })
     .catch((error) => {
       console.log(error);
     })
     .finally(() => {
       console.log();
+      dispatch(seIsloading(false));
     });
 };
 
