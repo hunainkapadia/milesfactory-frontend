@@ -116,7 +116,13 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                             alt="location"
                             style={{ width: 10, height: 10 }}
                           />
-                          {hotelOffer?.zoneName} /{hotelOffer?.destinationName}
+                          {console.log("hotelOffer", hotelOffer?.content.address.street)}
+                          
+                          {hotelOffer?.content?.address &&
+                          `${
+                            hotelOffer?.content?.address?.content ||
+                            hotelOffer?.content?.address?.street
+                          }${hotelOffer?.zoneName ? `, ${hotelOffer.zoneName}` : ""}`}
                         </Typography>
                       </Stack>
 
@@ -126,10 +132,10 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                         flexDirection={"column"}
                       >
                         <Typography
-                          className="bold mb-1 f10"
-                          textTransform={"capitalize"}
+                          className="bold mb-1 f10 capitalize"
+                          
                         >
-                          {hotelOffer?.rooms?.[0]?.name} · {firstRate?.adults}{" "}
+                          {hotelOffer?.rooms?.[0]?.name.toLowerCase() || null} · {firstRate?.adults}{" "}
                           adults
                         </Typography>
                         <Typography component="span" className="f10 black-50">
