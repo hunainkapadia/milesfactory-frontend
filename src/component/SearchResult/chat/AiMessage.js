@@ -268,7 +268,6 @@ const AiMessage = ({ aiMessage }) => {
                         <ChatError
                           error={
                             aiMessage?.ai?.response?.error ||
-                            aiMessage?.ai?.response?.error ||
                             aiMessage?.ai?.error?.response?.message
                           }
                         />
