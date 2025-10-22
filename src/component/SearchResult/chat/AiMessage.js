@@ -21,8 +21,11 @@ import { loadNextFlights } from "@/src/store/slices/sendMessageSlice";
 import PassengerFlowBlock from "../PassengerFlowBlock";
 import HotelCard from "../HotelCard";
 import NotfoundCard from "./NotfoundCard";
+import ChatError from "./ChatError";
 
 const AiMessage = ({ aiMessage }) => {
+  
+  
   const dispatch = useDispatch();
   const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
   const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
@@ -44,6 +47,11 @@ const AiMessage = ({ aiMessage }) => {
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  const error = useSelector(
+    (state) => state.sendMessage?.error
+  );
+  
+  
   const getHotels = aiMessage?.ai?.hotels;
  const handleSeeMoreHotels = () => {
     setHotelsToShow((prev) => prev + 10); // load 10 more each click
@@ -110,10 +118,14 @@ const AiMessage = ({ aiMessage }) => {
 
   const getuser = useSelector((state) => state.base?.currentUser?.user);
 
-  const orderDetail = useSelector(
-    (state) => state?.payment?.OrderConfirm?.order?.selected_offer
-  ); //from order api
+  const orderDetail = useSelector((state) => {
+    const flight = state?.payment?.OrderConfirm?.flight_order?.selected_offer;
+    const hotel = state?.payment?.OrderConfirm?.hotel_order?.selected_hotel_offer;
 
+    return flight && Object.keys(flight).length > 0 ? flight : hotel;
+  }); //from order api
+  
+// selected_hotel_offer
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );
@@ -133,8 +145,6 @@ const AiMessage = ({ aiMessage }) => {
     (state) => state?.passengerDrawer?.isPassengerLoading
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
-
-  console.log("aiMessage_ai_0", aiMessage?.ai === "isNotFound");
   
   return (
     <Box
@@ -155,14 +165,13 @@ const AiMessage = ({ aiMessage }) => {
             <Box className={searchResultStyles.SearchCardGrid}>
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
-                <>
+                <React.Fragment key={offer.id || i}>
                   <SearchCard
-                    key={i}
                     offerData={offer}
                     offerkey={`${offer.id}`}
                     FlightExpire={FlightExpire}
                   />
-                </>
+                </React.Fragment>
               ))}
 
               {/* Render GET flight offers */}
@@ -249,21 +258,44 @@ const AiMessage = ({ aiMessage }) => {
               )}
 
               <>
+                {error?.response?.errors}
+                {/* {aiMessage?.ai?.error?.data?.response && (
+                  <ChatError error={aiMessage?.ai?.error?.data[0]?.response} />
+                )} */}
+
                 {aiMessage?.ai?.response ? (
                   <>
-                    <Box className={searchResultStyles.AiMessage + " aaa"}>
-                      <Typography
-                        component="div"
-                        variant="body1"
-                        dangerouslySetInnerHTML={{
-                          __html: formatTextToHtmlList(
-                            convertMarkdownToHtml(
-                              sanitizeResponse(aiMessage.ai.response)
-                            )
-                          ),
-                        }}
-                      />
-                    </Box>
+                    {aiMessage?.ai?.response?.error ||
+                    aiMessage?.ai?.response?.error ? (
+                      <>
+                        <ChatError
+                          error={
+                            aiMessage?.ai?.response?.error ||
+                            aiMessage?.ai?.response?.error
+                          }
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <Box
+                          className={`${searchResultStyles.AiMessage} ${searchResultStyles.AiMessageNormal} +  aaa`}
+                        >
+                          <Box className={searchResultStyles.Box}>
+                            <Typography
+                              component="div"
+                              variant="body1"
+                              dangerouslySetInnerHTML={{
+                                __html: formatTextToHtmlList(
+                                  convertMarkdownToHtml(
+                                    sanitizeResponse(aiMessage.ai.response)
+                                  )
+                                ),
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                      </>
+                    )}
                   </>
                 ) : aiMessage?.ai?.newThread ? (
                   <Box pb={3} className={"newChatBox"}>
@@ -308,6 +340,7 @@ const AiMessage = ({ aiMessage }) => {
       )}
 
       {/* Hotel Results */}
+
       {Array.isArray(getHotels?.hotels) && getHotels.hotels.length > 0 && (
         <Box className={searchResultStyles.HotelCardWrapper}>
           {getHotels.hotels.slice(0, hotelsToShow).map((hotel, idx) => (

@@ -47,7 +47,7 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{ mb: { lg: 4, md: 4, sm:4, xs: 4 } }} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, xs: "2px" } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -56,9 +56,9 @@ const PoweredByglobal = (props) => {
                     300+
                   </Typography>
 
-                  <Typography className="f12">Global airlines</Typography>
+                  <Typography className="f18">Global airlines</Typography>
                 </Box>
-                <Box sx={{ width: { lg: "auto", md: "auto", xs: 50 } }}>
+                <Box sx={{ width: { lg: "175px", md: "175px", xs: "120px" } }}>
                   <img src="/images/global-airline-v3.svg" />
                 </Box>
               </Box>
@@ -70,7 +70,7 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{ mb: { lg: 4, md: 4, sm:4, xs: 4 } }} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, xs: "2px" } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -78,11 +78,11 @@ const PoweredByglobal = (props) => {
                   >
                     1000+
                   </Typography>
-                  <Typography className="f12">
-                    Trains, coaches, and buses
+                  <Typography className="f18">
+                    Trains, buses, and ferries
                   </Typography>
                 </Box>
-                <Box sx={{ width: { lg: "auto", md: "auto", xs: 50 } }}>
+                <Box sx={{ width: { lg: "175px", md: "175px", xs: "120px" } }}>
                   <img src="/images/train-coatches.bussesn-v3.svg" />
                 </Box>
               </Box>
@@ -94,7 +94,7 @@ const PoweredByglobal = (props) => {
                 alignItems={"center"}
                 textAlign={"center"}
               >
-                <Box sx={{ mb: { lg: 4, md: 4, sm:4, xs: 4 } }} className="white">
+                <Box sx={{ mb: { lg: 4, md: 4, xs: "2px" } }} className="white">
                   <Typography
                     className="mb-0 white bold"
                     variant="h2"
@@ -102,9 +102,11 @@ const PoweredByglobal = (props) => {
                   >
                     1m+
                   </Typography>
-                  <Typography className="f12">Hotels and stays</Typography>
+                  <Typography className="f18">
+                    Stays and experiences
+                  </Typography>
                 </Box>
-                <Box sx={{ width: { lg: "auto", md: "auto", xs: 50 } }}>
+                <Box sx={{ width: { lg: "175px", md: "175px", xs: "120px" } }}>
                   <img src="/images/hotel-stays-v3.svg" />
                 </Box>
               </Box>

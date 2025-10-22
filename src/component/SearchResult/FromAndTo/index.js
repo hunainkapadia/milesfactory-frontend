@@ -457,7 +457,9 @@ const FromAndTo = ({ offerData }) => {
                                   <Box key={index}>
                                     <Box
                                       className={searchResultStyles.dot}
-                                    ></Box>
+                                    >
+                                      <Box></Box>
+                                    </Box>
                                   </Box>
                                 ))}
                               </>

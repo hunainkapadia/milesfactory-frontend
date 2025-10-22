@@ -30,9 +30,7 @@ const GetMessagesSlice = createSlice({
       state.SearchHistoryGet = null;
       state.topOfferUrl = null;
     },
-    setGetMessageUUID: (state, action)=> {
-      console.log("action_000", action);
-      
+    setGetMessageUUID: (state, action)=> {      
       state.getMessageUUID = action.payload;
     },
     setTopOfferUrl: (state, action)=> {
@@ -49,12 +47,12 @@ const GetMessagesSlice = createSlice({
   state.messages = action.payload;  // Replace entire messages array
 },
     setMessage: (state, action) => {      
-      //console.log("actiontest", action);
+      
       
       state.messages.push(action.payload);
     },
     setAllFlightGetApi: (state, action) => {
-      console.log("setAllFlightGetApi_action", action);
+      
       
       state.allFlightSearchResults = action.payload;
     },
@@ -88,6 +86,7 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
   api
     .get(threadUrl)
     .then((response) => {    
+      dispatch(setMessage({ ai: { error: response } }));
       if (!Array.isArray(response?.data)) {
         dispatch(setError("Invalid response from server"));
         return;
@@ -116,6 +115,7 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
               const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
               api.get(historyUrl)
                 .then((history_res)=> {
+                  
                   dispatch(
                     setSearchHistoryGet({ flight: history_res.data.search })
                   );
@@ -127,6 +127,8 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
               // Flight Results
               api.get(allFlightSearchApi)
                 .then((flightRes) => {
+                  
+
                   dispatch(
                     setMessage({
                       user: item.message,
@@ -175,6 +177,12 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
                 })
                 .catch((hotelError) => {
                   console.error("Error fetching hotel results", hotelError);
+                  onsole.error(
+                    "Error fetching hotel results:",
+                    hotelError.response?.data ||
+                      hotelError.message ||
+                      hotelError
+                  );
                 });
             }
           }
@@ -199,22 +207,22 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
 export const RefreshHandle = () => (dispatch, getState) => {
   const state = getState();
   const uuid = state?.getMessages?.SearchHistory?.uuid
-  //console.log("state_0", uuid);
+  
   const threadUUID = sessionStorage.getItem("chat_thread_uuid");
-  //console.log("threadUUID_0", threadUUID);
+  
   
 // {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
   // const url = `api/v1/search/<str:flight_search_uuid>/refresh/<str:chat_thread_uuid></str:chat_thread_uuid>`
   const expireURL =  `/api/v1/search/${uuid}/refresh/${threadUUID}`
 
-  //console.log("expireURL", expireURL);
+  
   
 
   api.post(expireURL).then((res)=> {
-    //console.log("expire_res", res)
+    
     dispatch(setRefreshSearch())
   }).catch((error)=> {
-    //console.log("error", error);
+    
     
   })
 }

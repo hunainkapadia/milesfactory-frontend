@@ -5,6 +5,8 @@
 
 // scroll bar decrease
 /* Custom scrollbar styles */
+
+
 .ChatBody::-webkit-scrollbar {
   width: 10px; // Increase or decrease width
 }
@@ -121,11 +123,20 @@
       color: #0B1729;
       width: 100%;
       padding-bottom: 34px;
-      max-width: 80%;
+      min-width: 100%;
+      display: flex;
 
       p {
         color: $basecolor-dark;
         margin: 0;
+      }
+      &.AiMessageNormal {
+        padding-right: 34px;
+        .Box {
+            // padding: 10px 24px;
+            // border-radius: 22px;
+            // background-color: #F2F6F4;
+        }      
       }
     }
   }
@@ -204,7 +215,7 @@
       }
     
       .flightPriceSection {
-        font-size: $bfsizeLabel;
+        
         white-space: nowrap;
       }
     
@@ -273,7 +284,7 @@
       }
     
       .SearchDivider {
-        border-top: 2px dashed transparent;
+        border-top: 1px dashed transparent;
         border-image: repeating-linear-gradient(to right, #D9D9D9 0, #D9D9D9 4px, /* Dash size */ transparent 6px, transparent 9px /* Gap size */) 100% 1;
         position: relative;
         margin: 8px 0;
@@ -285,15 +296,14 @@
           align-items: center;
           left: 0;
           width: 100%;
-          bottom: -4px;
+          bottom: -2px;
           gap: 14px;
     
-          .dot {
-            width: 8px;
-            height: 8px;
-            background: #000000;
-            border: solid 2px $white;
-            @include border-radius(20px);
+          .dot div {
+            @include border-radius(20px);    
+            width: 6px;
+            background: $basecolor;
+            height: 6px;
           }
         }
     
@@ -319,7 +329,7 @@
       }
     
       .flightTime {
-        font-weight: $semibold;
+        font-weight: $bold;
         font-size: 18px;
       }
     
@@ -386,7 +396,9 @@
   .BaggageCol {opacity: 0.5;}
   .ChatBody .ChatBodyLeft {max-width: 100%;}
   
+  
   .SearchBodyActive {
+    background-position: left bottom !important;
     .InputBody {padding-bottom: 0;}
     .InputBody .InputContainer {
       padding: 0;
@@ -452,6 +464,13 @@
       }
       
       .flightOfferCard {
+        .Duration {font-size: 8px}
+        .SearchDivider .dots {
+          bottom: -1.5px;
+          .dot div {
+            @include scale(5.5px, 5.5px);
+          }
+        }
         .selectFlightBtn {
           width: 150px !important;
           padding: 9px 40px 9px;
@@ -550,20 +569,34 @@
         padding: 10px 16px;
         text-align: right;
         margin-bottom: 24px;
-        max-width: 100%;
+        max-width: 322px;
       }
       .AiMessage {
         max-width: 100%;
+        &.AiMessageNormal {
+          padding-bottom: 24px;
+          padding-right: 17px;
+          .Box {
+              padding: 10px 0px;
+          }
+        }
       }
     }
   }
 }
 @include for-tab (){
   .ChatBody .ChatBodyLeft {max-width: 100%;}
+  .CheckoutBtn {height: 30px;
+    p {
+      font-size: 12px !important;
+    }
+  }
 }
 
-@media only screen and (max-width: 360px) {
-  .CheckoutBtn p {
-    font-size: 12px !important;
+@include for-mobile-large-screen () {
+  .CheckoutBtn {height: 30px;
+    p {
+      font-size: 12px !important;
+    }
   }
 }

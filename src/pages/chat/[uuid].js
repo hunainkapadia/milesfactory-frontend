@@ -26,6 +26,7 @@ import BookingDrawer from "@/src/component/Checkout/BookingDrawer/BookingDrawer"
 import BaggageDrawer from "@/src/component/Checkout/BaggageDrawer";
 import { setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
 import CartErrorDialog from "@/src/component/SearchResult/chat/CartErrorDialog";
+import RoomDrawer from "@/src/component/SearchResult/Hotel/RoomDrawer";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -146,7 +147,7 @@ const ChatByUUID = () => {
   const flightDetail = useSelector((state) => state.booking.flightDetail);
 
   const currentUser = useSelector((state) => state.base?.currentUser);
-  console.log("currentUser_uuid", currentUser);
+  
   
   
   useEffect(() => {
@@ -272,6 +273,7 @@ const ChatByUUID = () => {
       <CartErrorDialog />
       <BookingDrawer getFlightDetail={flightDetail} />
       <BaggageDrawer getFlightDetail={flightDetail} />
+      <RoomDrawer />
     </>
   );
 };

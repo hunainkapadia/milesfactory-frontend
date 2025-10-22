@@ -5,9 +5,7 @@ import { useSelector } from "react-redux";
 const NotfoundCard = () => {
   const flightcount = useSelector(
     (state) => state?.sendMessage?.appendFlights?.ai?.count
-  );
-  console.log("flightcount", flightcount);
-  
+  );  
   return (
     <Box className={`${styles.NotfoundCard}`} justifyContent={"center"}>
       <Grid container>

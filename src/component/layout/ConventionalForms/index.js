@@ -27,26 +27,13 @@ const ConventionalForms = () => {
   const [roomType, setRoomType] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
-  console.log("inputLoading", inputLoading);
 
   const handleSearch = () => {
-    console.log("Travel search:", {
-      origin,
-      destination,
-      dateRange,
-      tripClass,
-    });
+    
   };
 
   const handleHotelSearch = () => {
-    console.log("Hotel search:", {
-      location,
-      checkIn,
-      checkOut,
-      travellers,
-      roomType,
-      priceRange,
-    });
+    
   };
   const tabItems = [
     {
@@ -75,7 +62,7 @@ const ConventionalForms = () => {
     <Box className={styles.SearchBoxSectionHome}>
       <Box className={styles.SearchBoxContainer}>
         {/* Tabs */}
-        <Box sx={{ pl: { md: "0", xs: "14px" } }}>
+        <Box sx={{ pl: { md: "0", xs: "0" } }}>
           <Tabs
             value={tab}
             onChange={(_, newValue) => setTab(newValue)}

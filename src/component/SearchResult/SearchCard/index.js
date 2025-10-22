@@ -12,7 +12,9 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddToCart,
+  DeleteCart,
   setBookingDrawer,
+  setCartType,
   setOfferkeyforDetail,
   setSelectedFlight,
   setSingleFlightData,
@@ -23,6 +25,7 @@ import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols, event } from "@/src/utils/utils";
 import {
   PassengerForm,
+  setAddFilledPassenger,
   setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
@@ -34,6 +37,7 @@ import {
 } from "@/src/store/slices/GestMessageSlice";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 import { LoadingButton } from "@mui/lab";
+import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
 const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const dispatch = useDispatch();
@@ -78,6 +82,8 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     (state) => state.booking.selectedFlightKey
   );
   
+  
+  
   const selected = selectedFlightKey === offerkey;
 
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
@@ -93,18 +99,23 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     dispatch(setRefreshSearch());
   };
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);
-
-  console.log("selectedFlight_00", selectedFlight?.id);
-  
+  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);  
 
   const isLoadingSelect = useSelector(
     (state) => state?.booking?.isLoadingSelect
   );
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+  const orderSuccess2 = useSelector((state) => state);
 
+  
+  
   const handleBookFlight = (getflight) => {
-    console.log("getflight", getflight?.id);
-    
+    // for reset next order if in cart 1 
+    if (orderSuccess) {
+      dispatch(setAddFilledPassenger(null));
+      dispatch(setCartType(null));
+    }
+
     const params = {
       chat_thread_uuid: uuid,
       offer_type: "flight",
@@ -140,7 +151,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   //     ("");
   //   }
   
-  //   console.log("Select Flight", offerData?.total_amount_rounded);
+  
   // };
   return (
     <>
@@ -257,7 +268,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                     className={searchResultStyles.PriceBottom}
                   >
                     <Box>
-                      <h4
+                      <Typography
                         className={
                           searchResultStyles.flightPriceSection +
                           " mb-0 black bold"
@@ -265,15 +276,20 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       >
                         {currencySymbols[offerData?.tax_currency] ||
                           offerData?.tax_currency}
-                        {Math.round(offerData?.per_passenger_amount_rounded)}
-                      </h4>
-                      {/* {console.log(offerData)} */}
+                        {Math.round(
+                          offerData?.total_amount_plus_markup_rounded
+                        )}
+                      </Typography>
+                      
 
                       {personQuantity > 1 && (
                         <Typography className="f12 gray">
                           {currencySymbols[offerData?.tax_currency] ||
                             offerData?.tax_currency}
-                          {Math.round(offerData?.total_amount_rounded)} total
+                          {Math.round(
+                            offerData?.per_passenger_amount_plus_markup_rounded
+                          )}{" "}
+                          each
                         </Typography>
                       )}
                     </Box>
@@ -306,23 +322,30 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                           <span>Not Available</span>
                         </Button>
                       ) : (
-                        <LoadingButton
-                          className={
-                            "w-100 btn btn-primary btn-round btn-md " +
-                            searchResultStyles.selectFlightBtn
-                          }
-                          onClick={() => handleBookFlight(offerData)}
-                          loading={selectedFlight?.id === offerData?.id} // true when booking this flight
-                          loadingIndicator={
-                            <CircularProgress
-                              size={18}
-                              sx={{ color: "#fff" }}
-                            />
-                          } // optional custom spinner
-                        >
-                          {selectedFlight?.id !== offerData?.id && "Select"}
-                        </LoadingButton>
+                        <>
+                          
+                          <LoadingButton
+                            className={
+                              "w-100 btn btn-primary btn-round btn-md " +
+                              searchResultStyles.selectFlightBtn
+                            }
+                            onClick={() => handleBookFlight(offerData)}
+                            loading={
+                              selectedFlight?.id === offerData?.id && true
+                            } // true when booking this flight
+                            loadingIndicator={
+                              <CircularProgress
+                                size={18}
+                                sx={{ color: "#fff" }}
+                              />
+                            } // optional custom spinner
+                          >
+                            {selectedFlight?.id !== offerData?.id && "Select"}
+                          </LoadingButton>
+                        </>
                       )}
+                      
+                      
                     </Box>
                   </Box>
                 </>

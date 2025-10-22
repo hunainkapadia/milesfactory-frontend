@@ -108,7 +108,6 @@ const HotelForm = () => {
       priceRange,
     };
 
-    console.log("hotel_searchData:", searchData);
     dispatch(submitHotelForm(searchData));
   };
 

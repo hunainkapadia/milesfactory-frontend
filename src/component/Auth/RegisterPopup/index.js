@@ -8,7 +8,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setisUserPopup,
@@ -82,6 +82,9 @@ const RegisterPopup = (isChat) => {
         sx={{
           textAlign: { xs: "center", md: "left", lg: "left" },
         }}
+        className={`${
+          isChat?.isChat ? styles.ChatDialogContent : " MDialogContent"
+        }`}
       >
         <Box
           component={"main"}
@@ -89,7 +92,7 @@ const RegisterPopup = (isChat) => {
         >
           <Box sx={{ px: { lg: 10, md: 10, xs: 2 } }} position={"relative"}>
             <Box mb={2}>
-              <h3 sx={{mb:"12px"}} className="center">
+              <h3 sx={{ mb: "12px" }} className="center">
                 {isChat?.isChat
                   ? isMobile
                     ? "Don't loose your trip!"

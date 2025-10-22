@@ -8,7 +8,8 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
+
+import styles from "@/src/styles/sass/components/auth/Auth.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setisUserPopup,
@@ -56,13 +57,10 @@ const UserPopup = (isChat) => {
   const currentUser = useSelector((state) => state.base?.currentUser);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
-  const loginState = useSelector((state) => state?.login?.loginState);
-  console.log("loginState_0", loginState);
-  
+  const loginState = useSelector((state) => state?.login?.loginState);  
   
   return (
     <>
-      
       <Dialog
         open={isUserPopup}
         onClose={
@@ -93,6 +91,9 @@ const UserPopup = (isChat) => {
         )}
 
         <DialogContent
+          className={`${
+            isChat?.isChat ? styles.ChatDialogContent : " MDialogContent"
+          }`}
           sx={{
             textAlign: { xs: "center", md: "left", lg: "left" },
             px: { lg: 10, md: 10, xs: 2 },

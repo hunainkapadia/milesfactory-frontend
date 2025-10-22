@@ -23,7 +23,12 @@ const SearchFilterBar = () => {
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  console.log("SearchHistory_000", SearchHistory);
+  const hotelArgument =  SearchHistory?.hotel?.HotelArgument || SearchHistory?.hotel
+
+  const hotelPassengers = hotelArgument?.passengers || hotelArgument
+
+  console.log("SearchHistory", hotelArgument);
+  
 
   const dispatch = useDispatch();
   //   for selct flight detail
@@ -63,19 +68,19 @@ const SearchFilterBar = () => {
           <Box
             component={"main"}
             className={styles.SearchFilterBar}
-            sx={{ pb: { xs: 0, md: "10px" } }}
+            display={"flex"}
           >
             <Box
               component={"section"}
               className={styles.Content}
               gap={2}
               display={"flex"}
-              alignItems={"center"}
               justifyContent={"space-between"}
+              alignItems={"center"}
             >
               {/*  */}
               <Box
-                sx={{ gap: { md: "12px", xs: "8px" } }}
+                sx={{ gap: { md: "12px", xs: "10px" } }}
                 display={"flex"}
                 alignItems={"center"}
               >
@@ -87,95 +92,103 @@ const SearchFilterBar = () => {
                       src="/images/success-check.svg"
                     />
                   ) : (
-                    <img width="28" src="/images/plane-icon-basecolor1.svg" />
+                    <img width="20" src="/images/plane-icon-basecolor1.svg" />
                   )}
                 </Box>
-                {SearchHistory?.flight ? (
-                  <Box className={styles.Header2 + " aaa"}>
-                    <Box mb={"2px"}>
-                      <Typography
-                        className="bold"
-                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
+                <Box
+                  className={styles.Header2 + " aaa"}
+                  display="flex"
+                  flexDirection={{ md: "row", xs: "column" }}
+                  alignItems={{ md: "center", xs: "flex-start" }}
+                  rowGap={{ md: 0, xs: "1px" }}
+                >
+                  {SearchHistory?.flight ? (
+                    <>
+                      <Box mr={3}>
+                        <Typography
+                          className="bold black"
+                          sx={{ fontSize: { md: "12px", xs: "10px" } }}
+                        >
+                          {SearchHistory?.flight?.from_title} -{" "}
+                          {SearchHistory?.flight?.to_title}
+                        </Typography>
+                      </Box>
+                      <Box
+                        className={styles.filterRrow}
+                        display={"flex"}
+                        alignItems={"center"}
                       >
-                        {SearchHistory?.flight?.from_title} -{" "}
-                        {SearchHistory?.flight?.to_title}
-                      </Typography>
-                    </Box>
-                    <Box
-                      mb={"3px"}
-                      className={styles.filterRrow}
-                      display={"flex"}
-                      alignItems={"center"}
-                    >
-                      <Typography className=" black regular">
-                        {SearchHistory?.flight?.departure_date ? (
-                          <>
-                            {new Date(
-                              SearchHistory?.flight?.departure_date
-                            ).toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "short",
-                            })}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                        {SearchHistory?.flight?.arrival_date ? (
-                          <>
-                            {" - "}
-                            {new Date(
-                              SearchHistory?.flight?.arrival_date
-                            ).toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "short",
-                            })}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </Typography>
-                      <Typography className=" black regular">
-                        {SearchHistory?.flight?.flight_type == "round-trip"
-                          ? "Return"
-                          : "One way"}
-                      </Typography>
-                      <Typography className="black regular">
-                        {[
-                          SearchHistory?.flight?.adults > 0 &&
-                            `${SearchHistory?.flight?.adults} ${
-                              SearchHistory?.flight?.adults === 1
-                                ? "adult"
-                                : "adults"
-                            }`,
-                          SearchHistory?.flight?.children > 0 &&
-                            `${SearchHistory?.flight?.children} ${
-                              SearchHistory?.flight?.children === 1
-                                ? "child"
-                                : "children"
-                            }`,
-                          SearchHistory?.flight?.infants > 0 &&
-                            `${SearchHistory?.flight?.infants} ${
-                              SearchHistory?.flight?.infants === 1
-                                ? "infant"
-                                : "infants"
-                            }`,
-                        ]
-                          .filter(Boolean)
-                          .join(", ")}
-                      </Typography>
-                    </Box>
-                    <Box
-                      className={styles.filterRrow2}
-                      display={"flex"}
-                      alignItems={"center"}
-                    >
-                      <FilterParams />
-                    </Box>
-                    {/*  */}
-                  </Box>
-                ) : (
-                  ""
-                )}
+                        <Typography className=" black regular">
+                          {SearchHistory?.flight?.departure_date ? (
+                            <>
+                              {new Date(
+                                SearchHistory?.flight?.departure_date
+                              ).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                              })}
+                            </>
+                          ) : (
+                            ""
+                          )}
+                          {SearchHistory?.flight?.arrival_date ? (
+                            <>
+                              {" - "}
+                              {new Date(
+                                SearchHistory?.flight?.arrival_date
+                              ).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                              })}
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </Typography>
+                        <Typography className=" black regular">
+                          {SearchHistory?.flight?.flight_type == "round-trip"
+                            ? "Return"
+                            : "One way"}
+                        </Typography>
+                        <Typography className="black regular">
+                          {[
+                            SearchHistory?.flight?.adults > 0 &&
+                              `${SearchHistory?.flight?.adults} ${
+                                SearchHistory?.flight?.adults === 1
+                                  ? "adult"
+                                  : "adults"
+                              }`,
+                            SearchHistory?.flight?.children > 0 &&
+                              `${SearchHistory?.flight?.children} ${
+                                SearchHistory?.flight?.children === 1
+                                  ? "child"
+                                  : "children"
+                              }`,
+                            SearchHistory?.flight?.infants > 0 &&
+                              `${SearchHistory?.flight?.infants} ${
+                                SearchHistory?.flight?.infants === 1
+                                  ? "infant"
+                                  : "infants"
+                              }`,
+                          ]
+                            .filter(Boolean)
+                            .join(", ")}
+                        </Typography>
+                      </Box>
+                      <Box
+                        className={styles.filterRrow2}
+                        display={"flex"}
+                        pl={{ md: 3, xs: 0 }}
+                        alignItems={"center"}
+                      >
+                        <FilterParams />
+                      </Box>
+                      {/*  */}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </Box>
               </Box>
               <Box>
                 {CartOfferDetail?.length > 0 && (
@@ -202,12 +215,12 @@ const SearchFilterBar = () => {
             {/*  */}
           </Box>
         </>
-      ) : SearchHistory?.hotel ? (
+      ) : hotelArgument ? (
         <>
           <Box
             component={"main"}
             className={styles.SearchFilterBar}
-            sx={{ pb: { xs: 0, md: "10px" } }}
+            display={"flex"}
           >
             <Box
               component={"section"}
@@ -230,37 +243,45 @@ const SearchFilterBar = () => {
                       src="/images/success-check.svg"
                     />
                   ) : (
-                    <img width="28" src="/images/hotel/hotel-bed.svg" />
+                    <img width="20" src="/images/hotel/hotel-bed.svg" />
                   )}
                 </Box>
 
                 {/* 🔹 Static Destination + Dates + Passengers */}
-                <Box className={styles.Header2 + " aaa"}>
-                  <Box mb={"2px"}>
-                    <Typography
-                      className="bold black"
-                      sx={{ fontSize: { md: "12px", xs: "10px" } }}
-                    >
-                      {SearchHistory?.hotel?.to_destination}
-                    </Typography>
-                  </Box>
+                <Box
+                  className={styles.Header2 + " bbb"}
+                  display="flex"
+                  flexDirection={{ md: "row", xs: "column" }}
+                  alignItems={{ md: "center", xs: "flex-start" }}
+                  rowGap={{ md: 0, xs: "1px" }}
+                >
+                  {hotelArgument?.destination || hotelArgument?.to_destination && (
+                    <Box mr={3}>
+                      <Typography
+                        className="bold black"
+                        sx={{ fontSize: { md: "12px", xs: "10px" } }}
+                      >
+                        {hotelArgument?.to_destination || hotelArgument?.destination}
+                      </Typography>
+                    </Box>
+                  )}
 
                   <Box
-                    mb={"3px"}
                     className={styles.filterRrow}
                     display={"flex"}
                     alignItems={"center"}
                   >
                     <Typography className="black regular">
                       {new Date(
-                        SearchHistory?.hotel?.departure_date
+                        hotelArgument?.check_in || hotelArgument?.departure_date
                       ).toLocaleString("en-GB", {
                         day: "2-digit",
                         month: "short",
-                      })}{" "}
-                      -{" "}
+                      })}
+                      {" - "}
+                      
                       {new Date(
-                        SearchHistory?.hotel?.return_date
+                        hotelArgument?.check_out || hotelArgument?.return_date
                       ).toLocaleString("en-GB", {
                         day: "2-digit",
                         month: "short",
@@ -269,29 +290,29 @@ const SearchFilterBar = () => {
                     <Typography className="black regular">
                       {[
                         // Adults
-                        SearchHistory?.hotel?.passengers?.adults > 0 &&
-                          `${SearchHistory?.hotel?.passengers?.adults} ${
-                            SearchHistory?.hotel?.passengers?.adults === 1
+                        hotelPassengers?.adults > 0 &&
+                          `${hotelPassengers?.adults} ${
+                            hotelPassengers?.adults === 1
                               ? "adult"
                               : "adults"
                           }`,
 
                         // Children (fix: use length instead of array itself)
-                        SearchHistory?.hotel?.passengers?.children?.length >
+                        hotelPassengers?.children?.length >
                           0 &&
                           `${
-                            SearchHistory?.hotel?.passengers?.children?.length
+                            hotelPassengers?.children?.length
                           } ${
-                            SearchHistory?.hotel?.passengers?.children
+                            hotelPassengers?.children
                               ?.length === 1
                               ? "child"
                               : "children"
                           }`,
 
                         // Infants
-                        SearchHistory?.hotel?.passengers?.infants > 0 &&
-                          `${SearchHistory?.hotel?.passengers?.infants} ${
-                            SearchHistory?.hotel?.passengers?.infants === 1
+                        hotelPassengers?.infants > 0 &&
+                          `${hotelPassengers?.infants} ${
+                            hotelPassengers?.infants === 1
                               ? "infant"
                               : "infants"
                           }`,
@@ -300,14 +321,20 @@ const SearchFilterBar = () => {
                         .join(", ")}
                     </Typography>
                   </Box>
+                  <Box
+                    className={styles.filterRrow2}
+                    display={"flex"}
+                    pl={{ md: 3, xs: 0 }}
+                    alignItems={"center"}
+                  >
+                    <FilterParams />
+                  </Box>
 
                   <Box
                     className={styles.filterRrow2}
                     display={"flex"}
                     alignItems={"center"}
                   >
-                    {SearchHistory?.flight && <FilterParams />}
-
                     {/* <Typography
                         className=" gray mb-0"
                         sx={{ fontSize: { xs: "8px", lg: "12px", md: "12px" } }}

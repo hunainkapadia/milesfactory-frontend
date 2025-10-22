@@ -1,4 +1,10 @@
-import { Box, Typography, Avatar, Stack } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Avatar,
+  Stack,
+  CircularProgress,
+} from "@mui/material";
 import {
   bookFlight,
   closeDrawer,
@@ -31,7 +37,7 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
 
-const OfferCardSidebar = ({ index, slice, getItems }) => {
+const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
   const dispatch = useDispatch();
 
   const GetViewPassengers = useSelector(
@@ -49,31 +55,33 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
   );
   //   for selct flight detail
   const CartOffer = useSelector((state) => state?.booking?.cartOffer);
+  const isloading = useSelector((state) => state?.booking?.isLoading);
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm); //from order api
-  
 
   const HandleSelectDrawer = () => {
     // if (CartOffer?.id) {
     //   dispatch(setflightDetail(CartOffer));
     // }
-    // dispatch(getItems?.raw_data)
+    // dispatch(getItems?)
     dispatch(setSeeDetailButton("Builder"));
     dispatch(setBookingDrawer(true));
-    dispatch(setSingleFlightData(getItems?.raw_data));
+    dispatch(setSingleFlightData(getItems));
   };
 
   const threaduuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
+  
+  
   const handleDeleteCart = () => {
-    dispatch(DeleteCart(threaduuid, getItems?.uuid));
-    
+    dispatch(DeleteCart(threaduuid, uuid));
   };
 
   return (
     <>
-      <Box className={`${TripStyles.flightOfferCard}`} mb={3}>
+    {/* offer-card and offer-card-return */}
+      <Box id={`${index === 0 ? "offer-card" : "offer-card-return"}`} className={`${TripStyles.flightOfferCard}`} mb={3}>
         <Box
           display={"flex"}
           justifyContent={"space-between"}
@@ -91,36 +99,42 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 <Typography className="f12 semibold">Return flight</Typography>
               </Box>
             )}
-            {!orderSuccess && (
-              <FontAwesomeIcon
-                className="basecolor1-50"
-                cursor="pointer"
-                onClick={handleDeleteCart}
-                icon={faClose}
-                fontSize={20}
-              />
-            )}
+
+            {PaymentStatus?.is_complete === "yes" &&
+            PaymentStatus?.status === "success" ? (
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                className={TripStyles.BookedLabel + " chip chipPrimary sm"}
+              >
+                Booked
+              </Box>
+            ) : CartOffer ? (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                className={TripStyles.SelectedLabel + " chip chipGray sm"}
+              >
+                Selected
+              </Box>
+            ) : null}
           </Box>
-          {PaymentStatus?.is_complete === "yes" &&
-          PaymentStatus?.status === "success" ? (
-            <Box
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              className={TripStyles.BookedLabel + " chip chipPrimary sm"}
-            >
-              Booked
-            </Box>
-          ) : CartOffer ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              className={TripStyles.SelectedLabel + " chip chipYellow sm"}
-            >
-              Selected
-            </Box>
-          ) : null}
+
+          {!orderSuccess && (
+            <>
+              {isloading ? (
+                <>
+                  <CircularProgress size={18} sx={{ color: "#00C4CC" }} />
+                </>
+              ) : (
+                <Box className="cursor-pointer" onClick={handleDeleteCart}>
+                  <img alt="delete" src="/images/delete-icon.svg" />
+                </Box>
+              )}
+            </>
+          )}
         </Box>
 
         <Box
@@ -163,6 +177,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 alignItems={"center"}
                 display={"flex"}
                 className=" basecolor1 semibold f12"
+                whiteSpace={"nowrap"}
               >
                 <span>See details</span>
                 <i className="fa-angle-right fa fas"></i>{" "}
@@ -193,14 +208,14 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               {/* Departure Time & Code */}
               <Box className={TripStyles.Timings}>
                 <Typography className={TripStyles.flightTime}>
-                  {new Date(slice.departing_at).toLocaleTimeString([], {
+                  {new Date(slice?.departing_at).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
                   })}
                 </Typography>
                 <Typography className={TripStyles.flightRoute + " f12"}>
-                  {slice.origin.iata_code}
+                  {slice?.origin.iata_code}
                 </Typography>
               </Box>
 
@@ -216,14 +231,14 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 <Box className={TripStyles.divider}>
                   <img
                     src={
-                      slice.segments?.length === 1
+                      slice?.segments?.length === 1
                         ? "/images/direct-plan-icon.svg"
                         : "/images/stop-plan-icon.svg"
                     }
                   />
                 </Box>
                 <Typography className={" gray f12"}>
-                  {slice.duration}
+                  {slice?.duration}
                 </Typography>
                 {/* Dotted Line */}
               </Box>
@@ -231,14 +246,14 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
               {/* Arrival Time & Code */}
               <Box textAlign={"right"} className={TripStyles.Timings}>
                 <Typography className={TripStyles.flightTime}>
-                  {new Date(slice.arriving_at).toLocaleTimeString([], {
+                  {new Date(slice?.arriving_at).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
                   })}
                 </Typography>
                 <Typography className={TripStyles.flightRoute + " f12"}>
-                  {slice.destination.iata_code}
+                  {slice?.destination?.iata_code}
                 </Typography>
               </Box>
             </Box>
@@ -246,7 +261,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
         </Box>
         {/* traveller and baggage */}
         <Box>
-          {validPassengers?.length ? (
+          {/* {validPassengers?.length ? (
             <Stack
               direction="row"
               alignItems="center"
@@ -271,7 +286,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                   </svg>
                 </Box>
                 <Box className="f12 basecolor">
-                  <Typography component={"span"} className="f12 bold basecolor">
+                  <Typography component={"span"} className="f12 black">
                     Travellers:{" "}
                   </Typography>
                   <Typography component={"span"} className="f12 gray">
@@ -288,17 +303,35 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                 </Box>
               </Stack>
             </Stack>
-          ) : null}
+          ) : null} */}
 
-          <Stack
-            direction="row"
-            spacing={"4px"}
-            alignItems="center"
-            component="section"
-            justifyContent={"space-between"}
-          >
+          <Stack direction="column" spacing={"4px"} component="section">
             <Stack direction="row" spacing={"4px"} alignItems={"center"}>
-              <Box pt={"2px"}>
+              <Box>
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 13 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.5 1.925C7.37 1.925 8.075 2.63 8.075 3.5C8.075 4.37 7.37 5.075 6.5 5.075C5.63 5.075 4.925 4.37 4.925 3.5C4.925 2.63 5.63 1.925 6.5 1.925ZM6.5 8.675C8.7275 8.675 11.075 9.77 11.075 10.25V11.075H1.925V10.25C1.925 9.77 4.2725 8.675 6.5 8.675ZM6.5 0.5C4.8425 0.5 3.5 1.8425 3.5 3.5C3.5 5.1575 4.8425 6.5 6.5 6.5C8.1575 6.5 9.5 5.1575 9.5 3.5C9.5 1.8425 8.1575 0.5 6.5 0.5ZM6.5 7.25C4.4975 7.25 0.5 8.255 0.5 10.25V12.5H12.5V10.25C12.5 8.255 8.5025 7.25 6.5 7.25Z"
+                    fill="black"
+                  />
+                </svg>
+              </Box>
+
+              <Stack width={"100%"}>
+                <Typography className="f12 basecolor">
+                  <Typography component={"span"} className="f12 black">
+                    No travellers selected: {getItems?.passengers?.length}
+                  </Typography>
+                </Typography>
+              </Stack>
+            </Stack>
+            <Stack direction="row" spacing={"4px"} alignItems={"center"}>
+              <Box>
                 <svg
                   width="13"
                   height="13"
@@ -311,14 +344,14 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
                     clipRule="evenodd"
                     d="M7.75 2.75V1.5H5.25V2.75H7.75ZM1.5 4V10.875H11.5V4H1.5ZM11.5 2.75C12.1937 2.75 12.75 3.30625 12.75 4V10.875C12.75 11.5688 12.1937 12.125 11.5 12.125H1.5C0.80625 12.125 0.25 11.5688 0.25 10.875L0.25625 4C0.25625 3.30625 0.80625 2.75 1.5 2.75H4V1.5C4 0.80625 4.55625 0.25 5.25 0.25H7.75C8.44375 0.25 9 0.80625 9 1.5V2.75H11.5Z"
                     fill="black"
-                    fillOpacity="0.3"
+                    fillOpacity="1"
                   />
                 </svg>
               </Box>
 
               <Stack width={"100%"}>
-                <Typography className="f12 basecolor">
-                  <Typography component={"span"} className="f12 bold basecolor">
+                <Typography className="f12 black">
+                  <Typography component={"span"} className="f12 black">
                     Extra baggage:{" "}
                   </Typography>
                   {(() => {
@@ -356,6 +389,24 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
             </Stack>
           </Stack>
         </Box>
+        <Box
+          className="f11 black"
+          display={"flex"}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+          gap={"1px"}
+        >
+        
+          <Typography className="f11 exbold" component={"span"}>
+            {currencySymbols[getItems?.total_currency] ||
+              getItems?.total_currency}
+            {`${getItems?.per_passenger_amount_plus_markup},`}
+          </Typography>{" "}
+          <Typography className="f11" component={"span"}>
+            selected by you
+          </Typography>
+        </Box>
+        {/* Add missing travellers */}
         {/* {!validPassengers?.length && (
           <>
             <Box
@@ -394,6 +445,7 @@ const OfferCardSidebar = ({ index, slice, getItems }) => {
             </Box>
           </>
         )} */}
+        {/* paid */}
         {/* {flightOrder ? (
           <>
             <Box

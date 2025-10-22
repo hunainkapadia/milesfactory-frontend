@@ -102,3 +102,16 @@ export function capitalizeFirstWord(text = "") {
   if (!text) return "";
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
+
+export function convertMarkdownToHtml(text) {
+    if (!text) return "";
+    // 1. Convert **bold** to span with class
+    let result = text.replace(
+      /\*\*(.*?)\*\*/g,
+      "<span class='heading exbold'>$1</span>"
+    );
+    // 2. Remove leading "- " before text on each line
+    result = result.replace(/^- /gm, "");
+
+    return result;
+  }

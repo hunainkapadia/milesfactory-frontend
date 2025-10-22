@@ -22,6 +22,7 @@ import {
 import { useRouter } from "next/router";
 
 const MyTrips = () => {
+  
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -37,7 +38,7 @@ const MyTrips = () => {
 
   const isLoading = useSelector((state) => state?.base?.isloading);
   const TripData = useSelector((state) => state?.base?.TripData);
-  const currentUser = useSelector((state) => state?.base?.currentUser);
+  const currentUser = useSelector((state) => state?.base?.currentUser?.user);
 
   const upcomingTrips = TripData?.upcoming_trips ?? [];
   const pastTrips = TripData?.past_trips ?? [];
@@ -49,19 +50,26 @@ const MyTrips = () => {
   };
 
   const HandleBookThread = () => {
-      dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
+    dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
+  };
+
+  console.log("currentUser", currentUser);
   
-    };
-  
+  useEffect(() => {
+    if (!currentUser) {
+      dispatch(setisUserPopup(true));
+    } else if (currentUser) {
+      dispatch(setisUserPopup(false));
+      dispatch(MyTripSlice());
+    } else {""}
+    
+  }, [currentUser]);
 
   return (
     <>
-      <Header isMytrip={"isMytrip"}  />
+      <Header isMytrip={"isMytrip"} />
       <Box component={"main"} className={styles.TripBody + " main-body "}>
-        <Box
-          component={"section"}
-          sx={{ py: { lg: "83px", md: "83px", xs: "33px" } }}
-        >
+        <Box component={"section"} sx={{ py: { md: "32px", xs: "33px" } }}>
           <Container>
             {/* Header */}
             <Box
@@ -81,13 +89,14 @@ const MyTrips = () => {
                 <h3 className="mb-0">My booked trips</h3>
               </Box>
 
-              <Button
-                onClick={HandleBookThread}
-                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
-                className="btn btn-primary btn-round btn-sm"
-              >
-                Book a new trip
-              </Button>
+              <Box sx={{ display: { lg: "block", md: "block", xs: "none" } }}>
+                <Button
+                  onClick={HandleBookThread}
+                  className="btn btn-primary btn-round btn-sm"
+                >
+                  Book a new trip
+                </Button>
+              </Box>
             </Box>
 
             {/* Custom Tabs */}
@@ -171,7 +180,6 @@ const MyTrips = () => {
           </Container>
         </Box>
       </Box>
-
     </>
   );
 };

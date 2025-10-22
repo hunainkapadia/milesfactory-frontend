@@ -4,7 +4,9 @@ export const calculateHotelPricing = (hotel, allHotel) => {
   // Calculate number of nights
   const checkIn = new Date(allHotel?.checkIn);
   const checkOut = new Date(allHotel?.checkOut);
-  const firstRate = hotel?.rooms?.[0]?.rates?.[0];
+  const firstRate = hotel?.rooms?.[0]?.rates?.find(
+  rate => rate.packaging === false && rate.rateType === "BOOKABLE"
+);
 
   const nights =
     allHotel?.checkIn && allHotel?.checkOut

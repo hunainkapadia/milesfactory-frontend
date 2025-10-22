@@ -58,7 +58,6 @@ const LoginWithOptions = ({ options }) => {
           const accessToken = response.authResponse.accessToken;
           dispatch(LoginWithFacebook(accessToken));
         } else {
-          console.log("User cancelled Facebook login or did not authorize.");
         }
       },
       { scope: "email,public_profile" }
@@ -68,7 +67,7 @@ const LoginWithOptions = ({ options }) => {
   return (
     <>
       <Box
-        className={styles.SignupOptions}
+        className={styles.SignupOptions + " SignupOptions"}
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -84,7 +83,7 @@ const LoginWithOptions = ({ options }) => {
           justifyContent="center"
           gap={1}
           p={1}
-          mb={1}
+          
           fontWeight="bold"
           onClick={loginHandle}
           className={`${styles.SignupOption} btn btn-sm btn-border black-border btn-round`}
@@ -100,7 +99,7 @@ const LoginWithOptions = ({ options }) => {
           justifyContent="center"
           gap={1}
           p={1}
-          mb={1}
+          
           fontWeight="bold"
           onClick={FbloginHandle}
           className={`${styles.SignupOption} btn btn-sm btn-border black-border btn-round`}

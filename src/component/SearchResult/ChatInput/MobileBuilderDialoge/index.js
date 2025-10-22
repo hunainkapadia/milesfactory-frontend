@@ -53,7 +53,7 @@ const MobileBuilderDialoge = () => {
           boxShadow: "none",
           borderTop: "1px solid #E6EEEE",
           overflow: "hidden", // keep scroll only in content area
-          zIndex:4,
+          zIndex: 4,
         },
       }}
       SlideProps={{
@@ -63,7 +63,6 @@ const MobileBuilderDialoge = () => {
       <DialogContent sx={{ px: 0, py: "0" }} className="asasas">
         <Box className="1111" >
           <YourTripSedebarCard getBuilder={getBuilder} />
-          
         </Box>
       </DialogContent>
       <Box
@@ -75,7 +74,7 @@ const MobileBuilderDialoge = () => {
         py={"5px"}
         px={"18px"}
       >
-        <Box width={"100%"} mb={1}>
+        <Box width={"100%"}>
           <SidebarTabs />
         </Box>
         <MobileBuilder isMobileBuilder />

@@ -48,9 +48,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
   const segmentId = useSelector((state) => state.bagage.SegmentId);
   
 
-  const handleIncrement = (uuid, passengerId) => {
-    console.log("add_uuid", uuid);
-    
+  const handleIncrement = (uuid, passengerId) => {    
     const currentCount = baggageCount[passengerId]?.[uuid] || 0;
 
     if (currentCount >= 1) return; // Allow only one increment
@@ -139,7 +137,7 @@ const BaggageDrawer = ({ getFlightDetail }) => {
       className={`${styles.BaggageDrawer} BaggageDrawer`}
       transitionDuration={300}
     >
-      <Box className={styles.BaggageDrawerSection} width={375}>
+      <Box className={styles.BaggageDrawerSection} width={463}>
         <Box
           component={"header"}
           className={styles.BaggageDrawerHeder}

@@ -10,14 +10,31 @@ const initialState = {
   singlehotel: null,
   selectedhotelKey: null,
   allHotels: null,
+  roomDrawer: false,
+  selectedhotelCode: null,
+  selectedRateKey: null,
+  selectedRoom: null,
+
 };
 // for selectflightDetail button
 const hotelSlice = createSlice({
   name: "hotel",
   initialState,
   reducers: {
+    setRoomDrawer:(state, action) => {
+      state.roomDrawer = action.payload;
+    },
     setAllHotels:(state, action) => {
       state.allHotels = action.payload;
+    },
+    setSelectedRoom: (state, action) => {
+      state.selectedRoom = action.payload;
+    },
+    setSelectedRateKey: (state, action) => {
+      state.selectedRateKey = action.payload;
+    },
+    setSelectedhotelCode:(state, action) => {
+      state.selectedhotelCode = action.payload;
     },
    setSelectedhotelKey:(state, action) => {
       state.selectedhotelKey = action.payload;
@@ -39,6 +56,12 @@ const hotelSlice = createSlice({
 
 
 export const {
-  setSinglehotel, setSelectedhotelKey, setAllHotels
+  setSinglehotel,
+  setSelectedhotelKey,
+  setAllHotels,
+  setRoomDrawer,
+  setSelectedhotelCode,
+  setSelectedRateKey,
+  setSelectedRoom,
 } = hotelSlice.actions; //action exporting here
 export default hotelSlice.reducer;

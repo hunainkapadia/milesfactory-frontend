@@ -48,6 +48,8 @@ const Messages = () => {
   const isLoading = useSelector(
     (state) => state.sendMessage?.isLoading || false
   );
+  
+  
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
 
@@ -56,9 +58,7 @@ const Messages = () => {
   
   
   //  Combine stored messages (live chat) with fetched messages (history)
-  const messages = [...getmessages, ...sendMessages];
-  console.log("messages_000", messages);
-  
+  const messages = [...getmessages, ...sendMessages];  
 
   // for bookingdrawer selector
   const flightDetail = useSelector((state) => state.booking.flightDetail);
@@ -100,26 +100,25 @@ const Messages = () => {
             }`}
           >
             <Box className={searchResultStyles.messageContentIn}>
-            {console.log("aiMessage_ai_11", messages)}
               {messages.map((msg, index) => (
-                <Box key={index}>
-                  {msg?.user && <UserMessage userMessage={msg.user} />}
-                  {msg?.ai ? (
-                    <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
-                  ) : index === messages.length - 1 && isLoading ? (
-                    <Box my={2}>
-                      <LoadingArea />
-                    </Box>
-                  ) : null}
-                </Box>
-              ))}
+  <Box key={index}>
+    {msg?.user && <UserMessage userMessage={msg.user} />}
+    {msg?.ai && <AiMessage aiMessage={msg} offerId={msg?.OfferId} />}
+
+    {/* Show loader only once after the last message */}
+    {isLoading && index === messages.length - 1 && (
+      <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>
+        <LoadingArea />
+      </Box>
+    )}
+  </Box>
+))}
 
               {/*  */}
 
               {!hasFlightOffers ? <Box ref={messagesEndRef} /> : ""}
               {/* booking flow start */}
 
-              
               <PassengerDrawerForm />
               <PassengerProfileDrawer />
             </Box>

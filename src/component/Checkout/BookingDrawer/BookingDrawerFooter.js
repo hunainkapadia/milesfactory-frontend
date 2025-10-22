@@ -34,11 +34,10 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
 
   const offerkey = useSelector((state) => state?.booking?.offerkeyforDetail);
-  // ✅ Move here (component scope)
+  //  Move here (component scope)
   const isCartItem = useSelector(
     (state) => state.booking?.getCartDetail?.items
   );
-  console.log("isCartItem", isCartItem);
   
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const handleBookFlight = () => {
@@ -47,7 +46,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
       action: "click",
       category: "engagement",
       label: "Select Flight Drawer",
-      value: getFlightDetails?.total_amount_rounded,
+      value: getFlightDetails?.total_amount_plus_markup_rounded,
     });
     const params = {
       chat_thread_uuid: uuid,
@@ -79,12 +78,11 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
     <>
       <Divider className={`${styles.Divider} Divider`} />
       <Box
-        px={3}
-        className={styles.checkoutDrowerFooter + " test11"}
+        className={styles.checkoutDrowerFooter}
         width={"100%"}
       >
         {/* Footer Content */}
-        <Box py={2} display="flex" flexDirection="column">
+        <Box className={styles.Row + " "} py={2} display="flex" flexDirection="column">
           {/* TODO: This will become dynamic based on airline cancellation policy */}
           <Box
             component={"section"}
@@ -139,7 +137,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
                   <span>
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {Math.round(getFlightDetails?.per_passenger_amount_rounded)}
+                    {Math.round(getFlightDetails?.total_amount_plus_markup_rounded)}
                   </span>
                 </h4>
               </Box>
@@ -148,7 +146,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
                   <Typography variant="p" className=" gray f12">
                     {currencySymbols[getFlightDetails?.tax_currency] ||
                       getFlightDetails?.tax_currency}
-                    {Math.round(getFlightDetails?.total_amount_rounded)} total
+                    {Math.round(getFlightDetails?.per_passenger_amount_plus_markup_rounded)} each
                   </Typography>
                 </Box>
               )}

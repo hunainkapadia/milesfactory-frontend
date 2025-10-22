@@ -2,6 +2,16 @@
 @import '../../css3-mixins'; //This is used for basic css3 usage with minimal line of code, info https://github.com/matthieua/sass-css3-mixins/blob/master/css3-mixins.scss
 
 
+.SignupOptions .SignupOption {
+  margin-bottom: 10px;
+  
+}
+body {
+   .ChatDialogContent {
+     padding: 24px
+   }
+
+}
 .orDivider {
    text-align: center;
    hr {
@@ -17,3 +27,10 @@
    }
  }
  
+ @include for-mobile-large-screen() {
+   body {
+     .ChatDialogContent {
+       padding: 18px
+     }
+   }
+ }

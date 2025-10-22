@@ -143,249 +143,251 @@ const Header = ({
           
           `}
       >
-        <Container className={styles.Container} sx={{ position: "relative" }}>
-          <Grid container width={"100%"} sx={{ margin: 0 }}>
-            <Grid
-              item
-              md={12}
-              lg={12}
-              xs={12}
-              sx={{ position: { md: "relative", xs: "static" } }}
-            >
-              <Box
-                className={styles.Box}
-                display={"flex"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
+        <Box className={styles.HeaderBox} component={"main"}>
+          <Container className={styles.Container} sx={{ position: "relative" }}>
+            <Grid container width={"100%"} sx={{ margin: 0 }}>
+              <Grid
+                item
+                md={12}
+                lg={12}
+                xs={12}
+                sx={{ position: { md: "relative", xs: "static" } }}
               >
                 <Box
-                  color="white"
-                  className={styles.leftCol}
+                  className={styles.Box}
                   display={"flex"}
+                  justifyContent={"space-between"}
                   alignItems={"center"}
-                  gap={2}
                 >
                   <Box
-                    sx={{ display: { xs: "block", md: "none", lg: "none" } }}
-                    fontSize={"24px"}
+                    color="white"
+                    className={styles.leftCol}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={2}
                   >
-                    <FontAwesomeIcon
-                      onClick={handleMobileNav}
-                      icon={faBars}
-                      className={`cursor-pointer ${
-                        isMytrip || isSticky | IsActive || isMessage
-                          ? " basecolor "
-                          : " white"
-                      }`}
-                    />
-                  </Box>
+                    <Box
+                      sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                      fontSize={"24px"}
+                    >
+                      <FontAwesomeIcon
+                        onClick={handleMobileNav}
+                        icon={faBars}
+                        className={`${styles.humberer} cursor-pointer ${
+                          isMytrip || isSticky | IsActive || isMessage
+                            ? " basecolor "
+                            : " white"
+                        }`}
+                      />
+                    </Box>
 
-                  <Box className={styles.Logo + " cursor-pointer"}>
-                    <Box component="a" href="/">
-                      <Box className="d-flex align-items-center">
-                        {isChat && isMobile ? (
-                          <img src="/images/chat-logo-2.svg" />
-                        ) : (
-                          <>
-                            {!isHome ||
-                            isMytrip ||
-                            isSticky ||
-                            isMessage ||
-                            IsActive ? (
-                              <img src="/images/logo-color2.svg" />
-                            ) : (
-                              <img src="/images/logo-white2.svg" />
-                            )}
-                          </>
-                        )}
+                    <Box className={styles.Logo + " cursor-pointer"}>
+                      <Box component="a" href="/">
+                        <Box className="d-flex align-items-center">
+                          {isChat && isMobile ? (
+                            <img src="/images/chat-logo-2.svg" />
+                          ) : (
+                            <>
+                              {!isHome ||
+                              isMytrip ||
+                              isSticky ||
+                              isMessage ||
+                              IsActive ? (
+                                <img src="/images/logo-color2.svg" />
+                              ) : (
+                                <img src="/images/logo-white2.svg" />
+                              )}
+                            </>
+                          )}
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
-                </Box>
-                {isMessage && isMobile && isChat ? <ShareDropdown /> : ""}
+                  {/* {!isMessage && !isMobile && isChat ? <ShareDropdown /> : ""} */}
 
-                <Box
-                  sx={{
-                    display: { xs: "none", md: "block" },
-                    pl: { xs: 8, lg: 0, md: 0 },
-                  }}
-                >
-                  <Navbar />
-                </Box>
-
-                <Box
-                  display={"flex"}
-                  sx={{ gap: { lg: 3, md: 2, xs: 0 } }}
-                  className={styles.HeaderRightCol}
-                >
-                  {/* Mobile Loader */}
                   <Box
-                    sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      pl: { xs: 8, lg: 0, md: 0 },
+                    }}
                   >
-                    {isChat && <MobileLoading />}
+                    <Navbar />
                   </Box>
 
-                  <HeaderCurrencyLanguage
-                    forHeader={"forHeader"}
-                    isSticky={isSticky}
-                    IsActive={IsActive}
-                    isMessage={isMessage}
-                    isMytrip={isMytrip}
-                    isHome={isHome}
-                  />
-                  {/*  */}
-                  {/* show for home desk and mobiel chat for dektop only  */}
-                  {isMytrip || isUser || isHome || (isChat && !isMobile) ? (
-                    <HeaderUser
-                      forHader={"forHader"}
+                  <Box
+                    display={"flex"}
+                    sx={{ gap: { lg: 3, md: 2, xs: 0 } }}
+                    className={styles.HeaderRightCol}
+                  >
+                    {/* Mobile Loader */}
+                    <Box
+                      sx={{ display: { xs: "block", md: "none", lg: "none" } }}
+                    >
+                      {isChat && <MobileLoading />}
+                    </Box>
+
+                    <HeaderCurrencyLanguage
+                      forHeader={"forHeader"}
                       isSticky={isSticky}
                       IsActive={IsActive}
                       isMessage={isMessage}
+                      isMytrip={isMytrip}
+                      isHome={isHome}
                     />
-                  ) : (
-                    ""
-                  )}
+                    {/*  */}
+                    {/* show for home desk and mobiel chat for dektop only  */}
+                    {isMytrip || isUser || isHome || (isChat && !isMobile) ? (
+                      <HeaderUser
+                        forHader={"forHader"}
+                        isSticky={isSticky}
+                        IsActive={IsActive}
+                        isMessage={isMessage}
+                      />
+                    ) : (
+                      ""
+                    )}
 
-                  {isChat && !isMobile ? (
-                    <>
-                      <Box
-                        className=" cursor-pointer"
-                        onClick={HandleNewThread}
-                        display={"flex"}
-                        alignItems={"center"}
-                      >
+                    {isChat && !isMobile ? (
+                      <>
                         <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          height={24}
-                          className={styles.ChatIcon + " imggroup"}
-                        >
-                          <img
-                            src="/images/chat-new-icon.svg"
-                            alt="Chat Icon"
-                          />
-                        </Box>
-                      </Box>
-                    </>
-                  ) : (
-                    ""
-                  )}
-
-                  {currentUser ? (
-                    <>
-                      <Box
-                        className=" cursor-pointer"
-                        alignItems={"center"}
-                        sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-                      >
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          height={24}
-                          className={styles.ChatIcon + " imggroup"}
-                          onClick={() => {
-                            window.location.href = "/my-trips";
-                          }}
+                          className=" cursor-pointer"
+                          onClick={HandleNewThread}
+                          display={"flex"}
+                          alignItems={"center"}
                         >
                           <Box
                             display="flex"
                             alignItems="center"
                             justifyContent="center"
                             height={24}
-                            // Optional
                             className={styles.ChatIcon + " imggroup"}
                           >
                             <img
-                              width={24}
-                              src={`${
-                                isMytrip || isSticky | IsActive || isMessage
-                                  ? "/images/book-trip-icon.svg"
-                                  : "/images/book-trip-icon-white.svg"
-                              }`}
-                              alt="book trip"
+                              src="/images/chat-new-icon.svg"
+                              alt="Chat Icon"
                             />
                           </Box>
                         </Box>
-                      </Box>
-                      <Box
-                        className=" cursor-pointer"
-                        alignItems={"center"}
-                        sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
-                      >
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          height={48}
-                          // Optional
-                          className={styles.ChatIcon + " imggroup"}
-                          onClick={handleThreadDrawer}
-                        >
-                          <img
-                            src={`${
-                              isMytrip || isSticky | IsActive || isMessage
-                                ? "/images/chat-history-icon-black-v3.svg"
-                                : "/images/chat-history-icon-white-v2.svg"
-                            }`}
-                            alt="Chat History Icon"
-                          />
-                        </Box>
-                      </Box>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                  {isHome && (
-                    <Box
-                      sx={{ display: { xs: "none", md: "flex" } }}
-                      display={"flex"}
-                      alignItems={"center"}
-                    >
-                      <Box
-                        className="btn btn-primary btn-lg-x  btn-round btn-shadow"
-                        alignItems="center"
-                        justifyContent="center"
-                        gap={1}
-                        component="button"
-                        onClick={HandleBookThread}
-                      >
-                        <Box>Book a trip</Box>
-                      </Box>
-                    </Box>
-                  )}
+                      </>
+                    ) : (
+                      ""
+                    )}
 
-                  {isMytrip && !isMobile && (
-                    <>
+                    {currentUser ? (
+                      <>
+                        <Box
+                          className=" cursor-pointer"
+                          alignItems={"center"}
+                          sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                        >
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            height={24}
+                            className={styles.ChatIcon + " imggroup"}
+                            onClick={() => {
+                              window.location.href = "/my-trips";
+                            }}
+                          >
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                              height={24}
+                              // Optional
+                              className={styles.ChatIcon + " imggroup"}
+                            >
+                              <img
+                                width={24}
+                                src={`${
+                                  isMytrip || isSticky | IsActive || isMessage
+                                    ? "/images/book-trip-icon.svg"
+                                    : "/images/book-trip-icon-white.svg"
+                                }`}
+                                alt="book trip"
+                              />
+                            </Box>
+                          </Box>
+                        </Box>
+                        <Box
+                          className=" cursor-pointer"
+                          alignItems={"center"}
+                          sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                        >
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            height={48}
+                            // Optional
+                            className={styles.ChatIcon + " imggroup"}
+                            onClick={handleThreadDrawer}
+                          >
+                            <img
+                              src={`${
+                                isMytrip || isSticky | IsActive || isMessage
+                                  ? "/images/chat-history-icon-black-v3.svg"
+                                  : "/images/chat-history-icon-white-v2.svg"
+                              }`}
+                              alt="Chat History Icon"
+                            />
+                          </Box>
+                        </Box>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    {isHome && (
                       <Box
-                        className=" cursor-pointer"
-                        onClick={HandleNewThread}
+                        sx={{ display: { xs: "none", md: "flex" } }}
                         display={"flex"}
                         alignItems={"center"}
                       >
                         <Box
-                          display="flex"
+                          className="btn btn-primary btn-lg-x  btn-round btn-shadow"
                           alignItems="center"
                           justifyContent="center"
-                          height={24}
-                          className={styles.ChatIcon + " imggroup"}
+                          gap={1}
+                          component="button"
+                          onClick={HandleBookThread}
                         >
-                          <img
-                            src="/images/chat-new-icon.svg"
-                            alt="Chat Icon"
-                          />
+                          <Box>Book a trip</Box>
                         </Box>
                       </Box>
-                    </>
-                  )}
+                    )}
+
+                    {isMytrip && !isMobile && (
+                      <>
+                        <Box
+                          className=" cursor-pointer"
+                          onClick={HandleNewThread}
+                          display={"flex"}
+                          alignItems={"center"}
+                        >
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            height={24}
+                            className={styles.ChatIcon + " imggroup"}
+                          >
+                            <img
+                              src="/images/chat-new-icon.svg"
+                              alt="Chat Icon"
+                            />
+                          </Box>
+                        </Box>
+                      </>
+                    )}
+                  </Box>
+                  {/*  */}
                 </Box>
-                {/*  */}
-              </Box>
-              {isChat && !isBuilderDialoge && isMobile && <SearchFilterBar />}
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        </Box>
+        {isChat && !isBuilderDialoge && <SearchFilterBar />}
       </Box>
 
       {/* extra content for  */}

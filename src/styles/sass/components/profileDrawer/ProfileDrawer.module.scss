@@ -1,0 +1,60 @@
+@import "../../variables";
+
+
+.TabBox {
+   img {
+      @include scale(16px !important, 16px !important);
+   }
+}
+.detailCol {
+   width: 100%;
+}
+.scrollTabsWrapper {
+   min-height: auto;
+   border-bottom: 1px solid #e0e0e0;
+   .customTabs {
+         min-height: auto;
+      .inactiveTab {
+         margin-right: 4px;
+         min-height: 38px;
+         display: flex;
+         flex-direction: row;
+         justify-content: center;
+         align-items: center;
+         padding: 10px 20px;
+         border-width: 1px 1px 0px 1px;
+         border-style: solid;
+         border-color: #E6EEEE;
+         border-radius: 8px 8px 0px 0px;
+         
+         transition: all 0.2s ease;
+         text-transform: capitalize;
+         background-color: $lightgray3;
+         color: $gray;
+         p {
+           font-weight: $bold;
+           font-size: $f12;
+          }
+        }
+        .activeTab {
+         color: $gray;
+          background-color: rgba(255, 255, 255, 0.6);
+       }
+   }
+}
+
+
+
+//  tabs
+.detailsSection {
+   // Placeholder for future details
+
+}
+
+@include for-mobile-large-screen (){ 
+   .TabBox {
+      img {
+         @include scale(10px !important, 10px !important);
+      }
+   }
+}

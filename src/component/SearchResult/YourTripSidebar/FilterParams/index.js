@@ -21,7 +21,7 @@ const FilterParams = () => {
          sx={{ flexDirection: { xs: "row", md: "row" } }}
        >
          <Typography
-           className=" gray mb-0"
+           className=" black-50 mb-0"
            sx={{ fontSize: { xs: "8px", lg: "12px", md: "12px" } }}
          >
            Filters:{" "}
@@ -39,7 +39,7 @@ const FilterParams = () => {
          </Typography>
          <Typography
            sx={{ fontSize: { xs: "8px", lg: "12px", md: "12px" } }}
-           className=" gray mb-0"
+           className=" black-50 mb-0"
          >
            Sorting: best match
          </Typography>

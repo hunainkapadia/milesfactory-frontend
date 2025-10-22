@@ -2,8 +2,10 @@ import { Box, Chip, Stack, Typography } from "@mui/material";
 import TripStyles from "@/src/styles/sass/components/search-result/YourTripSidebar.module.scss";
 
 const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
-  console.log("forHotel_0", getBuilder);
 
+
+  
+  
   return (
     <>
       <Box
@@ -15,7 +17,7 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
         <Box>
           <Chip
             variant="outlined"
-            label={`${forHotel ? "Hotel" : "Flights"}`}
+            label={`${forHotel ? "Stay" : "Flights"}`}
             className={`${TripStyles.BuilderChip} wjite-bg bold `}
             sx={{}}
             size="small"
@@ -39,7 +41,8 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
               {forHotel ? "Check-in" : "Departing"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {forHotel
+            
+              {forHotel && getBuilder?.departure_date
                 ? new Date(getBuilder?.departure_date).toLocaleDateString(
                     "en-GB",
                     {
@@ -48,9 +51,9 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
                       month: "short",
                     }
                   )
-                : forOneway
+                : forOneway && getBuilder?.from_destination
                 ? getBuilder?.from_destination
-                : forReturn
+                : forReturn && getBuilder?.to_destination
                 ? getBuilder?.to_destination
                 : "-"}
 
@@ -62,11 +65,11 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
             </Typography>
           </Stack>
           <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">
+            <Typography className="f12" whiteSpace={"nowrap"}>
               {forHotel ? "Check-out" : "Arriving"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold">
-              {forHotel
+              {forHotel && getBuilder?.return_date
                 ? new Date(getBuilder?.return_date).toLocaleDateString(
                     "en-GB",
                     {
@@ -75,32 +78,32 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
                       month: "short",
                     }
                   )
-                : forOneway
+                : forOneway && getBuilder?.to_destination
                 ? getBuilder?.to_destination
-                : forReturn
+                : forReturn && getBuilder?.from_destination
                 ? getBuilder?.from_destination
                 : "-"}
             </Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">
+            <Typography className="f12" whiteSpace={"nowrap"}>
               {forHotel ? "Rooms" : "Class"}
             </Typography>
             <Typography whiteSpace={"nowrap"} className="f12 black bold capitalize">
               {forHotel
-                ? 1
-                : forOneway
+                ? "1"
+                : forOneway && getBuilder?.cabin_class
                 ? getBuilder?.cabin_class
-                : forReturn
+                : forReturn && getBuilder?.cabin_class
                 ? getBuilder?.cabin_class
                 : "-"}
             </Typography>
           </Stack>
 
           <Stack alignItems="center" textAlign={"center"}>
-            <Typography className="f12">Travellers</Typography>
-            <Typography className="f12 black bold">
+            <Typography whiteSpace={"nowrap"} className="f12">Travellers</Typography>
+            <Typography className="f12 black bold" >
               {(getBuilder?.passengers?.adults ||
                 getBuilder?.passengers?.children?.length > 0 ||
                 getBuilder?.passengers?.infants?.length > 0) && (

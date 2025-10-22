@@ -289,7 +289,7 @@ p {
 }
 
 button.MuiIconButton-root {
-  padding: 13px;
+    padding: 0;
 }
 
 label {
@@ -657,6 +657,15 @@ label,
   border-bottom: solid 1px $lightgray2;
 }
 
+.fromAndtoField {
+  .MuiPopper-root {        
+    position: absolute !important;
+    left: 0 !important;
+    top: 12px !important;
+    width: 100% !important;
+    right: 0;
+  }
+}
 .css-1tlcqt-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0;
 }
@@ -1071,7 +1080,7 @@ pre {
 
 .f10 {
   font-size: 10px !important;
-  line-height: 1.2;
+  line-height: 1.4;
 }
 
 .f11 {
@@ -1157,16 +1166,39 @@ pre {
 }
 
 body {
-  .rdrSelected, .rdrInRange, .rdrStartEdge, .rdrEndEdge {
-      background-color: $basecolor1;
-    }
-    .rdrDayToday .rdrDayNumber span:after {
-      display: none;
-    }
-    .rdrDateDisplayItemActive, 
-    .rdrDayStartPreview, .rdrDayInPreview, .rdrDayEndPreview{
-      border-color:$basecolor1 !important; /* your hover border color */    
-    }
+  // Make selected date circular and bigger
+  .rdrDay  {
+    height: 50px;
+  }
+.rdrDayNumber span {
+  width: 36px;           // Increase width
+  height: 36px;          // Increase height
+  line-height: 36px;     // Center text vertically
+  border-radius: 50%;    // Make it a perfect circle
+  display: inline-flex;  // Flex for centering
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;      // Optional: make number bolder
+  transition: all 0.2s ease;
+}
+
+.rdrSelected,
+.rdrInRange,
+.rdrStartEdge,
+.rdrEndEdge {
+  background-color: $basecolor !important;
+  border-radius: 50% !important; // Ensure circular edges
+}
+
+.rdrDayStartPreview,
+.rdrDayInPreview,
+.rdrDayEndPreview {
+  border-color: $basecolor !important;
+}
+
+.rdrDayToday .rdrDayNumber span:after {
+  display: none;
+}
 
   a,
   a:focus,
@@ -1231,6 +1263,36 @@ body {
   .MuiDialogContent-root {
     padding: 16px;
   }
+  button.MuiIconButton-root {
+    padding: 13px;
+  }
+.sliderWrapper {
+  .slick-arrow  {
+      width: auto;
+    height: auto;
+    &.slick-prev {
+      left: 40px;
+      z-index: 1;
+      width: auto;
+      height: auto;
+      &::before {
+        font-size: 35px;
+        content: "\f104";
+        font-family: "Font Awesome 6 Free";
+        font-weight: bold;
+      }
+    }
+    &.slick-next {
+      right: 40px;
+      &::before {
+          font-size: 35px;
+          content: "\f105";
+          font-family: "Font Awesome 6 Free";
+          font-weight: bold;
+        }
+    }
+  }
+}
   
 .MuiDialog-container{ padding: 0 18px;}
   .formGroup {
@@ -1569,7 +1631,10 @@ body {
   justify-content: center;
   align-items: center;
   background-color: $white;
-  border: 1px solid $lightgray1;
+  border: 1px solid rgba(197, 218, 222, 0.3);
+
+
+
   border-radius: 100px;
   color: $lightgray1;
   &.lg {
@@ -1626,6 +1691,7 @@ body {
   @include padding(null 30px);
   font-weight: 500;
   cursor: pointer;
+  white-space: nowrap;
 
   >div {
     display: flex;
@@ -1750,9 +1816,8 @@ body {
   }
   &.btn-primary {
     &.disabled, &:disabled {
-      background: $basecolor1;
-      opacity: 0.5;
-      color: $white !important;
+      background: rgba($basecolor1, 0.5);
+      color: rgba($white, 0.7) !important;
       pointer-events: none; // disables clicks
       &.btn-round {
         
@@ -1792,10 +1857,10 @@ body {
     background: $basecolor1;
     letter-spacing: 0 !important;
     color: $white;
-    font-weight: 500;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: $bold;
 
     &.active:hover,
     &.active,
@@ -1990,10 +2055,11 @@ body {
     text-transform: capitalize;
   }
 }
-
+ .MuiDrawer-paper hr {
+  border-top: solid 1px $lightgray4 !important;
+ }
 hr {
   margin: 20px 0;
-  border-top: solid 1px $lightgray4 !important;
   border-color: $lightgray4 !important;
 }
 .Divider {
@@ -2657,9 +2723,9 @@ html {
 // chat loading
 .Loading {
   .dot {
-    width: 8px;
-    height: 8px;
-    background-color: $basecolor1;
+    width: 10px;
+    height: 10px;
+    background-color: #E1E1E1;
     border-radius: 50%;
     animation: bounce 1.5s infinite ease-in-out;
 
@@ -2828,6 +2894,25 @@ body .BuilderDialoge .MuiDialog-container {padding: 0;
 }
 
 @include for-mobile-large-screen {
+  body .sliderWrapper {
+  .slick-arrow  {
+      
+    &.slick-prev {
+      left: 20px;
+      &::before {
+        font-size: 30px;
+        
+      }
+    }
+    &.slick-next {
+      right: 20px;
+      &::before {
+          font-size: 30px;
+          
+        }
+    }
+  }
+}
   .chip {
     white-space: nowrap;
     &.sm {font-size: 8px;height: 12px;}
@@ -2868,7 +2953,7 @@ body .BuilderDialoge .MuiDialog-container {padding: 0;
 
   .MuiDialog-paper {
     margin: 0;
-    width: 339px;
+    width: 100%;
   }
 
 

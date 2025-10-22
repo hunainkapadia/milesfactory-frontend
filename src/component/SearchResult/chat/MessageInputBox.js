@@ -205,14 +205,23 @@ const MessageInputBox = ({
                 <Box className={inputStyles.SearchBoxIn}>
                   {isChat && !isMobile && (
                     <Box>
-                      <Box
-                        onClick={HandleNewThread}
-                        className={
-                          styles.newChatBtn + " newChatBtn lg cursor-pointer"
-                        }
+                      <Tooltip
+                        title="Coming soon - share documents"
+                        arrow
+                        placement="top"
                       >
-                        <FontAwesomeIcon className="basecolor" icon={faPlus} />
-                      </Box>
+                        <Box
+                          onClick={HandleNewThread}
+                          className={
+                            styles.newChatBtn + " newChatBtn lg cursor-pointer"
+                          }
+                        >
+                          <FontAwesomeIcon
+                            className="basecolor"
+                            icon={faPlus}
+                          />
+                        </Box>
+                      </Tooltip>
                     </Box>
                   )}
                   {(!isMobile || (isMobile && !isSticky)) &&
@@ -257,7 +266,6 @@ const MessageInputBox = ({
                     <Box
                       sx={{
                         position: "absolute",
-
                       }}
                       className={inputStyles.PlaceholderText}
                     >
@@ -294,8 +302,8 @@ const MessageInputBox = ({
                               display={"flex"}
                               justifyContent={"center"}
                               className={inputStyles.centerCol}
-                              sx={{ opacity: !getBuilder ? 0.5 : 1 }}
                             >
+                            
                               <MobileBuilder />
                             </Box>
                           </>
@@ -308,18 +316,24 @@ const MessageInputBox = ({
                               className={inputStyles.BoxButtons}
                               flexDirection={"row"}
                             >
-                              <Box
-                                onClick={HandleNewThread}
-                                className={
-                                  styles.newChatBtn +
-                                  " newChatBtn dark cursor-pointer"
-                                }
+                              <Tooltip
+                                title="Coming soon - share documents"
+                                arrow
+                                placement="top"
                               >
-                                <FontAwesomeIcon
-                                  className="white"
-                                  icon={faPlus}
-                                />
-                              </Box>
+                                <Box
+                                  onClick={HandleNewThread}
+                                  className={
+                                    styles.newChatBtn +
+                                    " newChatBtn dark cursor-pointer"
+                                  }
+                                >
+                                  <FontAwesomeIcon
+                                    className="white"
+                                    icon={faPlus}
+                                  />
+                                </Box>
+                              </Tooltip>
 
                               <ClickAwayListener
                                 onClickAway={() => setOpen(false)}
@@ -330,47 +344,10 @@ const MessageInputBox = ({
                                     onClose={() => setOpen(false)}
                                     onOpen={() => setOpen(true)}
                                     arrow
-                                    placement="bottom"
+                                    placement="top"
                                     title={
-                                      <>
-                                        <Stack gap={1} p={1}>
-                                          <Typography
-                                            variant="body2"
-                                            className="bluelighter"
-                                          >
-                                            1. Share documents
-                                          </Typography>
-                                          <Typography
-                                            variant="body2"
-                                            className="bluelighter"
-                                          >
-                                            2. Change the privacy of your trip
-                                          </Typography>
-                                          <Typography
-                                            variant="body2"
-                                            className="bluelighter"
-                                          >
-                                            3. Record a message
-                                          </Typography>
-                                          <Typography
-                                            variant="body2"
-                                            className="bluelighter"
-                                          >
-                                            4. Start your trip now!
-                                          </Typography>
-                                        </Stack>
-                                      </>
+                                      "Coming soon - Change the privacy of your trip"
                                     }
-                                    componentsProps={{
-                                      tooltip: {
-                                        sx: {
-                                          bgcolor: "#222", // background color
-                                          color: "#fff", // text color
-                                          fontSize: "14px",
-                                          padding: "8px",
-                                        },
-                                      },
-                                    }}
                                   >
                                     <Box
                                       onClick={() => setOpen((prev) => !prev)} // toggle on tap
@@ -395,7 +372,10 @@ const MessageInputBox = ({
                                       </svg>
                                       <Typography
                                         className="f12"
-                                        sx={{ pt: "4px" }}
+                                        sx={{
+                                          pt: "4px",
+                                          display: { md: "block", xs: "none" },
+                                        }}
                                       >
                                         Public
                                       </Typography>
@@ -426,36 +406,44 @@ const MessageInputBox = ({
                               {isMicActive ? (
                                 <i className="fa fa-check"></i>
                               ) : (
-                                <Box className="imggroup">
-                                  {isSticky ? (
-                                    <img
-                                      src="/images/mic-border-icon-v2.svg"
-                                      style={{
-                                        width: "12px",
-                                        maxWidth: "12px",
-                                      }}
-                                      alt="Mic"
-                                    />
-                                  ) : isChat ? (
-                                    <img
-                                      src="/images/search-mic-icon2.svg"
-                                      style={{
-                                        width: "12px",
-                                        maxWidth: "12px",
-                                      }}
-                                      alt="Mic"
-                                    />
-                                  ) : (
-                                    <img
-                                      src="/images/mic-border-icon.svg"
-                                      style={{
-                                        width: "12px",
-                                        maxWidth: "12px",
-                                      }}
-                                      alt="Mic"
-                                    />
-                                  )}
-                                </Box>
+                                <>
+                                  <Tooltip
+                                    placement="top"
+                                    title="Record a message"
+                                    arrow
+                                  >
+                                    <Box className="imggroup">
+                                      {isSticky ? (
+                                        <img
+                                          src="/images/mic-border-icon-v2.svg"
+                                          style={{
+                                            width: "12px",
+                                            maxWidth: "12px",
+                                          }}
+                                          alt="Mic"
+                                        />
+                                      ) : isChat ? (
+                                        <img
+                                          src="/images/search-mic-icon2.svg"
+                                          style={{
+                                            width: "12px",
+                                            maxWidth: "12px",
+                                          }}
+                                          alt="Mic"
+                                        />
+                                      ) : (
+                                        <img
+                                          src="/images/mic-border-icon.svg"
+                                          style={{
+                                            width: "12px",
+                                            maxWidth: "12px",
+                                          }}
+                                          alt="Mic"
+                                        />
+                                      )}
+                                    </Box>
+                                  </Tooltip>
+                                </>
                               )}
                             </IconButton>
 
@@ -469,15 +457,38 @@ const MessageInputBox = ({
                               </IconButton>
                             ) : (
                               <>
-                                <IconButton
-                                  className={`${inputStyles.SearchButton} ${
-                                    isLoading ? inputStyles.Disabled : ""
-                                  }`}
-                                  onClick={handleSearch}
-                                  disabled={isLoading}
+                               {!(isChat && isMobile && isMessage) && (
+                                <Tooltip
+                                  title="Start planning your trip!"
+                                  arrow
+                                  placement="top"
                                 >
-                                  <i className="fa fa-arrow-right"></i>
-                                </IconButton>
+                                  <IconButton
+                                    sx={{ p: 0 }}
+                                    className={`${inputStyles.SearchButton} ${
+                                      isLoading ? inputStyles.Disabled : ""
+                                    }`}
+                                    onClick={handleSearch}
+                                    disabled={isLoading}
+                                  >
+                                    {inputLoading && isHomePage ? (
+                                      <>
+                                        <Box>
+                                          <CircularProgress
+                                            size={15}
+                                            color="inherit"
+                                            sx={{ color: "white" }}
+                                          />
+                                        </Box>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <i className="fa fa-arrow-right"></i>
+                                      </>
+                                    )}
+                                  </IconButton>
+                                </Tooltip>
+                               )}
                               </>
                             )}
                           </Stack>

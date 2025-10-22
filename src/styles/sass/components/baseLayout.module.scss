@@ -4,6 +4,9 @@
 
 // search share dropdown header
 
+.humberer {
+   width: 15px;
+}
 .ShareDropdown {
    @include transition(all 0.2s ease-in-out);
    padding: 0px;
@@ -57,14 +60,14 @@
 }
 
 .Header {
-   display: flex;
-   align-items: center;
    position: sticky;
    top: 0;
    width: 100%;
    left: 0;
    z-index: 7;
-   height: $headerHeightMd;
+   .HeaderBox {
+      height: $headerHeightMd;
+   }
    
    &.AiBookingFrontHeader {position: relative; background-color: $white;}
    &.AiBookingMainHeaderRow1 {
@@ -157,9 +160,13 @@
       }
    }
    &.isMessage {
-      padding-right: 10px;
-      background-color: $white;
-      box-shadow: 0px 1px 0px rgba(0, 80, 83, 0.05);
+      .HeaderBox {
+         z-index: 20;
+         position: sticky;
+         padding-right: 10px;
+         background-color: $white;
+         border-bottom: solid 1px #E6EEEE;
+      }
       
       .Box {z-index: 8;
          .Login {
@@ -307,13 +314,10 @@
     }
    
     .Header {
+      .HeaderBox {height: $headerHeightXs;display: flex; align-items: center;}
       &.Sticky {
          height: $headerHeightXs;
       }
-      height: $headerHeightXs;
-      
-        display: flex;
-        align-items: center;
        &.AiBookingMainHeaderRow2 {
          height: 40px;
       }
@@ -358,7 +362,7 @@
          }
          .HeaderRightCol {gap: 0 24px;
             position: absolute;
-            right: 8px;
+            right: 0;
          }
          .userName {
             display: none;

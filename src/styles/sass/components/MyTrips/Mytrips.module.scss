@@ -168,11 +168,16 @@
 
 .tripCard {
    transition: transform 0.2s ease, box-shadow 0.2s ease;
-   padding: 24px 16px;
+   padding: 16px 16px;
    height: 319px;
    background: #FFFFFF;
    border: 1px solid #E6EEEE;
    border-radius: 16px;
+   overflow-y: auto;
+
+    display: flex;
+    justify-content:space-between;
+    flex-direction: column;
 
 
    &:hover {
@@ -208,4 +213,11 @@
          background-color: rgba(255, 255, 255, 0.6);
          color: $basecolor;
 
+       }
+
+       @include for-mobile-large-screen (){
+         .tripCard {
+            height: auto;
+            gap: 12px;
+         }
        }

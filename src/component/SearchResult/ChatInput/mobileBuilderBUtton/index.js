@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { event } from "@/src/utils/utils";
 
 const MobileBuilder = ({isMobileBuilder}) => {
-  console.log("isMobileBuilder_22", isMobileBuilder);
   
   const dispatch = useDispatch();
   const isBuilder = useSelector((state) => state?.base?.IsBuilderDialog);
@@ -28,9 +27,13 @@ const MobileBuilder = ({isMobileBuilder}) => {
 
   return (
     <>
-      {isBuilderArgument && (
+      
         <Box
-          className={`${styles.switchWrapper} ${isMobileBuilder ? styles.isMobileBuilder : ""} customTabs TapNone`}
+          className={`
+          ${styles.switchWrapper}
+          ${isMobileBuilder && styles.isMobileBuilder} 
+          ${isBuilderArgument && styles.switchWrapperActive}
+           customTabs TapNone`}
           sx={{
             backgroundColor: "#F2F7F8",
             borderRadius: "8px",
@@ -74,7 +77,7 @@ const MobileBuilder = ({isMobileBuilder}) => {
             <Typography variant="body2">Builder</Typography>
           </Box>
         </Box>
-      )}
+      
     </>
   );
 };

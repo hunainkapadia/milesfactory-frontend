@@ -7,6 +7,7 @@ import {
   Autocomplete,
   createFilterOptions,
   Typography,
+  Fade,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -27,6 +28,7 @@ const FromAndTooFields = ({
   destinationOption,
   setDestinationOption,
   errors = {},
+  isMobile
 }) => {
   const dispatch = useDispatch();
 
@@ -85,6 +87,11 @@ const FromAndTooFields = ({
 
   const [alwaysOpen, setAlwaysOpen] = useState(true);
 
+  const handleOrigin =(value)=> {
+    setOriginOption(value); // store selected option object
+    setOrigin(value?.iata_code || ""); // display only IATA code in input
+  }
+
   return (
     <>
       {/* Origin Field */}
@@ -102,7 +109,7 @@ const FromAndTooFields = ({
               : ""
           }
           value={originOption} // selected object
-          inputValue={capitalizeFirstWord(origin)} // input shows only IATA code
+          inputValue={origin} // input shows only IATA code
           onInputChange={(e, value, reason) => {
             if (reason === "input") {
               setOrigin(value);
@@ -110,8 +117,9 @@ const FromAndTooFields = ({
             }
           }}
           onChange={(e, value) => {
-            setOriginOption(value); // store selected option object
-            setOrigin(value?.iata_code || ""); // display only IATA code in input
+            handleOrigin(value)
+            
+            
           }}
           ListboxProps={{
             className: styles.countryDropdown + " countryDropdown",
@@ -142,59 +150,71 @@ const FromAndTooFields = ({
         />
       </Box>
 
-      {/* Destination Field */}
-      <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
-        <Autocomplete
-          freeSolo
-          options={originOptions}
-          loading={loadingDestination}
-          filterOptions={filterOptions}
-          getOptionLabel={(option) =>
-            typeof option === "string"
-              ? option
-              : option?.name
-              ? `${option.name} - ${option.iata_code}`
-              : ""
-          }
-          value={destinationOption}
-          inputValue={capitalizeFirstWord(destination)}
-          onInputChange={(e, value, reason) => {
-            if (reason === "input") {
-              setDestination(value);
-              handleAirportSearch(value, "destination");
-            }
-          }}
-          onChange={(e, value) => {
-            setDestinationOption(value);
-            setDestination(value?.iata_code || "");
-          }}
-          ListboxProps={{
-            className: styles.countryDropdown + " countryDropdown",
-          }}
-          renderOption={(props, option) => (
-            <li
-              {...props}
-              className={`${option?.is_city ? styles.parent : styles.child}`}
-            >
-              <FontAwesomeIcon icon={option?.is_city ? faBuilding : faPlane} />
-              <Typography>
-                {option.name} - {option.iata_code}
-              </Typography>
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              placeholder="Arriving at"
-              size="small"
-              className={`${styles.formControl} ${styles.from} formControl`}
-              error={!!errors.destination}
-              helperText={errors.destination}
+      
+        <>
+        <Fade in={!isMobile || (isMobile && originOption)}>
+          {/* Destination Field */}
+          <Box className={`${styles.formGroup} ${styles.countryDropdown}`}>
+            <Autocomplete
+              freeSolo
+              options={originOptions}
+              loading={loadingDestination}
+              filterOptions={filterOptions}
+              getOptionLabel={(option) =>
+                typeof option === "string"
+                  ? option
+                  : option?.name
+                  ? `${option.name} - ${option.iata_code}`
+                  : ""
+              }
+              value={destinationOption}
+              inputValue={destination}
+              onInputChange={(e, value, reason) => {
+                if (reason === "input") {
+                  setDestination(value);
+                  handleAirportSearch(value, "destination");
+                }
+              }}
+              onChange={(e, value) => {
+                
+                setDestinationOption(value);
+                setDestination(value?.iata_code || "");
+              }}
+              ListboxProps={{
+                className: styles.countryDropdown + " countryDropdown",
+              }}
+              renderOption={(props, option) => (
+                <li
+                  {...props}
+                  className={`${
+                    option?.is_city ? styles.parent : styles.child
+                  }`}
+                >
+                  <FontAwesomeIcon
+                    icon={option?.is_city ? faBuilding : faPlane}
+                  />
+                  <Typography>
+                    {option.name} - {option.iata_code}
+                  </Typography>
+                </li>
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Arriving at"
+                  size="small"
+                  className={`${styles.formControl} ${styles.from} formControl`}
+                  error={!!errors.destination}
+                  helperText={errors.destination}
+                />
+              )}
             />
-          )}
-        />
-      </Box>
+          </Box>
+        </Fade>
+        
+        </>
+      
     </>
   );
 };

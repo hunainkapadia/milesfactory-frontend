@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/apiEndpoints"; // Fixed import
 import api from "../../api";
 import { setCurrentUser, setMobileNaveDrawer } from "../Base/baseSlice";
-import { setIsSignupUser } from "./SignupSlice";
+import { setIsSignupUser, setRegisterPopup } from "./SignupSlice";
 
 const initialState = {
   loginUser: null,
@@ -127,7 +127,6 @@ export const googleLoginUser = (code) => (dispatch) => {
     .post("/api/auth/google/", { code })
     .then((res) => {
 
-      console.log("google_res", res);
       
       if (res.status === 200) {
         const { user, access, refresh } = res.data;
@@ -142,6 +141,7 @@ export const googleLoginUser = (code) => (dispatch) => {
         );
         dispatch(setLoginState(false))
         dispatch(setMobileNaveDrawer(false))
+        dispatch(setRegisterPopup(false))
         // 2. Store user info (without tokens) in cookie
         Cookies.set(
           "set-user",
@@ -180,10 +180,7 @@ export const LoginWithFacebook = (access_token) => (dispatch) => {
   api
     .post("/api/auth/facebook/", { access_token }) // Your backend endpoint
     .then((res) => {
-      const { user, access, refresh } = res.data;
-
-      console.log("fb_res", res);
-      
+      const { user, access, refresh } = res.data;      
 
       dispatch(
         setLoginUser({
@@ -225,7 +222,7 @@ export const Logout = () => (dispatch) => {
   api
     .post("/api/v1/logout/", { refresh: refreshToken }) // <-- send string, not object
     .then((res) => {
-      console.log("refreshToken_logout_2", refreshToken);
+      
 
       dispatch(setLogoutUser(res.data));
       dispatch(setCurrentUser(null));
@@ -244,9 +241,7 @@ export const Logout = () => (dispatch) => {
 
 
 export const LoginWithApple = (code) => (dispatch) => {
-  dispatch(setisLoading(true));
-  console.log("apple_test", res);
-  
+  dispatch(setisLoading(true));  
   api.post("/api/auth/apple/", { code })
   .then((res) => {
     const { user, access, refresh } = res.data;
