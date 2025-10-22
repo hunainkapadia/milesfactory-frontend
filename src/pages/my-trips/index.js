@@ -53,7 +53,7 @@ const MyTrips = () => {
     dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
   };
 
-  console.log("currentUser", currentUser);
+  
   
   useEffect(() => {
     if (!currentUser) {

@@ -24,7 +24,7 @@ const ChatError = (error) => {
             Error
           </Typography>
           <Typography variant="body2" sx={{ color: "#991b1b" }}>
-            Something went wrong, please try again
+            {error?.error ? error?.error : "Something went wrong, please try again"}
           </Typography>
         </Box>
       )}
