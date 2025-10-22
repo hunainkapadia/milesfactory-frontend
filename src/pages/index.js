@@ -18,6 +18,7 @@ import HomeSection4 from "../component/home/HomeSection4";
 import HomeSection2 from "../component/home/HomeSection2";
 import Cookies from "js-cookie";
 import { Box } from "@mui/material";
+import { setContactDialog } from "../store/slices/Base/baseSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,15 @@ const Home = () => {
   // }, [0]);
   
   // 1st creat thread befor befor message from home 
+  const router = useRouter()
+  useEffect (()=> {
+    const isContact = router?.query?.isContact
+    console.log("router_test", router?.query?.isContact);
+    if (isContact) {
+      dispatch(setContactDialog(true));
+    }
+    
+  },[router])
   
 
   return (
