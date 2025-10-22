@@ -48,17 +48,15 @@ const Messages = () => {
   const isLoading = useSelector(
     (state) => state.sendMessage?.isLoading || false
   );
-  
-  
+
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
 
   //  Get past messages from API (GET)
   const getmessages = useSelector((state) => state.getMessages.messages);
-  
-  
+
   //  Combine stored messages (live chat) with fetched messages (history)
-  const messages = [...getmessages, ...sendMessages];  
+  const messages = [...getmessages, ...sendMessages];
 
   // for bookingdrawer selector
   const flightDetail = useSelector((state) => state.booking.flightDetail);
@@ -68,12 +66,10 @@ const Messages = () => {
 
   // for passenger form
 
-  
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
   const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
-  
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());
@@ -81,14 +77,13 @@ const Messages = () => {
   };
 
   const SearchHistoryGet = useSelector(
-      (state) => state.getMessages.SearchHistory
-    );
-  
-    const SearchHistorySend = useSelector(
-      (state) => state.sendMessage?.SearchHistorySend
-    );
-    const SearchHistory = SearchHistorySend || SearchHistoryGet;
-    
+    (state) => state.getMessages.SearchHistory
+  );
+
+  const SearchHistorySend = useSelector(
+    (state) => state.sendMessage?.SearchHistorySend
+  );
+  const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
   return (
     <>
@@ -101,18 +96,28 @@ const Messages = () => {
           >
             <Box className={searchResultStyles.messageContentIn}>
               {messages.map((msg, index) => (
-  <Box key={index}>
-    {msg?.user && <UserMessage userMessage={msg.user} />}
-    {msg?.ai && <AiMessage aiMessage={msg} offerId={msg?.OfferId} />}
+                <Box key={index}>
+                  {console.log("msg_user", msg?.user)}
+                  {msg?.user && !msg.user.startsWith("SYSTEM MESSAGE:") ? (
+  <UserMessage userMessage={msg.user} />
+) : msg?.user && msg.user.startsWith("SYSTEM MESSAGE:") ? (
+  // Custom UI for system message
+  ""
+) : null}
 
-    {/* Show loader only once after the last message */}
-    {isLoading && index === messages.length - 1 && (
-      <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>
-        <LoadingArea />
-      </Box>
-    )}
-  </Box>
-))}
+                  
+                  {msg?.ai && (
+                    <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
+                  )}
+
+                  {/* Show loader only once after the last message */}
+                  {isLoading && index === messages.length - 1 && (
+                    <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>
+                      <LoadingArea />
+                    </Box>
+                  )}
+                </Box>
+              ))}
 
               {/*  */}
 

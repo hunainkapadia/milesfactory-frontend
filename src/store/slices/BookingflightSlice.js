@@ -169,17 +169,17 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     // if API returns uuid, immediately fetch cart items
     if (res.data) {
       
-      // const systemMessage =  res.data?.system_message;
+      const systemMessage =  res.data?.system_message;
 
-      // if (systemMessage) {
-      //   if (uuid) {
+      if (systemMessage) {
+        if (uuid) {
           
-      //     dispatch(sendMessage(systemMessage))
-      //   } else {
-      //     // If no thread exists yet → create one first
-      //     dispatch(sendMessage(systemMessage));
-      //   }
-      // }
+          dispatch(sendMessage(systemMessage))
+        } else {
+          // If no thread exists yet → create one first
+          dispatch(sendMessage(systemMessage));
+        }
+      }
       
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));
