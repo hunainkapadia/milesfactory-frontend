@@ -409,10 +409,11 @@ const MessageInputBox = ({
                                 >
                                   {isMicActive ? (
                                     <>
-                                      {(!isChat && !isMobile) ||
-                                        ((isHomePage || isSticky) && (
-                                          <i className="fa fa-check"></i>
-                                        ))}
+                                      {isChat && !isMobile ? (
+                                        <i className="fa fa-check"></i>
+                                      ) : (isHomePage || isSticky) ? (
+                                        <i className="fa fa-check"></i>
+                                      ): ""}
                                     </>
                                   ) : (
                                     <Tooltip
