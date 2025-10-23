@@ -58,8 +58,12 @@ const sendMessageSlice = createSlice({
     functionType: null,
     isUpdateOffer: false,
     error: null,
+    hotelSearchId: null,
   },
   reducers: {
+    setHotelSearchId:(state, action) => {
+      state.hotelSearchId = action.payload;
+    },
     setError:(state, action) => {
       state.error = action.payload;
     },
@@ -377,6 +381,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
           const HotelArgument =
             response?.silent_function_template?.[0]?.function?.arguments || {};
+            const hotelSearchuuid = response?.response?.results?.view_hotel_search_api?.uuid
+            dispatch(setHotelSearchId(hotelSearchuuid))
+            console.log("hotel__response", response?.response?.results?.view_hotel_search_api?.uuid);
+            
           
 
           dispatch(setSearchHistorySend({ hotel: HotelArgument }));
@@ -392,6 +400,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
                 dispatch(setLoading(false));
+                
                 if (isComplete === true) {
                   dispatch(setClearflight());
                   dispatch(setMessage({ ai: hotelRes.data }));
@@ -610,5 +619,6 @@ export const {
   setUpdateOffer,
   setIsUpdateOffer,
   setError,
+  setHotelSearchId,
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

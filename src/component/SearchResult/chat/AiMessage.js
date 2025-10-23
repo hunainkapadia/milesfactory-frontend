@@ -267,8 +267,8 @@ const AiMessage = ({ aiMessage }) => {
                       <>
                         <ChatError
                           error={
-                            aiMessage?.ai?.response?.error ||
-                            aiMessage?.ai?.error?.response?.message
+                            aiMessage?.ai?.response?.error || // flight not found error
+                            aiMessage?.ai?.error?.response?.message // duffel technical isue error
                           }
                         />
                       </>
