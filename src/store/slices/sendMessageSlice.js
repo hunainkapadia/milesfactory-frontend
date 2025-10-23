@@ -291,6 +291,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const allFlightSearchUuid =
           response?.response?.results?.view_all_flight_result_api?.uuid;
 
+          console.log("filter_allFlightSearchApi", response?.response)
+        const hotelSearchApi =
+            response?.response?.results?.view_hotel_search_api?.url;
+
         if (allFlightSearchApi) {
           dispatch(setTopOfferUrlSend(allFlightSearchUuid));
           dispatch(setAllOfferUrl(allFlightSearchApi));
@@ -375,7 +379,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         }
 
         // --------- Hotel Flow
-        else if (funcName === "search_hotel_result_func") {
+        else if (hotelSearchApi) {
           const hotelSearchApi =
             response?.response?.results?.view_hotel_search_api?.url;
 

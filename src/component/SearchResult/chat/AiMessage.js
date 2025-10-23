@@ -364,14 +364,7 @@ const AiMessage = ({ aiMessage }) => {
               </Typography>
             </Box>
           ) : (
-            <Box
-              sx={{ my: 2 }}
-              display="flex"
-              alignItems="center"
-              className="bold"
-            >
-              No more hotels found.
-            </Box>
+            ""
           )}
         </Box>
       )}
