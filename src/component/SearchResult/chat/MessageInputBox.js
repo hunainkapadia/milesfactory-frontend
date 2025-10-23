@@ -303,7 +303,6 @@ const MessageInputBox = ({
                               justifyContent={"center"}
                               className={inputStyles.centerCol}
                             >
-                            
                               <MobileBuilder />
                             </Box>
                           </>
@@ -394,58 +393,63 @@ const MessageInputBox = ({
                             className={inputStyles.BoxButtons}
                             flexDirection={"row"}
                           >
-                            <IconButton
-                              className={`${inputStyles.MicButton} ${
-                                isMicActive
-                                  ? inputStyles.isMicActive
-                                  : inputStyles.MicButton
-                              }`}
-                              onClick={handleVoiceInput}
-                              disabled={isLoading}
-                            >
-                              {isMicActive ? (
-                                <i className="fa fa-check"></i>
-                              ) : (
-                                <>
-                                  <Tooltip
-                                    placement="top"
-                                    title="Record a message"
-                                    arrow
-                                  >
-                                    <Box className="imggroup">
-                                      {isSticky ? (
-                                        <img
-                                          src="/images/mic-border-icon-v2.svg"
-                                          style={{
-                                            width: "12px",
-                                            maxWidth: "12px",
-                                          }}
-                                          alt="Mic"
-                                        />
-                                      ) : isChat ? (
-                                        <img
-                                          src="/images/search-mic-icon2.svg"
-                                          style={{
-                                            width: "12px",
-                                            maxWidth: "12px",
-                                          }}
-                                          alt="Mic"
-                                        />
-                                      ) : (
-                                        <img
-                                          src="/images/mic-border-icon.svg"
-                                          style={{
-                                            width: "12px",
-                                            maxWidth: "12px",
-                                          }}
-                                          alt="Mic"
-                                        />
-                                      )}
-                                    </Box>
-                                  </Tooltip>
-                                </>
-                              )}
-                            </IconButton>
+                            {console.log("isHomePage_00", isHomePage)}
+                            {((isChat && (!isMobile || !isTyping)) ||
+                              isHomePage ||
+                              isSticky) && (
+                              <>
+                                <IconButton
+                                  className={`${inputStyles.MicButton} ${
+                                    isMicActive
+                                      ? inputStyles.isMicActive
+                                      : inputStyles.MicButton
+                                  }`}
+                                  onClick={handleVoiceInput}
+                                  disabled={isLoading}
+                                >
+                                  {isMicActive ? (
+                                    <i className="fa fa-check"></i>
+                                  ) : (
+                                    <Tooltip
+                                      placement="top"
+                                      title="Record a message"
+                                      arrow
+                                    >
+                                      <Box className="imggroup">
+                                        {isSticky ? (
+                                          <img
+                                            src="/images/mic-border-icon-v2.svg"
+                                            style={{
+                                              width: "12px",
+                                              maxWidth: "12px",
+                                            }}
+                                            alt="Mic"
+                                          />
+                                        ) : isChat ? (
+                                          <img
+                                            src="/images/search-mic-icon2.svg"
+                                            style={{
+                                              width: "12px",
+                                              maxWidth: "12px",
+                                            }}
+                                            alt="Mic"
+                                          />
+                                        ) : (
+                                          <img
+                                            src="/images/mic-border-icon.svg"
+                                            style={{
+                                              width: "12px",
+                                              maxWidth: "12px",
+                                            }}
+                                            alt="Mic"
+                                          />
+                                        )}
+                                      </Box>
+                                    </Tooltip>
+                                  )}
+                                </IconButton>
+                              </>
+                            )}
 
                             {isMicActive ? (
                               <IconButton
@@ -457,38 +461,41 @@ const MessageInputBox = ({
                               </IconButton>
                             ) : (
                               <>
-                               {!(isChat && isMobile && isMessage) && (
-                                <Tooltip
-                                  title="Start planning your trip!"
-                                  arrow
-                                  placement="top"
-                                >
-                                  <IconButton
-                                    sx={{ p: 0 }}
-                                    className={`${inputStyles.SearchButton} ${
-                                      isLoading ? inputStyles.Disabled : ""
-                                    }`}
-                                    onClick={handleSearch}
-                                    disabled={isLoading}
+                                {(isTyping ||
+                                  !isChat ||
+                                  !isMobile ||
+                                  !isMessage) && (
+                                  <Tooltip
+                                    title="Start planning your trip!"
+                                    arrow
+                                    placement="top"
                                   >
-                                    {inputLoading && isHomePage ? (
-                                      <>
-                                        <Box>
-                                          <CircularProgress
-                                            size={15}
-                                            color="inherit"
-                                            sx={{ color: "white" }}
-                                          />
-                                        </Box>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-arrow-right"></i>
-                                      </>
-                                    )}
-                                  </IconButton>
-                                </Tooltip>
-                               )}
+                                    <IconButton
+                                      sx={{ p: 0 }}
+                                      className={`${inputStyles.SearchButton} ${
+                                        isLoading ? inputStyles.Disabled : ""
+                                      }`}
+                                      onClick={handleSearch}
+                                      disabled={isLoading}
+                                    >
+                                      {inputLoading && isHomePage ? (
+                                        <>
+                                          <Box>
+                                            <CircularProgress
+                                              size={15}
+                                              color="inherit"
+                                              sx={{ color: "white" }}
+                                            />
+                                          </Box>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="fa fa-arrow-right"></i>
+                                        </>
+                                      )}
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
                               </>
                             )}
                           </Stack>
