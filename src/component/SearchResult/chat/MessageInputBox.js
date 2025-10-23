@@ -408,7 +408,12 @@ const MessageInputBox = ({
                                   disabled={isLoading}
                                 >
                                   {isMicActive ? (
-                                    <i className="fa fa-check"></i>
+                                    <>
+                                      {(!isChat && !isMobile) ||
+                                        ((isHomePage || isSticky) && (
+                                          <i className="fa fa-check"></i>
+                                        ))}
+                                    </>
                                   ) : (
                                     <Tooltip
                                       placement="top"
