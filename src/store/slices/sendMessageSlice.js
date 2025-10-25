@@ -376,9 +376,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                             : "");
 
                         if (filterInfo) {
-                          alert(`Filter applied: ${filterInfo}`);
+                          
                         } else {
-                          alert("Flights loaded successfully!");
+                          
                         }
 
                         //  Continue normal logic
@@ -440,11 +440,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 dispatch(setLoading(false));
 
                 if (isComplete === true) {
-                  alert("111");
+                  
                   dispatch(setClearflight());
                   dispatch(setMessage({ ai: hotelRes.data }));
                 } else {
-                  alert("222");
+                  
 
                   let hotelName = null;
                   let hotelCategory = null;
@@ -479,9 +479,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                   //  Alert logic
                   if (hotelName || hotelCategory) {
-                    alert(`Filter applied: ${hotelName || hotelCategory}`);
+                    
                   } else {
-                    alert("Hotels loaded successfully!");
+                    
                   }
 
                   //  Dispatch message
