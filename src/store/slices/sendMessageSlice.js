@@ -330,6 +330,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           };
 
           const pollHistoryUntilComplete = () => {
+              alert("✅ Polling started for flight search...");
+
             const interval = setInterval(() => {
               dispatch(setLoading(true));
               api
@@ -341,6 +343,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   );
 
                   if (isComplete === true) {
+                    console.log("isComplete_0", isComplete);
+                    
                     clearInterval(interval);
                     api.get(allFlightSearchApi).then((flightRes) => {
                       if (
@@ -376,9 +380,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                             : "");
 
                         if (filterInfo) {
-                          
                         } else {
-                          
                         }
 
                         //  Continue normal logic
@@ -396,6 +398,18 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                       dispatch(setLoading(false));
                     });
+                  } else if (!hasShownInitialMessage) {
+                    console.log("isComplete_1", isComplete);
+                    hasShownInitialMessage = true;
+                    showRealResults();
+
+                    dispatch(
+                      setMessage({
+                        ai: { response: response?.response },
+                        type: "flight_placeholder",
+                      })
+                    );
+                    dispatch(setLoading(false));
                   }
                 })
                 .catch((err) => {
@@ -437,14 +451,15 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .get(hotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
+                console.log("hotelRes_true1", isComplete);
+
                 dispatch(setLoading(false));
 
                 if (isComplete === true) {
-                  
                   dispatch(setClearflight());
                   dispatch(setMessage({ ai: hotelRes.data }));
                 } else {
-                  
+                  console.log("hotelRes_true2", isComplete);
 
                   let hotelName = null;
                   let hotelCategory = null;
@@ -463,7 +478,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       );
 
                       console.log("parsedUrl_011", parsedUrl);
-                      
 
                       //  Extract filters
                       hotelName = parsedUrl.searchParams.get("name");
@@ -479,9 +493,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
                   //  Alert logic
                   if (hotelName || hotelCategory) {
-                    
                   } else {
-                    
                   }
 
                   //  Dispatch message
