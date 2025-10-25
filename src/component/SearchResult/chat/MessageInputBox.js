@@ -395,8 +395,7 @@ const MessageInputBox = ({
                           >
                             {console.log("isHomePage_00", isHomePage)}
                             {((isChat && (!isMobile || !isTyping)) ||
-                              isHomePage ||
-                              isSticky) && (
+                              isHomePage || isSticky) && (
                               <>
                                 <IconButton
                                   className={`${inputStyles.MicButton} ${
@@ -411,9 +410,11 @@ const MessageInputBox = ({
                                     <>
                                       {isChat && !isMobile ? (
                                         <i className="fa fa-check"></i>
-                                      ) : (isHomePage || isSticky) ? (
+                                      ) : isHomePage || isSticky ? (
                                         <i className="fa fa-check"></i>
-                                      ): ""}
+                                      ) : (
+                                        ""
+                                      )}
                                     </>
                                   ) : (
                                     <Tooltip

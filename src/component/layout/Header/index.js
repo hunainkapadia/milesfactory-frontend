@@ -387,7 +387,7 @@ const Header = ({
             </Grid>
           </Container>
         </Box>
-        {isChat && !isBuilderDialoge && <SearchFilterBar />}
+        {/* {isChat && !isBuilderDialoge && <SearchFilterBar />} */}
       </Box>
 
       {/* extra content for  */}

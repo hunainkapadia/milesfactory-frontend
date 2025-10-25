@@ -14,7 +14,13 @@ import {
   setGetCartDetail,
   resetBookingState,
 } from "./BookingflightSlice";
-import { resetPassengerFlightState, setAddFilledPassenger, setAllPassengerFill, setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
+import {
+  resetPassengerFlightState,
+  setAddFilledPassenger,
+  setAllPassengerFill,
+  setOrderUuid,
+  setViewPassengers,
+} from "./passengerDrawerSlice";
 import {
   clearGetMessages,
   fetchMessages,
@@ -25,8 +31,16 @@ import {
   setMobileNaveDrawer,
   setThreadDrawer,
 } from "./Base/baseSlice";
-import {resetOrderState, setOrderConfirm, setOrderData, setPaymentFormSuccess } from "./PaymentSlice";
-import { resetPassengerHotelState, setOrderUuidHotel } from "./passengerDrawerHotelSlice";
+import {
+  resetOrderState,
+  setOrderConfirm,
+  setOrderData,
+  setPaymentFormSuccess,
+} from "./PaymentSlice";
+import {
+  resetPassengerHotelState,
+  setOrderUuidHotel,
+} from "./passengerDrawerHotelSlice";
 import { resetBaggageState } from "./BaggageSlice";
 import { setSelectedhotelCode } from "./HotelSlice";
 
@@ -61,10 +75,10 @@ const sendMessageSlice = createSlice({
     hotelSearchId: null,
   },
   reducers: {
-    setHotelSearchId:(state, action) => {
+    setHotelSearchId: (state, action) => {
       state.hotelSearchId = action.payload;
     },
-    setError:(state, action) => {
+    setError: (state, action) => {
       state.error = action.payload;
     },
     setFunctionType: (state, action) => {
@@ -124,8 +138,6 @@ const sendMessageSlice = createSlice({
       state.pollingComplete = action.payload;
     },
     setisPolling: (state, action) => {
-      
-
       state.isPolling = action.payload;
     },
     setTopOfferUrlSend: (state, action) => {
@@ -176,8 +188,6 @@ const sendMessageSlice = createSlice({
       state.AllFlightPostApi = action.payload;
     },
     setSearchHistorySend: (state, action) => {
-      
-
       state.SearchHistorySend = action.payload;
     },
     setThreadUUIDsend: (state, action) => {
@@ -203,10 +213,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
   const threadUUID = pathname.split("/chat/")[1];
 
   dispatch(setMessage({ user: userMessage }));
-  
+
   const sendToThread = (uuid) => {
     const threadUUIdUrl = `${API_ENDPOINTS.CHAT.SEND_MESSAGE}/${uuid}`;
-    
+
     dispatch(setLoading(true));
     api
       .post(threadUUIdUrl, { user_message: userMessage, background_job: false })
@@ -214,10 +224,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         let response = res.data;
         const run_id = response.run_id;
         const run_status = response.run_status;
-        
+
         dispatch(setMessage({ ai: { error: response } }));
-        dispatch(setLoading(false))
-        
+        dispatch(setLoading(false));
+
         if (response?.silent_is_function) {
           dispatch(setAddBuilder(response));
         }
@@ -227,7 +237,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
-          
 
           dispatch(setpollingComplete(false));
           dispatch(
@@ -237,7 +246,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               },
             })
           );
-          
 
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
@@ -247,7 +255,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .then((resRun) => {
                     const runData = resRun.data;
                     if (runData.run_status === "completed") {
-                      
                       clearInterval(interval);
                       resolve(runData);
                     }
@@ -263,7 +270,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           return pollUntilComplete()
             .then((completedRun) => {
               response = completedRun;
-              
+
               dispatch(setpollingComplete(true));
               handleFinalResponse(response);
             })
@@ -273,9 +280,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         }
       })
       .catch(() => {})
-      .finally(() => {
-        
-      });
+      .finally(() => {});
 
     // Final Response Handler
     const handleFinalResponse = (response) => {
@@ -285,15 +290,15 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const funcName = response?.function_template?.[0]?.function?.name;
         dispatch(setFunctionType(funcName));
 
-        // --------- Flight Flow 
+        // --------- Flight Flow
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         const allFlightSearchUuid =
           response?.response?.results?.view_all_flight_result_api?.uuid;
 
-          console.log("filter_allFlightSearchApi", response?.response)
+        console.log("filter_allFlightSearchApi", response?.response);
         const hotelSearchApi =
-            response?.response?.results?.view_hotel_search_api?.url;
+          response?.response?.results?.view_hotel_search_api?.url;
 
         if (allFlightSearchApi) {
           dispatch(setTopOfferUrlSend(allFlightSearchUuid));
@@ -307,16 +312,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             api
               .get(allFlightSearchApi)
               .then((flightRes) => {
-                
-                
-                
-                
                 const isComplete = flightRes?.data?.is_complete;
                 if (isComplete === true) {
                   dispatch(setMessage({ ai: flightRes.data }));
-                  
                 } else {
-                  
                   dispatch(
                     setMessage({
                       ai: flightRes.data,
@@ -344,34 +343,68 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   if (isComplete === true) {
                     clearInterval(interval);
                     api.get(allFlightSearchApi).then((flightRes) => {
-                      
-                      if (flightRes?.data?.count === 0 && Array.isArray(flightRes?.data?.offers) && flightRes?.data?.offers.length === 0) {
+                      if (
+                        flightRes?.data?.count === 0 &&
+                        Array.isArray(flightRes?.data?.offers) &&
+                        flightRes?.data?.offers.length === 0
+                      ) {
                         dispatch(setMessage({ ai: "isNotFound" }));
+                      } else {
+                        //  Try to safely extract query parameters
+                        let airlineName = null;
+                        let isDirectFlight = null;
+
+                        try {
+                          const parsedUrl = new URL(
+                            allFlightSearchApi,
+                            typeof window !== "undefined"
+                              ? window.location.origin
+                              : "https://demo.milesfactory.com"
+                          );
+                          console.log("parsedUrl", parsedUrl);
+
+                          airlineName = parsedUrl.searchParams.get("airlines");
+                          isDirectFlight = parsedUrl.searchParams.get("direct");
+                        } catch (err) {
+                          console.warn("Invalid URL for filter info:", err);
+                        }
+
+                        const filterInfo =
+                          (airlineName ? `Airline: ${airlineName}` : "") +
+                          (isDirectFlight === "True"
+                            ? (airlineName ? ", " : "") + "Direct flights"
+                            : "");
+
+                        if (filterInfo) {
+                          alert(`Filter applied: ${filterInfo}`);
+                        } else {
+                          alert("Flights loaded successfully!");
+                        }
+
+                        //  Continue normal logic
+                        dispatch(setSelectedFlightKey(null));
+                        dispatch(setClearflight());
+                        dispatch(
+                          setMessage({
+                            ai: {
+                              ...flightRes.data,
+                              url: allFlightSearchApi, // <-- store URL used
+                            },
+                          })
+                        );
                       }
-                      dispatch(setSelectedFlightKey(null));
-                      dispatch(setClearflight());
-                      dispatch(setMessage({ ai: flightRes.data }));
+
                       dispatch(setLoading(false));
                     });
-                  } else if (!hasShownInitialMessage) {
-                    hasShownInitialMessage = true;
-                    showRealResults();
-                    
-                    dispatch(
-                      setMessage({
-                        ai: { response: response?.response },
-                        type: "flight_placeholder",
-                      })
-                    );
-                    dispatch(setLoading(false));
                   }
                 })
                 .catch((err) => {
                   console.error("Polling failed", err);
                   clearInterval(interval);
-                }).finally(()=> {
-                  dispatch(setLoading(false));
                 })
+                .finally(() => {
+                  dispatch(setLoading(false));
+                });
             }, 1000);
           };
 
@@ -385,33 +418,83 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
           const HotelArgument =
             response?.silent_function_template?.[0]?.function?.arguments || {};
-            const hotelSearchuuid = response?.response?.results?.view_hotel_search_api?.uuid
-            dispatch(setHotelSearchId(hotelSearchuuid))
-            console.log("hotel__response", response?.response?.results?.view_hotel_search_api?.uuid);
-            
-          
+          const hotelSearchuuid =
+            response?.response?.results?.view_hotel_search_api?.uuid;
+          dispatch(setHotelSearchId(hotelSearchuuid));
+          console.log(
+            "hotel__response",
+            response?.response?.results?.view_hotel_search_api?.uuid
+          );
 
           dispatch(setSearchHistorySend({ hotel: HotelArgument }));
-          
 
           if (hotelSearchApi) {
-            dispatch(setLoading(true))
+            dispatch(setLoading(true));
             // Static fix: replace "dubai" with "dxb"
             // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
-            
+
             api
               .get(hotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
                 dispatch(setLoading(false));
-                
+
                 if (isComplete === true) {
+                  alert("111");
                   dispatch(setClearflight());
                   dispatch(setMessage({ ai: hotelRes.data }));
                 } else {
+                  alert("222");
+
+                  let hotelName = null;
+                  let hotelCategory = null;
+                  let filterurl = null;
+
+                  try {
+                    const hotelUrl =
+                      response?.response?.results?.view_hotel_search_api?.url;
+
+                    if (hotelUrl) {
+                      const parsedUrl = new URL(
+                        hotelUrl,
+                        typeof window !== "undefined"
+                          ? window.location.origin
+                          : "https://demo.milesfactory.com"
+                      );
+
+                      console.log("parsedUrl_011", parsedUrl);
+                      
+
+                      //  Extract filters
+                      hotelName = parsedUrl.searchParams.get("name");
+                      hotelCategory = parsedUrl.searchParams.get("category");
+                      //  Only set filterurl if query params exist (means it's a filtered URL)
+                      if (parsedUrl.search && parsedUrl.search.length > 1) {
+                        filterurl = hotelUrl; // full URL with ?params
+                      }
+                    }
+                  } catch (err) {
+                    console.warn("Invalid hotel filter URL:", err);
+                  }
+
+                  //  Alert logic
+                  if (hotelName || hotelCategory) {
+                    alert(`Filter applied: ${hotelName || hotelCategory}`);
+                  } else {
+                    alert("Hotels loaded successfully!");
+                  }
+
+                  //  Dispatch message
                   dispatch(
                     setMessage({
-                      ai: hotelRes.data,
+                      ai: {
+                        ...hotelRes.data,
+                        filters: {
+                          name: hotelName,
+                          category: hotelCategory,
+                          filterurl: filterurl, // only contains value if query params exist
+                        },
+                      },
                       type: "hotel_result",
                     })
                   );
@@ -462,7 +545,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 
 // export const createThread = () => (dispatch) => {
 
-
 //   api
 //     .post(API_ENDPOINTS.CHAT.CREATE_THREAD_SEND)
 //     .then((thread_res) => {
@@ -487,15 +569,16 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
+        dispatch(setLoading(false));
         dispatch(setAllPassengerFill(null));
         // allslices reset
         dispatch(setSelectedhotelCode(null));
-        dispatch(resetOrderState()); 
-        dispatch(resetBookingState()); 
-        dispatch(resetPassengerFlightState()); 
-        dispatch(resetPassengerHotelState()); 
-        dispatch(resetBaggageState()); 
-        
+        dispatch(resetOrderState());
+        dispatch(resetBookingState());
+        dispatch(resetPassengerFlightState());
+        dispatch(resetPassengerHotelState());
+        dispatch(resetBaggageState());
+
         dispatch(setAddFilledPassenger(null));
         dispatch(setSelectedFlightKey(null)); // fro reset selected button
         dispatch(setCartType(null));
@@ -534,7 +617,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     });
 };
 
-
 export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(setThreadDrawer(false));
 
@@ -568,7 +650,6 @@ export const loadNextFlights = () => (dispatch, getState) => {
 
   dispatch(setLoading(true));
 
-  
   api
     .get(nextPageUrl)
     .then((res) => {
