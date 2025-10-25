@@ -29,7 +29,7 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
   // Extract first rate for board/offer/price
   const firstRate = hotelOffer?.rooms?.[0]?.rates?.[0];
   const hotelOffer2 = useSelector((state)=> state);
-  console.log("hotelOffer_hotel", hotelOffer2)
+  
   return (
     <>
       <Box sx={{ backgroundColor: "#e6f5ee" }} py={4}>
@@ -90,7 +90,7 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                           textTransform={"capitalize"}
                           className={" chip sm basecolor1-light"}
                         >
-                        {console.log("hotelOffer_00", hotelOffer)}
+                        
                           {hotelOffer?.categoryName.toLowerCase()}
                         </Typography>
                       </Stack>
@@ -116,7 +116,7 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                             alt="location"
                             style={{ width: 10, height: 10 }}
                           />
-                          {console.log("hotelOffer", hotelOffer?.content.address.street)}
+                          
                           
                           {hotelOffer?.content?.address &&
                           `${

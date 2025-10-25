@@ -35,8 +35,12 @@ const passengerDrawerSlice = createSlice({
 export const PassengerSetupHotel = () => (dispatch, getState) => {
   const states = getState();
   const threadUuid = states?.sendMessage?.threadUuid;
+  const hotel_search_uuid = states?.sendMessage?.hotelSearchId;
   
-  const bookingSetupUrl = `/api/v1/setup/hotel/order/thread/${threadUuid}`;
+  
+  // {{BASE_URL}}/api/v1/setup/hotel/<str:hotel_search_uuid>/order/thread/{{THREAD_ID}}
+  const bookingSetupUrl = `/api/v1/setup/hotel/${hotel_search_uuid}/order/thread/${threadUuid}`;
+  console.log("hotel_search_uuid", bookingSetupUrl);
   dispatch(setisLoading(true));
   dispatch(
     setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } })

@@ -211,7 +211,7 @@ const ThreadDrawer = () => {
               height="100%"
               py={10}
             >
-              <CircularProgress color="primary" />
+              <CircularProgress className="basecolor1" />
             </Box>
           ) : ThreadData?.length === 0 ? (
             <Box

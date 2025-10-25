@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
-import { setAddBuilder, setAllOfferUrl, setThreadUuid } from "./sendMessageSlice";
+import { setAddBuilder, setAllOfferUrl, setHotelSearchId, setThreadUuid } from "./sendMessageSlice";
 
 const initialState = {
   chatActive: false,
@@ -149,7 +149,11 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
 
             const HotelArgument =
               item?.function_template?.[0]?.function?.arguments || {};
+
+            const hotelSearchuuid = item?.response?.results?.view_hotel_search_api?.uuid
+            console.log("hotelSearchuuid_2", hotelSearchuuid);
             
+            dispatch(setHotelSearchId(hotelSearchuuid))            
             // Save hotel search args to redux
             dispatch(setSearchHistoryGet({ hotel: { HotelArgument } }));
 

@@ -7,8 +7,8 @@ const FlightRefundConditions = ({ refundCondition, currencySymbols }) => {
   // If refundCondition is null/undefined, show no data message
   if (refundCondition === null || refundCondition === undefined) {
     return (
-      <Box display="flex" gap={2} alignItems="center" mb={1}>
-        <Box display="flex" alignItems="center">
+      <Box className={styles.includeWraper}  display="flex" gap={"11px"} alignItems="center" mb={1}>
+        <Box className={styles.includedIcon} display="flex" alignItems="center">
           <img
             width={14}
             src="/images/refund-icon-drawer.svg"

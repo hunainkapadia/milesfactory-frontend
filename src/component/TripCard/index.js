@@ -126,10 +126,7 @@ const TripCard = ({ tripData }) => {
                 display={"flex"}
                 gap={"10px"}
               >
-                {console.log(
-                  "forHotel_content",
-                  forHotel?.hotel?.content?.images
-                )}
+                
                 {forHotel?.hotel?.content?.images
                   ?.slice(0, 3)
                   ?.map((img, index) => (

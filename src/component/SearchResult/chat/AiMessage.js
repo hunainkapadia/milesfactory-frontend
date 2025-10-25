@@ -146,6 +146,7 @@ const AiMessage = ({ aiMessage }) => {
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
   
+  console.log("aiMessage_response2", aiMessage?.ai?.error?.response?.errors)
   return (
     <Box
       ref={aiboxRef}
@@ -258,20 +259,16 @@ const AiMessage = ({ aiMessage }) => {
               )}
 
               <>
-                {error?.response?.errors}
-                {/* {aiMessage?.ai?.error?.data?.response && (
-                  <ChatError error={aiMessage?.ai?.error?.data[0]?.response} />
-                )} */}
-
-                {aiMessage?.ai?.response ? (
+                {aiMessage?.ai?.response ||
+                aiMessage?.ai?.error?.response?.errors ? (
                   <>
                     {aiMessage?.ai?.response?.error ||
-                    aiMessage?.ai?.response?.error ? (
+                    aiMessage?.ai?.error?.response?.errors ? (
                       <>
                         <ChatError
                           error={
-                            aiMessage?.ai?.response?.error ||
-                            aiMessage?.ai?.response?.error
+                            aiMessage?.ai?.response?.error || // flight not found error
+                            aiMessage?.ai?.error?.response?.message // duffel technical isue error
                           }
                         />
                       </>
@@ -367,14 +364,7 @@ const AiMessage = ({ aiMessage }) => {
               </Typography>
             </Box>
           ) : (
-            <Box
-              sx={{ my: 2 }}
-              display="flex"
-              alignItems="center"
-              className="bold"
-            >
-              No more hotels found.
-            </Box>
+            ""
           )}
         </Box>
       )}

@@ -166,7 +166,7 @@ const BookingDrawer = ({ }) => {
                   alignItems={"center"}
                   mb={3}
                 >
-                  <Box display={"flex"} alignItems={"center"}>
+                  <Box className={styles.includedIcon} display={"flex"} alignItems={"center"}>
                     <img width={14} src="/images/leave-icon-drawer.svg" />
                   </Box>
                   <Typography className={styles.normalOption + " f12 basecolor"}>
