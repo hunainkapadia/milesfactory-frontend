@@ -170,6 +170,7 @@ const AiMessage = ({ aiMessage }) => {
             </Box>
             <Box className={searchResultStyles.SearchCardGrid}>
               {/*  Pass aiMessage.ai.url instead of using Redux */}
+              
               <SearchFilterTags offerUrl={aiMessage?.ai?.url} />
 
               {/* Render POST flight offers */}

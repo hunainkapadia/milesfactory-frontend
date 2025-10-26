@@ -153,19 +153,25 @@ const sendMessageSlice = createSlice({
       state.newChatLoading = action.payload;
     },
     setMessage: (state, action) => {
-      const newMessage = action.payload;
+  const newMsg = action.payload;
 
-      // STEP 1: If this is a passengerFlowRes message
-      if (newMessage?.ai?.passengerFlowRes !== undefined) {
-        // STEP 2: Remove all old passengerFlowRes messages
-        state.messages = state.messages.filter(
-          (msg) => !(msg?.ai?.passengerFlowRes !== undefined)
-        );
-      }
+  // Passenger flow messages → replace old ones
+  if (newMsg?.ai?.passengerFlowRes !== undefined) {
+    state.messages = state.messages.filter(
+      (msg) => msg?.ai?.passengerFlowRes === undefined
+    );
+  }
 
-      // STEP 3: Push the new message
-      state.messages.push(newMessage);
-    },
+  // Flight append → keep old results
+  if (newMsg?.ai?.append) {
+    state.messages.push(newMsg);
+    return;
+  }
+
+  // Default → add new message
+  state.messages.push(newMsg);
+},
+
     setIsUpdateOffer: (state, action) => {
       state.isUpdateOffer = action.payload;
     },
@@ -224,6 +230,19 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         let response = res.data;
         const run_id = response.run_id;
         const run_status = response.run_status;
+        
+        
+         const technicalError = response?.response?.errors;
+
+        if (technicalError) {
+          //  error occurred, send a new message as user only ONCE
+          const errorMessage = `SYSTEM MESSAGE: Flight Search Error - ${response?.response?.message || "Something went wrong"}`;
+          console.log("errorMessage1");
+          dispatch(sendMessage(errorMessage, true)); // send once, prevent infinite loop
+          // return;
+        }
+        console.log("errorMessage2");
+        
 
         dispatch(setMessage({ ai: { error: response } }));
         dispatch(setLoading(false));
@@ -234,47 +253,19 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         dispatch(setIsFunction({ status: false }));
 
         if (run_status === "requires_action") {
-          const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
           const funcTemplate = response.function_template?.[0];
           const gdata = funcTemplate?.function?.arguments || {};
 
-          dispatch(setpollingComplete(false));
+          dispatch(setpollingComplete(true));
           dispatch(
             setMessage({
               ai: {
-                isPolling: { status: true, argument: gdata },
+                isPolling: { status: false, argument: gdata },
               },
             })
           );
 
-          const pollUntilComplete = () => {
-            return new Promise((resolve, reject) => {
-              const interval = setInterval(() => {
-                api
-                  .get(runStatusUrl)
-                  .then((resRun) => {
-                    const runData = resRun.data;
-                    if (runData.run_status === "completed") {
-                      clearInterval(interval);
-                      resolve(runData);
-                    }
-                  })
-                  .catch((err) => {
-                    clearInterval(interval);
-                    reject(err);
-                  });
-              }, 1000);
-            });
-          };
-
-          return pollUntilComplete()
-            .then((completedRun) => {
-              response = completedRun;
-
-              dispatch(setpollingComplete(true));
-              handleFinalResponse(response);
-            })
-            .catch((error) => console.error("Polling failed:", error));
+          handleFinalResponse(response);
         } else {
           handleFinalResponse(response);
         }
@@ -282,7 +273,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       .catch(() => {})
       .finally(() => {});
 
+    // -----------------------------
     // Final Response Handler
+    // -----------------------------
     const handleFinalResponse = (response) => {
       dispatch(setIsFunction({ status: !!response?.is_function }));
 
@@ -290,13 +283,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const funcName = response?.function_template?.[0]?.function?.name;
         dispatch(setFunctionType(funcName));
 
-        // --------- Flight Flow
+        // --------- FLIGHT FLOW ---------
         const allFlightSearchApi =
           response?.response?.results?.view_all_flight_result_api?.url;
         const allFlightSearchUuid =
           response?.response?.results?.view_all_flight_result_api?.uuid;
 
-        console.log("filter_allFlightSearchApi", response?.response);
         const hotelSearchApi =
           response?.response?.results?.view_hotel_search_api?.url;
 
@@ -306,152 +298,73 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           dispatch(setFilterUrl(allFlightSearchApi));
 
           const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
-          let hasShownInitialMessage = false;
 
-          const showRealResults = () => {
-            api
-              .get(allFlightSearchApi)
-              .then((flightRes) => {
-                const isComplete = flightRes?.data?.is_complete;
-                if (isComplete === true) {
-                  dispatch(setMessage({ ai: flightRes.data }));
+          dispatch(setLoading(true));
+
+          //  Directly fetch both search history & flight results
+          Promise.all([
+            api.get(historyUrl).catch(() => null),
+            api.get(allFlightSearchApi).catch(() => null),
+          ])
+            .then(([historyRes, flightRes]) => {
+              // ---- History ----
+              if (historyRes?.data?.search) {
+                dispatch(
+                  setSearchHistorySend({ flight: historyRes.data.search })
+                );
+              }
+
+              // ---- Flights ----
+              if (flightRes?.data) {
+                const flightData = flightRes.data;
+                const isComplete = flightData?.is_complete;
+
+                // No polling: always show directly
+                if (
+                  flightData?.count === 0 &&
+                  Array.isArray(flightData?.offers) &&
+                  flightData?.offers.length === 0
+                ) {
+                  dispatch(setMessage({ ai: "isNotFound" }));
                 } else {
+                  dispatch(setSelectedFlightKey(null));
+                  //  Append instead of clearing old flights
                   dispatch(
                     setMessage({
-                      ai: flightRes.data,
+                      ai: {
+                        ...flightData,
+                        url: allFlightSearchApi,
+                        response: response?.response,
+                        append: true, // 🔹 mark that this should be appended
+                      },
                       type: "flight_result",
                     })
                   );
                 }
-              })
-              .catch((err) =>
-                console.error("Error fetching final flight results", err)
-              );
-          };
-
-          const pollHistoryUntilComplete = () => {
-              alert("✅ Polling started for flight search...");
-
-            const interval = setInterval(() => {
-              dispatch(setLoading(true));
-              api
-                .get(historyUrl)
-                .then((history_res) => {
-                  const isComplete = history_res?.data?.search?.is_complete;
-                  dispatch(
-                    setSearchHistorySend({ flight: history_res.data.search })
-                  );
-
-                  if (isComplete === true) {
-                    console.log("isComplete_0", isComplete);
-                    
-                    clearInterval(interval);
-                    api.get(allFlightSearchApi).then((flightRes) => {
-                      if (
-                        flightRes?.data?.count === 0 &&
-                        Array.isArray(flightRes?.data?.offers) &&
-                        flightRes?.data?.offers.length === 0
-                      ) {
-                        dispatch(setMessage({ ai: "isNotFound" }));
-                      } else {
-                        //  Try to safely extract query parameters
-                        let airlineName = null;
-                        let isDirectFlight = null;
-
-                        try {
-                          const parsedUrl = new URL(
-                            allFlightSearchApi,
-                            typeof window !== "undefined"
-                              ? window.location.origin
-                              : "https://demo.milesfactory.com"
-                          );
-                          console.log("parsedUrl", parsedUrl);
-
-                          airlineName = parsedUrl.searchParams.get("airlines");
-                          isDirectFlight = parsedUrl.searchParams.get("direct");
-                        } catch (err) {
-                          console.warn("Invalid URL for filter info:", err);
-                        }
-
-                        const filterInfo =
-                          (airlineName ? `Airline: ${airlineName}` : "") +
-                          (isDirectFlight === "True"
-                            ? (airlineName ? ", " : "") + "Direct flights"
-                            : "");
-
-                        if (filterInfo) {
-                        } else {
-                        }
-
-                        //  Continue normal logic
-                        dispatch(setSelectedFlightKey(null));
-                        dispatch(setClearflight());
-                        dispatch(
-                          setMessage({
-                            ai: {
-                              ...flightRes.data,
-                              url: allFlightSearchApi, // <-- store URL used
-                            },
-                          })
-                        );
-                      }
-
-                      dispatch(setLoading(false));
-                    });
-                  } else if (!hasShownInitialMessage) {
-                    console.log("isComplete_1", isComplete);
-                    hasShownInitialMessage = true;
-                    showRealResults();
-
-                    dispatch(
-                      setMessage({
-                        ai: { response: response?.response },
-                        type: "flight_placeholder",
-                      })
-                    );
-                    dispatch(setLoading(false));
-                  }
-                })
-                .catch((err) => {
-                  console.error("Polling failed", err);
-                  clearInterval(interval);
-                })
-                .finally(() => {
-                  dispatch(setLoading(false));
-                });
-            }, 1000);
-          };
-
-          pollHistoryUntilComplete();
+              }
+            })
+            .finally(() => {
+              dispatch(setLoading(false));
+            });
         }
 
-        // --------- Hotel Flow
+        // --------- HOTEL FLOW ---------
         else if (hotelSearchApi) {
-          const hotelSearchApi =
-            response?.response?.results?.view_hotel_search_api?.url;
-
           const HotelArgument =
             response?.silent_function_template?.[0]?.function?.arguments || {};
           const hotelSearchuuid =
             response?.response?.results?.view_hotel_search_api?.uuid;
-          dispatch(setHotelSearchId(hotelSearchuuid));
-          console.log(
-            "hotel__response",
-            response?.response?.results?.view_hotel_search_api?.uuid
-          );
 
+          dispatch(setHotelSearchId(hotelSearchuuid));
           dispatch(setSearchHistorySend({ hotel: HotelArgument }));
 
           if (hotelSearchApi) {
             dispatch(setLoading(true));
-            // Static fix: replace "dubai" with "dxb"
-            // const finalUrl = hotelSearchApi.replace("destination=Dubai", "destination=DXB");
 
             api
               .get(hotelSearchApi)
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
-                console.log("hotelRes_true1", isComplete);
 
                 dispatch(setLoading(false));
 
@@ -459,8 +372,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   dispatch(setClearflight());
                   dispatch(setMessage({ ai: hotelRes.data }));
                 } else {
-                  console.log("hotelRes_true2", isComplete);
-
                   let hotelName = null;
                   let hotelCategory = null;
                   let filterurl = null;
@@ -468,7 +379,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   try {
                     const hotelUrl =
                       response?.response?.results?.view_hotel_search_api?.url;
-
                     if (hotelUrl) {
                       const parsedUrl = new URL(
                         hotelUrl,
@@ -476,27 +386,16 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                           ? window.location.origin
                           : "https://demo.milesfactory.com"
                       );
-
-                      console.log("parsedUrl_011", parsedUrl);
-
-                      //  Extract filters
                       hotelName = parsedUrl.searchParams.get("name");
                       hotelCategory = parsedUrl.searchParams.get("category");
-                      //  Only set filterurl if query params exist (means it's a filtered URL)
                       if (parsedUrl.search && parsedUrl.search.length > 1) {
-                        filterurl = hotelUrl; // full URL with ?params
+                        filterurl = hotelUrl;
                       }
                     }
                   } catch (err) {
                     console.warn("Invalid hotel filter URL:", err);
                   }
 
-                  //  Alert logic
-                  if (hotelName || hotelCategory) {
-                  } else {
-                  }
-
-                  //  Dispatch message
                   dispatch(
                     setMessage({
                       ai: {
@@ -504,7 +403,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                         filters: {
                           name: hotelName,
                           category: hotelCategory,
-                          filterurl: filterurl, // only contains value if query params exist
+                          filterurl: filterurl,
                         },
                       },
                       type: "hotel_result",
@@ -532,7 +431,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           }
         }
       } else {
-        // Normal response
+        // --------- NORMAL RESPONSE ---------
         if (response?.run_status === "completed") {
           // done
         }
@@ -541,6 +440,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     };
   };
 
+  // --------- THREAD CREATION ---------
   if (threadUUID) {
     sendToThread(threadUUID);
   } else {
