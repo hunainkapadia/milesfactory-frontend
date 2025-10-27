@@ -1,5 +1,14 @@
 @import "../../_variables.scss";
 
+.formGroup .ageSelect {
+   padding: 5px 10px;
+   height: 40px;
+   outline: none;
+    border-radius:6px;
+    border: 1px solid #ccc;
+    font-size:14px;
+    background-color:#fff;
+}
 .countryDropdown {
    
   li {
@@ -351,7 +360,7 @@ body {
       }
       .Passrow {
          border-bottom: solid 1px $lightgray2;
-         padding: 15px 0;
+         padding:0 0  20px;
          
       }
       

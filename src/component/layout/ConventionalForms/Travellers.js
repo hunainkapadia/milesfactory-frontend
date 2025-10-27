@@ -42,9 +42,7 @@ export default function Travellers({ errors, isHomeForm, isDrawer }) {
   };
 
   //  When Done clicked
-  const handleTravellerDone = () => {
-    setAnchorEl(null); // close popover
-  };
+  
 
   //  Format display text
   const getDisplayText = () => {
@@ -59,50 +57,50 @@ export default function Travellers({ errors, isHomeForm, isDrawer }) {
     { title: "Child (2-11 years)", type: "children" },
   ];
   const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
 
   return (
     <>
       <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
-        <Box className={`${styles.formGroup} ${isHomeForm && styles.isHomeForm}`}>
-        {!isDrawer && (
-          <TextField
-            inputRef={ref}
-            onClick={(e) => setAnchorEl(e.currentTarget)}
-            variant="outlined"
-            placeholder="Travellers"
-            size="small"
-            sx={{ width: "180px", cursor: "pointer" }}
-            className={`${styles.formControl} ${styles.travellers} formControl`}
-            value={getDisplayText()} //  dynamic display
-            InputProps={{
-              readOnly: true,
-              endAdornment: (
-                <FontAwesomeIcon
-                  icon={faAngleDown}
-                  style={{ color: "#6C6F76", pointerEvents: "none" }}
-                />
-              ),
-            }}
-          />
-        )}
+        <Box
+          className={`${styles.formGroup} ${isHomeForm && styles.isHomeForm}`}
+        >
+          {!isDrawer && (
+            <TextField
+              inputRef={ref}
+              onClick={(e) => setAnchorEl(e.currentTarget)}
+              variant="outlined"
+              placeholder="Travellers"
+              size="small"
+              sx={{ width: "180px", cursor: "pointer" }}
+              className={`${styles.formControl} ${styles.travellers} formControl`}
+              value={getDisplayText()} //  dynamic display
+              InputProps={{
+                readOnly: true,
+                endAdornment: (
+                  <FontAwesomeIcon
+                    icon={faAngleDown}
+                    style={{ color: "#6C6F76", pointerEvents: "none" }}
+                  />
+                ),
+              }}
+            />
+          )}
 
           {/* Popover Dropdown */}
           {isMobile ? (
-              <>
-                <TravellerDropdown />
-              </>
-            ): (
-              
-          <Popover
-            open={Boolean(anchorEl)}
-            anchorEl={ref.current}
-            onClose={() => setAnchorEl(null)}
-          >
-            
+            <>
               <TravellerDropdown />
-          </Popover>
-            )}
+            </>
+          ) : (
+            <Popover
+              open={Boolean(anchorEl)}
+              anchorEl={ref.current}
+              onClose={() => setAnchorEl(null)}
+            >
+              <TravellerDropdown setAnchorEl={setAnchorEl} />
+            </Popover>
+          )}
         </Box>
       </ClickAwayListener>
 

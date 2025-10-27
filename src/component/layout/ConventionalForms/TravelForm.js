@@ -110,7 +110,9 @@ const TravelForm = () => {
   dispatch(submitTravelForm(searchData));
 
   setTimeout(() => setIsLoading(false), 1000);
+  console.log("searchData", searchData);
 };
+
 
 
   const calendarRef = useRef(null);
