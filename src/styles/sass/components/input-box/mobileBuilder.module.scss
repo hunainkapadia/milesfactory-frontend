@@ -60,6 +60,8 @@
     justify-content: center;
     z-index: 1;
     text-align: center;
+    padding:10px 10px;
+    height: 40px;
     p {
       font-size: 16px;
       line-height: 1;
@@ -71,7 +73,6 @@
          color: $basecolor; // uses MUI theme variable
       }
     }
-    padding: 14px 10px;
     &.active {
       background: $white;
       border: 1px solid #C5DADE;

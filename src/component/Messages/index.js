@@ -97,15 +97,14 @@ const Messages = () => {
             <Box className={searchResultStyles.messageContentIn}>
               {messages.map((msg, index) => (
                 <Box key={index}>
-                  {console.log("msg_user", msg?.user)}
-                  {msg?.user && !msg.user.startsWith("SYSTEM MESSAGE:") ? (
-  <UserMessage userMessage={msg.user} />
-) : msg?.user && msg.user.startsWith("SYSTEM MESSAGE:") ? (
-  // Custom UI for system message
-  ""
-) : null}
-
                   
+                  {msg?.user && !msg.user.startsWith("SYSTEM MESSAGE:") ? (
+                    <UserMessage userMessage={msg.user} />
+                  ) : msg?.user && msg.user.startsWith("SYSTEM MESSAGE:") ? (
+                    // Custom UI for system message
+                    ""
+                  ) : null}
+
                   {msg?.ai && (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
                   )}

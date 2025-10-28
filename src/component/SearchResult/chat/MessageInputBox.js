@@ -395,28 +395,49 @@ const MessageInputBox = ({
                           >
                             {console.log("isHomePage_00", isHomePage)}
                             {((isChat && (!isMobile || !isTyping)) ||
-                              isHomePage || isSticky) && (
+                              isHomePage ||
+                              isSticky) && (
                               <>
-                                <IconButton
-                                  className={`${inputStyles.MicButton} ${
-                                    isMicActive
-                                      ? inputStyles.isMicActive
-                                      : inputStyles.MicButton
-                                  }`}
-                                  onClick={handleVoiceInput}
-                                  disabled={isLoading}
-                                >
-                                  {isMicActive ? (
-                                    <>
-                                      {isChat && !isMobile ? (
+                                {isMicActive ? (
+                                  <>
+                                    {isChat && !isMobile ? (
+                                      <IconButton
+                                        className={`${inputStyles.MicButton} ${
+                                          isMicActive
+                                            ? inputStyles.isMicActive
+                                            : inputStyles.MicButton
+                                        }`}
+                                        onClick={handleVoiceInput}
+                                        disabled={isLoading}
+                                      >
                                         <i className="fa fa-check"></i>
-                                      ) : isHomePage || isSticky ? (
+                                      </IconButton>
+                                    ) : isHomePage || isSticky ? (
+                                      <IconButton
+                                        className={`${inputStyles.MicButton} ${
+                                          isMicActive
+                                            ? inputStyles.isMicActive
+                                            : inputStyles.MicButton
+                                        }`}
+                                        onClick={handleVoiceInput}
+                                        disabled={isLoading}
+                                      >
                                         <i className="fa fa-check"></i>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </>
-                                  ) : (
+                                      </IconButton>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </>
+                                ) : (
+                                  <IconButton
+                                    className={`${inputStyles.MicButton} ${
+                                      isMicActive
+                                        ? inputStyles.isMicActive
+                                        : inputStyles.MicButton
+                                    }`}
+                                    onClick={handleVoiceInput}
+                                    disabled={isLoading}
+                                  >
                                     <Tooltip
                                       placement="top"
                                       title="Record a message"
@@ -453,8 +474,8 @@ const MessageInputBox = ({
                                         )}
                                       </Box>
                                     </Tooltip>
-                                  )}
-                                </IconButton>
+                                  </IconButton>
+                                )}
                               </>
                             )}
 

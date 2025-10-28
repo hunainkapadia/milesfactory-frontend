@@ -55,9 +55,9 @@ const HomeSection3 = (props) => {
                 variant="outlined"
               >
                 <Box>
-                  <h5 className="white mb-5" color="white" variant="h5">
+                  <h3 className="h5 white mb-5" color="white" variant="h3">
                     Chat your trip
-                  </h5>
+                  </h3>
                   <Typography
                     sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                     className="f14"
@@ -88,9 +88,9 @@ const HomeSection3 = (props) => {
                 variant="outlined"
               >
                 <Box>
-                  <h5 className="white mb-5" color="white" variant="h5">
+                  <h3 className="h5 white mb-5" color="white" variant="h3">
                     Get smart options
-                  </h5>
+                  </h3>
                   <Typography
                     sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                     className="f14"
@@ -120,9 +120,9 @@ const HomeSection3 = (props) => {
                 variant="outlined"
               >
                 <Box>
-                  <h5 className="white mb-5" color="white" variant="h5">
+                  <h3 className="h5 white mb-5" color="white" variant="h3">
                     Book it in one tap
-                  </h5>
+                  </h3>
                   <Typography
                     sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                     className="f14"

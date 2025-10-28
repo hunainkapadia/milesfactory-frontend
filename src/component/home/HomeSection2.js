@@ -40,13 +40,12 @@ const HomeSection2 = (props) => {
                   </h2>
                   <Typography
                     className="align-center white"
-                    sx={{ display: { lg: "block", md: "block", xs: "block" } }}
+                    sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                   >
                     Mylz trips aren't static — they grow as they're shared,
                     evolving with every remix. What starts as one traveller's
                     journey quickly becomes inspiration for the next, creating a
                     living loop of discovery and action.
-                     Mylz trips aren't
                   </Typography>
                   {/* <Typography
                     className="align-center white"
@@ -81,9 +80,9 @@ const HomeSection2 = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white mb-5" color="white" variant="h5">
+                    <h3 className="h5 white mb-5" color="white" variant="h3">
                       Explore real trips
-                    </h5>
+                    </h3>
                     <Typography
                       className="f14"
                       color="white"
@@ -121,9 +120,9 @@ const HomeSection2 = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white mb-5" color="white" variant="h5">
+                    <h3 className="h5 white mb-5" color="white" variant="h3">
                       Remix with one tap
-                    </h5>
+                    </h3>
                     <Typography
                       className="f14"
                       color="white"
@@ -161,9 +160,9 @@ const HomeSection2 = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white mb-5" color="white" variant="h5">
+                    <h3 className="h5 white mb-5" color="white" variant="h3">
                       Share anywhere
-                    </h5>
+                    </h3>
                     <Typography
                       className="f14"
                       color="white"
