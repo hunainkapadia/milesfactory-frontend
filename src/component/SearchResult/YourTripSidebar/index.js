@@ -37,12 +37,6 @@ const YourTripSidebar = ({ isMessage }) => {
 
   const threadUuid = useSelector((state) => state?.sendMessage?.threadUuid);
   
-  
-  useEffect(() => {
-  if (threadUuid) {
-    dispatch(CartDetail(threadUuid));
-  }
-}, [threadUuid, dispatch]);
 
 
   return (

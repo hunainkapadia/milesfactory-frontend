@@ -18,6 +18,8 @@ const initialState = {
   error: null,
   isDrawer: false,
   paymentStatus: null,
+  client: null,
+  clientSecret: null,
 };
 const PaymentSlice = createSlice({
   name: "payment",
