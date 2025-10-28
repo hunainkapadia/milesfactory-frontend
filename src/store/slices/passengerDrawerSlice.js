@@ -262,7 +262,9 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
   }
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
-  const passengerUuid = state.passengerDrawer?.PassengerUUID;
+  const passengerUuid = state.passengerDrawer?.SelectPassenger?.uuid;
+  console.log("passengerUuid", passengerUuid);
+  
   
   
   

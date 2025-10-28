@@ -86,14 +86,10 @@ const PassengerInfo = ({ getdata }) => {
       dispatch(setPassengerPassport(passportNumber));
       dispatch(setSelectPassenger(passenger));
     } else {
-      dispatch(setPassengerUUID(uuid));
       if (!isFilled) {
-        dispatch(setPassengerType(passengerTypeFinal));
-        dispatch(setPassengerAge(age));
         dispatch(setPassengerPassport(passportNumber));
         dispatch(setisPassengerDrawer(true));
         dispatch(setSelectPassenger(passenger));
-        console.log("handlePassengerClick", passenger);
       }
     }
   };

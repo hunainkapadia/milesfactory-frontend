@@ -124,7 +124,7 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const orderUuidhotel = state?.passengerHotelSlice?.orderUuidHotel;
-  const passengerUuid = state.passengerDrawer?.PassengerUUID;
+  const passengerUuid = state?.passengerDrawer?.OrderUuid;
   
   const SubmitUrl = `/api/v1/hotel/order/${orderUuidhotel}/guest/${passengerUuid}`;
   

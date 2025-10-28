@@ -141,7 +141,9 @@ useEffect(() => {
   const handleCloseDrawer = () => dispatch(setPassProfileDrawer(false));
 
   // --- Modify passenger ---
+  
   const onClickModifyCard = (passenger) => {
+    console.log("passenger_profile", passenger);
     dispatch(setSelectedProfilePass(passenger));
     const age = dayjs().diff(dayjs(passenger.born_on), "year");
     dispatch(setPassengerType(passenger.type));

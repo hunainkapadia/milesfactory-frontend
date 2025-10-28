@@ -63,9 +63,6 @@ const PassengerDrawerForm = () => {
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
-  const PassengersUuID = useSelector(
-    (state) => state.passengerDrawer.PassengerUUID
-  );
   
   
   
@@ -91,12 +88,13 @@ const PassengerDrawerForm = () => {
   const selectPassenger = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger
   );
+  const PassengerAge = useSelector(
+    (state) => state.passengerDrawer?.SelectPassenger?.age
+  );
   // get passenger type for validation
 
 
-  const PassengerAge = useSelector(
-    (state) => state.passengerDrawer.PassengerAge
-  );
+  
 
   // get select from whole pasenger detail card
 
@@ -120,7 +118,7 @@ const PassengerDrawerForm = () => {
   useEffect(() => {
   if (isPassengerDrawer) {
     setTimeout(() => {
-      if (passengerPofile?.length && PassengersUuID) {
+      if (passengerPofile?.length && selectPassenger?.uuid) {
         const passengerData = passengerPofile.find(
           (getProfilepassenger) =>
             getProfilepassenger.uuid === selectedpassengerPofile?.uuid
@@ -163,7 +161,6 @@ const PassengerDrawerForm = () => {
 }, [
   isPassengerDrawer,
   GetViewPassengers,
-  PassengersUuID,
   countries,   // add this
   dispatch,
 ]);
@@ -185,6 +182,8 @@ const PassengerDrawerForm = () => {
 
   
   
+  console.log("PassengerAge__1", PassengerAge);
+  
   const validateChildDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 2, "year").add(1, "day");
@@ -196,6 +195,8 @@ const PassengerDrawerForm = () => {
   // child dat
   // infant age
 
+  console.log("selectPassenger_type", selectPassenger?.type);
+  
   if (selectPassenger?.type === "adult") {
     // Adults: must be at least 18 years old
     minDate = dayjs("1930-01-01");
@@ -215,7 +216,7 @@ const PassengerDrawerForm = () => {
   const CartType = useSelector((state) => state.booking.cartType);
 
   
-  console.log("selectPassenger_form2", selectPassenger?.type);
+  console.log("selectPassenger_form2", selectPassenger?.age);
   
 
   
@@ -325,7 +326,7 @@ const PassengerDrawerForm = () => {
       label: "Passenger Form Submit",
     });
 
-    const isFirstPassenger = GetViewPassengers?.[0]?.uuid === PassengersUuID;
+    const isFirstPassenger = GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
     
     
     if (isFirstPassenger) {
