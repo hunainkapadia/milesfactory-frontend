@@ -211,33 +211,35 @@ useEffect(() => {
 
   // --- Auto switch to next unfilled passenger ---
   useEffect(() => {
+    //  Stop the whole effect if there are NO saved profiles
+    if (!passengerPofile || passengerPofile.length === 0) return;
+
     if (!GetViewPassengers?.length) return;
 
-    // If all passengers are filled → stop
-    if (filledPassengerUUIDs.length === GetViewPassengers.length) {
-      return;
-    }
+    if (filledPassengerUUIDs.length === GetViewPassengers.length) return;
 
-    // Find the next unfilled passenger
     const nextPassenger = GetViewPassengers.find(
       (p) => !filledPassengerUUIDs.includes(p.uuid)
     );
 
-    if (nextPassenger && nextPassenger.uuid !== selectPassenger?.uuid) {
-      const nextIndex = GetViewPassengers.findIndex(
-        (p) => p.uuid === nextPassenger.uuid
-      );
+    if (!nextPassenger) return;
 
-      setTabValue(nextIndex);
-      setTabType(nextPassenger.type);
+    const nextIndex = GetViewPassengers.findIndex(
+      (p) => p.uuid === nextPassenger.uuid
+    );
 
-      dispatch(setSelectPassenger(nextPassenger));
-      dispatch(setPassengerUUID(nextPassenger.uuid));
-      dispatch(setPassengerType(nextPassenger.type));
-      dispatch(setPassengerAge(nextPassenger.age));
-      dispatch(setPassengerPassport(nextPassenger.passportNumber));
-    }
-  }, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
+    setTabValue(nextIndex);
+    setTabType(nextPassenger.type);
+
+    dispatch(setPassengerUUID(nextPassenger.uuid));
+    dispatch(setPassengerType(nextPassenger.type));
+    dispatch(setPassengerAge(nextPassenger.age));
+    dispatch(setPassengerPassport(nextPassenger.passportNumber));
+
+    //  Only auto-select when profiles exist
+    dispatch(setSelectPassenger(nextPassenger));
+  }, [filledPassengerUUIDs, GetViewPassengers, passengerPofile, dispatch]);
+
 
   useEffect(()=> {
     if (isAllPassengersFilled) {

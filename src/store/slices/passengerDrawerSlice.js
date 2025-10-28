@@ -89,6 +89,8 @@ const passengerDrawerSlice = createSlice({
       state.passProfile = action.payload;
     },
     setSelectPassenger: (state, action)=> {
+      console.log("pass_action", action);
+      
       state.SelectPassenger = action.payload
     },
     setPassengerType: (state, action)=> {

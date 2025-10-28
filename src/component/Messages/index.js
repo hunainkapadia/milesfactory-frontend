@@ -84,6 +84,9 @@ const Messages = () => {
     (state) => state.sendMessage?.SearchHistorySend
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
+  const passengerPofile = useSelector(
+      (state) => state?.passengerDrawer?.passProfile
+    );
 
   return (
     <>
@@ -124,6 +127,8 @@ const Messages = () => {
               {/* booking flow start */}
 
               <PassengerDrawerForm />
+              {/* {passengerPofile?.length > 0 && 
+              } */}
               <PassengerProfileDrawer />
             </Box>
           </Box>

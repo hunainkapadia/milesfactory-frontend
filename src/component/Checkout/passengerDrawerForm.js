@@ -88,13 +88,11 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer.captainSuccess
   );
   const twelveYearsAgo = dayjs().subtract(12, "year");
-
-  // get passenger type for validation
-  const PassengerType = useSelector(
-    (state) => state.passengerDrawer.PassengerType
+  const selectPassenger = useSelector(
+    (state) => state?.passengerDrawer?.SelectPassenger
   );
-  
-  
+  // get passenger type for validation
+
 
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer.PassengerAge
@@ -185,6 +183,8 @@ const PassengerDrawerForm = () => {
   let minDate = dayjs("1930-01-01");
   let maxDate = dayjs();
 
+  
+  
   const validateChildDOB = (dob, PassengerAge) => {
     maxDate = today.subtract(PassengerAge, "year");
     minDate = today.subtract(PassengerAge + 2, "year").add(1, "day");
@@ -196,15 +196,15 @@ const PassengerDrawerForm = () => {
   // child dat
   // infant age
 
-  if (PassengerType === "adult") {
+  if (selectPassenger?.type === "adult") {
     // Adults: must be at least 18 years old
     minDate = dayjs("1930-01-01");
     maxDate = today.subtract(18, "year");
   }
-  if (PassengerType === "infant_without_seat") {
+  if (selectPassenger?.type === "infant_without_seat") {
     validateInfantDOB(born_on, PassengerAge);
   }
-  if (PassengerType === "child") {
+  if (selectPassenger?.type === "child") {
     validateChildDOB(born_on, PassengerAge);
   } else {
     // fallback: adult
@@ -214,9 +214,11 @@ const PassengerDrawerForm = () => {
   // ...previous imports remain the same
   const CartType = useSelector((state) => state.booking.cartType);
 
-  const selectPassenger = useSelector(
-    (state) => state?.passengerDrawer?.SelectPassenger
-  );
+  
+  console.log("selectPassenger_form2", selectPassenger?.type);
+  
+
+  
   
 
       
@@ -272,7 +274,7 @@ const PassengerDrawerForm = () => {
     }
 
     // --- Email & Phone (adults only) ---
-    if (PassengerType === "adult") {
+    if (selectPassenger?.type === "adult") {
       if (!email?.trim()) {
         errors.email = "Email is required.";
       } else if (!emailRegex.test(email)) {
@@ -285,10 +287,10 @@ const PassengerDrawerForm = () => {
     }
 
     // --- Child/Infant DOB Validation ---
-    if (PassengerType === "child") {
+    if (selectPassenger?.type === "child") {
       validateChildDOB(born_on, PassengerAge);
     }
-    if (PassengerType === "infant_without_seat") {
+    if (selectPassenger?.type === "infant_without_seat") {
       validateInfantDOB(born_on, PassengerAge);
     }
 
@@ -349,6 +351,7 @@ const PassengerDrawerForm = () => {
   );
 
   // if all passenger file logic
+  console.log("selectPassenger_form2", selectPassenger?.type);
   
 
   return (
@@ -633,7 +636,7 @@ const PassengerDrawerForm = () => {
                   )}
 
                 {/* Email */}
-                {PassengerType === "adult" && (
+                {selectPassenger?.type === "adult" && (
                   <>
                     <Box className="formGroup">
                       <FormLabel className="bold formLabel">Email</FormLabel>

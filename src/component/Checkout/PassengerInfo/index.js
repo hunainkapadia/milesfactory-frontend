@@ -26,7 +26,11 @@ import {
 import ExtraServices from "../ExtraServices";
 import { setpriceSummary } from "@/src/store/slices/PaymentSlice";
 import { event } from "@/src/utils/utils";
-import { getPassPofileHotel, passengerCaptainHotel, PassengerFormHotel } from "@/src/store/slices/passengerDrawerHotelSlice";
+import {
+  getPassPofileHotel,
+  passengerCaptainHotel,
+  PassengerFormHotel,
+} from "@/src/store/slices/passengerDrawerHotelSlice";
 
 const PassengerInfo = ({ getdata }) => {
   const dispatch = useDispatch();
@@ -39,19 +43,23 @@ const PassengerInfo = ({ getdata }) => {
   const handlePassengerToggle = (uuid) => {
     setSelectedPassenger((prev) => (prev === uuid ? null : uuid)); // Allow only one selection at a time
   };
-  
-  
+
   const passengerPofile = useSelector(
     (state) => state?.passengerDrawer?.passProfile
   );
-  
-  
-const searchType = useSelector((state) => 
-    state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
+
+  const searchType = useSelector(
+    (state) =>
+      state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
   // if passenger profile or not handle
+  const selectPassenger = useSelector(
+    (state) => state?.passengerDrawer?.SelectPassenger
+  );
+
   
-  const handlePassengerClick = async (
+  
+  const handlePassengerClick = (
     uuid,
     isFilled,
     type,
@@ -59,35 +67,33 @@ const searchType = useSelector((state) =>
     passportNumber,
     passenger
   ) => {
-    // ga_event
     event({
       action: "click",
       category: "engagement",
       label: "Add Passenger Start",
-      value: passenger.type,
+      value: type,
     });
-
     
-    //  Get updated passenger profile after API call
-
-    //  If saved profiles exist → open profile drawer
+    const passengerTypeFinal =
+    age <= 1 ? "infant" : age <= 12 ? "child" : "adult";
+    
     if (passengerPofile?.length > 0) {
+      console.log("passengerPofile", passengerPofile);
       dispatch(setPassProfileDrawer(true));
       dispatch(setPassengerUUID(uuid));
-      dispatch(setPassengerType(type));
+      dispatch(setPassengerType(passengerTypeFinal));
       dispatch(setPassengerAge(age));
       dispatch(setPassengerPassport(passportNumber));
       dispatch(setSelectPassenger(passenger));
-    }
-    // If no saved profile → open new passenger drawer
-    else {
+    } else {
       dispatch(setPassengerUUID(uuid));
       if (!isFilled) {
-        dispatch(setPassengerType(type));
+        dispatch(setPassengerType(passengerTypeFinal));
         dispatch(setPassengerAge(age));
         dispatch(setPassengerPassport(passportNumber));
-        dispatch(setisPassengerDrawer(true)); // open drawer for new passenger
+        dispatch(setisPassengerDrawer(true));
         dispatch(setSelectPassenger(passenger));
+        console.log("handlePassengerClick", passenger);
       }
     }
   };
@@ -100,28 +106,22 @@ const searchType = useSelector((state) =>
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
-  
-  
-  
-  
 
   const getselectedFlight = useSelector(
     (state) => state?.booking?.flightDetail
   );
-  
+
   const IsServices = useSelector(
     (state) => state?.booking?.addCart?.raw_data?.available_services
-  );  
+  );
 
-  
   if (!IsServices?.length) {
     dispatch(setpriceSummary(true));
   }
   const istLoading = useSelector((state) => state?.passengerDrawer?.isLoading);
-  
-  
+
   const CartType = useSelector((state) => state.booking.cartType);
-  
+
   // for captain
   useEffect(() => {
     if (filledPassengerUUIDs?.length === getdata?.length) {
@@ -132,30 +132,27 @@ const searchType = useSelector((state) =>
         dispatch(passengerCaptainHotel()); /// for get  fill pasenger boolean
         dispatch(setAllPassengerFill(true));
       } else {
-
       }
     } else {
       dispatch(setAllPassengerFill(false));
     }
   }, [filledPassengerUUIDs, getdata, dispatch]);
 
-  var initialMsg = ""
+  var initialMsg = "";
   if (CartType === "all") {
-    initialMsg = "Please add traveller details to proceed to payment."
+    initialMsg = "Please add traveller details to proceed to payment.";
   } else if (CartType === "flight") {
-    initialMsg = "Let's confirm who’s flying."
+    initialMsg = "Let's confirm who’s flying.";
   } else if (CartType === "hotel") {
-    initialMsg = "Please add guest details to proceed to payment."
+    initialMsg = "Please add guest details to proceed to payment.";
   } else {
-    initialMsg = "Please add traveller details to proceed to payment."
+    initialMsg = "Please add traveller details to proceed to payment.";
   }
 
   return (
     <>
       <Box py={2}>
-        <Typography fontWeight={"semibold"}>
-          {initialMsg}
-        </Typography>
+        <Typography fontWeight={"semibold"}>{initialMsg}</Typography>
       </Box>
       <Box variant="outlined" className={searchResultStyles.PassengersSection}>
         {/* profile fill passenger */}
@@ -163,7 +160,7 @@ const searchType = useSelector((state) =>
         <Grid container spacing={2}>
           {getdata?.map((passenger, index) => {
             const isFilled = filledPassengerUUIDs.includes(passenger.uuid);
-            
+
             return (
               <Grid item xs={12} sm={12} md={6} key={passenger.uuid}>
                 <PassengersCard
@@ -203,9 +200,7 @@ const searchType = useSelector((state) =>
                     pb: { lg: "24px", md: "24px", xs: "10px" },
                   }}
                 >
-                  <Typography>
-                    Select now your extra baggage.
-                  </Typography>
+                  <Typography>Select now your extra baggage.</Typography>
                 </Box>
               </Grid>
             </Grid>
