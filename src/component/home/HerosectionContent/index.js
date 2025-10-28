@@ -16,8 +16,8 @@ const HerosectionContent = () => {
                display={"flex"}
                alignItems={"center"}
                justifyContent={"center"}
-               gap={1}
-               mb={1}
+               gap={"6px"}
+               mb={"6px"}
              >
                <Typography
                  component={"h1"}
