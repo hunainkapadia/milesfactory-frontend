@@ -26,7 +26,7 @@ const PassengersCard = ({
       display={"flex"}
       justifyContent={"space-between"}
     >
-      <Box display={"flex"} gap={2}>
+      <Box className={styles.box} display={"flex"} gap={2}>
         <Box className="imggroup">
           <img src="/images/user-circle.svg" />
         </Box>

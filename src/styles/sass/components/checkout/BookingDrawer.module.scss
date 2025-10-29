@@ -23,23 +23,25 @@
    border: 1px solid #E6EEEE;
    border-radius: 8px;
    box-shadow: none;
-   padding: 24px 15px;
+   padding: 0 15px;
    display: flex;
    justify-content: space-between;
    align-items: center;
    cursor: pointer;
+   .box {
+         height: 88px;
+         padding: 0;
+         display: flex;
+         align-items: center;
+      }
    
    .baggageLabel {}
    &.passengerProfileCard {
-      
       margin-bottom: 16px;
       padding: 0 15px;
-      
       .box {
          min-height: 79px;
-         padding: 0 ;
-         display: flex;
-         align-items: center;
+         
       }
       &:last-child {
          margin-bottom: 0;
@@ -423,7 +425,7 @@
       padding-right: 20px !important;
     }
    .passengersCard {
-      padding: 10px;
+      padding: 0 15px;
       &.passengerProfileCard {
          padding: 0 15px;
       }
