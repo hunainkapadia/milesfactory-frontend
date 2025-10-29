@@ -114,7 +114,7 @@ const Messages = () => {
 
                   {/* Show loader only once after the last message */}
                   {isLoading && index === messages.length - 1 && (
-                    <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>
+                    <Box my={2} >
                       <LoadingArea />
                     </Box>
                   )}
