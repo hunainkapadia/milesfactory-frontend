@@ -23,6 +23,9 @@ const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   
+  const issystemmessage = useSelector((state) => state?.sendMessage?.systemMessage);
+  console.log("issystemmessage", issystemmessage);
+  
   
 
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
@@ -128,8 +131,7 @@ const SidebarFooter = () => {
             </>
           )}
         </Box>
-        
-        {CartData?.items?.length > 0 && (
+        {issystemmessage && CartData?.items?.length > 0 && (
           <Button
             disabled={
               !orderSuccess?.hotel_order  && orderSuccess?.flight_order  && CartData?.items?.length < 2

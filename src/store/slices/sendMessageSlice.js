@@ -73,8 +73,12 @@ const sendMessageSlice = createSlice({
     isUpdateOffer: false,
     error: null,
     hotelSearchId: null,
+    systemMessage: null,
   },
   reducers: {
+    setSystemMessage: (state, action) => {
+      state.systemMessage = action.payload;
+    },
     setHotelSearchId: (state, action) => {
       state.hotelSearchId = action.payload;
     },
@@ -232,7 +236,19 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
         
         
-         const technicalError = response?.response?.errors;
+        const technicalError = response?.response?.errors;
+        console.log("system_response", response?.message);
+
+        if (
+          response?.message?.includes("SYSTEM MESSAGE") &&
+          response?.is_function === false
+        ) {
+          
+          dispatch(setSystemMessage(true));
+        }
+
+
+        
 
         if (technicalError) {
           //  error occurred, send a new message as user only ONCE
@@ -617,5 +633,6 @@ export const {
   setIsUpdateOffer,
   setError,
   setHotelSearchId,
+  setSystemMessage
 } = sendMessageSlice.actions;
 export default sendMessageSlice.reducer;

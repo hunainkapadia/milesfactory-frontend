@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { sendMessage, setMessage, setSearchHistorySend } from "./sendMessageSlice";
+import { sendMessage, setMessage, setSearchHistorySend, setSystemMessage } from "./sendMessageSlice";
 import { setIsBuilderDialog } from "./Base/baseSlice";
 import { setRoomDrawer, setSelectedhotelCode, setSelectedhotelKey } from "./HotelSlice";
 
@@ -155,6 +155,7 @@ export const bookFlight = () => (dispatch, getState) => {
 
 // Add to Cart
 export const AddToCart = (params, uuid) => async (dispatch, getState) => {
+  dispatch(setSystemMessage(null));
   const uuid = getState()?.sendMessage?.threadUuid;
   dispatch(setIsLoadingSelect(true));
 
