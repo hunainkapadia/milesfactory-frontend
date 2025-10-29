@@ -18,6 +18,7 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import { useDispatch, useSelector } from "react-redux";
 import {
   getPassPofile,
+  NationalitData,
   passengerCaptain,
   PassengerFormFlight,
   setAddNewPassactive,
@@ -53,6 +54,7 @@ const PassengerDrawerForm = () => {
   const [maxDate, setMaxDate] = useState(dayjs());
 
   const countries = useSelector((state) => state.passengerDrawer.countries);
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const today = dayjs();
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
@@ -330,7 +332,12 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
-  
+    useEffect(() => {
+    if (uuid) {
+      dispatch(NationalitData());
+    }
+  }, [dispatch, uuid]);
+
   return (
     <Drawer
       anchor="right"
