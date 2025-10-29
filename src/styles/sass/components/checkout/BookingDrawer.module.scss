@@ -29,11 +29,12 @@
    align-items: center;
    cursor: pointer;
    .box {
-         height: 88px;
+         
          padding: 0;
          display: flex;
          align-items: center;
       }
+      &.forSetup {height: 88px;border-radius: 16px;}
    
    .baggageLabel {}
    &.passengerProfileCard {

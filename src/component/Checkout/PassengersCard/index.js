@@ -20,7 +20,7 @@ const PassengersCard = ({
     <Box
       id={getdata.uuid}
       onClick={onClickCard} // triggers drawer + setup logic
-      className={`${styles.passengersCard} 
+      className={`${styles.passengersCard} ${styles.forSetup} 
         ${isFilled ? styles.isFilled + " isFilled" : styles.Notactive}
         ${!onClickCard ? styles.disabledCard : ""}`}
       display={"flex"}
