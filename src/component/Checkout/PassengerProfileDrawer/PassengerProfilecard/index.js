@@ -65,7 +65,7 @@ const PassengerProfilecard = ({
           
         >
           <Box className={styles.box} width={"100%"} display={"flex"} justifyContent={"space-between"}>
-            <Box
+            <Box className={styles.LeftCol}
               onClick={() => selectCardHandle()}
               id={getdata.uuid}
               display={"flex"}

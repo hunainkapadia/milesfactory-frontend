@@ -40,8 +40,10 @@
    &.passengerProfileCard {
       margin-bottom: 16px;
       padding: 0 15px;
-      .box {
+      .LeftCol {
          min-height: 79px;
+         display: flex;
+         align-items: center;
          
       }
       &:last-child {
