@@ -36,6 +36,8 @@ const PassengerProfileDrawer = () => {
   const [tabType, setTabType] = useState("adult"); // default type
 
   
+  console.log("tabType", tabType);
+  
 
   // Redux states
   const isPassengerProfileDrawer = useSelector(
@@ -44,6 +46,8 @@ const PassengerProfileDrawer = () => {
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
+  console.log("passengerPofile", passengerPofile);
+  
   
 
   const CartType = useSelector((state) => state.booking.cartType);
@@ -172,6 +176,7 @@ useEffect(() => {
       passenger_id: passenger.passenger_id || "",
       type: passenger.type || "",
     };
+    console.log("passenger_nationality", params)
 
     // If first passenger, set captain params
     const isFirstPassenger =
@@ -279,23 +284,33 @@ useEffect(() => {
             className={styles.checkoutDrowerBody}
             component={"section"}
             pb={10}
-            sx={{ px: { lg: 3, md: 3, xs: 2 }, mb:2 }}
+            sx={{ px: { lg: 3, md: 3, xs: 2 }, mb: 2 }}
           >
-            
-            
             {passengerPofile
               ?.filter((p) => p.type === tabType)
-              .filter(
-                (p) =>
-                  !filledPassengerUUIDs.includes(p.uuid) &&
-                  p.passport_number !== FilledPassFormData?.passport_number &&
-                  p.passport_number !== null
-              )
+              .filter((p) => {
+                // For flights → filter using passport
+                if (CartType === "flight" || CartType === "all") {
+                  return (
+                    !filledPassengerUUIDs.includes(p.uuid) &&
+                    p.passport_number !== FilledPassFormData?.passport_number &&
+                    p.passport_number !== null
+                  );
+                }
+
+                // For hotels → only check filled UUIDs
+                if (CartType === "hotel") {
+                  return !filledPassengerUUIDs.includes(p.uuid);
+                }
+
+                return true;
+              })
               .map((passenger, index) => {
                 const isPassFilled =
                   passenger?.uuid === selectPassProfile?.uuid ||
-                  passenger?.passport_number ===
-                    FilledPassFormData?.passport_number;
+                  (CartType !== "hotel" &&
+                    passenger?.passport_number ===
+                      FilledPassFormData?.passport_number);
 
                 return (
                   <PassengerProfilecard
