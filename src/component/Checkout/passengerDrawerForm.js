@@ -48,7 +48,7 @@ const PassengerDrawerForm = () => {
   const [email, setemail] = useState("");
   const [region, setRegion] = useState("");
   const [nationality, setNationality] = useState(null);
-  const [minDate, setMinDate] = useState("1930-01-01");
+  const [minDate, setMinDate] = useState(dayjs("1930-01-01"));
   const [maxDate, setMaxDate] = useState(dayjs());
 
   const countries = useSelector((state) => state.passengerDrawer.countries);
