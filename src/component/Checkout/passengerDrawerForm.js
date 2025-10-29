@@ -48,11 +48,11 @@ const PassengerDrawerForm = () => {
   const [email, setemail] = useState("");
   const [region, setRegion] = useState("");
   const [nationality, setNationality] = useState(null);
-  const [minDate, setMinDate]= useState("1930-01-01")
-  const [maxDate, setMaxDate]= useState( dayjs());
+  const [minDate, setMinDate] = useState("1930-01-01");
+  const [maxDate, setMaxDate] = useState(dayjs());
 
   const countries = useSelector((state) => state.passengerDrawer.countries);
-  
+
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
@@ -65,9 +65,6 @@ const PassengerDrawerForm = () => {
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
-  
-  
-  
 
   const formError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
@@ -98,17 +95,12 @@ const PassengerDrawerForm = () => {
   );
   // get passenger type for validation
   console.log("PassengerAge", PassengerAge2);
-  
+
   const CartType = useSelector((state) => state.booking.cartType);
   console.log("CartType", CartType);
-  
-
-
-  
 
   // get select from whole pasenger detail card
 
-  
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   useEffect(() => {
     if (uuid) {
@@ -126,55 +118,54 @@ const PassengerDrawerForm = () => {
   // Load form data or reset on drawer open
 
   useEffect(() => {
-  if (isPassengerDrawer) {
-    setTimeout(() => {
-      if (passengerPofile?.length && selectPassenger?.uuid) {
-        const passengerData = passengerPofile.find(
-          (getProfilepassenger) =>
-            getProfilepassenger.uuid === selectedpassengerPofile?.uuid
-        );
-
-        if (passengerData) {
-          setgender(passengerData.gender || "");
-          setgiven_name(passengerData.given_name || "");
-          setfamily_name(passengerData.family_name || "");
-          setborn_on(passengerData.born_on || "");
-          setpassport_number(passengerData.passport_number || "");
-          setpassport_expire_date(passengerData.passport_expire_date || "");
-          setphone(passengerData.phone_number || "");
-          setemail(passengerData.email || "");
-          setRegion(passengerData.phone_number || "");
-
-          // nationality will be re-checked whenever "countries" changes
-          const matchedNationality = countries.find(
-            (c) => c.id === passengerData.nationality?.id
+    if (isPassengerDrawer) {
+      setTimeout(() => {
+        if (passengerPofile?.length && selectPassenger?.uuid) {
+          const passengerData = passengerPofile.find(
+            (getProfilepassenger) =>
+              getProfilepassenger.uuid === selectedpassengerPofile?.uuid
           );
-          if (countries?.length) {
-            setNationality(matchedNationality || null);
+
+          if (passengerData) {
+            setgender(passengerData.gender || "");
+            setgiven_name(passengerData.given_name || "");
+            setfamily_name(passengerData.family_name || "");
+            setborn_on(passengerData.born_on || "");
+            setpassport_number(passengerData.passport_number || "");
+            setpassport_expire_date(passengerData.passport_expire_date || "");
+            setphone(passengerData.phone_number || "");
+            setemail(passengerData.email || "");
+            setRegion(passengerData.phone_number || "");
+
+            // nationality will be re-checked whenever "countries" changes
+            const matchedNationality = countries.find(
+              (c) => c.id === passengerData.nationality?.id
+            );
+            if (countries?.length) {
+              setNationality(matchedNationality || null);
+            }
           }
         }
-      }
-    }, 500);
-  } else {
-    // Reset form when drawer is closed
-    setgender("");
-    setgiven_name("");
-    setfamily_name("");
-    setborn_on("");
-    setpassport_number("");
-    setpassport_expire_date("");
-    setNationality(null);
-    setphone("");
-    setemail("");
-    setRegion("");
-  }
-}, [
-  isPassengerDrawer,
-  GetViewPassengers,
-  countries,   // add this
-  dispatch,
-]);
-
+      }, 500);
+    } else {
+      // Reset form when drawer is closed
+      setgender("");
+      setgiven_name("");
+      setfamily_name("");
+      setborn_on("");
+      setpassport_number("");
+      setpassport_expire_date("");
+      setNationality(null);
+      setphone("");
+      setemail("");
+      setRegion("");
+    }
+  }, [
+    isPassengerDrawer,
+    GetViewPassengers,
+    countries, // add this
+    dispatch,
+  ]);
 
   const handleCloseDrawer = () => {
     dispatch(setisPassengerDrawer(false));
@@ -187,10 +178,7 @@ const PassengerDrawerForm = () => {
 
   // Define static ranges
   // Defaults
-  
 
-  
-  
   console.log("PassengerAge__1", PassengerAge);
 
   const validateChildDOB = (dob, PassengerAge) => {
@@ -206,7 +194,7 @@ const PassengerDrawerForm = () => {
   // infant age
 
   console.log("selectPassenger_type", selectPassenger?.type);
-  
+
   useEffect(() => {
   if (!selectPassenger?.type) return;
 
@@ -214,40 +202,35 @@ const PassengerDrawerForm = () => {
   if (selectPassenger.type === "adult") {
     setMinDate(dayjs("1930-01-01"));
     setMaxDate(today.subtract(18, "year"));
+    return; // <-- IMPORTANT: stop further age logic
   }
 
   // Child 2–12 → Based on selected age
-  if ((CartType === "flight" || "all" && selectPassenger.type === "child")) {
+  if ((CartType === "flight" || CartType === "all") && selectPassenger.type === "child") {
     setMaxDate(today.subtract(PassengerAge, "year"));
     setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
+    return;
   }
 
   // Infant 0–2 → Based on selected age
   if (selectPassenger.type === "infant_without_seat") {
     setMaxDate(today.subtract(PassengerAge, "year"));
     setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
+    return;
   }
 
   // Hotel guest child → Under 18
   if (CartType === "hotel" && selectPassenger.type === "child") {
-    setMinDate(today.subtract(17, "year")); // Must be below 18
-    setMaxDate(today); // Up to today
+    setMinDate(today.subtract(17, "year"));
+    setMaxDate(today);
   }
-
 }, [CartType, selectPassenger, PassengerAge]);
 
 
   // ...previous imports remain the same
-  
-  
+
   console.log("selectPassenger_form2", selectPassenger?.age);
-  
 
-  
-  
-
-      
-      
   const SubmitPassenger = () => {
     const errors = {};
 
@@ -274,13 +257,7 @@ const PassengerDrawerForm = () => {
     } else if (!nameRegex.test(family_name)) {
       errors.family_name = "Last name must contain only letters.";
     }
-
-    // --- DOB ---
-    if (!born_on || !dayjs(born_on).isValid()) {
-      // Uncomment if DOB required for hotel as well
-      // errors.born_on = "Date of birth is required and must be valid.";
-    }
-
+    
     // --- Passport & Nationality: only required for flight bookings ---
     if (CartType === "flight" || CartType === "all") {
       if (!passport_number?.trim()) {
@@ -350,15 +327,14 @@ const PassengerDrawerForm = () => {
       label: "Passenger Form Submit",
     });
 
-    const isFirstPassenger = GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
-    
-    
+    const isFirstPassenger =
+      GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
+
     if (isFirstPassenger) {
       dispatch(setCaptainParams(params));
     }
 
     if (CartType === "all" || CartType === "flight") {
-      
       dispatch(getPassPofile());
       dispatch(PassengerFormFlight(params));
       dispatch(passengerCaptain(params));
@@ -377,7 +353,6 @@ const PassengerDrawerForm = () => {
 
   // if all passenger file logic
   console.log("selectPassenger_form2", selectPassenger?.type);
-  
 
   return (
     <Drawer
@@ -598,21 +573,20 @@ const PassengerDrawerForm = () => {
                   </FormLabel>
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      className="formControl Calendar"
-                      value={born_on ? dayjs(born_on) : null}
-                      onChange={(newValue) =>
-                        setborn_on(
-                          newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
-                        )
-                      }
-                      minDate={minDate}
-                      maxDate={maxDate}
-                      format="DD/MM/YYYY"
-                      openTo="year"
-                      views={["year", "month", "day"]}
-                    />
-                  </LocalizationProvider>
+  <DatePicker
+    className="formControl Calendar"
+    value={born_on ? dayjs(born_on) : null}
+    onChange={(newValue) => {
+      setborn_on(newValue ? dayjs(newValue).format("YYYY-MM-DD") : "");
+    }}
+    minDate={minDate}
+    maxDate={maxDate}
+    format="DD/MM/YYYY"
+    openTo="year"
+    views={["year", "month", "day"]}
+  />
+</LocalizationProvider>
+
 
                   <Typography className="error" color="red">
                     {formError?.born_on || bornOnError?.born_on}
