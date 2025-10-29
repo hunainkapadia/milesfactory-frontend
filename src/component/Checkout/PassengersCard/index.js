@@ -26,7 +26,7 @@ const PassengersCard = ({
       display={"flex"}
       justifyContent={"space-between"}
     >
-      <Box className="" display={"flex"} gap={2}>
+      <Box display={"flex"} gap={2}>
         <Box className="imggroup">
           <img src="/images/user-circle.svg" />
         </Box>
@@ -127,7 +127,7 @@ const PassengersCard = ({
         className={"basecolor1"}
         gap={"5px"}
       >
-        <Typography className=" f12 bold mb-0 basecolor1 cursor-pointer" >
+        <Typography whiteSpace={"nowrap"} className=" f12 bold mb-0 basecolor1 cursor-pointer" >
           {isFilled ? "Change" : "Add"}
         </Typography>
         <FontAwesomeIcon icon={faAngleRight} fontSize={"14px"}/>

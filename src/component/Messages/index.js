@@ -28,12 +28,13 @@ import Header from "../layout/Header";
 import LabelAnimation from "../home/LabelAnimation";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
-import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
+
 import Link from "next/link";
 import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
 import BaggageDrawer from "../Checkout/BaggageDrawer";
 import PassengerProfileDrawer from "../Checkout/PassengerProfileDrawer";
 import SearchFilterBar from "../SearchResult/SearchFilterBar";
+import PassengerDrawerForm from "../Checkout/PassengerDrawerForm";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");

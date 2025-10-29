@@ -18,7 +18,6 @@ import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.s
 import { useDispatch, useSelector } from "react-redux";
 import {
   getPassPofile,
-  NationalitData,
   passengerCaptain,
   PassengerFormFlight,
   setAddNewPassactive,
@@ -28,13 +27,15 @@ import {
 } from "@/src/store/slices/passengerDrawerSlice";
 import dayjs from "dayjs";
 import PhoneInput from "react-phone-input-2";
-import ButtonLoading from "../LoadingArea/ButtonLoading";
+
 import { event } from "@/src/utils/utils";
 import {
   getPassPofileHotel,
   passengerCaptainHotel,
   PassengerFormHotel,
 } from "@/src/store/slices/passengerDrawerHotelSlice";
+import PassengerDrawerHeader from "./PassengerFormHeader";
+import ButtonLoading from "../../LoadingArea/ButtonLoading";
 
 const PassengerDrawerForm = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const PassengerDrawerForm = () => {
   const [maxDate, setMaxDate] = useState(dayjs());
 
   const countries = useSelector((state) => state.passengerDrawer.countries);
-
+  const today = dayjs();
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
@@ -83,32 +84,17 @@ const PassengerDrawerForm = () => {
   const formSuccess = useSelector(
     (state) => state.passengerDrawer.captainSuccess
   );
-  const twelveYearsAgo = dayjs().subtract(12, "year");
   const selectPassenger = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger
   );
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer?.SelectPassenger?.age
   );
-  const PassengerAge2 = useSelector(
-    (state) => state.passengerDrawer?.SelectPassenger
-  );
-  // get passenger type for validation
-  console.log("PassengerAge", PassengerAge2);
-
+  
   const CartType = useSelector((state) => state.booking.cartType);
   console.log("CartType", CartType);
 
-  // get select from whole pasenger detail card
-
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  useEffect(() => {
-    if (uuid) {
-      dispatch(NationalitData());
-    }
-  }, [dispatch, uuid]);
-
-  //
+  
   useEffect(() => {
     if (captainSuccess && formSuccess) {
       dispatch(setisPassengerDrawer(false));
@@ -171,16 +157,8 @@ const PassengerDrawerForm = () => {
     dispatch(setisPassengerDrawer(false));
     dispatch(setAddNewPassactive(false));
   };
-
-  // Define ranges
-  const today = dayjs();
-  // Ranges
-
   // Define static ranges
-  // Defaults
-
-  console.log("PassengerAge__1", PassengerAge);
-
+  
   const validateChildDOB = (dob, PassengerAge) => {
     setMaxDate(today.subtract(PassengerAge, "year"));
     setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
@@ -196,36 +174,38 @@ const PassengerDrawerForm = () => {
   console.log("selectPassenger_type", selectPassenger?.type);
 
   useEffect(() => {
-  if (!selectPassenger?.type) return;
+    if (!selectPassenger?.type) return;
 
-  // Adult → must be 18 or older
-  if (selectPassenger.type === "adult") {
-    setMinDate(dayjs("1930-01-01"));
-    setMaxDate(today.subtract(18, "year"));
-    return; // <-- IMPORTANT: stop further age logic
-  }
+    // Adult → must be 18 or older
+    if (selectPassenger.type === "adult") {
+      setMinDate(dayjs("1930-01-01"));
+      setMaxDate(today.subtract(18, "year"));
+      return; // <-- IMPORTANT: stop further age logic
+    }
 
-  // Child 2–12 → Based on selected age
-  if ((CartType === "flight" || CartType === "all") && selectPassenger.type === "child") {
-    setMaxDate(today.subtract(PassengerAge, "year"));
-    setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
-    return;
-  }
+    // Child 2–12 → Based on selected age
+    if (
+      (CartType === "flight" || CartType === "all") &&
+      selectPassenger.type === "child"
+    ) {
+      setMaxDate(today.subtract(PassengerAge, "year"));
+      setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
+      return;
+    }
 
-  // Infant 0–2 → Based on selected age
-  if (selectPassenger.type === "infant_without_seat") {
-    setMaxDate(today.subtract(PassengerAge, "year"));
-    setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
-    return;
-  }
+    // Infant 0–2 → Based on selected age
+    if (selectPassenger.type === "infant_without_seat") {
+      setMaxDate(today.subtract(PassengerAge, "year"));
+      setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
+      return;
+    }
 
-  // Hotel guest child → Under 18
-  if (CartType === "hotel" && selectPassenger.type === "child") {
-    setMinDate(today.subtract(17, "year"));
-    setMaxDate(today);
-  }
-}, [CartType, selectPassenger, PassengerAge]);
-
+    // Hotel guest child → Under 18
+    if (CartType === "hotel" && selectPassenger.type === "child") {
+      setMinDate(today.subtract(17, "year"));
+      setMaxDate(today);
+    }
+  }, [CartType, selectPassenger, PassengerAge]);
 
   // ...previous imports remain the same
 
@@ -257,7 +237,7 @@ const PassengerDrawerForm = () => {
     } else if (!nameRegex.test(family_name)) {
       errors.family_name = "Last name must contain only letters.";
     }
-    
+
     // --- Passport & Nationality: only required for flight bookings ---
     if (CartType === "flight" || CartType === "all") {
       if (!passport_number?.trim()) {
@@ -350,10 +330,7 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
-
-  // if all passenger file logic
-  console.log("selectPassenger_form2", selectPassenger?.type);
-
+  
   return (
     <Drawer
       anchor="right"
@@ -372,59 +349,7 @@ const PassengerDrawerForm = () => {
           className={styles.checkoutDrowerSection + " aa white-bg"}
           width={483}
         >
-          <Box
-            px={3}
-            component={"header"}
-            className={"checkoutDrowerHeder"}
-            pt={3}
-            display="flex"
-            justifyContent="space-between"
-            flexDirection={"column"}
-            gap={3}
-          >
-            <Box
-              component={"section"}
-              gap={1}
-              alignItems="center"
-              display="flex"
-              className={" bold basecolor1 btn-link cursor-pointer"}
-              onClick={handleCloseDrawer}
-            >
-              <i className={`fa fa-arrow-left fas`}></i>{" "}
-              <Box component={"span"}>Back to Mylz Chat</Box>
-            </Box>
-            {(CartType === "all" || CartType === "flight") && (
-              <Box
-                component={"section"}
-                display="flex"
-                justifyContent="space-between"
-                alignItems={"center"}
-              >
-                <Box>
-                  <h3 className="regular mb-0">
-                    Traveller details -{" "}
-                    <span className="capitalize">
-                      {selectPassenger?.type === "infant_without_seat" ? (
-                        <>
-                          Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
-                          {selectPassenger?.age}{" "}
-                          {selectPassenger?.age > 1 ? "years" : "year"}
-                        </>
-                      ) : selectPassenger?.type === "child" ? (
-                        <>
-                          Child {selectPassenger?.age}{" "}
-                          {selectPassenger?.age > 1 ? "years" : "year"}
-                        </>
-                      ) : (
-                        <>{selectPassenger?.type} 18+ years</>
-                      )}
-                    </span>{" "}
-                  </h3>
-                </Box>
-              </Box>
-            )}
-            <Divider />
-          </Box>
+          <PassengerDrawerHeader handleCloseDrawer={handleCloseDrawer} />
           <Box
             className={`${styles.checkoutDrowerBody} ${styles.PassengerFormDrowerBody}`}
           >
@@ -573,20 +498,21 @@ const PassengerDrawerForm = () => {
                   </FormLabel>
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DatePicker
-    className="formControl Calendar"
-    value={born_on ? dayjs(born_on) : null}
-    onChange={(newValue) => {
-      setborn_on(newValue ? dayjs(newValue).format("YYYY-MM-DD") : "");
-    }}
-    minDate={minDate}
-    maxDate={maxDate}
-    format="DD/MM/YYYY"
-    openTo="year"
-    views={["year", "month", "day"]}
-  />
-</LocalizationProvider>
-
+                    <DatePicker
+                      className="formControl Calendar"
+                      value={born_on ? dayjs(born_on) : null}
+                      onChange={(newValue) => {
+                        setborn_on(
+                          newValue ? dayjs(newValue).format("YYYY-MM-DD") : ""
+                        );
+                      }}
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      format="DD/MM/YYYY"
+                      openTo="year"
+                      views={["year", "month", "day"]}
+                    />
+                  </LocalizationProvider>
 
                   <Typography className="error" color="red">
                     {formError?.born_on || bornOnError?.born_on}

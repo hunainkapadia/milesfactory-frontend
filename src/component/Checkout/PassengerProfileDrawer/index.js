@@ -36,9 +36,7 @@ const PassengerProfileDrawer = () => {
   const [tabValue, setTabValue] = useState(0);
   const [tabType, setTabType] = useState("adult"); // default type
 
-  
   console.log("tabType", tabType);
-  
 
   // Redux states
   const isPassengerProfileDrawer = useSelector(
@@ -48,14 +46,11 @@ const PassengerProfileDrawer = () => {
     (state) => state.passengerDrawer.passProfile
   );
   console.log("passengerPofile", passengerPofile);
-  
-  
 
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
     (state) => state.passengerDrawer.PassFormData
   );
-  
 
   const selectPassenger = useSelector(
     (state) => state.passengerDrawer.SelectPassenger
@@ -78,62 +73,46 @@ const PassengerProfileDrawer = () => {
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
-  
-  
-  
 
   // --- Polling for profile updates ---
 
-  
-
-  
-  
-  
   // --- Polling for profile updates ---
-  
-  
+
   //  Fetch passenger profile once when form data changes
-useEffect(() => {
-  if (!FilledPassFormData) return;
+  useEffect(() => {
+    if (!FilledPassFormData) return;
 
-  if (CartType === "flight" || CartType === "all") {
-    dispatch(getPassPofile());
-  } else if (CartType === "hotel") {
-    dispatch(getPassPofileHotel());
-  }
-}, [dispatch, FilledPassFormData, CartType]);
+    if (CartType === "flight" || CartType === "all") {
+      dispatch(getPassPofile());
+    } else if (CartType === "hotel") {
+      dispatch(getPassPofileHotel());
+    }
+  }, [dispatch, FilledPassFormData, CartType]);
 
+  //  Stop checking when passport match is found (for flight)
+  useEffect(() => {
+    if (CartType !== "flight" || !FilledPassFormData || !passengerPofile)
+      return;
 
+    const isMatch = passengerPofile.some(
+      (p) => p.passport_number === FilledPassFormData.passport_number
+    );
 
+    if (isMatch) {
+      setStopPolling(true);
+    }
+  }, [passengerPofile, FilledPassFormData, CartType]);
 
-//  Stop checking when passport match is found (for flight)
-useEffect(() => {
-  if (
-    CartType !== "flight" ||
-    !FilledPassFormData ||
-    !passengerPofile
-  ) return;
+  //  Stop checking when all passengers are present (for both flight & hotel)
+  useEffect(() => {
+    if (!GetViewPassengers || !passengerPofile) return;
 
-  const isMatch = passengerPofile.some(
-    (p) => p.passport_number === FilledPassFormData.passport_number
-  );
+    const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
 
-  if (isMatch) {
-    setStopPolling(true);
-  }
-}, [passengerPofile, FilledPassFormData, CartType]);
-
-//  Stop checking when all passengers are present (for both flight & hotel)
-useEffect(() => {
-  if (!GetViewPassengers || !passengerPofile) return;
-
-  const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
-
-  if (isLengthEqual) {
-    setStopPolling(true);
-  }
-}, [passengerPofile, GetViewPassengers]);
-
+    if (isLengthEqual) {
+      setStopPolling(true);
+    }
+  }, [passengerPofile, GetViewPassengers]);
 
   // --- Initialize tabType ---
   useEffect(() => {
@@ -146,7 +125,7 @@ useEffect(() => {
   const handleCloseDrawer = () => dispatch(setPassProfileDrawer(false));
 
   // --- Modify passenger ---
-  
+
   const onClickModifyCard = (passenger) => {
     console.log("passenger_profile", passenger);
     dispatch(setSelectedProfilePass(passenger));
@@ -157,16 +136,16 @@ useEffect(() => {
   };
 
   // --- Save passenger ---
-  
+
   const handleSavePassenger = (passenger) => {
     if (!passenger) return;
     const formatDate = (date) =>
       date && dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
     const getRegionFromPhone = (phone) => {
-    if (!phone) return "";
-    const parsed = parsePhoneNumberFromString(phone);
-    return parsed?.country || ""; // Example: "PK", "AE", "IN", "US"
-  };
+      if (!phone) return "";
+      const parsed = parsePhoneNumberFromString(phone);
+      return parsed?.country || ""; // Example: "PK", "AE", "IN", "US"
+    };
     const params = {
       gender: passenger.gender || "",
       given_name: passenger.given_name || "",
@@ -181,7 +160,6 @@ useEffect(() => {
       passenger_id: passenger.passenger_id || "",
       type: passenger.type || "",
     };
-    
 
     // If first passenger, set captain params
     const isFirstPassenger =
@@ -252,13 +230,12 @@ useEffect(() => {
     dispatch(setSelectPassenger(nextPassenger));
   }, [filledPassengerUUIDs, GetViewPassengers, passengerPofile, dispatch]);
 
-
-  useEffect(()=> {
+  useEffect(() => {
     if (isAllPassengersFilled) {
       dispatch(setFilledPass(true));
-      dispatch(setPassProfileDrawer(false))
+      dispatch(setPassProfileDrawer(false));
     }
-  },[dispatch, isAllPassengersFilled])
+  }, [dispatch, isAllPassengersFilled]);
   return (
     <Drawer
       anchor="right"
@@ -316,7 +293,7 @@ useEffect(() => {
                   (CartType !== "hotel" &&
                     passenger?.passport_number ===
                       FilledPassFormData?.passport_number);
-                      console.log("passenger_region", passenger)
+                console.log("passenger_region", passenger);
 
                 return (
                   <PassengerProfilecard
