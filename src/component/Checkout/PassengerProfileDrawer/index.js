@@ -27,6 +27,7 @@ import PassengerProfilecard from "./PassengerProfilecard";
 import PassengerProfileHeader from "./PassengerProfileHeader";
 import AddPassCard from "./AddPassCard";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import parsePhoneNumberFromString from "libphonenumber-js";
 
 const PassengerProfileDrawer = () => {
   const dispatch = useDispatch();
@@ -157,11 +158,15 @@ useEffect(() => {
 
   // --- Save passenger ---
   
-  
   const handleSavePassenger = (passenger) => {
     if (!passenger) return;
     const formatDate = (date) =>
       date && dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
+    const getRegionFromPhone = (phone) => {
+    if (!phone) return "";
+    const parsed = parsePhoneNumberFromString(phone);
+    return parsed?.country || ""; // Example: "PK", "AE", "IN", "US"
+  };
     const params = {
       gender: passenger.gender || "",
       given_name: passenger.given_name || "",
@@ -170,13 +175,13 @@ useEffect(() => {
       phone_number: passenger.phone_number || "",
       email: passenger.email || "",
       nationality: passenger.nationality?.id ?? "",
-      region: passenger.nationality?.code || "",
+      region: getRegionFromPhone(passenger.phone_number), // get region from plugin
       passport_number: passenger.passport_number || "",
       passport_expire_date: formatDate(passenger.passport_expire_date),
       passenger_id: passenger.passenger_id || "",
       type: passenger.type || "",
     };
-    console.log("passenger_nationality", params)
+    
 
     // If first passenger, set captain params
     const isFirstPassenger =
@@ -311,6 +316,7 @@ useEffect(() => {
                   (CartType !== "hotel" &&
                     passenger?.passport_number ===
                       FilledPassFormData?.passport_number);
+                      console.log("passenger_region", passenger)
 
                 return (
                   <PassengerProfilecard
