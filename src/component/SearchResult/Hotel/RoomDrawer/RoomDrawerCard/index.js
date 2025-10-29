@@ -38,6 +38,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
         py={2}
       >
         <Box
+          className={styles.box}
           width="100%"
           display="flex" gap={1}
           justifyContent="space-between"
