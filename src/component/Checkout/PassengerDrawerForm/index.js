@@ -639,15 +639,16 @@ const PassengerDrawerForm = () => {
                         popupIcon={<i className="fa f16 fa-angle-down"></i>}
                         renderInput={(params) => (
                           <TextField
-                            {...params}
-                            fullWidth
-                            placeholder="Nationality"
-                            autoComplete="new-country" // prevents Chrome autofill
-                            inputProps={{
-                              ...params.inputProps,
-                              autoComplete: "new-country", // unique and non-standard
-                            }}
-                          />
+    {...params}
+    fullWidth
+    placeholder="Nationality"
+    name="fake-nation" // not matching any browser autofill key
+    autoComplete="off"
+    inputProps={{
+      ...params.inputProps,
+      autoComplete: "off", // fully stop Chrome autofill
+    }}
+  />
                         )}
                       />
 
