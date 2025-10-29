@@ -192,14 +192,15 @@ const PassengerDrawerForm = () => {
   
   
   console.log("PassengerAge__1", PassengerAge);
-  
+
   const validateChildDOB = (dob, PassengerAge) => {
-    maxDate = today.subtract(PassengerAge, "year");
-    minDate = today.subtract(PassengerAge + 2, "year").add(1, "day");
+    setMaxDate(today.subtract(PassengerAge, "year"));
+    setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
   };
+
   const validateInfantDOB = (dob, PassengerAge) => {
-    maxDate = today.subtract(PassengerAge, "year");
-    minDate = today.subtract(PassengerAge + 2, "year").add(1, "day");
+    setMaxDate(today.subtract(PassengerAge, "year"));
+    setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
   };
   // child dat
   // infant age
@@ -417,37 +418,36 @@ const PassengerDrawerForm = () => {
               <i className={`fa fa-arrow-left fas`}></i>{" "}
               <Box component={"span"}>Back to Mylz Chat</Box>
             </Box>
-            {(CartType === "all" ||
-              CartType === "flight") && (
-                <Box
-                  component={"section"}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems={"center"}
-                >
-                  <Box>
-                    <h3 className="regular mb-0">
-                      Traveller details -{" "}
-                      <span className="capitalize">
-                        {selectPassenger?.type === "infant_without_seat" ? (
-                          <>
-                            Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
-                            {selectPassenger?.age}{" "}
-                            {selectPassenger?.age > 1 ? "years" : "year"}
-                          </>
-                        ) : selectPassenger?.type === "child" ? (
-                          <>
-                            Child {selectPassenger?.age}{" "}
-                            {selectPassenger?.age > 1 ? "years" : "year"}
-                          </>
-                        ) : (
-                          <>{selectPassenger?.type} 18+ years</>
-                        )}
-                      </span>{" "}
-                    </h3>
-                  </Box>
+            {(CartType === "all" || CartType === "flight") && (
+              <Box
+                component={"section"}
+                display="flex"
+                justifyContent="space-between"
+                alignItems={"center"}
+              >
+                <Box>
+                  <h3 className="regular mb-0">
+                    Traveller details -{" "}
+                    <span className="capitalize">
+                      {selectPassenger?.type === "infant_without_seat" ? (
+                        <>
+                          Infant {selectPassenger?.age > 1 ? "s" : ""}{" "}
+                          {selectPassenger?.age}{" "}
+                          {selectPassenger?.age > 1 ? "years" : "year"}
+                        </>
+                      ) : selectPassenger?.type === "child" ? (
+                        <>
+                          Child {selectPassenger?.age}{" "}
+                          {selectPassenger?.age > 1 ? "years" : "year"}
+                        </>
+                      ) : (
+                        <>{selectPassenger?.type} 18+ years</>
+                      )}
+                    </span>{" "}
+                  </h3>
                 </Box>
-              )}
+              </Box>
+            )}
             <Divider />
           </Box>
           <Box
@@ -463,30 +463,29 @@ const PassengerDrawerForm = () => {
                 justifyContent="center"
                 gap={"22px"}
               >
-                {(CartType === "all" ||
-                  CartType === "flight") && (
-                    <>
-                      <Box className="imggroup">
-                        <img
-                          height={"70px"}
-                          src="/images/user-circle.svg"
-                          alt="avatar"
-                        />
-                      </Box>
-                      <Box>
-                        {given_name || family_name ? (
-                          <h4
-                            className="mb-0"
-                            style={{ textTransform: "capitalize" }}
-                          >
-                            {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
-                          </h4>
-                        ) : (
-                          <h4>New Traveller</h4>
-                        )}
-                      </Box>
-                    </>
-                  )}
+                {(CartType === "all" || CartType === "flight") && (
+                  <>
+                    <Box className="imggroup">
+                      <img
+                        height={"70px"}
+                        src="/images/user-circle.svg"
+                        alt="avatar"
+                      />
+                    </Box>
+                    <Box>
+                      {given_name || family_name ? (
+                        <h4
+                          className="mb-0"
+                          style={{ textTransform: "capitalize" }}
+                        >
+                          {`${given_name ?? ""} ${family_name ?? ""}`.trim()}
+                        </h4>
+                      ) : (
+                        <h4>New Traveller</h4>
+                      )}
+                    </Box>
+                  </>
+                )}
 
                 {CartType === "hotel" && (
                   <>
@@ -551,9 +550,16 @@ const PassengerDrawerForm = () => {
                     fullWidth
                     placeholder="Enter First Name"
                     value={given_name}
-                    onChange={(e) => setgiven_name(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Allow only alphabets + space
+                      if (/^[A-Za-z\s]*$/.test(value)) {
+                        setgiven_name(value);
+                      }
+                    }}
                     margin="normal"
                   />
+
                   {formError?.given_name && (
                     <Typography className="error" color="red">
                       {formError.given_name}
@@ -568,9 +574,16 @@ const PassengerDrawerForm = () => {
                     fullWidth
                     placeholder="Enter Last Name"
                     value={family_name}
-                    onChange={(e) => setfamily_name(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // allow only alphabets & spaces
+                      if (/^[A-Za-z\s]*$/.test(value)) {
+                        setfamily_name(value);
+                      }
+                    }}
                     margin="normal"
                   />
+
                   {formError?.family_name && (
                     <Typography className="error" color="red">
                       {formError.family_name}
@@ -583,7 +596,7 @@ const PassengerDrawerForm = () => {
                   <FormLabel className="bold formLabel">
                     Date of Birth
                   </FormLabel>
-                  
+
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       className="formControl Calendar"
@@ -605,59 +618,58 @@ const PassengerDrawerForm = () => {
                     {formError?.born_on || bornOnError?.born_on}
                   </Typography>
                 </Box>
-                {(CartType === "all" ||
-                  CartType === "flight") && (
-                    <>
-                      {/* Passport Info */}
-                      <Box className="formGroup">
-                        <FormLabel className="bold formLabel">
-                          Passport Number
-                        </FormLabel>
-                        <TextField
-                          className="formControl"
-                          fullWidth
-                          placeholder="Enter Passport Number"
-                          value={passport_number}
-                          onChange={(e) => setpassport_number(e.target.value)}
-                          margin="normal"
-                        />
-                        <Typography className="error" color="red">
-                          {formError?.passport_number}
-                        </Typography>
-                      </Box>
+                {(CartType === "all" || CartType === "flight") && (
+                  <>
+                    {/* Passport Info */}
+                    <Box className="formGroup">
+                      <FormLabel className="bold formLabel">
+                        Passport Number
+                      </FormLabel>
+                      <TextField
+                        className="formControl"
+                        fullWidth
+                        placeholder="Enter Passport Number"
+                        value={passport_number}
+                        onChange={(e) => setpassport_number(e.target.value)}
+                        margin="normal"
+                      />
+                      <Typography className="error" color="red">
+                        {formError?.passport_number}
+                      </Typography>
+                    </Box>
 
-                      <Box className="formGroup">
-                        <FormLabel className="bold formLabel">
-                          Passport Expiry Date
-                        </FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            className="formControl Calendar"
-                            value={
-                              passport_expire_date
-                                ? dayjs(passport_expire_date)
-                                : null
-                            }
-                            onChange={(newValue) =>
-                              setpassport_expire_date(
-                                newValue
-                                  ? dayjs(newValue).format("YYYY-MM-DD")
-                                  : ""
-                              )
-                            }
-                            minDate={dayjs().startOf("year")}
-                            openTo="year"
-                            views={["year", "month", "day"]}
-                            format="DD/MM/YYYY"
-                          />
-                        </LocalizationProvider>
-                        <Typography className="error" color="red">
-                          {formError?.passport_expire_date ||
-                            passportError?.passport_expire_date}
-                        </Typography>
-                      </Box>
-                    </>
-                  )}
+                    <Box className="formGroup">
+                      <FormLabel className="bold formLabel">
+                        Passport Expiry Date
+                      </FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          className="formControl Calendar"
+                          value={
+                            passport_expire_date
+                              ? dayjs(passport_expire_date)
+                              : null
+                          }
+                          onChange={(newValue) =>
+                            setpassport_expire_date(
+                              newValue
+                                ? dayjs(newValue).format("YYYY-MM-DD")
+                                : ""
+                            )
+                          }
+                          minDate={dayjs().startOf("year")}
+                          openTo="year"
+                          views={["year", "month", "day"]}
+                          format="DD/MM/YYYY"
+                        />
+                      </LocalizationProvider>
+                      <Typography className="error" color="red">
+                        {formError?.passport_expire_date ||
+                          passportError?.passport_expire_date}
+                      </Typography>
+                    </Box>
+                  </>
+                )}
 
                 {/* Email */}
                 {selectPassenger?.type === "adult" && (
@@ -704,56 +716,59 @@ const PassengerDrawerForm = () => {
                     </Box>
                   </>
                 )}
-                {(CartType === "all" ||
-                  CartType === "flight") && (
-                    <>
-                      {/* Nationality */}
-                      <Box className="formGroup">
-                        <FormLabel className="bold formLabel">
-                          Nationality
-                        </FormLabel>
-                        <Autocomplete
-                          className="select-dropdown"
-                          options={countries}
-                          getOptionLabel={(option) => option.name}
-                          value={nationality}
-                          onChange={(event, newValue) =>
-                            setNationality(newValue)
-                          }
-                          popupIcon={<i className="fa f16 fa-angle-down"></i>}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              fullWidth
-                              placeholder="Nationality"
-                              autoComplete="new-country" // prevents Chrome autofill
-                              inputProps={{
-                                ...params.inputProps,
-                                autoComplete: "new-country", // unique and non-standard
-                              }}
-                            />
-                          )}
-                        />
+                {(CartType === "all" || CartType === "flight") && (
+                  <>
+                    {/* Nationality */}
+                    <Box className="formGroup">
+                      <FormLabel className="bold formLabel">
+                        Nationality
+                      </FormLabel>
+                      <Autocomplete
+                        className="select-dropdown"
+                        options={countries}
+                        getOptionLabel={(option) => option.name}
+                        value={nationality}
+                        onChange={(event, newValue) => setNationality(newValue)}
+                        popupIcon={<i className="fa f16 fa-angle-down"></i>}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            fullWidth
+                            placeholder="Nationality"
+                            autoComplete="new-country" // prevents Chrome autofill
+                            inputProps={{
+                              ...params.inputProps,
+                              autoComplete: "new-country", // unique and non-standard
+                            }}
+                          />
+                        )}
+                      />
 
-                        {formError?.nationality && (
-                          <Typography className="error" color="red">
-                            {formError.nationality}
-                          </Typography>
-                        )}
-                        {formError?.error && (
-                          <Typography className="error" color="red">
-                            {formError.error}
-                          </Typography>
-                        )}
-                      </Box>
-                    </>
-                  )}
+                      {formError?.nationality && (
+                        <Typography className="error" color="red">
+                          {formError.nationality}
+                        </Typography>
+                      )}
+                      {formError?.error && (
+                        <Typography className="error" color="red">
+                          {formError.error}
+                        </Typography>
+                      )}
+                    </Box>
+                  </>
+                )}
               </Box>
             </Box>
             {/* Footer */}
             <Box className={styles.passengerDrawerFooter}>
               <Divider />
-              <Box className={styles.Row} py={1} px={3} display="flex" flexDirection="column">
+              <Box
+                className={styles.Row}
+                py={1}
+                px={3}
+                display="flex"
+                flexDirection="column"
+              >
                 <Box
                   display="flex"
                   justifyContent="flex-end"
