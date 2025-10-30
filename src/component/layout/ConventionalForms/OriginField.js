@@ -119,6 +119,8 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
     }
   }, [originOptions]);
 
+  const [open, setOpen] = useState(false);
+
   return (
     <Box
       className={`
@@ -132,6 +134,8 @@ const OriginField = ({ errors = {}, isDrawer, step2, isHomeForm }) => {
       }`}
     >
       <Autocomplete
+        // open={open}
+        // onOpen={() => setOpen(true)}
         className={styles.formGroupIn}
         freeSolo
         disableClearable

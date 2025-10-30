@@ -13,16 +13,13 @@
    
   li {
     border-bottom: solid 1px #ddd;
-    padding:  0 6px 8px;
-    margin-bottom: 10px;
+    padding:  10px 6px 10px;
+    margin-bottom: 0;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
   }
-   li {
-      display: flex;
-      align-items: center;
-      padding-bottom: 10px;
-      cursor: pointer;
-   }
    .parent svg {
       margin-left: 0;
       margin-right: 8px;

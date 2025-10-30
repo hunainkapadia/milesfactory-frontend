@@ -135,7 +135,7 @@ const DestinationField = ({ errors = {}, isDrawer, isHomeForm }) => {
         }}
         onChange={(e, value) => handleSelect(value)}
         ListboxProps={{
-          className: `${styles.countryDropdown} destinationDropdown`,
+          className: `${styles.countryDropdown} countryDropdown destinationDropdown`,
         }}
         renderOption={(props, option) => (
           <li

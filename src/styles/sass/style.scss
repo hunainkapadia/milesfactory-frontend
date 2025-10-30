@@ -728,7 +728,7 @@ label,
 .checkoutDrower .select-dropdown .MuiOutlinedInput-root {
   border: none;
 }
-
+.countryDropdown .Mui-focused {background-color: $lightgray;}
 .css-aou5iv-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: inherit;
   border-width: 1px;
