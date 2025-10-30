@@ -92,11 +92,10 @@ const PassengerDrawerForm = () => {
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer?.SelectPassenger?.age
   );
-  
+
   const CartType = useSelector((state) => state.booking.cartType);
   console.log("CartType", CartType);
 
-  
   useEffect(() => {
     if (captainSuccess && formSuccess) {
       dispatch(setisPassengerDrawer(false));
@@ -160,7 +159,7 @@ const PassengerDrawerForm = () => {
     dispatch(setAddNewPassactive(false));
   };
   // Define static ranges
-  
+
   const validateChildDOB = (dob, PassengerAge) => {
     setMaxDate(today.subtract(PassengerAge, "year"));
     setMinDate(today.subtract(PassengerAge + 2, "year").add(1, "day"));
@@ -332,7 +331,7 @@ const PassengerDrawerForm = () => {
   const bornOnError = formError?.non_field_errors?.find(
     (error) => error?.born_on
   );
-    useEffect(() => {
+  useEffect(() => {
     if (uuid) {
       dispatch(NationalitData());
     }
@@ -639,16 +638,16 @@ const PassengerDrawerForm = () => {
                         popupIcon={<i className="fa f16 fa-angle-down"></i>}
                         renderInput={(params) => (
                           <TextField
-    {...params}
-    fullWidth
-    placeholder="Nationality"
-    name="fake-nation" // not matching any browser autofill key
-    autoComplete="off"
-    inputProps={{
-      ...params.inputProps,
-      autoComplete: "off", // fully stop Chrome autofill
-    }}
-  />
+                            {...params}
+                            fullWidth
+                            placeholder="Nationality"
+                            name="fake-nation" // not matching any browser autofill key
+                            autoComplete="off"
+                            inputProps={{
+                              ...params.inputProps,
+                              autoComplete: "off", // fully stop Chrome autofill
+                            }}
+                          />
                         )}
                       />
 

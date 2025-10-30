@@ -210,26 +210,55 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
 
 export const RefreshHandle = () => (dispatch, getState) => {
   const state = getState();
-  const uuid = state?.getMessages?.SearchHistory?.uuid
-  
-  const threadUUID = sessionStorage.getItem("chat_thread_uuid");
-  
-  
-// {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
-  // const url = `api/v1/search/<str:flight_search_uuid>/refresh/<str:chat_thread_uuid></str:chat_thread_uuid>`
-  const expireURL =  `/api/v1/search/${uuid}/refresh/${threadUUID}`
+  const uuid = state?.getMessages?.SearchHistory?.flight?.uuid;
+  const threadUUID = state?.sendMessage?.threadUuid;
 
-  
-  
+  if (!uuid || !threadUUID) {
+    console.warn("Missing SearchHistory uuid or threadUuid");
+    return;
+  }
 
-  api.post(expireURL).then((res)=> {
-    
-    dispatch(setRefreshSearch())
-  }).catch((error)=> {
-    
-    
-  })
-}
+  const expireURL = `/api/v1/search/${uuid}/refresh/${threadUUID}`;
+
+  dispatch(setIsLoading(true));
+
+  api
+    .post(expireURL)
+    .then((res) => {
+      dispatch(setRefreshSearch(true));
+
+      // ✅ After successful refresh → Re-fetch updated flight offers
+      const allOfferUrl = res?.data;
+      
+      
+      console.log("allOfferUrl", allOfferUrl);
+      if (allOfferUrl) {
+        dispatch(setAllOfferUrl(allOfferUrl));
+        
+        api
+          .get(allOfferUrl)
+          .then((flightRes) => {
+            dispatch(
+              setMessage({
+                ai: flightRes.data,
+                type: "flight_result",
+              })
+            );
+          })
+          .catch((flError) => {
+            dispatch(setFlightExpire(flError?.response?.data?.error));
+          });
+      }
+    })
+    .catch((error) => {
+      console.log("RefreshHandle Error:", error.response?.data);
+      dispatch(setError("Failed to refresh flight data"));
+    })
+    .finally(() => {
+      dispatch(setIsLoading(false));
+    });
+};
+
 
 export const {
   setMessage,

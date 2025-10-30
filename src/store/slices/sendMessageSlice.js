@@ -358,6 +358,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   );
                 }
               }
+            }).catch((error)=> {
+              console.log("error_flight", error)
             })
             .finally(() => {
               dispatch(setLoading(false));
