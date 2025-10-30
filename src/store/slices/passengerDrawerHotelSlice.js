@@ -125,7 +125,7 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const orderUuidhotel = state?.passengerHotelSlice?.orderUuidHotel;
   const passengerUuid = state?.passengerDrawer?.SelectPassenger.uuid;
-  console.log("passengerUuid_hotel", passengerUuid );
+  console.log("passengerUuid_hotel", passengerUuid);
   
   
   const SubmitUrl = `/api/v1/hotel/order/${orderUuidhotel}/guest/${passengerUuid}`;
@@ -162,7 +162,6 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
     .catch((error) => {
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
-      dispatch(setisPassengerDrawer(true));
     })
     .finally(() => {
       

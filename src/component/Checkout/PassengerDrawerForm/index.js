@@ -209,10 +209,6 @@ const validateInfantDOB = (dob, PassengerAge) => {
   }
 }, [CartType, selectPassenger, PassengerAge]);
 
-  
-
-  
-
 
   // ...previous imports remain the same
 
@@ -274,14 +270,7 @@ const validateInfantDOB = (dob, PassengerAge) => {
       }
     }
 
-    // --- Child/Infant DOB Validation ---
-    if (selectPassenger?.type === "child") {
-      validateChildDOB(born_on, PassengerAge);
-    }
-    if (selectPassenger?.type === "infant_without_seat") {
-      validateInfantDOB(born_on, PassengerAge);
-    }
-
+    
     // --- Handle Errors ---
     if (Object.keys(errors).length > 0) {
       dispatch(setPassengerFormError(errors));

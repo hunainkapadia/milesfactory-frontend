@@ -310,7 +310,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
     .catch((error) => {
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
-      dispatch(setisPassengerDrawer(true));
+      
       
     })
     .finally(() => {

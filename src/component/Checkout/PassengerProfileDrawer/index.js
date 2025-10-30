@@ -50,7 +50,10 @@ const PassengerProfileDrawer = () => {
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
-  console.log("passengerPofile", passengerPofile);
+  const PassengerFormError = useSelector(
+    (state) => state.passengerDrawer.PassengerFormError
+  );
+  console.log("PassengerFormError", PassengerFormError);
 
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
@@ -206,34 +209,48 @@ const PassengerProfileDrawer = () => {
 
   // --- Auto switch to next unfilled passenger ---
   useEffect(() => {
-    //  Stop the whole effect if there are NO saved profiles
-    if (!passengerPofile || passengerPofile.length === 0) return;
 
-    if (!GetViewPassengers?.length) return;
+  //  Stop auto-switch if there are validation errors
+  if (
+    PassengerFormError &&
+    Object.keys(PassengerFormError).length > 0
+  ) {
+    dispatch(setisPassengerDrawer(true)); // keep drawer open
+    return; //  stop here — DO NOT switch passenger
+  }
 
-    if (filledPassengerUUIDs.length === GetViewPassengers.length) return;
+  if (!passengerPofile || passengerPofile.length === 0) return;
+  if (!GetViewPassengers?.length) return;
 
-    const nextPassenger = GetViewPassengers.find(
-      (p) => !filledPassengerUUIDs.includes(p.uuid)
-    );
+  if (filledPassengerUUIDs.length === GetViewPassengers.length) return;
 
-    if (!nextPassenger) return;
+  const nextPassenger = GetViewPassengers.find(
+    (p) => !filledPassengerUUIDs.includes(p.uuid)
+  );
 
-    const nextIndex = GetViewPassengers.findIndex(
-      (p) => p.uuid === nextPassenger.uuid
-    );
+  if (!nextPassenger) return;
 
-    setTabValue(nextIndex);
-    setTabType(nextPassenger.type);
+  const nextIndex = GetViewPassengers.findIndex(
+    (p) => p.uuid === nextPassenger.uuid
+  );
 
-    dispatch(setPassengerUUID(nextPassenger.uuid));
-    dispatch(setPassengerType(nextPassenger.type));
-    dispatch(setPassengerAge(nextPassenger.age));
-    dispatch(setPassengerPassport(nextPassenger.passportNumber));
+  setTabValue(nextIndex);
+  setTabType(nextPassenger.type);
 
-    //  Only auto-select when profiles exist
-    dispatch(setSelectPassenger(nextPassenger));
-  }, [filledPassengerUUIDs, GetViewPassengers, passengerPofile, dispatch]);
+  dispatch(setPassengerUUID(nextPassenger.uuid));
+  dispatch(setPassengerType(nextPassenger.type));
+  dispatch(setPassengerAge(nextPassenger.age));
+  dispatch(setPassengerPassport(nextPassenger.passportNumber));
+  dispatch(setSelectPassenger(nextPassenger));
+
+}, [
+  filledPassengerUUIDs,
+  GetViewPassengers,
+  passengerPofile,
+  PassengerFormError, // REQUIRED so effect reacts to error state
+  dispatch
+]);
+
 
   useEffect(() => {
     if (isAllPassengersFilled) {
