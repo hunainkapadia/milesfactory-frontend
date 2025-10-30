@@ -33,8 +33,13 @@ const PassengerProfileDrawer = () => {
   const dispatch = useDispatch();
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [stopPolling, setStopPolling] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
-  const [tabType, setTabType] = useState("adult"); // default type
+  const [tabValue, setTabValue] = useState(2);
+  const [tabType, setTabType] = useState("child"); // default type
+
+  console.log("tabValue", tabValue);
+  console.log("tabType__11", tabType);
+  
+  
 
   console.log("tabType", tabType);
 
@@ -55,9 +60,12 @@ const PassengerProfileDrawer = () => {
   const selectPassenger = useSelector(
     (state) => state.passengerDrawer.SelectPassenger
   );
+
+  
   const selectedProfilePass = useSelector(
     (state) => state.passengerDrawer.SelectedProfilePass
   );
+  
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
@@ -114,13 +122,7 @@ const PassengerProfileDrawer = () => {
     }
   }, [passengerPofile, GetViewPassengers]);
 
-  // --- Initialize tabType ---
-  useEffect(() => {
-    if (GetViewPassengers?.length && tabType === null) {
-      setTabType(GetViewPassengers[0].type); // set only once
-    }
-  }, [GetViewPassengers, tabType]);
-
+  
   // --- Close drawer ---
   const handleCloseDrawer = () => dispatch(setPassProfileDrawer(false));
 
@@ -160,6 +162,8 @@ const PassengerProfileDrawer = () => {
       passenger_id: passenger.passenger_id || "",
       type: passenger.type || "",
     };
+    console.log("params_pasenger", params);
+    
 
     // If first passenger, set captain params
     const isFirstPassenger =
@@ -192,6 +196,7 @@ const PassengerProfileDrawer = () => {
     const passenger = GetViewPassengers[newValue];
     if (!passenger) return;
     setTabType(passenger.type);
+
     dispatch(setPassengerUUID(passenger.uuid));
     dispatch(setPassengerType(passenger.type));
     dispatch(setPassengerAge(passenger.age));
@@ -236,6 +241,34 @@ const PassengerProfileDrawer = () => {
       dispatch(setPassProfileDrawer(false));
     }
   }, [dispatch, isAllPassengersFilled]);
+  useEffect(() => {
+  // Drawer closed? then do nothing
+  if (!isPassengerProfileDrawer) return;
+
+  // No passengers yet? stop
+  if (!GetViewPassengers?.length) return;
+
+  // No selected passenger? stop
+  if (!selectPassenger) return;
+
+  // Find index of selected passenger in passenger list
+  const index = GetViewPassengers.findIndex(
+    (p) => p.uuid === selectPassenger.uuid
+  );
+
+  // If found → set tab to that index and type
+  if (index !== -1) {
+    setTabValue(index);
+    setTabType(selectPassenger.type);
+
+    // Also sync Redux
+    dispatch(setPassengerUUID(selectPassenger.uuid));
+    dispatch(setPassengerType(selectPassenger.type));
+    dispatch(setPassengerAge(selectPassenger.age));
+    dispatch(setPassengerPassport(selectPassenger.passportNumber));
+  }
+}, [isPassengerProfileDrawer, GetViewPassengers, selectPassenger, dispatch]);
+
   return (
     <Drawer
       anchor="right"

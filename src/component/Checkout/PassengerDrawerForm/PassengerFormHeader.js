@@ -5,10 +5,13 @@ import { useSelector } from "react-redux";
 
 const PassengerDrawerHeader = ({ handleCloseDrawer }) => {
   const CartType = useSelector((state) => state.booking.cartType);
-  const selectPassenger = useSelector(
+  
+    const selectPassenger = useSelector(
       (state) => state?.passengerDrawer?.SelectPassenger
-    );
+   );
+    
   return (
+   <>
     <Box
       px={3}
       component={"header"}
@@ -64,6 +67,7 @@ const PassengerDrawerHeader = ({ handleCloseDrawer }) => {
 
       <Divider />
     </Box>
+   </>
   );
 };
 
