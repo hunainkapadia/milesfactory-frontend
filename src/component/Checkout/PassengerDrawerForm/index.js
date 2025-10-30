@@ -93,6 +93,8 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer?.SelectPassenger?.age
   );
 
+  console.log("PassengerAge", PassengerAge);
+
   const CartType = useSelector((state) => state.booking.cartType);
   console.log("CartType", CartType);
 
@@ -161,20 +163,20 @@ const PassengerDrawerForm = () => {
   // Define static ranges
 
   const validateChildDOB = (dob, PassengerAge) => {
-  // Child range: 2–12 years
-  const max = today.subtract(PassengerAge, "year");
-  const min = today.subtract(PassengerAge + 1, "year").add(1, "day");
-  setMaxDate(max);
-  setMinDate(min);
-};
+    // Child range: 2–12 years
+    const max = today.subtract(PassengerAge, "year");
+    const min = today.subtract(PassengerAge + 1, "year").add(1, "day");
+    setMaxDate(max);
+    setMinDate(min);
+  };
 
-const validateInfantDOB = (dob, PassengerAge) => {
-  // Infant range: 0–2 years
-  const max = today.subtract(PassengerAge, "year");
-  const min = today.subtract(PassengerAge + 1, "year").add(1, "day");
-  setMaxDate(max);
-  setMinDate(min);
-};
+  const validateInfantDOB = (dob, PassengerAge) => {
+    // Infant range: 0–2 years
+    const max = today.subtract(PassengerAge, "year");
+    const min = today.subtract(PassengerAge + 1, "year").add(1, "day");
+    setMaxDate(max);
+    setMinDate(min);
+  };
   // child dat
   // infant age
 
@@ -183,35 +185,35 @@ const validateInfantDOB = (dob, PassengerAge) => {
   useEffect(() => {
   if (!selectPassenger?.type) return;
 
-  // Adult → 18+ only
+  //  Hotel child = under 18
+  if (CartType === "hotel" && selectPassenger.type === "child") {
+    setMinDate(today.subtract(17, "year")); // youngest 17
+    setMaxDate(today); // today is max
+    return;
+  }
+
+  //  Adult → must be 18+
   if (selectPassenger.type === "adult") {
     setMinDate(dayjs("1930-01-01"));
     setMaxDate(today.subtract(18, "year"));
     return;
   }
 
-  // Child (2 to 12 years range)
+  //  Flight child → 2 to 12 years
   if (selectPassenger.type === "child") {
     validateChildDOB(null, PassengerAge);
     return;
   }
 
-  // Infant (0 to 2 years range)
+  //  Infant → under 2 years
   if (selectPassenger.type === "infant_without_seat") {
     validateInfantDOB(null, PassengerAge);
     return;
-  }
-
-  // Hotel child → under 18
-  if (CartType === "hotel" && selectPassenger.type === "child") {
-    setMinDate(today.subtract(17, "year"));
-    setMaxDate(today);
   }
 }, [CartType, selectPassenger, PassengerAge]);
 
 
   // ...previous imports remain the same
-
 
   const SubmitPassenger = () => {
     const errors = {};
@@ -270,7 +272,6 @@ const validateInfantDOB = (dob, PassengerAge) => {
       }
     }
 
-    
     // --- Handle Errors ---
     if (Object.keys(errors).length > 0) {
       dispatch(setPassengerFormError(errors));
