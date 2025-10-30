@@ -135,7 +135,6 @@ const MessageInputBox = ({
   };
 
   // check  polling true and start new chat
-  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
 
   const messages = useSelector((state) => state.sendMessage.messages);
 

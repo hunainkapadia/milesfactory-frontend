@@ -8,7 +8,10 @@ const initialState = {
   messages: [],
   isLoading: false,
   error: null,
-  flightExpire: "",
+  flightExpire: {
+    status: false,
+    message: null,
+  },
   refreshSearch: "",
   SearchHistoryGet: null,
   topOfferUrl: null,
@@ -137,7 +140,7 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
                   );
                 })
                 .catch((flighterror) => {
-                  dispatch(setFlightExpire(flighterror?.response?.data?.error));
+                  dispatch(setFlightExpire({status: true, message:flighterror?.response?.data?.error}));
                 });
             }
           }
@@ -228,7 +231,7 @@ export const RefreshHandle = () => (dispatch, getState) => {
       dispatch(setRefreshSearch(true));
 
       // ✅ After successful refresh → Re-fetch updated flight offers
-      const allOfferUrl = res?.data;
+      const allOfferUrl = res?.data?.response.results.view_all_flight_result_api.url;
       
       
       console.log("allOfferUrl", allOfferUrl);
@@ -238,15 +241,19 @@ export const RefreshHandle = () => (dispatch, getState) => {
         api
           .get(allOfferUrl)
           .then((flightRes) => {
-            dispatch(
-              setMessage({
-                ai: flightRes.data,
-                type: "flight_result",
-              })
-            );
+            console.log("flightRes_data", flightRes.data);
+            dispatch(setIsLoading(false))
+            
+            // dispatch(
+            //   setMessage({
+            //     ai: flightRes.data,
+            //     type: "flight_result",
+            //   })
+            // );
+            dispatch(setFlightExpire({status: false, message: null}))
           })
           .catch((flError) => {
-            dispatch(setFlightExpire(flError?.response?.data?.error));
+            dispatch(setFlightExpire({status: false, message: flError?.response?.data?.error}));
           });
       }
     })

@@ -45,7 +45,6 @@ const AiMessage = ({ aiMessage }) => {
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
@@ -179,7 +178,6 @@ const AiMessage = ({ aiMessage }) => {
                   <SearchCard
                     offerData={offer}
                     offerkey={`${offer.id}`}
-                    FlightExpire={FlightExpire}
                   />
                 </React.Fragment>
               ))}

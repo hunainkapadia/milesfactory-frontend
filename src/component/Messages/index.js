@@ -70,7 +70,7 @@ const Messages = () => {
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
-  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+  
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());

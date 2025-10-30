@@ -39,7 +39,12 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 import { LoadingButton } from "@mui/lab";
 import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
-const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
+const SearchCard = ({ key, offerData, offerkey}) => {
+  const {flightExpire, isLoading} = useSelector((state) => state.getMessages);
+  console.log("isLoading", isLoading);
+  
+  console.log("flightExpire", flightExpire);
+  
   const dispatch = useDispatch();
 
   const HandleSelectDrawer = () => {
@@ -191,7 +196,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
               justifyContent={"center"}
               height={"100%"}
             >
-              {FlightExpire ? (
+              {flightExpire?.status ? (
                 <>
                   <Box
                     className=""
@@ -220,7 +225,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       </Typography>
                     </Box>
                     <Box width={"100%"} whiteSpace={"nowrap"}>
-                      <button
+                      <Button
                         onClick={refreshHandle}
                         className={
                           " w-100 btn btn-border btn-round xs btn-md f12 sm " +
@@ -228,9 +233,17 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         }
                         // onClick={HandleSelectDrawer}
                       >
-                        <img src="/images/refresh-icon.svg" />
-                        <span>Refresh results</span>
-                      </button>
+                      {isLoading  ? (
+                        <>
+                        <CircularProgress className="basecolor1" size={15}/>
+                        </>
+                      ): (
+                        <>
+                          <img src="/images/refresh-icon.svg" />
+                          <span>Refresh results</span>
+                        </>
+                      )}
+                      </Button>
                     </Box>
                   </Box>
                 </>
