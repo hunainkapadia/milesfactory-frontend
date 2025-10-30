@@ -311,7 +311,6 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
       dispatch(setisPassengerDrawer(true));
-      alert("asas")
       
     })
     .finally(() => {

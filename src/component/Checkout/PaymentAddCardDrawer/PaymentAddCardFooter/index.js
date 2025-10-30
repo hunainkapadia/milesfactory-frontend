@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch } from "react-redux";
 import { PaymentForm } from "@/src/store/slices/PaymentSlice";
@@ -75,7 +75,7 @@ const PaymentAddCardFooter = ({HandlecloseDrawer, params}) => {
                 gap={2}
                 className="basecolor1"
               >
-                <button 
+                <Button 
                   className={
                     styles.selectFlightBtn + " btn btn-primary btn-md btn-round"
                   }
@@ -84,7 +84,7 @@ const PaymentAddCardFooter = ({HandlecloseDrawer, params}) => {
                   <Box display="flex" gap={1}>
                     <Box>Save card</Box>
                   </Box>
-                </button>
+                </Button>
               </Box>
             </Box>
           </Box>

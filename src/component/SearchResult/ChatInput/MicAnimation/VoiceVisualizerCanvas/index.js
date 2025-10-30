@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 
 const VoiceVisualizerCanvas = () => {
@@ -81,9 +82,9 @@ const VoiceVisualizerCanvas = () => {
         height={32}
         style={{ width: "100%", height: "32px", backgroundColor: "#eee" }}
       />
-      <button onClick={startMic} style={{ marginTop: "10px" }}>
+      <Button onClick={startMic} style={{ marginTop: "10px" }}>
         {isListening ? "Stop Mic" : "Start Mic"}
-      </button>
+      </Button>
     </div>
   );
 };
