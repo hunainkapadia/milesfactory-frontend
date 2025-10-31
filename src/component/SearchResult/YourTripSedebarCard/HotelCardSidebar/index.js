@@ -194,7 +194,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           </Typography> */}
         </Stack>
       </Stack>
-      <h1>sadasd</h1>
+      
       {/* Price Section */}
       <Stack
         textAlign="right"
