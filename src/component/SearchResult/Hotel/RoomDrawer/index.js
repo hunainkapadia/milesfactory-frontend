@@ -17,8 +17,7 @@ import { setCartTotalPrice } from "@/src/store/slices/BookingflightSlice";
 const RoomDrawer = () => {
   const dispatch = useDispatch();
   
-  const {selectedRateKey, hotelSingleResult} = useSelector((state) => state.hotel);
-  const rateComents = hotelSingleResult?.hotel?.rooms[0]?.rates[0]?.rateComments || null
+  const {selectedRateKey} = useSelector((state) => state.hotel);
   
   
   const isDrawer = useSelector((state) => state.hotel.roomDrawer);
@@ -132,7 +131,6 @@ const RoomDrawer = () => {
                             hotel={hotel}
                             selectedRateKey={selectedRateKey}
                             onSelect={handleSelectRate}
-                            rateComents={rateComents}
                           />
                         ))
                       }

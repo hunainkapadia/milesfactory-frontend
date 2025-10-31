@@ -1,19 +1,26 @@
 import React from "react";
-import { Box, FormControlLabel, Radio, Typography } from "@mui/material";
+import { Box, CircularProgress, FormControlLabel, Radio, Typography } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDrawer.module.scss";
 import { capitalizeFirstWord, currencySymbols } from "@/src/utils/utils";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const RoomDrawerCard = ({
   getrates,
   selectedRateKey,
   onSelect,
   hotel,
-  rateComents,
 }) => {
   const rates = getrates;
   const isSelected = selectedRateKey === rates?.rateKey;
+  
+  const {hotelSingleResult, isLoading} = useSelector((state) => state.hotel);
+  const rateComents = hotelSingleResult?.hotel?.rooms[0]?.rates[0]?.rateComments || null
+  
+  console.log("hotel_isLoading", isLoading);
+  
+  
 
   // Safe access
   const refundable = rates?.rateClass;
@@ -98,18 +105,21 @@ const RoomDrawerCard = ({
             </Typography> */}
         </Box>
       </Box>
-      {isSelected && rateComents && (
-        <Box pb={2}>
-          {rateComents ? (
-            <Typography
-              fontSize={12}
-              dangerouslySetInnerHTML={{ __html: rateComents }}
-            />
-          ) : (
-            <CircularProgress className="basecolor1" size={20} />
-          )}
-        </Box>
-      )}
+      {isSelected && (
+  <Box pb={2}>
+    {isLoading ? (
+      <CircularProgress className="basecolor1" size={20} />
+    ) : (
+      rateComents && (
+        <Typography
+          fontSize={12}
+          dangerouslySetInnerHTML={{ __html: rateComents }}
+        />
+      )
+    )}
+  </Box>
+)}
+
     </Box>
   );
 };
