@@ -73,6 +73,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
           >
             {/* Price Section */}
             <Box display="flex" flexDirection="column" justifyContent="center">
+            {selectedRoom?.total_netamount_with_markup}
               {selectedRoom?.total_netamount_with_markup ? (
                 <>
                   <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>

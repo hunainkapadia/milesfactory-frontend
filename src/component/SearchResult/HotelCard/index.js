@@ -24,6 +24,7 @@ import {
   setRoomDrawer,
   setSelectedhotelKey,
   setSelectedRateKey,
+  setSelectedRoom,
   setSinglehotel,
 } from "@/src/store/slices/HotelSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils";
@@ -72,6 +73,7 @@ const HotelCard = ({ hotel, allHotels }) => {
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const handleSelectRoom = (gethotel) => {
     // for reset next order if in cart 1
+    dispatch(setSelectedRoom(null));
     if (orderSuccess) {
       dispatch(setAddFilledPassenger(null));
       dispatch(setOrderConfirm(null));

@@ -5,7 +5,13 @@ import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDra
 import { capitalizeFirstWord, currencySymbols } from "@/src/utils/utils";
 import dayjs from "dayjs";
 
-const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel, rateComents }) => {
+const RoomDrawerCard = ({
+  getrates,
+  selectedRateKey,
+  onSelect,
+  hotel,
+  rateComents,
+}) => {
   const rates = getrates;
   const isSelected = selectedRateKey === rates?.rateKey;
 
@@ -94,12 +100,14 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel, rateComent
       </Box>
       {isSelected && rateComents && (
         <Box pb={2}>
-          <Typography
-            fontSize={12}
-            color="gray"
-            lineHeight={1.5}
-            dangerouslySetInnerHTML={{ __html: rateComents }}
-          />
+          {rateComents ? (
+            <Typography
+              fontSize={12}
+              dangerouslySetInnerHTML={{ __html: rateComents }}
+            />
+          ) : (
+            <CircularProgress className="basecolor1" size={20} />
+          )}
         </Box>
       )}
     </Box>
