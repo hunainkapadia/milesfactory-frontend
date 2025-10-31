@@ -54,6 +54,9 @@ const AiMessage = ({ aiMessage }) => {
   
   
   const getHotels = aiMessage?.ai?.hotels;
+  const hotelOfferId = useSelector((state)=> state?.hotel?.selectedRateKey)
+  console.log("hotelOfferId", hotelOfferId);
+  
  const handleSeeMoreHotels = () => {
     setHotelsToShow((prev) => prev + 10); // load 10 more each click
   };

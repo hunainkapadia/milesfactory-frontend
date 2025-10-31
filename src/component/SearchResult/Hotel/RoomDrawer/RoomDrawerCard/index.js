@@ -5,7 +5,7 @@ import Profilestyles from "@/src/styles/sass/components/profileDrawer/ProfileDra
 import { capitalizeFirstWord, currencySymbols } from "@/src/utils/utils";
 import dayjs from "dayjs";
 
-const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
+const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel, rateComents }) => {
   const rates = getrates;
   const isSelected = selectedRateKey === rates?.rateKey;
 
@@ -49,7 +49,8 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
         alignItems="center"
       >
         {/* Left: Radio + Details */}
-        <Box className={styles.LeftCol}
+        <Box
+          className={styles.LeftCol}
           display="flex"
           alignItems="center"
           sx={{ gap: { lg: 2, md: 2, xs: 1.5 } }}
@@ -91,6 +92,16 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
             </Typography> */}
         </Box>
       </Box>
+      {isSelected && rateComents && (
+        <Box pb={2}>
+          <Typography
+            fontSize={12}
+            color="gray"
+            lineHeight={1.5}
+            dangerouslySetInnerHTML={{ __html: rateComents }}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

@@ -183,6 +183,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
         }
       }
       
+      
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));
       dispatch(CartDetail(uuid));

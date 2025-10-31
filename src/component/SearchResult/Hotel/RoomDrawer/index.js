@@ -3,6 +3,7 @@ import { Box, Typography, Divider, Grid, Drawer, Stack } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  hotelSingle,
   setRoomDrawer,
   setSelectedRateKey,
   setSelectedRoom,
@@ -15,9 +16,18 @@ import { setCartTotalPrice } from "@/src/store/slices/BookingflightSlice";
 
 const RoomDrawer = () => {
   const dispatch = useDispatch();
-  const selectedRateKey = useSelector((state) => state.hotel.selectedRateKey);
+  
+  const {selectedRateKey, hotelSingleResult} = useSelector((state) => state.hotel);
+  const rateComents = hotelSingleResult?.hotel?.rooms[0]?.rates[0]?.rateComments || null
+  
+  
   const isDrawer = useSelector((state) => state.hotel.roomDrawer);
   const hotel = useSelector((state) => state.hotel.singlehotel);
+
+  console.log("rateComents", rateComents);
+  console.log("selectedRateKey", selectedRateKey);
+  
+  
   
 
   //  properly dispatch when closing drawer
@@ -31,6 +41,7 @@ const RoomDrawer = () => {
     
     dispatch(setSelectedRateKey(rates?.rateKey));
     dispatch(setSelectedRoom(rates));
+    dispatch(hotelSingle(selectedRateKey))
   };
 
   const CartData = useSelector((state) => state.booking?.getCartDetail);
@@ -123,6 +134,7 @@ const RoomDrawer = () => {
                             hotel={hotel}
                             selectedRateKey={selectedRateKey}
                             onSelect={handleSelectRate}
+                            rateComents={rateComents}
                           />
                         ))
                       }

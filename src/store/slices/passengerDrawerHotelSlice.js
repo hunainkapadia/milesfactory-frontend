@@ -32,6 +32,8 @@ const passengerDrawerSlice = createSlice({
   },
 });
 
+
+
 export const PassengerSetupHotel = () => (dispatch, getState) => {
   const states = getState();
   const threadUuid = states?.sendMessage?.threadUuid;
@@ -102,7 +104,7 @@ export const ViewPassengersHotel = () => async (dispatch, getState) => {
     const response = await api.get(viewPassengerUrl);
     dispatch(setViewPassengers(response?.data || []));
   } catch (error) {
-    console.error("Error fetching hotel guests:", error);
+    console.error("Error fetching hotel guests:", error?.response?.data?.messages[0]?.message);
   } finally {
     dispatch(setisLoading(false));
   }
