@@ -24,8 +24,6 @@ const RoomDrawer = () => {
   const isDrawer = useSelector((state) => state.hotel.roomDrawer);
   const hotel = useSelector((state) => state.hotel.singlehotel);
 
-  console.log("rateComents", rateComents);
-  console.log("selectedRateKey", selectedRateKey);
   
   
   

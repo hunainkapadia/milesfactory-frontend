@@ -45,8 +45,14 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
      hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN") || "/images/hotel-nothumb.png"
      
      
+  
+  const rateComents = hotel?.rooms[0].rates[0].rateComments || null
 
-
+  
+  console.log("rateComents", rateComents);
+  console.log("hotel_sidebar", hotel?.rooms[0].rates[0].rateComments || null);
+  
+  
     
     
   
@@ -214,6 +220,9 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
       </Stack>
       {/* Travellers */}
       {/* Baggage */}
+      <Typography className="f14">
+        {rateComents}
+      </Typography>
     </Box>
   );
 };
