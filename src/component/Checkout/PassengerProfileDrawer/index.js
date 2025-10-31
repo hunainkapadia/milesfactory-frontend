@@ -6,14 +6,9 @@ import dayjs from "dayjs";
 import {
   getPassPofile,
   PassengerFormFlight,
-  setAddFilledPassenger,
   setCaptainParams,
   setFilledPass,
   setisPassengerDrawer,
-  setPassengerAge,
-  setPassengerPassport,
-  setPassengerType,
-  setPassengerUUID,
   setPassProfileDrawer,
   setSelectedProfilePass,
   setSelectPassenger,
@@ -38,8 +33,6 @@ const PassengerProfileDrawer = () => {
 
   console.log("tabValue", tabValue);
   console.log("tabType__11", tabType);
-  
-  
 
   console.log("tabType", tabType);
 
@@ -64,11 +57,10 @@ const PassengerProfileDrawer = () => {
     (state) => state.passengerDrawer.SelectPassenger
   );
 
-  
   const selectedProfilePass = useSelector(
     (state) => state.passengerDrawer.SelectedProfilePass
   );
-  
+
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
@@ -80,15 +72,11 @@ const PassengerProfileDrawer = () => {
   );
 
   const { selectPassProfile } = useSelector((state) => state.passengerDrawer);
-
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
 
   // --- Polling for profile updates ---
-
-  // --- Polling for profile updates ---
-
   //  Fetch passenger profile once when form data changes
   useEffect(() => {
     if (!FilledPassFormData) return;
@@ -125,7 +113,6 @@ const PassengerProfileDrawer = () => {
     }
   }, [passengerPofile, GetViewPassengers]);
 
-  
   // --- Close drawer ---
   const handleCloseDrawer = () => dispatch(setPassProfileDrawer(false));
 
@@ -135,8 +122,7 @@ const PassengerProfileDrawer = () => {
     console.log("passenger_profile", passenger);
     dispatch(setSelectedProfilePass(passenger));
     const age = dayjs().diff(dayjs(passenger.born_on), "year");
-    dispatch(setPassengerType(passenger.type));
-    dispatch(setPassengerAge(age));
+
     dispatch(setisPassengerDrawer(true));
   };
 
@@ -166,7 +152,6 @@ const PassengerProfileDrawer = () => {
       type: passenger.type || "",
     };
     console.log("params_pasenger", params);
-    
 
     // If first passenger, set captain params
     const isFirstPassenger =
@@ -183,11 +168,6 @@ const PassengerProfileDrawer = () => {
     }
   };
 
-  const handleContinuePassenger = () => {
-    dispatch(setFilledPass(true));
-    handleCloseDrawer();
-  };
-
   // --- Select card ---
   const selectCardHandle = (passenger) => {
     dispatch(setSelectPassProfile(passenger));
@@ -200,57 +180,43 @@ const PassengerProfileDrawer = () => {
     if (!passenger) return;
     setTabType(passenger.type);
 
-    dispatch(setPassengerUUID(passenger.uuid));
-    dispatch(setPassengerType(passenger.type));
-    dispatch(setPassengerAge(passenger.age));
-    dispatch(setPassengerPassport(passenger.passportNumber));
     dispatch(setSelectPassenger(passenger));
   };
 
   // --- Auto switch to next unfilled passenger ---
   useEffect(() => {
+    //  Stop auto-switch if there are validation errors
+    if (PassengerFormError && Object.keys(PassengerFormError).length > 0) {
+      dispatch(setisPassengerDrawer(true)); // keep drawer open
+      return; //  stop here — DO NOT switch passenger
+    }
 
-  //  Stop auto-switch if there are validation errors
-  if (
-    PassengerFormError &&
-    Object.keys(PassengerFormError).length > 0
-  ) {
-    dispatch(setisPassengerDrawer(true)); // keep drawer open
-    return; //  stop here — DO NOT switch passenger
-  }
+    if (!passengerPofile || passengerPofile.length === 0) return;
+    if (!GetViewPassengers?.length) return;
 
-  if (!passengerPofile || passengerPofile.length === 0) return;
-  if (!GetViewPassengers?.length) return;
+    if (filledPassengerUUIDs.length === GetViewPassengers.length) return;
 
-  if (filledPassengerUUIDs.length === GetViewPassengers.length) return;
+    const nextPassenger = GetViewPassengers.find(
+      (p) => !filledPassengerUUIDs.includes(p.uuid)
+    );
 
-  const nextPassenger = GetViewPassengers.find(
-    (p) => !filledPassengerUUIDs.includes(p.uuid)
-  );
+    if (!nextPassenger) return;
 
-  if (!nextPassenger) return;
+    const nextIndex = GetViewPassengers.findIndex(
+      (p) => p.uuid === nextPassenger.uuid
+    );
 
-  const nextIndex = GetViewPassengers.findIndex(
-    (p) => p.uuid === nextPassenger.uuid
-  );
+    setTabValue(nextIndex);
+    setTabType(nextPassenger.type);
 
-  setTabValue(nextIndex);
-  setTabType(nextPassenger.type);
-
-  dispatch(setPassengerUUID(nextPassenger.uuid));
-  dispatch(setPassengerType(nextPassenger.type));
-  dispatch(setPassengerAge(nextPassenger.age));
-  dispatch(setPassengerPassport(nextPassenger.passportNumber));
-  dispatch(setSelectPassenger(nextPassenger));
-
-}, [
-  filledPassengerUUIDs,
-  GetViewPassengers,
-  passengerPofile,
-  PassengerFormError, // REQUIRED so effect reacts to error state
-  dispatch
-]);
-
+    dispatch(setSelectPassenger(nextPassenger));
+  }, [
+    filledPassengerUUIDs,
+    GetViewPassengers,
+    passengerPofile,
+    PassengerFormError, // REQUIRED so effect reacts to error state
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (isAllPassengersFilled) {
@@ -259,32 +225,28 @@ const PassengerProfileDrawer = () => {
     }
   }, [dispatch, isAllPassengersFilled]);
   useEffect(() => {
-  // Drawer closed? then do nothing
-  if (!isPassengerProfileDrawer) return;
+    // Drawer closed? then do nothing
+    if (!isPassengerProfileDrawer) return;
 
-  // No passengers yet? stop
-  if (!GetViewPassengers?.length) return;
+    // No passengers yet? stop
+    if (!GetViewPassengers?.length) return;
 
-  // No selected passenger? stop
-  if (!selectPassenger) return;
+    // No selected passenger? stop
+    if (!selectPassenger) return;
 
-  // Find index of selected passenger in passenger list
-  const index = GetViewPassengers.findIndex(
-    (p) => p.uuid === selectPassenger.uuid
-  );
+    // Find index of selected passenger in passenger list
+    const index = GetViewPassengers.findIndex(
+      (p) => p.uuid === selectPassenger.uuid
+    );
 
-  // If found → set tab to that index and type
-  if (index !== -1) {
-    setTabValue(index);
-    setTabType(selectPassenger.type);
+    // If found → set tab to that index and type
+    if (index !== -1) {
+      setTabValue(index);
+      setTabType(selectPassenger.type);
 
-    // Also sync Redux
-    dispatch(setPassengerUUID(selectPassenger.uuid));
-    dispatch(setPassengerType(selectPassenger.type));
-    dispatch(setPassengerAge(selectPassenger.age));
-    dispatch(setPassengerPassport(selectPassenger.passportNumber));
-  }
-}, [isPassengerProfileDrawer, GetViewPassengers, selectPassenger, dispatch]);
+      // Also sync Redux
+    }
+  }, [isPassengerProfileDrawer, GetViewPassengers, selectPassenger, dispatch]);
 
   return (
     <Drawer
@@ -302,13 +264,9 @@ const PassengerProfileDrawer = () => {
           className={`${styles.checkoutDrowerSection} ${styles.ProfileDrowerSection} aa white-bg`}
         >
           <PassengerProfileHeader
-            styles={styles}
-            selectPassenger={selectPassenger}
             handleCloseDrawer={handleCloseDrawer}
             tabValue={tabValue}
             handleTabChange={handleTabChange}
-            GetViewPassengers={GetViewPassengers}
-            filledPassengerUUIDs={filledPassengerUUIDs}
             showSuccessSnackbar={showSuccessSnackbar}
           />
 
@@ -404,15 +362,6 @@ const PassengerProfileDrawer = () => {
                   )}
 
                   {/* Continue Button */}
-                  {/* {isAllPassengersFilled && (
-                    <Button
-                      type="submit"
-                      className="btn btn-primary chat-btn btn-round"
-                      onClick={() => handleContinuePassenger()}
-                    >
-                      <Typography component={"span"}>Continue</Typography>
-                    </Button>
-                  )} */}
                 </Box>
               </Box>
             </Box>
