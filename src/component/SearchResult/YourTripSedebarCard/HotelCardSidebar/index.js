@@ -177,6 +177,9 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           <IncludedTooltips />
         </Stack>
       </Stack>
+      <Typography className="f14">
+        {rateComents}
+      </Typography>
       <Stack alignItems={"center"} flexDirection={"row"} gap={"12px"}>
         
         <Box>
@@ -220,9 +223,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
       </Stack>
       {/* Travellers */}
       {/* Baggage */}
-      <Typography className="f14">
-        {rateComents}
-      </Typography>
+      
     </Box>
   );
 };
