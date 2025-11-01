@@ -24,8 +24,6 @@ const SidebarFooter = () => {
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   
   const issystemmessage = useSelector((state) => state?.sendMessage?.systemMessage);
-  console.log("issystemmessage", issystemmessage);
-  
   
 
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);

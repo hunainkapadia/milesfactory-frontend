@@ -19,8 +19,6 @@ const RoomDrawer = () => {
   
   const {selectedRateKey} = useSelector((state) => state.hotel);
 
-  console.log("selectedRateKey", selectedRateKey);
-  
   
   
   const isDrawer = useSelector((state) => state.hotel.roomDrawer);

@@ -392,7 +392,7 @@ const MessageInputBox = ({
                             className={inputStyles.BoxButtons}
                             flexDirection={"row"}
                           >
-                            {console.log("isHomePage_00", isHomePage)}
+                            
                             {((isChat && (!isMobile || !isTyping)) ||
                               isHomePage ||
                               isSticky) && (

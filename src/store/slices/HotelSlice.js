@@ -62,7 +62,6 @@ const hotelSlice = createSlice({
 export const hotelSingle = () => async (dispatch, getState)=> {
   const rateKey = getState().hotel?.selectedRateKey;
 
-  console.log("rateKey_api", rateKey);
   
   dispatch(setIsLoading(true))
   
@@ -70,7 +69,6 @@ export const hotelSingle = () => async (dispatch, getState)=> {
     const res = await api.get(`api/v1/hotel/single/${rateKey}`)
 
     dispatch(setIsLoading(false))
-    console.log("single_res", res.data);
     dispatch(setHotelSingleResult(res.data))
     
   } catch (error) {

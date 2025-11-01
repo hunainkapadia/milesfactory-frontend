@@ -237,8 +237,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         
         
         const technicalError = response?.response?.errors;
-        console.log("system_response", response?.message);
-
+        
         if (
           response?.message?.includes("SYSTEM MESSAGE") &&
           response?.is_function === false
@@ -253,11 +252,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         if (technicalError) {
           //  error occurred, send a new message as user only ONCE
           const errorMessage = `SYSTEM MESSAGE: Flight Search Error - ${response?.response?.message || "Something went wrong"}`;
-          console.log("errorMessage1");
           dispatch(sendMessage(errorMessage, true)); // send once, prevent infinite loop
           // return;
         }
-        console.log("errorMessage2");
         
 
         dispatch(setMessage({ ai: { error: response } }));

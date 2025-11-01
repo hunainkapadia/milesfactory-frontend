@@ -33,7 +33,7 @@ const HerosectionContent = () => {
 
                <Box
                  className="imggroup"
-                 sx={{ display: { md: "block", xs: "none" } }}
+                 sx={{ display: { lg: "block", md:"block", xs: "none" } }}
                >
                  <img
                    alt="Travel, crafted"

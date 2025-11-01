@@ -76,10 +76,6 @@ const SearchFilterTags = ({ offerUrl, hotelCount, filters }) => {
   if (!isHotel && hasQueryParams) {
     const parts = [];
     Object.entries(flightFilters).forEach(([key, value]) => {
-      console.log(
-        "key_value",
-        (key === "direct" && value === "true") || "True"
-      );
 
       if (key === "max_price") parts.push(`Max price: ${value}`);
       else if (key === "airlines") parts.push(`Airline: ${value}`);
@@ -97,11 +93,11 @@ const SearchFilterTags = ({ offerUrl, hotelCount, filters }) => {
   }
 
   //  Log to check
-  console.log("offerUrl_000", offerUrl);
-  console.log("flightFilters", flightFilters);
-  console.log("hotelFilters", hotelFilters);
+  
+  
+  
 
-  console.log("flightFilterText", flightFilterText);
+  
 
   return (
     <Box mb={2}>

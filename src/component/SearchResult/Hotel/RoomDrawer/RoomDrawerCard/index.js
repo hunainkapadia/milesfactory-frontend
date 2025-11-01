@@ -20,7 +20,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
   const rateComents =
     hotelSingleResult?.hotel?.rooms[0]?.rates[0]?.rateComments || null;
 
-  console.log("hotel_isLoading", isLoading);
+  
 
   // Safe access
   const refundable = rates?.rateClass;

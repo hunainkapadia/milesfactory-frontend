@@ -27,9 +27,7 @@ const SearchFilterBar = () => {
 
   const hotelPassengers = hotelArgument?.passengers || hotelArgument
 
-  console.log("SearchHistory", hotelArgument);
   
-
   const dispatch = useDispatch();
   //   for selct flight detail
 

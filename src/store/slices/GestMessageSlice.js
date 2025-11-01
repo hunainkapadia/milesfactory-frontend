@@ -154,8 +154,6 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
               item?.function_template?.[0]?.function?.arguments || {};
 
             const hotelSearchuuid = item?.response?.results?.view_hotel_search_api?.uuid
-            console.log("hotelSearchuuid_2", hotelSearchuuid);
-            
             dispatch(setHotelSearchId(hotelSearchuuid))            
             // Save hotel search args to redux
             dispatch(setSearchHistoryGet({ hotel: { HotelArgument } }));
@@ -234,14 +232,12 @@ export const RefreshHandle = () => (dispatch, getState) => {
       const allOfferUrl = res?.data?.response.results.view_all_flight_result_api.url;
       
       
-      console.log("allOfferUrl", allOfferUrl);
       if (allOfferUrl) {
         dispatch(setAllOfferUrl(allOfferUrl));
         
         api
           .get(allOfferUrl)
           .then((flightRes) => {
-            console.log("flightRes_data", flightRes.data);
             dispatch(setIsLoading(false))
             
             // dispatch(

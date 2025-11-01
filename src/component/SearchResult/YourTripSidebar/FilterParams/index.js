@@ -13,7 +13,6 @@ const FilterParams = () => {
   };
 
 
-  console.log("filterParams_00", filterParams);
    return (
      <>
        <Box

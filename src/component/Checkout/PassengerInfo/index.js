@@ -78,7 +78,7 @@ const PassengerInfo = ({ getdata }) => {
     age <= 1 ? "infant" : age <= 12 ? "child" : "adult";
     
     if (passengerPofile?.length > 0) {
-      console.log("passengerPofile", passengerPofile);
+      
       dispatch(setPassProfileDrawer(true));
       dispatch(setPassengerUUID(uuid));
       dispatch(setPassengerType(passengerTypeFinal));
