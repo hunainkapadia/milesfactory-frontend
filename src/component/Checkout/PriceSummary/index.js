@@ -275,8 +275,12 @@ const PriceSummary = ({ getdata }) => {
                         Hotel fees
                       </Box>
                       <Box whiteSpace={"nowrap"}>
-                        {currencySymbols[flightOrder?.tax_currency] ||
-                          flightOrder?.tax_currency}
+                          {
+                            currencySymbols[
+                              OrderDetail?.hotel_order?.payment_currency ||
+                                OrderDetail?.flight_order?.payment_currency
+                            ]
+                          }
                         {Math.round(OrderDetail?.amount_calculations?.hotel_total_amount_plus_markup_and_all_services)}
                         {/* {perNight} / night */}
                       </Box>

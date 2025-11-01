@@ -216,7 +216,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
       >
         <Typography component="span" className="f11 bold black">
           {currencySymbols[hotel?.currency]}
-          {Math.round(hotel?.totalNet)},{" "}
+          {Math.round(hotel?.total_netamount_with_markup)},{" "}
         </Typography>
         <Typography component="span" className="f11 black">
           suggested by Mylz
