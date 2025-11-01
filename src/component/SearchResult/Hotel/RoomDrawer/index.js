@@ -30,8 +30,6 @@ const RoomDrawer = () => {
       state?.getMessages?.SearchHistory?.hotel?.HotelArgument || null
   );
   
-  console.log("passengers_00", passengers);
-  
   
 
 
