@@ -42,7 +42,6 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
   
   // {{BASE_URL}}/api/v1/setup/hotel/<str:hotel_search_uuid>/order/thread/{{THREAD_ID}}
   const bookingSetupUrl = `/api/v1/setup/hotel/${hotel_search_uuid}/order/thread/${threadUuid}`;
-  console.log("hotel_search_uuid", bookingSetupUrl);
   dispatch(setisLoading(true));
   dispatch(
     setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } })
@@ -127,8 +126,6 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const orderUuidhotel = state?.passengerHotelSlice?.orderUuidHotel;
   const passengerUuid = state?.passengerDrawer?.SelectPassenger.uuid;
-  console.log("passengerUuid_hotel", passengerUuid);
-  
   
   const SubmitUrl = `/api/v1/hotel/order/${orderUuidhotel}/guest/${passengerUuid}`;
   

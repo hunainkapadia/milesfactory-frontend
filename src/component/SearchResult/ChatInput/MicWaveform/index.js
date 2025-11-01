@@ -64,11 +64,11 @@ const MicWaveform = ({ active }) => {
       });
 
       waveSurferRef.current.microphone.on("deviceReady", () => {
-        console.log("🎤 Microphone ready!");
+        console.log("Microphone ready!");
       });
 
       waveSurferRef.current.microphone.on("deviceError", (code) => {
-        console.warn("❌ Microphone error:", code);
+        console.warn(" Microphone error:", code);
       });
 
       waveSurferRef.current.microphone.start();

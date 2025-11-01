@@ -146,8 +146,6 @@ export const submitTravelForm = (formData) => (dispatch) => {
   } = formData;
 
   const { adults, children, childAges = [] } = travellers || {};
-  console.log("Child Ages in formData:", childAges);
-
   // Create formatted child ages text
   let childAgeText = "";
   if (children > 0 && childAges.length > 0) {
@@ -179,8 +177,7 @@ export const submitTravelForm = (formData) => (dispatch) => {
     } in ${tripClass || "Economy"}`;
   }
 
-  console.log("Final Message:", message);
-
+  
   // Send to chat Redux
   dispatch(sendMessage(message));
 };

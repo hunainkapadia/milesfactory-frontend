@@ -89,8 +89,6 @@ const passengerDrawerSlice = createSlice({
       state.passProfile = action.payload;
     },
     setSelectPassenger: (state, action)=> {
-      console.log("pass_action", action);
-      
       state.SelectPassenger = action.payload
     },
     setPassengerType: (state, action)=> {
@@ -224,7 +222,6 @@ export const PassengerForm = (offerId) => (dispatch, getState) => {
 };
 
 export const ViewPassengers = () => (dispatch, getState) => {
-  console.log("ViewPassengers");
   
   const states = getState();
   const orderUuid = states.passengerDrawer?.OrderUuid;
@@ -263,8 +260,6 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const passengerUuid = state.passengerDrawer?.SelectPassenger?.uuid;
-  console.log("passengerUuid", passengerUuid);
-  
   
   
   

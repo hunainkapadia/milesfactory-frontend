@@ -329,3 +329,11 @@
     }
   }
 }
+
+
+@include for-tab-screen (){
+  
+  .AppSection .MobileDevice { 
+    bottom: -50px;
+  }
+}

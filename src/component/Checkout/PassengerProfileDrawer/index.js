@@ -31,10 +31,10 @@ const PassengerProfileDrawer = () => {
   const [tabValue, setTabValue] = useState(2);
   const [tabType, setTabType] = useState("child"); // default type
 
-  console.log("tabValue", tabValue);
-  console.log("tabType__11", tabType);
+  
+  
 
-  console.log("tabType", tabType);
+  
 
   // Redux states
   const isPassengerProfileDrawer = useSelector(
@@ -46,7 +46,7 @@ const PassengerProfileDrawer = () => {
   const PassengerFormError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
-  console.log("PassengerFormError", PassengerFormError);
+  
 
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
@@ -119,7 +119,7 @@ const PassengerProfileDrawer = () => {
   // --- Modify passenger ---
 
   const onClickModifyCard = (passenger) => {
-    console.log("passenger_profile", passenger);
+    
     dispatch(setSelectedProfilePass(passenger));
     const age = dayjs().diff(dayjs(passenger.born_on), "year");
 
@@ -151,7 +151,7 @@ const PassengerProfileDrawer = () => {
       passenger_id: passenger.passenger_id || "",
       type: passenger.type || "",
     };
-    console.log("params_pasenger", params);
+    
 
     // If first passenger, set captain params
     const isFirstPassenger =
@@ -301,7 +301,7 @@ const PassengerProfileDrawer = () => {
                   (CartType !== "hotel" &&
                     passenger?.passport_number ===
                       FilledPassFormData?.passport_number);
-                console.log("passenger_region", passenger);
+                
 
                 return (
                   <PassengerProfilecard

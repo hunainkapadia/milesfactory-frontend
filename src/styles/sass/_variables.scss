@@ -448,7 +448,7 @@ $cancel-circle: "\f104";
 
 /* Medium & Small Devices*/
 
-@mixin for-desktop-ms-screen {
+@mixin for-tab-screen {
   @media only screen and (max-width: 1199px) {
     @content;
   }
@@ -469,12 +469,6 @@ $cancel-circle: "\f104";
 }
 
 /* Medium screens stuff here*/
-
-@mixin for-medium-screen {
-  @media only screen and (max-width: 1024px) {
-    @content;
-  }
-}
 
 @mixin for-ipad-portrait-screen {
   @media only screen and (max-width: 768px) {

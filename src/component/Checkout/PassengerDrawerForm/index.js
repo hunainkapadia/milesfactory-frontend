@@ -93,10 +93,10 @@ const PassengerDrawerForm = () => {
     (state) => state.passengerDrawer?.SelectPassenger?.age
   );
 
-  console.log("PassengerAge", PassengerAge);
+  
 
   const CartType = useSelector((state) => state.booking.cartType);
-  console.log("CartType", CartType);
+  
 
   useEffect(() => {
     if (captainSuccess && formSuccess) {
@@ -180,7 +180,7 @@ const PassengerDrawerForm = () => {
   // child dat
   // infant age
 
-  console.log("selectPassenger_type", selectPassenger?.type);
+  
 
   useEffect(() => {
   if (!selectPassenger?.type) return;

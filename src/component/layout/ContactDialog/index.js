@@ -26,7 +26,6 @@ const ContactDialog = () => {
   const contactDialog = useSelector((state) => state?.base?.contactDialog);
   const contactSuccess = useSelector((state) => state?.base?.contactData?.data);
   const {isloading} = useSelector((state) => state?.base);
-  console.log("isloading", isloading);
   
 
   const [name, setName] = useState("");
