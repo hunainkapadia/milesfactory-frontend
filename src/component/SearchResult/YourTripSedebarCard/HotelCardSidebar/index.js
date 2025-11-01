@@ -177,9 +177,11 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           <IncludedTooltips />
         </Stack>
       </Stack>
-      <Typography className="f14">
-        {rateComents}
-      </Typography>
+      {rateComents && (
+        <Typography className="f14">
+          {rateComents}
+        </Typography>
+      )}
       <Stack alignItems={"center"} flexDirection={"row"} gap={"12px"}>
         
         <Box>

@@ -147,10 +147,10 @@ const PassengerInfo = ({ getdata }) => {
 
   return (
     <>
-      <Box py={2}>
+      <Box pb={2}>
         <Typography fontWeight={"semibold"}>{initialMsg}</Typography>
       </Box>
-      <Box variant="outlined" className={searchResultStyles.PassengersSection}>
+      <Box variant="outlined" className={searchResultStyles.PassengersSection + " aaa"}>
         {/* profile fill passenger */}
 
         <Grid container spacing={2}>
@@ -192,7 +192,6 @@ const PassengerInfo = ({ getdata }) => {
               <Grid item xs={12}>
                 <Box
                   sx={{
-                    pt: { lg: "30px", md: "30px", xs: "24px" },
                     pb: { lg: "24px", md: "24px", xs: "10px" },
                   }}
                 >
