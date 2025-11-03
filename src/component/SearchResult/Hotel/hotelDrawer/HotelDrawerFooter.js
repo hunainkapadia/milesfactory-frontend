@@ -15,7 +15,9 @@ const HotelDrawerFooter = ({ hotel }) => {
   const selectedhotelkey = useSelector((state) => state.hotel?.selectedhotelKey);
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
-
+  const selectedRoom = useSelector(
+    (state) => state.hotel?.selectedRoom
+  );
   // Use the helper function
   const { nights, totalPrice, perNightPrice } = calculateHotelPricing(
     hotel,
@@ -56,14 +58,20 @@ const HotelDrawerFooter = ({ hotel }) => {
           >
             {/* Price Section */}
             <Box display="flex" flexDirection="column" justifyContent="center">
-              <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                {currencySymbols[hotel?.currency]}{Math.round(perNightPrice)} /
-                night
-              </h4>
-              <Typography variant="body2" className="gray f12">
-                {currencySymbols[hotel?.currency]}{Math.round(totalPrice)} total
-                ({nights} nights)
-              </Typography>
+              <Box display="flex" flexDirection="column" justifyContent="center">
+                          
+                            {selectedRoom?.total_netamount_with_markup ? (
+                              <>
+                                <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
+                                  {currencySymbols[hotel?.currency]}
+                                  {Math.round(selectedRoom?.total_netamount_with_markup)}{" "}
+                                  total
+                                </h4>
+                              </>
+                            ) : (
+                              "-"
+                            )}
+                          </Box>
             </Box>
 
             {/* Actions Section */}

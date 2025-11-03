@@ -23,6 +23,18 @@ const RoomDrawer = () => {
   
   const isDrawer = useSelector((state) => state.hotel.roomDrawer);
   const hotel = useSelector((state) => state.hotel.singlehotel);
+  
+  const passengers = useSelector(
+    (state) =>
+      state?.sendMessage?.SearchHistorySend?.hotel?.passengers ||
+      state?.getMessages?.SearchHistory?.hotel?.HotelArgument || null
+  );
+  
+  
+
+
+  
+  
 
   
   
@@ -68,9 +80,7 @@ const RoomDrawer = () => {
         className={`${styles.checkoutDrower} ${styles.hotelDrawer} white-bg`}
         width={463}
       >
-        <Box
-          className={styles.checkoutDrowerSection + " white-bg"}
-        >
+        <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box className={styles.checkoutDrowerHeder + " header"} pt={3} mb={0}>
             <Box
               className="bold basecolor1 btn-link cursor-pointer"
@@ -85,7 +95,20 @@ const RoomDrawer = () => {
 
             <Box mt={2} pb={2}>
               <Typography variant="h6" className="regular mb-0">
-                Select room
+                {`Select room at ${hotel?.name} for ${
+                  passengers?.adults
+                    ? `${passengers?.adults} ${
+                        passengers?.adults > 1 ? "adults" : "adult"
+                      }`
+                    : ""
+                }${
+                  passengers?.children || passengers?.children?.length
+                    ? ` and ${passengers?.children?.length} ${
+                        passengers?.children?.length > 1 ? "children" : "child"
+                      }`
+                    : ""
+                }`}
+                
               </Typography>
             </Box>
             <Divider className={`${styles.Divider} Divider`} />
@@ -117,15 +140,21 @@ const RoomDrawer = () => {
                         </svg>
 
                         <Typography className="bold capitalize">
-                          {capitalizeFirstWord(room?.name)} - {room.rates[0].allotment}{" Available"}
+                          {capitalizeFirstWord(room?.name)} -{" "}
+                          {room.rates[0].allotment}
+                          {" Available"}
                         </Typography>
                       </Stack>
-                      
+
                       <HotelDrawerGallery roomCode={room?.code} hotel={hotel} />
 
                       {room.rates
-                        .filter(rate => rate.packaging === false && rate.rateType === "BOOKABLE")
-                        .map(rate => (
+                        .filter(
+                          (rate) =>
+                            rate.packaging === false &&
+                            rate.rateType === "BOOKABLE"
+                        )
+                        .map((rate) => (
                           <RoomDrawerCard
                             key={rate.rateKey}
                             getrates={rate}
@@ -133,8 +162,7 @@ const RoomDrawer = () => {
                             selectedRateKey={selectedRateKey}
                             onSelect={handleSelectRate}
                           />
-                        ))
-                      }
+                        ))}
                     </Box>
                   </>
                 ))}
