@@ -78,6 +78,17 @@ const SignUpPopup = ({ isChat }) => {
   };
 
   const isFormValid = firstName && lastName && email && password && agreeTerms;
+  useEffect(() => {
+  if (isSignupPopup) {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setShowPassword(false);
+    setAgreeTerms(false);
+    setEmailUpdate(false);
+  }
+}, [isSignupPopup]);
   return (
     <Dialog
       open={isSignupPopup}

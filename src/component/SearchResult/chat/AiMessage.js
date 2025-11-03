@@ -45,6 +45,8 @@ const AiMessage = ({ aiMessage }) => {
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
+  console.log("GetViewPassengers_001", GetViewPassengers);
+  
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );

@@ -31,11 +31,6 @@ const PassengerProfileDrawer = () => {
   const [tabValue, setTabValue] = useState(2);
   const [tabType, setTabType] = useState("child"); // default type
 
-  
-  
-
-  
-
   // Redux states
   const isPassengerProfileDrawer = useSelector(
     (state) => state.passengerDrawer.passProfileDrawer
@@ -46,7 +41,6 @@ const PassengerProfileDrawer = () => {
   const PassengerFormError = useSelector(
     (state) => state.passengerDrawer.PassengerFormError
   );
-  
 
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
@@ -64,9 +58,21 @@ const PassengerProfileDrawer = () => {
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
+
+  
+  
+  
+  
+  
+  
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  const filledPassenger = useSelector(
+    (state) => state.passengerDrawer
+  );
+  
+  
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
@@ -119,7 +125,6 @@ const PassengerProfileDrawer = () => {
   // --- Modify passenger ---
 
   const onClickModifyCard = (passenger) => {
-    
     dispatch(setSelectedProfilePass(passenger));
     const age = dayjs().diff(dayjs(passenger.born_on), "year");
 
@@ -151,7 +156,6 @@ const PassengerProfileDrawer = () => {
       passenger_id: passenger.passenger_id || "",
       type: passenger.type || "",
     };
-    
 
     // If first passenger, set captain params
     const isFirstPassenger =
@@ -247,6 +251,7 @@ const PassengerProfileDrawer = () => {
       // Also sync Redux
     }
   }, [isPassengerProfileDrawer, GetViewPassengers, selectPassenger, dispatch]);
+  
 
   return (
     <Drawer
@@ -276,18 +281,26 @@ const PassengerProfileDrawer = () => {
             pb={10}
             sx={{ px: { lg: 3, md: 3, xs: 2 }, mb: 2 }}
           >
+
             {passengerPofile
               ?.filter((p) => p.type === tabType)
               .filter((p) => {
-                // For flights → filter using passport
+                
+                // For flights → filter using passport deduct filled pasenger
                 if (CartType === "flight" || CartType === "all") {
                   return (
                     !filledPassengerUUIDs.includes(p.uuid) &&
                     p.passport_number !== FilledPassFormData?.passport_number &&
                     p.passport_number !== null
                   );
+                } else if (CartType === "hotel") {
+                  return (
+                    p.given_name !== FilledPassFormData?.given_name && 
+                    p.family_name !== FilledPassFormData?.family_name &&
+                    p.born_on !== FilledPassFormData?.born_on
+                    
+                  )
                 }
-
                 // For hotels → only check filled UUIDs
                 if (CartType === "hotel") {
                   return !filledPassengerUUIDs.includes(p.uuid);
@@ -296,11 +309,13 @@ const PassengerProfileDrawer = () => {
                 return true;
               })
               .map((passenger, index) => {
+                
                 const isPassFilled =
                   passenger?.uuid === selectPassProfile?.uuid ||
                   (CartType !== "hotel" &&
                     passenger?.passport_number ===
-                      FilledPassFormData?.passport_number);
+                      FilledPassFormData?.passport_number); //highlit filled pesenger
+
                 
 
                 return (
