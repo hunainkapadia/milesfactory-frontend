@@ -92,11 +92,12 @@ const PassengerDrawerForm = () => {
   const PassengerAge = useSelector(
     (state) => state.passengerDrawer?.SelectPassenger?.age
   );
+  
 
+  console.log("PassengerAge", PassengerAge);
   
 
   const CartType = useSelector((state) => state.booking.cartType);
-  
 
   useEffect(() => {
     if (captainSuccess && formSuccess) {
@@ -180,38 +181,35 @@ const PassengerDrawerForm = () => {
   // child dat
   // infant age
 
-  
-
   useEffect(() => {
-  if (!selectPassenger?.type) return;
+    if (!selectPassenger?.type) return;
 
-  //  Hotel child = under 18
-  if (CartType === "hotel" && selectPassenger.type === "child") {
-    setMinDate(today.subtract(17, "year")); // youngest 17
-    setMaxDate(today); // today is max
-    return;
-  }
+    //  Hotel child = under 18
+    // if (CartType === "hotel" && selectPassenger.type === "child") {
+    //   setMinDate(today.subtract(17, "year")); // youngest 17
+    //   setMaxDate(today); // today is max
+    //   return;
+    // }
 
-  //  Adult → must be 18+
-  if (selectPassenger.type === "adult") {
-    setMinDate(dayjs("1930-01-01"));
-    setMaxDate(today.subtract(18, "year"));
-    return;
-  }
+    //  Adult → must be 18+
+    if (selectPassenger.type === "adult") {
+      setMinDate(dayjs("1930-01-01"));
+      setMaxDate(today.subtract(18, "year"));
+      return;
+    }
 
-  //  Flight child → 2 to 12 years
-  if (selectPassenger.type === "child") {
-    validateChildDOB(null, PassengerAge);
-    return;
-  }
+    //  Flight child → 2 to 12 years
+    if (selectPassenger.type === "child") {
+      validateChildDOB(null, PassengerAge);
+      return;
+    }
 
-  //  Infant → under 2 years
-  if (selectPassenger.type === "infant_without_seat") {
-    validateInfantDOB(null, PassengerAge);
-    return;
-  }
-}, [CartType, selectPassenger, PassengerAge]);
-
+    //  Infant → under 2 years
+    if (selectPassenger.type === "infant_without_seat") {
+      validateInfantDOB(null, PassengerAge);
+      return;
+    }
+  }, [CartType, selectPassenger, PassengerAge]);
 
   // ...previous imports remain the same
 
