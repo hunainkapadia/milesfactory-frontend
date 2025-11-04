@@ -67,6 +67,8 @@
    z-index: 7;
    .HeaderBox {
       height: $headerHeightMd;
+      display: flex;
+      align-items: center;
    }
    
    &.AiBookingFrontHeader {position: relative; background-color: $white;}
@@ -256,10 +258,12 @@
  }
 
  
- 
- .Dropdown.formobileDrawer {
-         
+
+ @include for-tab-screen () {
+   .footerClientLogos {
+      justify-content: flex-start;
    }
+}
  @include for-mobile-large-screen () {
    .FooterForLight  {
       .footerClientLogos {

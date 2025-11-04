@@ -44,7 +44,6 @@ const Home = () => {
   const router = useRouter()
   useEffect (()=> {
     const isContact = router?.query?.isContact
-    console.log("router_test", router?.query?.isContact);
     if (isContact) {
       dispatch(setContactDialog(true));
     }

@@ -22,8 +22,10 @@ import PassengerFlowBlock from "../PassengerFlowBlock";
 import HotelCard from "../HotelCard";
 import NotfoundCard from "./NotfoundCard";
 import ChatError from "./ChatError";
+import SearchFilterTags from "../SearchFilterTags";
 
 const AiMessage = ({ aiMessage }) => {
+  
   
   
   const dispatch = useDispatch();
@@ -43,7 +45,8 @@ const AiMessage = ({ aiMessage }) => {
   const GetViewPassengers = useSelector(
     (state) => state?.passengerDrawer?.ViewPassengers
   );
-  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+  console.log("GetViewPassengers_001", GetViewPassengers);
+  
   const filledPassenger = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
@@ -53,6 +56,9 @@ const AiMessage = ({ aiMessage }) => {
   
   
   const getHotels = aiMessage?.ai?.hotels;
+  const hotelOfferId = useSelector((state)=> state?.hotel?.selectedRateKey)
+  
+  
  const handleSeeMoreHotels = () => {
     setHotelsToShow((prev) => prev + 10); // load 10 more each click
   };
@@ -129,6 +135,9 @@ const AiMessage = ({ aiMessage }) => {
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );
+  const flightcount = useSelector(
+    (state) => state?.sendMessage?.appendFlights?.ai?.count
+  );  
 
   // Find message with ai.offers
   // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
@@ -146,7 +155,7 @@ const AiMessage = ({ aiMessage }) => {
   );
   const [selectedOfferId, setSelectedOfferId] = useState(null);
   
-  console.log("aiMessage_response2", aiMessage?.ai?.error?.response?.errors)
+  
   return (
     <Box
       ref={aiboxRef}
@@ -164,13 +173,16 @@ const AiMessage = ({ aiMessage }) => {
               <SearchProgressBar />
             </Box>
             <Box className={searchResultStyles.SearchCardGrid}>
+              {/*  Pass aiMessage.ai.url instead of using Redux */}
+              
+              <SearchFilterTags offerUrl={aiMessage?.ai?.url} />
+
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
                 <React.Fragment key={offer.id || i}>
                   <SearchCard
                     offerData={offer}
                     offerkey={`${offer.id}`}
-                    FlightExpire={FlightExpire}
                   />
                 </React.Fragment>
               ))}
@@ -340,6 +352,11 @@ const AiMessage = ({ aiMessage }) => {
 
       {Array.isArray(getHotels?.hotels) && getHotels.hotels.length > 0 && (
         <Box className={searchResultStyles.HotelCardWrapper}>
+          <SearchFilterTags
+            offerUrl={aiMessage?.ai?.url}
+            hotelCount={aiMessage?.ai?.hotels?.total}
+            filters={aiMessage?.ai?.filters}
+          />
           {getHotels.hotels.slice(0, hotelsToShow).map((hotel, idx) => (
             <HotelCard
               key={hotel.code || idx}

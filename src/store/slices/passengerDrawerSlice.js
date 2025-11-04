@@ -222,7 +222,6 @@ export const PassengerForm = (offerId) => (dispatch, getState) => {
 };
 
 export const ViewPassengers = () => (dispatch, getState) => {
-  console.log("ViewPassengers");
   
   const states = getState();
   const orderUuid = states.passengerDrawer?.OrderUuid;
@@ -260,7 +259,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
   }
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
-  const passengerUuid = state.passengerDrawer?.PassengerUUID;
+  const passengerUuid = state.passengerDrawer?.SelectPassenger?.uuid;
   
   
   
@@ -306,7 +305,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
     .catch((error) => {
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
-      dispatch(setisPassengerDrawer(true));
+      
       
     })
     .finally(() => {

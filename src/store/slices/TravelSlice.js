@@ -144,25 +144,41 @@ export const submitTravelForm = (formData) => (dispatch) => {
     travellers,
     tripClass,
   } = formData;
+
+  const { adults, children, childAges = [] } = travellers || {};
+  // Create formatted child ages text
+  let childAgeText = "";
+  if (children > 0 && childAges.length > 0) {
+    const validAges = childAges.filter((a) => !!a); // remove empty/null
+    if (validAges.length > 0) {
+      childAgeText = ` (ages ${validAges.join(", ")})`;
+    }
+  }
+
+  // Build the full message
   let message = "";
   if (tripType === "roundtrip") {
     message = `Need a return flight from ${origin} to ${destination} from ${dayjs(
       departureDate
-    ).format("DD MMM")} to ${dayjs(returnDate).format("DD MMM")} for ${
-      travellers.adults
-    } adult${travellers.adults > 1 ? "s" : ""}${
-      travellers.children > 0 ? `, ${travellers.children} children` : ""
+    ).format("DD MMM")} to ${dayjs(returnDate).format(
+      "DD MMM"
+    )} for ${adults} adult${adults > 1 ? "s" : ""}${
+      children > 0
+        ? `, ${children} child${children > 1 ? "ren" : ""}${childAgeText}`
+        : ""
     } in ${tripClass || "Economy"}`;
   } else {
     message = `Need a one way flight from ${origin} to ${destination} on ${dayjs(
       departureDate
-    ).format("DD MMM")} for ${travellers.adults} adult${
-      travellers.adults > 1 ? "s" : ""
-    }${travellers.children > 0 ? `, ${travellers.children} children` : ""} in ${
-      tripClass || "Economy"
-    }`;
+    ).format("DD MMM")} for ${adults} adult${adults > 1 ? "s" : ""}${
+      children > 0
+        ? `, ${children} child${children > 1 ? "ren" : ""}${childAgeText}`
+        : ""
+    } in ${tripClass || "Economy"}`;
   }
-  //  message send to sendmessge user redux
+
+  
+  // Send to chat Redux
   dispatch(sendMessage(message));
 };
 

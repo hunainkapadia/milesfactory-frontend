@@ -28,12 +28,13 @@ import Header from "../layout/Header";
 import LabelAnimation from "../home/LabelAnimation";
 import HerosectionContent from "../home/HerosectionContent";
 import MessageInputBox from "../SearchResult/chat/MessageInputBox";
-import PassengerDrawerForm from "../Checkout/passengerDrawerForm";
+
 import Link from "next/link";
 import PollingMessage from "../SearchResult/PollingMessage/PollingMessage";
 import BaggageDrawer from "../Checkout/BaggageDrawer";
 import PassengerProfileDrawer from "../Checkout/PassengerProfileDrawer";
 import SearchFilterBar from "../SearchResult/SearchFilterBar";
+import PassengerDrawerForm from "../Checkout/PassengerDrawerForm";
 
 const Messages = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -69,7 +70,7 @@ const Messages = () => {
   const BookFlightAiresponse = useSelector(
     (state) => state.sendMessage?.messages || []
   );
-  const FlightExpire = useSelector((state) => state.getMessages.flightExpire);
+  
 
   const refreshHandle = () => {
     dispatch(RefreshHandle());
@@ -84,6 +85,9 @@ const Messages = () => {
     (state) => state.sendMessage?.SearchHistorySend
   );
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
+  const passengerPofile = useSelector(
+      (state) => state?.passengerDrawer?.passProfile
+    );
 
   return (
     <>
@@ -97,22 +101,21 @@ const Messages = () => {
             <Box className={searchResultStyles.messageContentIn}>
               {messages.map((msg, index) => (
                 <Box key={index}>
-                  {console.log("msg_user", msg?.user)}
-                  {msg?.user && !msg.user.startsWith("SYSTEM MESSAGE:") ? (
-  <UserMessage userMessage={msg.user} />
-) : msg?.user && msg.user.startsWith("SYSTEM MESSAGE:") ? (
-  // Custom UI for system message
-  ""
-) : null}
-
                   
+                  {msg?.user && !msg.user.startsWith("SYSTEM MESSAGE:") ? (
+                    <UserMessage userMessage={msg.user} />
+                  ) : msg?.user && msg.user.startsWith("SYSTEM MESSAGE:") ? (
+                    // Custom UI for system message
+                    ""
+                  ) : null}
+
                   {msg?.ai && (
                     <AiMessage aiMessage={msg} offerId={msg?.OfferId} />
                   )}
 
                   {/* Show loader only once after the last message */}
                   {isLoading && index === messages.length - 1 && (
-                    <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>
+                    <Box my={2} >
                       <LoadingArea />
                     </Box>
                   )}
@@ -125,6 +128,8 @@ const Messages = () => {
               {/* booking flow start */}
 
               <PassengerDrawerForm />
+              {/* {passengerPofile?.length > 0 && 
+              } */}
               <PassengerProfileDrawer />
             </Box>
           </Box>

@@ -32,6 +32,8 @@ const passengerDrawerSlice = createSlice({
   },
 });
 
+
+
 export const PassengerSetupHotel = () => (dispatch, getState) => {
   const states = getState();
   const threadUuid = states?.sendMessage?.threadUuid;
@@ -40,7 +42,6 @@ export const PassengerSetupHotel = () => (dispatch, getState) => {
   
   // {{BASE_URL}}/api/v1/setup/hotel/<str:hotel_search_uuid>/order/thread/{{THREAD_ID}}
   const bookingSetupUrl = `/api/v1/setup/hotel/${hotel_search_uuid}/order/thread/${threadUuid}`;
-  console.log("hotel_search_uuid", bookingSetupUrl);
   dispatch(setisLoading(true));
   dispatch(
     setMessage({ ai: { passengerFlowRes: { status: false, isloading: true } } })
@@ -89,7 +90,7 @@ export const ViewPassengersHotel = () => async (dispatch, getState) => {
 
   
 
-  // 🚫 If no orderUuid, skip API call
+  //  If no orderUuid, skip API call
   if (!orderUuidhotel) {
     console.warn("ViewPassengersHotel skipped — orderUuid not found");
     return;
@@ -102,7 +103,7 @@ export const ViewPassengersHotel = () => async (dispatch, getState) => {
     const response = await api.get(viewPassengerUrl);
     dispatch(setViewPassengers(response?.data || []));
   } catch (error) {
-    console.error("Error fetching hotel guests:", error);
+    console.error("Error fetching hotel guests:", error?.response?.data?.messages[0]?.message);
   } finally {
     dispatch(setisLoading(false));
   }
@@ -124,7 +125,7 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
   // //////////////
   const orderUuid = state.passengerDrawer?.OrderUuid;
   const orderUuidhotel = state?.passengerHotelSlice?.orderUuidHotel;
-  const passengerUuid = state.passengerDrawer?.PassengerUUID;
+  const passengerUuid = state?.passengerDrawer?.SelectPassenger.uuid;
   
   const SubmitUrl = `/api/v1/hotel/order/${orderUuidhotel}/guest/${passengerUuid}`;
   
@@ -160,7 +161,6 @@ export const PassengerFormHotel = (params) => async (dispatch, getState) => {
     .catch((error) => {
       const responseErrors = error.response?.data;
       dispatch(setPassengerFormError(responseErrors));
-      dispatch(setisPassengerDrawer(true));
     })
     .finally(() => {
       

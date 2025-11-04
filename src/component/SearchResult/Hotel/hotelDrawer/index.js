@@ -38,6 +38,18 @@ const HotelDrawer = ({hotelOffer}) => {
   // Extract dates from rateKey if available
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
 
+  const adults = firstRate?.adults || 0;
+const children = firstRate?.children || 0;
+const infants = firstRate?.infants || 0;
+
+const totalKids = children + infants;
+
+const passengers = `
+  ${adults ? `${adults} ${adults > 1 ? "adults" : "adult"},` : ""}
+  ${totalKids ? ` ${totalKids} ${totalKids > 1 ? "children" : "child"}` : ""}
+`.trim();
+
+
   const images = [
     "/images/hotel-bedroom.jpg",
     "/images/hotel-bedroom.jpg",
@@ -191,7 +203,8 @@ const HotelDrawer = ({hotelOffer}) => {
                         className="bold mb-1 f10"
                         textTransform={"capitalize"}
                       >
-                        {hotel?.rooms?.[0]?.name} · {firstRate?.adults} adults
+                        {hotel?.rooms?.[0]?.name} ·
+                        {passengers}
                       </Typography>
                       <Typography component="span" className="f10 black-50">
                         {dayjs(allHotel?.checkIn, "DD-MM-YYYY").format(

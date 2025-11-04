@@ -360,6 +360,7 @@
 
 
 @include for-mobile-large-screen {
+   
    .CircleButton {
       top: -58px;
    }
@@ -420,8 +421,9 @@
    }
 
    .SearchBoxSectionActive {
+      
       .PlaceholderText {
-         left: 20px;
+         left: 32px;
       }
 
       .SearchBoxContainer {
@@ -451,6 +453,9 @@
 
             .BoxButtons {
                justify-content: flex-end;
+               .MicButton {
+                  border: 1px solid rgba(197, 218, 222, 0.3);
+               }
             }
 
             .leftCol {
@@ -467,11 +472,13 @@
          }
 
          .SearchForm {
+            padding-left: 14px;
             min-height: inherit;
             padding: 0;
             padding-bottom: 10px;
             height: inherit;
             max-height: 100px;
+            padding-left: 14px;
          }
       }
    }

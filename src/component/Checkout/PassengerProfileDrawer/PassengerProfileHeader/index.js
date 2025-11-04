@@ -9,14 +9,19 @@ const PassengerProfileHeader = ({
   handleCloseDrawer,
   tabValue,
   handleTabChange,
-  GetViewPassengers,
-  filledPassengerUUIDs,
   showSuccessSnackbar,
 }) => {
    
    const selectPassenger = useSelector(
     (state) => state?.passengerDrawer?.SelectPassenger
   );
+  const filledPassengerUUIDs = useSelector(
+      (state) => state.passengerDrawer.filledPassengerUUIDs
+    );
+    const GetViewPassengers = useSelector(
+        (state) => state.passengerDrawer.ViewPassengers
+      );
+  
   
   
   return (

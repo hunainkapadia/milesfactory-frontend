@@ -3,6 +3,7 @@ import { Box, Typography, Divider, Grid, Drawer, Stack } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  hotelSingle,
   setRoomDrawer,
   setSelectedRateKey,
   setSelectedRoom,
@@ -15,9 +16,31 @@ import { setCartTotalPrice } from "@/src/store/slices/BookingflightSlice";
 
 const RoomDrawer = () => {
   const dispatch = useDispatch();
-  const selectedRateKey = useSelector((state) => state.hotel.selectedRateKey);
+  
+  const {selectedRateKey} = useSelector((state) => state.hotel);
+
+  
+  
   const isDrawer = useSelector((state) => state.hotel.roomDrawer);
   const hotel = useSelector((state) => state.hotel.singlehotel);
+  
+  const passengers = useSelector(
+    (state) =>
+      state?.sendMessage?.SearchHistorySend?.hotel?.passengers ||
+      state?.getMessages?.SearchHistory?.hotel?.HotelArgument || null
+  );
+  console.log("passengers_00", passengers?.infants?.length ||
+                        "" + passengers?.children?.length);
+  
+  
+  
+
+
+  
+  
+
+  
+  
   
 
   //  properly dispatch when closing drawer
@@ -31,6 +54,7 @@ const RoomDrawer = () => {
     
     dispatch(setSelectedRateKey(rates?.rateKey));
     dispatch(setSelectedRoom(rates));
+    dispatch(hotelSingle(selectedRateKey))
   };
 
   const CartData = useSelector((state) => state.booking?.getCartDetail);
@@ -59,9 +83,7 @@ const RoomDrawer = () => {
         className={`${styles.checkoutDrower} ${styles.hotelDrawer} white-bg`}
         width={463}
       >
-        <Box
-          className={styles.checkoutDrowerSection + " white-bg"}
-        >
+        <Box className={styles.checkoutDrowerSection + " white-bg"}>
           <Box className={styles.checkoutDrowerHeder + " header"} pt={3} mb={0}>
             <Box
               className="bold basecolor1 btn-link cursor-pointer"
@@ -76,7 +98,31 @@ const RoomDrawer = () => {
 
             <Box mt={2} pb={2}>
               <Typography variant="h6" className="regular mb-0">
-                Select room
+                {`Select room at ${hotel?.name} for ${
+                  // If adults exist, show adults count
+                  passengers?.adults
+                    ? `${passengers?.adults} ${
+                        passengers?.adults > 1 ? "adults" : "adult"
+                      }`
+                    : ""
+                }${
+                  // If children or infants exist, show them too
+                  passengers?.children?.length || passengers?.infants?.length
+                    ? ` and ${
+                        // Total children = children count + infants count
+                        (passengers?.children?.length || 0) +
+                        (passengers?.infants?.length || 0)
+                      } ${
+                        // Check plural or singular
+                        (passengers?.children?.length || 0) +
+                          (passengers?.infants?.length || 0) >
+                        1
+                          ? "children"
+                          : "child"
+                      }`
+                    : ""
+                }
+`}
               </Typography>
             </Box>
             <Divider className={`${styles.Divider} Divider`} />
@@ -108,15 +154,21 @@ const RoomDrawer = () => {
                         </svg>
 
                         <Typography className="bold capitalize">
-                          {capitalizeFirstWord(room?.name)} - {room.rates[0].allotment}{" Available"}
+                          {capitalizeFirstWord(room?.name)} -{" "}
+                          {room.rates[0].allotment}
+                          {" Available"}
                         </Typography>
                       </Stack>
-                      
+
                       <HotelDrawerGallery roomCode={room?.code} hotel={hotel} />
 
                       {room.rates
-                        .filter(rate => rate.packaging === false && rate.rateType === "BOOKABLE")
-                        .map(rate => (
+                        .filter(
+                          (rate) =>
+                            rate.packaging === false &&
+                            rate.rateType === "BOOKABLE"
+                        )
+                        .map((rate) => (
                           <RoomDrawerCard
                             key={rate.rateKey}
                             getrates={rate}
@@ -124,8 +176,7 @@ const RoomDrawer = () => {
                             selectedRateKey={selectedRateKey}
                             onSelect={handleSelectRate}
                           />
-                        ))
-                      }
+                        ))}
                     </Box>
                   </>
                 ))}

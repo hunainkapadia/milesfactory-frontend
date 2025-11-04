@@ -8,15 +8,15 @@ const AddPassCard = () => {
    const dispatch = useDispatch();
    const CartType = useSelector((state) => state.booking.cartType);
    const handleAddPassenger = () => {
-       dispatch(setSelectedProfilePass(null));
+      //  dispatch(setSelectedProfilePass(null));
        dispatch(setisPassengerDrawer(true));
 
-       if (CartType === "flight" || CartType === "all") {
-         dispatch(ViewPassengers());
-         dispatch(setAddNewPassactive(true));
-       } else if (CartType === "hotel") {
-         dispatch(ViewPassengersHotel());
-       }
+      //  if (CartType === "flight" || CartType === "all") {
+      //    dispatch(ViewPassengers());
+      //    dispatch(setAddNewPassactive(true));
+      //  } else if (CartType === "hotel") {
+      //    dispatch(ViewPassengersHotel());
+      //  }
      };
   return (
     <Box pb={2} onClick={handleAddPassenger}>

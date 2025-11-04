@@ -8,7 +8,10 @@ const initialState = {
   messages: [],
   isLoading: false,
   error: null,
-  flightExpire: "",
+  flightExpire: {
+    status: false,
+    message: null,
+  },
   refreshSearch: "",
   SearchHistoryGet: null,
   topOfferUrl: null,
@@ -137,7 +140,7 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
                   );
                 })
                 .catch((flighterror) => {
-                  dispatch(setFlightExpire(flighterror?.response?.data?.error));
+                  dispatch(setFlightExpire({status: true, message:flighterror?.response?.data?.error}));
                 });
             }
           }
@@ -151,8 +154,6 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
               item?.function_template?.[0]?.function?.arguments || {};
 
             const hotelSearchuuid = item?.response?.results?.view_hotel_search_api?.uuid
-            console.log("hotelSearchuuid_2", hotelSearchuuid);
-            
             dispatch(setHotelSearchId(hotelSearchuuid))            
             // Save hotel search args to redux
             dispatch(setSearchHistoryGet({ hotel: { HotelArgument } }));
@@ -210,26 +211,57 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
 
 export const RefreshHandle = () => (dispatch, getState) => {
   const state = getState();
-  const uuid = state?.getMessages?.SearchHistory?.uuid
-  
-  const threadUUID = sessionStorage.getItem("chat_thread_uuid");
-  
-  
-// {{BASE_URL}}/api/v1/search/61adab8e-c40f-42e0-8268-fd4f4cd71d53/refresh/5393d260-0903-49f6-9b64-6d61982e5dbd
-  // const url = `api/v1/search/<str:flight_search_uuid>/refresh/<str:chat_thread_uuid></str:chat_thread_uuid>`
-  const expireURL =  `/api/v1/search/${uuid}/refresh/${threadUUID}`
+  const uuid = state?.getMessages?.SearchHistory?.flight?.uuid;
+  const threadUUID = state?.sendMessage?.threadUuid;
 
-  
-  
+  if (!uuid || !threadUUID) {
+    console.warn("Missing SearchHistory uuid or threadUuid");
+    return;
+  }
 
-  api.post(expireURL).then((res)=> {
-    
-    dispatch(setRefreshSearch())
-  }).catch((error)=> {
-    
-    
-  })
-}
+  const expireURL = `/api/v1/search/${uuid}/refresh/${threadUUID}`;
+
+  dispatch(setIsLoading(true));
+
+  api
+    .post(expireURL)
+    .then((res) => {
+      dispatch(setRefreshSearch(true));
+
+      // ✅ After successful refresh → Re-fetch updated flight offers
+      const allOfferUrl = res?.data?.response.results.view_all_flight_result_api.url;
+      
+      
+      if (allOfferUrl) {
+        dispatch(setAllOfferUrl(allOfferUrl));
+        
+        api
+          .get(allOfferUrl)
+          .then((flightRes) => {
+            dispatch(setIsLoading(false))
+            
+            // dispatch(
+            //   setMessage({
+            //     ai: flightRes.data,
+            //     type: "flight_result",
+            //   })
+            // );
+            dispatch(setFlightExpire({status: false, message: null}))
+          })
+          .catch((flError) => {
+            dispatch(setFlightExpire({status: false, message: flError?.response?.data?.error}));
+          });
+      }
+    })
+    .catch((error) => {
+      console.log("RefreshHandle Error:", error.response?.data);
+      dispatch(setError("Failed to refresh flight data"));
+    })
+    .finally(() => {
+      dispatch(setIsLoading(false));
+    });
+};
+
 
 export const {
   setMessage,

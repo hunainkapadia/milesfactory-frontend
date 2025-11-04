@@ -728,7 +728,7 @@ label,
 .checkoutDrower .select-dropdown .MuiOutlinedInput-root {
   border: none;
 }
-
+.countryDropdown .Mui-focused {background-color: $lightgray;}
 .css-aou5iv-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: inherit;
   border-width: 1px;
@@ -1187,7 +1187,6 @@ body {
 .rdrStartEdge,
 .rdrEndEdge {
   background-color: $basecolor !important;
-  border-radius: 50% !important; // Ensure circular edges
 }
 
 .rdrDayStartPreview,
@@ -1331,6 +1330,7 @@ body {
 
     .formLabel {}
   }
+  
 
   .formGroup {
     margin-bottom: 12px;
@@ -2725,7 +2725,7 @@ html {
   .dot {
     width: 10px;
     height: 10px;
-    background-color: #E1E1E1;
+    background-color: $basecolor1;
     border-radius: 50%;
     animation: bounce 1.5s infinite ease-in-out;
 

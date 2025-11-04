@@ -11,28 +11,48 @@ const HerosectionContent = () => {
            justifyContent={"center"}
            flexDirection={"column"}
          >
-           <Box className="1111"
-             sx={{ px: { xs: 0, lg: 2 } }}
-           >
-           
-             <Typography component={"h1"}  sx={{lineHeight:"120%", display: { lg: "block", md: "block", xs: "none" }, mb:"6px", fontSize:{lg:"48px", md:"48px", xs:"36px"} }} className=" bold test-5.1">
-               Design trips. Book instantly.
-             </Typography>
-             <Typography  component={"h1"} sx={{lineHeight:"120%", display: { lg: "none", md: "none", xs: "block" }, mb:"6px", fontSize:{lg:"48px", md:"48px", xs:"36px"} }} className=" bold">
-               Design trips.<br />Book instantly.
-             </Typography>
+           <Box className="1111" sx={{ px: { xs: 0, lg: 2 } }}>
+             <Box
+               display={"flex"}
+               alignItems={"center"}
+               justifyContent={"center"}
+               gap={"6px"}
+               mb={"6px"}
+             >
+               <Typography
+                 component={"h1"}
+                 mb={0}
+                 sx={{
+                   lineHeight: "120%",
+                   fontSize: { lg: "48px", md: "48px", xs: "36px" },
+                 }}
+                 className=" exbold test-5.1"
+               >
+                 Travel, crafted
+               </Typography>
+
+               <Box
+                 className="imggroup"
+                 sx={{ display: { lg: "block", md:"block", xs: "none" } }}
+               >
+                 <img
+                   alt="Travel, crafted"
+                   src="/images/dallar-craft-icon.svg"
+                 />
+               </Box>
+             </Box>
              <Typography
                sx={{ display: { lg: "block", md: "block", xs: "none" } }}
                color="white"
-               
              >
-               Set your budget, time, and pace – Mylz AI builds real travel plans you can book.
+               Real direct prices and perfectly synced plans. Verified by Mylz
+               AI across top platforms.
              </Typography>
              <Typography
                sx={{ display: { lg: "none", md: "none", xs: "block" } }}
                color="white"
              >
-               Mylz builds real travel plans you can book.
+               Real direct prices and perfectly synced plans.
              </Typography>
            </Box>
          </Box>

@@ -21,9 +21,6 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
   const selectedRoom = useSelector(
     (state) => state.hotel?.selectedRoom
   );
-  const selectedRoom2 = useSelector(
-    (state) => state.hotel
-  );
   
   
   
@@ -73,6 +70,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
           >
             {/* Price Section */}
             <Box display="flex" flexDirection="column" justifyContent="center">
+            
               {selectedRoom?.total_netamount_with_markup ? (
                 <>
                   <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
@@ -116,7 +114,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
                   </Button>
                 ) : (
                   <Button
-                    disabled={!selectedRateKey} // ✅ Disabled when nothing is selected
+                    disabled={!selectedRateKey} //  Disabled when nothing is selected
                     onClick={handleSelectStay}
                     className={
                       styles.selectFlightBtn +

@@ -45,13 +45,18 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
      hotel?.content?.images?.find((img) => img?.imageTypeCode === "GEN") || "/images/hotel-nothumb.png"
      
      
+  
+  const rateComents = hotel?.rooms[0].rates[0].rateComments || null
 
-
+  
+  
+  
     
     
   
   return (
-    <Box id="hotel-section"
+    <Box
+      id="hotel-section"
       className={`${TripStyles.flightOfferCard} ${TripStyles.hotelOfferCard}`}
       mb={3}
     >
@@ -136,9 +141,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           overflow="hidden"
         >
           <img
-            src={`${
-              firstImg?.url_800 || "/images/hotel-nothumb.png"
-            }`}
+            src={`${firstImg?.url_800 || "/images/hotel-nothumb.png"}`}
             alt={hotel.name}
             style={{
               height: "100%",
@@ -150,12 +153,16 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
 
         {/* Hotel Info */}
         <Stack justifyContent={"center"} gap={"3px"}>
-          
           <Typography className="f12 bold">
             {hotel?.rooms[0]?.rates[0]?.adults &&
-              `${hotel?.rooms[0]?.rates[0]?.adults} adults, `}
-            {hotel?.rooms[0]?.rates[0]?.children &&
-              `${hotel?.rooms[0]?.rates[0]?.children} children `}
+              `${hotel?.rooms[0]?.rates[0]?.adults} ${
+                hotel?.rooms[0]?.rates[0]?.adults > 1 ? "adults" : "adult"
+              }`}
+            {console.log("hotel_child", hotel?.rooms[0]?.rates[0])}
+            {hotel?.rooms[0]?.rates[0]?.children > 0 &&
+              `, ${hotel?.rooms[0]?.rates[0]?.children} ${
+                hotel?.rooms[0]?.rates[0]?.children > 1 ? "children" : "child"
+              } `}
           </Typography>
           <Typography mb={"5px"} className="f12 bold black-50">
             {new Date(hotel?.checkIn).toLocaleDateString("en-GB", {
@@ -171,8 +178,8 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           <IncludedTooltips />
         </Stack>
       </Stack>
+      {rateComents && <Typography className="f14">{rateComents}</Typography>}
       <Stack alignItems={"center"} flexDirection={"row"} gap={"12px"}>
-        
         <Box>
           <svg
             width="14"
@@ -194,6 +201,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
           </Typography> */}
         </Stack>
       </Stack>
+
       {/* Price Section */}
       <Stack
         textAlign="right"
@@ -204,7 +212,7 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
       >
         <Typography component="span" className="f11 bold black">
           {currencySymbols[hotel?.currency]}
-          {Math.round(hotel?.totalNet)},{" "}
+          {Math.round(hotel?.total_netamount_with_markup)},{" "}
         </Typography>
         <Typography component="span" className="f11 black">
           suggested by Mylz

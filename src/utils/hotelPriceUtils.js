@@ -14,7 +14,7 @@ export const calculateHotelPricing = (hotel, allHotel) => {
       : 1;
 
   // Prices
-  const totalPrice = Number(firstRate?.net) || 0;
+  const totalPrice = Number(firstRate?.total_netamount_with_markup) || 0;
   const perNightPrice = nights > 0 ? totalPrice / nights : totalPrice;
 
   return { nights, totalPrice, perNightPrice };

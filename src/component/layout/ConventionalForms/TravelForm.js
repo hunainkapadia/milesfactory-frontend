@@ -113,6 +113,7 @@ const TravelForm = () => {
 };
 
 
+
   const calendarRef = useRef(null);
   const tripTypeLabels = {
     oneway: "one way",
@@ -148,9 +149,7 @@ const TravelForm = () => {
             flexWrap="wrap"
           >
             {/* Trip Type */}
-            <Box
-              className={`${styles.formGroup} ${styles.isHomeForm}`}
-            >
+            <Box className={`${styles.formGroup} ${styles.isHomeForm}`}>
               <TextField
                 select
                 value={tripType}
@@ -199,14 +198,17 @@ const TravelForm = () => {
             {/* Trip Class */}
             {!isMobile && (
               <>
-                <TripTypeField errors={errors} isHomeForm  />
+                <TripTypeField errors={errors} isHomeForm />
               </>
             )}
           </Stack>
         </Box>
 
         {/* Search Button */}
-        <Box display={{md:"flex", xs: "none"}} alignItems="flex-end">
+        <Box
+          display={{ xs: "none", sm: "flex", md: "flex", lg: "flex" }}
+          alignItems="flex-end"
+        >
           <IconButton
             className={styles.SearchButton}
             onClick={handleSearch}
@@ -216,7 +218,11 @@ const TravelForm = () => {
           </IconButton>
         </Box>
       </Stack>
-      <TravelFormMobileDrawer handleSearch={handleSearch} isDrawer errors={errors} />
+      <TravelFormMobileDrawer
+        handleSearch={handleSearch}
+        isDrawer
+        errors={errors}
+      />
     </>
   );
 };

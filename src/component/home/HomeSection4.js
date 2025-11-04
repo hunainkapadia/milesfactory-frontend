@@ -57,9 +57,9 @@ const HomeSection4 = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white mb-5" color="white" variant="h5">
+                    <h3 className="h5 white mb-5" color="white" variant="h3">
                       Travel style remembered
-                    </h5>
+                    </h3>
                     <Typography className="f14" color="white">
                       Prefer late departures? Hate early flights?{" "}
                       <Box
@@ -78,9 +78,9 @@ const HomeSection4 = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white mb-5" color="white" variant="h5">
+                    <h3 className="h5 white mb-5" color="white" variant="h3">
                       Prompt memory
-                    </h5>
+                    </h3>
                     <Typography className="f14" color="white">
                       Repeat that Rome trip from last spring?{" "}
                       <Box
@@ -99,9 +99,9 @@ const HomeSection4 = (props) => {
                   variant="outlined"
                 >
                   <Box>
-                    <h5 className="white mb-5" color="white" variant="h5">
+                    <h3 className="h5 white mb-5" color="white" variant="h3">
                       Faster booking every time
-                    </h5>
+                    </h3>
                     <Typography className="f14" color="white">
                       Mylz remembers your behaviour and{" "}
                       <Box

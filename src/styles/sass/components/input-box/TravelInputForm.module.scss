@@ -1,19 +1,25 @@
 @import "../../_variables.scss";
 
+.formGroup .ageSelect {
+   padding: 5px 10px;
+   height: 40px;
+   outline: none;
+    border-radius:6px;
+    border: 1px solid #ccc;
+    font-size:14px;
+    background-color:#fff;
+}
 .countryDropdown {
    
   li {
     border-bottom: solid 1px #ddd;
-    padding:  0 6px 8px;
-    margin-bottom: 10px;
+    padding:  10px 6px 10px;
+    margin-bottom: 0;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
   }
-   li {
-      display: flex;
-      align-items: center;
-      padding-bottom: 10px;
-      cursor: pointer;
-   }
    .parent svg {
       margin-left: 0;
       margin-right: 8px;
@@ -351,7 +357,7 @@ body {
       }
       .Passrow {
          border-bottom: solid 1px $lightgray2;
-         padding: 15px 0;
+         padding:0 0  20px;
          
       }
       
@@ -473,6 +479,7 @@ body {
             height: 30px !important;
            width: 100% !important;
            font-size: 12px !important;
+           padding-right: 0;
         }
       }
    }

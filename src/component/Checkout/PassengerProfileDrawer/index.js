@@ -6,14 +6,9 @@ import dayjs from "dayjs";
 import {
   getPassPofile,
   PassengerFormFlight,
-  setAddFilledPassenger,
   setCaptainParams,
   setFilledPass,
   setisPassengerDrawer,
-  setPassengerAge,
-  setPassengerPassport,
-  setPassengerType,
-  setPassengerUUID,
   setPassProfileDrawer,
   setSelectedProfilePass,
   setSelectPassenger,
@@ -27,15 +22,14 @@ import PassengerProfilecard from "./PassengerProfilecard";
 import PassengerProfileHeader from "./PassengerProfileHeader";
 import AddPassCard from "./AddPassCard";
 import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
+import parsePhoneNumberFromString from "libphonenumber-js";
 
 const PassengerProfileDrawer = () => {
   const dispatch = useDispatch();
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [stopPolling, setStopPolling] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
-  const [tabType, setTabType] = useState("adult"); // default type
-
-  
+  const [tabValue, setTabValue] = useState(2);
+  const [tabType, setTabType] = useState("child"); // default type
 
   // Redux states
   const isPassengerProfileDrawer = useSelector(
@@ -44,118 +38,110 @@ const PassengerProfileDrawer = () => {
   const passengerPofile = useSelector(
     (state) => state.passengerDrawer.passProfile
   );
-  
+  const PassengerFormError = useSelector(
+    (state) => state.passengerDrawer.PassengerFormError
+  );
 
   const CartType = useSelector((state) => state.booking.cartType);
   const FilledPassFormData = useSelector(
     (state) => state.passengerDrawer.PassFormData
   );
-  
 
   const selectPassenger = useSelector(
     (state) => state.passengerDrawer.SelectPassenger
   );
+
   const selectedProfilePass = useSelector(
     (state) => state.passengerDrawer.SelectedProfilePass
   );
+
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
+
+  
+  
+  
+  
+  
+  
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
+  const filledPassenger = useSelector(
+    (state) => state.passengerDrawer
+  );
+  
+  
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
 
   const { selectPassProfile } = useSelector((state) => state.passengerDrawer);
-
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
   const isAllPassengersFilled = filledCount === totalPassengers;
-  
-  
-  
 
   // --- Polling for profile updates ---
-
-  
-
-  
-  
-  
-  // --- Polling for profile updates ---
-  
-  
   //  Fetch passenger profile once when form data changes
-useEffect(() => {
-  if (!FilledPassFormData) return;
-
-  if (CartType === "flight" || CartType === "all") {
-    dispatch(getPassPofile());
-  } else if (CartType === "hotel") {
-    dispatch(getPassPofileHotel());
-  }
-}, [dispatch, FilledPassFormData, CartType]);
-
-
-
-
-//  Stop checking when passport match is found (for flight)
-useEffect(() => {
-  if (
-    CartType !== "flight" ||
-    !FilledPassFormData ||
-    !passengerPofile
-  ) return;
-
-  const isMatch = passengerPofile.some(
-    (p) => p.passport_number === FilledPassFormData.passport_number
-  );
-
-  if (isMatch) {
-    setStopPolling(true);
-  }
-}, [passengerPofile, FilledPassFormData, CartType]);
-
-//  Stop checking when all passengers are present (for both flight & hotel)
-useEffect(() => {
-  if (!GetViewPassengers || !passengerPofile) return;
-
-  const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
-
-  if (isLengthEqual) {
-    setStopPolling(true);
-  }
-}, [passengerPofile, GetViewPassengers]);
-
-
-  // --- Initialize tabType ---
   useEffect(() => {
-    if (GetViewPassengers?.length && tabType === null) {
-      setTabType(GetViewPassengers[0].type); // set only once
+    if (!FilledPassFormData) return;
+
+    if (CartType === "flight" || CartType === "all") {
+      dispatch(getPassPofile());
+    } else if (CartType === "hotel") {
+      dispatch(getPassPofileHotel());
     }
-  }, [GetViewPassengers, tabType]);
+  }, [dispatch, FilledPassFormData, CartType]);
+
+  //  Stop checking when passport match is found (for flight)
+  useEffect(() => {
+    if (CartType !== "flight" || !FilledPassFormData || !passengerPofile)
+      return;
+
+    const isMatch = passengerPofile.some(
+      (p) => p.passport_number === FilledPassFormData.passport_number
+    );
+
+    if (isMatch) {
+      setStopPolling(true);
+    }
+  }, [passengerPofile, FilledPassFormData, CartType]);
+
+  //  Stop checking when all passengers are present (for both flight & hotel)
+  useEffect(() => {
+    if (!GetViewPassengers || !passengerPofile) return;
+
+    const isLengthEqual = passengerPofile.length === GetViewPassengers.length;
+
+    if (isLengthEqual) {
+      setStopPolling(true);
+    }
+  }, [passengerPofile, GetViewPassengers]);
 
   // --- Close drawer ---
   const handleCloseDrawer = () => dispatch(setPassProfileDrawer(false));
 
   // --- Modify passenger ---
+
   const onClickModifyCard = (passenger) => {
     dispatch(setSelectedProfilePass(passenger));
     const age = dayjs().diff(dayjs(passenger.born_on), "year");
-    dispatch(setPassengerType(passenger.type));
-    dispatch(setPassengerAge(age));
+
     dispatch(setisPassengerDrawer(true));
   };
 
   // --- Save passenger ---
-  
-  
+
   const handleSavePassenger = (passenger) => {
     if (!passenger) return;
     const formatDate = (date) =>
       date && dayjs(date).isValid() ? dayjs(date).format("YYYY-MM-DD") : "";
+    const getRegionFromPhone = (phone) => {
+      if (!phone) return "";
+      const parsed = parsePhoneNumberFromString(phone);
+      return parsed?.country || ""; // Example: "PK", "AE", "IN", "US"
+    };
     const params = {
       gender: passenger.gender || "",
       given_name: passenger.given_name || "",
@@ -164,7 +150,7 @@ useEffect(() => {
       phone_number: passenger.phone_number || "",
       email: passenger.email || "",
       nationality: passenger.nationality?.id ?? "",
-      region: passenger.nationality?.code || "",
+      region: getRegionFromPhone(passenger.phone_number), // get region from plugin
       passport_number: passenger.passport_number || "",
       passport_expire_date: formatDate(passenger.passport_expire_date),
       passenger_id: passenger.passenger_id || "",
@@ -186,11 +172,6 @@ useEffect(() => {
     }
   };
 
-  const handleContinuePassenger = () => {
-    dispatch(setFilledPass(true));
-    handleCloseDrawer();
-  };
-
   // --- Select card ---
   const selectCardHandle = (passenger) => {
     dispatch(setSelectPassProfile(passenger));
@@ -202,49 +183,76 @@ useEffect(() => {
     const passenger = GetViewPassengers[newValue];
     if (!passenger) return;
     setTabType(passenger.type);
-    dispatch(setPassengerUUID(passenger.uuid));
-    dispatch(setPassengerType(passenger.type));
-    dispatch(setPassengerAge(passenger.age));
-    dispatch(setPassengerPassport(passenger.passportNumber));
+
     dispatch(setSelectPassenger(passenger));
   };
 
   // --- Auto switch to next unfilled passenger ---
   useEffect(() => {
-    if (!GetViewPassengers?.length) return;
-
-    // If all passengers are filled → stop
-    if (filledPassengerUUIDs.length === GetViewPassengers.length) {
-      return;
+    //  Stop auto-switch if there are validation errors
+    if (PassengerFormError && Object.keys(PassengerFormError).length > 0) {
+      dispatch(setisPassengerDrawer(true)); // keep drawer open
+      return; //  stop here — DO NOT switch passenger
     }
 
-    // Find the next unfilled passenger
+    if (!passengerPofile || passengerPofile.length === 0) return;
+    if (!GetViewPassengers?.length) return;
+
+    if (filledPassengerUUIDs.length === GetViewPassengers.length) return;
+
     const nextPassenger = GetViewPassengers.find(
       (p) => !filledPassengerUUIDs.includes(p.uuid)
     );
 
-    if (nextPassenger && nextPassenger.uuid !== selectPassenger?.uuid) {
-      const nextIndex = GetViewPassengers.findIndex(
-        (p) => p.uuid === nextPassenger.uuid
-      );
+    if (!nextPassenger) return;
 
-      setTabValue(nextIndex);
-      setTabType(nextPassenger.type);
+    const nextIndex = GetViewPassengers.findIndex(
+      (p) => p.uuid === nextPassenger.uuid
+    );
 
-      dispatch(setSelectPassenger(nextPassenger));
-      dispatch(setPassengerUUID(nextPassenger.uuid));
-      dispatch(setPassengerType(nextPassenger.type));
-      dispatch(setPassengerAge(nextPassenger.age));
-      dispatch(setPassengerPassport(nextPassenger.passportNumber));
-    }
-  }, [filledPassengerUUIDs, GetViewPassengers, selectPassenger, dispatch]);
+    setTabValue(nextIndex);
+    setTabType(nextPassenger.type);
 
-  useEffect(()=> {
+    dispatch(setSelectPassenger(nextPassenger));
+  }, [
+    filledPassengerUUIDs,
+    GetViewPassengers,
+    passengerPofile,
+    PassengerFormError, // REQUIRED so effect reacts to error state
+    dispatch,
+  ]);
+
+  useEffect(() => {
     if (isAllPassengersFilled) {
       dispatch(setFilledPass(true));
-      dispatch(setPassProfileDrawer(false))
+      dispatch(setPassProfileDrawer(false));
     }
-  },[dispatch, isAllPassengersFilled])
+  }, [dispatch, isAllPassengersFilled]);
+  useEffect(() => {
+    // Drawer closed? then do nothing
+    if (!isPassengerProfileDrawer) return;
+
+    // No passengers yet? stop
+    if (!GetViewPassengers?.length) return;
+
+    // No selected passenger? stop
+    if (!selectPassenger) return;
+
+    // Find index of selected passenger in passenger list
+    const index = GetViewPassengers.findIndex(
+      (p) => p.uuid === selectPassenger.uuid
+    );
+
+    // If found → set tab to that index and type
+    if (index !== -1) {
+      setTabValue(index);
+      setTabType(selectPassenger.type);
+
+      // Also sync Redux
+    }
+  }, [isPassengerProfileDrawer, GetViewPassengers, selectPassenger, dispatch]);
+  
+
   return (
     <Drawer
       anchor="right"
@@ -261,13 +269,9 @@ useEffect(() => {
           className={`${styles.checkoutDrowerSection} ${styles.ProfileDrowerSection} aa white-bg`}
         >
           <PassengerProfileHeader
-            styles={styles}
-            selectPassenger={selectPassenger}
             handleCloseDrawer={handleCloseDrawer}
             tabValue={tabValue}
             handleTabChange={handleTabChange}
-            GetViewPassengers={GetViewPassengers}
-            filledPassengerUUIDs={filledPassengerUUIDs}
             showSuccessSnackbar={showSuccessSnackbar}
           />
 
@@ -275,23 +279,44 @@ useEffect(() => {
             className={styles.checkoutDrowerBody}
             component={"section"}
             pb={10}
-            sx={{ px: { lg: 3, md: 3, xs: 2 }, mb:2 }}
+            sx={{ px: { lg: 3, md: 3, xs: 2 }, mb: 2 }}
           >
-            
-            
+
             {passengerPofile
               ?.filter((p) => p.type === tabType)
-              .filter(
-                (p) =>
-                  !filledPassengerUUIDs.includes(p.uuid) &&
-                  p.passport_number !== FilledPassFormData?.passport_number &&
-                  p.passport_number !== null
-              )
+              .filter((p) => {
+                
+                // For flights → filter using passport deduct filled pasenger
+                if (CartType === "flight" || CartType === "all") {
+                  return (
+                    !filledPassengerUUIDs.includes(p.uuid) &&
+                    p.passport_number !== FilledPassFormData?.passport_number &&
+                    p.passport_number !== null
+                  );
+                } else if (CartType === "hotel") {
+                  return (
+                    p.given_name !== FilledPassFormData?.given_name && 
+                    p.family_name !== FilledPassFormData?.family_name &&
+                    p.born_on !== FilledPassFormData?.born_on
+                    
+                  )
+                }
+                // For hotels → only check filled UUIDs
+                if (CartType === "hotel") {
+                  return !filledPassengerUUIDs.includes(p.uuid);
+                }
+
+                return true;
+              })
               .map((passenger, index) => {
+                
                 const isPassFilled =
                   passenger?.uuid === selectPassProfile?.uuid ||
-                  passenger?.passport_number ===
-                    FilledPassFormData?.passport_number;
+                  (CartType !== "hotel" &&
+                    passenger?.passport_number ===
+                      FilledPassFormData?.passport_number); //highlit filled pesenger
+
+                
 
                 return (
                   <PassengerProfilecard
@@ -352,15 +377,6 @@ useEffect(() => {
                   )}
 
                   {/* Continue Button */}
-                  {/* {isAllPassengersFilled && (
-                    <Button
-                      type="submit"
-                      className="btn btn-primary chat-btn btn-round"
-                      onClick={() => handleContinuePassenger()}
-                    >
-                      <Typography component={"span"}>Continue</Typography>
-                    </Button>
-                  )} */}
                 </Box>
               </Box>
             </Box>

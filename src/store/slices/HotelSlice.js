@@ -14,6 +14,7 @@ const initialState = {
   selectedhotelCode: null,
   selectedRateKey: null,
   selectedRoom: null,
+  hotelSingleResult: null,
 
 };
 // for selectflightDetail button
@@ -21,6 +22,9 @@ const hotelSlice = createSlice({
   name: "hotel",
   initialState,
   reducers: {
+    setHotelSingleResult:(state, action) => {
+      state.hotelSingleResult = action.payload;
+    },
     setRoomDrawer:(state, action) => {
       state.roomDrawer = action.payload;
     },
@@ -42,7 +46,8 @@ const hotelSlice = createSlice({
     setSinglehotel:(state, action) => {
       state.singlehotel = action.payload;
     },
-    setLoading: (state, action) => {
+    
+    setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
     setError: (state, action) => {
@@ -54,6 +59,26 @@ const hotelSlice = createSlice({
   },
 });
 
+export const hotelSingle = () => async (dispatch, getState)=> {
+  const rateKey = getState().hotel?.selectedRateKey;
+
+  
+  dispatch(setIsLoading(true))
+  
+  try {
+    const res = await api.get(`api/v1/hotel/single/${rateKey}`)
+
+    dispatch(setIsLoading(false))
+    dispatch(setHotelSingleResult(res.data))
+    
+  } catch (error) {
+    
+  }
+  
+  
+
+}
+
 
 export const {
   setSinglehotel,
@@ -63,5 +88,7 @@ export const {
   setSelectedhotelCode,
   setSelectedRateKey,
   setSelectedRoom,
+  setHotelSingleResult,
+  setIsLoading
 } = hotelSlice.actions; //action exporting here
 export default hotelSlice.reducer;

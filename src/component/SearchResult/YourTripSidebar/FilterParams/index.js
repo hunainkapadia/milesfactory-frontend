@@ -12,7 +12,7 @@ const FilterParams = () => {
     airlineName: airlineName,
   };
 
-  //console.log("getselectedFlight", filterParams);
+
    return (
      <>
        <Box

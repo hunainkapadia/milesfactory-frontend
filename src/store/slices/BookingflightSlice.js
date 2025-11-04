@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, BOOKING, BOOKING_DETAIL } from "../api/apiEndpoints";
 import api from "../api";
 import { setOrderUuid, setViewPassengers } from "./passengerDrawerSlice";
-import { sendMessage, setMessage, setSearchHistorySend } from "./sendMessageSlice";
-import { setIsBuilderDialog } from "./Base/baseSlice";
+import { sendMessage, setMessage, setSearchHistorySend, setSystemMessage } from "./sendMessageSlice";
+import { setChatscroll, setIsBuilderDialog } from "./Base/baseSlice";
 import { setRoomDrawer, setSelectedhotelCode, setSelectedhotelKey } from "./HotelSlice";
 
 const initialState = {
@@ -155,8 +155,10 @@ export const bookFlight = () => (dispatch, getState) => {
 
 // Add to Cart
 export const AddToCart = (params, uuid) => async (dispatch, getState) => {
+  dispatch(setSystemMessage(null));
   const uuid = getState()?.sendMessage?.threadUuid;
   dispatch(setIsLoadingSelect(true));
+  dispatch(setChatscroll(true))
 
   try {
     // delay before API call (500ms = 0.5s)
@@ -180,6 +182,7 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
           dispatch(sendMessage(systemMessage));
         }
       }
+      
       
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));

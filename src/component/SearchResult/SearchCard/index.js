@@ -39,7 +39,12 @@ import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 import { LoadingButton } from "@mui/lab";
 import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
-const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
+const SearchCard = ({ key, offerData, offerkey }) => {
+  const { flightExpire, isLoading } = useSelector((state) => state.getMessages);
+  
+
+  
+
   const dispatch = useDispatch();
 
   const HandleSelectDrawer = () => {
@@ -81,9 +86,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
-  
-  
-  
+
   const selected = selectedFlightKey === offerkey;
 
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
@@ -99,7 +102,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     dispatch(setRefreshSearch());
   };
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);  
+  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);
 
   const isLoadingSelect = useSelector(
     (state) => state?.booking?.isLoadingSelect
@@ -107,10 +110,8 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const orderSuccess2 = useSelector((state) => state);
 
-  
-  
   const handleBookFlight = (getflight) => {
-    // for reset next order if in cart 1 
+    // for reset next order if in cart 1
     if (orderSuccess) {
       dispatch(setAddFilledPassenger(null));
       dispatch(setCartType(null));
@@ -127,9 +128,10 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
     dispatch(AddToCart(params, uuid));
     dispatch(setSelectedFlight(getflight));
   };
-  const isFlightAvailable = useSelector((state)=> state?.booking?.flightUnavailable);
-  
-  
+  const isFlightAvailable = useSelector(
+    (state) => state?.booking?.flightUnavailable
+  );
+
   // const handleBookFlight = () => {
   //   dispatch(setChatscroll(true))
   //   dispatch(setLoading(true));
@@ -150,8 +152,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
   //   } else {
   //     ("");
   //   }
-  
-  
+
   // };
   return (
     <>
@@ -191,7 +192,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
               justifyContent={"center"}
               height={"100%"}
             >
-              {FlightExpire ? (
+              {flightExpire?.status ? (
                 <>
                   <Box
                     className=""
@@ -220,7 +221,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       </Typography>
                     </Box>
                     <Box width={"100%"} whiteSpace={"nowrap"}>
-                      <button
+                      <Button
                         onClick={refreshHandle}
                         className={
                           " w-100 btn btn-border btn-round xs btn-md f12 sm " +
@@ -228,9 +229,20 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         }
                         // onClick={HandleSelectDrawer}
                       >
-                        <img src="/images/refresh-icon.svg" />
-                        <span>Refresh results</span>
-                      </button>
+                        {isLoading ? (
+                          <>
+                            <CircularProgress
+                              className="basecolor1"
+                              size={15}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <img src="/images/refresh-icon.svg" />
+                            <span>Refresh results</span>
+                          </>
+                        )}
+                      </Button>
                     </Box>
                   </Box>
                 </>
@@ -280,7 +292,6 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                           offerData?.total_amount_plus_markup_rounded
                         )}
                       </Typography>
-                      
 
                       {personQuantity > 1 && (
                         <Typography className="f12 gray">
@@ -303,10 +314,7 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                       {selectedFlightKey === offerData.id ? (
                         <Button
                           disabled
-                          className={
-                            searchResultStyles.IsSelected +
-                            " w-100 btn btn-primary btn-round btn-md "
-                          }
+                          className={`${searchResultStyles.selectFlightBtn} ${searchResultStyles.IsSelected} w-100 btn btn-primary btn-round btn-md `}
                         >
                           <span>Selected</span>
                         </Button>
@@ -314,16 +322,13 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                         isFlightAvailable ? (
                         <Button
                           disabled
-                          className={
-                            searchResultStyles.IsSelected +
-                            " w-100 btn btn-primary btn-round btn-md "
-                          }
+                          className={`${searchResultStyles.selectFlightBtn} ${searchResultStyles.IsSelected}
+                            w-100 btn btn-primary btn-round btn-md `}
                         >
                           <span>Not Available</span>
                         </Button>
                       ) : (
                         <>
-                          
                           <LoadingButton
                             className={
                               "w-100 btn btn-primary btn-round btn-md " +
@@ -344,8 +349,6 @@ const SearchCard = ({ key, offerData, offerkey, FlightExpire }) => {
                           </LoadingButton>
                         </>
                       )}
-                      
-                      
                     </Box>
                   </Box>
                 </>
