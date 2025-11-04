@@ -245,11 +245,27 @@ const HotelCard = ({ hotel, allHotels }) => {
                   textTransform={"capitalize"}
                 >
                   {hotel?.rooms?.[0]?.name?.split(" ").slice(0, 3).join(" ")} ·{" "}
-                  {firstRate?.adults} adults
+                  {firstRate?.adults &&
+                    `${firstRate?.adults} ${
+                      firstRate?.adults > 1 ? "adults" : "adult"
+                    }`}
+                  {console.log("hotel_child", firstRate)}
+                  {firstRate?.children > 0 &&
+                    `, ${firstRate?.children} ${
+                      firstRate?.children > 1 ? "children" : "child"
+                    } `}
                 </Typography>
+                {console.log("allHotels", allHotels?.checkIn)}
                 <Typography component="span" className="f10 black-50">
-                  {dayjs(allHotels?.checkIn, "DD-MM-YYYY").format("DD MMM")} -{" "}
-                  {dayjs(allHotels?.checkOut, "DD-MM-YYYY").format("DD MMM")}
+                  {new Date(allHotels?.checkIn).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                  })}{" "}
+                  -{" "}
+                  {new Date(allHotels?.checkOut).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                  })}{" "}
                 </Typography>
               </Stack>
               <Stack display={{ md: "flex", xs: "none" }}>

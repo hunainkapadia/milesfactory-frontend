@@ -6,6 +6,8 @@ const TopArgumentSection = () => {
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder); // builder
   const BuilderArguments =
     getBuilder?.silent_function_template[0]?.function.arguments || {};
+    const forHotel = BuilderArguments?.trip_components?.[0] === "hotel" || ""
+    
 
   return (
     <>
@@ -95,34 +97,41 @@ const TopArgumentSection = () => {
               </Box>
             )}
 
-            {(BuilderArguments?.passengers?.adults ||
-              BuilderArguments?.passengers?.children?.length > 0 ||
-              BuilderArguments?.passengers?.infants?.length > 0) && (
-              <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
-                {[
-                  BuilderArguments?.passengers?.adults > 0 &&
-                    `${BuilderArguments.passengers.adults} ${
-                      BuilderArguments.passengers.adults === 1
-                        ? "adult"
-                        : "adults"
-                    }`,
-                  BuilderArguments?.passengers?.children?.length > 0 &&
-                    `${BuilderArguments.passengers.children.length} ${
-                      BuilderArguments.passengers.children.length === 1
-                        ? "child"
-                        : "children"
-                    }`,
-                  BuilderArguments?.passengers?.infants?.length > 0 &&
-                    `${BuilderArguments.passengers.infants.length} ${
-                      BuilderArguments.passengers.infants.length === 1
-                        ? "infant"
-                        : "infants"
-                    }`,
-                ]
-                  .filter(Boolean)
-                  .join(", ")}
-              </Box>
-            )}
+           {(BuilderArguments?.passengers?.adults ||
+                BuilderArguments?.passengers?.children?.length > 0 ||
+                (!forHotel && BuilderArguments?.passengers?.infants?.length > 0)) && (
+                <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
+                  {(() => {
+                    const adults = BuilderArguments?.passengers?.adults || 0;
+                    const children =
+                      BuilderArguments?.passengers?.children?.length || 0;
+                    const infants =
+                      BuilderArguments?.passengers?.infants?.length || 0;
+
+                    // If hotel → Combine children + infants
+                    const hotelChildrenCount = forHotel
+                      ? children + infants
+                      : children;
+
+                    return [
+                      adults > 0 &&
+                        `${adults} ${adults === 1 ? "adult" : "adults"}`,
+
+                      hotelChildrenCount > 0 &&
+                        `${hotelChildrenCount} ${
+                          hotelChildrenCount === 1 ? "child" : "children"
+                        }`,
+
+                      // Only show infants count for flight
+                      !forHotel &&
+                        infants > 0 &&
+                        `${infants} ${infants === 1 ? "infant" : "infants"}`,
+                    ]
+                      .filter(Boolean)
+                      .join(", ");
+                  })()}
+                </Box>
+              )}
           </Box>
         </Box>
       </Box>

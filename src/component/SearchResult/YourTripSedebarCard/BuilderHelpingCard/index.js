@@ -104,32 +104,38 @@ const BuilderHelpingCard = ({ getBuilder, forReturn, forHotel, forOneway }) => {
           <Stack alignItems="center" textAlign={"center"}>
             <Typography whiteSpace={"nowrap"} className="f12">Travellers</Typography>
             <Typography className="f12 black bold" >
-              {(getBuilder?.passengers?.adults ||
-                getBuilder?.passengers?.children?.length > 0 ||
-                getBuilder?.passengers?.infants?.length > 0) && (
-                <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
-                  {[
-                    getBuilder?.passengers?.adults > 0 &&
-                      `${getBuilder.passengers.adults} ${
-                        getBuilder.passengers.adults === 1 ? "adult" : "adults"
-                      }`,
-                    getBuilder?.passengers?.children?.length > 0 &&
-                      `${getBuilder.passengers.children.length} ${
-                        getBuilder.passengers.children.length === 1
-                          ? "child"
-                          : "children"
-                      }`,
-                    getBuilder?.passengers?.infants?.length > 0 &&
-                      `${getBuilder.passengers.infants.length} ${
-                        getBuilder.passengers.infants.length === 1
-                          ? "infant"
-                          : "infants"
-                      }`,
-                  ]
-                    .filter(Boolean)
-                    .join(", ")}
-                </Box>
-              )}
+             {(getBuilder?.passengers?.adults ||
+  getBuilder?.passengers?.children?.length > 0 ||
+  (!forHotel && getBuilder?.passengers?.infants?.length > 0)) && (
+  <Box className={TripStyles.tripDetailsCol + " f12 black bold"}>
+
+    {(() => {
+      const adults = getBuilder?.passengers?.adults || 0;
+      const children = getBuilder?.passengers?.children?.length || 0;
+      const infants = getBuilder?.passengers?.infants?.length || 0;
+
+      // If hotel → Combine children + infants
+      const hotelChildrenCount = forHotel ? children + infants : children;
+
+      return [
+        adults > 0 && `${adults} ${adults === 1 ? "adult" : "adults"}`,
+
+        hotelChildrenCount > 0 &&
+          `${hotelChildrenCount} ${
+            hotelChildrenCount === 1 ? "child" : "children"
+          }`,
+
+        // Only show infants count for flight
+        !forHotel && infants > 0 &&
+          `${infants} ${infants === 1 ? "infant" : "infants"}`,
+      ]
+        .filter(Boolean)
+        .join(", ");
+    })()}
+  </Box>
+)}
+
+
             </Typography>
           </Stack>
         </Stack>

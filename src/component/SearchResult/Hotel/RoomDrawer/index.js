@@ -29,6 +29,9 @@ const RoomDrawer = () => {
       state?.sendMessage?.SearchHistorySend?.hotel?.passengers ||
       state?.getMessages?.SearchHistory?.hotel?.HotelArgument || null
   );
+  console.log("passengers_00", passengers?.infants?.length ||
+                        "" + passengers?.children?.length);
+  
   
   
 
@@ -96,19 +99,30 @@ const RoomDrawer = () => {
             <Box mt={2} pb={2}>
               <Typography variant="h6" className="regular mb-0">
                 {`Select room at ${hotel?.name} for ${
+                  // If adults exist, show adults count
                   passengers?.adults
                     ? `${passengers?.adults} ${
                         passengers?.adults > 1 ? "adults" : "adult"
                       }`
                     : ""
                 }${
-                  passengers?.children || passengers?.children?.length
-                    ? ` and ${passengers?.children?.length} ${
-                        passengers?.children?.length > 1 ? "children" : "child"
+                  // If children or infants exist, show them too
+                  passengers?.children?.length || passengers?.infants?.length
+                    ? ` and ${
+                        // Total children = children count + infants count
+                        (passengers?.children?.length || 0) +
+                        (passengers?.infants?.length || 0)
+                      } ${
+                        // Check plural or singular
+                        (passengers?.children?.length || 0) +
+                          (passengers?.infants?.length || 0) >
+                        1
+                          ? "children"
+                          : "child"
                       }`
                     : ""
-                }`}
-                
+                }
+`}
               </Typography>
             </Box>
             <Divider className={`${styles.Divider} Divider`} />
