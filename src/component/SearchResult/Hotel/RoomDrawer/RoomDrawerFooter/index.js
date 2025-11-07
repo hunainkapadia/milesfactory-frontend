@@ -35,6 +35,8 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
 
   
   
+  console.log("hotel_code1111", hotel.code);
+  
   const handleSelectStay = () => {
     if (!hotel) return;
     dispatch(setSelectedhotelKey(selectedRateKey));

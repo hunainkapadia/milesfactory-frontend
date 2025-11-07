@@ -22,15 +22,16 @@ import { useEffect } from "react";
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-  
-  const issystemmessage = useSelector((state) => state?.sendMessage?.systemMessage);
-  
+
+  const issystemmessage = useSelector(
+    (state) => state?.sendMessage?.systemMessage
+  );
 
   const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
   const allPassengerFill = useSelector(
     (state) => state.passengerDrawer.allPassengerFill
   );
-  
+
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   const functionType = useSelector((state) => state?.sendMessage?.functionType);
@@ -39,7 +40,6 @@ const SidebarFooter = () => {
       state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
   );
   const CartType = useSelector((state) => state.booking.cartType);
-  
 
   // Get all flights from cart items
   const CartFlights =
@@ -48,8 +48,6 @@ const SidebarFooter = () => {
   // Get all hotels from cart items
   const CartHotels =
     CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
-
-  
 
   // For displaying in footer, just take the first matching item
   const CartFlight = CartFlights[0];
@@ -62,7 +60,6 @@ const SidebarFooter = () => {
       allHotel
     ));
   }
-  
 
   const dispatch = useDispatch();
   const handleBookFlight = (getCart) => {
@@ -84,6 +81,9 @@ const SidebarFooter = () => {
     }
   };
 
+  {
+    console.log("orderSuccess_22", orderSuccess?.hotel_order);
+  }
   return (
     <Box
       px={"18px"}
@@ -97,13 +97,11 @@ const SidebarFooter = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        
         <Box>
-        {/* for flight */}
+          {/* for flight */}
           {(!orderSuccess?.flight_order &&
             orderSuccess?.hotel_order &&
             CartData?.items?.length < 2) ||
-            
           (orderSuccess?.flight_order &&
             !orderSuccess?.hotel_order &&
             CartData?.items?.length < 2) ? (
@@ -129,18 +127,27 @@ const SidebarFooter = () => {
             </>
           )}
         </Box>
-        {issystemmessage && CartData?.items?.length > 0 && (
-          <Button
-            disabled={
-              !orderSuccess?.hotel_order  && orderSuccess?.flight_order  && CartData?.items?.length < 2
+        {/* !orderSuccess?.hotel_order  && orderSuccess?.flight_order  && CartData?.items?.length < 2
                 ? true
                 : !orderSuccess?.flight_order && orderSuccess?.hotel_order && CartData?.items?.length < 2
                 ? true
-                : false
-              // orderSuccess && true
-            }
+                : false */}
+
+        {((issystemmessage &&
+          CartData?.items?.length < 2 &&
+          !orderSuccess?.hotel_order &&
+          !orderSuccess?.flight_order) ||
+          (issystemmessage &&
+            orderSuccess?.hotel_order &&
+            CartData?.items?.length === 2 &&
+            !orderSuccess?.flight_order) || // <-- NEW condition to hide when flight is done
+          (issystemmessage &&
+            orderSuccess?.flight_order &&
+            CartData?.items?.length === 2 &&
+            !orderSuccess?.hotel_order)) && ( // <-- NEW condition to hide when flight is done
+          <Button
             onClick={() => handleBookFlight(CartData)}
-            className={`btn btn-primary btn-round btn-xs`}
+            className="btn btn-primary btn-round btn-xs"
           >
             Checkout
           </Button>

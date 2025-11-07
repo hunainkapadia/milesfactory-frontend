@@ -32,26 +32,25 @@ import IncludedTooltips from "./IncludedTooltips";
 import { setAddFilledPassenger } from "@/src/store/slices/passengerDrawerSlice";
 import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
-const HotelCard = ({ hotel, allHotels }) => {
-  const imageBaseUrl = "https://photos.hotelbeds.com/giata/";
+const HotelCard = ({ hotel, allHotels, offerkey }) => {
+  const dispatch = useDispatch();
   const images = hotel?.content?.images || [];
-
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const selectedFlightKey = useSelector(
-    (state) => state.booking.selectedFlightKey
-  );
-  const selectedhotelkey = useSelector(
-    (state) => state.hotel?.selectedhotelKey
-  );
   const selectedhotelCode = useSelector(
     (state) => state.hotel.selectedhotelCode
   );
-
-  const isCartItems = useSelector(
+  const CartItems = useSelector(
     (state) => state?.booking?.getCartDetail?.items
   );
+  const selectedhotel = CartItems?.find((item)=> item?.offer_type === "hotel")
+  
+  // find rate in all rates and show selected 
+  const selectedRate = hotel?.rooms[0]?.rates?.find(
+    (rate) =>
+      Number(rate.total_netamount_with_markup) ===
+      Number(selectedhotel?.raw_data.hotel?.total_netamount_with_markup)
+  );
 
-  const dispatch = useDispatch();
+  
 
   // const handleBookHotel = (gethotel) => {
   //   const rateKey = gethotel?.rooms?.[0]?.rates?.[0]?.rateKey;
@@ -105,6 +104,8 @@ const HotelCard = ({ hotel, allHotels }) => {
   };
 
   // Calculate number of nights properly
+  
+  
   const { nights, totalPrice, perNightPrice } = calculateHotelPricing(
     hotel,
     allHotels
@@ -115,6 +116,7 @@ const HotelCard = ({ hotel, allHotels }) => {
       (getimg) => getimg.imageTypeCode === "GEN" && getimg?.order === 1
     ) || images.find((getimg) => getimg.imageTypeCode === "GEN");
 
+    console.log("totalPrice_00", totalPrice);
   return (
     <>
       <Box className={`${searchResultStyles.HotelCard}`}>
@@ -255,7 +257,10 @@ const HotelCard = ({ hotel, allHotels }) => {
                       firstRate?.children > 1 ? "children" : "child"
                     } `}
                 </Typography>
-                {console.log("allHotels", allHotels?.checkIn)}
+                {console.log(
+                  "allHotels",
+                  hotel?.rooms[0]
+                )}
                 <Typography component="span" className="f10 black-50">
                   {new Date(allHotels?.checkIn).toLocaleDateString("en-GB", {
                     day: "2-digit",
@@ -383,7 +388,12 @@ const HotelCard = ({ hotel, allHotels }) => {
                   </Typography>
                 </Box>
                 <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                  {selectedhotelCode === hotel?.code ? (
+                
+                
+                
+                  {(selectedhotelCode && selectedhotel?.raw_data.hotel?.total_netamount_with_markup) ===
+                  (hotel?.code &&
+                    selectedRate?.total_netamount_with_markup) ? (
                     <Button
                       className={
                         searchResultStyles.IsSelected +

@@ -29,7 +29,6 @@ const initialState = {
   getListCart: null,
   getCartDetail: null,
   bookingDrawer: false,
-  cartOffer: null,
   hotelDrawer:false,
   cartError: false,
   cartErrorDialog: false,
@@ -60,9 +59,6 @@ const bookingflightsSlice = createSlice({
     },
     setHotelDrawer:(state, action) => {
       state.hotelDrawer = action.payload;
-    },
-    setCartOffer:(state, action) => {
-      state.cartOffer = action.payload;
     },
     setIsLoadingSelect: (state, action) => {
       state.isLoadingSelect = action.payload;
@@ -154,7 +150,7 @@ export const bookFlight = () => (dispatch, getState) => {
 };
 
 // Add to Cart
-export const AddToCart = (params, uuid) => async (dispatch, getState) => {
+export const AddToCart = (params, uuid, offerkey) => async (dispatch, getState) => {
   dispatch(setSystemMessage(null));
   const uuid = getState()?.sendMessage?.threadUuid;
   dispatch(setIsLoadingSelect(true));
@@ -187,8 +183,9 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));
       dispatch(CartDetail(uuid));
-
-      dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
+      console.log("params_offer_id", params.offer_id);
+      
+      dispatch(setSelectedFlightKey(offerkey)); // mark selected flight
       dispatch(setHotelDrawer(false))
       dispatch(setRoomDrawer(false))
     }
@@ -241,9 +238,6 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
     
     
     const CartOfferDetail = res?.data;
-    dispatch(setCartOffer(CartOfferDetail))
-    
-    
     const cartItems = CartOfferDetail.items || [];
     const hasFlight = cartItems.some(item => item.offer_type === "flight");
     const hasHotel = cartItems.some(item => item.offer_type === "hotel");
@@ -283,7 +277,6 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setLoading(false));
     dispatch(setSelectedhotelKey(null));
     dispatch(setGetCartDetail(res.data));
-    dispatch(setCartOffer(null))
 
     dispatch(setSelectedFlightKey(null));
     dispatch(setflightDetail(null));
@@ -325,7 +318,6 @@ export const {
   setGetCartDetail,
   setBookingDrawer,
   setIsLoadingSelect,
-  setCartOffer,
   setHotelDrawer,
   setCartError,
   setFlightUnavailable,

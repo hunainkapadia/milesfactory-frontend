@@ -86,6 +86,8 @@ const SearchCard = ({ key, offerData, offerkey }) => {
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
+  console.log("selectedFlightKey_0", offerData.id);
+  
 
   const selected = selectedFlightKey === offerkey;
 
@@ -125,7 +127,7 @@ const SearchCard = ({ key, offerData, offerkey }) => {
       currency: offerData?.total_currency,
       raw_data: {},
     };
-    dispatch(AddToCart(params, uuid));
+    dispatch(AddToCart(params, uuid, offerkey));
     dispatch(setSelectedFlight(getflight));
   };
   const isFlightAvailable = useSelector(
@@ -310,8 +312,9 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                     ) : (
                       ""
                     )}{" "} */}
+                    
                     <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                      {selectedFlightKey === offerData.id ? (
+                      {selectedFlightKey === offerkey ? (
                         <Button
                           disabled
                           className={`${searchResultStyles.selectFlightBtn} ${searchResultStyles.IsSelected} w-100 btn btn-primary btn-round btn-md `}

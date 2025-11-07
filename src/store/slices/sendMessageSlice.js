@@ -9,7 +9,6 @@ import {
   setSingleFlightData,
   offerkey,
   setCartType,
-  setCartOffer,
   CartDetail,
   setGetCartDetail,
   resetBookingState,
@@ -509,7 +508,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setAddFilledPassenger(null));
         dispatch(setSelectedFlightKey(null)); // fro reset selected button
         dispatch(setCartType(null));
-        dispatch(setCartOffer(null));
         dispatch(setGetCartDetail(null));
         dispatch(setResetAppendFlights());
         dispatch(setThreadUuid(newUuid));
