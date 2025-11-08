@@ -153,11 +153,12 @@ export const bookFlight = () => (dispatch, getState) => {
 };
 
 // Add to Cart
-export const AddToCart = (params, offerkey) => async (dispatch, getState) => {
+export const AddToCart = (params) => async (dispatch, getState) => {
   dispatch(setSystemMessage(null));
   const uuid = getState()?.sendMessage?.threadUuid;
+  const getofferkey = getState()?.booking?.selectOfferKey;  
+
   dispatch(setIsLoadingSelect(true));
-  dispatch(setChatscroll(true))
   dispatch(setLoading(true))
 
 
@@ -188,23 +189,17 @@ export const AddToCart = (params, offerkey) => async (dispatch, getState) => {
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));
       dispatch(CartDetail(uuid));
-      console.log("params_offer_id", params.offer_id);
       
-      dispatch(setSelectedFlightKey(offerkey)); // mark selected flight
+      dispatch(setSelectedFlightKey(getofferkey)); // mark selected flight
       dispatch(setHotelDrawer(false))
       dispatch(setRoomDrawer(false))
       dispatch(setLoading(false));
       
     }
     // detect mobile view
-    if (window.innerWidth <= 768) {
-      // Option 1: dispatch to open mobile drawer
-      // dispatch(setIsBuilderDialog(true));
-      // OR Option 2: show an alert
-    }
+ 
   } catch (error) {
     console.error("AddToCart_error", error?.response?.data?.error);
-    console.error("AddToCart_error2", error?.response?.data?.error);
     const geterror = error?.response?.data?.error;
     if (geterror === "Failed to fetch flight offer: airline_error: Requested offer is no longer available: Please select another offer, or create a new offer request to get the latest availability.") {
       dispatch(setCartError(true));
@@ -212,7 +207,8 @@ export const AddToCart = (params, offerkey) => async (dispatch, getState) => {
     }
   } finally {
     dispatch(setIsLoadingSelect(false));
-    dispatch(setSelectOfferKey(null));
+    dispatch(setChatscroll(true))
+    
     dispatch(setLoading(false));
 
     

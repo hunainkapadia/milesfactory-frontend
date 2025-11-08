@@ -96,18 +96,20 @@ const SearchCard = ({ key, offerData, offerkey }) => {
       dispatch(setAddFilledPassenger(null));
       dispatch(setCartType(null));
     }
+    if (offerkey) {
+      dispatch(setSelectOfferKey(offerkey));
+      const params = {
+        chat_thread_uuid: uuid,
+        offer_type: "flight",
+        offer_id: offerData?.id,
+        price: offerData?.total_amount_plus_markup,
+        currency: offerData?.total_currency,
+        raw_data: {},
+      };
+      dispatch(AddToCart(params, offerkey));
+      dispatch(setSelectedFlight(getflight));
+    }
 
-    const params = {
-      chat_thread_uuid: uuid,
-      offer_type: "flight",
-      offer_id: offerData?.id,
-      price: offerData?.total_amount_plus_markup,
-      currency: offerData?.total_currency,
-      raw_data: {},
-    };
-    dispatch(AddToCart(params, offerkey));
-    dispatch(setSelectedFlight(getflight));
-    dispatch(setSelectOfferKey(offerkey));
   };
   const isFlightAvailable = useSelector(
     (state) => state?.booking?.flightUnavailable
@@ -270,6 +272,7 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                     )}{" "} */}
 
                     <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
+                    {console.log("offerkey_00", selectedFlightKey)}
                       {selectedFlightKey === offerkey &&
                       selectedFlight?.raw_data?.total_amount_plus_markup ===
                         offerData?.total_amount_plus_markup ? (
