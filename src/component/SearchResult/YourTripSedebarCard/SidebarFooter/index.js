@@ -133,18 +133,10 @@ const SidebarFooter = () => {
                 ? true
                 : false */}
 
-        {((issystemmessage &&
-          CartData?.items?.length < 2 &&
-          !orderSuccess?.hotel_order &&
-          !orderSuccess?.flight_order) ||
-          (issystemmessage &&
-            orderSuccess?.hotel_order &&
-            CartData?.items?.length === 2 &&
-            !orderSuccess?.flight_order) || // <-- NEW condition to hide when flight is done
-          (issystemmessage &&
-            orderSuccess?.flight_order &&
-            CartData?.items?.length === 2 &&
-            !orderSuccess?.hotel_order)) && ( // <-- NEW condition to hide when flight is done
+        {((issystemmessage && CartData?.items?.length &&
+          !orderSuccess?.hotel_order && !orderSuccess?.flight_order) ||
+          (issystemmessage && orderSuccess?.hotel_order && CartData?.items?.length === 2 && !orderSuccess?.flight_order) || // <-- NEW condition to hide when flight is done
+          (issystemmessage && orderSuccess?.flight_order && CartData?.items?.length === 2 && !orderSuccess?.hotel_order)) && ( // <-- NEW condition to hide when flight is done
           <Button
             onClick={() => handleBookFlight(CartData)}
             className="btn btn-primary btn-round btn-xs"

@@ -13,7 +13,7 @@ const initialState = {
   setError: null,
   selectedFlightId: null,
   selectedFlight: null,
-
+  selectOfferKey: null,
   setSelectFlightKey: null,
   OpenDrawer: false,
   CloseDrawer: false,
@@ -42,6 +42,9 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setSelectOfferKey:(state, action) => {
+      state.selectOfferKey = action.payload;
+    },
     setCartTotalPrice:(state, action) => {
       state.cartTotalPrice = action.payload;
     },
@@ -150,11 +153,13 @@ export const bookFlight = () => (dispatch, getState) => {
 };
 
 // Add to Cart
-export const AddToCart = (params, uuid, offerkey) => async (dispatch, getState) => {
+export const AddToCart = (params, offerkey) => async (dispatch, getState) => {
   dispatch(setSystemMessage(null));
   const uuid = getState()?.sendMessage?.threadUuid;
   dispatch(setIsLoadingSelect(true));
   dispatch(setChatscroll(true))
+  dispatch(setLoading(true))
+
 
   try {
     // delay before API call (500ms = 0.5s)
@@ -188,6 +193,8 @@ export const AddToCart = (params, uuid, offerkey) => async (dispatch, getState) 
       dispatch(setSelectedFlightKey(offerkey)); // mark selected flight
       dispatch(setHotelDrawer(false))
       dispatch(setRoomDrawer(false))
+      dispatch(setLoading(false));
+      
     }
     // detect mobile view
     if (window.innerWidth <= 768) {
@@ -205,7 +212,10 @@ export const AddToCart = (params, uuid, offerkey) => async (dispatch, getState) 
     }
   } finally {
     dispatch(setIsLoadingSelect(false));
-    dispatch(setSelectedFlight(null)); //  Reset after completion
+    dispatch(setSelectOfferKey(null));
+    dispatch(setLoading(false));
+
+    
 
   }
 };
@@ -324,6 +334,7 @@ export const {
   setCartErrorDialog,
   setCartType,
   resetBookingState,
-  setCartTotalPrice
+  setCartTotalPrice,
+  setSelectOfferKey
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

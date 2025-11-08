@@ -41,7 +41,7 @@ import {
   setOrderUuidHotel,
 } from "./passengerDrawerHotelSlice";
 import { resetBaggageState } from "./BaggageSlice";
-import { setSelectedhotelCode } from "./HotelSlice";
+import { resetHotelState, setSelectedhotelCode } from "./HotelSlice";
 
 const sendMessageSlice = createSlice({
   name: "sendMessage",
@@ -339,7 +339,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 ) {
                   dispatch(setMessage({ ai: "isNotFound" }));
                 } else {
-                  dispatch(setSelectedFlightKey(null));
                   //  Append instead of clearing old flights
                   dispatch(
                     setMessage({
@@ -501,6 +500,8 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setSelectedhotelCode(null));
         dispatch(resetOrderState());
         dispatch(resetBookingState());
+        dispatch(resetHotelState());
+
         dispatch(resetPassengerFlightState());
         dispatch(resetPassengerHotelState());
         dispatch(resetBaggageState());
@@ -521,7 +522,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(setSearchHistoryGet(null));
 
         dispatch(setAddBuilder(null));
-        dispatch(setSelectedFlightKey(null));
         dispatch(setflightDetail(null));
         dispatch(setViewPassengers([]));
 

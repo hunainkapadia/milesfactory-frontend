@@ -34,6 +34,8 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
 
   const offerkey = useSelector((state) => state?.booking?.offerkeyforDetail);
+  console.log("drawer_offerkey", offerkey);
+  
   //  Move here (component scope)
   const isCartItem = useSelector(
     (state) => state.booking?.getCartDetail?.items
@@ -56,7 +58,7 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
       currency: getFlightDetails?.total_currency,
       raw_data: {},
     };
-    dispatch(AddToCart(params, uuid));
+    dispatch(AddToCart(params, uuid, offerkey));
   };
 
   const personQuantity = getFlightDetails?.passengers.length;
