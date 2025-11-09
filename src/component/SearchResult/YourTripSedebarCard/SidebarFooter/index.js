@@ -30,9 +30,8 @@ const SidebarFooter = () => {
   const issystemmessage = useSelector(
     (state) => state?.sendMessage?.systemMessage
   );
-  console.log("isCartSuccess_33", sendMessages);
   
-  console.log("issystemmessage", issystemmessage);
+  
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   

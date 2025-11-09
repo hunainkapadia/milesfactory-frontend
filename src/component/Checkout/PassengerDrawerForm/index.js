@@ -637,7 +637,6 @@ const PassengerDrawerForm = () => {
               <Box
                 className={styles.Row}
                 py={1}
-                px={3}
                 display="flex"
                 flexDirection="column"
               >
