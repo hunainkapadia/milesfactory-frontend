@@ -20,43 +20,28 @@ import { setCartTotalPrice } from "@/src/store/slices/BookingflightSlice";
 import { useEffect } from "react";
 
 const SidebarFooter = () => {
-  const CartData = useSelector((state) => state.booking?.getCartDetail);
+  
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-  const {isCartSuccess} = useSelector((state) => state.booking);
+  const {cartType, isCartSuccess, getCartDetail, cartTotalPrice} = useSelector((state) => state?.booking);
 
-  console.log("isCartSuccess", isCartSuccess);
-  
-  
-  
 
   const issystemmessage = useSelector(
     (state) => state?.sendMessage?.systemMessage
   );
-
-  const CartTotalPrice = useSelector((state) => state?.booking?.cartTotalPrice);
-  const allPassengerFill = useSelector(
-    (state) => state.passengerDrawer.allPassengerFill
-  );
-
+  
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
-  const functionType = useSelector((state) => state?.sendMessage?.functionType);
-  const searchType = useSelector(
-    (state) =>
-      state?.sendMessage?.SearchHistorySend || state?.getMessages?.SearchHistory
-  );
-  const CartType = useSelector((state) => state.booking.cartType);
-
+  
   // Get all flights from cart items
   const CartFlights =
-    CartData?.items?.filter((item) => item?.raw_data?.slices) || [];
+    getCartDetail?.items?.filter((item) => item?.raw_data?.slices) || [];
 
   // Get all hotels from cart items
   const CartHotels =
-    CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
+    getCartDetail?.items?.filter((item) => item?.raw_data?.hotel) || [];
 
   // For displaying in footer, just take the first matching item
-  const CartFlight = CartFlights[0];
+  
   const CartHotel = CartHotels[0];
   // Hotel price calculation
   let nights, totalPrice, perNightPrice;
@@ -71,14 +56,14 @@ const SidebarFooter = () => {
   const handleBookFlight = (getCart) => {
     // const offerId = getCart;
     dispatch(setChatscroll(true));
-    if (CartType === "flight") {
+    if (cartType === "flight") {
       dispatch(setIsBuilderDialog(false));
       dispatch(PassengerForm());
       dispatch(getPassPofile());
-    } else if (CartType === "hotel") {
+    } else if (cartType === "hotel") {
       dispatch(PassengerSetupHotel());
       dispatch(getPassPofileHotel());
-    } else if (CartType === "all") {
+    } else if (cartType === "all") {
       dispatch(PassengerForm());
       dispatch(getPassPofile());
       dispatch(PassengerSetupHotel());
@@ -104,21 +89,21 @@ const SidebarFooter = () => {
           {/* for flight */}
           {(!orderSuccess?.flight_order &&
             orderSuccess?.hotel_order &&
-            CartData?.items?.length < 2) ||
+            getCartDetail?.items?.length < 2) ||
           (orderSuccess?.flight_order &&
             !orderSuccess?.hotel_order &&
-            CartData?.items?.length < 2) ? (
+            getCartDetail?.items?.length < 2) ? (
             <>
               <h4 className="exbold mb-0">-</h4>
               <Typography className="f12 black-50">Add more plans</Typography>
             </>
-          ) : CartData?.total_price ? (
+          ) : getCartDetail?.total_price ? (
             <>
               <Typography className="gray f12">Total</Typography>
               <h4 className="exbold mb-0">
-                {currencySymbols[CartData?.items?.[0]?.currency] ||
-                  CartData?.items?.[0]?.currency}
-                {Math.round(CartTotalPrice)}
+                {currencySymbols[getCartDetail?.items?.[0]?.currency] ||
+                  getCartDetail?.items?.[0]?.currency}
+                {Math.round(cartTotalPrice)}
               </h4>
             </>
           ) : (
@@ -130,15 +115,15 @@ const SidebarFooter = () => {
             </>
           )}
         </Box>
-        {/* !orderSuccess?.hotel_order  && orderSuccess?.flight_order  && CartData?.items?.length < 2
+        {/* !orderSuccess?.hotel_order  && orderSuccess?.flight_order  && getCartDetail?.items?.length < 2
                 ? true
-                : !orderSuccess?.flight_order && orderSuccess?.hotel_order && CartData?.items?.length < 2
+                : !orderSuccess?.flight_order && orderSuccess?.hotel_order && getCartDetail?.items?.length < 2
                 ? true
                 : false */}
 
         {(isCartSuccess && issystemmessage &&
           <Button
-            onClick={() => handleBookFlight(CartData)}
+            onClick={() => handleBookFlight(getCartDetail)}
             className="btn btn-primary btn-round btn-xs"
           >
             Checkout

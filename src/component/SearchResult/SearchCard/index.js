@@ -86,6 +86,8 @@ const SearchCard = ({ key, offerData, offerkey }) => {
   const selectedFlight = CartItems?.find(
     (item) => item?.offer_type === "flight"
   );
+  console.log("selectedFlight", selectOfferKey);
+  
 
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
 

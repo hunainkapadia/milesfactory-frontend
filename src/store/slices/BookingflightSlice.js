@@ -297,6 +297,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setMessage({ ai: { passengerFlowRes: false } }));
     dispatch(setSelectedFlight(null));
     dispatch(CartDetail(threaduuid));
+    dispatch(setSelectOfferKey(null));
 
     dispatch(
       setMessage({
