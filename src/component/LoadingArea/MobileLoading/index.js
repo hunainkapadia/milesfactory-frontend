@@ -23,7 +23,10 @@ const MobileLoading = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const CartOfferDetail = CartData?.items || [];
   const CartDetails = CartOfferDetail[0];
-
+  const {isCartSuccess} = useSelector((state) => state?.booking);
+  const issystemmessage = useSelector(
+    (state) => state?.sendMessage?.systemMessage
+  );
   const CartHotels =
     CartData?.items?.filter((item) => item?.raw_data?.hotel) || [];
 
@@ -73,6 +76,8 @@ const MobileLoading = () => {
       ("");
     }
   };
+  console.log("CartData_total_price", CartData);
+  
 
   return (
     <Box
@@ -132,7 +137,7 @@ const MobileLoading = () => {
               </Typography>
             </Box>
           </>
-        ) : CartData?.total_price ? (
+        ) : isCartSuccess && issystemmessage ? (
           <>
             <Button
               onClick={handleBookFlight}

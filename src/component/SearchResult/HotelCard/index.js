@@ -17,12 +17,10 @@ import {
   setCartType,
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
-import dayjs from "dayjs";
 import { currencySymbols } from "@/src/utils/utils";
 import {
   setAllHotels,
   setRoomDrawer,
-  setSelectedhotelKey,
   setSelectedRateKey,
   setSelectedRoom,
   setSinglehotel,
@@ -32,44 +30,44 @@ import IncludedTooltips from "./IncludedTooltips";
 import { setAddFilledPassenger } from "@/src/store/slices/passengerDrawerSlice";
 import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
-const HotelCard = ({ hotel, allHotels }) => {
-  const imageBaseUrl = "https://photos.hotelbeds.com/giata/";
-  const images = hotel?.content?.images || [];
-
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const selectedFlightKey = useSelector(
-    (state) => state.booking.selectedFlightKey
-  );
-  const selectedhotelkey = useSelector(
-    (state) => state.hotel?.selectedhotelKey
-  );
-  const selectedhotelCode = useSelector(
-    (state) => state.hotel.selectedhotelCode
-  );
-
-  const isCartItems = useSelector(
-    (state) => state?.booking?.getCartDetail?.items
-  );
-
+const HotelCard = ({ hotel, allHotels, offerkey }) => {
   const dispatch = useDispatch();
+  const images = hotel?.content?.images || [];
+  
+  
+// Get all items currently in the cart
+const CartItems = useSelector(
+  (state) => state?.booking?.getCartDetail?.items
+);
 
-  // const handleBookHotel = (gethotel) => {
-  //   const rateKey = gethotel?.rooms?.[0]?.rates?.[0]?.rateKey;
-  //   dispatch(setAllHotels(allHotels));
+// Find the selected hotel item in the cart
+const selectedHotelItem = CartItems?.find(
+  (item) => item?.offer_type === "hotel"
+);
 
-  //   dispatch(setSelectedhotelKey(rateKey));
-  //   const price = hotel?.minRate;
+// Extract selected hotel price from Redux cart
+const selectedHotelAmount =
+  selectedHotelItem?.raw_data?.hotel?.total_netamount_with_markup;
 
-  //   const params = {
-  //     chat_thread_uuid: uuid,
-  //     offer_type: "hotel",
-  //     offer_id: rateKey,
-  //     price: price,
-  //     currency: hotel?.currency,
-  //     raw_data: {},
-  //   };
-  //   dispatch(AddToCart(params, uuid));
-  // };
+// All available rates for the current hotel (first room example)
+const rates = hotel?.rooms?.[0]?.rates;
+
+// Find the matching rate from the current hotel data (same price as selected hotel)
+const selectedRate = rates?.find( (rate) =>
+    Number(rate?.total_netamount_with_markup) === Number(selectedHotelAmount)
+);
+
+// Extract rate price for comparison (optional)
+const currentRateAmount = selectedRate?.total_netamount_with_markup;
+
+// Boolean: Check if the hotel on screen is the same currently selected hotel
+const isSelectedHotel =
+  selectedHotelAmount && currentRateAmount &&
+  Number(selectedHotelAmount) === Number(currentRateAmount);
+
+// Debug: To verify selected rate during development
+
+
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const handleSelectRoom = (gethotel) => {
     // for reset next order if in cart 1
@@ -105,6 +103,7 @@ const HotelCard = ({ hotel, allHotels }) => {
   };
 
   // Calculate number of nights properly
+
   const { nights, totalPrice, perNightPrice } = calculateHotelPricing(
     hotel,
     allHotels
@@ -249,13 +248,11 @@ const HotelCard = ({ hotel, allHotels }) => {
                     `${firstRate?.adults} ${
                       firstRate?.adults > 1 ? "adults" : "adult"
                     }`}
-                  {console.log("hotel_child", firstRate)}
                   {firstRate?.children > 0 &&
                     `, ${firstRate?.children} ${
                       firstRate?.children > 1 ? "children" : "child"
                     } `}
                 </Typography>
-                {console.log("allHotels", allHotels?.checkIn)}
                 <Typography component="span" className="f10 black-50">
                   {new Date(allHotels?.checkIn).toLocaleDateString("en-GB", {
                     day: "2-digit",
@@ -383,7 +380,7 @@ const HotelCard = ({ hotel, allHotels }) => {
                   </Typography>
                 </Box>
                 <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                  {selectedhotelCode === hotel?.code ? (
+                  {isSelectedHotel ? (
                     <Button
                       className={
                         searchResultStyles.IsSelected +

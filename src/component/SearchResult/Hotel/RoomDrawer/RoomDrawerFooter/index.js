@@ -1,14 +1,14 @@
 import React from "react";
-import { Box, Typography, Divider, Button } from "@mui/material";
+import { Box, Typography, Divider, Button, CircularProgress } from "@mui/material";
 import styles from "@/src/styles/sass/components/checkout/BookingDrawer.module.scss";
 import { currencySymbols } from "@/src/utils/utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
   AddToCart,
-  setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
 import { setRoomDrawer, setSelectedhotelCode, setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import utility
+import { LoadingButton } from "@mui/lab";
 
 const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
    
@@ -21,6 +21,8 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
   const selectedRoom = useSelector(
     (state) => state.hotel?.selectedRoom
   );
+  const isLoading = useSelector((state)=> state?.booking?.isLoading);
+  
   
   
   
@@ -34,12 +36,12 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
   );
 
   
-  
+    
   const handleSelectStay = () => {
     if (!hotel) return;
     dispatch(setSelectedhotelKey(selectedRateKey));
     dispatch(setSelectedhotelCode(hotel.code))
-    dispatch(setRoomDrawer(false))
+    
 
     const params = {
       chat_thread_uuid: uuid,
@@ -49,7 +51,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
       currency: hotel?.currency,
       raw_data: {},
     };
-    dispatch(AddToCart(params, uuid));
+    dispatch(AddToCart(params));
   };
 
   const HandlecloseDrawer = () => {
@@ -113,16 +115,23 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
                     Selected
                   </Button>
                 ) : (
-                  <Button
+                  <LoadingButton
                     disabled={!selectedRateKey} //  Disabled when nothing is selected
                     onClick={handleSelectStay}
                     className={
                       styles.selectFlightBtn +
                       " btn btn-primary btn-round btn-md-x"
                     }
+                    loadingIndicator= {
+                      <CircularProgress 
+                        size={15} 
+                          sx={{ color: "#fff" }}
+                        />
+                    }
+                    loading={isLoading}
                   >
                     Continue
-                  </Button>
+                  </LoadingButton>
                 )}
               </Box>
             </Box>

@@ -29,35 +29,18 @@ const AiMessage = ({ aiMessage }) => {
   
   
   const dispatch = useDispatch();
-  const [flightsToShow, setFlightsToShow] = useState(3); // how many flights to display
-  const [hasLoadedNextPage, setHasLoadedNextPage] = useState(false); // control when to load next page
   const [hotelsToShow, setHotelsToShow] = useState(10); // initial 10 hotels
 
   const [showAllFlight, setShowAllFlight] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const getMessages = useSelector((state) => state.getMessages?.messages);
-
-  const allFlightSearcCount = useSelector(
-    (state) => state.sendMessage.allFlightSearchResults
-  );
-
-  const GetViewPassengers = useSelector(
-    (state) => state?.passengerDrawer?.ViewPassengers
-  );
-  console.log("GetViewPassengers_001", GetViewPassengers);
   
-  const filledPassenger = useSelector(
-    (state) => state.passengerDrawer.filledPassengerUUIDs
-  );
-  const error = useSelector(
-    (state) => state.sendMessage?.error
-  );
   
+  const {ViewPassengers, filledPassengerUUIDs} = useSelector(
+    (state) => state?.passengerDrawer
+  );  
   
   const getHotels = aiMessage?.ai?.hotels;
-  const hotelOfferId = useSelector((state)=> state?.hotel?.selectedRateKey)
-  
   
  const handleSeeMoreHotels = () => {
     setHotelsToShow((prev) => prev + 10); // load 10 more each click
@@ -65,12 +48,12 @@ const AiMessage = ({ aiMessage }) => {
   // end hotel
 
   useEffect(() => {
-    if (GetViewPassengers.length > 0) {
+    if (ViewPassengers.length > 0) {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
       }, 100);
     }
-  }, [GetViewPassengers]);
+  }, [ViewPassengers]);
 
   const getNextFlight = useSelector(
     (state) => state.sendMessage?.appendFlights?.ai
@@ -97,17 +80,13 @@ const AiMessage = ({ aiMessage }) => {
     }
   }, [paymentSuccess]);
   // scroll
-  const isLoading = useSelector((state) => state.sendMessage?.isLoading);
-  const Selectloading = useSelector((state) => state.booking.isLoading);
-
+  
   // track for send message loading
 
   const aiboxRef = useRef(null); //  Add this ref
 
   // Add class when all flights are shown
 
-  const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
-  
 
   function convertMarkdownToHtml(text) {
     if (!text) return "";
@@ -135,10 +114,7 @@ const AiMessage = ({ aiMessage }) => {
   const isFunction = useSelector(
     (state) => state?.sendMessage?.IsFunction?.status
   );
-  const flightcount = useSelector(
-    (state) => state?.sendMessage?.appendFlights?.ai?.count
-  );  
-
+  
   // Find message with ai.offers
   // const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
   const noMoreFlights = useSelector((state) => state.sendMessage.noMoreFlights);
@@ -150,11 +126,6 @@ const AiMessage = ({ aiMessage }) => {
     dispatch(loadNextFlights());
   };
 
-  const isLoadingPassenger = useSelector(
-    (state) => state?.passengerDrawer?.isPassengerLoading
-  );
-  const [selectedOfferId, setSelectedOfferId] = useState(null);
-  
   
   return (
     <Box
@@ -174,16 +145,13 @@ const AiMessage = ({ aiMessage }) => {
             </Box>
             <Box className={searchResultStyles.SearchCardGrid}>
               {/*  Pass aiMessage.ai.url instead of using Redux */}
-              
+
               <SearchFilterTags offerUrl={aiMessage?.ai?.url} />
 
               {/* Render POST flight offers */}
               {displayedGetFlights?.map((offer, i) => (
                 <React.Fragment key={offer.id || i}>
-                  <SearchCard
-                    offerData={offer}
-                    offerkey={`${offer.id}`}
-                  />
+                  <SearchCard offerData={offer} offerkey={`${offer.id}-${i}`} />
                 </React.Fragment>
               ))}
 
@@ -359,7 +327,7 @@ const AiMessage = ({ aiMessage }) => {
           />
           {getHotels.hotels.slice(0, hotelsToShow).map((hotel, idx) => (
             <HotelCard
-              key={hotel.code || idx}
+              offerkey={`${hotel.code}-${idx}`}
               hotel={hotel}
               price={getHotels?.total}
               allHotels={getHotels}
@@ -389,8 +357,8 @@ const AiMessage = ({ aiMessage }) => {
       {/* passenger flow start */}
       <PassengerFlowBlock
         aiMessage={aiMessage}
-        GetViewPassengers={GetViewPassengers}
-        filledPassenger={filledPassenger}
+        GetViewPassengers={ViewPassengers}
+        filledPassenger={filledPassengerUUIDs}
         orderDetail={orderDetail}
         paymentSuccess={paymentSuccess}
       />

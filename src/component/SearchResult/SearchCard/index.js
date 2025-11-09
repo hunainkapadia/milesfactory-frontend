@@ -1,9 +1,6 @@
 import {
   Box,
-  Card,
   Typography,
-  Avatar,
-  CardContent,
   Grid,
   Button,
   CircularProgress,
@@ -12,11 +9,11 @@ import searchResultStyles from "@/src/styles/sass/components/search-result/searc
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddToCart,
-  DeleteCart,
   setBookingDrawer,
   setCartType,
   setOfferkeyforDetail,
   setSelectedFlight,
+  setSelectOfferKey,
   setSingleFlightData,
 } from "@/src/store/slices/BookingflightSlice";
 
@@ -24,26 +21,20 @@ import { useEffect, useState } from "react";
 import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
 import { currencySymbols, event } from "@/src/utils/utils";
 import {
-  PassengerForm,
   setAddFilledPassenger,
   setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
-import { setMessage } from "@/src/store/slices/sendMessageSlice";
+
 import FromAndTo from "../FromAndTo";
 import RightTopSection from "../RightTopSection";
 import {
   RefreshHandle,
   setRefreshSearch,
 } from "@/src/store/slices/GestMessageSlice";
-import { setChatscroll } from "@/src/store/slices/Base/baseSlice";
 import { LoadingButton } from "@mui/lab";
-import { setOrderConfirm } from "@/src/store/slices/PaymentSlice";
 
 const SearchCard = ({ key, offerData, offerkey }) => {
   const { flightExpire, isLoading } = useSelector((state) => state.getMessages);
-  
-
-  
 
   const dispatch = useDispatch();
 
@@ -64,34 +55,21 @@ const SearchCard = ({ key, offerData, offerkey }) => {
       dispatch(setBookingDrawer(true)); //for drawer
     }
   };
-  const isPassenger = useSelector(
-    (state) => state?.passengerDrawer?.ViewPassengers
-  );
+  
+  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
   // selected flight detail get for send data in select button click
-  const flightDetail = useSelector((state) => state.booking.flightDetail);
-
-  // get offerid from getmessage
-  const offeridGet = useSelector((state) => state.getMessages.topOfferUrl);
-  const offeridSend = useSelector((state) => state);
-  const [isselected, seIsSelected] = useState(false);
-  const [hideSelectButton, setHideSelectButton] = useState(false);
-
+  const selectOfferKey = useSelector((state) => state.booking.selectOfferKey);
   //
   const personQuantity = offerData?.passengers.length;
-  const Passengers = Number(offerData?.per_passenger_amount) * personQuantity;
-  const WithtaxAmount = Number(offerData?.tax_amount) + Passengers;
-  const totalAmount = Math.round(WithtaxAmount);
-
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
 
-  const selected = selectedFlightKey === offerkey;
-
+  // non redux direct select for show selected button
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
 
-  const pureOfferId = offerkey.split("-")[1]; // "off_0000AxOM4CSGrHK1tL9AF7"
+  
 
   const isInCart = CartDetails?.items?.some(
     (item) => item?.offer_id === offerData?.id // or compare with offerkey if that's what API uses
@@ -101,59 +79,43 @@ const SearchCard = ({ key, offerData, offerkey }) => {
     dispatch(RefreshHandle());
     dispatch(setRefreshSearch());
   };
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
-  const selectedFlight = useSelector((state) => state?.booking?.selectedFlight);
 
-  const isLoadingSelect = useSelector(
-    (state) => state?.booking?.isLoadingSelect
+  const CartItems = useSelector(
+    (state) => state?.booking?.getCartDetail?.items
   );
-  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-  const orderSuccess2 = useSelector((state) => state);
+  const selectedFlight = CartItems?.find(
+    (item) => item?.offer_type === "flight"
+  );
+  console.log("selectedFlight", selectOfferKey);
+  
 
-  const handleBookFlight = (getflight) => {
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+
+  const handleBookFlight = (getflight, offerkey) => {
     // for reset next order if in cart 1
     if (orderSuccess) {
       dispatch(setAddFilledPassenger(null));
       dispatch(setCartType(null));
     }
+    if (offerkey) {
+      dispatch(setSelectOfferKey(offerkey));
+      const params = {
+        chat_thread_uuid: uuid,
+        offer_type: "flight",
+        offer_id: offerData?.id,
+        price: offerData?.total_amount_plus_markup,
+        currency: offerData?.total_currency,
+        raw_data: {},
+      };
+      dispatch(AddToCart(params, offerkey));
+      dispatch(setSelectedFlight(getflight));
+    }
 
-    const params = {
-      chat_thread_uuid: uuid,
-      offer_type: "flight",
-      offer_id: offerData?.id,
-      price: offerData?.total_amount_plus_markup,
-      currency: offerData?.total_currency,
-      raw_data: {},
-    };
-    dispatch(AddToCart(params, uuid));
-    dispatch(setSelectedFlight(getflight));
   };
   const isFlightAvailable = useSelector(
     (state) => state?.booking?.flightUnavailable
   );
 
-  // const handleBookFlight = () => {
-  //   dispatch(setChatscroll(true))
-  //   dispatch(setLoading(true));
-  //   if(selected) {
-  //     setHideSelectButton(true);
-  //   };
-  //   if (offerkey) {
-  //     dispatch(setflightDetail(offerData)); // Store flight details
-  //     dispatch(setSelectedFlightKey(offerkey)); //  Store selected flight key
-  //   }
-
-  //   dispatch(setflightDetail(offerData)); //dispatch selected flight detail
-  //   dispatch(PassengerForm());
-
-  //   dispatch(bookFlight());
-  //   if (flightDetail?.id) {
-  //     dispatch(bookFlight(flightDetail.id)); // Pass flight ID to bookFlight
-  //   } else {
-  //     ("");
-  //   }
-
-  // };
   return (
     <>
       {/* Open drawer only for the selected flight */}
@@ -257,7 +219,6 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                     <RightTopSection
                       SelectDrawer={HandleSelectDrawer}
                       offerData={offerData}
-                      selected={selected}
                       selectedFlightKey={selectedFlightKey}
                       isInCart={isInCart} // only true for the flight in cart
                     />
@@ -310,8 +271,11 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                     ) : (
                       ""
                     )}{" "} */}
+
                     <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                      {selectedFlightKey === offerData.id ? (
+                      {selectedFlightKey === offerkey &&
+                      selectedFlight?.raw_data?.total_amount_plus_markup ===
+                        offerData?.total_amount_plus_markup ? (
                         <Button
                           disabled
                           className={`${searchResultStyles.selectFlightBtn} ${searchResultStyles.IsSelected} w-100 btn btn-primary btn-round btn-md `}
@@ -334,18 +298,18 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                               "w-100 btn btn-primary btn-round btn-md " +
                               searchResultStyles.selectFlightBtn
                             }
-                            onClick={() => handleBookFlight(offerData)}
-                            loading={
-                              selectedFlight?.id === offerData?.id && true
-                            } // true when booking this flight
+                            onClick={() =>
+                              handleBookFlight(offerData, offerkey)
+                            }
+                            loading={selectOfferKey === offerkey}
                             loadingIndicator={
                               <CircularProgress
                                 size={18}
                                 sx={{ color: "#fff" }}
                               />
-                            } // optional custom spinner
+                            }
                           >
-                            {selectedFlight?.id !== offerData?.id && "Select"}
+                            Select
                           </LoadingButton>
                         </>
                       )}

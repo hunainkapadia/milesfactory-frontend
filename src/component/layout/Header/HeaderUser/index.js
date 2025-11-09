@@ -29,6 +29,7 @@ const HeaderUser = ({
   MobileNavDrawer,
   formobileDrawer,
   forHader,
+  isChat
 }) => {
   const dispatch = useDispatch();
 
@@ -36,6 +37,7 @@ const HeaderUser = ({
   const isSignupPopup = useSelector((state) => state.signup.SignupPopup);
 
   const isUserLogin = useSelector((state) => state?.login?.loginUser?.user);
+  const isUserLogin2 = useSelector((state) => state);
   const isUserLoginGoogle = useSelector(
     (state) => state?.login?.loginUser?.user?.user
   );
@@ -44,7 +46,8 @@ const HeaderUser = ({
 
   // Combine all sources to find current user
   const currentUser = isUserLogin;
-
+  console.log("isChat_000", isChat);
+  
   // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
   // Set user to Redux on initial mount from cookies
   useEffect(() => {
@@ -117,182 +120,192 @@ const HeaderUser = ({
 
   return (
     <>
-      {currentUser?.user ? (
+    
+      {(!isChat || !isMobile)  && (
         <>
-          <Box
-            className={`${styles.Dropdown} ${
-              formobileDrawer ? styles.formobileDrawer : styles.forHader
-            }`}
-            position={"relative"}
-          >
-            <Box
-              className={styles.Login}
-              display="flex"
-              alignItems="center"
-              sx={{
-                justifyContent: {
-                  lg: "center",
-                  md: "center",
-                  xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
-                },
-                flexDirection: {
-                  lg: "row",
-                  md: "row",
-                  xs: `${MobileNavDrawer ? "column-reverse" : " row-reverse"}`,
-                },
-                justifyContent: {
-                  lg: "center",
-                  md: "center",
-                  xs: `${MobileNavDrawer ? "flex-end" : " flex-end"}`,
-                },
-              }}
-              gap={2}
-            >
-              <Typography className={`${styles.userName} f14 bold`}>
-                {!isMessage || !isSticky || !IsActive ? (
-                  <>
-                    {currentUser?.user?.first_name.charAt(0).toUpperCase()}.
-                    <span className="capitalize">
-                      {" "}
-                      {currentUser?.user?.last_name || ""}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    {currentUser?.user?.first_name || ""}{" "}
-                    {currentUser?.user?.last_name || ""}
-                  </>
-                )}
-              </Typography>
-
-              <Box className={styles.userLater}>
-                <Avatar
-                  src={"image"}
-                  alt={"User"}
-                  sx={{
-                    width: { lg: 32, md: 32, xs: 24 },
-                    height: { lg: 32, md: 32, xs: 24 },
-                    margin: "0 auto",
-                    mb: 2,
-                    bgcolor: "#80E1E5",
-                  }}
-                  className="white mb-0 f16 bold"
-                >
-                  {currentUser?.user?.first_name.charAt(0).toUpperCase()}
-                </Avatar>
-              </Box>
-            </Box>
-            {forHader ? (
-              <Box className={styles.DropdownItems}>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  gap={2}
-                  className={`${styles.DropdownItemsBox} br-12 box-shadow-md`}
-                >
-                  <Box
-                    className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
-                  >
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Box width="20px">
-                        <i className="far fa-user-circle"></i>
-                      </Box>
-                      <Typography>Profile</Typography>
-                    </Box>
-                  </Box>
-
-                  <Box
-                    className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
-                    onClick={logoutHandle}
-                  >
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Box width="20px">
-                        <i className="fa fa-sign-out"></i>
-                      </Box>
-                      <Typography>Sign out</Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-            ) : (
-              ""
-            )}
-          </Box>
-        </>
-      ) : (
-        <>
-          {formobileDrawer ? (
+          {currentUser?.user ? (
             <>
               <Box
-                className={`${styles.Login} cursor-pointer`}
-                sx={{
-                  display: { lg: "flex", md: "flex", xs: "flex" },
-                  justifyContent: {
-                    lg: "center",
-                    md: "center",
-                    xs: "flex-start", // or conditionally change if needed
-                  },
-                  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
-                }}
-                alignItems="center"
-                onClick={HandlePopup}
+                className={`${styles.Dropdown} ${
+                  formobileDrawer ? styles.formobileDrawer : styles.forHader
+                }`}
+                position={"relative"}
               >
                 <Box
-                  className="imggroup"
-                  alignItems="center"
+                  className={styles.Login}
                   display="flex"
-                  sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                  alignItems="center"
+                  sx={{
+                    justifyContent: {
+                      lg: "center",
+                      md: "center",
+                      xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
+                    },
+                    flexDirection: {
+                      lg: "row",
+                      md: "row",
+                      xs: `${
+                        MobileNavDrawer ? "column-reverse" : " row-reverse"
+                      }`,
+                    },
+                    justifyContent: {
+                      lg: "center",
+                      md: "center",
+                      xs: `${MobileNavDrawer ? "flex-end" : " flex-end"}`,
+                    },
+                  }}
+                  gap={2}
                 >
-                  <img src={"/images/user-icon-darkgray.svg"} alt="User Icon" />
+                  <Typography className={`${styles.userName} f14 bold`}>
+                    {!isMessage || !isSticky || !IsActive ? (
+                      <>
+                        {currentUser?.user?.first_name.charAt(0).toUpperCase()}.
+                        <span className="capitalize">
+                          {" "}
+                          {currentUser?.user?.last_name || ""}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        {currentUser?.user?.first_name || ""}{" "}
+                        {currentUser?.user?.last_name || ""}
+                      </>
+                    )}
+                  </Typography>
+
+                  <Box className={styles.userLater}>
+                    <Avatar
+                      src={"image"}
+                      alt={"User"}
+                      sx={{
+                        width: { lg: 32, md: 32, xs: 24 },
+                        height: { lg: 32, md: 32, xs: 24 },
+                        margin: "0 auto",
+                        mb: 2,
+                        bgcolor: "#80E1E5",
+                      }}
+                      className="white mb-0 f16 bold"
+                    >
+                      {currentUser?.user?.first_name.charAt(0).toUpperCase()}
+                    </Avatar>
+                  </Box>
                 </Box>
-                <Typography className="bold f16">Sign in</Typography>
+                {forHader ? (
+                  <Box className={styles.DropdownItems}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      gap={2}
+                      className={`${styles.DropdownItemsBox} br-12 box-shadow-md`}
+                    >
+                      <Box
+                        className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
+                      >
+                        <Box display="flex" alignItems="center" gap={1}>
+                          <Box width="20px">
+                            <i className="far fa-user-circle"></i>
+                          </Box>
+                          <Typography>Profile</Typography>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        className={`${styles.DropdownItem} text-decuration-none cursor-pointer`}
+                        onClick={logoutHandle}
+                      >
+                        <Box display="flex" alignItems="center" gap={1}>
+                          <Box width="20px">
+                            <i className="fa fa-sign-out"></i>
+                          </Box>
+                          <Typography>Sign out</Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                ) : (
+                  ""
+                )}
               </Box>
             </>
           ) : (
             <>
-              <Box
-                className={`${styles.Login} cursor-pointer`}
-                sx={{
-                  display: { lg: "flex", md: "flex", xs: "flex" },
-                  justifyContent: {
-                    lg: "center",
-                    md: "center",
-                    xs: "flex-start", // or conditionally change if needed
-                  },
-                  gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
-                }}
-                alignItems="center"
-                onClick={HandlePopup}
-              >
-                <Typography
-                  className="bold f16"
-                  sx={{
-                    display: {
-                      lg: "block",
-                      md: "block",
-                      xs: isMessage ? "none" : "block",
-                    },
-                  }}
-                >
-                  Sign in
-                </Typography>
+              {formobileDrawer ? (
+                <>
+                  <Box
+                    className={`${styles.Login} cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                      justifyContent: {
+                        lg: "center",
+                        md: "center",
+                        xs: "flex-start", // or conditionally change if needed
+                      },
+                      gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
+                    }}
+                    alignItems="center"
+                    onClick={HandlePopup}
+                  >
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 32, md: 32, xs: 24 } }}
+                    >
+                      <img
+                        src={"/images/user-icon-darkgray.svg"}
+                        alt="User Icon"
+                      />
+                    </Box>
+                    <Typography className="bold f16">Sign in</Typography>
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <Box
+                    className={`${styles.Login} cursor-pointer`}
+                    sx={{
+                      display: { lg: "flex", md: "flex", xs: "flex" },
+                      justifyContent: {
+                        lg: "center",
+                        md: "center",
+                        xs: "flex-start", // or conditionally change if needed
+                      },
+                      gap: { lg: 2, md: 2, xs: 1.5 }, // spacing unit (1 = 8px by default)
+                    }}
+                    alignItems="center"
+                    onClick={HandlePopup}
+                  >
+                    <Typography
+                      className="bold f16"
+                      sx={{
+                        display: {
+                          lg: "block",
+                          md: "block",
+                          xs: isMessage ? "none" : "block",
+                        },
+                      }}
+                    >
+                      Sign in
+                    </Typography>
 
-                <Box
-                  className="imggroup"
-                  alignItems="center"
-                  display="flex"
-                  sx={{ width: { lg: 24, md: 24, xs: 24 } }}
-                >
-                  <img
-                    src={
-                      isMessage || isSticky || IsActive
-                        ? "/images/user-icon-darkgray.svg"
-                        : "/images/user-icon-white.svg"
-                    }
-                    alt="User Icon"
-                  />
-                </Box>
-              </Box>
+                    <Box
+                      className="imggroup"
+                      alignItems="center"
+                      display="flex"
+                      sx={{ width: { lg: 24, md: 24, xs: 24 } }}
+                    >
+                      <img
+                        src={
+                          isMessage || isSticky || IsActive
+                            ? "/images/user-icon-darkgray.svg"
+                            : "/images/user-icon-white.svg"
+                        }
+                        alt="User Icon"
+                      />
+                    </Box>
+                  </Box>
+                </>
+              )}
             </>
           )}
         </>

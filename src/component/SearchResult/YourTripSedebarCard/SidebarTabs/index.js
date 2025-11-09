@@ -33,8 +33,9 @@ const SidebarTabs = () => {
     (state) => state?.booking?.addCart?.raw_data
   );
   const slices = getselectedFlight?.slices || [];
-  const cartItems = useSelector((state) => state?.booking?.cartOffer?.items);
+  const cartItems = useSelector((state) => state?.booking?.getCartDetail?.items );
   const isHotel = cartItems?.some((item) => item.offer_type === "hotel");
+  
 
   return (
     <Box

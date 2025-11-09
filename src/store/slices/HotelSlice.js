@@ -56,6 +56,8 @@ const hotelSlice = createSlice({
     setOpenDrawer: (state, action) => {
       state.setSelectFlightKey = action.payload;
     },
+    resetHotelState: () => ({ ...initialState }),
+    
   },
 });
 
@@ -89,6 +91,7 @@ export const {
   setSelectedRateKey,
   setSelectedRoom,
   setHotelSingleResult,
-  setIsLoading
+  setIsLoading,
+  resetHotelState
 } = hotelSlice.actions; //action exporting here
 export default hotelSlice.reducer;

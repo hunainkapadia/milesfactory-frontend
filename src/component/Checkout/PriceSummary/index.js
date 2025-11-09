@@ -125,8 +125,13 @@ const PriceSummary = ({ getdata }) => {
           ref={priceSummaryRef}
           className={`${styles.Card} ${styles.SummaryCard} Card white-bg`}
         >
-          <Box pb={2}>
-            <Typography fontSize={{xs:"14px", md:"16px"}} className="bold mb-0">Trip price summary</Typography>
+          <Box pb={{ md: 2, xs: "6px" }}>
+            <Typography
+              fontSize={{ xs: "14px", md: "16px" }}
+              className="bold mb-0"
+            >
+              Trip price summary
+            </Typography>
           </Box>
           <Box
             className={styles.PriceSection + " basecolor"}
@@ -149,17 +154,23 @@ const PriceSummary = ({ getdata }) => {
                       <Box className="bold darkgray f14">
                         Flight {flightOrder?.slices?.[0]?.origin.iata_code} -{" "}
                         {flightOrder?.slices?.at(0)?.destination.iata_code} |{" "}
-                        {date} | {" "}
-                        {isRoundTrip ? "Return" : "One-way"} | {" "}
-                         {numAdults > 0 &&
-                    `${numAdults} ${numAdults === 1 ? 'adult' : 'adults'} `} {" "}
-                      {numChildren > 0 &&
-                    `${numChildren} ${numChildren === 1 ? 'child' : 'children'} `}
+                        {date} | {isRoundTrip ? "Return" : "One-way"} |{" "}
+                        {numAdults > 0 &&
+                          `${numAdults} ${
+                            numAdults === 1 ? "adult" : "adults"
+                          } `}{" "}
+                        {numChildren > 0 &&
+                          `${numChildren} ${
+                            numChildren === 1 ? "child" : "children"
+                          } `}
                       </Box>
                       <Box className="bold darkgray f14" whiteSpace={"nowrap"}>
                         {currencySymbols[flightOrder?.tax_currency] ||
                           flightOrder?.tax_currency}
-                        {OrderDetail?.amount_calculations?.flight_total_amount_plus_markup_and_all_services}
+                        {
+                          OrderDetail?.amount_calculations
+                            ?.flight_total_amount_plus_markup_and_all_services
+                        }
                       </Box>
                     </Box>
                   )}
@@ -173,7 +184,7 @@ const PriceSummary = ({ getdata }) => {
                     <Box>Airline fees</Box>
                     <Box whiteSpace={"nowrap"}>
                       {currencySymbols[flightOrder?.tax_currency] ||
-                          flightOrder?.tax_currency}
+                        flightOrder?.tax_currency}
                       {Math.round(flightOrder?.base_amount)}
                     </Box>
                   </Box>
@@ -230,14 +241,14 @@ const PriceSummary = ({ getdata }) => {
                       )}
                     </Box>
                   </Box>
-                  <Box py={{md:2, xs:"12px"}}>
+                  <Box py={{ md: 2, xs: "12px" }}>
                     <Divider />
                   </Box>
                 </>
               )}
 
               {/* hotel */}
-              
+
               {hotelOrder && (
                 <>
                   <Box className="bold darkgray f14">
@@ -254,12 +265,15 @@ const PriceSummary = ({ getdata }) => {
                         month: "short",
                       }
                     )}{" "}
-                    |{" "}
-                    {/* refactor later */}
+                    | {/* refactor later */}
                     {numAdults > 0 &&
-                    `${numAdults} ${numAdults === 1 ? 'adult' : 'adults'} `} {" "}
-                     {numChildren > 0 &&
-                    `${numChildren} ${numChildren === 1 ? 'child' : 'children'} `}
+                      `${numAdults} ${
+                        numAdults === 1 ? "adult" : "adults"
+                      } `}{" "}
+                    {numChildren > 0 &&
+                      `${numChildren} ${
+                        numChildren === 1 ? "child" : "children"
+                      } `}
                   </Box>
                   {hotelOrder && (
                     <Box
@@ -275,13 +289,16 @@ const PriceSummary = ({ getdata }) => {
                         Hotel fees
                       </Box>
                       <Box whiteSpace={"nowrap"}>
-                          {
-                            currencySymbols[
-                              OrderDetail?.hotel_order?.payment_currency ||
-                                OrderDetail?.flight_order?.payment_currency
-                            ]
-                          }
-                        {Math.round(OrderDetail?.amount_calculations?.hotel_total_amount_plus_markup_and_all_services)}
+                        {
+                          currencySymbols[
+                            OrderDetail?.hotel_order?.payment_currency ||
+                              OrderDetail?.flight_order?.payment_currency
+                          ]
+                        }
+                        {Math.round(
+                          OrderDetail?.amount_calculations
+                            ?.hotel_total_amount_plus_markup_and_all_services
+                        )}
                         {/* {perNight} / night */}
                       </Box>
                     </Box>
@@ -301,7 +318,7 @@ const PriceSummary = ({ getdata }) => {
                         : "-"}
                     </Box>
                   </Box> */}
-                  <Box py={{md:2, xs:"12px"}}>
+                  <Box py={{ md: 2, xs: "12px" }}>
                     <Divider />
                   </Box>
                 </>
@@ -322,7 +339,10 @@ const PriceSummary = ({ getdata }) => {
                         OrderDetail?.flight_order?.payment_currency
                     ]
                   }
-                  {Math.round(OrderDetail?.amount_calculations?.total_amount_plus_markup_and_all_services)}
+                  {Math.round(
+                    OrderDetail?.amount_calculations
+                      ?.total_amount_plus_markup_and_all_services
+                  )}
                 </Box>
               </Box>
               {/*  hotel */}

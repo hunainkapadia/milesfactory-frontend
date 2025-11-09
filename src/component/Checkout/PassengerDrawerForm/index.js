@@ -53,67 +53,39 @@ const PassengerDrawerForm = () => {
   const [minDate, setMinDate] = useState(dayjs("1930-01-01"));
   const [maxDate, setMaxDate] = useState(dayjs());
 
-  const countries = useSelector((state) => state.passengerDrawer.countries);
+  
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const today = dayjs();
-  const GetViewPassengers = useSelector(
-    (state) => state.passengerDrawer.ViewPassengers
-  );
-
+  
   // pass profile
-  const selectedpassengerPofile = useSelector(
-    (state) => state.passengerDrawer.selectedProfilePass
+  
+  const {countries, ViewPassengers, passProfile, SelectPassenger, captainSuccess, isPassengerDrawer, isFormLoading, PassengerFormError, selectedProfilePass} = useSelector(
+    (state) => state.passengerDrawer
   );
+  const PassengerAge = SelectPassenger?.age;
 
-  const passengerPofile = useSelector(
-    (state) => state.passengerDrawer.passProfile
-  );
-
-  const formError = useSelector(
-    (state) => state.passengerDrawer.PassengerFormError
-  );
-
-  const isFormLoading = useSelector(
-    (state) => state.passengerDrawer.isFormLoading
-  );
-  const isPassengerDrawer = useSelector(
-    (state) => state.passengerDrawer.isPassengerDrawer
-  );
-
-  const captainSuccess = useSelector(
-    (state) => state.passengerDrawer.captainSuccess
-  );
-  const formSuccess = useSelector(
-    (state) => state.passengerDrawer.captainSuccess
-  );
-  const selectPassenger = useSelector(
-    (state) => state?.passengerDrawer?.SelectPassenger
-  );
-  const PassengerAge = useSelector(
-    (state) => state.passengerDrawer?.SelectPassenger?.age
-  );
+  
+  
   
 
-  console.log("PassengerAge", PassengerAge);
-  
 
   const CartType = useSelector((state) => state.booking.cartType);
 
   useEffect(() => {
-    if (captainSuccess && formSuccess) {
+    if (captainSuccess) {
       dispatch(setisPassengerDrawer(false));
     }
-  }, [captainSuccess, formSuccess, dispatch]);
+  }, [captainSuccess, dispatch]);
 
   // Load form data or reset on drawer open
 
   useEffect(() => {
     if (isPassengerDrawer) {
       setTimeout(() => {
-        if (passengerPofile?.length && selectPassenger?.uuid) {
-          const passengerData = passengerPofile.find(
+        if (passProfile?.length && SelectPassenger?.uuid) {
+          const passengerData = passProfile.find(
             (getProfilepassenger) =>
-              getProfilepassenger.uuid === selectedpassengerPofile?.uuid
+              getProfilepassenger.uuid === selectedProfilePass?.uuid
           );
 
           if (passengerData) {
@@ -152,7 +124,7 @@ const PassengerDrawerForm = () => {
     }
   }, [
     isPassengerDrawer,
-    GetViewPassengers,
+    ViewPassengers,
     countries, // add this
     dispatch,
   ]);
@@ -182,34 +154,34 @@ const PassengerDrawerForm = () => {
   // infant age
 
   useEffect(() => {
-    if (!selectPassenger?.type) return;
+    if (!SelectPassenger?.type) return;
 
     //  Hotel child = under 18
-    // if (CartType === "hotel" && selectPassenger.type === "child") {
+    // if (CartType === "hotel" && SelectPassenger.type === "child") {
     //   setMinDate(today.subtract(17, "year")); // youngest 17
     //   setMaxDate(today); // today is max
     //   return;
     // }
 
     //  Adult → must be 18+
-    if (selectPassenger.type === "adult") {
+    if (SelectPassenger.type === "adult") {
       setMinDate(dayjs("1930-01-01"));
       setMaxDate(today.subtract(18, "year"));
       return;
     }
 
     //  Flight child → 2 to 12 years
-    if (selectPassenger.type === "child") {
+    if (SelectPassenger.type === "child") {
       validateChildDOB(null, PassengerAge);
       return;
     }
 
     //  Infant → under 2 years
-    if (selectPassenger.type === "infant_without_seat") {
+    if (SelectPassenger.type === "infant_without_seat") {
       validateInfantDOB(null, PassengerAge);
       return;
     }
-  }, [CartType, selectPassenger, PassengerAge]);
+  }, [CartType, SelectPassenger, PassengerAge]);
 
   // ...previous imports remain the same
 
@@ -258,7 +230,7 @@ const PassengerDrawerForm = () => {
     }
 
     // --- Email & Phone (adults only) ---
-    if (selectPassenger?.type === "adult") {
+    if (SelectPassenger?.type === "adult") {
       if (!email?.trim()) {
         errors.email = "Email is required.";
       } else if (!emailRegex.test(email)) {
@@ -302,7 +274,7 @@ const PassengerDrawerForm = () => {
     });
 
     const isFirstPassenger =
-      GetViewPassengers?.[0]?.uuid === selectPassenger?.uuid;
+      ViewPassengers?.[0]?.uuid === SelectPassenger?.uuid;
 
     if (isFirstPassenger) {
       dispatch(setCaptainParams(params));
@@ -318,10 +290,10 @@ const PassengerDrawerForm = () => {
     }
   };
 
-  const passportError = formError?.non_field_errors?.find(
+  const passportError = PassengerFormError?.non_field_errors?.find(
     (error) => error?.passport_expire_date
   );
-  const bornOnError = formError?.non_field_errors?.find(
+  const bornOnError = PassengerFormError?.non_field_errors?.find(
     (error) => error?.born_on
   );
   useEffect(() => {
@@ -434,9 +406,9 @@ const PassengerDrawerForm = () => {
                       label="Female"
                     />
                   </RadioGroup>
-                  {formError?.gender && (
+                  {PassengerFormError?.gender && (
                     <Typography className="error" color="red">
-                      {formError.gender}
+                      {PassengerFormError.gender}
                     </Typography>
                   )}
                 </Box>
@@ -459,9 +431,9 @@ const PassengerDrawerForm = () => {
                     margin="normal"
                   />
 
-                  {formError?.given_name && (
+                  {PassengerFormError?.given_name && (
                     <Typography className="error" color="red">
-                      {formError.given_name}
+                      {PassengerFormError.given_name}
                     </Typography>
                   )}
                 </Box>
@@ -483,9 +455,9 @@ const PassengerDrawerForm = () => {
                     margin="normal"
                   />
 
-                  {formError?.family_name && (
+                  {PassengerFormError?.family_name && (
                     <Typography className="error" color="red">
-                      {formError.family_name}
+                      {PassengerFormError.family_name}
                     </Typography>
                   )}
                 </Box>
@@ -514,7 +486,7 @@ const PassengerDrawerForm = () => {
                   </LocalizationProvider>
 
                   <Typography className="error" color="red">
-                    {formError?.born_on || bornOnError?.born_on}
+                    {PassengerFormError?.born_on || bornOnError?.born_on}
                   </Typography>
                 </Box>
                 {(CartType === "all" || CartType === "flight") && (
@@ -533,7 +505,7 @@ const PassengerDrawerForm = () => {
                         margin="normal"
                       />
                       <Typography className="error" color="red">
-                        {formError?.passport_number}
+                        {PassengerFormError?.passport_number}
                       </Typography>
                     </Box>
 
@@ -563,7 +535,7 @@ const PassengerDrawerForm = () => {
                         />
                       </LocalizationProvider>
                       <Typography className="error" color="red">
-                        {formError?.passport_expire_date ||
+                        {PassengerFormError?.passport_expire_date ||
                           passportError?.passport_expire_date}
                       </Typography>
                     </Box>
@@ -571,7 +543,7 @@ const PassengerDrawerForm = () => {
                 )}
 
                 {/* Email */}
-                {selectPassenger?.type === "adult" && (
+                {SelectPassenger?.type === "adult" && (
                   <>
                     <Box className="formGroup">
                       <FormLabel className="bold formLabel">Email</FormLabel>
@@ -584,9 +556,9 @@ const PassengerDrawerForm = () => {
                         onChange={(e) => setemail(e.target.value)}
                         margin="normal"
                       />
-                      {formError?.email && (
+                      {PassengerFormError?.email && (
                         <Typography className="error" color="red">
-                          {formError.email}
+                          {PassengerFormError.email}
                         </Typography>
                       )}
                     </Box>
@@ -607,9 +579,9 @@ const PassengerDrawerForm = () => {
                         specialLabel=""
                         enableSearch
                       />
-                      {formError?.phone_number && (
+                      {PassengerFormError?.phone_number && (
                         <Typography className="error" color="red">
-                          {formError.phone_number}
+                          {PassengerFormError.phone_number}
                         </Typography>
                       )}
                     </Box>
@@ -644,14 +616,14 @@ const PassengerDrawerForm = () => {
                         )}
                       />
 
-                      {formError?.nationality && (
+                      {PassengerFormError?.nationality && (
                         <Typography className="error" color="red">
-                          {formError.nationality}
+                          {PassengerFormError.nationality}
                         </Typography>
                       )}
-                      {formError?.error && (
+                      {PassengerFormError?.error && (
                         <Typography className="error" color="red">
-                          {formError.error}
+                          {PassengerFormError.error}
                         </Typography>
                       )}
                     </Box>
@@ -665,7 +637,6 @@ const PassengerDrawerForm = () => {
               <Box
                 className={styles.Row}
                 py={1}
-                px={3}
                 display="flex"
                 flexDirection="column"
               >

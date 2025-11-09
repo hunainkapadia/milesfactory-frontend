@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
-import { setAddBuilder, setAllOfferUrl, setHotelSearchId, setThreadUuid } from "./sendMessageSlice";
+import { setAddBuilder, setAllOfferUrl, setHotelSearchId, setLoading, setThreadUuid } from "./sendMessageSlice";
 
 const initialState = {
   chatActive: false,
@@ -159,9 +159,11 @@ export const fetchMessages = (getthreaduuid) => (dispatch, getState) => {
             dispatch(setSearchHistoryGet({ hotel: { HotelArgument } }));
 
             if (hotelSearchApi) {
+              dispatch(setLoading(true));
               api.get(hotelSearchApi)
                 .then((hotelRes) => {
                   const isComplete = hotelRes?.data?.is_complete;
+                  dispatch(setLoading(false));
                   if (isComplete === true) {
                     dispatch(setClearflight()); // clear flights if switching
                     dispatch(

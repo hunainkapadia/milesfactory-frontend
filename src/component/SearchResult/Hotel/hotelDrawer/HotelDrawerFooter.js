@@ -8,7 +8,7 @@ import {
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
 import { setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
-import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // 👈 import utility
+import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import utility
 
 const HotelDrawerFooter = ({ hotel }) => {
   const dispatch = useDispatch();
@@ -18,6 +18,22 @@ const HotelDrawerFooter = ({ hotel }) => {
   const selectedRoom = useSelector(
     (state) => state.hotel?.selectedRoom
   );
+
+  // All available rates for the current hotel (first room example)
+const rates = hotel?.rooms?.[0]?.rates;
+
+// Find the matching rate from the current hotel data (same price as selected hotel)
+const selectedRate = rates?.find( (rate) =>
+    Number(rate?.total_netamount_with_markup) === Number(selectedRoom?.total_netamount_with_markup)
+);
+
+// Extract rate price for comparison (optional)
+const currentRateAmount = selectedRate?.total_netamount_with_markup;
+
+
+
+
+  
   // Use the helper function
   const { nights, totalPrice, perNightPrice } = calculateHotelPricing(
     hotel,
@@ -60,7 +76,7 @@ const HotelDrawerFooter = ({ hotel }) => {
             <Box display="flex" flexDirection="column" justifyContent="center">
               <Box display="flex" flexDirection="column" justifyContent="center">
                           
-                            {selectedRoom?.total_netamount_with_markup ? (
+                            {currentRateAmount ? (
                               <>
                                 <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
                                   {currencySymbols[hotel?.currency]}

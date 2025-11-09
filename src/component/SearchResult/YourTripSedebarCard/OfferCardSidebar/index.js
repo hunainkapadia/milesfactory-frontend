@@ -54,7 +54,10 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
     (p) => p.given_name && p.family_name
   );
   //   for selct flight detail
-  const CartOffer = useSelector((state) => state?.booking?.cartOffer);
+  
+  const cartItems = useSelector((state) => state?.booking?.getCartDetail);
+  
+  
   const isloading = useSelector((state) => state?.booking?.isLoading);
 
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
@@ -110,7 +113,7 @@ const OfferCardSidebar = ({ index, slice, getItems, uuid }) => {
               >
                 Booked
               </Box>
-            ) : CartOffer ? (
+            ) : cartItems ? (
               <Box
                 display="flex"
                 justifyContent="center"

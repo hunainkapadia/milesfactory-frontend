@@ -230,7 +230,6 @@ const state = getState();
 
         dispatch(setOrderData(response.data));
         dispatch(setOrderConfirm(response.data));
-
         // consition for checking if duffelr order found show congratz msg if not found error show
         if (paymentStatus) {
           dispatch(

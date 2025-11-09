@@ -13,7 +13,7 @@ const initialState = {
   setError: null,
   selectedFlightId: null,
   selectedFlight: null,
-
+  selectOfferKey: null,
   setSelectFlightKey: null,
   OpenDrawer: false,
   CloseDrawer: false,
@@ -29,13 +29,13 @@ const initialState = {
   getListCart: null,
   getCartDetail: null,
   bookingDrawer: false,
-  cartOffer: null,
   hotelDrawer:false,
   cartError: false,
   cartErrorDialog: false,
   flightUnavailable: false,
   cartType: null,
   cartTotalPrice: null,
+  isCartSuccess: false,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -43,6 +43,12 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setIsCartSuccess:(state, action) => {
+      state.isCartSuccess = action.payload;
+    },
+    setSelectOfferKey:(state, action) => {
+      state.selectOfferKey = action.payload;
+    },
     setCartTotalPrice:(state, action) => {
       state.cartTotalPrice = action.payload;
     },
@@ -60,9 +66,6 @@ const bookingflightsSlice = createSlice({
     },
     setHotelDrawer:(state, action) => {
       state.hotelDrawer = action.payload;
-    },
-    setCartOffer:(state, action) => {
-      state.cartOffer = action.payload;
     },
     setIsLoadingSelect: (state, action) => {
       state.isLoadingSelect = action.payload;
@@ -154,11 +157,14 @@ export const bookFlight = () => (dispatch, getState) => {
 };
 
 // Add to Cart
-export const AddToCart = (params, uuid) => async (dispatch, getState) => {
+export const AddToCart = (params) => async (dispatch, getState) => {
   dispatch(setSystemMessage(null));
   const uuid = getState()?.sendMessage?.threadUuid;
+  const getofferkey = getState()?.booking?.selectOfferKey;  
+
   dispatch(setIsLoadingSelect(true));
-  dispatch(setChatscroll(true))
+  dispatch(setLoading(true))
+
 
   try {
     // delay before API call (500ms = 0.5s)
@@ -187,20 +193,18 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));
       dispatch(CartDetail(uuid));
-
-      dispatch(setSelectedFlightKey(params.offer_id)); // mark selected flight
+      dispatch(setIsCartSuccess(true));
+      
+      dispatch(setSelectedFlightKey(getofferkey)); // mark selected flight
       dispatch(setHotelDrawer(false))
       dispatch(setRoomDrawer(false))
+      dispatch(setLoading(false));
+      
     }
     // detect mobile view
-    if (window.innerWidth <= 768) {
-      // Option 1: dispatch to open mobile drawer
-      // dispatch(setIsBuilderDialog(true));
-      // OR Option 2: show an alert
-    }
+ 
   } catch (error) {
     console.error("AddToCart_error", error?.response?.data?.error);
-    console.error("AddToCart_error2", error?.response?.data?.error);
     const geterror = error?.response?.data?.error;
     if (geterror === "Failed to fetch flight offer: airline_error: Requested offer is no longer available: Please select another offer, or create a new offer request to get the latest availability.") {
       dispatch(setCartError(true));
@@ -208,7 +212,11 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
     }
   } finally {
     dispatch(setIsLoadingSelect(false));
-    dispatch(setSelectedFlight(null)); //  Reset after completion
+    dispatch(setChatscroll(true))
+    
+    dispatch(setLoading(false));
+
+    
 
   }
 };
@@ -229,11 +237,13 @@ export const AddToCart = (params, uuid) => async (dispatch, getState) => {
 // };
 export const CartDetail = (threadUuid) => async (dispatch, getState) => {
   const uuid = getState()?.sendMessage?.threadUuid;
+  console.log("cart_uuid", uuid);
+  
   
 
   
   dispatch(setLoading(true));
-  const apiUrl = `/api/v1/cart/${threadUuid}`;
+  const apiUrl = `/api/v1/cart/${uuid}`;
 
   try {
     const res = await api.get(apiUrl);
@@ -241,14 +251,14 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
     
     
     const CartOfferDetail = res?.data;
-    dispatch(setCartOffer(CartOfferDetail))
-    
-    
     const cartItems = CartOfferDetail.items || [];
     const hasFlight = cartItems.some(item => item.offer_type === "flight");
     const hasHotel = cartItems.some(item => item.offer_type === "hotel");
     
-    
+    console.log("cartItems_00", cartItems);
+    if (cartItems.length > 0) {
+      dispatch(setIsCartSuccess(true));
+    }
     
     if (hasFlight && hasHotel) {
       dispatch(setCartType("all"))
@@ -283,7 +293,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setLoading(false));
     dispatch(setSelectedhotelKey(null));
     dispatch(setGetCartDetail(res.data));
-    dispatch(setCartOffer(null))
+    dispatch(setIsCartSuccess(false));
 
     dispatch(setSelectedFlightKey(null));
     dispatch(setflightDetail(null));
@@ -292,6 +302,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setMessage({ ai: { passengerFlowRes: false } }));
     dispatch(setSelectedFlight(null));
     dispatch(CartDetail(threaduuid));
+    dispatch(setSelectOfferKey(null));
 
     dispatch(
       setMessage({
@@ -325,13 +336,14 @@ export const {
   setGetCartDetail,
   setBookingDrawer,
   setIsLoadingSelect,
-  setCartOffer,
   setHotelDrawer,
   setCartError,
   setFlightUnavailable,
   setCartErrorDialog,
   setCartType,
   resetBookingState,
-  setCartTotalPrice
+  setCartTotalPrice,
+  setSelectOfferKey,
+  setIsCartSuccess
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;
