@@ -27,6 +27,7 @@ import BaggageDrawer from "@/src/component/Checkout/BaggageDrawer";
 import { setisUserPopup } from "@/src/store/slices/Auth/SignupSlice";
 import CartErrorDialog from "@/src/component/SearchResult/chat/CartErrorDialog";
 import RoomDrawer from "@/src/component/SearchResult/Hotel/RoomDrawer";
+import { CartDetail } from "@/src/store/slices/BookingflightSlice";
 
 const ChatByUUID = () => {
   const router = useRouter();
@@ -166,6 +167,7 @@ const ChatByUUID = () => {
     // Only fetch messages if we have a UUID and no messages yet if send messge not
     if (uuid && sendMessages.length === 0) {
       dispatch(fetchMessages(uuid));
+      dispatch(CartDetail());
     }
   }, [router.isReady, router.query.uuid, sendMessages.length, dispatch]);
 

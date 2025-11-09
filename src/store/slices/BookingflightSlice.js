@@ -237,11 +237,13 @@ export const AddToCart = (params) => async (dispatch, getState) => {
 // };
 export const CartDetail = (threadUuid) => async (dispatch, getState) => {
   const uuid = getState()?.sendMessage?.threadUuid;
+  console.log("cart_uuid", uuid);
+  
   
 
   
   dispatch(setLoading(true));
-  const apiUrl = `/api/v1/cart/${threadUuid}`;
+  const apiUrl = `/api/v1/cart/${uuid}`;
 
   try {
     const res = await api.get(apiUrl);
@@ -253,7 +255,10 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
     const hasFlight = cartItems.some(item => item.offer_type === "flight");
     const hasHotel = cartItems.some(item => item.offer_type === "hotel");
     
-    
+    console.log("cartItems_00", cartItems);
+    if (cartItems.length > 0) {
+      dispatch(setIsCartSuccess(true));
+    }
     
     if (hasFlight && hasHotel) {
       dispatch(setCartType("all"))

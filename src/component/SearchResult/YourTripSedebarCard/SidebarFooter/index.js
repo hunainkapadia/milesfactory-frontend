@@ -23,14 +23,16 @@ const SidebarFooter = () => {
   
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const {cartType, isCartSuccess, getCartDetail, cartTotalPrice} = useSelector((state) => state?.booking);
-  console.log("getCartDetail_00", getCartDetail?.items?.length);
+  const sendMessages = useSelector((state) => state.sendMessage?.messages);  
   
-
-
+  
+  
   const issystemmessage = useSelector(
     (state) => state?.sendMessage?.systemMessage
   );
+  console.log("isCartSuccess_33", sendMessages);
   
+  console.log("issystemmessage", issystemmessage);
   // if hotel, calculate pricing
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
   
@@ -89,7 +91,11 @@ const SidebarFooter = () => {
       >
         <Box>
           {/* for flight */}
-          {(isCartSuccess && issystemmessage && 
+          {(isCartSuccess &&
+            issystemmessage &&
+            getCartDetail?.items?.length < 2) ||
+          (sendMessages?.length === 0 &&
+            isCartSuccess &&
             getCartDetail?.items?.length < 2) ? (
             <>
               <h4 className="exbold mb-0">-</h4>
@@ -119,13 +125,24 @@ const SidebarFooter = () => {
                 ? true
                 : false */}
 
-        {(isCartSuccess && issystemmessage &&
+        {isCartSuccess && issystemmessage ? (
+          <>
+            <Button
+              onClick={() => handleBookFlight(getCartDetail)}
+              className="btn btn-primary btn-round btn-xs"
+            >
+              Checkout
+            </Button>
+          </>
+        ) : sendMessages.length === 0 && isCartSuccess ? (
           <Button
             onClick={() => handleBookFlight(getCartDetail)}
             className="btn btn-primary btn-round btn-xs"
           >
             Checkout
           </Button>
+        ) : (
+          ""
         )}
 
         {/* Hotel footer */}
