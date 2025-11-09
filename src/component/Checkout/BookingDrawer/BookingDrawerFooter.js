@@ -9,8 +9,10 @@ import {
   setBookingDrawer,
   setCloseDrawer,
   setflightDetail,
+  setSelectedFlight,
   setSelectedFlightKey,
   setSelectFlightKey,
+  setSelectOfferKey,
   setSingleFlightData,
 } from "@/src/store/slices/BookingflightSlice";
 import { setMessage } from "@/src/store/slices/sendMessageSlice";
@@ -50,15 +52,25 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
       label: "Select Flight Drawer",
       value: getFlightDetails?.total_amount_plus_markup_rounded,
     });
-    const params = {
-      chat_thread_uuid: uuid,
-      offer_type: "flight",
-      offer_id: getFlightDetails?.id,
-      price: getFlightDetails?.total_amount_plus_markup,
-      currency: getFlightDetails?.total_currency,
-      raw_data: {},
-    };
-    dispatch(AddToCart(params, uuid, offerkey));
+    
+
+    if (orderSuccess) {
+      dispatch(setAddFilledPassenger(null));
+      dispatch(setCartType(null));
+    }
+    if (offerkey) {
+      dispatch(setSelectOfferKey(offerkey));
+      const params = {
+        chat_thread_uuid: uuid,
+        offer_type: "flight",
+        offer_id: getFlightDetails?.id,
+        price: getFlightDetails?.total_amount_plus_markup,
+        currency: getFlightDetails?.total_currency,
+        raw_data: {},
+      };
+      dispatch(AddToCart(params));
+      dispatch(setSelectedFlight(getFlightDetails));
+    }
   };
 
   const personQuantity = getFlightDetails?.passengers.length;
