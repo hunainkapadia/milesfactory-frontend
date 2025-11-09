@@ -137,7 +137,7 @@ const MobileLoading = () => {
               </Typography>
             </Box>
           </>
-        ) : isCartSuccess || issystemmessage ? (
+        ) : isCartSuccess && issystemmessage ? (
           <>
             <Button
               onClick={handleBookFlight}
