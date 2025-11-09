@@ -69,7 +69,6 @@ const SearchCard = ({ key, offerData, offerkey }) => {
   // non redux direct select for show selected button
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
 
-  console.log("CartDetails", CartDetails?.items);
   
 
   const isInCart = CartDetails?.items?.some(
@@ -272,7 +271,6 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                     )}{" "} */}
 
                     <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                    {console.log("offerkey_00", selectedFlightKey)}
                       {selectedFlightKey === offerkey &&
                       selectedFlight?.raw_data?.total_amount_plus_markup ===
                         offerData?.total_amount_plus_markup ? (

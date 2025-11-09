@@ -35,6 +35,7 @@ const initialState = {
   flightUnavailable: false,
   cartType: null,
   cartTotalPrice: null,
+  isCartSuccess: false,
 };
 // for selectflightDetail button
 const bookingflightsSlice = createSlice({
@@ -42,6 +43,9 @@ const bookingflightsSlice = createSlice({
   initialState,
 
   reducers: {
+    setIsCartSuccess:(state, action) => {
+      state.isCartSuccess = action.payload;
+    },
     setSelectOfferKey:(state, action) => {
       state.selectOfferKey = action.payload;
     },
@@ -189,6 +193,7 @@ export const AddToCart = (params) => async (dispatch, getState) => {
       // dispatch(setmess)
       dispatch(setflightDetail(res.data.raw_data));
       dispatch(CartDetail(uuid));
+      dispatch(setIsCartSuccess(true));
       
       dispatch(setSelectedFlightKey(getofferkey)); // mark selected flight
       dispatch(setHotelDrawer(false))
@@ -283,6 +288,7 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setLoading(false));
     dispatch(setSelectedhotelKey(null));
     dispatch(setGetCartDetail(res.data));
+    dispatch(setIsCartSuccess(false));
 
     dispatch(setSelectedFlightKey(null));
     dispatch(setflightDetail(null));
@@ -331,6 +337,7 @@ export const {
   setCartType,
   resetBookingState,
   setCartTotalPrice,
-  setSelectOfferKey
+  setSelectOfferKey,
+  setIsCartSuccess
 } = bookingflightsSlice.actions; //action exporting here
 export default bookingflightsSlice.reducer;

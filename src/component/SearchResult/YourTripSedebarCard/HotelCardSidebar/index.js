@@ -158,7 +158,6 @@ const HotelCardSidebar = ({ hotel, Carduuid }) => {
               `${hotel?.rooms[0]?.rates[0]?.adults} ${
                 hotel?.rooms[0]?.rates[0]?.adults > 1 ? "adults" : "adult"
               }`}
-            {console.log("hotel_child", hotel?.rooms[0]?.rates[0])}
             {hotel?.rooms[0]?.rates[0]?.children > 0 &&
               `, ${hotel?.rooms[0]?.rates[0]?.children} ${
                 hotel?.rooms[0]?.rates[0]?.children > 1 ? "children" : "child"

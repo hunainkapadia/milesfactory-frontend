@@ -66,7 +66,6 @@ const isSelectedHotel =
   Number(selectedHotelAmount) === Number(currentRateAmount);
 
 // Debug: To verify selected rate during development
-console.log("selectedRate:", selectedRate);
 
 
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
@@ -115,7 +114,6 @@ console.log("selectedRate:", selectedRate);
       (getimg) => getimg.imageTypeCode === "GEN" && getimg?.order === 1
     ) || images.find((getimg) => getimg.imageTypeCode === "GEN");
 
-  console.log("totalPrice_00", totalPrice);
   return (
     <>
       <Box className={`${searchResultStyles.HotelCard}`}>
@@ -250,13 +248,11 @@ console.log("selectedRate:", selectedRate);
                     `${firstRate?.adults} ${
                       firstRate?.adults > 1 ? "adults" : "adult"
                     }`}
-                  {console.log("hotel_child", firstRate)}
                   {firstRate?.children > 0 &&
                     `, ${firstRate?.children} ${
                       firstRate?.children > 1 ? "children" : "child"
                     } `}
                 </Typography>
-                {console.log("allHotels", hotel?.rooms[0])}
                 <Typography component="span" className="f10 black-50">
                   {new Date(allHotels?.checkIn).toLocaleDateString("en-GB", {
                     day: "2-digit",

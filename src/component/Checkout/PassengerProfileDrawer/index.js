@@ -51,10 +51,7 @@ const PassengerProfileDrawer = () => {
     (state) => state.passengerDrawer.SelectPassenger
   );
 
-  const selectedProfilePass = useSelector(
-    (state) => state.passengerDrawer.SelectedProfilePass
-  );
-
+  
   const GetViewPassengers = useSelector(
     (state) => state.passengerDrawer.ViewPassengers
   );
@@ -68,15 +65,9 @@ const PassengerProfileDrawer = () => {
   const filledPassengerUUIDs = useSelector(
     (state) => state.passengerDrawer.filledPassengerUUIDs
   );
-  const filledPassenger = useSelector(
-    (state) => state.passengerDrawer
-  );
   
   
-  const allPassengerFill = useSelector(
-    (state) => state.passengerDrawer.allPassengerFill
-  );
-
+  
   const { selectPassProfile } = useSelector((state) => state.passengerDrawer);
   const totalPassengers = GetViewPassengers?.length || 0;
   const filledCount = filledPassengerUUIDs?.length || 0;
@@ -103,9 +94,7 @@ const PassengerProfileDrawer = () => {
       (p) => p.passport_number === FilledPassFormData.passport_number
     );
 
-    if (isMatch) {
-      setStopPolling(true);
-    }
+    
   }, [passengerPofile, FilledPassFormData, CartType]);
 
   //  Stop checking when all passengers are present (for both flight & hotel)

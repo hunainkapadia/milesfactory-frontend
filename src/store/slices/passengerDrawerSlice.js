@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS } from "../api/apiEndpoints";
 import api from "../api";
-import { setCloseDrawer } from "./BookingflightSlice";
+import { setCloseDrawer, setIsCartSuccess } from "./BookingflightSlice";
 import {fetchOrderDetail, OrderConfirm } from "./PaymentSlice";
 import dayjs from "dayjs";
 import { setMessage } from "./sendMessageSlice";
@@ -340,6 +340,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
         .then((cap_res) => {
           dispatch(fetchOrderDetail()); // for order detail API call
           dispatch(setAddNewPassactive(false));
+          dispatch(setIsCartSuccess(false));
         })
         .catch((err) => {
           console.error("captain_api_error", err);

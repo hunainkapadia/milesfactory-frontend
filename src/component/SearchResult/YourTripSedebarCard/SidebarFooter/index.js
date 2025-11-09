@@ -22,6 +22,12 @@ import { useEffect } from "react";
 const SidebarFooter = () => {
   const CartData = useSelector((state) => state.booking?.getCartDetail);
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+  const {isCartSuccess} = useSelector((state) => state.booking);
+
+  console.log("isCartSuccess", isCartSuccess);
+  
+  
+  
 
   const issystemmessage = useSelector(
     (state) => state?.sendMessage?.systemMessage
@@ -81,9 +87,6 @@ const SidebarFooter = () => {
     }
   };
 
-  {
-    console.log("orderSuccess_22", orderSuccess?.hotel_order);
-  }
   return (
     <Box
       px={"18px"}
@@ -133,10 +136,7 @@ const SidebarFooter = () => {
                 ? true
                 : false */}
 
-        {((issystemmessage && CartData?.items?.length &&
-          !orderSuccess?.hotel_order && !orderSuccess?.flight_order) ||
-          (issystemmessage && orderSuccess?.hotel_order && CartData?.items?.length === 2 && !orderSuccess?.flight_order) || // <-- NEW condition to hide when flight is done
-          (issystemmessage && orderSuccess?.flight_order && CartData?.items?.length === 2 && !orderSuccess?.hotel_order)) && ( // <-- NEW condition to hide when flight is done
+        {(isCartSuccess && issystemmessage &&
           <Button
             onClick={() => handleBookFlight(CartData)}
             className="btn btn-primary btn-round btn-xs"

@@ -29,12 +29,10 @@ const selectedRate = rates?.find( (rate) =>
 
 // Extract rate price for comparison (optional)
 const currentRateAmount = selectedRate?.total_netamount_with_markup;
-console.log("currentRateAmount", currentRateAmount);
 
 
 
 
-  console.log("selectedhotelkey", selectedhotelkey);
   
   // Use the helper function
   const { nights, totalPrice, perNightPrice } = calculateHotelPricing(

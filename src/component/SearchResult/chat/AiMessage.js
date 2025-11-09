@@ -38,9 +38,7 @@ const AiMessage = ({ aiMessage }) => {
   
   const {ViewPassengers, filledPassengerUUIDs} = useSelector(
     (state) => state?.passengerDrawer
-  );
-  console.log("ViewPassengers_00", filledPassengerUUIDs);
-  
+  );  
   
   const getHotels = aiMessage?.ai?.hotels;
   

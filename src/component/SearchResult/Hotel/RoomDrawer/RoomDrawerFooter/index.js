@@ -22,7 +22,6 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
     (state) => state.hotel?.selectedRoom
   );
   const isLoading = useSelector((state)=> state?.booking?.isLoading);
-  console.log("isLoading_00", isLoading);
   
   
   
@@ -37,9 +36,7 @@ const RoomDrawerFooter = ({ hotel, selectedRateKey }) => {
   );
 
   
-  
-  console.log("hotel_code1111", hotel.code);
-  
+    
   const handleSelectStay = () => {
     if (!hotel) return;
     dispatch(setSelectedhotelKey(selectedRateKey));
