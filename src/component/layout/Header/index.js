@@ -236,12 +236,13 @@ const Header = ({
                     />
                     {/*  */}
                     {/* show for home desk and mobiel chat for dektop only  */}
-                    {isMytrip || isUser || isHome || (isChat && !isMobile) ? (
+                    {isMytrip || isUser || isHome || isChat ? (
                       <HeaderUser
                         forHader={"forHader"}
                         isSticky={isSticky}
                         IsActive={IsActive}
                         isMessage={isMessage}
+                        isChat={isChat}
                       />
                     ) : (
                       ""
