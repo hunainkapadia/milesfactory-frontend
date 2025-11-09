@@ -23,6 +23,8 @@ const SidebarFooter = () => {
   
   const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
   const {cartType, isCartSuccess, getCartDetail, cartTotalPrice} = useSelector((state) => state?.booking);
+  console.log("getCartDetail_00", getCartDetail?.items?.length);
+  
 
 
   const issystemmessage = useSelector(
@@ -87,11 +89,7 @@ const SidebarFooter = () => {
       >
         <Box>
           {/* for flight */}
-          {(!orderSuccess?.flight_order &&
-            orderSuccess?.hotel_order &&
-            getCartDetail?.items?.length < 2) ||
-          (orderSuccess?.flight_order &&
-            !orderSuccess?.hotel_order &&
+          {(isCartSuccess && issystemmessage && 
             getCartDetail?.items?.length < 2) ? (
             <>
               <h4 className="exbold mb-0">-</h4>
