@@ -8,20 +8,12 @@ import {
 import searchResultStyles from "@/src/styles/sass/components/search-result/searchresult.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  AddToCart,
   setBookingDrawer,
-  setCartType,
   setOfferkeyforDetail,
-  setSelectedFlight,
-  setSelectOfferKey,
   setSingleFlightData,
 } from "@/src/store/slices/BookingflightSlice";
 
-import { useEffect, useState } from "react";
-import BookingDrawer from "../../Checkout/BookingDrawer/BookingDrawer";
-import { currencySymbols, event } from "@/src/utils/utils";
 import {
-  setAddFilledPassenger,
   setSeeDetailButton,
 } from "@/src/store/slices/passengerDrawerSlice";
 
@@ -31,7 +23,6 @@ import {
   RefreshHandle,
   setRefreshSearch,
 } from "@/src/store/slices/GestMessageSlice";
-import { LoadingButton } from "@mui/lab";
 
 const SearchCard = ({ key, offerData, offerkey }) => {
   const { flightExpire, isLoading } = useSelector((state) => state.getMessages);
@@ -55,13 +46,11 @@ const SearchCard = ({ key, offerData, offerkey }) => {
       dispatch(setBookingDrawer(true)); //for drawer
     }
   };
-  
-  const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
 
   // selected flight detail get for send data in select button click
   const selectOfferKey = useSelector((state) => state.booking.selectOfferKey);
   //
-  const personQuantity = offerData?.passengers.length;
+
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
@@ -69,7 +58,7 @@ const SearchCard = ({ key, offerData, offerkey }) => {
   // non redux direct select for show selected button
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
 
-  
+
 
   const isInCart = CartDetails?.items?.some(
     (item) => item?.offer_id === offerData?.id // or compare with offerkey if that's what API uses
@@ -80,52 +69,17 @@ const SearchCard = ({ key, offerData, offerkey }) => {
     dispatch(setRefreshSearch());
   };
 
-  const CartItems = useSelector(
-    (state) => state?.booking?.getCartDetail?.items
-  );
-  const selectedFlight = CartItems?.find(
-    (item) => item?.offer_type === "flight"
-  );
   console.log("selectedFlight", selectOfferKey);
-  
-
-  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-
-  const handleBookFlight = (getflight, offerkey) => {
-    // for reset next order if in cart 1
-    if (orderSuccess) {
-      dispatch(setAddFilledPassenger(null));
-      dispatch(setCartType(null));
-    }
-    if (offerkey) {
-      dispatch(setSelectOfferKey(offerkey));
-      const params = {
-        chat_thread_uuid: uuid,
-        offer_type: "flight",
-        offer_id: offerData?.id,
-        price: offerData?.total_amount_plus_markup,
-        currency: offerData?.total_currency,
-        raw_data: {},
-      };
-      dispatch(AddToCart(params, offerkey));
-      dispatch(setSelectedFlight(getflight));
-    }
-
-  };
-  const isFlightAvailable = useSelector(
-    (state) => state?.booking?.flightUnavailable
-  );
 
   return (
     <>
       {/* Open drawer only for the selected flight */}
 
       <Box
-        className={`${searchResultStyles.flightOfferCard} ${
-          offerData?.slices.length > 1
+        className={`${searchResultStyles.flightOfferCard} ${offerData?.slices.length > 1
             ? searchResultStyles.Return
             : searchResultStyles.Oneway
-        }`}
+          }`}
       >
         <Grid container>
           <Grid className={searchResultStyles.CardLeft} lg={9} md={9} xs={12}>
@@ -189,7 +143,7 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                           " w-100 btn btn-border btn-round xs btn-md f12 sm " +
                           searchResultStyles.selectFlightBtn
                         }
-                        // onClick={HandleSelectDrawer}
+                      // onClick={HandleSelectDrawer}
                       >
                         {isLoading ? (
                           <>
@@ -210,111 +164,16 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                 </>
               ) : (
                 <>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: { md: "column", lg: "column", xs: "row" },
-                    }}
-                  >
-                    <RightTopSection
-                      SelectDrawer={HandleSelectDrawer}
-                      offerData={offerData}
-                      selectedFlightKey={selectedFlightKey}
-                      isInCart={isInCart} // only true for the flight in cart
-                    />
-                  </Box>
+
+                  <RightTopSection
+                    offerkey={offerkey}
+                    SelectDrawer={HandleSelectDrawer}
+                    offerData={offerData}
+                    selectedFlightKey={selectedFlightKey}
+                    isInCart={isInCart} // only true for the flight in cart
+                  />
                   {/*  */}
-                  <Box
-                    display={"flex"}
-                    flexDirection={"column"}
-                    sx={{
-                      flexDirection: { lg: "column", md: "column", xs: "row" },
-                      width: { lg: "100%", md: "100%", xs: "100%" },
-                      justifyContent: "space-between",
-                      alignItems: {
-                        lg: "flex-start",
-                        md: "flex-start",
-                        xs: "center",
-                      },
-                    }}
-                    gap={1}
-                    className={searchResultStyles.PriceBottom}
-                  >
-                    <Box>
-                      <Typography
-                        className={
-                          searchResultStyles.flightPriceSection +
-                          " mb-0 black bold"
-                        }
-                      >
-                        {currencySymbols[offerData?.tax_currency] ||
-                          offerData?.tax_currency}
-                        {Math.round(
-                          offerData?.total_amount_plus_markup_rounded
-                        )}
-                      </Typography>
 
-                      {personQuantity > 1 && (
-                        <Typography className="f12 gray">
-                          {currencySymbols[offerData?.tax_currency] ||
-                            offerData?.tax_currency}
-                          {Math.round(
-                            offerData?.per_passenger_amount_plus_markup_rounded
-                          )}{" "}
-                          each
-                        </Typography>
-                      )}
-                    </Box>
-                    {/* main select handle */}
-                    {/* {!isselected ? (
-                      
-                    ) : (
-                      ""
-                    )}{" "} */}
-
-                    <Box sx={{ width: { lg: "100%", md: "100%", xs: "auto" } }}>
-                      {selectedFlightKey === offerkey &&
-                      selectedFlight?.raw_data?.total_amount_plus_markup ===
-                        offerData?.total_amount_plus_markup ? (
-                        <Button
-                          disabled
-                          className={`${searchResultStyles.selectFlightBtn} ${searchResultStyles.IsSelected} w-100 btn btn-primary btn-round btn-md `}
-                        >
-                          <span>Selected</span>
-                        </Button>
-                      ) : selectedFlight?.id === offerData.id &&
-                        isFlightAvailable ? (
-                        <Button
-                          disabled
-                          className={`${searchResultStyles.selectFlightBtn} ${searchResultStyles.IsSelected}
-                            w-100 btn btn-primary btn-round btn-md `}
-                        >
-                          <span>Not Available</span>
-                        </Button>
-                      ) : (
-                        <>
-                          <LoadingButton
-                            className={
-                              "w-100 btn btn-primary btn-round btn-md " +
-                              searchResultStyles.selectFlightBtn
-                            }
-                            onClick={() =>
-                              handleBookFlight(offerData, offerkey)
-                            }
-                            loading={selectOfferKey === offerkey}
-                            loadingIndicator={
-                              <CircularProgress
-                                size={18}
-                                sx={{ color: "#fff" }}
-                              />
-                            }
-                          >
-                            Select
-                          </LoadingButton>
-                        </>
-                      )}
-                    </Box>
-                  </Box>
                 </>
               )}
             </Box>
