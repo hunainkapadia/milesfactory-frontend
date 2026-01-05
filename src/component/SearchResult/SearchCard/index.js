@@ -33,11 +33,12 @@ const SearchCard = ({ key, offerData, offerkey }) => {
     // Dispatch flight detail and open drawer
     //Push GA event
 
-    event({
-      action: "click",
-      category: "engagement",
-      label: "See Flight Details",
-    });
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "click", {
+        event_category: "engagement",
+        event_label: "See Flight Details",
+      });
+    }
     if (offerkey) {
       dispatch(setOfferkeyforDetail(offerkey)); //  Store selected flight key for detail
       dispatch(setSeeDetailButton("Chat"));
