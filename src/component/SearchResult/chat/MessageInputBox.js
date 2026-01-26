@@ -254,7 +254,7 @@ const MessageInputBox = ({
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        if (isLoading) return;
+                        if (isPolling.status) return;
                         e.preventDefault();
                         handleSearch();
                         e.currentTarget.textContent = "";
