@@ -69,7 +69,10 @@ const MessageInputBox = ({
   );
   const isMessage = sendMessages > 0 || getmessages > 0;
 
-  const inputLoading = useSelector((state) => state?.sendMessage?.inputLoading);
+  const { inputLoading, isPolling } = useSelector((state) => state?.sendMessage);
+  console.log("isPolling_status", isPolling.status); // ✅ true/false
+  
+
 
   const inputValue = useSelector((state) => state.base.inputValue); //get input value
   const getBuilder = useSelector((state) => state?.sendMessage?.AddBuilder); // builder
@@ -140,7 +143,7 @@ const MessageInputBox = ({
 
   // Find message with ai.offers
   const checkPolling = messages.find((msg) => msg.ai && msg.ai.offers);
-  const isPolling = checkPolling?.ai?.is_complete;
+  
 
   const HandleNewThread = () => {
     dispatch(deleteAndCreateThread());
@@ -251,7 +254,7 @@ const MessageInputBox = ({
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        if (isLoading) return;
+                        if (isPolling.status) return;
                         e.preventDefault();
                         handleSearch();
                         e.currentTarget.textContent = "";
@@ -428,6 +431,8 @@ const MessageInputBox = ({
                                     )}
                                   </>
                                 ) : (
+                                  <>
+                                  
                                   <IconButton
                                     className={`${inputStyles.MicButton} ${
                                       isMicActive
@@ -435,7 +440,7 @@ const MessageInputBox = ({
                                         : inputStyles.MicButton
                                     }`}
                                     onClick={handleVoiceInput}
-                                    disabled={isLoading}
+                                    disabled={isLoading || isPolling.status}
                                   >
                                     <Tooltip
                                       placement="top"
@@ -474,6 +479,7 @@ const MessageInputBox = ({
                                       </Box>
                                     </Tooltip>
                                   </IconButton>
+                                  </>
                                 )}
                               </>
                             )}
@@ -500,10 +506,10 @@ const MessageInputBox = ({
                                     <IconButton
                                       sx={{ p: 0 }}
                                       className={`${inputStyles.SearchButton} ${
-                                        isLoading ? inputStyles.Disabled : ""
+                                        isLoading || isPolling.status ? inputStyles.Disabled : ""
                                       }`}
                                       onClick={handleSearch}
-                                      disabled={isLoading}
+                                      disabled={isLoading || isPolling.status}
                                     >
                                       {inputLoading && isHomePage ? (
                                         <>
