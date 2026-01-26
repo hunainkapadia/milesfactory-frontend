@@ -1,51 +1,48 @@
 import LinearProgress from "@mui/material/LinearProgress";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const SearchProgressBar = () => {
-  const isPollComplete = useSelector(
-    (state) => state?.sendMessage?.SearchHistorySend?.is_complete
-  );
+  const isPolling = useSelector((state) => state.sendMessage.isPolling.status);
+  const pollingComplete = useSelector((state) => state.sendMessage.pollingComplete);
 
   const [progress, setProgress] = useState(0);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     let interval;
-    let timeout;
 
-    if (isPollComplete === false) {
-      setVisible(true);
+    if (isPolling) {
       setProgress(0);
 
       interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev < 90) return prev + 1; // Stop at 90% to wait for real complete
-          return prev;
+          let next = prev;
+          if (prev < 50) {
+            next += Math.random() * 5; // faster increment before 50%
+          } else if (prev < 90) {
+            next += Math.random() * 2; // slower increment from 50% to 80%
+          }
+          return next >= 90 ? 90 : next; // cap at 80% while polling
         });
-      }, 90); // Slightly slower for a smoother feel
+      }, 300);
     }
 
-    if (isPollComplete === true) {
-      clearInterval(interval);
-      setProgress(100);
-
-      timeout = setTimeout(() => {
-        setVisible(false);
-        setProgress(0);
-      }, 500);
+    if (pollingComplete) {
+      setProgress(100); // jump to 100% immediately
+      setTimeout(() => setProgress(0), 500); // hide after short delay
     }
 
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  }, [isPollComplete]);
+    if (!isPolling && !pollingComplete) {
+      setProgress(0); // reset
+    }
 
-  if (typeof isPollComplete === "undefined" || !visible) return null;
+    return () => clearInterval(interval);
+  }, [isPolling, pollingComplete]);
+
+  if (!isPolling && !pollingComplete) return null;
 
   return (
-    <div style={{ width: "100%", position: "relative", marginBottom: "10px" }}>
+    <div style={{ width: "100%", marginBottom: "10px" }}>
       <LinearProgress
         variant="determinate"
         value={progress}
@@ -55,6 +52,7 @@ const SearchProgressBar = () => {
           backgroundColor: "#F2F2F7",
           "& .MuiLinearProgress-bar": {
             backgroundColor: "#00C4CC",
+            transition: "width 0.3s ease",
           },
         }}
       />

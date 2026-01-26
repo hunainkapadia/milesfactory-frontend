@@ -233,28 +233,20 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         let response = res.data;
         const run_id = response.run_id;
         const run_status = response.run_status;
-        
-        
+
         const technicalError = response?.response?.errors;
-        
+
         if (
           response?.message?.includes("SYSTEM MESSAGE") &&
           response?.is_function === false
         ) {
-          
           dispatch(setSystemMessage(true));
         }
 
-
-        
-
         if (technicalError) {
-          //  error occurred, send a new message as user only ONCE
           const errorMessage = `SYSTEM MESSAGE: Flight Search Error - ${response?.response?.message || "Something went wrong"}`;
           dispatch(sendMessage(errorMessage, true)); // send once, prevent infinite loop
-          // return;
         }
-        
 
         dispatch(setMessage({ ai: { error: response } }));
         dispatch(setLoading(false));
@@ -304,64 +296,102 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const hotelSearchApi =
           response?.response?.results?.view_hotel_search_api?.url;
 
+        // ----- FLIGHT SEARCH -----
         if (allFlightSearchApi) {
           dispatch(setTopOfferUrlSend(allFlightSearchUuid));
           dispatch(setAllOfferUrl(allFlightSearchApi));
           dispatch(setFilterUrl(allFlightSearchApi));
 
           const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
+          let hasShownInitial = false;
+          
+          const pollHistoryUntilComplete = () => {
+            const interval = setInterval(() => {
+              //START polling here
+                dispatch(setisPolling({ status: true, argument: null })); 
 
-          dispatch(setLoading(true));
+              api
+                .get(historyUrl)
+                .then((historyRes) => {
+                  const historyData = historyRes?.data?.search;
+                  const isComplete = historyData?.is_complete;
 
-          //  Directly fetch both search history & flight results
-          Promise.all([
-            api.get(historyUrl).catch(() => null),
-            api.get(allFlightSearchApi).catch(() => null),
-          ])
-            .then(([historyRes, flightRes]) => {
-              // ---- History ----
-              if (historyRes?.data?.search) {
-                dispatch(
-                  setSearchHistorySend({ flight: historyRes.data.search })
-                );
-              }
+                  // ---- update history continuously ----
+                  if (historyData) {
+                    dispatch(setSearchHistorySend({ flight: historyData }));
+                  }
 
-              // ---- Flights ----
-              if (flightRes?.data) {
-                const flightData = flightRes.data;
-                const isComplete = flightData?.is_complete;
+                  // ---- show early flight results once while polling ----
+                  if (!isComplete && !hasShownInitial) {
+                    hasShownInitial = true;
 
-                // No polling: always show directly
-                if (
-                  flightData?.count === 0 &&
-                  Array.isArray(flightData?.offers) &&
-                  flightData?.offers.length === 0
-                ) {
-                  dispatch(setMessage({ ai: "isNotFound" }));
-                } else {
-                  //  Append instead of clearing old flights
-                  dispatch(
-                    setMessage({
-                      ai: {
-                        ...flightData,
-                        url: allFlightSearchApi,
-                        response: response?.response,
-                        append: true, // 🔹 mark that this should be appended
-                      },
-                      type: "flight_result",
-                    })
-                  );
-                }
-              }
-            }).catch((error)=> {
-              console.log("error_flight", error)
-            })
-            .finally(() => {
-              dispatch(setLoading(false));
-            });
+                    api.get(allFlightSearchApi).then((flightRes) => {
+                      if (flightRes?.data) {
+                        dispatch(
+                          setMessage({
+                            ai: {
+                              ...flightRes.data,
+                              url: allFlightSearchApi,
+                              append: true,
+                            },
+                            type: "flight_result",
+                          })
+                        );
+                      }
+                    });
+
+                    dispatch(
+                      setMessage({
+                        ai: { response: response?.response },
+                        type: "flight_placeholder",
+                      })
+                    );
+                  }
+
+                  // ---- stop polling when complete ----
+                  if (isComplete === true) {
+                    console.log("History polling finished");
+                    dispatch(setisPolling({ status: false, argument: null })); // ✅ STOP polling
+
+                    clearInterval(interval);
+
+                    api.get(allFlightSearchApi).then((flightRes) => {
+                      if (
+                        flightRes?.data?.count === 0 &&
+                        Array.isArray(flightRes?.data?.offers) &&
+                        flightRes?.data?.offers.length === 0
+                      ) {
+                        dispatch(setMessage({ ai: "isNotFound" }));
+                      } else {
+                        dispatch(setSelectedFlightKey(null));
+                        dispatch(setClearflight());
+
+                        dispatch(
+                          setMessage({
+                            ai: {
+                              ...flightRes.data,
+                              url: allFlightSearchApi,
+                            },
+                            type: "flight_result",
+                          })
+                        );
+                      }
+                    });
+                  }
+                })
+                .catch((err) => {
+                  console.error("❌ History polling failed", err);
+                  dispatch(setisPolling({ status: false, argument: null })); // stop polling on error
+
+                  clearInterval(interval);
+                });
+            }, 1000);
+          };
+
+          pollHistoryUntilComplete();
         }
 
-        // --------- HOTEL FLOW ---------
+        // ----- HOTEL FLOW -----
         else if (hotelSearchApi) {
           const HotelArgument =
             response?.silent_function_template?.[0]?.function?.arguments || {};
@@ -465,6 +495,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     });
   }
 };
+
 
 // close send messge
 
