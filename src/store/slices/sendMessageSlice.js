@@ -306,7 +306,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           let hasShownInitial = false;
           
           const pollHistoryUntilComplete = () => {
-            const interval = setInterval(() => {
+            historyPollingInterval = setInterval(() => {
+
               //START polling here
                 dispatch(setisPolling({ status: true, argument: null })); 
 
@@ -353,7 +354,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     console.log("History polling finished");
                     dispatch(setisPolling({ status: false, argument: null })); // ✅ STOP polling
 
-                    clearInterval(interval);
+                    if (historyPollingInterval) {
+                      clearInterval(historyPollingInterval);
+                      historyPollingInterval = null;
+                    }
 
                     api.get(allFlightSearchApi).then((flightRes) => {
                       if (
@@ -383,7 +387,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   console.error("❌ History polling failed", err);
                   dispatch(setisPolling({ status: false, argument: null })); // stop polling on error
 
-                  clearInterval(interval);
+                  if (historyPollingInterval) {
+                    clearInterval(historyPollingInterval);
+                    historyPollingInterval = null;
+                  }
                 });
             }, 1000);
           };
@@ -518,6 +525,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
 // create thread api call
 
 // for chat page header plus  icon
+let historyPollingInterval = null;
+
 export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
   dispatch(setNewChatLoading(true));
   api
@@ -525,6 +534,15 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
+
+        // 🛑 STOP ANY RUNNING POLLING
+        if (historyPollingInterval) {
+          clearInterval(historyPollingInterval);
+          historyPollingInterval = null;
+        }
+        dispatch(setisPolling({ status: false, argument: null }));
+        dispatch(setpollingComplete(true));
+        alert("test")
         dispatch(setLoading(false));
         dispatch(setAllPassengerFill(null));
         // allslices reset
