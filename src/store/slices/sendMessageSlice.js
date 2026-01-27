@@ -186,24 +186,7 @@ const sendMessageSlice = createSlice({
         return msg;
       });
     },
-
-    setIsUpdateOffer: (state, action) => {
-      state.isUpdateOffer = action.payload;
-    },
-    setUpdateOffer: (state) => {
-      state.messages = state.messages.map((msg) => {
-        if (msg.ai?.offers) {
-          return {
-            ...msg,
-            ai: {
-              ...msg.ai,
-              offers: [], // null ki jagah empty array rakhen to handle karna easy rahega
-            },
-          };
-        }
-        return msg;
-      });
-    },
+    
 
     setAllFlightResults: (state, action) => {
       state.AllFlightPostApi = action.payload;
@@ -245,7 +228,24 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             let response = res.data;
             const run_id = response.run_id;
             const run_status = response.run_status;
+            const technicalError = response?.response?.errors;
+                    
+            if (
+              response?.message?.includes("SYSTEM MESSAGE") &&
+              response?.is_function === false
+            ) {
+              
+              dispatch(setSystemMessage(true));
+            }
     
+  
+            if (technicalError) {
+              //  error occurred, send a new message as user only ONCE
+              const errorMessage = `SYSTEM MESSAGE: Flight Search Error - ${response?.response?.message || "Something went wrong"}`;
+              dispatch(sendMessage(errorMessage, true)); // send once, prevent infinite loop
+              // return;
+            }
+
             dispatch(setMessage({ ai: { error: response } }));
             dispatch(setLoading(false));
     
@@ -271,18 +271,20 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               const pollUntilComplete = () => {
                 
                 return new Promise((resolve, reject) => {
-                  const interval = setInterval(() => {
+                  historyPollingInterval = setInterval(() => {
                     api
                       .get(runStatusUrl)
                       .then((resRun) => {
                         const runData = resRun.data;
                         if (runData.run_status === "completed") {
-                          clearInterval(interval);
+                          clearInterval(historyPollingInterval);
+                          historyPollingInterval = null;
                           resolve(runData);
                         }
                       })
                       .catch((err) => {
-                        clearInterval(interval);
+                        clearInterval(historyPollingInterval);
+                        historyPollingInterval = null;
                         reject(err);
                       });
                   }, 1000);
@@ -355,7 +357,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 alert("✅ Polling started for flight search...");
                 dispatch(setisPolling({ status: true }));
     
-                const interval = setInterval(() => {
+                historyPollingInterval = setInterval(() => {
                   api
                     .get(historyUrl)
                     .then((history_res) => {
@@ -368,7 +370,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                         console.log("isComplete_0", isComplete);
                         dispatch(setisPolling({ status: false}))
     
-                        clearInterval(interval);
+                        clearInterval(historyPollingInterval);
+                        historyPollingInterval = null;
                         api.get(allFlightSearchApi).then((flightRes) => {
                           if (
                             flightRes?.data?.count === 0 &&
@@ -437,7 +440,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     })
                     .catch((err) => {
                       console.error("Polling failed", err);
-                      clearInterval(interval);
+                      clearInterval(historyPollingInterval);
+                      historyPollingInterval = null;
                     })
                     .finally(() => {
                       dispatch(setLoading(false));
