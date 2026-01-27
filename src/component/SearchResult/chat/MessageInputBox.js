@@ -575,7 +575,7 @@ const MessageInputBox = ({
                   }}
                 >
                   <Button
-                    className={`btn btn-primary btn-round btn-xs  ${
+                    className={`btn btn-primary btn-round btn-lg-x  ${
                       inputStyles.SearchButton
                     } ${isLoading ? inputStyles.Disabled : ""}`}
                     onClick={handleSearch}
