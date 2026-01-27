@@ -3,43 +3,50 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const SearchProgressBar = () => {
-  const isPolling = useSelector((state) => state.sendMessage.isPolling.status);
-  const pollingComplete = useSelector((state) => state.sendMessage.pollingComplete);
+  // Flight polling status
+  const isComplete = useSelector(
+    (state) => state.sendMessage?.SearchHistorySend?.flight?.is_complete
+  );
 
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     let interval;
 
-    if (isPolling) {
-      setProgress(0);
-
+    // Only animate while polling (i.e., not complete)
+    if (!isComplete) {
+      setProgress(1); // start from 1%
       interval = setInterval(() => {
         setProgress((prev) => {
           let next = prev;
+
+          // Faster increment up to 50%
           if (prev < 50) {
-            next += Math.random() * 5; // faster increment before 50%
-          } else if (prev < 90) {
-            next += Math.random() * 2; // slower increment from 50% to 80%
+            next += Math.random() * 5; 
           }
-          return next >= 90 ? 90 : next; // cap at 80% while polling
+          // Slower increment from 50% → 90%
+          else if (prev < 90) {
+            next += Math.random() * 2;
+          }
+
+          // Cap at 90%
+          return next >= 90 ? 90 : next;
         });
       }, 300);
     }
 
-    if (pollingComplete) {
-      setProgress(100); // jump to 100% immediately
-      setTimeout(() => setProgress(0), 500); // hide after short delay
-    }
-
-    if (!isPolling && !pollingComplete) {
-      setProgress(0); // reset
+    // If polling completes, jump to 100% and hide shortly
+    if (isComplete) {
+      setProgress(100);
+      const timeout = setTimeout(() => setProgress(0), 500);
+      return () => clearTimeout(timeout);
     }
 
     return () => clearInterval(interval);
-  }, [isPolling, pollingComplete]);
+  }, [isComplete]);
 
-  if (!isPolling && !pollingComplete) return null;
+  // Hide bar when progress is 0
+  if (progress === 0) return null;
 
   return (
     <div style={{ width: "100%", marginBottom: "10px" }}>
