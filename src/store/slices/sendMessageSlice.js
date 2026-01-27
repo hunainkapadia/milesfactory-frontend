@@ -336,7 +336,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                               append: true,
                             },
                             type: "flight_result",
-                          })
+                          }),
                         );
                       }
                     });
@@ -345,14 +345,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       setMessage({
                         ai: { response: response?.response },
                         type: "flight_placeholder",
-                      })
+                      }),
                     );
                   }
 
                   // ---- stop polling when complete ----
                   if (isComplete === true) {
                     console.log("History polling finished");
-                    dispatch(setisPolling({ status: false, argument: null })); // ✅ STOP polling
+                    dispatch(setisPolling({ status: false, argument: null }));
 
                     if (historyPollingInterval) {
                       clearInterval(historyPollingInterval);
@@ -360,26 +360,37 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     }
 
                     api.get(allFlightSearchApi).then((flightRes) => {
-                      if (
-                        flightRes?.data?.count === 0 &&
-                        Array.isArray(flightRes?.data?.offers) &&
-                        flightRes?.data?.offers.length === 0
-                      ) {
-                        dispatch(setMessage({ ai: "isNotFound" }));
-                      } else {
-                        dispatch(setSelectedFlightKey(null));
-                        dispatch(setClearflight());
+                      const data = flightRes?.data;
 
+                      if (!data || (data.offers && data.offers.length === 0)) {
                         dispatch(
                           setMessage({
-                            ai: {
-                              ...flightRes.data,
-                              url: allFlightSearchApi,
-                            },
+                            ai: "isNotFound",
                             type: "flight_result",
-                          })
+                          }),
                         );
+                        return;
                       }
+
+                      // ---- APPEND old + new offers ----
+                      dispatch(
+                        setAppendFlights({
+                          ai: data,
+                          nextPageNo: data.next_page_number || 2,
+                        }),
+                      );
+
+                      // ---- push a flight_result message for chat ----
+                      dispatch(
+                        setMessage({
+                          ai: {
+                            ...data,
+                            url: allFlightSearchApi,
+                            append: true, // important → this ensures old messages are preserved
+                          },
+                          type: "flight_result",
+                        }),
+                      );
                     });
                   }
                 })

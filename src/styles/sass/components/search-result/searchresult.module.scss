@@ -248,6 +248,7 @@
       }
       .logoCol {
         .airlineLogo {
+          overflow: visible;
           border-radius: 0;
           justify-content: flex-start;
           background: $white;
