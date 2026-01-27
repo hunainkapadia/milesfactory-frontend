@@ -71,7 +71,11 @@
       align-items: center;
    }
    
-   &.AiBookingFrontHeader {position: relative; background-color: $white;}
+   &.AiBookingFrontHeader {position: relative; background-color: $white;
+      height: 60px;
+      display: flex;
+      align-items: center;
+   }
    &.AiBookingMainHeaderRow1 {
       position: relative;
       height: 30px;
@@ -286,9 +290,9 @@
       }
    }
    .airlinepowerBtn {
-      padding: 0 !important;
+      
       display: flex;
-      width: 172px;
+      width: auto;
    }
    
    .FooterForDark {

@@ -132,6 +132,7 @@ const AiBookingFrontHeader = ({
         </Container>
       </Box>
       <PowerAirline />
+      <MobileNavDrawer isAiBooking={"isAiBooking"}  />
       
     </>
   );

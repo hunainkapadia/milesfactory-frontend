@@ -542,7 +542,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         }
         dispatch(setisPolling({ status: false, argument: null }));
         dispatch(setpollingComplete(true));
-        alert("test")
         dispatch(setLoading(false));
         dispatch(setAllPassengerFill(null));
         // allslices reset
