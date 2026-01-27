@@ -174,7 +174,7 @@
          display: flex;
          justify-content: center;
          align-items: center;
-         height: 77vh;
+         height: 70vh;
          .ContentIn {
             width: 885px;
             display: flex;
@@ -273,6 +273,7 @@
 
 @media only screen and (max-width: 1200px) {
   .HeroSection .Box {}
+  
   .HeroSection.mainHeroSection .Box .Content .ContentIn{
     width: 63%;
   }
@@ -294,14 +295,14 @@
   }
 
   .ContentIn {
-    width: auto !important;
+    width: auto;
   }
   .homeBody {
     margin-top: 0;
   }
   .TabSection {
     padding: 12px;
-    width: 315px;
+    width: 100%;
   }
   .HeroSection {
     padding: 24px 0 0;
@@ -313,10 +314,11 @@
       .HeroSectionIn {padding-top: 0px;}
       .Content {
         height: 70vh;
+        padding: 0 12px;
       }
       .ContentIn {
         width: 100%;
-        padding: 0 16px;
+        padding: 0;
       }
       .Box {
         .Content2 {
