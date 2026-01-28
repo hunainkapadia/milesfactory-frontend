@@ -77,9 +77,9 @@ const travellersummary = [
              <Typography variant="body2" gutterBottom>
                There's nothing to do except waiting {daysLeft} days before
                takeoff. Booking reference (PNR):{" "}
-               <span className="exbold">
-                 {flightOffer?.duffel_order?.booking_reference}
-               </span>
+               <strong>
+                 {tripDetail?.duffel_order.booking_reference}
+               </strong>
              </Typography>
              <Divider sx={{ my: 2 }} />
              {/* Flights */}
@@ -271,9 +271,9 @@ const travellersummary = [
                  <Typography variant="subtitle2">Customer service</Typography>
                  <Typography fontSize="14px">
                    Booking reference:{" "}
-                   <span className="exbold">
-                     {flightOffer?.duffel_order?.booking_reference}
-                   </span>
+                   <strong>
+                     {tripDetail?.duffel_order.booking_reference}
+                    </strong>
                  </Typography>
                  <Typography fontSize="12px" color="primary" sx={{ mt: 0.5 }}>
                    <a href="mailto:hello@gomylz.com">

@@ -229,6 +229,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             const run_id = response.run_id;
             const run_status = response.run_status;
             const technicalError = response?.response?.errors;
+
+            console.log("run_status", run_status);
+            
                     
             if (
               response?.message?.includes("SYSTEM MESSAGE") &&
@@ -253,11 +256,13 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               dispatch(setAddBuilder(response));
             }
             dispatch(setIsFunction({ status: false }));
-    
+            // if run_status requrd action its poll [start]
             if (run_status === "requires_action") {
               const runStatusUrl = `/api/v1/chat/get-messages/${uuid}/run/${run_id}`;
               const funcTemplate = response.function_template?.[0];
               const gdata = funcTemplate?.function?.arguments || {};
+              console.log("runStatusUrl", runStatusUrl);
+              
     
               dispatch(setpollingComplete(false));
               dispatch(
@@ -302,6 +307,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             } else {
               handleFinalResponse(response);
             }
+            // if run_status requrd action its poll [end]
           })
           .catch(() => {})
           .finally(() => {});
