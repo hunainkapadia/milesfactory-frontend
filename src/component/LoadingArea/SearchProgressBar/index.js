@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 
 const SearchProgressBar = () => {
   // Flight polling status
-  const isComplete = useSelector(
-    (state) => state.sendMessage?.SearchHistorySend?.flight?.is_complete
-  );
+  const isPolling = useSelector((state) => state?.sendMessage.isPolling.status);
+
+  console.log("isPolling_00", isPolling);
+  
 
   const [progress, setProgress] = useState(0);
 
@@ -14,7 +15,7 @@ const SearchProgressBar = () => {
     let interval;
 
     // Only animate while polling (i.e., not complete)
-    if (!isComplete) {
+    if (!isPolling) {
       setProgress(1); // start from 1%
       interval = setInterval(() => {
         setProgress((prev) => {
@@ -36,14 +37,14 @@ const SearchProgressBar = () => {
     }
 
     // If polling completes, jump to 100% and hide shortly
-    if (isComplete) {
+    if (isPolling) {
       setProgress(100);
       const timeout = setTimeout(() => setProgress(0), 500);
       return () => clearTimeout(timeout);
     }
 
     return () => clearInterval(interval);
-  }, [isComplete]);
+  }, [isPolling]);
 
   // Hide bar when progress is 0
   if (progress === 0) return null;
