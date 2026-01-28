@@ -3,54 +3,47 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const SearchProgressBar = () => {
-  // Flight polling status
-  const isPolling = useSelector((state) => state?.sendMessage.isPolling.status);
+  const isPolling = useSelector((state) => state?.sendMessage?.isPolling);
 
-  console.log("isPolling_00", isPolling);
-  
+  const isActive = isPolling?.type === "active";   // 👈 show/hide
+  const isRunning = isPolling?.status === true;   // 👈 animate
 
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     let interval;
 
-    // Only animate while polling (i.e., not complete)
-    if (!isPolling) {
-      setProgress(1); // start from 1%
+    // ▶ Animate only while polling is running
+    if (isRunning) {
+      setProgress(1);
+
       interval = setInterval(() => {
         setProgress((prev) => {
           let next = prev;
 
-          // Faster increment up to 50%
-          if (prev < 50) {
-            next += Math.random() * 5; 
-          }
-          // Slower increment from 50% → 90%
-          else if (prev < 90) {
-            next += Math.random() * 2;
-          }
+          if (prev < 50) next += Math.random() * 5;
+          else if (prev < 90) next += Math.random() * 2;
 
-          // Cap at 90%
           return next >= 90 ? 90 : next;
         });
       }, 300);
     }
 
-    // If polling completes, jump to 100% and hide shortly
-    if (isPolling) {
+    // ⏹ When polling stops, finish smoothly
+    if (!isRunning && progress > 0) {
       setProgress(100);
-      const timeout = setTimeout(() => setProgress(0), 500);
+      const timeout = setTimeout(() => setProgress(0), 400);
       return () => clearTimeout(timeout);
     }
 
     return () => clearInterval(interval);
-  }, [isPolling]);
+  }, [isRunning]);
 
-  // Hide bar when progress is 0
-  if (progress === 0) return null;
+  // 👇 Hide completely unless type is active
+  if (!isActive || progress === 0) return null;
 
   return (
-    <div style={{ width: "100%", marginBottom: "10px" }}>
+    <div style={{ width: "100%", marginBottom: 10 }}>
       <LinearProgress
         variant="determinate"
         value={progress}

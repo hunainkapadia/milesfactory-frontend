@@ -56,7 +56,7 @@ const sendMessageSlice = createSlice({
     TopOfferUrlSend: null,
     isPolling: {
       status: false,
-      argument: null,
+      type: "notactive"
     },
     pollingComplete: false,
     Createthread: null,
@@ -354,8 +354,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               };
     
               const pollHistoryUntilComplete = () => {
-                alert("✅ Polling started for flight search...");
-                dispatch(setisPolling({ status: true }));
+                // alert("✅ Polling started for flight search...");
+                dispatch(setisPolling({ status: true, type: "active" }));
     
                 historyPollingInterval = setInterval(() => {
                   api
@@ -368,7 +368,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
     
                       if (isComplete === true) {
                         console.log("isComplete_0", isComplete);
-                        dispatch(setisPolling({ status: false}))
+                        dispatch(setisPolling({ status: false, type: "active"}))
     
                         clearInterval(historyPollingInterval);
                         historyPollingInterval = null;
@@ -594,7 +594,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
           clearInterval(historyPollingInterval);
           historyPollingInterval = null;
         }
-        dispatch(setisPolling({ status: false }));
+        dispatch(setisPolling({ status: false, type: "notactive" }));
         dispatch(setpollingComplete(true));
         dispatch(setLoading(false));
         dispatch(setAllPassengerFill(null));
