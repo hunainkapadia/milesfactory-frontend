@@ -18,6 +18,8 @@ import FromAndToDetail from "../../Checkout/BookingDrawer/FromAndToDetail";
 import { currencySymbols } from "@/src/utils/utils";
 
 const FlightCard = ({flightOffer, tripDetail}) => {
+  console.log("tripDetail000", tripDetail);
+  
    const daysLeft = Math.ceil(
     (new Date(flightOffer?.slices[0]?.segments[0]?.departing_at) - new Date()) /
       (1000 * 60 * 60 * 24)

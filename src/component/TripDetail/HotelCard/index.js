@@ -23,6 +23,9 @@ import HotelDrawerGallery from "../../SearchResult/Hotel/hotelDrawer/HotelDrawer
 import { useSelector } from "react-redux";
 
 const HotelCard = ({ hotelOffer, tripDetail }) => {
+
+  console.log("tripDetail_hotel", tripDetail?.hotel_order?.order_reference_no);
+  
   const stars = hotelOffer?.categoryName
     ? parseInt(hotelOffer.categoryName)
     : 0;
@@ -325,13 +328,13 @@ const HotelCard = ({ hotelOffer, tripDetail }) => {
                   </strong>{" "}
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Typography variant="subtitle2">Customer service</Typography>
                 <Typography fontSize="14px">
                   Booking reference:{" "}
-                  <span className="exbold">
-                    {tripDetail?.duffel_order?.booking_reference}
-                  </span>
+                  <strong>
+                    {tripDetail?.hotel_order?.order_reference_no}
+                  </strong>
                 </Typography>
                 <Typography fontSize="12px" color="primary" sx={{ mt: 0.5 }}>
                   <a href="mailto:hello@gomylz.com">
