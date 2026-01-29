@@ -46,7 +46,6 @@ const HeaderUser = ({
 
   // Combine all sources to find current user
   const currentUser = isUserLogin;
-  console.log("isChat_000", isChat);
   
   // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
   // Set user to Redux on initial mount from cookies

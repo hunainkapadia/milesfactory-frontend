@@ -36,7 +36,6 @@ const BookingDrawerFooter = ({ getFlightDetails }) => {
 
 
   const offerkey = useSelector((state) => state?.booking?.offerkeyforDetail);
-  console.log("drawer_offerkey", offerkey);
   
   //  Move here (component scope)
   const isCartItem = useSelector(

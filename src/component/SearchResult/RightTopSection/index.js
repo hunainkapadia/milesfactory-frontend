@@ -71,7 +71,6 @@ const RightTopSection = ({
 
   
 
-  console.log( "CartItems2", isAnyFlightSelected || isThisFlightSelected);
   return (
     <>
       <Box

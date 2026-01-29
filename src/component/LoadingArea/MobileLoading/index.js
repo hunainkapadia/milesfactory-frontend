@@ -76,7 +76,6 @@ const MobileLoading = () => {
       ("");
     }
   };
-  console.log("CartData_total_price", CartData);
   
 
   return (

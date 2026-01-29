@@ -50,7 +50,6 @@ const TripCard = ({ tripData }) => {
     router.push(`/my-trips/${uuid}`);
   };
 
-  console.log("tripData_order_status", tripData?.details?.flight?.order_status);
   
 
   return (

@@ -24,7 +24,6 @@ import { useSelector } from "react-redux";
 
 const HotelCard = ({ hotelOffer, tripDetail }) => {
 
-  console.log("tripDetail_hotel", tripDetail?.hotel_order?.order_reference_no);
   
   const stars = hotelOffer?.categoryName
     ? parseInt(hotelOffer.categoryName)

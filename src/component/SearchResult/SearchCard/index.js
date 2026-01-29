@@ -49,16 +49,14 @@ const SearchCard = ({ key, offerData, offerkey }) => {
   };
 
   // selected flight detail get for send data in select button click
-  const selectOfferKey = useSelector((state) => state.booking.selectOfferKey);
+  const selectedOfferKey = useSelector((state) => state.booking.selectOfferKey);
   //
 
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
-  const selectedFlightKey_2 = useSelector(
-    (state) => state.booking?.selectOfferKey
-  );
-  console.log("selectedFlightKey_2", selectedFlightKey_2 );
+  
+  
   
 
   // non redux direct select for show selected button
@@ -75,7 +73,6 @@ const SearchCard = ({ key, offerData, offerkey }) => {
     dispatch(setRefreshSearch());
   };
 
-  console.log("selectedFlight", selectOfferKey);
 
   return (
     <>
@@ -175,7 +172,7 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                     offerkey={offerkey}
                     SelectDrawer={HandleSelectDrawer}
                     offerData={offerData}
-                    selectedFlightKey={selectedFlightKey_2}
+                    selectedFlightKey={selectedOfferKey}
                     isInCart={isInCart} // only true for the flight in cart
                   />
                   {/*  */}

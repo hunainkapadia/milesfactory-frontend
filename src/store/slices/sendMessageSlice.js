@@ -416,7 +416,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                             }
     
                             //  Continue normal logic
-                            dispatch(setSelectedFlightKey(null));
+                            
                             dispatch(setClearflight());
                             dispatch(
                               setMessage({
@@ -615,7 +615,6 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
         dispatch(resetBaggageState());
 
         dispatch(setAddFilledPassenger(null));
-        dispatch(setSelectedFlightKey(null)); // fro reset selected button
         dispatch(setCartType(null));
         dispatch(setGetCartDetail(null));
         dispatch(setResetAppendFlights());
@@ -657,7 +656,7 @@ export const CreatesingleThread = (threaduuid) => (dispatch, getState) => {
   dispatch(setClearChat());
   dispatch(setAddBuilder(null));
   dispatch(setSearchHistorySend(null));
-  dispatch(setSelectedFlightKey(null));
+  
   dispatch(setflightDetail(null));
   dispatch(setViewPassengers([]));
   dispatch(setOrderUuid(null));
