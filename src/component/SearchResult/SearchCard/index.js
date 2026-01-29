@@ -55,6 +55,11 @@ const SearchCard = ({ key, offerData, offerkey }) => {
   const selectedFlightKey = useSelector(
     (state) => state.booking.selectedFlightKey
   );
+  const selectedFlightKey_2 = useSelector(
+    (state) => state.booking?.selectOfferKey
+  );
+  console.log("selectedFlightKey_2", selectedFlightKey_2 );
+  
 
   // non redux direct select for show selected button
   const CartDetails = useSelector((state) => state.booking.getCartDetail);
@@ -170,7 +175,7 @@ const SearchCard = ({ key, offerData, offerkey }) => {
                     offerkey={offerkey}
                     SelectDrawer={HandleSelectDrawer}
                     offerData={offerData}
-                    selectedFlightKey={selectedFlightKey}
+                    selectedFlightKey={selectedFlightKey_2}
                     isInCart={isInCart} // only true for the flight in cart
                   />
                   {/*  */}
