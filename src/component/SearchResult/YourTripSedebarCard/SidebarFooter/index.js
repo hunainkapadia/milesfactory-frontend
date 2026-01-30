@@ -90,7 +90,6 @@ const SidebarFooter = () => {
       >
         <Box>
           {/* for flight */}
-          {sendMessages?.length === 0 && <h1>asas</h1>}
           {(isCartSuccess &&
             issystemmessage &&
             getCartDetail?.items?.length < 2) ||
