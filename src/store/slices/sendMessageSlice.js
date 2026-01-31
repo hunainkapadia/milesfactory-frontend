@@ -197,7 +197,8 @@ const sendMessageSlice = createSlice({
       }
 
       // --------------------------------
-      //  LIVE FLIGHT RESULT (replace in place)
+      //  LIVE FLIGHT RESULT (replace in place) 
+      // old flight whici will be replace
       // --------------------------------
       if (newMessage?.type === "flight_result_live") {
         const liveIndex = state.messages.findIndex(
@@ -216,31 +217,38 @@ const sendMessageSlice = createSlice({
       //  FINAL FLIGHT RESULT after polling complete
       // --------------------------------
       // --------------------------------
-//  FINAL FLIGHT RESULT (Poll Complete)
-// --------------------------------
-if (newMessage?.type === "flight_result_final" || (!newMessage.type && newMessage.ai?.is_complete)) {
-  // 1. Try to find the existing 'live' or 'placeholder' message
-  const liveIndex = state.messages.findIndex(
-    (msg) => msg?.type === "flight_result_live" || msg?.type === "flight_placeholder"
-  );
+      //  FINAL FLIGHT RESULT (Poll Complete)
+      // --------------------------------
+      if (
+        newMessage?.type === "flight_result_final" ||
+        (!newMessage.type && newMessage.ai?.is_complete)
+      ) {
+        // 1. Try to find the existing 'live' or 'placeholder' message
+        const liveIndex = state.messages.findIndex(
+          (msg) =>
+            msg?.type === "flight_result_live" ||
+            msg?.type === "flight_placeholder",
+        );
 
-  if (liveIndex !== -1) {
-    // 2. Update the old message with new data, change type to 'flight_result'
-    state.messages[liveIndex] = {
-      ...newMessage,
-      type: "flight_result" 
-    };
-  } else {
-    // 3. If for some reason the old one is gone, insert it BEFORE the filter
-    const filterIndex = state.messages.findIndex(msg => msg?.type === "flight_result_append");
-    if (filterIndex !== -1) {
-      state.messages.splice(filterIndex, 0, newMessage);
-    } else {
-      state.messages.push(newMessage);
-    }
-  }
-  return;
-}
+        if (liveIndex !== -1) {
+          // 2. Update the old message with new data, change type to 'flight_result'
+          state.messages[liveIndex] = {
+            ...newMessage,
+            type: "flight_result",
+          };
+        } else {
+          // 3. If for some reason the old one is gone, insert it BEFORE the filter
+          const filterIndex = state.messages.findIndex(
+            (msg) => msg?.type === "flight_result_append",
+          );
+          if (filterIndex !== -1) {
+            state.messages.splice(filterIndex, 0, newMessage);
+          } else {
+            state.messages.push(newMessage);
+          }
+        }
+        return;
+      }
 
       // --------------------------------
       // 🔍 FILTERED RESULT (always last, replace old)
