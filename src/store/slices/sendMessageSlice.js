@@ -152,7 +152,7 @@ const sendMessageSlice = createSlice({
     },
     setClearflight(state) {
       state.messages = state.messages.filter(
-        (msg) => msg?.type !== "flight_placeholder" && msg?.type !== "flight_result"
+        (msg) => msg?.type !== "flight_result_live",
       );
     },
     setpollingComplete: (state, action) => {
@@ -175,13 +175,40 @@ const sendMessageSlice = createSlice({
     },
     setMessage: (state, action) => {
       const newMessage = action.payload;
-
-      if (newMessage?.ai?.passengerFlowRes !== undefined) {
-        state.messages = state.messages.filter(
-          (msg) => !(msg?.ai?.passengerFlowRes !== undefined)
+      // --------------------------------
+      // 🔄 LIVE FLIGHT RESULT (replace in place)
+      // --------------------------------
+      if (newMessage?.type === "flight_result_live") {
+        const liveIndex = state.messages.findIndex(
+          (msg) => msg?.type === "flight_result_live",
         );
+
+        if (liveIndex !== -1) {
+          // replace in same position
+          state.messages[liveIndex] = newMessage;
+        } else {
+          // first time → push normally
+          state.messages.push(newMessage);
+        }
+
+        return;
       }
 
+      // --------------------------------
+      // 🔍 FILTERED RESULT (always last but replace old)
+      // --------------------------------
+      if (newMessage?.type === "flight_result_append") {
+        state.messages = state.messages.filter(
+          (msg) => msg?.type !== "flight_result_append",
+        );
+
+        state.messages.push(newMessage);
+        return;
+      }
+
+      // --------------------------------
+      // 💬 EVERYTHING ELSE (normal chat flow)
+      // --------------------------------
       state.messages.push(newMessage);
     },
     setIsUpdateOffer: (state, action) => {
@@ -326,8 +353,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   dispatch(
                     setMessage({
                       ai: { ...flightRes.data, url: allFlightSearchApi },
-                      type: isComplete ? undefined : "flight_result",
-                    })
+                      type: isComplete ? undefined : "flight_result_live",
+                    }),
                   );
                 })
                 .catch((err) => console.error("Error fetching flight results", err));
