@@ -254,7 +254,7 @@ const MessageInputBox = ({
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        if (isPolling.status) return;
+                        
                         e.preventDefault();
                         handleSearch();
                         e.currentTarget.textContent = "";
@@ -440,7 +440,7 @@ const MessageInputBox = ({
                                         : inputStyles.MicButton
                                     }`}
                                     onClick={handleVoiceInput}
-                                    disabled={isLoading || isPolling.status}
+                                    disabled={isLoading }
                                   >
                                     <Tooltip
                                       placement="top"
@@ -506,10 +506,10 @@ const MessageInputBox = ({
                                     <IconButton
                                       sx={{ p: 0 }}
                                       className={`${inputStyles.SearchButton} ${
-                                        isLoading || isPolling.status ? inputStyles.Disabled : ""
+                                        isLoading ? inputStyles.Disabled : ""
                                       }`}
                                       onClick={handleSearch}
-                                      disabled={isLoading || isPolling.status}
+                                      disabled={isLoading}
                                     >
                                       {inputLoading && isHomePage ? (
                                         <>
