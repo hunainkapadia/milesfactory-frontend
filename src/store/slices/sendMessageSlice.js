@@ -412,34 +412,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
              * - do NOT start another interval
              * - just fetch filtered results ONCE and replace UI
              */
-            if (
-              isPollingActive &&
-              currentlyPollingUuid === allFlightSearchUuid
-            ) {
-              api.get(allFlightSearchApi).then((flightRes) => {
-                console.log("handleFinalResponse_0", flightRes);
-                
-                dispatch(
-                  setMessage({
-                    ai: { ...flightRes.data, url: allFlightSearchApi },
-                    type: "flight_result_append", // 👈 append only
-                  }),
-                );
-              });
-              return;
-            }
-
-            /**
-             * ✅ If polling active but UUID changed:
-             * stop old polling then start new one
-             */
-            if (
-              isPollingActive &&
-              currentlyPollingUuid !== allFlightSearchUuid
-            ) {
-              stopFlightHistoryPolling(dispatch);
-            }
-
+            
             let hasShownInitialMessage = false;
 
             const showRealResultsOnce = () => {
@@ -487,6 +460,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       stopFlightHistoryPolling(dispatch);
 
                       api.get(allFlightSearchApi).then((flightRes) => {
+                        alert("complete")
                         if (
                           flightRes?.data?.count === 0 &&
                           Array.isArray(flightRes?.data?.offers) &&
