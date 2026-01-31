@@ -67,7 +67,9 @@ const stopRunPolling = () => {
   }
 };
 
+
 const sendMessageSlice = createSlice({
+  // Add this to your reducers in sendMessageSlice
   name: "sendMessage",
   initialState: {
     messages: [],
@@ -175,8 +177,27 @@ const sendMessageSlice = createSlice({
     },
     setMessage: (state, action) => {
       const newMessage = action.payload;
+
       // --------------------------------
-      // 🔄 LIVE FLIGHT RESULT (replace in place)
+      //  PASSENGER FLOW (replace old)
+      // --------------------------------
+      if (newMessage?.ai?.passengerFlowRes !== undefined) {
+        stopFlightHistoryPolling();
+        stopRunPolling();
+        const index = state.messages.findIndex(
+          (msg) => msg?.ai?.passengerFlowRes !== undefined,
+        );
+
+        if (index !== -1) {
+          state.messages[index] = newMessage; // replace old
+        } else {
+          state.messages.push(newMessage); // first time
+        }
+        return;
+      }
+
+      // --------------------------------
+      //  LIVE FLIGHT RESULT (replace in place)
       // --------------------------------
       if (newMessage?.type === "flight_result_live") {
         const liveIndex = state.messages.findIndex(
@@ -184,30 +205,54 @@ const sendMessageSlice = createSlice({
         );
 
         if (liveIndex !== -1) {
-          // replace in same position
           state.messages[liveIndex] = newMessage;
         } else {
-          // first time → push normally
           state.messages.push(newMessage);
         }
-
         return;
       }
 
       // --------------------------------
-      // 🔍 FILTERED RESULT (always last but replace old)
+      //  FINAL FLIGHT RESULT after polling complete
       // --------------------------------
-      if (newMessage?.type === "flight_result_append") {
-        state.messages = state.messages.filter(
-          (msg) => msg?.type !== "flight_result_append",
+      if (newMessage?.type === "flight_result_final") {
+        const liveIndex = state.messages.findIndex(
+          (msg) => msg?.type === "flight_result_live",
         );
 
-        state.messages.push(newMessage);
+        if (liveIndex !== -1) {
+          state.messages[liveIndex] = newMessage;
+        } else {
+          const filterIndex = state.messages.findIndex(
+            (msg) => msg?.type === "flight_result_append",
+          );
+          if (filterIndex !== -1) {
+            state.messages.splice(filterIndex, 0, newMessage);
+          } else {
+            state.messages.push(newMessage);
+          }
+        }
         return;
       }
 
       // --------------------------------
-      // 💬 EVERYTHING ELSE (normal chat flow)
+      // 🔍 FILTERED RESULT (always last, replace old)
+      // --------------------------------
+      if (newMessage?.type === "flight_result_append") {
+        const filterIndex = state.messages.findIndex(
+          (msg) => msg?.type === "flight_result_append",
+        );
+
+        if (filterIndex !== -1) {
+          state.messages[filterIndex] = newMessage; // replace
+        } else {
+          state.messages.push(newMessage);
+        }
+        return;
+      }
+
+      // --------------------------------
+      // 💬 Everything else (normal chat)
       // --------------------------------
       state.messages.push(newMessage);
     },
@@ -239,6 +284,32 @@ const sendMessageSlice = createSlice({
       state.appendFlights = { nextPageNo: 2, ai: "" };
       state.noMoreFlights = false;
     },
+    resetSendMessageState: (state) => {
+      state.messages = [];
+      state.isLoading = false;
+      state.newChatLoading = false;
+      state.inputLoading = false;
+      state.AllFlightPostApi = null;
+      state.SearchHistorySend = null;
+      state.ThreadUUIDsend = null;
+      state.TopOfferUrlSend = null;
+      state.isPolling = { status: false, type: "notactive" };
+      state.pollingComplete = false;
+      state.Createthread = null;
+      state.AllOfferUrl = "";
+      state.appendFlights = { nextPageNo: 2, ai: "" };
+      state.AddBuilder = null;
+      state.noMoreFlights = false;
+      state.threadUuid = null;
+      state.functionType = null;
+      state.isUpdateOffer = false;
+      state.error = null;
+      state.hotelSearchId = null;
+      state.systemMessage = null;
+      state.NextMessage = null;
+      state.FilterUrl = null;
+      state.IsFunction = null;
+    },
   },
 });
 
@@ -263,7 +334,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         const run_status = response.run_status;
         const technicalError = response?.response?.errors;
 
-        if (response?.message?.includes("SYSTEM MESSAGE") && response?.is_function === false) {
+        if (
+          response?.message?.includes("SYSTEM MESSAGE") &&
+          response?.is_function === false
+        ) {
           dispatch(setSystemMessage(true));
         }
 
@@ -289,7 +363,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             return;
           }
 
-          const funcName = finalResponse?.function_template?.[0]?.function?.name;
+          const funcName =
+            finalResponse?.function_template?.[0]?.function?.name;
           dispatch(setFunctionType(funcName));
 
           // --------- Flight Flow
@@ -307,7 +382,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           if (allFlightSearchApi && allFlightSearchUuid) {
             const state = getState().sendMessage;
             const currentlyPollingUuid = state.TopOfferUrlSend; // last stored uuid
-            const isPollingActive = state.isPolling?.status === true && !!flightHistoryPollingInterval;
+            const isPollingActive =
+              state.isPolling?.status === true &&
+              !!flightHistoryPollingInterval;
 
             dispatch(setTopOfferUrlSend(allFlightSearchUuid));
             dispatch(setAllOfferUrl(allFlightSearchApi));
@@ -325,6 +402,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               currentlyPollingUuid === allFlightSearchUuid
             ) {
               api.get(allFlightSearchApi).then((flightRes) => {
+                console.log("handleFinalResponse_0", flightRes);
+                
                 dispatch(
                   setMessage({
                     ai: { ...flightRes.data, url: allFlightSearchApi },
@@ -339,7 +418,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
              * ✅ If polling active but UUID changed:
              * stop old polling then start new one
              */
-            if (isPollingActive && currentlyPollingUuid !== allFlightSearchUuid) {
+            if (
+              isPollingActive &&
+              currentlyPollingUuid !== allFlightSearchUuid
+            ) {
               stopFlightHistoryPolling(dispatch);
             }
 
@@ -350,6 +432,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
                   const isComplete = flightRes?.data?.is_complete;
+                  console.log("handleFinalResponse_1", flightRes);
+                  
                   dispatch(
                     setMessage({
                       ai: { ...flightRes.data, url: allFlightSearchApi },
@@ -357,7 +441,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     }),
                   );
                 })
-                .catch((err) => console.error("Error fetching flight results", err));
+                .catch((err) =>
+                  console.error("Error fetching flight results", err),
+                );
             };
 
             const pollHistoryUntilComplete = () => {
@@ -378,7 +464,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   .get(historyUrl)
                   .then((history_res) => {
                     const isComplete = history_res?.data?.search?.is_complete;
-                    dispatch(setSearchHistorySend({ flight: history_res.data.search }));
+                    dispatch(
+                      setSearchHistorySend({ flight: history_res.data.search }),
+                    );
 
                     if (isComplete === true) {
                       stopFlightHistoryPolling(dispatch);
@@ -394,8 +482,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                           dispatch(setClearflight());
                           dispatch(
                             setMessage({
-                              ai: { ...flightRes.data, url: allFlightSearchApi },
-                            })
+                              ai: {
+                                ...flightRes.data,
+                                url: allFlightSearchApi,
+                              },
+                            }),
                           );
                         }
                         dispatch(setLoading(false));
@@ -410,7 +501,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                         setMessage({
                           ai: { response: finalResponse?.response },
                           type: "flight_placeholder",
-                        })
+                        }),
                       );
                       dispatch(setLoading(false));
                     }
@@ -431,7 +522,8 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
            */
           if (hotelSearchApi) {
             const HotelArgument =
-              finalResponse?.silent_function_template?.[0]?.function?.arguments || {};
+              finalResponse?.silent_function_template?.[0]?.function
+                ?.arguments || {};
             const hotelSearchuuid =
               finalResponse?.response?.results?.view_hotel_search_api?.uuid;
 
@@ -454,15 +546,17 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     setMessage({
                       ai: { ...hotelRes.data },
                       type: "hotel_result",
-                    })
+                    }),
                   );
                 }
               })
               .catch((err) => {
                 dispatch(
                   setMessage({
-                    ai: { response: err.response?.data || { error: err.message } },
-                  })
+                    ai: {
+                      response: err.response?.data || { error: err.message },
+                    },
+                  }),
                 );
               })
               .finally(() => dispatch(setLoading(false)));
@@ -484,7 +578,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           const gdata = funcTemplate?.function?.arguments || {};
 
           dispatch(setpollingComplete(false));
-          dispatch(setMessage({ ai: { isPolling: { status: true, argument: gdata } } }));
+          dispatch(
+            setMessage({
+              ai: { isPolling: { status: true, argument: gdata } },
+            }),
+          );
 
           const pollUntilComplete = () => {
             return new Promise((resolve, reject) => {
@@ -544,6 +642,9 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
         // ✅ stop both pollers
+
+        dispatch(resetSendMessageState());
+
         stopRunPolling();
         stopFlightHistoryPolling(dispatch);
 
@@ -629,7 +730,7 @@ export const loadNextFlights = () => (dispatch, getState) => {
         setAppendFlights({
           ai: flightData,
           nextPageNo: flightData?.next_page_number,
-        })
+        }),
       );
     })
     .catch((err) => console.error("Error loading next flight results", err))
@@ -666,6 +767,7 @@ export const {
   setError,
   setHotelSearchId,
   setSystemMessage,
+  resetSendMessageState,
 } = sendMessageSlice.actions;
 
 export default sendMessageSlice.reducer;
