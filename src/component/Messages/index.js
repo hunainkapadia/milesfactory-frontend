@@ -50,6 +50,9 @@ const Messages = () => {
     (state) => state.sendMessage?.isLoading || false
   );
 
+  console.log("chat_isLoading", isLoading);
+  
+
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
 

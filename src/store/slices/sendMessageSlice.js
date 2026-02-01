@@ -368,7 +368,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         }
 
         dispatch(setMessage({ ai: { error: response } }));
-        dispatch(setLoading(false));
 
         if (response?.silent_is_function) dispatch(setAddBuilder(response));
         dispatch(setIsFunction({ status: false }));
@@ -398,52 +397,69 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
            *  FLIGHT SEARCH FLOW FIX
            */
           if (allFlightSearchApi && allFlightSearchUuid) {
-  const state = getState().sendMessage;
-  const currentlyPollingUuid = state.TopOfferUrlSend;
-  const isPollingActive = state.isPolling?.status === true && !!flightHistoryPollingInterval;
-  const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
+            const state = getState().sendMessage;
+            const currentlyPollingUuid = state.TopOfferUrlSend;
+            const isPollingActive =
+              state.isPolling?.status === true &&
+              !!flightHistoryPollingInterval;
+            const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
 
-  // Always update the URLs in the state
-  dispatch(setTopOfferUrlSend(allFlightSearchUuid));
-  dispatch(setAllOfferUrl(allFlightSearchApi));
-  dispatch(setFilterUrl(allFlightSearchApi));
+            // Always update the URLs in the state
+            dispatch(setTopOfferUrlSend(allFlightSearchUuid));
+            dispatch(setAllOfferUrl(allFlightSearchApi));
+            dispatch(setFilterUrl(allFlightSearchApi));
 
-  /**
-   * FIX: If polling is active and it's the same search session (UUID),
-   * we just need to fetch the filtered results and update the "append" view.
-   */
-  if (isPollingActive && currentlyPollingUuid === allFlightSearchUuid) {
-    api.get(allFlightSearchApi).then((flightRes) => {
-      dispatch(
-        setMessage({
-          ai: { ...flightRes.data, url: allFlightSearchApi },
-          type: "flight_result_append", 
-        })
-      );
-      // Ensure loading is turned off after filter applied
-      dispatch(setLoading(false));
-      dispatch(setInputLoading(false));
-    });
-    return; // Stop here, don't restart polling
-  }
+            /**
+             * FIX: If polling is active and it's the same search session (UUID),
+             * we just need to fetch the filtered results and update the "append" view.
+             */
+            if (
+              isPollingActive &&
+              currentlyPollingUuid === allFlightSearchUuid
+            ) {
+              dispatch(setLoading(true));
+              api.get(allFlightSearchApi).then((flightRes) => {
+                console.log("load_flightRes", flightRes);
+                
+                dispatch(
+                  setMessage({
+                    ai: { ...flightRes.data, url: allFlightSearchApi },
+                    type: "flight_result_append",
+                  }),
+                );
+                // Ensure loading is turned off after filter applied
+                
+              }).catch((err)=> {
+                console.log(err);
+                
+              }).finally(()=> {
+                dispatch(setLoading(false));
+                dispatch(setInputLoading(false));
+              }) ;
+              return; // Stop here, don't restart polling
+            }
 
-  /**
-   * If the UUID changed or polling isn't active, 
-   * clear old polling and start fresh.
-   */
-  if (isPollingActive && currentlyPollingUuid !== allFlightSearchUuid) {
-    stopFlightHistoryPolling(dispatch);
-  }
-
-
+            /**
+             * If the UUID changed or polling isn't active,
+             * clear old polling and start fresh.
+             */
+            if (
+              isPollingActive &&
+              currentlyPollingUuid !== allFlightSearchUuid
+            ) {
+              stopFlightHistoryPolling(dispatch);
+            }
 
             let hasShownInitialMessage = false;
 
             const showRealResultsOnce = () => {
+              dispatch(setInputLoading(true));
+              dispatch(setLoading(true));
               api
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
                   const isComplete = flightRes?.data?.is_complete;
+                   console.log("load_flightRes1", flightRes);
 
                   dispatch(
                     setMessage({
@@ -457,7 +473,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 })
                 .catch((err) =>
                   console.error("Error fetching flight results", err),
-                );
+                ).finally(()=> {
+                  alert("Asas")
+                  dispatch(setLoading(false));
+                  dispatch(setInputLoading(false));
+                });
             };
 
             const pollHistoryUntilComplete = () => {
@@ -473,6 +493,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   stopFlightHistoryPolling(dispatch);
                   return;
                 }
+                dispatch(setLoading(true));
 
                 api
                   .get(historyUrl)
@@ -482,10 +503,12 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       setSearchHistorySend({ flight: history_res.data.search }),
                     );
 
+                    
                     if (isComplete === true) {
                       stopFlightHistoryPolling(dispatch);
 
                       api.get(allFlightSearchApi).then((flightRes) => {
+                        console.log("load_flightRes3", flightRes);
                         if (
                           flightRes?.data?.count === 0 &&
                           Array.isArray(flightRes?.data?.offers) &&
@@ -503,7 +526,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                             }),
                           );
                         }
+                      }).catch((err)=> {
+                        console.log(err);
+                      }).finally(()=> {
                         dispatch(setLoading(false));
+                        dispatch(setInputLoading(false));
                       });
                     } else if (!hasShownInitialMessage) {
                       hasShownInitialMessage = true;
@@ -524,7 +551,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     console.error("Polling failed", err);
                     stopFlightHistoryPolling(dispatch);
                   });
-              }, 5000);
+              }, 2000);
             };
 
             pollHistoryUntilComplete();
@@ -633,7 +660,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         handleFinalResponse(response);
       })
       .catch(() => {})
-      .finally(() => {});
+      .finally(() => {
+        dispatch(setLoading(false))
+      });
   };
 
   if (threadUUID) {
