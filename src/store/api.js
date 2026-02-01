@@ -4,7 +4,8 @@ import { isTokenExpired } from "./tokenHelpers";
 import { Logout } from "./slices/Auth/LoginSlice";
 import store from "./store";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://demo.milesfactory.com";
+// const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://demo.milesfactory.com";
+const API_BASE_URL = "https://milesfactory.com";
 
 
 const api = axios.create({

@@ -67,7 +67,6 @@ const stopRunPolling = () => {
   }
 };
 
-
 const sendMessageSlice = createSlice({
   // Add this to your reducers in sendMessageSlice
   name: "sendMessage",
@@ -197,7 +196,7 @@ const sendMessageSlice = createSlice({
       }
 
       // --------------------------------
-      //  LIVE FLIGHT RESULT (replace in place) 
+      //  LIVE FLIGHT RESULT (replace in place)
       // old flight whici will be replace
       // --------------------------------
       if (newMessage?.type === "flight_result_live") {
@@ -219,11 +218,12 @@ const sendMessageSlice = createSlice({
       // --------------------------------
       //  FINAL FLIGHT RESULT (Poll Complete)
       // --------------------------------
+      // Inside setMessage reducer, update the FINAL FLIGHT RESULT block:
       if (
         newMessage?.type === "flight_result_final" ||
         (!newMessage.type && newMessage.ai?.is_complete)
       ) {
-        // 1. Try to find the existing 'live' or 'placeholder' message
+        // Find index of the temporary live/placeholder results
         const liveIndex = state.messages.findIndex(
           (msg) =>
             msg?.type === "flight_result_live" ||
@@ -231,20 +231,23 @@ const sendMessageSlice = createSlice({
         );
 
         if (liveIndex !== -1) {
-          // 2. Update the old message with new data, change type to 'flight_result'
+          // REPLACE the live block with final results
           state.messages[liveIndex] = {
             ...newMessage,
-            type: "flight_result",
+            type: "flight_result", // Change type so it stops being "live"
           };
         } else {
-          // 3. If for some reason the old one is gone, insert it BEFORE the filter
+          // Fallback: If no live block found, push it, but check for filters
           const filterIndex = state.messages.findIndex(
             (msg) => msg?.type === "flight_result_append",
           );
           if (filterIndex !== -1) {
-            state.messages.splice(filterIndex, 0, newMessage);
+            state.messages.splice(filterIndex, 0, {
+              ...newMessage,
+              type: "flight_result",
+            });
           } else {
-            state.messages.push(newMessage);
+            state.messages.push({ ...newMessage, type: "flight_result" });
           }
         }
         return;
@@ -400,6 +403,10 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             const isPollingActive =
               state.isPolling?.status === true &&
               !!flightHistoryPollingInterval;
+            console.log(
+              "flightHistoryPollingInterval",
+              flightHistoryPollingInterval,
+            );
 
             dispatch(setTopOfferUrlSend(allFlightSearchUuid));
             dispatch(setAllOfferUrl(allFlightSearchApi));
@@ -412,7 +419,39 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
              * - do NOT start another interval
              * - just fetch filtered results ONCE and replace UI
              */
-            
+            console.log("currentlyPollingUuid0", currentlyPollingUuid);
+            console.log("currentlyPollingUuid1", allFlightSearchUuid);
+
+            console.log("isPollingActive", isPollingActive);
+
+            if (
+              isPollingActive &&
+              currentlyPollingUuid === allFlightSearchUuid
+            ) {
+              api.get(allFlightSearchApi).then((flightRes) => {
+                console.log("handleFinalResponse_0", flightRes);
+
+                dispatch(
+                  setMessage({
+                    ai: { ...flightRes.data, url: allFlightSearchApi },
+                    type: "flight_result_append", // 👈 append only
+                  }),
+                );
+              });
+              return;
+            }
+
+            /**
+             * ✅ If polling active but UUID changed:
+             * stop old polling then start new one
+             */
+            if (
+              isPollingActive &&
+              currentlyPollingUuid !== allFlightSearchUuid
+            ) {
+              stopFlightHistoryPolling(dispatch);
+            }
+
             let hasShownInitialMessage = false;
 
             const showRealResultsOnce = () => {
@@ -420,12 +459,14 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
                   const isComplete = flightRes?.data?.is_complete;
-                  console.log("handleFinalResponse_1", flightRes);
-                  
+
                   dispatch(
                     setMessage({
                       ai: { ...flightRes.data, url: allFlightSearchApi },
-                      type: isComplete ? undefined : "flight_result_live",
+                      // Using your existing type logic to ensure it replaces the old block
+                      type: isComplete
+                        ? "flight_result_final"
+                        : "flight_result_live",
                     }),
                   );
                 })
@@ -460,7 +501,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       stopFlightHistoryPolling(dispatch);
 
                       api.get(allFlightSearchApi).then((flightRes) => {
-                        alert("complete")
                         if (
                           flightRes?.data?.count === 0 &&
                           Array.isArray(flightRes?.data?.offers) &&
