@@ -2,21 +2,19 @@ import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const SearchFilterTags = ({ offerUrl, hotelCount, filters }) => {
-  //  Redux (for fallback flight/hotel counts)
   const SearchHistoryGet = useSelector(
     (state) => state.getMessages.SearchHistory
   );
   const SearchHistorySend = useSelector(
     (state) => state.sendMessage?.SearchHistorySend
   );
+
   const SearchHistory = SearchHistorySend || SearchHistoryGet;
 
-  //  Variables
-  let hotelFilters = {};
-  let flightFilters = {};
   let isHotel = false;
+  let flightFilters = {};
   let hasQueryParams = false;
-
+  console.log("hasQueryParams", offerUrl);
   try {
     const parsedUrl = new URL(
       offerUrl,
@@ -25,35 +23,25 @@ const SearchFilterTags = ({ offerUrl, hotelCount, filters }) => {
         : "https://demo.milesfactory.com"
     );
 
-    //  Check if URL has ?query=params
-    hasQueryParams = [...parsedUrl.searchParams.keys()].length > 0;
-
-    //  Detect hotel vs flight
     isHotel = parsedUrl.pathname.includes("/hotel/");
+    hasQueryParams = parsedUrl.searchParams.toString().length > 0;
 
-    //  Convert query params into readable object
     parsedUrl.searchParams.forEach((value, key) => {
-      if (isHotel) hotelFilters[key] = value;
-      else flightFilters[key] = value;
+      flightFilters[key] = value;
     });
-  } catch (error) {
+  } catch {
     console.warn("Invalid offerUrl:", offerUrl);
   }
 
-  //  Hotel filters from Redux
-  const hasHotelFilter = filters && Object.keys(filters).length > 0;
+  /* ---------------- HOTEL FILTER TEXT ---------------- */
 
-  //  Create readable hotel filter text
   let hotelFilterText = "";
-  if (hasHotelFilter && filters.filterurl) {
-    const parsedHotelUrl = new URL(
-      filters.filterurl,
-      typeof window !== "undefined"
-        ? window.location.origin
-        : "https://demo.milesfactory.com"
-    );
+
+  if (filters?.filterurl) {
+    const parsedHotelUrl = new URL(filters.filterurl, window.location.origin);
 
     const parts = [];
+
     parsedHotelUrl.searchParams.forEach((value, key) => {
       if (key === "category") parts.push(`${value}-star hotel`);
       else if (key === "breakfast" && value === "true")
@@ -64,57 +52,72 @@ const SearchFilterTags = ({ offerUrl, hotelCount, filters }) => {
         parts.push("Free parking");
       else if (key === "cancellable" && value === "false")
         parts.push("Non-refundable");
-      else if (key === "name") parts.push(`Hotel name: ${value}`);
-      else parts.push(`${key}: ${value}`);
+      else if (key === "name") parts.push(`Hotel: ${value}`);
     });
 
     hotelFilterText = parts.join(", ");
   }
 
-  //  Create readable flight filter text (from offerUrl)
-  let flightFilterText = "";
-  if (!isHotel && hasQueryParams) {
-    const parts = [];
-    Object.entries(flightFilters).forEach(([key, value]) => {
+  /* ---------------- FLIGHT FILTER TEXT ---------------- */
 
-      if (key === "max_price") parts.push(`Max price: ${value}`);
-      else if (key === "airlines") parts.push(`Airline: ${value}`);
-      else if (key === "airlines") parts.push(`Airline: ${value}`);
-      else if ((key === "direct" && value === "true") || "True")
-        parts.push("Type: Direct");
-      else if (key === "direct" && value === "false")
-        parts.push("Type: Connecting");
-      else if (key === "stops" && value === "0")
-        parts.push("Direct flights only");
-      else if (key === "stops" && value !== "0") parts.push(`${value} stops`);
-      else parts.push(`${key}: ${value}`);
-    });
-    flightFilterText = parts.join(", ");
-  }
+  /* ---------------- FLIGHT FILTER TEXT ---------------- */
 
-  //  Log to check
-  
-  
-  
+let flightFilterText = "";
 
-  
+if (!isHotel && hasQueryParams) {
+  const parts = [];
+
+  // Helper to convert 24h string to 12h AM/PM format dynamically
+  const formatTime = (hourStr) => {
+    const hour = parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12} ${ampm}`;
+  };
+
+  Object.entries(flightFilters).forEach(([key, value]) => {
+    if (key === "max_price") {
+      parts.push(`Max price: ${value}`);
+    } else if (key === "airlines") {
+      parts.push(`Airline: ${value}`);
+    } else if (key === "direct" && value.toLowerCase() === "true") {
+      parts.push("Direct flights");
+    } else if (key === "outbound_start_hour") {
+      // Get the end hour from the flightFilters object
+      const endHour = flightFilters["outbound_end_hour"];
+      if (endHour) {
+        parts.push(`Departure: ${formatTime(value)} - ${formatTime(endHour)}`);
+      } else {
+        parts.push(`Starts at: ${formatTime(value)}`);
+      }
+    } 
+    // Skip outbound_end_hour in the loop because we process it with start_hour
+    else if (key === "outbound_end_hour") {
+      return; 
+    }
+    else if (key === "stops") {
+      parts.push(value === "0" ? "Non-stop" : `${value} stops`);
+    }
+  });
+
+  flightFilterText = parts.join(", ");
+}
+
+  /* ---------------- UI ---------------- */
 
   return (
     <Box mb={2}>
-      {/*  If filters applied */}
       {flightFilterText || hotelFilterText ? (
         <Typography variant="body2">
           Filter applied: {hotelFilterText || flightFilterText}
         </Typography>
       ) : hotelCount ? (
         <Typography>
-          We found ({hotelCount}) hotels for your stay. You can filter down
-          options by typing in chat.
+          We found ({hotelCount}) hotels for your stay.
         </Typography>
       ) : SearchHistory?.flight?.offer_count ? (
         <Typography>
-          We found ({SearchHistory?.flight?.offer_count}) flights for your trip.
-          You can filter down options by typing in chat.
+          We found ({SearchHistory.flight.offer_count}) flights for your trip.
         </Typography>
       ) : null}
     </Box>

@@ -50,6 +50,8 @@ const TripCard = ({ tripData }) => {
     router.push(`/my-trips/${uuid}`);
   };
 
+  
+
   return (
     <Card className={styles.tripCard} sx={{ p: 0 }} variant="outlined">
       <Box display="flex" flexDirection="column" gap={1.5}>
@@ -66,7 +68,7 @@ const TripCard = ({ tripData }) => {
               fontSize: "12px",
             }}
           >
-            {tripData?.detail?.flight?.order_status === "confirmed"
+            {tripData?.details?.flight?.order_status === "confirmed"
               ? "Confirmed"
               : "Pending"}
           </Box>

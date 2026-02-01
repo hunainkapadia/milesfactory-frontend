@@ -50,6 +50,9 @@ const Messages = () => {
     (state) => state.sendMessage?.isLoading || false
   );
 
+  console.log("chat_isLoading", isLoading);
+  
+
   //  Fetch messages from Redux store
   const sendMessages = useSelector((state) => state.sendMessage?.messages);
 
@@ -58,6 +61,10 @@ const Messages = () => {
 
   //  Combine stored messages (live chat) with fetched messages (history)
   const messages = [...getmessages, ...sendMessages];
+
+  console.log("messages_00", messages);
+  
+  
 
   // for bookingdrawer selector
   const flightDetail = useSelector((state) => state.booking.flightDetail);

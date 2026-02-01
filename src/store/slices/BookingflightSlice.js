@@ -195,7 +195,6 @@ export const AddToCart = (params) => async (dispatch, getState) => {
       dispatch(CartDetail(uuid));
       dispatch(setIsCartSuccess(true));
       
-      dispatch(setSelectedFlightKey(getofferkey)); // mark selected flight
       dispatch(setHotelDrawer(false))
       dispatch(setRoomDrawer(false))
       dispatch(setLoading(false));
@@ -255,7 +254,6 @@ export const CartDetail = (threadUuid) => async (dispatch, getState) => {
     const hasFlight = cartItems.some(item => item.offer_type === "flight");
     const hasHotel = cartItems.some(item => item.offer_type === "hotel");
     
-    console.log("cartItems_00", cartItems);
     if (cartItems.length > 0) {
       dispatch(setIsCartSuccess(true));
     }
@@ -295,7 +293,6 @@ export const DeleteCart = (threaduuid, Itemsuuid) => async (dispatch) => {
     dispatch(setGetCartDetail(res.data));
     dispatch(setIsCartSuccess(false));
 
-    dispatch(setSelectedFlightKey(null));
     dispatch(setflightDetail(null));
     dispatch(setViewPassengers([])); // Clear passengers array
     dispatch(setOrderUuid(null)); // Clear order UUID

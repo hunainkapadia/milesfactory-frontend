@@ -46,7 +46,6 @@ const HeaderUser = ({
 
   // Combine all sources to find current user
   const currentUser = isUserLogin;
-  console.log("isChat_000", isChat);
   
   // isUserLoginGoogle || getSignUpUser || isUserLogin || isUserSignup;
   // Set user to Redux on initial mount from cookies
@@ -136,21 +135,16 @@ const HeaderUser = ({
                   display="flex"
                   alignItems="center"
                   sx={{
-                    justifyContent: {
-                      lg: "center",
-                      md: "center",
-                      xs: `${MobileNavDrawer ? "flex-start" : " flex-start"}`,
-                    },
                     flexDirection: {
                       lg: "row",
                       md: "row",
                       xs: `${
-                        MobileNavDrawer ? "column-reverse" : " row-reverse"
+                        MobileNavDrawer ? "row-reverse" : " row-reverse"
                       }`,
                     },
                     justifyContent: {
-                      lg: "center",
-                      md: "center",
+                      lg: "flex-start",
+                      md: "flex-start",
                       xs: `${MobileNavDrawer ? "flex-end" : " flex-end"}`,
                     },
                   }}

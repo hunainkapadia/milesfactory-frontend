@@ -151,7 +151,7 @@ const BookAiForm = () => {
         display={"flex"}
         sx={{ justifyContent: { lg: "center", md: "center", xs: "flex-end" } }}
       >
-        <Button className={`btn btn-primary btn-round btn-xs`}>Search</Button>
+        <Button className={`btn btn-primary btn-round btn-lg-x`}>Search</Button>
       </Box>
     </Box>
   );
