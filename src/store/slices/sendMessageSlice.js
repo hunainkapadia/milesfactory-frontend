@@ -257,17 +257,15 @@ const sendMessageSlice = createSlice({
       //  FILTERED RESULT (always last, replace old)
       // --------------------------------
       if (newMessage?.type === "flight_result_append") {
-        const filterIndex = state.messages.findIndex(
-          (msg) => msg?.type === "flight_result_append",
-        );
 
-        if (filterIndex !== -1) {
-          state.messages[filterIndex] = newMessage; // replace
-        } else {
-          state.messages.push(newMessage);
-        }
-        return;
-      }
+  // Always append filtered results as new chat step
+  state.messages.push({
+    ...newMessage,
+    type: "flight_result",
+  });
+
+  return;
+}
 
       // --------------------------------
       //  Everything else (normal chat)
