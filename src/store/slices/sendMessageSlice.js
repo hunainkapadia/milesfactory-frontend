@@ -477,7 +477,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   console.error("Error fetching flight results", err),
                 )
                 .finally(() => {
-                  alert("Asas");
                   dispatch(setLoading(false));
                   dispatch(setInputLoading(false));
                 });
