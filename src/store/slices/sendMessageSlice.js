@@ -44,7 +44,7 @@ import { resetBaggageState } from "./BaggageSlice";
 import { resetHotelState, setSelectedhotelCode } from "./HotelSlice";
 
 /**
- * ✅ FIX: Use separate interval references
+ *  FIX: Use separate interval references
  * - runPollingInterval: for /run/{run_id}
  * - flightHistoryPollingInterval: for /search/{uuid}/history
  */
@@ -254,7 +254,7 @@ const sendMessageSlice = createSlice({
       }
 
       // --------------------------------
-      // 🔍 FILTERED RESULT (always last, replace old)
+      //  FILTERED RESULT (always last, replace old)
       // --------------------------------
       if (newMessage?.type === "flight_result_append") {
         const filterIndex = state.messages.findIndex(
@@ -270,7 +270,7 @@ const sendMessageSlice = createSlice({
       }
 
       // --------------------------------
-      // 💬 Everything else (normal chat)
+      //  Everything else (normal chat)
       // --------------------------------
       state.messages.push(newMessage);
     },
@@ -395,62 +395,47 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             finalResponse?.response?.results?.view_hotel_search_api?.url;
 
           /**
-           * ✅ FLIGHT SEARCH FLOW FIX
+           *  FLIGHT SEARCH FLOW FIX
            */
           if (allFlightSearchApi && allFlightSearchUuid) {
-            const state = getState().sendMessage;
-            const currentlyPollingUuid = state.TopOfferUrlSend; // last stored uuid
-            const isPollingActive =
-              state.isPolling?.status === true &&
-              !!flightHistoryPollingInterval;
-            console.log(
-              "flightHistoryPollingInterval",
-              flightHistoryPollingInterval,
-            );
+  const state = getState().sendMessage;
+  const currentlyPollingUuid = state.TopOfferUrlSend;
+  const isPollingActive = state.isPolling?.status === true && !!flightHistoryPollingInterval;
+  const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
 
-            dispatch(setTopOfferUrlSend(allFlightSearchUuid));
-            dispatch(setAllOfferUrl(allFlightSearchApi));
-            dispatch(setFilterUrl(allFlightSearchApi));
+  // Always update the URLs in the state
+  dispatch(setTopOfferUrlSend(allFlightSearchUuid));
+  dispatch(setAllOfferUrl(allFlightSearchApi));
+  dispatch(setFilterUrl(allFlightSearchApi));
 
-            const historyUrl = `/api/v1/search/${allFlightSearchUuid}/history`;
+  /**
+   * FIX: If polling is active and it's the same search session (UUID),
+   * we just need to fetch the filtered results and update the "append" view.
+   */
+  if (isPollingActive && currentlyPollingUuid === allFlightSearchUuid) {
+    api.get(allFlightSearchApi).then((flightRes) => {
+      dispatch(
+        setMessage({
+          ai: { ...flightRes.data, url: allFlightSearchApi },
+          type: "flight_result_append", 
+        })
+      );
+      // Ensure loading is turned off after filter applied
+      dispatch(setLoading(false));
+      dispatch(setInputLoading(false));
+    });
+    return; // Stop here, don't restart polling
+  }
 
-            /**
-             * ✅ If polling already active and UUID is SAME:
-             * - do NOT start another interval
-             * - just fetch filtered results ONCE and replace UI
-             */
-            console.log("currentlyPollingUuid0", currentlyPollingUuid);
-            console.log("currentlyPollingUuid1", allFlightSearchUuid);
+  /**
+   * If the UUID changed or polling isn't active, 
+   * clear old polling and start fresh.
+   */
+  if (isPollingActive && currentlyPollingUuid !== allFlightSearchUuid) {
+    stopFlightHistoryPolling(dispatch);
+  }
 
-            console.log("isPollingActive", isPollingActive);
 
-            if (
-              isPollingActive &&
-              currentlyPollingUuid === allFlightSearchUuid
-            ) {
-              api.get(allFlightSearchApi).then((flightRes) => {
-                console.log("handleFinalResponse_0", flightRes);
-
-                dispatch(
-                  setMessage({
-                    ai: { ...flightRes.data, url: allFlightSearchApi },
-                    type: "flight_result_append", // 👈 append only
-                  }),
-                );
-              });
-              return;
-            }
-
-            /**
-             * ✅ If polling active but UUID changed:
-             * stop old polling then start new one
-             */
-            if (
-              isPollingActive &&
-              currentlyPollingUuid !== allFlightSearchUuid
-            ) {
-              stopFlightHistoryPolling(dispatch);
-            }
 
             let hasShownInitialMessage = false;
 
@@ -478,11 +463,11 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
             const pollHistoryUntilComplete = () => {
               dispatch(setisPolling({ status: true, type: "active" }));
 
-              // ✅ guard: never start if already started
+              //  guard: never start if already started
               if (flightHistoryPollingInterval) return;
 
               flightHistoryPollingInterval = setInterval(() => {
-                // ✅ cancel if new uuid replaced this one
+                //  cancel if new uuid replaced this one
                 const liveUuid = getState().sendMessage.TopOfferUrlSend;
                 if (liveUuid !== allFlightSearchUuid) {
                   stopFlightHistoryPolling(dispatch);
@@ -539,7 +524,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                     console.error("Polling failed", err);
                     stopFlightHistoryPolling(dispatch);
                   });
-              }, 1000);
+              }, 5000);
             };
 
             pollHistoryUntilComplete();
@@ -598,7 +583,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
         };
 
         /**
-         * ✅ requires_action polling FIX:
+         *  requires_action polling FIX:
          * use runPollingInterval (NOT flightHistoryPollingInterval)
          */
         if (run_status === "requires_action") {
@@ -670,7 +655,7 @@ export const deleteAndCreateThread = (isMessage) => (dispatch, getState) => {
     .then((newThreadRes) => {
       const newUuid = newThreadRes.data.uuid;
       if (newUuid) {
-        // ✅ stop both pollers
+        //  stop both pollers
 
         dispatch(resetSendMessageState());
 
