@@ -418,24 +418,26 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               currentlyPollingUuid === allFlightSearchUuid
             ) {
               dispatch(setLoading(true));
-              api.get(allFlightSearchApi).then((flightRes) => {
-                console.log("load_flightRes", flightRes);
-                
-                dispatch(
-                  setMessage({
-                    ai: { ...flightRes.data, url: allFlightSearchApi },
-                    type: "flight_result_append",
-                  }),
-                );
-                // Ensure loading is turned off after filter applied
-                
-              }).catch((err)=> {
-                console.log(err);
-                
-              }).finally(()=> {
-                dispatch(setLoading(false));
-                dispatch(setInputLoading(false));
-              }) ;
+              api
+                .get(allFlightSearchApi)
+                .then((flightRes) => {
+                  console.log("load_flightRes", flightRes);
+
+                  dispatch(
+                    setMessage({
+                      ai: { ...flightRes.data, url: allFlightSearchApi },
+                      type: "flight_result_append",
+                    }),
+                  );
+                  // Ensure loading is turned off after filter applied
+                })
+                .catch((err) => {
+                  console.log(err);
+                })
+                .finally(() => {
+                  dispatch(setLoading(false));
+                  dispatch(setInputLoading(false));
+                });
               return; // Stop here, don't restart polling
             }
 
@@ -459,7 +461,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
                   const isComplete = flightRes?.data?.is_complete;
-                   console.log("load_flightRes1", flightRes);
+                  console.log("load_flightRes1", flightRes);
 
                   dispatch(
                     setMessage({
@@ -473,8 +475,9 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 })
                 .catch((err) =>
                   console.error("Error fetching flight results", err),
-                ).finally(()=> {
-                  alert("Asas")
+                )
+                .finally(() => {
+                  alert("Asas");
                   dispatch(setLoading(false));
                   dispatch(setInputLoading(false));
                 });
@@ -493,7 +496,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   stopFlightHistoryPolling(dispatch);
                   return;
                 }
-                dispatch(setLoading(true));
 
                 api
                   .get(historyUrl)
@@ -503,35 +505,38 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       setSearchHistorySend({ flight: history_res.data.search }),
                     );
 
-                    
                     if (isComplete === true) {
                       stopFlightHistoryPolling(dispatch);
 
-                      api.get(allFlightSearchApi).then((flightRes) => {
-                        console.log("load_flightRes3", flightRes);
-                        if (
-                          flightRes?.data?.count === 0 &&
-                          Array.isArray(flightRes?.data?.offers) &&
-                          flightRes?.data?.offers.length === 0
-                        ) {
-                          dispatch(setMessage({ ai: "isNotFound" }));
-                        } else {
-                          dispatch(setClearflight());
-                          dispatch(
-                            setMessage({
-                              ai: {
-                                ...flightRes.data,
-                                url: allFlightSearchApi,
-                              },
-                            }),
-                          );
-                        }
-                      }).catch((err)=> {
-                        console.log(err);
-                      }).finally(()=> {
-                        dispatch(setLoading(false));
-                        dispatch(setInputLoading(false));
-                      });
+                      api
+                        .get(allFlightSearchApi)
+                        .then((flightRes) => {
+                          console.log("load_flightRes3", flightRes);
+                          if (
+                            flightRes?.data?.count === 0 &&
+                            Array.isArray(flightRes?.data?.offers) &&
+                            flightRes?.data?.offers.length === 0
+                          ) {
+                            dispatch(setMessage({ ai: "isNotFound" }));
+                          } else {
+                            dispatch(setClearflight());
+                            dispatch(
+                              setMessage({
+                                ai: {
+                                  ...flightRes.data,
+                                  url: allFlightSearchApi,
+                                },
+                              }),
+                            );
+                          }
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        })
+                        .finally(() => {
+                          dispatch(setLoading(false));
+                          dispatch(setInputLoading(false));
+                        });
                     } else if (!hasShownInitialMessage) {
                       hasShownInitialMessage = true;
 
@@ -549,6 +554,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                   })
                   .catch((err) => {
                     console.error("Polling failed", err);
+                    dispatch(setLoading(false));
                     stopFlightHistoryPolling(dispatch);
                   });
               }, 2000);
@@ -661,7 +667,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
       })
       .catch(() => {})
       .finally(() => {
-        dispatch(setLoading(false))
+        dispatch(setLoading(false));
       });
   };
 

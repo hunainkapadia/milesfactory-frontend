@@ -60,28 +60,48 @@ const SearchFilterTags = ({ offerUrl, hotelCount, filters }) => {
 
   /* ---------------- FLIGHT FILTER TEXT ---------------- */
 
-  let flightFilterText = "";
+  /* ---------------- FLIGHT FILTER TEXT ---------------- */
 
-  if (!isHotel && hasQueryParams) {
-    const parts = [];
+let flightFilterText = "";
 
-    Object.entries(flightFilters).forEach(([key, value]) => {
-      if (key === "max_price") parts.push(`Max price: ${value}`);
-      else if (key === "airlines") parts.push(`Airline: ${value}`);
-      else if (key === "direct" && value.toLowerCase() === "true")
-        parts.push("Direct flights");
-      else if (key === "direct" && value.toLowerCase() === "false")
-        parts.push("Connecting flights");
-      else if (key === "stops" && value === "0") parts.push("Non-stop only");
-      else if (key === "stops") parts.push(`${value} stops`);
-      else if (key === "checked_luggage_included" && value === "True")
-        parts.push("Checked luggage included");
-      else if (key === "checked_luggage_included" && value === "False")
-        parts.push("No checked luggage");
-    });
+if (!isHotel && hasQueryParams) {
+  const parts = [];
 
-    flightFilterText = parts.join(", ");
-  }
+  // Helper to convert 24h string to 12h AM/PM format dynamically
+  const formatTime = (hourStr) => {
+    const hour = parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12} ${ampm}`;
+  };
+
+  Object.entries(flightFilters).forEach(([key, value]) => {
+    if (key === "max_price") {
+      parts.push(`Max price: ${value}`);
+    } else if (key === "airlines") {
+      parts.push(`Airline: ${value}`);
+    } else if (key === "direct" && value.toLowerCase() === "true") {
+      parts.push("Direct flights");
+    } else if (key === "outbound_start_hour") {
+      // Get the end hour from the flightFilters object
+      const endHour = flightFilters["outbound_end_hour"];
+      if (endHour) {
+        parts.push(`Departure: ${formatTime(value)} - ${formatTime(endHour)}`);
+      } else {
+        parts.push(`Starts at: ${formatTime(value)}`);
+      }
+    } 
+    // Skip outbound_end_hour in the loop because we process it with start_hour
+    else if (key === "outbound_end_hour") {
+      return; 
+    }
+    else if (key === "stops") {
+      parts.push(value === "0" ? "Non-stop" : `${value} stops`);
+    }
+  });
+
+  flightFilterText = parts.join(", ");
+}
 
   /* ---------------- UI ---------------- */
 
