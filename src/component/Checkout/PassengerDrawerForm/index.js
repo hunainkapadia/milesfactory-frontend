@@ -636,7 +636,10 @@ const PassengerDrawerForm = () => {
               <Divider />
               <Box
                 className={styles.Row}
-                py={1}
+                sx={{
+                  py: { xs: 1, sm: 1 },  // 0 on mobile, 1 on sm+
+                  px: { xs: 0, sm: 3 },  // 0 on mobile, 3 on sm+
+                }}
                 display="flex"
                 flexDirection="column"
               >

@@ -78,7 +78,6 @@ const PassengerInfo = ({ getdata }) => {
     age <= 1 ? "infant" : age <= 12 ? "child" : "adult";
     
     if (passengerPofile?.length > 0) {
-      alert("Asas")
 
       
       dispatch(setPassProfileDrawer(true));
