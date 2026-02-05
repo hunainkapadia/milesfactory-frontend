@@ -298,7 +298,7 @@ export const PassengerFormFlight = (params) => async (dispatch, getState) => {
       setTimeout(() => {
         dispatch(ViewPassengers());
         dispatch(getPassPofile())
-      }, 1000);
+      }, 2000);
       dispatch(setisPassengerDrawer(false));
       
     })
@@ -341,6 +341,7 @@ export const passengerCaptain = (params) => (dispatch, getState) => {
           dispatch(fetchOrderDetail()); // for order detail API call
           dispatch(setAddNewPassactive(false));
           dispatch(setIsCartSuccess(false));
+          dispatch(setPassProfileDrawer(false))
         })
         .catch((err) => {
           console.error("captain_api_error", err);

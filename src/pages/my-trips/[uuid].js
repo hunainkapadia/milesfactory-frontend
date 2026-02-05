@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TripDetailSlice } from "@/src/store/slices/Base/baseSlice";
+import Cookies from "js-cookie";
 import {
   Container,
   Box,
@@ -35,12 +36,21 @@ const TripDetailPage = () => {
   const hotelOffer = tripDetail?.hotel_order?.selected_hotel_offer?.hotel
   
   const loading = useSelector((state) => state?.base?.isLoading);
+  const currentUser = useSelector((state) => state?.base?.currentUser?.user);
 
+  
   useEffect(() => {
   if (uuid) {
     dispatch(TripDetailSlice(uuid));
   }
 }, [uuid]);
+
+const cookieUserString = Cookies.get("set-user");
+useEffect(()=> {
+  if (!cookieUserString) {
+    window.location.href = "/"
+  }
+}, [cookieUserString] )
 
   //   if (loading || !tripDetail.order.selected_offer) {
   //     return (

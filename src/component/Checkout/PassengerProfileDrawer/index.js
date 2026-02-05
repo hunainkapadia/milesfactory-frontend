@@ -270,7 +270,8 @@ const PassengerProfileDrawer = () => {
             pb={10}
             sx={{ px: { lg: 3, md: 3, xs: 2 }, mb: 2 }}
           >
-
+            
+            {console.log("passengerPofile", passengerPofile)}
             {passengerPofile
               ?.filter((p) => p.type === tabType)
               .filter((p) => {

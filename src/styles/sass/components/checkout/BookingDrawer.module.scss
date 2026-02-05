@@ -28,10 +28,7 @@
    height: 100%;
    align-items: center;
    cursor: pointer;
-   &.isFilled {
-    pointer-events: none;
-    cursor: auto;
-   }
+   
    .box {
          
          padding: 0;

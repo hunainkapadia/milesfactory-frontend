@@ -304,8 +304,10 @@
   }
 
   .mainHeroSection.HeroSection {
-    height: 95vh;
-    padding: 19vh 0 26vh;
+    height: auto;
+    padding: 19vh 0 36vh;
+    flex-direction: column;
+    justify-content: center;
 
     .Box .Content .ContentIn {
       &.ContentInSection1 {
@@ -336,4 +338,13 @@
   .AppSection .MobileDevice { 
     bottom: -50px;
   }
+}
+
+ @media only screen and (max-width: 768px) and (max-height: 500px) {
+  .HomeBanner .HeroSection footer {
+     padding: 0;
+     margin-top: 10px;
+     position: relative;
+  }
+  
 }
