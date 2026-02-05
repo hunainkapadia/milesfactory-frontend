@@ -270,43 +270,37 @@ const PassengerProfileDrawer = () => {
             pb={10}
             sx={{ px: { lg: 3, md: 3, xs: 2 }, mb: 2 }}
           >
-            
             {console.log("passengerPofile", passengerPofile)}
             {passengerPofile
               ?.filter((p) => p.type === tabType)
               .filter((p) => {
-                
-                // For flights → filter using passport deduct filled pasenger
+                // For flights
                 if (CartType === "flight" || CartType === "all") {
                   return (
                     !filledPassengerUUIDs.includes(p.uuid) &&
                     p.passport_number !== FilledPassFormData?.passport_number &&
                     p.passport_number !== null
                   );
-                } else if (CartType === "hotel") {
-                  return (
-                    p.given_name !== FilledPassFormData?.given_name && 
-                    p.family_name !== FilledPassFormData?.family_name &&
-                    p.born_on !== FilledPassFormData?.born_on
-                    
-                  )
-                }
-                // For hotels → only check filled UUIDs
-                if (CartType === "hotel") {
-                  return !filledPassengerUUIDs.includes(p.uuid);
                 }
 
-                return true;
+                // For hotels
+                if (CartType === "hotel") {
+                  return (
+                    !filledPassengerUUIDs.includes(p.uuid) &&
+                    (p.given_name !== FilledPassFormData?.given_name ||
+                      p.family_name !== FilledPassFormData?.family_name ||
+                      p.born_on !== FilledPassFormData?.born_on)
+                  );
+                }
+
+                return false; // Default: exclude anything else
               })
               .map((passenger, index) => {
-                
                 const isPassFilled =
                   passenger?.uuid === selectPassProfile?.uuid ||
                   (CartType !== "hotel" &&
                     passenger?.passport_number ===
                       FilledPassFormData?.passport_number); //highlit filled pesenger
-
-                
 
                 return (
                   <PassengerProfilecard
