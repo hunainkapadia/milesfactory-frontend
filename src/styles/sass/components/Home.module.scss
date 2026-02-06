@@ -44,19 +44,17 @@
 }
 
 .AppSection {
-  background: linear-gradient(to bottom, $basecolor1-sky 90%, $white 50%);
+  background: $basecolor1;
   
-  padding: 180px 0 0;
   
 
-  .MobileDevice {
+  .MobileDeviceIn {
     position: absolute;
+    bottom: -120px;
   }
   .AppSectionRight {
-    height: 408px;
-    display: flex;
-    align-items: center;
-    padding: 0;
+    padding: 130px 0 80px;
+
   }
 }
 .PagesBanner {
@@ -243,13 +241,20 @@
   }
   .AppSection {
     padding: 167px 0 80px;
-    background: linear-gradient(to bottom, $basecolor1-sky 75%, $white 50%);
     .MobileDevice {
-      position: relative;
+      height: 174px;
+    }
+    .MobileDeviceIn {
+      position: absolute;
+      bottom: -270px;
     }
     .AppSectionRight {
-      
-      padding: 0px 0 30px;
+      height: auto;
+      padding: 0px 0 0;
+      .AppSectionRightIn {
+        justify-content: center;
+        display: flex;
+      }
     }
     .appLogos {gap: 17px;
       .appLogo {width: 248px;
@@ -330,12 +335,11 @@
 }
 
 
-@include for-tab-screen (){
+@include for-tab (){
   
-  .AppSection .MobileDevice { 
-    bottom: -50px;
-
-        width: 150px;
+  .AppSection .MobileDeviceIn { 
+    
+    width: 190px;
   }
 }
 

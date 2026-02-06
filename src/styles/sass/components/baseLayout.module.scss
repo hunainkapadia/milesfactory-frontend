@@ -263,7 +263,9 @@
  }
 
  
-
+.FooterForLight .footerClientLogos { 
+   padding: 45px 0 57px;
+}
  @include for-tab-screen () {
    .FooterForLight .footerClientLogos {
       justify-content: flex-start;
@@ -276,6 +278,7 @@
 @media screen and (max-width: 600px) {
   .FooterForLight .footerClientLogos {
       justify-content: center;
+      
   }
    
 }
@@ -284,6 +287,7 @@
       .footerClientLogos {
          flex-wrap: wrap;
          gap: 12px;
+         padding: 250px 0 57px;
          
          .footerClientLogo {
             width: 60px;
