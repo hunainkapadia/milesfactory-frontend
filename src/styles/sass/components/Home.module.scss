@@ -225,16 +225,13 @@
   
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 600px) {
   .ChatBullets {
     gap: 6px 0px;
     .ChatBullet {
       padding-right: 6px;
     }
   }
-
-  
-  
   .HomeBannerReview {
     h1 {
       color: $white;
@@ -251,7 +248,7 @@
       position: relative;
     }
     .AppSectionRight {
-      height: auto;
+      
       padding: 0px 0 30px;
     }
     .appLogos {gap: 17px;
@@ -337,6 +334,8 @@
   
   .AppSection .MobileDevice { 
     bottom: -50px;
+
+        width: 150px;
   }
 }
 

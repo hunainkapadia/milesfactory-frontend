@@ -265,19 +265,28 @@
  
 
  @include for-tab-screen () {
-   .footerClientLogos {
+   .FooterForLight .footerClientLogos {
       justify-content: flex-start;
+      .footerClientLogo {
+         width: 80px;
+      }
    }
+}
+
+@media screen and (max-width: 600px) {
+  .FooterForLight .footerClientLogos {
+      justify-content: center;
+  }
+   
 }
  @include for-mobile-large-screen () {
    .FooterForLight  {
       .footerClientLogos {
          flex-wrap: wrap;
          gap: 12px;
-         justify-content: center;
+         
          .footerClientLogo {
-            // height: 32px;
-            // width: 64px;
+            width: 60px;
          }
       }
    }

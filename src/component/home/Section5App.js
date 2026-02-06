@@ -12,7 +12,7 @@ const Section5App = (props) => {
             position={"relative"}
           >
             <Grid container>
-              <Grid item xs={12} sm={6} md={6} lg={6}>
+              <Grid item xs={12} sm={7} md={7} lg={6}>
                 <Box className={styles.AppSectionRight}>
                   <Box
                     display={"flex"}
@@ -99,8 +99,8 @@ const Section5App = (props) => {
               <Grid
                 item
                 xs={12}
-                sm={6}
-                md={6}
+                sm={5}
+                md={5}
                 lg={6}
                 className={styles.IdeaCard}
                 sx={{
