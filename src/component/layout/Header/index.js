@@ -126,7 +126,7 @@ const Header = ({
   //   dispatch(setisUserPopup(true));
   // }; force sign
 
-  const {isMobile} = useIsMobile();
+  const isMobile = useMediaQuery('(max-width:767px)');
 
   return (
     <>
@@ -216,7 +216,7 @@ const Header = ({
 
                   <Box
                     display={"flex"}
-                    sx={{ gap: { lg: 3, md: 2, xs: 0 } }}
+                    sx={{ gap: { lg: 3, md: 2, xs: 20 } }}
                     className={styles.HeaderRightCol}
                   >
                     {/* Mobile Loader */}
@@ -274,12 +274,12 @@ const Header = ({
                       ""
                     )}
 
-                    {currentUser ? (
+                    {currentUser && !isMobile ? (
                       <>
                         <Box
                           className=" cursor-pointer"
                           alignItems={"center"}
-                          sx={{ display: { lg: "flex", md: "flex", xs: "none" } }}
+                          sx={{ display: "flex" }}
                         >
                           <Box
                             display="flex"
