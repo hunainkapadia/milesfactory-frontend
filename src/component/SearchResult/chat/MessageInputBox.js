@@ -51,7 +51,7 @@ const MessageInputBox = ({
 }) => {
   const inputRef = useRef(null);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // matches xs only
+  const isMobile = useMediaQuery('(max-width:767px)');
   const [open, setOpen] = useState(false);
 
   const [getuuid, setGetuuid] = useState(null);

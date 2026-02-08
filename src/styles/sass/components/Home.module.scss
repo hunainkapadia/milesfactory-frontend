@@ -44,19 +44,17 @@
 }
 
 .AppSection {
-  background: linear-gradient(to bottom, $basecolor1-sky 90%, $white 50%);
+  background: $basecolor1;
   
-  padding: 180px 0 0;
   
 
-  .MobileDevice {
+  .MobileDeviceIn {
     position: absolute;
+    bottom: -120px;
   }
   .AppSectionRight {
-    height: 408px;
-    display: flex;
-    align-items: center;
-    padding: 0;
+    padding: 130px 0 80px;
+
   }
 }
 .PagesBanner {
@@ -225,16 +223,13 @@
   
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 600px) {
   .ChatBullets {
     gap: 6px 0px;
     .ChatBullet {
       padding-right: 6px;
     }
   }
-
-  
-  
   .HomeBannerReview {
     h1 {
       color: $white;
@@ -245,14 +240,21 @@
     }
   }
   .AppSection {
-    padding: 167px 0 50px;
-    background: linear-gradient(to bottom, $basecolor1-sky 75%, $white 50%);
+    padding: 167px 0 80px;
     .MobileDevice {
-      position: relative;
+      height: 174px;
+    }
+    .MobileDeviceIn {
+      position: absolute;
+      bottom: -270px;
     }
     .AppSectionRight {
       height: auto;
-      padding: 0px 0 30px;
+      padding: 0px 0 0;
+      .AppSectionRightIn {
+        justify-content: center;
+        display: flex;
+      }
     }
     .appLogos {gap: 17px;
       .appLogo {width: 248px;
@@ -304,8 +306,10 @@
   }
 
   .mainHeroSection.HeroSection {
-    height: 95vh;
-    padding: 19vh 0 26vh;
+    height: auto;
+    padding: 19vh 0 30vh;
+    flex-direction: column;
+    justify-content: center;
 
     .Box .Content .ContentIn {
       &.ContentInSection1 {
@@ -331,9 +335,23 @@
 }
 
 
-@include for-tab-screen (){
+@include for-tab (){
   
-  .AppSection .MobileDevice { 
-    bottom: -50px;
+  .AppSection .MobileDeviceIn { 
+    
+    width: 190px;
   }
+}
+
+ @media only screen and (max-width: 768px) and (max-height: 500px) {
+  .HomeBanner .HeroSection footer {
+     padding: 0;
+     margin-top: 10px;
+     position: relative;
+  }
+
+    .HomeBanner {
+        height: auto;
+    }
+  
 }

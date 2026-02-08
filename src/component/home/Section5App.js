@@ -12,9 +12,9 @@ const Section5App = (props) => {
             position={"relative"}
           >
             <Grid container>
-              <Grid item xs={12} sm={6} md={6} lg={6}>
+              <Grid item xs={12} sm={7} md={7} lg={6}>
                 <Box className={styles.AppSectionRight}>
-                  <Box
+                  <Box className={styles.AppSectionRightIn}
                     display={"flex"}
                     sx={{
                       paddingTop: {
@@ -24,15 +24,14 @@ const Section5App = (props) => {
                       },
                       textAlign: {
                         xs: "center",
-                        sm: "left",
+                        sm: "center",
                         lg: "left",
                         md: "left",
                       },
                       justifyContent: {
-                        xs: "center",
-                        sm: "center",
                         lg: "flex-start",
                         md: "flex-start",
+                        sm: "center",
                       },
                     }}
                     width={"100%"}
@@ -99,16 +98,17 @@ const Section5App = (props) => {
               <Grid
                 item
                 xs={12}
-                sm={6}
-                md={6}
+                sm={5}
+                md={5}
                 lg={6}
-                className={styles.IdeaCard}
+                
                 sx={{
                   display: "flex",
                   justifyContent: { xs: "center", md: "flex-end" }, // Responsive syntax
                 }}
+                className={styles.MobileDevice}
               >
-                <Box className={styles.MobileDevice}>
+                <Box className={styles.MobileDeviceIn}>
                   <img src="/images/mobile-device-v2.svg" />
                 </Box>
               </Grid>

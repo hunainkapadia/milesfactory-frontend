@@ -38,6 +38,7 @@ const loginSlice = createSlice({
     setLogoutUser: (state) => {
       state.loginUser = null; //
       state.setLogoutUser = state.action;
+      state.TripData = null; 
     },
     setisLoading: (state, action) => {
       state.isLoading = action.payload;

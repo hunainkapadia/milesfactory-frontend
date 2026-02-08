@@ -1,6 +1,7 @@
 import Header from "@/src/component/layout/Header";
 import TripCard from "@/src/component/TripCard";
 import { MyTripSlice } from "@/src/store/slices/Base/baseSlice";
+import Cookies from "js-cookie";
 import {
   Container,
   Grid,
@@ -32,13 +33,11 @@ const MyTrips = () => {
     setTabValue(newValue);
   };
 
-  useEffect(() => {
-    dispatch(MyTripSlice());
-  }, [dispatch]);
-
+  
   const isLoading = useSelector((state) => state?.base?.isloading);
   const TripData = useSelector((state) => state?.base?.TripData);
   const currentUser = useSelector((state) => state?.base?.currentUser?.user);
+  
 
   const upcomingTrips = TripData?.upcoming_trips ?? [];
   const pastTrips = TripData?.past_trips ?? [];
@@ -53,17 +52,18 @@ const MyTrips = () => {
     dispatch(deleteAndCreateThread({ isMessage: "forBook" }));
   };
 
-  
-  
+const cookieUserString = Cookies.get("set-user");
+
   useEffect(() => {
-    if (!currentUser) {
-      dispatch(setisUserPopup(true));
-    } else if (currentUser) {
-      dispatch(setisUserPopup(false));
-      dispatch(MyTripSlice());
-    } else {""}
-    
-  }, [currentUser]);
+    if (!cookieUserString) {
+    window.location.replace("/"); // redirect logged out
+    dispatch(setisUserPopup(true));
+  } else {
+    dispatch(setisUserPopup(false));
+    dispatch(MyTripSlice()); // fetch trips for logged-in user
+  }
+}, [cookieUserString, dispatch]);
+
 
   return (
     <>

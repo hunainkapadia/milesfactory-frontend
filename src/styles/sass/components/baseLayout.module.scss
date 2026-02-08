@@ -228,6 +228,7 @@
       }
    }
 }
+
  .FooterForLight  {position: relative;z-index: 1;
    padding: 0px 0;
    
@@ -262,20 +263,34 @@
  }
 
  
-
+.FooterForLight .footerClientLogos { 
+   padding: 45px 0 57px;
+}
  @include for-tab-screen () {
-   .footerClientLogos {
+   .FooterForLight .footerClientLogos {
       justify-content: flex-start;
+      .footerClientLogo {
+         width: 80px;
+      }
    }
+}
+
+@media screen and (max-width: 600px) {
+  .FooterForLight .footerClientLogos {
+      justify-content: center;
+      
+  }
+   
 }
  @include for-mobile-large-screen () {
    .FooterForLight  {
       .footerClientLogos {
          flex-wrap: wrap;
          gap: 12px;
+         padding: 250px 0 57px;
+         
          .footerClientLogo {
-            // height: 32px;
-            // width: 64px;
+            width: 60px;
          }
       }
    }
@@ -391,12 +406,3 @@
    }
  }
 
- @include for-tab (){ 
-   .Header {
-      .Dropdown {
-         .DropdownItems {
-            
-         }
-      }
-   }
- }
