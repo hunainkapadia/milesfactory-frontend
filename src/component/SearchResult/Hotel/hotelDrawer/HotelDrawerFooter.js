@@ -49,7 +49,7 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
       chat_thread_uuid: uuid,
       offer_type: "hotel",
       offer_id: rateKey,
-      price: hotel?.minRate,
+      price: hotel?.total_netamount_with_markup,
       currency: hotel?.currency,
       raw_data: {},
     };
