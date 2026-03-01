@@ -280,7 +280,7 @@ const FromAndTo = ({ offerData }) => {
           pt={"12px"}
           pb={"10px"}
         >
-          <Divider className={searchResultStyles.divider} sx={{borderWidth:0, borderColor: "#F3F7F7" }} />
+          <Divider className={searchResultStyles.divider} sx={{borderWidth:1, borderColor: "#F3F7F7" }} />
         </Box>
       ) : (
         <Box

@@ -24,38 +24,43 @@ const HotelFacilityMeals = ({ hotel }) => {
       <Box mb={2}>
         <Divider className={`${styles.Divider} Divider`} />
       </Box>
-      <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
+      <Stack className={styles.fromAndToBodyBottom + " "} gap={1} mb={2}>
         <Box>
           <Typography className="exbold f12 mb-0 h4">
             Meals Available
           </Typography>
         </Box>
-        <Stack
-          gap={"5px 18px"}
-          flexWrap={"wrap"}
-          flexDirection={"row"}
-        >
+        <Stack gap={"5px 18px"} flexWrap={"wrap"} flexDirection={"row"}>
           {/* Meals List */}
 
+          <Box
+            display="flex"
+            gap={0}
+            alignItems="center"
+            className={styles.normalOption}
+          >
             <Box
-              display="flex"
-              gap={0}
-              alignItems="center"
-              className={styles.normalOption}
-            >
-              <Box
-                className={styles.BaggageIcon + "  "}
-                display={"flex"}
-                alignItems={"center"}
-              >
-              </Box>
-              <Typography className="f12 basecolor ">
-                {mealsFacilities.map((meal) => (
-                    <Box key={meal?.facility?.code}>{meal?.facility?.description?.content? meal.facility.description.content : null}</Box>
-                          ))}
-              </Typography>
-            </Box>
-
+              className={styles.BaggageIcon + "  "}
+              display={"flex"}
+              alignItems={"center"}
+            ></Box>
+            <Stack gap={"5px 10px"} flexWrap={"wrap"} flexDirection={"row"}>
+              {mealsFacilities.map((meal, index) => (
+                <Box
+                  key={meal?.facility?.code || index}
+                  display="flex"
+                  gap={1}
+                  alignItems="center"
+                  className={styles.normalOption}
+                >
+                  <Typography className="f12 basecolor">
+                    {meal?.facility?.description?.content}
+                    {index !== mealsFacilities.length - 1 && ","}
+                  </Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Box>
         </Stack>
       </Stack>
     </>

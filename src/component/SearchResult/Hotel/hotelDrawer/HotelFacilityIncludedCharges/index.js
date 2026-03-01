@@ -44,21 +44,16 @@ const HotelFacilityIncludedCharges = ({ hotel }) => {
       </Box>
       <Stack className={styles.fromAndToBodyBottom + " "} gap={2}>
         {/* Included Facilities Section */}
-        {includedFacilities.length > 0 && (
-          <Box>
-            <Typography className="exbold f12 mb-2 h4">
-              Included Facilities
-            </Typography>
-            <Stack gap={"5px 18px"} flexWrap={"wrap"} flexDirection={"row"}>
-              {includedFacilities.map((facility) => (
-                <Box
-                  key={facility?.facility?.code}
-                  display="flex"
-                  gap={1}
-                  alignItems="center"
-                  className={styles.normalOption}
-                >
-                  <Box
+        <Stack gap={"5px 10px"} flexWrap={"wrap"} flexDirection={"row"}>
+          {includedFacilities.map((facility, index) => (
+            <Box
+              key={facility?.facility?.code}
+              display="flex"
+              gap={1}
+              alignItems="center"
+              className={styles.normalOption}
+            >
+              {/* <Box
                     className={styles.BaggageIcon + "  "}
                     display={"flex"}
                     alignItems={"center"}
@@ -68,15 +63,14 @@ const HotelFacilityIncludedCharges = ({ hotel }) => {
                       src={"/images/hotel/hotel-bed-icon.svg"}
                       alt="included"
                     />
-                  </Box>
-                  <Typography className="f12 basecolor ">
-                    {facility?.facility?.description?.content}
-                  </Typography>
-                </Box>
-              ))}
-            </Stack>
-          </Box>
-        )}
+                  </Box> */}
+              <Typography className="f12 basecolor">
+                {facility?.facility?.description?.content}
+                {index !== includedFacilities.length - 1 && ","}
+              </Typography>
+            </Box>
+          ))}
+        </Stack>
 
         {/* Additional Fee Facilities Section */}
         {additionalFeeFacilities.length > 0 && (
