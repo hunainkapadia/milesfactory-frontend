@@ -178,30 +178,28 @@ const sendMessageSlice = createSlice({
       const newMessage = action.payload;
 
       // --------------------------------
-      //  PASSENGER FLOW (replace old)
+      //  PASSENGER FLOW (The Final Checkout Step)
       // --------------------------------
       if (newMessage?.ai?.passengerFlowRes !== undefined) {
         stopFlightHistoryPolling();
         stopRunPolling();
-        const index = state.messages.findIndex(
-          (msg) => msg?.ai?.passengerFlowRes !== undefined,
+
+        // 1. Remove ANY existing passenger flow messages to prevent duplicates
+        state.messages = state.messages.filter(
+          (msg) => msg?.ai?.passengerFlowRes === undefined
         );
 
-        if (index !== -1) {
-          state.messages[index] = newMessage; // replace old
-        } else {
-          state.messages.push(newMessage); // first time
-        }
+        // 2. Always push to the end so it appears below all flight/hotel results
+        state.messages.push(newMessage);
         return;
       }
 
       // --------------------------------
-      //  LIVE FLIGHT RESULT (replace in place)
-      // old flight whici will be replace
+      //  LIVE FLIGHT RESULT (Replace in place)
       // --------------------------------
       if (newMessage?.type === "flight_result_live") {
         const liveIndex = state.messages.findIndex(
-          (msg) => msg?.type === "flight_result_live",
+          (msg) => msg?.type === "flight_result_live"
         );
 
         if (liveIndex !== -1) {
@@ -213,39 +211,32 @@ const sendMessageSlice = createSlice({
       }
 
       // --------------------------------
-      //  FINAL FLIGHT RESULT after polling complete
-      // --------------------------------
-      // --------------------------------
       //  FINAL FLIGHT RESULT (Poll Complete)
       // --------------------------------
-      // Inside setMessage reducer, update the FINAL FLIGHT RESULT block:
       if (
         newMessage?.type === "flight_result_final" ||
         (!newMessage.type && newMessage.ai?.is_complete)
       ) {
-        // Find index of the temporary live/placeholder results
         const liveIndex = state.messages.findIndex(
           (msg) =>
             msg?.type === "flight_result_live" ||
-            msg?.type === "flight_placeholder",
+            msg?.type === "flight_placeholder"
         );
 
         if (liveIndex !== -1) {
-          // REPLACE the live block with final results
           state.messages[liveIndex] = {
             ...newMessage,
-            type: "flight_result", // Change type so it stops being "live"
+            type: "flight_result", 
           };
         } else {
-          // Fallback: If no live block found, push it, but check for filters
-          const filterIndex = state.messages.findIndex(
-            (msg) => msg?.type === "flight_result_append",
+          // If we are appending or showing final results, 
+          // ensure they stay above the passenger flow if it exists
+          const passengerIndex = state.messages.findIndex(
+            (msg) => msg?.ai?.passengerFlowRes !== undefined
           );
-          if (filterIndex !== -1) {
-            state.messages.splice(filterIndex, 0, {
-              ...newMessage,
-              type: "flight_result",
-            });
+
+          if (passengerIndex !== -1) {
+            state.messages.splice(passengerIndex, 0, { ...newMessage, type: "flight_result" });
           } else {
             state.messages.push({ ...newMessage, type: "flight_result" });
           }
@@ -253,14 +244,20 @@ const sendMessageSlice = createSlice({
         return;
       }
 
-      // filer append insted replace
-      if (newMessage?.type === "flight_result_append") {
-        // Always append filtered results as new chat step
-        state.messages.push({
-          ...newMessage,
-          type: "flight_result",
-        });
-
+      // --------------------------------
+      //  HOTEL RESULT 
+      // --------------------------------
+      if (newMessage?.type === "hotel_result" || newMessage?.ai?.hotel_id) {
+         // Logic to ensure hotel results don't push below checkout
+         const passengerIndex = state.messages.findIndex(
+          (msg) => msg?.ai?.passengerFlowRes !== undefined
+        );
+        
+        if (passengerIndex !== -1) {
+          state.messages.splice(passengerIndex, 0, newMessage);
+        } else {
+          state.messages.push(newMessage);
+        }
         return;
       }
 

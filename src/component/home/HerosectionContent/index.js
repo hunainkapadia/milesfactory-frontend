@@ -26,7 +26,7 @@ const HerosectionContent = () => {
                    lineHeight: "120%",
                    fontSize: { lg: "48px", md: "48px", xs: "36px" },
                  }}
-                 className=" exbold test-5.1"
+                 className=" exbold test-111"
                >
                  Travel, crafted
                </Typography>
