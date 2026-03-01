@@ -7,7 +7,7 @@ import {
   AddToCart,
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
-import { setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
+import { setAllHotels, setRoomDrawer, setSelectedhotelKey, setSelectedRateKey, setSelectedRoom, setSinglehotel } from "@/src/store/slices/HotelSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import utility
 
 const HotelDrawerFooter = ({ hotel }) => {
@@ -40,20 +40,29 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
     allHotel
   );
 
-  const handleSelectStay = () => {
-    if (!hotel) return;
-    const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;
-    dispatch(setSelectedhotelKey(rateKey));
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+  
+  
+  const CartItems = useSelector(
+    (state) => state?.booking?.getCartDetail?.items
+  );
 
-    const params = {
-      chat_thread_uuid: uuid,
-      offer_type: "hotel",
-      offer_id: rateKey,
-      price: hotel?.total_netamount_with_markup,
-      currency: hotel?.currency,
-      raw_data: {},
-    };
-    dispatch(AddToCart(params, uuid));
+  const selectedHotelItem = CartItems?.find(
+    (item) => item?.offer_type === "hotel"
+  );
+  const selectedHotelAmount =
+  selectedHotelItem?.raw_data?.hotel?.total_netamount_with_markup;
+  const isSelectedHotel =
+  selectedHotelAmount && currentRateAmount &&
+  Number(selectedHotelAmount) === Number(currentRateAmount);
+  
+  
+
+  const handleSelectStay = (gethotel) => {
+    console.log("gethotel", gethotel);
+    dispatch(setHotelDrawer(false));
+    dispatch(setRoomDrawer(true));
+    
   };
 
   const HandlecloseDrawer = () => {
@@ -109,7 +118,7 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
                 <span>Close</span>
               </Box>
               <Box display="flex" alignItems="center" gap={2}>
-                {selectedhotelkey === hotel?.rooms?.[0]?.rates?.[0]?.rateKey ? (
+                {isSelectedHotel ? (
                   <Button
                     disabled
                     className={
@@ -120,7 +129,7 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
                   </Button>
                 ) : (
                   <Button
-                    onClick={handleSelectStay}
+                    onClick={()=>handleSelectStay(hotel)}
                     className={
                       styles.selectFlightBtn +
                       " btn btn-primary btn-round btn-md-x"
