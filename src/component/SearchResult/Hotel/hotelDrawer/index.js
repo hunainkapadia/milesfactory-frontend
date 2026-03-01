@@ -18,6 +18,11 @@ import dayjs from "dayjs";
 import HotelDrawerFooter from "./HotelDrawerFooter";
 import { HOTEL_IMAGE_BASE_URL } from "@/src/hooks/Hooks";
 import HotelDrawerGallery from "./HotelDrawerGallery";
+import HotelDrawerFacilityLocation from "./HotelDrawerFacilityLocation";
+import HotelFacilityCheckinCheckout from "./HotelFacilityCheckinCheckout";
+import HotelFacilityMeals from "./HotelFacilityMeals";
+import HotelFacilityPaymentMethods from "./HotelFacilityPaymentMethods";
+import HotelFacilityIncludedCharges from "./HotelFacilityIncludedCharges";
 const HotelDrawer = ({hotelOffer}) => {
   const dispatch = useDispatch();
   const HandlecloseDrawer = () => {
@@ -228,13 +233,21 @@ const passengers = `
                           Description
                         </Typography>
                         <Typography
-                          className="mb-1 black-50 f12"
+                          className="mb-10 black-50 f12"
                           textTransform={"capitalize"}
                         >
                           {hotel?.content?.description?.content}
                         </Typography>
+                         <Typography
+                          className="mb-1 black-50 f12"
+                          textTransform={"capitalize"}
+                        >
+
+                        </Typography>
                       </Stack>
                     )}
+
+                    <HotelDrawerFacilityLocation hotel={hotel} />
                     {/* Amenities (dummy icons, still dynamic if mapped later) */}
 
                     {hotel?.content?.images && (
@@ -250,128 +263,16 @@ const passengers = `
                         <HotelDrawerGallery hotel={hotel} />
                       </Stack>
                     )}
-                    <Box mb={2}>
-                      <Divider className={`${styles.Divider} Divider`} />
-                    </Box>
-                    <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
-                      <Box>
-                        <Typography className="exbold f12 mb-0 h4">
-                          Included in this booking
-                        </Typography>
-                      </Box>
-                      <Stack
-                        gap={"5px 18px"}
-                        flexWrap={"wrap"}
-                        flexDirection={"row"}
-                      >
-                        <Box
-                          display="flex"
-                          gap={1}
-                          alignItems="center"
-                          className={styles.normalOption}
-                        >
-                          <Box
-                            className={styles.BaggageIcon + "  "}
-                            display={"flex"}
-                            alignItems={"center"}
-                          >
-                            <img
-                              width={14}
-                              src={"/images/hotel/hotel-bed-icon.svg"}
-                            />
-                          </Box>
-                          <Typography className="f12 basecolor ">
-                            Double room
-                          </Typography>
-                        </Box>
-                        <Box
-                          display="flex"
-                          gap={1}
-                          alignItems="center"
-                          className={styles.normalOption}
-                        >
-                          <Box
-                            className={styles.BaggageIcon + "  "}
-                            display={"flex"}
-                            alignItems={"center"}
-                          >
-                            <img
-                              width={14}
-                              src={"/images/hotel/breakfast-icon-icon.svg"}
-                            />
-                          </Box>
-                          <Typography className="f12 basecolor ">
-                            Breakfast included
-                          </Typography>
-                        </Box>
-                        <Box
-                          display="flex"
-                          gap={1}
-                          alignItems="center"
-                          className={styles.normalOption}
-                        >
-                          <Box
-                            className={styles.BaggageIcon + "  "}
-                            display={"flex"}
-                            alignItems={"center"}
-                          >
-                            <img
-                              width={14}
-                              src={"/images/hotel/hotel-wifi-icon.svg"}
-                            />
-                          </Box>
-                          <Typography className="f12 basecolor ">
-                            Free wifi
-                          </Typography>
-                        </Box>
-                        <Box
-                          display="flex"
-                          gap={1}
-                          alignItems="center"
-                          className={styles.normalOption}
-                        >
-                          <Box
-                            className={styles.BaggageIcon + "  "}
-                            display={"flex"}
-                            alignItems={"center"}
-                          >
-                            <img
-                              width={14}
-                              src={"/images/hotel/housekeeping-icon.svg"}
-                            />
-                          </Box>
-                          <Typography className="f12 basecolor ">
-                            Daily housekeeping
-                          </Typography>
-                        </Box>
-                        <Box
-                          display="flex"
-                          gap={1}
-                          alignItems="center"
-                          className={styles.normalOption}
-                        >
-                          <Box
-                            className={styles.BaggageIcon + "  "}
-                            display={"flex"}
-                            alignItems={"center"}
-                          >
-                            <img
-                              width={14}
-                              src={"/images/hotel/clock-icon-gray.svg"}
-                            />
-                          </Box>
-                          <Typography className="f12 basecolor ">
-                            Checkin: from 15:00 · Check-out: by 11:00
-                          </Typography>
-                        </Box>
-                      </Stack>
-                    </Stack>
-                    {/*  */}
-
-                    {/*  */}
-                    {/* <Box py={2}>
-                      <Divider className={`${styles.Divider} Divider`} />
-                    </Box> */}
+                    {/* Check-in & Check-out Times Component */}
+                    <HotelFacilityCheckinCheckout hotel={hotel} />
+                    {/* Meals Available Component */}
+                    <HotelFacilityMeals hotel={hotel} />
+                    {/* Payment Methods Component */}
+                    <HotelFacilityPaymentMethods hotel={hotel} />
+                    {/* Included Facilities & Additional Charges Component */}
+                    <HotelFacilityIncludedCharges hotel={hotel} />
+                    
+                   
                     {/* <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
                       <Box>
                         <Typography className="bold f12 mb-0 h4">
