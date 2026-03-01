@@ -24,9 +24,9 @@ const HotelFacilityMeals = ({ hotel }) => {
       <Box mb={2}>
         <Divider className={`${styles.Divider} Divider`} />
       </Box>
-      <Stack className={styles.fromAndToBodyBottom + " "} gap={1} mb={2}>
-        <Box>
-          <Typography className="exbold f12 mb-0 h4">
+      <Stack className={styles.fromAndToBodyBottom + " "} mb={2}>
+        <Box mb={1}>
+          <Typography className="exbold f12 h4 mb-0">
             Meals Available
           </Typography>
         </Box>

@@ -46,9 +46,11 @@ const HotelFacilityIncludedCharges = ({ hotel }) => {
         {/* Included Facilities Section */}
         {includedFacilities.length > 0 && (
           <Box>
-            <Typography className="exbold f12 mb-2 h4">
-              Included Facilities
-            </Typography>
+            <Box mb={1}>
+              <Typography className="exbold f12 h4 mb-0" mb={1}>
+                Included Facilities
+              </Typography>
+            </Box>
             <Stack gap={"5px 10px"} flexWrap={"wrap"} flexDirection={"row"}>
               {includedFacilities.map((facility, index) => (
                 <Box
