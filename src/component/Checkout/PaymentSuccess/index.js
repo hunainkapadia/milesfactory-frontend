@@ -27,12 +27,18 @@ const PaymentSuccess = () => {
   const [scrollRef, scrollToRef] = useScrollToRef();
   // getting order data refrens and other
   const orderData = useSelector((state) => state?.payment?.OrderData);
+  const paymentData = useSelector((state) => state?.payment);
   
 
   // getting payment status
   const PaymentStatus = useSelector((state) => state?.payment?.paymentStatus);
   
 
+  console.log("PaymentStatus", PaymentStatus);
+  console.log("orderData", orderData);
+  console.log("paymentData", paymentData);
+  
+  
   useEffect(() => {
     registerScrollFunction(scrollToRef);
   }, []);
@@ -105,6 +111,7 @@ const PaymentSuccess = () => {
       {/* Success Message */}
       <Box mb={3}>
         <Box>
+          
           {/* {isloading ? (
             <>
               <Typography>Loading your order details...</Typography>
@@ -123,7 +130,7 @@ const PaymentSuccess = () => {
             <>
               <Typography>
                 We have received your payment but there is a problem with the
-                order. We will check and get back to you
+                order. We will check and get back tois_complete_hotel you
               </Typography>
             </>
           ) : PaymentStatus?.is_complete === "yes" && // when payment success if duffel order found
@@ -159,39 +166,6 @@ const PaymentSuccess = () => {
                /> */}
 
               
-            </>
-          ) : PaymentStatus?.is_complete_hotel === "yes" &&
-            PaymentStatus?.status === "success" ? (
-            <>
-              <Box className=" imggroup" mb={2}>
-                <img src="/images/success-check.svg" />
-              </Box>
-
-              {/* for desktop */}
-              <Box>
-                <Typography component={"h2"} lineHeight={2} fontSize={24}>
-                  You’re booked!
-                </Typography>
-                <Typography mb={3}>
-                  Your booking confirmation has been sent to your email. You can view and manage it anytime in Mylz, and reach your airline, train, hotel, or activity provider directly if needed.
-                </Typography>
-                <Typography>
-                  Want to keep planning? Add more products to your Builder - everything stays in sync 💫.
-                </Typography>
-              </Box>
-
-              <BookingExperienceRating
-                rating={rating}
-                ratingSuccess={ratingSuccess}
-                reasons={reasons}
-                selectedReason={selectedReason}
-                handleRatingChange={handleRatingChange}
-                handleReasonSelect={handleReasonSelect}
-              />
-              {/* <InviteEmailSearch
-              inviteSuccess={inviteSuccess}
-              orderData={orderData}
-               /> */}
             </>
           ) : (
             <Box my={2} px={{ md: 3, lg: 3, xs: "18px" }}>

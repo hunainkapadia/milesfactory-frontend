@@ -22,7 +22,6 @@ const PriceSummary = ({ getdata }) => {
   const handlePaymentDrawer = () => {
     dispatch(PaymentSessionStart()); /// starting payment session here
     dispatch(setPaymentDrawer(true)); ///open drawer
-    dispatch(OrderSuccessPayment());
   };
 
   const priceSummaryHandle = () => {

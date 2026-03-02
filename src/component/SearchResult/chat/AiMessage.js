@@ -71,6 +71,9 @@ const AiMessage = ({ aiMessage }) => {
   const paymentSuccess = useSelector(
     (state) => state.payment.PaymentFormSuccess
   );
+  console.log("paymentSuccess", paymentSuccess);
+  
+
 
   useEffect(() => {
     if (paymentSuccess) {
@@ -355,6 +358,7 @@ const AiMessage = ({ aiMessage }) => {
       )}
 
       {/* passenger flow start */}
+      
       <PassengerFlowBlock
         aiMessage={aiMessage}
         GetViewPassengers={ViewPassengers}

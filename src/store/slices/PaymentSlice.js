@@ -223,7 +223,10 @@ const state = getState();
     api.get(`/api/v1/order/${genericUUID}/details`)
       .then((response) => {
         const paymentStatus = response?.data?.duffel_order?.payment_status; /// checking duffel order status
+        const paymentStatus2 = response?.data?.duffel_order?.payment_status; /// checking duffel order status
         const hotelPaymentSuccess = response.data.hotel_order;
+        console.log("paymentStatus_slice", paymentStatus);
+        
         
         
         
@@ -231,7 +234,7 @@ const state = getState();
         dispatch(setOrderData(response.data));
         dispatch(setOrderConfirm(response.data));
         // consition for checking if duffelr order found show congratz msg if not found error show
-        if (paymentStatus) {
+        if (paymentStatus || hotelPaymentSuccess) {
           dispatch(
             setPaymentStatus({
               is_complete: "yes",
@@ -241,13 +244,6 @@ const state = getState();
           dispatch(setIsloading(false));
           
           return; // Stop polling on success
-        } else if (hotelPaymentSuccess) {
-          dispatch(
-            setPaymentStatus({
-              is_complete_hotel: "yes",
-              status: "success",
-            })
-          );
         } else {
             dispatch(
               setPaymentStatus({
