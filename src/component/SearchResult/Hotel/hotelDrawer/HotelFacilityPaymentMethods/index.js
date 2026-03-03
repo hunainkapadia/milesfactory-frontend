@@ -58,6 +58,7 @@ const HotelFacilityPaymentMethods = ({ hotel }) => {
           </Typography>
         </Box>
         <Stack
+          mb={2}
           gap={"5px 18px"}
           flexWrap={"wrap"}
           flexDirection={"row"}
