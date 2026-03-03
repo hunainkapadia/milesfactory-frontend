@@ -413,8 +413,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               api
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
-                  console.log("load_flightRes", flightRes);
-
+                  
                   dispatch(
                     setMessage({
                       ai: { ...flightRes.data, url: allFlightSearchApi },
@@ -453,8 +452,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
                   const isComplete = flightRes?.data?.is_complete;
-                  console.log("load_flightRes1", flightRes);
-
+                  
                   dispatch(
                     setMessage({
                       ai: { ...flightRes.data, url: allFlightSearchApi },
@@ -502,7 +500,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       api
                         .get(allFlightSearchApi)
                         .then((flightRes) => {
-                          console.log("load_flightRes3", flightRes);
                           if (
                             flightRes?.data?.count === 0 &&
                             Array.isArray(flightRes?.data?.offers) &&
@@ -576,7 +573,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 const isComplete = hotelRes?.data?.is_complete;
                 dispatch(setLoading(false));
                 const hotels = hotelRes?.data?.hotels?.hotels;
-                console.log("hotelRes", hotelRes);
                 if (
                   Array.isArray(hotels) && hotels.length === 0
                 ) {

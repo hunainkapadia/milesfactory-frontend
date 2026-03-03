@@ -353,7 +353,6 @@ const AiMessage = ({ aiMessage }) => {
           )}
         </Box>
       )}
-      {console.log("aiMessage_gethotel", aiMessage)}
       {aiMessage?.ai === "hotelNotFound" && (
         <Box
           mb={3}
