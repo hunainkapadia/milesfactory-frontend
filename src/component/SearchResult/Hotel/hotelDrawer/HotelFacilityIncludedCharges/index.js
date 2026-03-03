@@ -87,7 +87,7 @@ const HotelFacilityIncludedCharges = ({ hotel }) => {
             <Typography className="exbold f12 mb-2 h4">
               Available with Additional Charge
             </Typography>
-            <Stack gap={"5px 18px"} flexWrap={"wrap"} flexDirection={"row"}>
+            <Stack gap={"5px 10px"} flexWrap={"wrap"} flexDirection={"row"}>
               {additionalFeeFacilities.map((facility) => (
                 <Box
                   key={facility?.facility?.code}
@@ -96,17 +96,7 @@ const HotelFacilityIncludedCharges = ({ hotel }) => {
                   alignItems="center"
                   className={styles.normalOption}
                 >
-                  <Box
-                    className={styles.BaggageIcon + "  "}
-                    display={"flex"}
-                    alignItems={"center"}
-                  >
-                    <img
-                      width={14}
-                      src={"/images/hotel/hotel-bed-icon.svg"}
-                      alt="additional charge"
-                    />
-                  </Box>
+                  
                   <Box display="flex" gap={0.5} alignItems="center">
                     <Typography className="f12 basecolor ">
                       {facility?.facility?.description?.content}
