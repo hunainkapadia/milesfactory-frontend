@@ -556,7 +556,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           }
 
           /**
-           * ----- HOTEL FLOW (unchanged mostly) -----
+           * ----- HOTEL FLOW -----
            */
           if (hotelSearchApi) {
             const HotelArgument =
@@ -575,18 +575,22 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
                 dispatch(setLoading(false));
-
-                if (isComplete === true) {
-                  dispatch(setClearflight());
-                  dispatch(setMessage({ ai: hotelRes.data }));
-                } else {
-                  dispatch(
-                    setMessage({
-                      ai: { ...hotelRes.data },
-                      type: "hotel_result",
-                    }),
-                  );
+                const hotels = hotelRes?.data?.hotels?.hotels;
+                console.log("hotelRes", hotelRes);
+                if (
+                  Array.isArray(hotels) && hotels.length === 0
+                ) {
+                  dispatch(setMessage({ ai: "hotelNotFound" }));
+                  return;
                 }
+                dispatch(
+                  setMessage({
+                    ai: { ...hotelRes.data },
+                    type: "hotel_result",
+                  }),
+                );
+                
+
               })
               .catch((err) => {
                 dispatch(

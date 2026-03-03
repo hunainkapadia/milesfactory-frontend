@@ -353,6 +353,26 @@ const AiMessage = ({ aiMessage }) => {
           )}
         </Box>
       )}
+      {console.log("aiMessage_gethotel", aiMessage)}
+      {aiMessage?.ai === "hotelNotFound" && (
+        <Box
+          mb={3}
+          sx={{
+            width: "100%",
+            p: 3,
+            textAlign: "center",
+            borderRadius: "12px",
+            border: "1px solid #e0e0e0",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            No stays found
+          </Typography>
+          <Typography variant="body2">
+            We couldn’t find any hotels for your search. Try different dates or location.
+          </Typography>
+        </Box>
+      )}
 
       {/* passenger flow start */}
       <PassengerFlowBlock
