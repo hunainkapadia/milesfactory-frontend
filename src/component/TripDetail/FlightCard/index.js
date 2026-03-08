@@ -27,11 +27,11 @@ const FlightCard = ({flightOffer, tripDetail}) => {
   let daysLeft = daysLeftCalc;
   let hoursLeft = null;
   
-  if (daysLeftCalc < 1) {
+  if (daysLeftCalc <= 1) {
     hoursLeft = Math.ceil(timeUntilDeparture / (1000 * 60 * 60));
   }
 
-  const passengers = flightOffer?.passengers || [];
+  const passengers = tripDetail?.passengers || [];
 
 const adults = passengers.filter(p => p.type === "adult").length;
 const children = passengers.filter(p => p.type === "child").length;
@@ -47,7 +47,7 @@ const travellersummary = [
   .filter(Boolean)
   .join(", ");
 
-console.log("tripDetail in FlightCard:", tripDetail);
+  console.log("tripDetail in FlightCard:", tripDetail);
 
    return (
      <>
@@ -78,7 +78,7 @@ console.log("tripDetail in FlightCard:", tripDetail);
                : `In ${daysLeft} day${daysLeft > 1 ? 's' : ''},`
              }
              {" "}
-             {flightOffer?.slices[0]?.segments[0].destination?.city_name} is
+             {flightOffer?.slices?.[0]?.destination?.city?.name} ({flightOffer?.slices?.[0]?.destination?.city?.iata_code}) is
              yours.
            </Typography>
          </Box>
@@ -261,8 +261,32 @@ console.log("tripDetail in FlightCard:", tripDetail);
              <Divider sx={{ my: 2 }} />
              {/* Traveler */}
              <Box mb={2}>
-               <Typography variant="subtitle2">Travelers</Typography>
-               <Typography className="f12">{travellersummary}</Typography>
+               <Typography variant="subtitle2">Travelers - {travellersummary}</Typography>
+               {tripDetail?.passengers?.map((p, index) => (
+                 <Typography key={index} className="f12" sx={{ mt: 1, mb: 1 }}>
+                   <strong>Passenger {index + 1}: {p.given_name} {p.family_name}</strong>
+                   <br />
+                   Type: {p.type?.charAt(0).toUpperCase() + p.type?.slice(1)}
+                   {p.passport_number && (
+                     <>
+                       <br />
+                       Passport Number: {p.passport_number}
+                     </>
+                   )}
+                   {p.born_on && (
+                     <>
+                       <br />
+                       Date of Birth: {p.born_on}
+                     </>
+                   )}
+                   {p.gender && (
+                     <>
+                       <br />
+                       Gender: {p.gender?.charAt(0).toUpperCase() + p.gender?.slice(1)}
+                     </>
+                   )}
+                 </Typography>
+               ))}
 
                
              </Box>
