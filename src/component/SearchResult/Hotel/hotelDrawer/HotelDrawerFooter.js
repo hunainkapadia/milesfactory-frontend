@@ -7,53 +7,65 @@ import {
   AddToCart,
   setHotelDrawer,
 } from "@/src/store/slices/BookingflightSlice";
-import { setSelectedhotelKey } from "@/src/store/slices/HotelSlice";
+import {
+  setAllHotels,
+  setRoomDrawer,
+  setSelectedhotelKey,
+  setSelectedRateKey,
+  setSelectedRoom,
+  setSinglehotel,
+} from "@/src/store/slices/HotelSlice";
 import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import utility
 
 const HotelDrawerFooter = ({ hotel }) => {
   const dispatch = useDispatch();
-  const selectedhotelkey = useSelector((state) => state.hotel?.selectedhotelKey);
+  const selectedhotelkey = useSelector(
+    (state) => state.hotel?.selectedhotelKey,
+  );
   const uuid = useSelector((state) => state?.sendMessage?.threadUuid);
   const allHotel = useSelector((state) => state?.hotel?.allHotels);
-  const selectedRoom = useSelector(
-    (state) => state.hotel?.selectedRoom
-  );
+  const selectedRoom = useSelector((state) => state.hotel?.selectedRoom);
+  
+  
 
   // All available rates for the current hotel (first room example)
-const rates = hotel?.rooms?.[0]?.rates;
+  const rates = hotel?.rooms?.[0]?.rates;
 
-// Find the matching rate from the current hotel data (same price as selected hotel)
-const selectedRate = rates?.find( (rate) =>
-    Number(rate?.total_netamount_with_markup) === Number(selectedRoom?.total_netamount_with_markup)
-);
-
-// Extract rate price for comparison (optional)
-const currentRateAmount = selectedRate?.total_netamount_with_markup;
-
-
-
-
+  // Find the matching rate from the current hotel data (same price as selected hotel)
+  const selectedRate = rates?.find(
+    (rate) =>
+      Number(rates?.[0].net) ===
+      Number(selectedRoom?.net),
+  );
+  
+  // Extract rate price for comparison (optional)
+  
   
   // Use the helper function
   const { nights, totalPrice, perNightPrice } = calculateHotelPricing(
     hotel,
-    allHotel
+    allHotel,
   );
-
-  const handleSelectStay = () => {
-    if (!hotel) return;
-    const rateKey = hotel?.rooms?.[0]?.rates?.[0]?.rateKey;
-    dispatch(setSelectedhotelKey(rateKey));
-
-    const params = {
-      chat_thread_uuid: uuid,
-      offer_type: "hotel",
-      offer_id: rateKey,
-      price: hotel?.minRate,
-      currency: hotel?.currency,
-      raw_data: {},
-    };
-    dispatch(AddToCart(params, uuid));
+  
+  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
+  
+  const CartItems = useSelector(
+    (state) => state?.booking?.getCartDetail?.items,
+  );
+  
+  const selectedHotelItem = CartItems?.find(
+    (item) => item?.offer_type === "hotel",
+  );
+  const selectedHotelAmount =
+  selectedHotelItem?.raw_data?.hotel?.totalNet;
+  const isSelectedHotel =
+  Number(selectedHotelAmount) === Number(selectedRate?.net);
+  console.log("selectedRoom", selectedRate);
+  
+  const handleSelectStay = (gethotel) => {
+    console.log("gethotel", gethotel);
+    dispatch(setHotelDrawer(false));
+    dispatch(setRoomDrawer(true));
   };
 
   const HandlecloseDrawer = () => {
@@ -63,7 +75,11 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
   return (
     <>
       <Divider className={`${styles.Divider} Divider`} />
-      <Box px={{ md: 3, xs: 2 }} className={styles.checkoutDrowerFooter} width={"100%"}>
+      <Box
+        px={{ md: 3, xs: 2 }}
+        className={styles.checkoutDrowerFooter}
+        width={"100%"}
+      >
         <Box py={2} display="flex" flexDirection="column">
           {/* Price Row */}
           <Box
@@ -74,20 +90,27 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
           >
             {/* Price Section */}
             <Box display="flex" flexDirection="column" justifyContent="center">
-              <Box display="flex" flexDirection="column" justifyContent="center">
-                          
-                            {currentRateAmount ? (
-                              <>
-                                <h4 className={styles.price + " exbold mb-0 basecolor-dark"}>
-                                  {currencySymbols[hotel?.currency]}
-                                  {Math.round(selectedRoom?.total_netamount_with_markup)}{" "}
-                                  total
-                                </h4>
-                              </>
-                            ) : (
-                              "-"
-                            )}
-                          </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+              >
+                {selectedRate ? (
+                  <>
+                    <h4
+                      className={styles.price + " exbold mb-0 basecolor-dark"}
+                    >
+                      {currencySymbols[hotel?.currency]}
+                      {Math.round(
+                        selectedRoom?.total_netamount_with_markup,
+                      )}{" "}
+                      total
+                    </h4>
+                  </>
+                ) : (
+                  "-"
+                )}
+              </Box>
             </Box>
 
             {/* Actions Section */}
@@ -109,7 +132,7 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
                 <span>Close</span>
               </Box>
               <Box display="flex" alignItems="center" gap={2}>
-                {selectedhotelkey === hotel?.rooms?.[0]?.rates?.[0]?.rateKey ? (
+                {isSelectedHotel ? (
                   <Button
                     disabled
                     className={
@@ -120,7 +143,7 @@ const currentRateAmount = selectedRate?.total_netamount_with_markup;
                   </Button>
                 ) : (
                   <Button
-                    onClick={handleSelectStay}
+                    onClick={() => handleSelectStay(hotel)}
                     className={
                       styles.selectFlightBtn +
                       " btn btn-primary btn-round btn-md-x"

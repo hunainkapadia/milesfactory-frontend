@@ -9,56 +9,32 @@ import {
 import {
   getPassPofile,
   PassengerForm,
-  setAddFilledPassenger,
 } from "@/src/store/slices/passengerDrawerSlice";
-import { calculateHotelPricing } from "@/src/utils/hotelPriceUtils"; // import helper
 import {
   getPassPofileHotel,
   PassengerSetupHotel,
 } from "@/src/store/slices/passengerDrawerHotelSlice";
-import { setCartTotalPrice } from "@/src/store/slices/BookingflightSlice";
-import { useEffect } from "react";
 
 const SidebarFooter = () => {
-  
-  const orderSuccess = useSelector((state) => state?.payment?.OrderConfirm);
-  const {cartType, isCartSuccess, getCartDetail, cartTotalPrice} = useSelector((state) => state?.booking);
-  const sendMessages = useSelector((state) => state.sendMessage?.messages);  
-  
-  
-  
-  const issystemmessage = useSelector(
-    (state) => state?.sendMessage?.systemMessage
-  );
-  
-  
-  // if hotel, calculate pricing
-  const allHotel = useSelector((state) => state?.hotel?.allHotels);
-  
-  // Get all flights from cart items
-  const CartFlights =
-    getCartDetail?.items?.filter((item) => item?.raw_data?.slices) || [];
-
-  // Get all hotels from cart items
-  const CartHotels =
-    getCartDetail?.items?.filter((item) => item?.raw_data?.hotel) || [];
-
-  // For displaying in footer, just take the first matching item
-  
-  const CartHotel = CartHotels[0];
-  // Hotel price calculation
-  let nights, totalPrice, perNightPrice;
-  if (CartHotel) {
-    ({ nights, totalPrice, perNightPrice } = calculateHotelPricing(
-      CartHotel?.raw_data?.hotel,
-      allHotel
-    ));
-  }
-
   const dispatch = useDispatch();
-  const handleBookFlight = (getCart) => {
-    // const offerId = getCart;
+
+  // Redux Selectors
+  const { cartType, isCartSuccess, getCartDetail, cartTotalPrice } = useSelector((state) => state?.booking);
+  const sendMessages = useSelector((state) => state.sendMessage?.messages || []);
+  const issystemmessage = useSelector((state) => state?.sendMessage?.systemMessage);
+
+  // Cart logic constants
+  const cartItemsCount = getCartDetail?.items?.length || 0;
+  const hasItems = cartItemsCount > 0;
+  
+  // Sentence logic: "1 item in cart" vs "2 items in cart"
+  const itemLabel = cartItemsCount === 1 ? "item" : "items";
+  const cartSummaryText = `${cartItemsCount} ${itemLabel} in cart`;
+
+  const handleBookFlight = () => {
     dispatch(setChatscroll(true));
+    
+    // Logic to open correct drawer based on cart contents
     if (cartType === "flight") {
       dispatch(setIsBuilderDialog(false));
       dispatch(PassengerForm());
@@ -70,18 +46,25 @@ const SidebarFooter = () => {
       dispatch(PassengerForm());
       dispatch(getPassPofile());
       dispatch(PassengerSetupHotel());
-    } else {
-      ("");
     }
   };
+
+  // Condition to show checkout: Cart is successful, no active typing/pending messages, and has items
+  const canShowCheckout = isCartSuccess && (issystemmessage || sendMessages.length === 0) && hasItems;
 
   return (
     <Box
       px={"18px"}
       py={"14px"}
       component={"footer"}
-      className={YourtripStyles.Footer + " "}
-      sx={{ borderTop: " solid 1px  #E6EEEE" }}
+      className={YourtripStyles.Footer}
+      sx={{ 
+        borderTop: "solid 1px #E6EEEE", 
+        backgroundColor: "#fff",
+        position: 'sticky',
+        bottom: 0,
+        zIndex: 10
+      }}
     >
       <Box
         display={"flex"}
@@ -89,62 +72,55 @@ const SidebarFooter = () => {
         justifyContent={"space-between"}
       >
         <Box>
-          {/* for flight */}
-          {(isCartSuccess &&
-            issystemmessage &&
-            getCartDetail?.items?.length < 2) ||
-          (sendMessages?.length === 0 &&
-            isCartSuccess &&
-            getCartDetail?.items?.length < 2) ? (
+          {hasItems ? (
             <>
-              <h4 className="exbold mb-0">-</h4>
-              <Typography className="f12 black-50">Add more plans</Typography>
-            </>
-          ) : getCartDetail?.total_price ? (
-            <>
-              <Typography className="gray f12">Total</Typography>
-              <h4 className="exbold mb-0">
-                {currencySymbols[getCartDetail?.items?.[0]?.currency] ||
-                  getCartDetail?.items?.[0]?.currency}
-                {Math.round(cartTotalPrice)}
-              </h4>
-            </>
+  <Typography
+    variant="caption"
+    display="block"
+    className="gray"
+    sx={{ fontWeight: 500, lineHeight: 1.2, mb: 0.2 }}
+  >
+    {cartSummaryText}
+  </Typography>
+
+  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+    <h4 className="exbold mb-0" style={{ fontSize: "1.1rem", color: "#111", margin: 0 }}>
+      {currencySymbols[getCartDetail?.items?.[0]?.currency] || getCartDetail?.items?.[0]?.currency}
+      {Math.round(cartTotalPrice).toLocaleString()}
+    </h4>
+
+    {cartItemsCount === 1 && (
+      <Typography className="f12 black-50" sx={{ lineHeight: 1.1 }}>
+        Add more plans
+      </Typography>
+    )}
+  </div>
+</>
           ) : (
             <>
-              <h4 className="exbold mb-0">-</h4>
-              <Typography className="f12 black-50">
-                No product selected
-              </Typography>
+              <Typography className="f12 black-50">Your cart is empty</Typography>
+              <h4 className="exbold mb-0" style={{ opacity: 0.3 }}>—</h4>
             </>
           )}
         </Box>
-        {/* !orderSuccess?.hotel_order  && orderSuccess?.flight_order  && getCartDetail?.items?.length < 2
-                ? true
-                : !orderSuccess?.flight_order && orderSuccess?.hotel_order && getCartDetail?.items?.length < 2
-                ? true
-                : false */}
 
-        {isCartSuccess && issystemmessage ? (
-          <>
+        {canShowCheckout && (
+          <Box textAlign="right">
             <Button
-              onClick={() => handleBookFlight(getCartDetail)}
+              onClick={handleBookFlight}
               className="btn btn-primary btn-round btn-xs"
+              sx={{ 
+                textTransform: 'none', 
+                px: 3, 
+                fontWeight: 700,
+                fontSize: '13px',
+                boxShadow: '0px 4px 12px rgba(0, 123, 255, 0.2)' 
+              }}
             >
               Checkout
             </Button>
-          </>
-        ) : sendMessages.length === 0 && isCartSuccess ? (
-          <Button
-            onClick={() => handleBookFlight(getCartDetail)}
-            className="btn btn-primary btn-round btn-xs"
-          >
-            Checkout
-          </Button>
-        ) : (
-          ""
+          </Box>
         )}
-
-        {/* Hotel footer */}
       </Box>
     </Box>
   );

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32" width="48" height="32">
+  <rect width="48" height="32" rx="4" fill="#006FCF"/>
+  <path d="M12 10L16 20L20 10M20 10H28V20H20M28 10L32 20L36 10M36 10H42V14H36M36 16H42V20H36" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="24" y="26" font-size="6" fill="white" text-anchor="middle" font-weight="bold">AMEX</text>
+</svg>

@@ -27,6 +27,7 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
   const cancellation = rates?.cancellationPolicies?.[0] || {};
   const tax = rates?.taxes?.taxes?.[0] || {};
   const hotelCurrency = hotel?.currency;
+  const excludedTaxes = rates?.excluded_taxes;
 
   // Format cancellation policy
   let cancellationText = "";
@@ -40,6 +41,12 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
     )}</span> for a fee of <span class="aaa">${
       currencySymbols[hotelCurrency] || ""
     }${Math.round(cancellation.amount)}</span>`;
+  }
+
+  // Format excluded taxes
+  let excludedTaxesText = "";
+  if (excludedTaxes > 0) {
+    excludedTaxesText = `${rates.excluded_taxes_subtype} ${rates.excluded_taxes_currency} ${Math.round(excludedTaxes)} not included`;
   }
 
   return (
@@ -87,9 +94,14 @@ const RoomDrawerCard = ({ getrates, selectedRateKey, onSelect, hotel }) => {
               {capitalizeFirstWord(rates?.boardName)}
             </Typography>
             <Typography
-              fontSize={13}
+              fontSize={11}
               color="gray"
               dangerouslySetInnerHTML={{ __html: cancellationText }}
+            />
+            <Typography
+              fontSize={11}
+              color="gray"
+              dangerouslySetInnerHTML={{ __html: excludedTaxesText  }}
             />
           </Box>
         </Box>

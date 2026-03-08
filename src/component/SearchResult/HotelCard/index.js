@@ -172,7 +172,7 @@ const isSelectedHotel =
                     textTransform={"capitalize"}
                     className={" chip sm basecolor1-light"}
                   >
-                    {hotel?.categoryName.toLowerCase()}
+                    {hotel?.categoryName?.toLowerCase()}
                   </Typography>
                 </Box>
               </Stack>
