@@ -144,7 +144,7 @@ const passengers = `
                         textTransform={"capitalize"}
                         className={" chip sm basecolor1-light"}
                       >
-                        {hotel?.categoryName.toLowerCase()}
+                        {hotel?.categoryName?.toLowerCase()}
                       </Typography>
                     </Stack>
 

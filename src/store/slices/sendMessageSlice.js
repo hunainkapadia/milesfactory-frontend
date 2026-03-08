@@ -413,8 +413,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               api
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
-                  console.log("load_flightRes", flightRes);
-
+                  
                   dispatch(
                     setMessage({
                       ai: { ...flightRes.data, url: allFlightSearchApi },
@@ -453,8 +452,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                 .get(allFlightSearchApi)
                 .then((flightRes) => {
                   const isComplete = flightRes?.data?.is_complete;
-                  console.log("load_flightRes1", flightRes);
-
+                  
                   dispatch(
                     setMessage({
                       ai: { ...flightRes.data, url: allFlightSearchApi },
@@ -502,7 +500,6 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
                       api
                         .get(allFlightSearchApi)
                         .then((flightRes) => {
-                          console.log("load_flightRes3", flightRes);
                           if (
                             flightRes?.data?.count === 0 &&
                             Array.isArray(flightRes?.data?.offers) &&
@@ -556,7 +553,7 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
           }
 
           /**
-           * ----- HOTEL FLOW (unchanged mostly) -----
+           * ----- HOTEL FLOW -----
            */
           if (hotelSearchApi) {
             const HotelArgument =
@@ -575,18 +572,21 @@ export const sendMessage = (userMessage) => (dispatch, getState) => {
               .then((hotelRes) => {
                 const isComplete = hotelRes?.data?.is_complete;
                 dispatch(setLoading(false));
-
-                if (isComplete === true) {
-                  dispatch(setClearflight());
-                  dispatch(setMessage({ ai: hotelRes.data }));
-                } else {
-                  dispatch(
-                    setMessage({
-                      ai: { ...hotelRes.data },
-                      type: "hotel_result",
-                    }),
-                  );
+                const hotels = hotelRes?.data?.hotels?.hotels;
+                if (
+                  Array.isArray(hotels) && hotels.length === 0
+                ) {
+                  dispatch(setMessage({ ai: "hotelNotFound" }));
+                  return;
                 }
+                dispatch(
+                  setMessage({
+                    ai: { ...hotelRes.data },
+                    type: "hotel_result",
+                  }),
+                );
+                
+
               })
               .catch((err) => {
                 dispatch(

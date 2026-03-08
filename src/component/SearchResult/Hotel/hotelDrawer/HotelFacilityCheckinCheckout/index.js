@@ -32,7 +32,7 @@ const HotelFacilityCheckinCheckout = ({ hotel }) => {
       <Box mb={2}>
         <Divider className={`${styles.Divider} Divider`} />
       </Box>
-      <Stack className={styles.fromAndToBodyBottom + " "} gap={1}>
+      <Stack mb={2} className={styles.fromAndToBodyBottom + " "} gap={1}>
         <Box>
           <Typography className="exbold f12 mb-0 h4">
             Check-in & Check-out

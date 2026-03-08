@@ -153,7 +153,7 @@ const HeaderUser = ({
                   <Typography className={`${styles.userName} f14 bold`}>
                     {!isMessage || !isSticky || !IsActive ? (
                       <>
-                        {currentUser?.user?.first_name.charAt(0).toUpperCase()}.
+                        {currentUser?.user?.first_name?.charAt(0).toUpperCase()}.
                         <span className="capitalize">
                           {" "}
                           {currentUser?.user?.last_name || ""}
@@ -180,7 +180,7 @@ const HeaderUser = ({
                       }}
                       className="white mb-0 f16 bold"
                     >
-                      {currentUser?.user?.first_name.charAt(0).toUpperCase()}
+                      {currentUser?.user?.first_name?.charAt(0).toUpperCase()}
                     </Avatar>
                   </Box>
                 </Box>
