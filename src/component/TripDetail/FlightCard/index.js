@@ -19,12 +19,19 @@ import { currencySymbols } from "@/src/utils/utils";
 
 const FlightCard = ({flightOffer, tripDetail}) => {
   
-   const daysLeft = Math.ceil(
-    (new Date(flightOffer?.slices[0]?.segments[0]?.departing_at) - new Date()) /
-      (1000 * 60 * 60 * 24)
-  );
+  const departureTime = new Date(flightOffer?.slices[0]?.segments[0]?.departing_at);
+  const now = new Date();
+  const timeUntilDeparture = departureTime - now;
+  const daysLeftCalc = Math.ceil(timeUntilDeparture / (1000 * 60 * 60 * 24));
+  
+  let daysLeft = daysLeftCalc;
+  let hoursLeft = null;
+  
+  if (daysLeftCalc <= 1) {
+    hoursLeft = Math.ceil(timeUntilDeparture / (1000 * 60 * 60));
+  }
 
-  const passengers = flightOffer?.passengers || [];
+  const passengers = tripDetail?.passengers || [];
 
 const adults = passengers.filter(p => p.type === "adult").length;
 const children = passengers.filter(p => p.type === "child").length;
@@ -39,6 +46,8 @@ const travellersummary = [
 ]
   .filter(Boolean)
   .join(", ");
+
+  console.log("tripDetail in FlightCard:", tripDetail);
 
    return (
      <>
@@ -60,12 +69,16 @@ const travellersummary = [
            }}
          >
            <Typography variant="h6" textTransform={"capitalize"}>
-             Hi, {flightOffer?.passengers[0]?.given_name}{" "}
-             {flightOffer?.passengers[0]?.family_name}
+             Hi, {tripDetail?.passengers[0]?.given_name}{" "}
+             {tripDetail?.passengers[0]?.family_name}
            </Typography>
            <Typography variant="h3" sx={{ textTransform: "capitalize" }}>
-             In {daysLeft} days,{" "}
-             {flightOffer?.slices[0]?.segments[0].destination?.city_name} is
+             {hoursLeft !== null 
+               ? `In ${hoursLeft} hour${hoursLeft > 1 ? 's' : ''},`
+               : `In ${daysLeft} day${daysLeft > 1 ? 's' : ''},`
+             }
+             {" "}
+             {flightOffer?.slices?.[0]?.destination?.city?.name} ({flightOffer?.slices?.[0]?.destination?.city?.iata_code}) is
              yours.
            </Typography>
          </Box>
@@ -76,7 +89,7 @@ const travellersummary = [
                Everything is in order
              </Typography>
              <Typography variant="body2" gutterBottom>
-               There's nothing to do except waiting {daysLeft} days before
+               There's nothing to do except waiting {hoursLeft !== null ? `${hoursLeft} hour${hoursLeft > 1 ? 's' : ''}` : `${daysLeft} day${daysLeft > 1 ? 's' : ''}`} before
                takeoff. Booking reference (PNR):{" "}
                <strong>
                  {tripDetail?.duffel_order.booking_reference}
@@ -248,8 +261,32 @@ const travellersummary = [
              <Divider sx={{ my: 2 }} />
              {/* Traveler */}
              <Box mb={2}>
-               <Typography variant="subtitle2">Travelers</Typography>
-               <Typography className="f12">{travellersummary}</Typography>
+               <Typography variant="subtitle2">Travelers - {travellersummary}</Typography>
+               {tripDetail?.passengers?.map((p, index) => (
+                 <Typography key={index} className="f12" sx={{ mt: 1, mb: 1 }}>
+                   <strong>Passenger {index + 1}: {p.given_name} {p.family_name}</strong>
+                   <br />
+                   Type: {p.type?.charAt(0).toUpperCase() + p.type?.slice(1)}
+                   {p.passport_number && (
+                     <>
+                       <br />
+                       Passport Number: {p.passport_number}
+                     </>
+                   )}
+                   {p.born_on && (
+                     <>
+                       <br />
+                       Date of Birth: {p.born_on}
+                     </>
+                   )}
+                   {p.gender && (
+                     <>
+                       <br />
+                       Gender: {p.gender?.charAt(0).toUpperCase() + p.gender?.slice(1)}
+                     </>
+                   )}
+                 </Typography>
+               ))}
 
                
              </Box>
